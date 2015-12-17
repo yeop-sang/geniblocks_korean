@@ -1,0 +1,10 @@
+# Built files
+dist/
+public/
+
+# Packages
+node_modules/
+bower_components/
+
+# OS or Editor folders
+.DS_Store
