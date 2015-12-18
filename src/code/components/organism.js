@@ -1,18 +1,10 @@
-const OrganismView = ({org = null}) => {
-  if (!org) {
-    return (
-      <div className="geniblocks organism">
-        <span className="unknown-organism">?</span>
-      </div>
-    );
-  }
-
+const OrganismView = ({org}) => {
   let baseUrl = "https://geniverse-resources.concord.org/resources/drakes/images/",
       url     = baseUrl+ org.getImageName();
 
   return (
     <div className="geniblocks organism">
-      <img src={url} />
+      <img src={url} height="200px"/>
     </div>
   );
 }

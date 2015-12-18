@@ -6,14 +6,19 @@
     <link rel="stylesheet" href="../css/app.css">
   </head>
   <body>
-    <div id="example"></div>
+    <div id="org"></div>
+    <div id="chromosome"></div>
     <script src="../js/app.js"></script>
     <script>
-      var org = new BioLogica.Organism(BioLogica.Species.Drake, "")
+      var org = new BioLogica.Organism(BioLogica.Species.Drake, "");
 
       ReactDOM.render(
         React.createElement(GeniBlocks.OrganismView, {org: org}),
-        document.getElementById('example')
+        document.getElementById('org')
+      );
+      ReactDOM.render(
+        React.createElement(GeniBlocks.ChromosomeView),
+        document.getElementById('chromosome')
       );
     </script>
   </body>
