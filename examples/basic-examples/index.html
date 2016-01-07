@@ -10,16 +10,23 @@
     <div id="chromosome"></div>
     <script src="../js/app.js"></script>
     <script>
-      var org = new BioLogica.Organism(BioLogica.Species.Drake, "");
+      function render(org) {
+        ReactDOM.render(
+          React.createElement(GeniBlocks.OrganismView, {org: org}),
+          document.getElementById('org')
+        );
+        ReactDOM.render(
+          React.createElement(GeniBlocks.ChromosomeView, {org: org, chromosomeName: "1", side: "a", labelsOnRight: false, alleleChanged: function(prevAllele, newAllele) {
+            window.org.genetics.genotype.chromosomes[1].a.alleles.replaceFirst(prevAllele, newAllele);
+            window.org = new BioLogica.Organism(BioLogica.Species.Drake, org.getAlleleString());
+            render(window.org);
+          }}),
+          document.getElementById('chromosome')
+        );
+      }
 
-      ReactDOM.render(
-        React.createElement(GeniBlocks.OrganismView, {org: org}),
-        document.getElementById('org')
-      );
-      ReactDOM.render(
-        React.createElement(GeniBlocks.ChromosomeView),
-        document.getElementById('chromosome')
-      );
+      window.org = new BioLogica.Organism(BioLogica.Species.Drake, "");
+      render(window.org);
     </script>
   </body>
 </html>
