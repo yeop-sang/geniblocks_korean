@@ -7,7 +7,7 @@
   </head>
   <body>
     <div id="org"></div>
-    <div id="chromosome"></div>
+    <div id="genome"></div>
     <script src="../js/app.js"></script>
     <script>
       function render(org) {
@@ -16,12 +16,12 @@
           document.getElementById('org')
         );
         ReactDOM.render(
-          React.createElement(GeniBlocks.ChromosomeView, {org: org, chromosomeName: "1", side: "a", labelsOnRight: false, alleleChanged: function(prevAllele, newAllele) {
-            window.org.genetics.genotype.chromosomes[1].a.alleles.replaceFirst(prevAllele, newAllele);
+          React.createElement(GeniBlocks.GenomeView, {org: org, alleleChanged: function(chrom, side, prevAllele, newAllele) {
+            window.org.genetics.genotype.chromosomes[chrom][side].alleles.replaceFirst(prevAllele, newAllele);
             window.org = new BioLogica.Organism(BioLogica.Species.Drake, org.getAlleleString());
             render(window.org);
           }}),
-          document.getElementById('chromosome')
+          document.getElementById('genome')
         );
       }
 

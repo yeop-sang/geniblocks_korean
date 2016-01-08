@@ -1,15 +1,21 @@
-.geniblocks
-  &.chromosome-container
+.geniblocks.chromosome-container
+  display: flex
+  .items
     display: flex
-    .items
+    .labels
       display: flex
-      &.rtl
-        flex-direction: row-reverse
+      flex-direction: column
+      justify-content: space-between
+      width: 110px
+      padding-left: 10px
+      padding-right: 10px
+      align-items: flex-start;
+      div
+        order: 0
+        flex: 0 1 40px
+        align-self: auto
+
+    &.rtl
+      flex-direction: row-reverse
       .labels
-        display: flex
-        flex-direction: column
-        justify-content: space-between
-        div
-          order: 0
-          flex: 0 1 40px
-          align-self: auto
+        align-items: flex-end;
