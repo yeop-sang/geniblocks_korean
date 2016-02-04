@@ -5,7 +5,7 @@ const PenView = ({orgs, width=400, columns=5}) => {
       orgViews = orgs.map((org) => (<OrganismView org={org} width={orgWidth}/>));
 
   return (
-    <div>
+    <div className="geniblocks pen">
       { orgViews }
     </div>
   );
