@@ -39,5 +39,8 @@ module.exports = {
       src: src + '/stylus/**/*.*',
       dest: src + '/stylus/'
     }
+  },
+  deploy: {
+    src: public + '/**/*'
   }
 };

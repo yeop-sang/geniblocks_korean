@@ -1,6 +1,7 @@
 # Built files
 dist/
 public/
+.publish/
 
 # Packages
 node_modules/
