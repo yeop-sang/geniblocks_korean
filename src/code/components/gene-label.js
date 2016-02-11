@@ -9,8 +9,8 @@ const GeneLabelView = ({species, allele, editable, onAlleleChange}) => {
       </div>
     );
   } else {
-    let alleles = BioLogica.Genetics.getGeneOfAllele(org.species, allele).alleles,
-        alleleNames = alleles.map(a => org.species.alleleLabelMap[a]),
+    let alleles = BioLogica.Genetics.getGeneOfAllele(species, allele).alleles,
+        alleleNames = alleles.map(a => species.alleleLabelMap[a]),
         alleleOptions = alleleNames.map((name, i) => (<option key={name} value={alleles[i]}>{name}</option>))
     return (
       <div className="geniblocks allele">

@@ -8,3 +8,5 @@ bower_components/
 
 # OS or Editor folders
 .DS_Store
+
+npm-debug.log
