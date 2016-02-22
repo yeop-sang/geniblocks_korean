@@ -1,6 +1,6 @@
 let ChromosomeView = require('./chromosome');
 
-const GenomeView = ({org, alleleChanged}) => {
+const GenomeView = ({org, hiddenAlleles, alleleChanged}) => {
   let pairWrappers = [];
   for (let chromosomeName of org.species.chromosomeNames) {
     let chrom = org.genetics.genotype.chromosomes[chromosomeName],
@@ -11,6 +11,7 @@ const GenomeView = ({org, alleleChanged}) => {
           org={org}
           chromosomeName={chromosomeName}
           side={side}
+          hiddenAlleles={hiddenAlleles}
           labelsOnRight={pairs.length>0}
           alleleChanged={function(prevAllele, newAllele) {
             alleleChanged(chromosomeName, side, prevAllele, newAllele);
