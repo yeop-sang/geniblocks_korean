@@ -5,9 +5,9 @@ let ChromosomeImageView = require('./chromosome-image'),
       let hiddenGenes = hiddenAlleles.map( a => BioLogica.Genetics.getGeneOfAllele(species, a));
       return alleles.filter( a => {
         let gene = BioLogica.Genetics.getGeneOfAllele(species, a);
-        return hiddenGenes.indexOf(gene) == -1;
+        return hiddenGenes.indexOf(gene) === -1;
       });
-    }
+    };
 
 const ChromosomeView = ({org, chromosomeName, side, hiddenAlleles=[], alleleChanged, labelsOnRight=true}) => {
   let alleles = org.getGenotype().chromosomes[chromosomeName][side].alleles,
@@ -16,7 +16,7 @@ const ChromosomeView = ({org, chromosomeName, side, hiddenAlleles=[], alleleChan
         return (
           <GeneLabelView key={a} species={org.species} allele={a} editable={true}
           onAlleleChange={function(event) {
-            alleleChanged(a, event.target.value)
+            alleleChanged(a, event.target.value);
           }}/>
         );
       }),
@@ -37,6 +37,15 @@ const ChromosomeView = ({org, chromosomeName, side, hiddenAlleles=[], alleleChan
       </div>
     </div>
   );
-}
+};
+
+ChromosomeView.propTypes = {
+  org: React.PropTypes.object.isRequired,
+  chromosomeName: React.PropTypes.string.isRequired,
+  side: React.PropTypes.string.isRequired,
+  hiddenAlleles: React.PropTypes.array,
+  alleleChanged: React.PropTypes.func.isRequired,
+  labelsOnRight: React.PropTypes.bool
+};
 
 export default ChromosomeView;

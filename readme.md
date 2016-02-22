@@ -6,7 +6,7 @@ used as building blocks for genetics-based applications.
 As much as possible, the views are designed to be "dumb," stateless views
 that render entirely based on their properties, and output events that an
 outside container or application can handle. As such, most of the views
-can be written as [Stateless functional componenets](https://facebook.github.io/react/blog/2015/10/07/react-v0.14.html#stateless-functional-components)
+can be written as [Stateless functional components](https://facebook.github.io/react/blog/2015/10/07/react-v0.14.html#stateless-functional-components)
 
 Most views take a [Biologica.js](https://github.com/concord-consortium/biologica.js)
 organism as a property.
@@ -15,7 +15,10 @@ organism as a property.
 
     npm install
     bower install
-    gulp default
+    gulp
+
+in a separate shell/console:
+
     live-server public
 
 and navigate to http://localhost:8080/
@@ -30,8 +33,8 @@ The code is written in ES2015 and JSX, which is transformed using Babel. We use
 browserify to build `app.js` into the global object `GeniBlocks`.
 
 This project aims to be a lightweight library for consumption by other applications.
-It's built products are therefore simply `dist/app.js` and `dist/app.css`, and we
-do not bundle up React or biologica.js with the product.
+Its built products are therefore simply `dist/app.js` and `dist/app.css`, and we
+do not bundle up React or Biologica.js with the product.
 
 Demos and tests are created in `/examples`, and are built into `/public`, along
 with duplicates of the built scripts, css, and the vendor libraries (React and

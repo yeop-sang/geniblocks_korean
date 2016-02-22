@@ -37,8 +37,8 @@ function render() {
 }
 
 function breed() {
-  offspring = [],
-  times = 20;
+  var times = 20;
+  offspring = [];
   while (times--) {
     offspring.push(BioLogica.breed(mother, father));
   }

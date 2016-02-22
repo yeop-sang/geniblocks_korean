@@ -1,6 +1,6 @@
 let ChromosomeView = require('./chromosome');
 
-const GenomeView = ({org, hiddenAlleles, alleleChanged}) => {
+const GenomeView = ({org, hiddenAlleles = [], alleleChanged}) => {
   let pairWrappers = [];
   for (let chromosomeName of org.species.chromosomeNames) {
     let chrom = org.genetics.genotype.chromosomes[chromosomeName],
@@ -9,6 +9,7 @@ const GenomeView = ({org, hiddenAlleles, alleleChanged}) => {
       pairs.push(
         <ChromosomeView
           org={org}
+          key={pairs.length + 1}
           chromosomeName={chromosomeName}
           side={side}
           hiddenAlleles={hiddenAlleles}
@@ -19,7 +20,7 @@ const GenomeView = ({org, hiddenAlleles, alleleChanged}) => {
       );
     }
     pairWrappers.push(
-      <div>
+      <div key={pairWrappers.length + 1}>
         { pairs }
       </div>
     );
@@ -29,6 +30,12 @@ const GenomeView = ({org, hiddenAlleles, alleleChanged}) => {
       { pairWrappers }
     </div>
   );
-}
+};
+
+GenomeView.propTypes = {
+  org: React.PropTypes.object.isRequired,
+  hiddenAlleles: React.PropTypes.array,
+  alleleChanged: React.PropTypes.func.isRequired
+};
 
 export default GenomeView;

@@ -24,6 +24,6 @@ const ChromosomeImageView = () => {
       </g>
     </svg>
   );
-}
+};
 
 export default ChromosomeImageView;

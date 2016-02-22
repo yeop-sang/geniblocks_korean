@@ -7,6 +7,11 @@ const OrganismView = ({org, width=200}) => {
       <img src={url} width={width}/>
     </div>
   );
-}
+};
+
+OrganismView.propTypes = {
+  org: React.PropTypes.object.isRequired,
+  width: React.PropTypes.number
+};
 
 export default OrganismView;
