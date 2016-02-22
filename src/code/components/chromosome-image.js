@@ -1,7 +1,7 @@
 const ChromosomeImageView = () => {
   let width=23,
-      height=170,
-      split=55,
+      height=126,
+      split=45,
       radius = width/2,
       imageWidth = width+4,
       halfImageWidth = imageWidth/2,
