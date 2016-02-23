@@ -3,7 +3,7 @@ let ChromosomeImageView = require('./chromosome-image'),
       let hiddenGenes = hiddenAlleles.map( a => BioLogica.Genetics.getGeneOfAllele(species, a));
       return alleles.filter( a => {
         let gene = BioLogica.Genetics.getGeneOfAllele(species, a);
-        return hiddenGenes.indexOf(gene) == -1;
+        return hiddenGenes.indexOf(gene) === -1;
       });
     },
     TestPulldownView = ({species, gene, selection, onSelectionChange}) => {
@@ -67,6 +67,20 @@ const GenomeTestView = ({org, hiddenAlleles=[], selection={}, selectionChanged})
       { pairWrappers }
     </div>
   );
-}
+};
+
+TestPulldownView.propTypes = {
+  species: React.PropTypes.object.isRequired,
+  gene: React.PropTypes.object.isRequired,
+  selection: React.PropTypes.string,
+  onSelectionChange: React.PropTypes.func.isRequired
+};
+
+GenomeTestView.propTypes = {
+  org: React.PropTypes.object.isRequired,
+  hiddenAlleles: React.PropTypes.array,
+  selection: React.PropTypes.object,
+  selectionChanged: React.PropTypes.func.isRequired
+};
 
 export default GenomeTestView;
