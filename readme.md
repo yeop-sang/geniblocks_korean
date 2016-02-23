@@ -41,7 +41,16 @@ with duplicates of the built scripts, css, and the vendor libraries (React and
 biologica.js), allowing `/public` to be a secondary, stand-alone build product for
 development and deploying demos.
 
-## Resouces
+## Code linting
+
+Run `npm run lint` to lint from the command line.
+
+If you are using Sublime, install the `SublimeLinter` and `SublimeLinter-contrib-es6`
+packages, using https://packagecontrol.io/
+
+(You will also probably want ES6 syntax highlighting, so install `Babel` as well.)
+
+## Resources
 
 * [Demo site](http://concord-consortium.github.io/geniblocks/)
 * [Geniverse](geniverse-lab.concord.org)
