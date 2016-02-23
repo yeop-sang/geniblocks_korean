@@ -6,6 +6,7 @@ export default  {
   GeneLabelView: require('./components/gene-label'),
   GenomeView: require('./components/genome'),
   GenomeTestView: require('./components/genome-test'),
-  PenView: require('./components/pen')
-}
+  PenView: require('./components/pen'),
+  StatsView: require('./components/stats')
+};
 

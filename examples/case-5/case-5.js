@@ -1,7 +1,8 @@
 var mother = new BioLogica.Organism(BioLogica.Species.Drake, "a:m,b:M,a:h,b:h,a:C,b:C,a:a,b:a,a:B,b:B,a:D,b:D,a:w,b:W,a:Fl,b:Fl,a:Hl,b:hl,a:T,b:t,a:rh,b:rh,a:Bog,b:Bog", 1),
     father = new BioLogica.Organism(BioLogica.Species.Drake, "a:M,a:h,b:h,a:C,b:C,a:a,b:a,a:B,a:D,a:W,a:fl,b:fl,a:Hl,a:t,b:T,a:rh,a:Bog,b:Bog", 0),
-    offspring = [];
-
+    offspring = [],
+    clutch = [],
+    clutchSize = 20;
 
 function render() {
   // Mother org
@@ -23,6 +24,8 @@ function render() {
       alleleChanged: function(chrom, side, prevAllele, newAllele) {
         mother.genetics.genotype.chromosomes[chrom][side].alleles.replaceFirst(prevAllele, newAllele);
         mother = new BioLogica.Organism(BioLogica.Species.Drake, mother.getAlleleString(), 1);
+        clutch = [];
+        offspring = [];
         render();
       }
     }),
@@ -30,17 +33,27 @@ function render() {
   );
 
   // Breeding pen
+  /* global ReactSimpleTabs */
+  var rce = React.createElement,
+      Tabs = ReactSimpleTabs;
   ReactDOM.render(
-    React.createElement(GeniBlocks.PenView, {orgs: offspring}),
+    rce(Tabs, null, [
+      rce(Tabs.Panel, { title: "Breeding Pen", key: "Breeding Pen" },
+        rce(GeniBlocks.PenView, {orgs: clutch})),
+      rce(Tabs.Panel, { title: "Stats", key: "Stats" },
+        rce(GeniBlocks.StatsView, {orgs: offspring, lastClutchSize: clutchSize}))
+    ]),
     document.getElementById('breeding-pen')
   );
 }
 
 function breed() {
-  var times = 20;
-  offspring = [];
+  var times = clutchSize;
+  clutch = [];
   while (times--) {
-    offspring.push(BioLogica.breed(mother, father));
+    var child = BioLogica.breed(mother, father);
+    clutch.push(child);
+    offspring.push(child);
   }
   render();
 }

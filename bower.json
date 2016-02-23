@@ -4,14 +4,16 @@
   "homepage": "https://github.com/concord-consortium/geniblocks",
   "description": "A set of views for Geni* projects",
   "authors": [
-    "Sam Fentress <sfentress@concord.org>"
+    "Sam Fentress <sfentress@concord.org>",
+    "Kirk Swenson <kswenson@concord.org>"
   ],
   "license": "MIT",
   "main": [
     "dist/app.js"
   ],
   "dependencies": {
-     "react": "latest",
-     "biologica.js": "latest"
+    "react": "latest",
+    "react-simpletabs": "latest",
+    "biologica.js": "latest"
   }
 }

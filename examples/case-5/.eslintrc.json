@@ -1,13 +1,15 @@
 {
-  // I want to use babel-eslint for parsing!
-  "parser": "babel-eslint",
+  // ES5 for the examples
+  "parserOptions": {
+    "ecmaVersion": 5,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
   "plugins": [ "react" ],
   "env": {
-    "es6": true,
     // I write for browser
-    "browser": true,
-    // in CommonJS
-    "node": true
+    "browser": true
   },
   "globals": { "GeniBlocks": false, "BioLogica": false, "React": false, "ReactDOM": false },
   // To get a default set of options

@@ -35,7 +35,48 @@ body {
   padding: 2px 19px 3px 19px;
 }
 
+.tabs-menu-item a {
+  font-weight: bold;
+  color: black;
+}
+
+.tabs-menu-item.is-active a {
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+
+.tab-panel {
+  padding: 10px 0px;
+}
+
 .geniblocks.pen {
   background-color: #936942;
 }
 
+.geniblocks.stats {
+  background-color: white;
+}
+
+#stats-table {
+  border-collapse: collapse;
+}
+
+#stats-table.no-data {
+  display: none;
+}
+
+#stats-table th, td {
+  border: 1px solid #999;
+  padding: 2px;
+}
+
+#stats-table .even-trait {
+  background: #ddd;
+}
+
+#stats-table .label {
+  text-align: left;
+}
+
+#stats-table .numeric {
+  text-align: right;
+}

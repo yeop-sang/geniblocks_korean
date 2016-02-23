@@ -1,30 +1,30 @@
 var src = './src',
     bower = './bower_components',
     examples = './examples',
-    public  = './public',
+    pub  = './public',
     dist = './dist';
 
 module.exports = {
   css: {
     watch: src + '/stylus/**/*.styl',
     src:   src + '/stylus/**/*.styl',
-    public: public + '/css/',
+    public: pub + '/css/',
     dist: dist
   },
   browserify: {
     watch: [src + '/code/**/*.*'],
     src: src + '/code/app.js',
-    public: public + '/js/',
+    public: pub + '/js/',
     dist: dist
   },
   examples: {
     watch: examples + '/**/*.*',
     src: examples + '/**/*.*',
-    dest: public
+    dest: pub
   },
   vendor: {
-    src: bower + '/**/*.js',
-    dest: public + '/js/lib/'
+    src: [ bower + '/*/*.js', bower + '/*/*/*.js', bower + '/*/*/*.css' ],
+    dest: pub + '/js/lib/'
   },
   trim: {
     examples: {
@@ -41,6 +41,6 @@ module.exports = {
     }
   },
   deploy: {
-    src: public + '/**/*'
+    src: pub + '/**/*'
   }
 };
