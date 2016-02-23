@@ -2,7 +2,9 @@ var mother = new BioLogica.Organism(BioLogica.Species.Drake, "a:m,b:M,a:h,b:h,a:
     father = new BioLogica.Organism(BioLogica.Species.Drake, "a:M,a:h,b:h,a:C,b:C,a:a,b:a,a:B,a:D,a:W,a:fl,b:fl,a:Hl,a:t,b:T,a:rh,a:Bog,b:Bog", 0),
     offspring = [],
     clutch = [],
-    clutchSize = 20;
+    clutchSize = 20,
+    testSelection = {},
+    showingTest = false;
 
 function render() {
   // Mother org
@@ -45,6 +47,19 @@ function render() {
     ]),
     document.getElementById('breeding-pen')
   );
+
+  // Father genome test (in overlay)
+  ReactDOM.render(
+    React.createElement(GeniBlocks.GenomeTestView, {
+      org: father,
+      hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
+      selection: testSelection,
+        selectionChanged: function(gene, newValue) {
+          testSelection[gene.name] = newValue;
+          render();
+      }}),
+    document.getElementById('father-genome-test')
+  );
 }
 
 function breed() {
@@ -58,6 +73,47 @@ function breed() {
   render();
 }
 
+function toggleTest() {
+  showingTest = !showingTest;
+  var display = showingTest ? "block" : "none";
+  document.getElementById("overlay").style.display = display;
+  document.getElementById("test-wrapper").style.display = display;
+}
+
+function checkAnswer() {
+  var allSelectedAlleles = [],
+      alleleString = father.getAlleleString(),
+      alleleStringLength = alleleString.length,
+      success = true;
+
+  // hard-coded check to see if user has made all four choices
+  if (Object.keys(testSelection).length !== 4) {
+    alert("First make a selection for all four genes!");
+    return;
+  }
+
+  for (geneName in testSelection) {
+    var alleles = father.species.geneList[geneName].alleles,
+        selectedAlleles = testSelection[geneName].split(" ").map(function(num) {
+          return alleles[num];
+        });
+    allSelectedAlleles = allSelectedAlleles.concat(selectedAlleles);
+  }
+  while (success && (testAllele = allSelectedAlleles.pop())) {
+    alleleString = alleleString.replace(":"+testAllele, "");
+    if (alleleString.length == alleleStringLength) {
+      success = false;
+    }
+    alleleStringLength = alleleString.length;
+  }
+  var message = success ? "That's right!" : "Sorry, that's not right";
+  alert(message);
+}
+
 document.getElementById("breed-button").onclick = breed;
+document.getElementsByClassName("toggle-test-button")[0].onclick = toggleTest;
+document.getElementsByClassName("toggle-test-button")[1].onclick = toggleTest;
+document.getElementById("submit-button").onclick = checkAnswer;
+
 
 render();
