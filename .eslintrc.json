@@ -9,13 +9,15 @@
     // in CommonJS
     "node": true
   },
-  "globals": { "GeniBlocks": false, "BioLogica": false, "React": false, "ReactDOM": false },
+  "globals": { "GeniBlocks": false, "BioLogica": false,
+                "React": false, "ReactDOM": false, "ReactMotion": false },
   // To get a default set of options
   "extends": [ "eslint:recommended", "plugin:react/recommended" ],
   // To give you an idea how to override rule options:
   "rules": {
     "semi": [2, "always"],
     "eqeqeq": [2, "allow-null"],
+    "no-unused-vars": [1, { "vars": "all", "args": "after-used" }],
     "no-console": [0],
     "quotes": [0],
     "eol-last": [0],

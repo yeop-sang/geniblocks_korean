@@ -1,0 +1,5 @@
+.gene-allele-list
+  list-style: none;
+  
+//input[type="checkbox"]
+//  margin: 5px;

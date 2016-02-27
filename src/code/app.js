@@ -1,5 +1,6 @@
 
 export default  {
+  AlleleFiltersView: require('./components/allele-filters'),
   OrganismView: require('./components/organism'),
   ChromosomeImageView: require('./components/chromosome-image'),
   ChromosomeView: require('./components/chromosome'),
