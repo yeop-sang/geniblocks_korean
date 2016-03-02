@@ -1,5 +1,6 @@
 var DragDropContext = ReactDnD.DragDropContext,
     Backend = ReactDnDHTML5Backend,
+    layoutAsLables = false,
 
     dragons = [null, null],
     allelePools = [["W", "w", "W", "w", "w", "W", "W"], ["W", "T", "t", "W", "w", "W", "w", "Tk", "t", "t"]],
@@ -97,14 +98,16 @@ function render() {
     React.createElement(draggableGame),
     document.getElementById('game')
   );
+
+  layoutLabels();
 }
 
 render();
 
-function layoutLabels(bool) {
+function layoutLabels() {
   var els = document.getElementsByClassName("labelable");
   for (var i=0, ii=els.length; i < ii; i++) {
-    if (bool) {
+    if (layoutAsLables) {
       els[i].classList.add("wide");
     } else {
       els[i].classList.remove("wide");
@@ -113,11 +116,13 @@ function layoutLabels(bool) {
 }
 document.getElementById("spaces").onclick = function() {
   if (document.getElementById("spaces").checked) {
-    layoutLabels(false);
+    layoutAsLables = false;
+    layoutLabels();
   }
 };
 document.getElementById("labels").onclick = function() {
   if (document.getElementById("labels").checked) {
-    layoutLabels(true);
+    layoutAsLables = true;
+    layoutLabels();
   }
 };
