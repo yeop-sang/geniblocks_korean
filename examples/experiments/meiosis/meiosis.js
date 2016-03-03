@@ -254,10 +254,10 @@ function render() {
         motherFinal = { x: 70, y: -150, size: 140, rotation: 0, opacity: 0.0 };
       }
       ReactDOM.render(
-        React.createElement(GeniBlocks.GameteView, {
+        React.createElement(GeniBlocks.AnimatedGameteView, {
           gamete: selectedMotherGamete, id: selectedMotherGameteId,
           hiddenAlleles: hiddenAlleles,
-          location: { initial: motherInitial, final: motherFinal },
+          initialDisplay: motherInitial, display: motherFinal,
           animStiffness: animStiffness,
           onRest: function() {
             if (gameteFusionState === 'fusing') {
@@ -306,10 +306,10 @@ function render() {
         fatherFinal = { x: 80, y: -150, size: 140, rotation: 0, opacity: 0.0 };
       }
       ReactDOM.render(
-        React.createElement(GeniBlocks.GameteView, {
+        React.createElement(GeniBlocks.AnimatedGameteView, {
           gamete: selectedFatherGamete, id: selectedFatherGameteId,
           hiddenAlleles: hiddenAlleles,
-          location: { initial: fatherInitial, final: fatherFinal },
+          initialDisplay: fatherInitial, display: fatherFinal,
           animStiffness: animStiffness
         }),
         document.getElementById('father-selected-gamete')

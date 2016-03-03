@@ -1,4 +1,4 @@
-const GameteView = require('./gamete');
+const AnimatedGameteView = require('./animated-gamete');
 
 const GametePoolView = ({gametes, hiddenAlleles=[], width=300, height=200, animStiffness=60, selectedId, isGameteDisabled, onGameteSelected}) => {
   let gameteCount = gametes.length,
@@ -42,15 +42,14 @@ const GametePoolView = ({gametes, hiddenAlleles=[], width=300, height=200, animS
           y = isDisabled ? row * yDisabledSpacing : row * ySpacing,
           x = isDisabled ? col * xDisabledSpacing : col * xSpacing;
     return (
-      <GameteView gamete={gamete}
-                  hiddenAlleles={hiddenAlleles}
-                  location={{ initial: { x: Math.round(width/2), y: -Math.round(ySpacing) },
-                              final: { x: Math.round(x), y: Math.round(y) } }}
-                  key={index} id={index + 1}
-                  animStiffness={animStiffness}
-                  isSelected={index + 1 === selectedId}
-                  isDisabled={isDisabled}
-                  onClick={onGameteSelected} />
+      <AnimatedGameteView gamete={gamete} id={index + 1} key={index}
+                          hiddenAlleles={hiddenAlleles}
+                          initialDisplay={{ x: Math.round(width/2), y: -Math.round(ySpacing) }}
+                          display={{ x: Math.round(x), y: Math.round(y) }}
+                          animStiffness={animStiffness}
+                          isSelected={index + 1 === selectedId}
+                          isDisabled={isDisabled}
+                          onClick={onGameteSelected} />
     );
   });
 

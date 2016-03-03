@@ -1,4 +1,24 @@
-const GameteView = ({gamete, id, hiddenAlleles=[], location, animStiffness=60, isSelected=false, isDisabled=false, onClick, onRest}) => {
+/**
+ * Stateless functional React component for displaying a Biologica gamete
+ *
+ * @param {Object} gamete - Biologica gamete (map of chromosome names to chromosomes)
+ * @param {number} id - the unique id of this gamete
+ * @param {string[]} hiddenAlleles - individual alleles of genes for which all alleles should be hidden
+ * @param {Object} display - display parameters used to represent the gamete
+ * @param {number} display.x - location (left) of the gamete
+ * @param {number} display.y - location (top) of the gamete
+ * @param {number} [display.size=30] - size (width & height) of the gamete
+ * @param {number} [display.rotation=0] - rotation of the gamete
+ * @param {number} [display.opacity=1] - opacity of the gamete
+ * @param {boolean} [isSelected=false] - whether the gamete should have the 'selected' class applied
+ * @param {boolean} [isDisabled=false] - whether the gamete should have the 'disabled' class applied
+ * @param {function} [onClick(evt, id, rect)] - callback function to be called when the gamete is clicked
+ *
+ * Note: As things stand currently, there is _no_ particular representation of the gamete defined
+ * by this view. The client can style the representation of the gamete by styling the
+ * '.geniblocks.gamete' class in CSS, e.g. by assigning a background-image.
+ */
+const GameteView = ({gamete, id, hiddenAlleles=[], display, isSelected=false, isDisabled=false, onClick}) => {
 
   function handleClick(evt) {
     const elt = evt.target,
@@ -44,53 +64,37 @@ const GameteView = ({gamete, id, hiddenAlleles=[], location, animStiffness=60, i
         group = id % 4,
         rotationForGroup = group * 90,
         classes = `geniblocks gamete ${selectedClass} ${disabledClass} group${group}`,
-        initial = location.initial || location.final,
-        initialSize = initial.size || 30,
-        initialRotation = initial.rotation != null ? initial.rotation : rotationForGroup,
-        initialOpacity = initial.opacity != null ? initial.opacity : 1.0,
-        final = location.final,
-        finalSize = final.size || 30,
-        finalRotation = final.rotation != null ? final.rotation : rotationForGroup,
-        finalOpacity = final.opacity != null ? final.opacity : 1.0,
-        springConfig = { stiffness: animStiffness },
+        size = display.size || 30,
+        rotation = display.rotation != null ? display.rotation : rotationForGroup,
+        transform = rotation ? `rotate(${rotation}deg)` : '',
+        opacity = display.opacity != null ? display.opacity : 1.0,
         tooltip = buildTooltipForGamete(gamete);
-  /* eslint react/display-name:0 */
   return (
-    <ReactMotion.Motion defaultStyle={{ left: initial.x, top: initial.y,
-                                        width: initialSize, height: initialSize,
-                                        rotation: initialRotation,
-                                        opacity: initialOpacity }}
-                        style={{left: ReactMotion.spring(final.x, springConfig),
-                                top: ReactMotion.spring(final.y, springConfig),
-                                width: ReactMotion.spring(finalSize, springConfig),
-                                height: ReactMotion.spring(finalSize, springConfig),
-                                rotation: ReactMotion.spring(finalRotation, springConfig),
-                                opacity: ReactMotion.spring(finalOpacity, springConfig) }}
-                        onRest={onRest} >
-      {
-        interpolatedStyle => {
-          var { rotation, ...style } = interpolatedStyle;
-          style.transform = `rotate(${rotation}deg)`;
-          return (
-            <div className={classes} title={tooltip} style={style} onClick={handleClick}>
-            </div>
-          );
-        }
-      }
-    </ReactMotion.Motion>
+    <div className={classes} title={tooltip}
+          style={{
+            left: display.x, top: display.y,
+            width: size, height: size,
+            transform, opacity
+          }}
+          onClick={handleClick}>
+    </div>
   );
 };
 
 GameteView.propTypes = {
   gamete: React.PropTypes.object.isRequired,
-  hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string),
   id: React.PropTypes.number.isRequired,
-  location: React.PropTypes.object.isRequired,
-  animStiffness: React.PropTypes.number,
+  hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string),
+  display: React.PropTypes.shape({        // display properties
+    x: React.PropTypes.number.isRequired, // location (left) of gamete image
+    y: React.PropTypes.number.isRequired, // location (top) of gamete image
+    size: React.PropTypes.number,         // size of gamete image (default: 30)
+    rotation: React.PropTypes.number,     // rotation (deg) of gamete image (default: 0|90|180|270)
+    opacity: React.PropTypes.number       // opacity of gamete image (default: 1.0)
+  }).isRequired,
   isSelected: React.PropTypes.bool,
   isDisabled: React.PropTypes.bool,
-  onClick: React.PropTypes.func,
-  onRest: React.PropTypes.func
+  onClick: React.PropTypes.func
 };
 
 export default GameteView;
