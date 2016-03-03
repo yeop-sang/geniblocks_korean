@@ -1,4 +1,4 @@
-const AnimatedGameteView = require('./animated-gamete');
+import AnimatedGameteView from './animated-gamete';
 
 const GametePoolView = ({gametes, hiddenAlleles=[], width=300, height=200, animStiffness=60, selectedId, isGameteDisabled, onGameteSelected}) => {
   let gameteCount = gametes.length,

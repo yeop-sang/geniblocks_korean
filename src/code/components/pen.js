@@ -1,4 +1,4 @@
-let OrganismView = require('./organism');
+import OrganismView from './organism';
 
 const PenView = ({orgs, width=400, columns=5}) => {
   let orgWidth = width/columns,

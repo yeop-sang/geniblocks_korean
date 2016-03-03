@@ -1,4 +1,4 @@
-let ChromosomeView = require('./chromosome');
+import ChromosomeView from './chromosome';
 
 const GenomeView = ({org, hiddenAlleles = [], alleleChanged}) => {
   let pairWrappers = [];

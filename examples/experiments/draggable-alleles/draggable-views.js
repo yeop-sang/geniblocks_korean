@@ -46,9 +46,9 @@ var DragSource = ReactDnD.DragSource,
         props.moveAllele(monitor.getItem().index, monitor.getItem().org, props.index, props.org);
       },
       canDrop: function (props, monitor) {
-        console.log("can drop??")
-        console.log(monitor.getItem())
-        console.log(props)
+        //console.log("can drop??");
+        //console.log(monitor.getItem());
+        //console.log(props);
         return (monitor.getItem().shape === props.shape);
       }
     },
@@ -87,7 +87,7 @@ var DragSource = ReactDnD.DragSource,
 
         var pool = allelePool.map(function(allele, i) {
           if (!allele) return null;
-          return React.createElement(DraggableAllele, {allele: allele, index: i, org: org});
+          return React.createElement(DraggableAllele, {allele: allele, key: i, index: i, org: org});
         });
 
         var targets = alleleTargets.map(function(allele, i) {
@@ -97,7 +97,7 @@ var DragSource = ReactDnD.DragSource,
           } else {
             shape = shapeColorMap[allele].shape;
           }
-          return React.createElement(AlleleDropTarget, {allele: allele, shape: shape, index: i, org: org, moveAllele: moveAllele});
+          return React.createElement(AlleleDropTarget, {allele: allele, key: i, shape: shape, index: i, org: org, moveAllele: moveAllele});
         });
 
         return (
@@ -119,12 +119,12 @@ var DragSource = ReactDnD.DragSource,
             orgs = this.props.orgs,
             moveAllele = this.props.moveAllele,
 
-            orgViews = orgs.map(function(org) {
-              return org ?  React.createElement(GeniBlocks.OrganismView, {org: org}) : null;
+            orgViews = orgs.map(function(org, index) {
+              return org ?  React.createElement(GeniBlocks.OrganismView, {org: org, key: index}) : null;
             });
 
         return (
-          React.createElement('div', {className: "punnet-square"},
+          React.createElement('div', {className: "punnett-square"},
             React.createElement('div', {className: "top"},
               React.createElement(AlleleDropTarget, {allele: alleles[0], shape: "circle", index: 0, moveAllele: moveAllele}),
               React.createElement(AlleleDropTarget, {allele: alleles[1], shape: "circle", index: 1, moveAllele: moveAllele})

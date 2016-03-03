@@ -1,5 +1,6 @@
-let ChromosomeImageView = require('./chromosome-image'),
-    filterAlleles = function(alleles, hiddenAlleles, species) {
+import ChromosomeImageView from './chromosome-image';
+
+let filterAlleles = function(alleles, hiddenAlleles, species) {
       let hiddenGenes = hiddenAlleles.map( a => BioLogica.Genetics.getGeneOfAllele(species, a));
       return alleles.filter( a => {
         let gene = BioLogica.Genetics.getGeneOfAllele(species, a);
@@ -53,7 +54,7 @@ const GenomeTestView = ({org, hiddenAlleles=[], selection={}, selectionChanged})
         });
 
     pairWrappers.push(
-      <div className="items">
+      <div className="items" key={chromosomeName}>
         <ChromosomeImageView />
         <ChromosomeImageView />
         <div className="genome-test-options">

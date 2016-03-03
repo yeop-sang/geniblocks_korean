@@ -84,6 +84,7 @@ function checkAnswer() {
   var allSelectedAlleles = [],
       alleleString = father.getAlleleString(),
       alleleStringLength = alleleString.length,
+      testAllele,
       success = true;
 
   // hard-coded check to see if user has made all four choices
@@ -92,7 +93,7 @@ function checkAnswer() {
     return;
   }
 
-  for (geneName in testSelection) {
+  for (var geneName in testSelection) {
     var alleles = father.species.geneList[geneName].alleles,
         selectedAlleles = testSelection[geneName].split(" ").map(function(num) {
           return alleles[num];
@@ -101,7 +102,7 @@ function checkAnswer() {
   }
   while (success && (testAllele = allSelectedAlleles.pop())) {
     alleleString = alleleString.replace(":"+testAllele, "");
-    if (alleleString.length == alleleStringLength) {
+    if (alleleString.length === alleleStringLength) {
       success = false;
     }
     alleleStringLength = alleleString.length;

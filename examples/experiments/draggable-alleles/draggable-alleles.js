@@ -58,7 +58,7 @@ function renderDragon(dragon) {
 
 function render() {
   var genomes = dragons.map(function(dragon, i){
-    return React.createElement('div', {},
+    return React.createElement('div', {key: i},
       React.createElement('div', {className: "org"},
         renderDragon(dragon)
       ),

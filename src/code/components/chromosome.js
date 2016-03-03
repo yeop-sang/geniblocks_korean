@@ -1,13 +1,13 @@
-let ChromosomeImageView = require('./chromosome-image'),
-    GeneLabelView       = require('./gene-label'),
+import ChromosomeImageView from './chromosome-image';
+import GeneLabelView from './gene-label';
 
-    filterAlleles = function(alleles, hiddenAlleles, species) {
-      let hiddenGenes = hiddenAlleles.map( a => BioLogica.Genetics.getGeneOfAllele(species, a));
-      return alleles.filter( a => {
-        let gene = BioLogica.Genetics.getGeneOfAllele(species, a);
-        return hiddenGenes.indexOf(gene) === -1;
-      });
-    };
+const filterAlleles = function(alleles, hiddenAlleles, species) {
+  let hiddenGenes = hiddenAlleles.map( a => BioLogica.Genetics.getGeneOfAllele(species, a));
+  return alleles.filter( a => {
+    let gene = BioLogica.Genetics.getGeneOfAllele(species, a);
+    return hiddenGenes.indexOf(gene) === -1;
+  });
+};
 
 const ChromosomeView = ({org, chromosomeName, side, hiddenAlleles=[], alleleChanged, labelsOnRight=true}) => {
   let alleles = org.getGenotype().chromosomes[chromosomeName][side].alleles,

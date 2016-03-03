@@ -26,7 +26,7 @@
  * by this view. The client can style the representation of the gamete by styling the
  * '.geniblocks.gamete' class in CSS, e.g. by assigning a background-image.
  */
-const GameteView = require('./gamete');
+import GameteView from './gamete';
 
 const AnimatedGameteView = ({gamete, id, hiddenAlleles=[], initialDisplay, display, animStiffness=100, isSelected=false, isDisabled=false, onClick, onRest}) => {
 

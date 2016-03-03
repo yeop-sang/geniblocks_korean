@@ -1,14 +1,23 @@
 {
+  "comments": {
+    "comment": "workaround for the lack of true comments in JSON",
+    "dependencies": "run-time dependencies (e.g. react) are currently handled with bower",
+    "devDependencies": {
+      "babel-preset-stage-0": "Enables support for ES6+ features such as those described at https://babeljs.io/blog/2015/06/07/react-on-es6-plus. We bring in all experiment features, but the particular stages supported is configured in browserify-task.js and .babelrc."
+    }
+  },
   "dependencies": {},
   "devDependencies": {
     "babel-eslint": "^5.0.0",
-    "babel-preset-react": "^6.3.13",
-    "babelify": "^6.4.0",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babelify": "^7.2.0",
     "beepbeep": "^1.2.0",
-    "browserify": "^11.2.0",
+    "browserify": "^13.0.0",
     "del": "^2.2.0",
     "eslint": "^2.2.0",
-    "eslint-plugin-react": "^4.0.0",
+    "eslint-plugin-react": "^4.1.0",
     "event-stream": "^3.3.2",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",

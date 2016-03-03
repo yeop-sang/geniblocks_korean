@@ -1,17 +1,35 @@
+/*
+ * See https://medium.com/@kentcdodds/misunderstanding-es6-modules-upgrading-babel-tears-and-a-solution-ad2d5ab93ce0#.q1vckffiw
+ * (Kent C. Dodds, "Misunderstanding ES6 Modules, Upgrading Babel, Tears, and a Solution")
+ * for description of some of the details involved in mixing ES6 export with require().
+ */
+const
+  AlleleFiltersView = require('./components/allele-filters').default,
+  AlleleView = require('./components/allele').default,
+  AnimatedGameteView = require('./components/animated-gamete').default,
+  ChromosomeImageView = require('./components/chromosome-image').default,
+  ChromosomeView = require('./components/chromosome').default,
+  GametePoolView = require('./components/gamete-pool').default,
+  GameteView = require('./components/gamete').default,
+  GeneLabelView = require('./components/gene-label').default,
+  GenomeTestView = require('./components/genome-test').default,
+  GenomeView = require('./components/genome').default,
+  OrganismView = require('./components/organism').default,
+  PenView = require('./components/pen').default,
+  StatsView = require('./components/stats').default;
 
-export default  {
-  AlleleFiltersView: require('./components/allele-filters'),
-  AnimatedGameteView: require('./components/animated-gamete'),
-  OrganismView: require('./components/organism'),
-  ChromosomeImageView: require('./components/chromosome-image'),
-  ChromosomeView: require('./components/chromosome'),
-  AlleleView: require('./components/allele'),
-  GameteView: require('./components/gamete'),
-  GametePoolView: require('./components/gamete-pool'),
-  GeneLabelView: require('./components/gene-label'),
-  GenomeView: require('./components/genome'),
-  GenomeTestView: require('./components/genome-test'),
-  PenView: require('./components/pen'),
-  StatsView: require('./components/stats')
+export {
+  AlleleFiltersView,
+  AlleleView,
+  AnimatedGameteView,
+  ChromosomeImageView,
+  ChromosomeView,
+  GametePoolView,
+  GameteView,
+  GeneLabelView,
+  GenomeTestView,
+  GenomeView,
+  OrganismView,
+  PenView,
+  StatsView
 };
-
