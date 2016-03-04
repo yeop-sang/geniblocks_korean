@@ -18,8 +18,13 @@ module.exports = {
     dist: dist
   },
   examples: {
-    watch: examples + '/**/*.*',
-    src: examples + '/**/*.*',
+    watch: [examples + '/**/*.*', '!' + examples + '/**/*.js'],
+    src: [examples + '/**/*.*', '!' + examples + '/**/*.js'],
+    dest: pub
+  },
+  examplesJS: {
+    watch: examples + '/**/*.js',
+    src: examples + '/**/*.js',
     dest: pub
   },
   vendor: {
