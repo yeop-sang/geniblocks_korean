@@ -1,10 +1,10 @@
-var mother = new BioLogica.Organism(BioLogica.Species.Drake, "a:m,b:M,a:h,b:h,a:C,b:C,a:a,b:a,a:B,b:B,a:D,b:D,a:w,b:W,a:Fl,b:Fl,a:Hl,b:hl,a:T,b:t,a:rh,b:rh,a:Bog,b:Bog", 1),
-    father = new BioLogica.Organism(BioLogica.Species.Drake, "a:M,a:h,b:h,a:C,b:C,a:a,b:a,a:B,a:D,a:W,a:fl,b:fl,a:Hl,a:t,b:T,a:rh,a:Bog,b:Bog", 0),
-    offspring = [],
-    clutch = [],
-    clutchSize = 20,
-    testSelection = {},
-    showingTest = false;
+const father = new BioLogica.Organism(BioLogica.Species.Drake, "a:M,a:h,b:h,a:C,b:C,a:a,b:a,a:B,a:D,a:W,a:fl,b:fl,a:Hl,a:t,b:T,a:rh,a:Bog,b:Bog", 0);
+let   mother = new BioLogica.Organism(BioLogica.Species.Drake, "a:m,b:M,a:h,b:h,a:C,b:C,a:a,b:a,a:B,b:B,a:D,b:D,a:w,b:W,a:Fl,b:Fl,a:Hl,b:hl,a:T,b:t,a:rh,b:rh,a:Bog,b:Bog", 1),
+      offspring = [],
+      clutch = [],
+      clutchSize = 20,
+      testSelection = {},
+      showingTest = false;
 
 function render() {
   // Mother org
@@ -36,8 +36,8 @@ function render() {
 
   // Breeding pen
   /* global ReactSimpleTabs */
-  var rce = React.createElement,
-      Tabs = ReactSimpleTabs;
+  const rce = React.createElement,
+        Tabs = ReactSimpleTabs;
   ReactDOM.render(
     rce(Tabs, null, [
       rce(Tabs.Panel, { title: "Breeding Pen", key: "Breeding Pen" },
@@ -63,7 +63,7 @@ function render() {
 }
 
 function breed() {
-  var times = clutchSize;
+  let times = clutchSize;
   clutch = [];
   while (times--) {
     var child = BioLogica.breed(mother, father);
@@ -81,7 +81,7 @@ function toggleTest() {
 }
 
 function checkAnswer() {
-  var allSelectedAlleles = [],
+  let allSelectedAlleles = [],
       alleleString = father.getAlleleString(),
       alleleStringLength = alleleString.length,
       testAllele,
@@ -93,15 +93,13 @@ function checkAnswer() {
     return;
   }
 
-  for (var geneName in testSelection) {
-    var alleles = father.species.geneList[geneName].alleles,
-        selectedAlleles = testSelection[geneName].split(" ").map(function(num) {
-          return alleles[num];
-        });
+  for (const geneName in testSelection) {
+    const alleles = father.species.geneList[geneName].alleles,
+          selectedAlleles = testSelection[geneName].split(" ").map(num => alleles[num]);
     allSelectedAlleles = allSelectedAlleles.concat(selectedAlleles);
   }
   while (success && (testAllele = allSelectedAlleles.pop())) {
-    alleleString = alleleString.replace(":"+testAllele, "");
+    alleleString = alleleString.replace(`:${testAllele}`, "");
     if (alleleString.length === alleleStringLength) {
       success = false;
     }
@@ -115,6 +113,5 @@ document.getElementById("breed-button").onclick = breed;
 document.getElementsByClassName("toggle-test-button")[0].onclick = toggleTest;
 document.getElementsByClassName("toggle-test-button")[1].onclick = toggleTest;
 document.getElementById("submit-button").onclick = checkAnswer;
-
 
 render();
