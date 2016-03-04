@@ -20,7 +20,7 @@ var mother = new BioLogica.Organism(BioLogica.Species.Drake, "a:m,b:M,a:h,b:h,a:
     selectedFatherGameteId,
     selectedFatherGamete,
     selectedFatherGameteSrcRect,
-    gameteFusionState,  // null -> 'fusing' -> 'fused' -> 'complete' -> null
+    fertilizationState = 'none',  // 'none' -> 'fertilizing' -> 'fertilized' -> 'complete' -> 'none'
     offspring;
 
 function parseQueryString(queryString) {
@@ -203,7 +203,7 @@ function render() {
 
   // Offspring org
   function renderOffspring() {
-    var offspringOpacity = (gameteFusionState === 'fused' ? 1.0 : 0.0);
+    var offspringOpacity = (fertilizationState === 'fertilized' ? 1.0 : 0.0);
     if (offspring) {
       ReactDOM.render(
         React.createElement(GeniBlocks.OrganismView, {
@@ -213,7 +213,7 @@ function render() {
             onRest: function() {
               selectedMotherGamete = selectedMotherGameteId = null;
               selectedFatherGamete = selectedFatherGameteId = null;
-              gameteFusionState = null;
+              fertilizationState = 'none';
               render();
             }
           }),
@@ -233,35 +233,19 @@ function render() {
     }
     if (selectedMotherGameteId) {
       var motherSelectedGameteViewportRect = document.getElementById('mother-selected-gamete')
-                                                      .getBoundingClientRect(),
-          motherXOffset = selectedMotherGameteSrcRect
-                            ? selectedMotherGameteSrcRect.left - motherSelectedGameteViewportRect.left
-                            : 0,
-          motherYOffset = selectedMotherGameteSrcRect
-                            ? selectedMotherGameteSrcRect.top - motherSelectedGameteViewportRect.top
-                            : 0,
-          motherInitial, motherFinal;
-      if (!gameteFusionState) {
-        motherInitial = { x: motherXOffset, y: motherYOffset, size: 30 };
-        motherFinal = { x: 0, y: 0, size: 140 };
-      }
-      else if (gameteFusionState === 'fusing') {
-        motherInitial = { x: 0, y: 0, size: 140, opacity: 1.0 };
-        motherFinal = { x: 70, y: 0, size: 140, rotation: 0, opacity: 1.0 };
-      }
-      else {
-        motherInitial = { x: 70, y: 0, size: 140, rotation: 0, opacity: 1.0 };
-        motherFinal = { x: 70, y: -150, size: 140, rotation: 0, opacity: 0.0 };
-      }
+                                                      .getBoundingClientRect();
       ReactDOM.render(
-        React.createElement(GeniBlocks.AnimatedGameteView, {
+        React.createElement(GeniBlocks.FertilizingGameteView, {
+          type: 'mother',
           gamete: selectedMotherGamete, id: selectedMotherGameteId,
+          fertilizationState: fertilizationState, 
           hiddenAlleles: hiddenAlleles,
-          initialDisplay: motherInitial, display: motherFinal,
+          srcRect: selectedMotherGameteSrcRect,
+          dstRect: motherSelectedGameteViewportRect,
           animStiffness: animStiffness,
           onRest: function() {
-            if (gameteFusionState === 'fusing') {
-              gameteFusionState = 'fused';
+            if (fertilizationState === 'fertilizing') {
+              fertilizationState = 'fertilized';
               // currently we must unmount to trigger the next animation stage
               ReactDOM.unmountComponentAtNode(document.getElementById('mother-selected-gamete'));
               ReactDOM.unmountComponentAtNode(document.getElementById('father-selected-gamete'));
@@ -285,31 +269,15 @@ function render() {
     }
     if (selectedFatherGameteId) {
       var fatherSelectedGameteViewportRect = document.getElementById('father-selected-gamete')
-                                                      .getBoundingClientRect(),
-          fatherXOffset = selectedFatherGameteSrcRect
-                            ? 150 + selectedFatherGameteSrcRect.left - fatherSelectedGameteViewportRect.left
-                            : 150,
-          fatherYOffset = selectedFatherGameteSrcRect
-                            ? selectedFatherGameteSrcRect.top - fatherSelectedGameteViewportRect.top
-                            : 0,
-          fatherInitial, fatherFinal;
-      if (!gameteFusionState) {
-        fatherInitial = { x: fatherXOffset, y: fatherYOffset, size: 30 };
-        fatherFinal = { x: 150, y: 0, size: 140 };
-      }
-      else if (gameteFusionState === 'fusing') {
-        fatherInitial = { x: 150, y: 0, size: 140, opacity: 1.0 };
-        fatherFinal = { x: 80, y: 0, size: 140, rotation: 0, opacity: 1.0 };
-      }
-      else {
-        fatherInitial = { x: 80, y: 0, size: 140, rotation: 0, opacity: 1.0 };
-        fatherFinal = { x: 80, y: -150, size: 140, rotation: 0, opacity: 0.0 };
-      }
+                                                      .getBoundingClientRect();
       ReactDOM.render(
-        React.createElement(GeniBlocks.AnimatedGameteView, {
+        React.createElement(GeniBlocks.FertilizingGameteView, {
+          type: 'father',
           gamete: selectedFatherGamete, id: selectedFatherGameteId,
+          fertilizationState: fertilizationState, 
           hiddenAlleles: hiddenAlleles,
-          initialDisplay: fatherInitial, display: fatherFinal,
+          srcRect: selectedFatherGameteSrcRect,
+          dstRect: fatherSelectedGameteViewportRect,
           animStiffness: animStiffness
         }),
         document.getElementById('father-selected-gamete')
@@ -322,7 +290,7 @@ function render() {
 
 function breed() {
   if (selectedMotherGamete && selectedFatherGamete) {
-    gameteFusionState = 'fusing';
+    fertilizationState = 'fertilizing';
     offspring = BioLogica.Organism.createFromGametes(mother.species, selectedMotherGamete, selectedFatherGamete);
     render();
   }
