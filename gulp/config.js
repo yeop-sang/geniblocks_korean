@@ -5,17 +5,22 @@ var src = './src',
     dist = './dist';
 
 module.exports = {
+  browserify: {
+    watch: [src + '/code/**/*.*'],
+    src: src + '/code/app.js',
+    public: pub + '/js/',
+    dist: dist
+  },
   css: {
     watch: src + '/stylus/**/*.styl',
     src:   src + '/stylus/**/*.styl',
     public: pub + '/css/',
     dist: dist
   },
-  browserify: {
-    watch: [src + '/code/**/*.*'],
-    src: src + '/code/app.js',
-    public: pub + '/js/',
-    dist: dist
+  resources: {
+    watch: src + '/resources/**/*.*',
+    src: src + '/resources/**/*.*',
+    dest: pub + '/resources'
   },
   examples: {
     watch: [examples + '/**/*.*', '!' + examples + '/**/*.js'],

@@ -7,8 +7,11 @@ const
   AlleleFiltersView = require('./components/allele-filters').default,
   AlleleView = require('./components/allele').default,
   AnimatedGameteView = require('./components/animated-gamete').default,
+  ChangeSexButtons = require('./components/change-sex-buttons').default,
   ChromosomeImageView = require('./components/chromosome-image').default,
   ChromosomeView = require('./components/chromosome').default,
+  CircularGlowView = require('./components/circular-glow').default,
+  FeedbackView = require('./components/feedback').default,
   FertilizingGameteView = require('./components/fertilizing-gamete').default,
   GametePoolView = require('./components/gamete-pool').default,
   GameteView = require('./components/gamete').default,
@@ -16,15 +19,21 @@ const
   GenomeTestView = require('./components/genome-test').default,
   GenomeView = require('./components/genome').default,
   OrganismView = require('./components/organism').default,
+  OrganismGlowView = require('./components/organism-glow').default,
   PenView = require('./components/pen').default,
+  QuestionGlowView = require('./components/question-glow').default,
+  QuestionOrganismGlowView = require('./components/question-organism-glow').default,
   StatsView = require('./components/stats').default;
 
 export {
   AlleleFiltersView,
   AlleleView,
   AnimatedGameteView,
+  ChangeSexButtons,
   ChromosomeImageView,
   ChromosomeView,
+  CircularGlowView,
+  FeedbackView,
   FertilizingGameteView,
   GametePoolView,
   GameteView,
@@ -32,6 +41,9 @@ export {
   GenomeTestView,
   GenomeView,
   OrganismView,
+  OrganismGlowView,
   PenView,
+  QuestionGlowView,
+  QuestionOrganismGlowView,
   StatsView
 };

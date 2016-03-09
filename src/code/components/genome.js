@@ -20,7 +20,7 @@ const GenomeView = ({org, hiddenAlleles = [], alleleChanged}) => {
       );
     }
     pairWrappers.push(
-      <div key={pairWrappers.length + 1}>
+      <div className="geniblocks chromosome-pair" key={pairWrappers.length + 1}>
         { pairs }
       </div>
     );

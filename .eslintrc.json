@@ -25,7 +25,8 @@
     "no-underscore-dangle": [0],
 
     // react plugin rules
-    //"react/prop-types": [0],  // propTypes declarations not required
+    "react/display-name": [0],  // don't require displayName for components
+    "react/prop-types": [1],    // propTypes declarations recommended
     "react/react-in-jsx-scope": [0] // React need not be explicitly declared in scope
   }
 }
