@@ -1,3 +1,13 @@
+/**
+ * Case 1 Challenges
+ *
+ * The code in this module was written to support a recreation of the challenges
+ * from Case 1 in Geniverse. The challenges are:
+ *  Challenge 0: Match the phenotype of a visible test drake to that of a target drake
+ *               (This challenge is not in Geniverse but it was deemed a useful addition.)
+ *  Challenge 1: Match the phenotype of a hidden test drake to that of a target drake
+ *  Challenge 2: Match the phenotype of three hidden test drakes to target drakes
+ */
 const challengeLabels = ['challenge-0', 'challenge-1', 'challenge-2'],
       challengeCount = challengeLabels.length,
       sexLabels = ['male', 'female'],
@@ -14,15 +24,15 @@ let   sexOfTargetDrake,
       moveCount = 0;
 
 function parseQueryString(queryString) {
-    let params = {}, queries, temp, i, l;
+    let params = {}, queries, tmp, i, l;
 
     // Split into key/value pairs
     queries = queryString.split('&');
 
     // Convert the array of strings into an object
     for ( i = 0, l = queries.length; i < l; i++ ) {
-        temp = queries[i].split('=');
-        params[temp[0]] = temp[1];
+        tmp = queries[i].split('=');
+        params[tmp[0]] = tmp[1];
     }
 
     return params;
@@ -127,36 +137,37 @@ function render() {
 
 }
 
-/*eslint no-unused-vars: [1, { "varsIgnorePattern": "resetChallenge|nextChallenge|advanceTrial" }]*/
-const resetChallenge = function resetChallenge() {
+function resetChallenge() {
   trialIndex = 1;
   moveCount = 0;
   resetDrakes();
-};
+}
 
-const nextChallenge = function nextChallenge() {
+function nextChallenge() {
   let url = window.location.href,
       nextUrl;
   if (challenge < 2) {
+    // advance to next challenge
     nextUrl = url.replace(`challenge=${challenge}`, `challenge=${challenge+1}`);
   }
   else {
+    // back to case log
     const case1Index = url.indexOf('case-1');
     nextUrl = url.substr(0, case1Index);
   }
   window.location.assign(nextUrl);
-};
+}
 
-const advanceTrial = function advanceTrial() {
+function advanceTrial() {
   if (challenge >= 2) {
     if (trialIndex >= trialCount) {
       showAlert(true, {
                         title: "Congratulations!",
-                        message1: "You've completed all the trials in this challenge.",
+                        message: "You've completed all the trials in this challenge.",
                         okButton: "Go back to the Case Log",
-                        okCallback: "nextChallenge",
+                        okCallback: nextChallenge,
                         tryButton: "Try Again",
-                        tryCallback: "resetChallenge"
+                        tryCallback: resetChallenge
                       });
       return;
     }
@@ -164,20 +175,27 @@ const advanceTrial = function advanceTrial() {
   }
   moveCount = 0;
   resetDrakes();
-};
+}
 
+let alertClientButtonClickHandlers = {};
 function showAlert(iShow, iOptions) {
-  const displayMode = iShow ? 'block' : 'none';
+  const displayMode = iShow ? 'block' : 'none',
+        okButton = document.getElementById("alert-ok-button"),
+        tryButton = document.getElementById("alert-try-button");
   if (iShow) {
     document.getElementById("alert-title").innerHTML = iOptions.title || "";
-    document.getElementById("alert-message1").innerHTML = iOptions.message1 || "";
-    document.getElementById("alert-message2").innerHTML = iOptions.message2 || "";
-    document.getElementById("alert-ok-button").innerHTML = iOptions.okButton || "";
-    document.getElementById("alert-ok-button").style.display = iOptions.okButton ? 'block' : 'none';
-    document.getElementById("alert-ok-button").dataset.okCallback = iOptions.okCallback || '';
-    document.getElementById("alert-try-button").innerHTML = iOptions.tryButton || "";
-    document.getElementById("alert-try-button").style.display = iOptions.tryButton ? 'block' : 'none';
-    document.getElementById("alert-try-button").dataset.tryCallback = iOptions.tryCallback || '';
+    document.getElementById("alert-message").innerHTML = iOptions.message || "";
+    okButton.innerHTML = iOptions.okButton || "";
+    okButton.style.display = iOptions.okButton ? 'block' : 'none';
+    okButton.dataset.okCallback = iOptions.okCallback || '';
+    alertClientButtonClickHandlers[okButton.id] = iOptions.okCallback || null;
+    tryButton.innerHTML = iOptions.tryButton || "";
+    tryButton.style.display = iOptions.tryButton ? 'block' : 'none';
+    alertClientButtonClickHandlers[tryButton.id] = iOptions.tryCallback || null;
+  }
+  else {
+    alertClientButtonClickHandlers[okButton.id] = null;
+    alertClientButtonClickHandlers[tryButton.id] = null;
   }
   document.getElementById("overlay").style.display = displayMode;
   document.getElementById("alert-wrapper").style.display = displayMode;
@@ -193,46 +211,42 @@ document.getElementById("test-drake-button").onclick = function() {
     if (challenge <= 1) {
       showAlert(true, { 
                         title: "Good work!",
-                        message1: "The drake you have created matches the target drake.",
+                        message: "The drake you have created matches the target drake.",
                         okButton: "Next Challenge",
-                        okCallback: "nextChallenge",
+                        okCallback: nextChallenge,
                         tryButton: "Try Again",
-                        tryCallback: "resetChallenge"
+                        tryCallback: resetChallenge
                       });
     }
     else {
       showAlert(true, { 
                         title: "Good work!",
-                        message1: "The drake you have created matches the target drake.",
+                        message: "The drake you have created matches the target drake.",
                         okButton: "OK",
-                        okCallback: "advanceTrial"
+                        okCallback: advanceTrial
                       });
     }
   }
   else {
     showAlert(true, {
                       title: "That's not the drake!",
-                      message1: "The drake you have created doesn't match the target drake.\nPlease try again.",
+                      message: "The drake you have created doesn't match the target drake.\nPlease try again.",
                       tryButton: "Try Again"
                     });
     render();
   }
 };
 
-document.getElementById("alert-ok-button").onclick = function(evt) {
+function alertButtonClickHandler(evt) {
+  const clientClickHandler = alertClientButtonClickHandlers[evt.target.id];
   showAlert(false);
   showDrakeForConfirmation = false;
-  if (evt.target.dataset.okCallback && window[evt.target.dataset.okCallback])
-    window[evt.target.dataset.okCallback].call();
+  if (clientClickHandler)
+    clientClickHandler();
   render();
-};
+}
 
-document.getElementById("alert-try-button").onclick = function(evt) {
-  showAlert(false);
-  showDrakeForConfirmation = false;
-  if (evt.target.dataset.tryCallback && window[evt.target.dataset.tryCallback])
-    window[evt.target.dataset.tryCallback].call();
-  render();
-};
+document.getElementById("alert-ok-button").onclick = alertButtonClickHandler;
+document.getElementById("alert-try-button").onclick = alertButtonClickHandler;
 
 resetDrakes();
