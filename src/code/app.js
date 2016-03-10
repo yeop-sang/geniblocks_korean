@@ -4,6 +4,7 @@
  * for description of some of the details involved in mixing ES6 export with require().
  */
 const
+  // components
   AlleleFiltersView = require('./components/allele-filters').default,
   AlleleView = require('./components/allele').default,
   AnimatedGameteView = require('./components/animated-gamete').default,
@@ -23,9 +24,12 @@ const
   PenView = require('./components/pen').default,
   QuestionGlowView = require('./components/question-glow').default,
   QuestionOrganismGlowView = require('./components/question-organism-glow').default,
-  StatsView = require('./components/stats').default;
+  StatsView = require('./components/stats').default,
+  // utilities
+  GeneticsUtils = require('./utilities/genetics-utils').default;
 
 export {
+  // components
   AlleleFiltersView,
   AlleleView,
   AnimatedGameteView,
@@ -45,5 +49,7 @@ export {
   PenView,
   QuestionGlowView,
   QuestionOrganismGlowView,
-  StatsView
+  StatsView,
+  // utilities
+  GeneticsUtils
 };

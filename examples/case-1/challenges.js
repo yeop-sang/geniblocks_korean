@@ -3,8 +3,7 @@ const challengeLabels = ['challenge-0', 'challenge-1', 'challenge-2'],
       sexLabels = ['male', 'female'],
       organismAlleles = "a:h,b:h,a:C,b:C,a:a,b:a,a:B,b:B,a:D,b:D,a:T,b:t,a:rh,b:rh,a:Bog,b:Bog",
       hiddenAlleles = ['t','tk','h','c','a','b','d','bog','rh'];
-let   _possibleAllelesForTrait = {},
-      sexOfTargetDrake,
+let   sexOfTargetDrake,
       targetDrake,
       sexOfYourDrake,
       yourDrake,
@@ -38,13 +37,15 @@ if (challenge >= 2)
 
 function resetDrakes() {
   requiredMoveCount = 0;
-  // regenerate if we generate two identical drakes
-  while (requiredMoveCount === 0) {
+  // regenerate if we generate drakes that are too close to each other
+  while (requiredMoveCount < 3) {
     sexOfTargetDrake = Math.floor(2 * Math.random());
     targetDrake = new BioLogica.Organism(BioLogica.Species.Drake, organismAlleles, sexOfTargetDrake);
     sexOfYourDrake = Math.floor(2 * Math.random());
     yourDrake = new BioLogica.Organism(BioLogica.Species.Drake, organismAlleles, sexOfYourDrake);
-    requiredMoveCount = numberOfMovesToReachPhenotype(yourDrake, targetDrake);
+    // add one for clicking the "Check Drake" button
+    requiredMoveCount = GeniBlocks.GeneticsUtils.
+                          numberOfChangesToReachPhenotype(yourDrake, targetDrake) + 1;
   }
   render();
 }
@@ -92,9 +93,12 @@ function render() {
           sex: sexLabels[sexOfYourDrake],
           species: "Drake",
           onChange: function(evt, iSex) {
+            // replace alleles lost when switching to male and back
+            const alleleString = GeniBlocks.GeneticsUtils.fillInMissingAllelesFromAlleleString(
+                                  yourDrake.genetics, yourDrake.getAlleleString(), organismAlleles);
             sexOfYourDrake = sexLabels.indexOf(iSex);
             yourDrake = new BioLogica.Organism(BioLogica.Species.Drake,
-                                                yourDrake.getAlleleString(),
+                                                alleleString,
                                                 sexOfYourDrake);
             ++moveCount;
             render();
@@ -121,107 +125,6 @@ function render() {
     document.getElementById('drake-genome')
   );
 
-}
-
-function numberOfMovesToReachPhenotype(testDrake, targetDrake) {
-  let requiredMoveCount = numberOfAlleleChangesToReachPhenotype(testDrake.phenotype.characteristics,
-                                                                targetDrake.phenotype.characteristics,
-                                                                testDrake.genetics.genotype.allAlleles,
-                                                                testDrake.species.traitRules);
-  if (testDrake.sex !== targetDrake.sex)
-    ++requiredMoveCount;
-
-  return requiredMoveCount;
-}
-
-function numberOfAlleleChangesToReachPhenotype(testCharacteristics, targetCharacteristics, testAlleles, traitRules){
-  var alleles = testAlleles,
-      moves   = 0;
-
-  for (var trait in traitRules) {
-    if (traitRules.hasOwnProperty(trait)) {
-      if (testCharacteristics[trait] !== targetCharacteristics[trait]) {
-        // first we have to work out what alleles the original drake has that correspond to
-        // their non-matching trait
-        var possibleTraitAlleles = collectAllAllelesForTrait(trait, traitRules),
-            characteristicAlleles = [];
-        for (var i = 0, ii = alleles.length; i < ii; i++) {
-          if (possibleTraitAlleles.indexOf(alleles[i]) >= 0){
-            characteristicAlleles.push(alleles[i]);
-          }
-        }
-        // now work out the smallest number of steps to get from there to the desired characteristic
-        var possibleSolutions = traitRules[trait][targetCharacteristics[trait]],
-            shortestPathLength = Infinity;
-        for (i = 0, ii = possibleSolutions.length; i < ii; i++) {
-          var solution = possibleSolutions[i].slice(),
-              pathLength = 0;
-          for (var j = 0, jj = characteristicAlleles.length; j < jj; j++){
-            if (solution.indexOf(characteristicAlleles[j]) === -1){
-              pathLength++;
-            } else {
-              solution.splice(solution.indexOf(characteristicAlleles[j]), 1);      // already matched this one, can't match it again
-            }
-          }
-          shortestPathLength = (pathLength < shortestPathLength) ? pathLength : shortestPathLength;
-        }
-        moves += shortestPathLength;
-      }
-    }
-  }
-  return moves;
-}
-
-// Goes through the traitRules to find out what unique alleles are associated with each trait
-// E.g. For "tail" it will return ["T", "Tk", "t"]
-function collectAllAllelesForTrait(trait, traitRules) {
-  if (_possibleAllelesForTrait[trait]) {
-    return _possibleAllelesForTrait[trait];
-  }
-
-  var allelesHash = {},
-      alleles     = [];
-  for (var characteristic in traitRules[trait]){
-      for (var possibileAllelesCombo in traitRules[trait][characteristic]) {
-        if (traitRules[trait][characteristic].hasOwnProperty(possibileAllelesCombo)){
-          for (var i = 0, ii = traitRules[trait][characteristic][possibileAllelesCombo].length; i < ii; i++) {
-            allelesHash[traitRules[trait][characteristic][possibileAllelesCombo][i]] = 1;
-          }
-        }
-      }
-  }
-
-  for (var allele in allelesHash){
-    alleles.push(allele);
-  }
-
-  _possibleAllelesForTrait[trait] = alleles;      // store so we don't need to recalculate it
-  return alleles;
-}
-
-function checkDrake(iYourDrake, iTargetDrake, iHiddenGenes) {
-  const characteristicToGeneMap = {
-          "armor": "armor",
-          "tail": "tail",
-          "forelimbs": "forelimbs",
-          "hindlimbs": "hindlimbs",
-          "horns": "horns",
-          "nose spike": "nose",
-          "wings": "wings",
-          "color": "color",
-          "health": "bogbreath",
-          "liveliness": "dilute"
-        };
-  if(iYourDrake.sex !== iTargetDrake.sex)
-    return false;
-  for(const ch in iYourDrake.phenotype.characteristics) {
-    const yourValue = iYourDrake.phenotype.characteristics[ch],
-          targetValue = iTargetDrake.phenotype.characteristics[ch],
-          gene = characteristicToGeneMap[ch];
-    if(!iHiddenGenes.has(gene) && (yourValue !== targetValue))
-      return false;
-  }
-  return true;
 }
 
 /*eslint no-unused-vars: [1, { "varsIgnorePattern": "resetChallenge|nextChallenge|advanceTrial" }]*/
@@ -281,10 +184,12 @@ function showAlert(iShow, iOptions) {
 }
 
 document.getElementById("test-drake-button").onclick = function() {
+  // Checking the answer counts as a move
+  ++moveCount;
   showDrakeForConfirmation = true;
   render();
 
-  if (numberOfMovesToReachPhenotype(yourDrake, targetDrake) === 0) {
+  if (0 === GeniBlocks.GeneticsUtils.numberOfChangesToReachPhenotype(yourDrake, targetDrake)) {
     if (challenge <= 1) {
       showAlert(true, { 
                         title: "Good work!",

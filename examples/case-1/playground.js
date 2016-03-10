@@ -1,18 +1,21 @@
-let   drake = new BioLogica.Organism(BioLogica.Species.Drake, "a:m,b:M,a:h,b:h,a:C,b:C,a:a,b:a,a:B,b:B,a:D,b:D,a:w,b:W,a:Fl,b:Fl,a:Hl,b:hl,a:T,b:t,a:rh,b:rh,a:Bog,b:Bog", 1),
-      sexOfDrake = 1,
-      sexOfDrakeLabel = 'female';
+const sexLabels = ['male', 'female'],
+      orgAlleleString = "a:m,b:M,a:h,b:h,a:C,b:C,a:a,b:a,a:B,b:B,a:D,b:D,a:w,b:W,a:Fl,b:Fl,a:Hl,b:hl,a:T,b:t,a:rh,b:rh,a:Bog,b:Bog";
+let   drake = new BioLogica.Organism(BioLogica.Species.Drake, orgAlleleString, 1),
+      sexOfDrake = 1;
 
 function render() {
   // change sex buttons
   ReactDOM.render(
     React.createElement(GeniBlocks.ChangeSexButtons, {
-          sex: sexOfDrakeLabel,
+          sex: sexLabels[sexOfDrake],
           species: "Drake",
           showLabel: true,
           onChange: function(evt, iSex) {
-            sexOfDrakeLabel = iSex;
-            sexOfDrake = iSex === 'male' ? 0 : 1;
-            drake = new BioLogica.Organism(BioLogica.Species.Drake, drake.getAlleleString(), sexOfDrake);
+            // replace alleles lost when switching to male and back
+            const alleleString = GeniBlocks.GeneticsUtils.fillInMissingAllelesFromAlleleString(
+                                  drake.genetics, drake.getAlleleString(), orgAlleleString);
+            sexOfDrake = sexLabels.indexOf(iSex);
+            drake = new BioLogica.Organism(BioLogica.Species.Drake, alleleString, sexOfDrake);
             render();
           }
         }),
