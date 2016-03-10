@@ -2,8 +2,7 @@ const challengeLabels = ['challenge-0', 'challenge-1', 'challenge-2'],
       challengeCount = challengeLabels.length,
       sexLabels = ['male', 'female'],
       organismAlleles = "a:h,b:h,a:C,b:C,a:a,b:a,a:B,b:B,a:D,b:D,a:T,b:t,a:rh,b:rh,a:Bog,b:Bog",
-      hiddenAlleles = ['t','tk','h','c','a','b','d','bog','rh'],
-      hiddenGenes = getHiddenGenesSet(BioLogica.Species.Drake, hiddenAlleles);
+      hiddenAlleles = ['t','tk','h','c','a','b','d','bog','rh'];
 let   _possibleAllelesForTrait = {},
       sexOfTargetDrake,
       targetDrake,
@@ -36,16 +35,6 @@ let urlParams = parseQueryString((window.location.search).substring(1)),
 
 if (challenge >= 2)
   trialCount = 3;
-
-function getHiddenGenesSet(iSpecies, iHiddenAlleles) {
-  let hiddenGenes = new Set;
-  for(const allele of iHiddenAlleles) {
-    const gene = BioLogica.Genetics.getGeneOfAllele(iSpecies, allele);
-    if (gene && gene.name)
-      hiddenGenes.add(gene.name);
-  }
-  return hiddenGenes;
-}
 
 function resetDrakes() {
   requiredMoveCount = 0;
@@ -294,38 +283,34 @@ function showAlert(iShow, iOptions) {
 document.getElementById("test-drake-button").onclick = function() {
   showDrakeForConfirmation = true;
   render();
-  /* global imagesLoaded */
-  if (checkDrake(yourDrake, targetDrake, hiddenGenes)) {
-    imagesLoaded('#your-drake', function() {
-      if (challenge <= 1) {
-        showAlert(true, { 
-                          title: "Good work!",
-                          message1: "The drake you have created matches the target drake.",
-                          okButton: "Next Challenge",
-                          okCallback: "nextChallenge",
-                          tryButton: "Try Again",
-                          tryCallback: "resetChallenge"
-                        });
-      }
-      else {
-        showAlert(true, { 
-                          title: "Good work!",
-                          message1: "The drake you have created matches the target drake.",
-                          okButton: "OK",
-                          okCallback: "advanceTrial"
-                        });
-      }
-    });
+
+  if (numberOfMovesToReachPhenotype(yourDrake, targetDrake) === 0) {
+    if (challenge <= 1) {
+      showAlert(true, { 
+                        title: "Good work!",
+                        message1: "The drake you have created matches the target drake.",
+                        okButton: "Next Challenge",
+                        okCallback: "nextChallenge",
+                        tryButton: "Try Again",
+                        tryCallback: "resetChallenge"
+                      });
+    }
+    else {
+      showAlert(true, { 
+                        title: "Good work!",
+                        message1: "The drake you have created matches the target drake.",
+                        okButton: "OK",
+                        okCallback: "advanceTrial"
+                      });
+    }
   }
   else {
-    imagesLoaded('#your-drake', function() {
-      showAlert(true, {
-                        title: "That's not the drake!",
-                        message1: "The drake you have created doesn't match the target drake.\nPlease try again.",
-                        tryButton: "Try Again"
-                      });
-      render();
-    });
+    showAlert(true, {
+                      title: "That's not the drake!",
+                      message1: "The drake you have created doesn't match the target drake.\nPlease try again.",
+                      tryButton: "Try Again"
+                    });
+    render();
   }
 };
 
