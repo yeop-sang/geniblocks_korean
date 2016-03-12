@@ -1,3 +1,11 @@
+/**
+ * Uses an SVG circular gradient to implement a fading glow background.
+ * Implemented as a stateless functional React component.
+ *
+ * @param {string} color - the color of the circular gradient "glow"
+ * @param {number} size - the diameter of the circular gradient
+ * @param {object} style - styles applied to the outer div
+ */
 const CircularGlowView = ({color, size, style}) => {
   let radius = size/2,
       colorNoHash = color.replace('#', ''),
