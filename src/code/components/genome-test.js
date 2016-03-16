@@ -26,9 +26,11 @@ let filterAlleles = function(alleles, hiddenAlleles, species) {
       }
 
       return (
-        <select value={ currentSelection } onChange={ onSelectionChange }>
-          { possibleCombos }
-        </select>
+        <div className="select-wrapper">
+          <select value={ currentSelection } onChange={ onSelectionChange }>
+            { possibleCombos }
+          </select>
+        </div>
       );
     };
 

@@ -9,12 +9,12 @@ const filterAlleles = function(alleles, hiddenAlleles, species) {
   });
 };
 
-const ChromosomeView = ({org, chromosomeName, side, hiddenAlleles=[], alleleChanged, labelsOnRight=true}) => {
+const ChromosomeView = ({org, chromosomeName, side, hiddenAlleles=[], editable=true, alleleChanged, labelsOnRight=true}) => {
   let alleles = org.getGenotype().chromosomes[chromosomeName][side].alleles,
       visibleAlleles = filterAlleles(alleles, hiddenAlleles, org.species),
       labels  = visibleAlleles.map(a => {
         return (
-          <GeneLabelView key={a} species={org.species} allele={a} editable={true}
+          <GeneLabelView key={a} species={org.species} allele={a} editable={editable}
           onAlleleChange={function(event) {
             alleleChanged(a, event.target.value);
           }}/>
@@ -44,6 +44,7 @@ ChromosomeView.propTypes = {
   chromosomeName: React.PropTypes.string.isRequired,
   side: React.PropTypes.string.isRequired,
   hiddenAlleles: React.PropTypes.array,
+  editable: React.PropTypes.bool,
   alleleChanged: React.PropTypes.func.isRequired,
   labelsOnRight: React.PropTypes.bool
 };

@@ -1,10 +1,10 @@
 var DragDropContext = ReactDnD.DragDropContext,
     Backend = ReactDnDHTML5Backend,
-    layoutAsLables = false,
+    layoutAsLabels = false,
 
     dragons = [null, null],
     allelePools = [["W", "w", "W", "w", "w", "W", "W"], ["W", "T", "t", "W", "w", "W", "w", "Tk", "t", "t"]],
-    alleleTargetss = [["circle", "circle"],["circle", "circle", "square", "square"]],
+    alleleTargets = [["circle", "circle"],["circle", "circle", "square", "square"]],
 
     punnettAlleles = [null, null, null, null],
     punnettOrgs = [null, null, null, null],
@@ -22,11 +22,11 @@ var DragDropContext = ReactDnD.DragDropContext,
     },
 
     moveAllele = function(sourceIndex, sourceOrg, targetIndex, targetOrg) {
-      var initialAllele = alleleTargetss[targetOrg][targetIndex];
+      var initialAllele = alleleTargets[targetOrg][targetIndex];
       if ((initialAllele === "circle" || initialAllele === "square")) initialAllele = null;
-      alleleTargetss[targetOrg][targetIndex] = allelePools[sourceOrg][sourceIndex];
+      alleleTargets[targetOrg][targetIndex] = allelePools[sourceOrg][sourceIndex];
       allelePools[sourceOrg][sourceIndex] = initialAllele;
-      createDragon(alleleTargetss[targetOrg], dragons, targetOrg, "");
+      createDragon(alleleTargets[targetOrg], dragons, targetOrg, "");
       render();
     },
 
@@ -71,7 +71,7 @@ function render() {
           {
             org: i,
             pool: allelePools[i],
-            targets: alleleTargetss[i],
+            targets: alleleTargets[i],
             moveAllele: moveAllele
           }
         )
@@ -107,7 +107,7 @@ render();
 function layoutLabels() {
   var els = document.getElementsByClassName("labelable");
   for (var i=0, ii=els.length; i < ii; i++) {
-    if (layoutAsLables) {
+    if (layoutAsLabels) {
       els[i].classList.add("wide");
     } else {
       els[i].classList.remove("wide");
@@ -116,13 +116,13 @@ function layoutLabels() {
 }
 document.getElementById("spaces").onclick = function() {
   if (document.getElementById("spaces").checked) {
-    layoutAsLables = false;
+    layoutAsLabels = false;
     layoutLabels();
   }
 };
 document.getElementById("labels").onclick = function() {
   if (document.getElementById("labels").checked) {
-    layoutAsLables = true;
+    layoutAsLabels = true;
     layoutLabels();
   }
 };
