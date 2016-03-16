@@ -64,6 +64,60 @@ export default class GeneticsUtils {
     return GeneticsUtils.fillInMissingAllelesFromGeneMap(genetics, alleleString, baseGeneMap);
   }
 
+  static numberOfBreedingMovesToReachDrake(organism1, organism2, changeableAlleles1, changeableAlleles2, targetOrganism) {
+    var moves = 0,
+        org1Alleles = organism1.getAlleleString().split(',').map(a => a.split(':')[1]),
+        org2Alleles = organism2.getAlleleString().split(',').map(a => a.split(':')[1]),
+        targetchars = targetOrganism.phenotype.characteristics,
+        traitRules = organism1.species.traitRules;
+
+    for (var trait in traitRules) {
+      if (traitRules.hasOwnProperty(trait)) {
+        var possibleSolutions = traitRules[trait][targetchars[trait]],
+            shortestPath = Infinity;
+        if (possibleSolutions && possibleSolutions.length) {
+          for (var i = 0, ii = possibleSolutions.length; i<ii; i++) {
+            var solution = possibleSolutions[i],
+                movesForSolution1 = 0,
+                movesForSolution2 = 0;
+            for (var j = 0, jj = solution.length; j<jj; j++) {
+              var allele1 = solution[j],
+                  allele2 = j%2 === 0 ? solution[j+1] : solution[j-1],
+                  solutionMoves = 0;
+              if (org1Alleles.indexOf(allele1) === -1) {
+                if (allele1 && (changeableAlleles1.indexOf(allele1) > -1 ||
+                    changeableAlleles1.indexOf(allele1.toLowerCase()) > -1)) {
+                  solutionMoves++;
+                } else {
+                  solutionMoves = Infinity;
+                }
+              }
+
+              if (org2Alleles.indexOf(allele2) === -1) {
+                if (allele2 && (changeableAlleles2.indexOf(allele2) > -1 ||
+                      changeableAlleles2.indexOf(allele2.toLowerCase()) > -1)) {
+                  solutionMoves++;
+                } else {
+                  solutionMoves = Infinity;
+                }
+              }
+
+              if (j%2 === 0) {
+                movesForSolution1 += solutionMoves;
+              } else {
+                movesForSolution2 += solutionMoves;
+              }
+            }
+            shortestPath = Math.min(shortestPath, Math.min(movesForSolution1, movesForSolution2));
+          }
+          moves += shortestPath;
+        }
+      }
+    }
+
+    return moves;
+  }
+
   /**
    * Returns the number of separate changes, including allele changes and sex changes,
    * required to match the phenotype of the 'testOrganism' to that of the 'targetOrganism'.
