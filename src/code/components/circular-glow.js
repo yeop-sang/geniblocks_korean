@@ -6,10 +6,10 @@
  * @param {number} size - the diameter of the circular gradient
  * @param {object} style - styles applied to the outer div
  */
-const CircularGlowView = ({color, size, style}) => {
+const CircularGlowView = ({id, color, size, style}) => {
   let radius = size/2,
       colorNoHash = color.replace('#', ''),
-      gradientID = `CircularGlowView_${colorNoHash}`,
+      gradientID = `CircularGlowView_${id || colorNoHash}`,
       gradientIDUrl = `url(#${gradientID})`;
 
   return (
@@ -28,6 +28,7 @@ const CircularGlowView = ({color, size, style}) => {
 };
 
 CircularGlowView.propTypes = {
+  id: React.PropTypes.string,
   color: React.PropTypes.string.isRequired,
   size: React.PropTypes.number,
   style: React.PropTypes.object

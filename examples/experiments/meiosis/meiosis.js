@@ -206,10 +206,10 @@ function render() {
     var offspringOpacity = (fertilizationState === 'fertilized' ? 1.0 : 0.0);
     if (offspring) {
       ReactDOM.render(
-        React.createElement(GeniBlocks.OrganismView, {
+        React.createElement(GeniBlocks.AnimatedOrganismView, {
             org: offspring, 
-            initialStyle: { opacity: 0.0 },
-            finalStyle: { opacity: offspringOpacity },
+            initialOpacity: 0.0,
+            opacity: offspringOpacity,
             onRest: function() {
               selectedMotherGamete = selectedMotherGameteId = null;
               selectedFatherGamete = selectedFatherGameteId = null;

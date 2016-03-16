@@ -9,30 +9,24 @@ import OrganismView from './organism';
  * @param {string} color - the color of the circular gradient "glow" background view.
  * @param {number} size
  */
-const OrganismGlowView = ({org, color, size, initialStyle={}, finalStyle={}, stiffness=60, onRest}) => {
+const OrganismGlowView = ({id, color, size, style={}, ...other}) => {
   const containerStyle = {position: 'relative', width: size, height: size},
-        glowStyle = {position: 'absolute'},
-        initialOrgStyle = Object.assign(initialStyle, {position: 'absolute'}),
-        finalOrgStyle = Object.assign(finalStyle, {position: 'absolute'});
+        glowStyle = { position: 'absolute' },
+        orgStyle = { position: 'absolute', ...style };
 
   return (
     <div classNames="geniblocks organism-glow" style={containerStyle}>
-      <CircularGlowView color={color} size={size} style={glowStyle}/>
-      <OrganismView org={org} color={color} width={size}
-                    initialStyle={initialOrgStyle} finalStyle={finalOrgStyle}
-                    stiffness={stiffness} onRest={onRest} />
+      <CircularGlowView id={id} color={color} size={size} style={glowStyle}/>
+      <OrganismView id={id} width={size} style={orgStyle} {...other} />
     </div>
   );
 };
 
 OrganismGlowView.propTypes = {
-  org: React.PropTypes.object,
+  id: React.PropTypes.string,
   color: React.PropTypes.string.isRequired,
   size: React.PropTypes.number,
-  initialStyle: React.PropTypes.object,
-  finalStyle: React.PropTypes.object,
-  stiffness: React.PropTypes.number,
-  onRest: React.PropTypes.func
+  style: React.PropTypes.object
 };
 
 export default OrganismGlowView;

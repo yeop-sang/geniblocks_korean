@@ -1,38 +1,21 @@
-const OrganismView = ({org, width=200, initialStyle={}, finalStyle={}, stiffness=60, onRest }) => {
-  let baseUrl = "https://geniverse-resources.concord.org/resources/drakes/images/",
-      url     = baseUrl + org.getImageName(),
-      {position:iPosition, ...initialMotion} = initialStyle,
-      {position:fPosition, ...finalMotion} = finalStyle,
-      position = fPosition || iPosition,
-      initial = Object.assign({ opacity: 1.0 }, initialMotion),
-      final = Object.assign({ opacity: 1.0 }, finalMotion);
-
-  if (final.opacity !== initial.opacity)
-    final.opacity = ReactMotion.spring(final.opacity, { stiffness: stiffness });
+const OrganismView = ({org, id, width=200, style={}, onClick }) => {
+  const baseUrl = "https://geniverse-resources.concord.org/resources/drakes/images/",
+        url     = baseUrl + org.getImageName();
 
   return (
-    <ReactMotion.Motion defaultStyle={initial} style={final} onRest={onRest} >
-      {
-        interpolatedStyle => {
-          const style = Object.assign(interpolatedStyle, position ? {position} : {});
-          return (
-            <div className="geniblocks organism" style={style}>
-              <img src={url} width={width}/>
-            </div>
-          );
-        }
-      }
-    </ReactMotion.Motion>
+    <div className="geniblocks organism" id={id} style={style} onMouseDown={onClick} onClick={onClick}>
+      <img src={url} width={width} />
+    </div>
   );
 };
 
 OrganismView.propTypes = {
   org: React.PropTypes.object.isRequired,
+  id: React.PropTypes.string,
+  index: React.PropTypes.number,
   width: React.PropTypes.number,
-  initialStyle: React.PropTypes.object,
-  finalStyle: React.PropTypes.object,
-  stiffness: React.PropTypes.number,
-  onRest: React.PropTypes.func
+  style: React.PropTypes.object,
+  onClick: React.PropTypes.func
 };
 
 export default OrganismView;

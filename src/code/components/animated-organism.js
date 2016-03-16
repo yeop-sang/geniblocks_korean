@@ -1,0 +1,38 @@
+import OrganismView from './organism';
+
+const AnimatedOrganismView = ({org, id, width=200, style={}, initialOpacity=1.0, opacity=1.0, stiffness=60, onRest, onClick }) => {
+  const opacityStart = initialOpacity !== undefined
+                        ? initialOpacity
+                        : (opacity !== undefined ? opacity : 1.0);
+  let   opacityEnd = opacity !== undefined ? opacity : opacityStart;
+
+  if (opacityEnd !== opacityStart)
+    opacityEnd = ReactMotion.spring(opacityEnd, { stiffness: stiffness });
+
+  return (
+    <ReactMotion.Motion defaultStyle={{opacity: opacityStart}} style={{opacity: opacityEnd}} onRest={onRest} >
+      {
+        interpolatedStyle => {
+          const tStyle = { ...style, ...interpolatedStyle };
+          return (
+            <OrganismView org={org} id={id} width={width} style={tStyle} onClick={onClick} />
+          );
+        }
+      }
+    </ReactMotion.Motion>
+  );
+};
+
+AnimatedOrganismView.propTypes = {
+  org: React.PropTypes.object.isRequired,
+  id: React.PropTypes.string,
+  width: React.PropTypes.number,
+  style: React.PropTypes.object,
+  initialOpacity: React.PropTypes.number,
+  opacity: React.PropTypes.number,
+  stiffness: React.PropTypes.number,
+  onRest: React.PropTypes.func,
+  onClick: React.PropTypes.func
+};
+
+export default AnimatedOrganismView;

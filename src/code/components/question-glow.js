@@ -5,9 +5,9 @@ const QuestionGlowView = ({glowColor, size=200}) => {
         glowStyle = {position: 'absolute'};
 
   return (
-    <div className="geniblocks text-glow" style={containerStyle}>
+    <div className="geniblocks question-glow" style={containerStyle}>
       <CircularGlowView color={glowColor} size={size} style={glowStyle}/>
-      <div className="geniblocks text-glow question-mark"
+      <div className="geniblocks question-glow question-mark"
             style={{position: "absolute", width: size, height: size}}>
       </div>
     </div>
