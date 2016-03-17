@@ -35,16 +35,9 @@ function render() {
   );
 
   // Breeding pen
-  /* global ReactSimpleTabs */
-  const rce = React.createElement,
-        Tabs = ReactSimpleTabs;
   ReactDOM.render(
-    rce(Tabs, null, [
-      rce(Tabs.Panel, { title: "Breeding Pen", key: "Breeding Pen" },
-        rce(GeniBlocks.PenView, {orgs: clutch})),
-      rce(Tabs.Panel, { title: "Stats", key: "Stats" },
-        rce(GeniBlocks.StatsView, {orgs: offspring, lastClutchSize: clutchSize}))
-    ]),
+    React.createElement(GeniBlocks.PenStatsView,
+                        {orgs: offspring, lastClutchSize: clutchSize}),
     document.getElementById('breeding-pen')
   );
 
