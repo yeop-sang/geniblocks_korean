@@ -6,12 +6,12 @@ var concat     = require('gulp-concat');
 gulp.task('css', function() {
   gulp.src(config.src)
     .pipe(stylus({ compress: false}))
-    .pipe(concat('app.css'))
+    .pipe(concat('geniblocks.css'))
     .pipe(gulp.dest(config.public))
     .pipe(gulp.dest(config.dist));
 
   gulp.src(config.src)
     .pipe(stylus({ compress: true}))
-    .pipe(concat('app.min.css'))
+    .pipe(concat('geniblocks.min.css'))
     .pipe(gulp.dest(config.dist));
 });

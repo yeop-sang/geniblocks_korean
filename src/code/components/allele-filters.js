@@ -1,3 +1,5 @@
+import {PropTypes} from 'react';
+
 const AlleleFiltersView = ({species, hiddenAlleles=[], disabledAlleles = [], onFilterChange}) => {
   let hiddenGenes = new Set,
       geneInputs = [];
@@ -46,10 +48,10 @@ const AlleleFiltersView = ({species, hiddenAlleles=[], disabledAlleles = [], onF
 };
 
 AlleleFiltersView.propTypes = {
-  species: React.PropTypes.object.isRequired,
-  hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string),
-  disabledAlleles: React.PropTypes.arrayOf(React.PropTypes.string),
-  onFilterChange: React.PropTypes.func.isRequired
+  species: PropTypes.object.isRequired,
+  hiddenAlleles: PropTypes.arrayOf(PropTypes.string),
+  disabledAlleles: PropTypes.arrayOf(PropTypes.string),
+  onFilterChange: PropTypes.func.isRequired
 };
 
 export default AlleleFiltersView;

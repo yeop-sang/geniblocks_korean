@@ -1,3 +1,5 @@
+import {PropTypes} from 'react';
+
 /**
  * Stateless functional React component for displaying male/female change buttons
  * @param {string} sex - ['male' | 'female'] currently selected button
@@ -36,11 +38,11 @@ const ChangeSexButtons = ({sex, species, showLabel, style={}, onChange}) => {
 };
 
 ChangeSexButtons.propTypes = {
-  sex: React.PropTypes.oneOf(['male', 'female']).isRequired,
-  species: React.PropTypes.string,
-  showLabel: React.PropTypes.bool,
-  style: React.PropTypes.object,
-  onChange: React.PropTypes.func.isRequired
+  sex: PropTypes.oneOf(['male', 'female']).isRequired,
+  species: PropTypes.string,
+  showLabel: PropTypes.bool,
+  style: PropTypes.object,
+  onChange: PropTypes.func.isRequired
 };
 
 export default ChangeSexButtons;

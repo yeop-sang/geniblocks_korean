@@ -1,3 +1,4 @@
+import React, {PropTypes} from 'react';
 import AnimatedGameteView from './animated-gamete';
 
 const INITIAL_GAMETE_SIZE = 30,
@@ -13,25 +14,25 @@ export const GAMETE_TYPE = { MOTHER: 'mother', FATHER: 'father' };
 export default class FertilizingGameteView extends React.Component {
 
   static propTypes = {
-    type: React.PropTypes.oneOf([ GAMETE_TYPE.MOTHER, GAMETE_TYPE.FATHER ]).isRequired,
-    gamete: React.PropTypes.object.isRequired,
-    id: React.PropTypes.number.isRequired,
-    fertilizationState: React.PropTypes.oneOf(['none', 'fertilizing', 'fertilized', 'complete']).isRequired,
-    hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string),
-    srcRect: React.PropTypes.shape({
-      left: React.PropTypes.number.isRequired,
-      top: React.PropTypes.number.isRequired,
-      width: React.PropTypes.number.isRequired,
-      height: React.PropTypes.number.isRequired
+    type: PropTypes.oneOf([ GAMETE_TYPE.MOTHER, GAMETE_TYPE.FATHER ]).isRequired,
+    gamete: PropTypes.object.isRequired,
+    id: PropTypes.number.isRequired,
+    fertilizationState: PropTypes.oneOf(['none', 'fertilizing', 'fertilized', 'complete']).isRequired,
+    hiddenAlleles: PropTypes.arrayOf(PropTypes.string),
+    srcRect: PropTypes.shape({
+      left: PropTypes.number.isRequired,
+      top: PropTypes.number.isRequired,
+      width: PropTypes.number.isRequired,
+      height: PropTypes.number.isRequired
     }),
-    dstRect: React.PropTypes.shape({
-      left: React.PropTypes.number.isRequired,
-      top: React.PropTypes.number.isRequired,
-      width: React.PropTypes.number.isRequired,
-      height: React.PropTypes.number.isRequired
+    dstRect: PropTypes.shape({
+      left: PropTypes.number.isRequired,
+      top: PropTypes.number.isRequired,
+      width: PropTypes.number.isRequired,
+      height: PropTypes.number.isRequired
     }),
-    animStiffness: React.PropTypes.number,  // stiffness of spring for animation (default: 100)
-    onRest: React.PropTypes.func
+    animStiffness: PropTypes.number,  // stiffness of spring for animation (default: 100)
+    onRest: PropTypes.func
   }
 
   static defaultProps = {

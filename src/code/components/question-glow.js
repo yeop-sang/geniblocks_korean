@@ -1,3 +1,4 @@
+import {PropTypes} from 'react';
 import CircularGlowView from './circular-glow';
 
 const QuestionGlowView = ({glowColor, size=200}) => {
@@ -24,8 +25,8 @@ const QuestionGlowView = ({glowColor, size=200}) => {
 };
 
 QuestionGlowView.propTypes = {
-  glowColor: React.PropTypes.string.isRequired,
-  size: React.PropTypes.number
+  glowColor: PropTypes.string.isRequired,
+  size: PropTypes.number
 };
 
 export default QuestionGlowView;

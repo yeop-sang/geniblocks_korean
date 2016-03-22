@@ -1,6 +1,7 @@
 var gulp        = require('gulp');
 var browserify  = require('browserify');
 var babelify    = require('babelify');
+var exposify    = require('exposify');
 var source      = require('vinyl-source-stream');
 var production  = require('../config').production;
 var config      = require('../config').browserify;
@@ -19,11 +20,18 @@ gulp.task('browserify-app', function(){
     debug: !production,
     standalone: 'GeniBlocks'
   })
-  .transform(babelify);
+  .transform(babelify)
+  // turn module requires (e.g. require('react')) into global references (e.g. window.React)
+  .transform(exposify, {
+    expose: {
+      'react': 'React'
+    },
+    global: true  // apply to dependencies of dependencies as well
+  });
   b.add(config.src);
   return b.bundle()
     .on('error', errorHandler)
-    .pipe(source('app.js'))
+    .pipe(source('geniblocks.js'))
     .pipe(gulp.dest(config.public))
     .pipe(gulp.dest(config.dist));
 });
@@ -37,9 +45,9 @@ gulp.task('browserify-minify-app', function(){
   b.add(config.src);
   return b.bundle()
     .on('error', errorHandler)
-    .pipe(source('app.min.js'))
+    .pipe(source('geniblocks.min.js'))
     .pipe(streamify(uglify()))
     .pipe(gulp.dest(config.dist));
 });
 
-gulp.task('browserify', ['browserify-app']);
+gulp.task('browserify', ['browserify-app', 'browserify-minify-app']);

@@ -1,3 +1,4 @@
+import {PropTypes} from 'react';
 import OrganismView from './organism';
 
 const PenView = ({orgs, idPrefix='organism-', width=400, columns=5, SelectedOrganismView=OrganismView, selectedIndex, onClick}) => {
@@ -25,13 +26,13 @@ const PenView = ({orgs, idPrefix='organism-', width=400, columns=5, SelectedOrga
 };
 
 PenView.propTypes = {
-  orgs: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  idPrefix: React.PropTypes.string,
-  width: React.PropTypes.number,
-  columns: React.PropTypes.number,
-  SelectedOrganismView: React.PropTypes.func,
-  selectedIndex: React.PropTypes.number,
-  onClick: React.PropTypes.func
+  orgs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  idPrefix: PropTypes.string,
+  width: PropTypes.number,
+  columns: PropTypes.number,
+  SelectedOrganismView: PropTypes.func,
+  selectedIndex: PropTypes.number,
+  onClick: PropTypes.func
 };
 
 export default PenView;

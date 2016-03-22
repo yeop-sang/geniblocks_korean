@@ -1,3 +1,5 @@
+import {PropTypes} from 'react';
+
 /**
  * Stateless functional React component for displaying a Biologica gamete
  *
@@ -82,19 +84,19 @@ const GameteView = ({gamete, id, hiddenAlleles=[], display, isSelected=false, is
 };
 
 GameteView.propTypes = {
-  gamete: React.PropTypes.object.isRequired,
-  id: React.PropTypes.number.isRequired,
-  hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string),
-  display: React.PropTypes.shape({        // display properties
-    x: React.PropTypes.number.isRequired, // location (left) of gamete image
-    y: React.PropTypes.number.isRequired, // location (top) of gamete image
-    size: React.PropTypes.number,         // size of gamete image (default: 30)
-    rotation: React.PropTypes.number,     // rotation (deg) of gamete image (default: 0|90|180|270)
-    opacity: React.PropTypes.number       // opacity of gamete image (default: 1.0)
+  gamete: PropTypes.object.isRequired,
+  id: PropTypes.number.isRequired,
+  hiddenAlleles: PropTypes.arrayOf(PropTypes.string),
+  display: PropTypes.shape({        // display properties
+    x: PropTypes.number.isRequired, // location (left) of gamete image
+    y: PropTypes.number.isRequired, // location (top) of gamete image
+    size: PropTypes.number,         // size of gamete image (default: 30)
+    rotation: PropTypes.number,     // rotation (deg) of gamete image (default: 0|90|180|270)
+    opacity: PropTypes.number       // opacity of gamete image (default: 1.0)
   }).isRequired,
-  isSelected: React.PropTypes.bool,
-  isDisabled: React.PropTypes.bool,
-  onClick: React.PropTypes.func
+  isSelected: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  onClick: PropTypes.func
 };
 
 export default GameteView;

@@ -1,3 +1,5 @@
+import {PropTypes} from 'react';
+
 const GeneLabelView = ({species, allele, editable, onAlleleChange}) => {
   if (!editable) {
     let alleleName = species.alleleLabelMap[allele];
@@ -23,10 +25,10 @@ const GeneLabelView = ({species, allele, editable, onAlleleChange}) => {
 };
 
 GeneLabelView.propTypes = {
-  species: React.PropTypes.object.isRequired,
-  allele: React.PropTypes.string.isRequired,
-  editable: React.PropTypes.bool.isRequired,
-  onAlleleChange: React.PropTypes.func.isRequired
+  species: PropTypes.object.isRequired,
+  allele: PropTypes.string.isRequired,
+  editable: PropTypes.bool.isRequired,
+  onAlleleChange: PropTypes.func.isRequired
 };
 
 export default GeneLabelView;

@@ -1,3 +1,5 @@
+import {PropTypes} from 'react';
+
 const OrganismView = ({org, id, width=200, style={}, onClick }) => {
   const baseUrl = "https://geniverse-resources.concord.org/resources/drakes/images/",
         url     = baseUrl + org.getImageName();
@@ -10,12 +12,12 @@ const OrganismView = ({org, id, width=200, style={}, onClick }) => {
 };
 
 OrganismView.propTypes = {
-  org: React.PropTypes.object.isRequired,
-  id: React.PropTypes.string,
-  index: React.PropTypes.number,
-  width: React.PropTypes.number,
-  style: React.PropTypes.object,
-  onClick: React.PropTypes.func
+  org: PropTypes.object.isRequired,
+  id: PropTypes.string,
+  index: PropTypes.number,
+  width: PropTypes.number,
+  style: PropTypes.object,
+  onClick: PropTypes.func
 };
 
 export default OrganismView;

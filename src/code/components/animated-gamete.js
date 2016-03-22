@@ -1,3 +1,7 @@
+import {PropTypes} from 'react';
+import {Motion, spring} from 'react-motion';
+import GameteView from './gamete';
+
 /**
  * Stateless functional React component for displaying a Biologica gamete that animates
  *
@@ -26,9 +30,7 @@
  * by this view. The client can style the representation of the gamete by styling the
  * '.geniblocks.gamete' class in CSS, e.g. by assigning a background-image.
  */
-import GameteView from './gamete';
-
-const AnimatedGameteView = ({gamete, id, hiddenAlleles=[], initialDisplay, display, animStiffness=100, isSelected=false, isDisabled=false, onClick, onRest}) => {
+const AnimatedGameteView = ({id, initialDisplay, display, animStiffness=100, onRest, ...others}) => {
 
   const group = id % 4,
         rotationForGroup = group * 90,
@@ -40,53 +42,51 @@ const AnimatedGameteView = ({gamete, id, hiddenAlleles=[], initialDisplay, displ
         finalRotation = display.rotation != null ? display.rotation : rotationForGroup,
         finalOpacity = display.opacity != null ? display.opacity : 1.0,
         springConfig = { stiffness: animStiffness };
-  /* eslint react/display-name:0 */
   return (
-    <ReactMotion.Motion defaultStyle={{
-                          x: initial.x, y: initial.y, size: initialSize,
-                          rotation: initialRotation, opacity: initialOpacity
-                        }}
-                        style={{
-                          x: ReactMotion.spring(display.x, springConfig),
-                          y: ReactMotion.spring(display.y, springConfig),
-                          size: ReactMotion.spring(finalSize, springConfig),
-                          rotation: ReactMotion.spring(finalRotation, springConfig),
-                          opacity: ReactMotion.spring(finalOpacity, springConfig)
-                        }}
-                        onRest={onRest} >
+    <Motion
+          defaultStyle={{
+            x: initial.x, y: initial.y, size: initialSize,
+            rotation: initialRotation, opacity: initialOpacity
+          }}
+          style={{
+            x: spring(display.x, springConfig),
+            y: spring(display.y, springConfig),
+            size: spring(finalSize, springConfig),
+            rotation: spring(finalRotation, springConfig),
+            opacity: spring(finalOpacity, springConfig)
+          }}
+          onRest={onRest} >
       {
         interpolatedStyle =>
-          <GameteView gamete={gamete} id={id} hiddenAlleles={hiddenAlleles} 
-                      display={interpolatedStyle}
-                      isSelected={isSelected} isDisabled={isDisabled} onClick={onClick} />
+          <GameteView id={id} display={interpolatedStyle} {...others} />
       }
-    </ReactMotion.Motion>
+    </Motion>
   );
 };
 
 AnimatedGameteView.propTypes = {
-  gamete: React.PropTypes.object.isRequired,
-  id: React.PropTypes.number.isRequired,
-  hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string),
-  initialDisplay: React.PropTypes.shape({ // initial display properties
-    x: React.PropTypes.number.isRequired, // location (left) of gamete image
-    y: React.PropTypes.number.isRequired, // location (top) of gamete image
-    size: React.PropTypes.number,         // size of gamete image (default: 30)
-    rotation: React.PropTypes.number,     // rotation (deg) of gamete image (default: 0|90|180|270)
-    opacity: React.PropTypes.number       // opacity of gamete image (default: 1.0)
+  gamete: PropTypes.object.isRequired,
+  id: PropTypes.number.isRequired,
+  hiddenAlleles: PropTypes.arrayOf(PropTypes.string),
+  initialDisplay: PropTypes.shape({ // initial display properties
+    x: PropTypes.number.isRequired, // location (left) of gamete image
+    y: PropTypes.number.isRequired, // location (top) of gamete image
+    size: PropTypes.number,         // size of gamete image (default: 30)
+    rotation: PropTypes.number,     // rotation (deg) of gamete image (default: 0|90|180|270)
+    opacity: PropTypes.number       // opacity of gamete image (default: 1.0)
   }),
-  display: React.PropTypes.shape({        // final display properties
-    x: React.PropTypes.number.isRequired, // location (left) of gamete image
-    y: React.PropTypes.number.isRequired, // location (top) of gamete image
-    size: React.PropTypes.number,         // size of gamete image (default: 30)
-    rotation: React.PropTypes.number,     // rotation (deg) of gamete image (default: 0|90|180|270)
-    opacity: React.PropTypes.number       // opacity of gamete image (default: 1.0)
+  display: PropTypes.shape({        // final display properties
+    x: PropTypes.number.isRequired, // location (left) of gamete image
+    y: PropTypes.number.isRequired, // location (top) of gamete image
+    size: PropTypes.number,         // size of gamete image (default: 30)
+    rotation: PropTypes.number,     // rotation (deg) of gamete image (default: 0|90|180|270)
+    opacity: PropTypes.number       // opacity of gamete image (default: 1.0)
   }).isRequired,
-  animStiffness: React.PropTypes.number,  // stiffness of spring for animation (default: 100)
-  isSelected: React.PropTypes.bool,
-  isDisabled: React.PropTypes.bool,
-  onClick: React.PropTypes.func,
-  onRest: React.PropTypes.func
+  animStiffness: PropTypes.number,  // stiffness of spring for animation (default: 100)
+  isSelected: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  onClick: PropTypes.func,
+  onRest: PropTypes.func
 };
 
 export default AnimatedGameteView;

@@ -1,3 +1,5 @@
+import {PropTypes} from 'react';
+
 /**
  * Implements a rectangular text area for providing feedback to users, such as
  * that used in Geniverse's challenges for providing trial and goal feedback.
@@ -33,11 +35,11 @@ const FeedbackView = ({text, style={}}) => {
 };
 
 FeedbackView.propTypes = {
-  text: React.PropTypes.oneOfType([
-          React.PropTypes.string,
-          React.PropTypes.arrayOf(React.PropTypes.string)
+  text: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.arrayOf(PropTypes.string)
         ]).isRequired,
-  style: React.PropTypes.object
+  style: PropTypes.object
 };
 
 export default FeedbackView;
