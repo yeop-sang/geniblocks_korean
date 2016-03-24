@@ -9,15 +9,16 @@ import OrganismView from './organism';
  * @param {string} color - the color of the circular gradient "glow" background view.
  * @param {number} size
  */
-const OrganismGlowView = ({id, color, size, style={}, ...other}) => {
-  const containerStyle = {position: 'relative', width: size, height: size},
+const OrganismGlowView = ({id, className, color, size, style={}, ...other}) => {
+  const propClass = className,
+        containerStyle = {position: 'relative', width: size, height: size},
         glowStyle = { position: 'absolute' },
         orgStyle = { position: 'absolute', ...style };
 
   return (
-    <div classNames="geniblocks organism-glow" style={containerStyle}>
-      <CircularGlowView id={id} color={color} size={size} style={glowStyle}/>
-      <OrganismView id={id} width={size} style={orgStyle} {...other} />
+    <div id={id} className={`geniblocks organism-glow ${propClass}`} style={containerStyle}>
+      <CircularGlowView id={`${id}-glow`} color={color} size={size} style={glowStyle}/>
+      <OrganismView id={`${id}-organism`} width={size} style={orgStyle} {...other} />
     </div>
   );
 };
