@@ -1,5 +1,6 @@
 var src = './src',
     bower = './bower_components',
+    node = './node_modules',
     examples = './examples',
     pub  = './public',
     dist = './dist';
@@ -7,13 +8,14 @@ var src = './src',
 module.exports = {
   browserify: {
     watch: [src + '/code/**/*.*'],
-    src: src + '/code/app.js',
+    src: src + '/code/geniblocks.js',
     public: pub + '/js/',
     dist: dist
   },
   css: {
     watch: src + '/stylus/**/*.styl',
-    src:   src + '/stylus/**/*.styl',
+    src: [node + '/react-simpletabs/lib/react-simpletabs.css',
+          src + '/stylus/**/*.styl'],
     public: pub + '/css/',
     dist: dist
   },

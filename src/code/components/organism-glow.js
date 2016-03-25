@@ -1,3 +1,4 @@
+import {PropTypes} from 'react';
 import CircularGlowView from './circular-glow';
 import OrganismView from './organism';
 
@@ -24,10 +25,11 @@ const OrganismGlowView = ({id, className, color, size, style={}, ...other}) => {
 };
 
 OrganismGlowView.propTypes = {
-  id: React.PropTypes.string,
-  color: React.PropTypes.string.isRequired,
-  size: React.PropTypes.number,
-  style: React.PropTypes.object
+  id: PropTypes.string,
+  className: PropTypes.string,
+  color: PropTypes.string.isRequired,
+  size: PropTypes.number,
+  style: PropTypes.object
 };
 
 export default OrganismGlowView;

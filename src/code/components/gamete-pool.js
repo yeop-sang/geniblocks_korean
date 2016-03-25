@@ -1,3 +1,4 @@
+import {PropTypes} from 'react';
 import AnimatedGameteView from './animated-gamete';
 
 const GametePoolView = ({gametes, hiddenAlleles=[], width=300, height=200, animStiffness=60, selectedId, isGameteDisabled, onGameteSelected}) => {
@@ -61,14 +62,14 @@ const GametePoolView = ({gametes, hiddenAlleles=[], width=300, height=200, animS
 };
 
 GametePoolView.propTypes = {
-  gametes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string),
-  width: React.PropTypes.number,
-  height: React.PropTypes.number,
-  animStiffness: React.PropTypes.number,
-  selectedId: React.PropTypes.number,
-  isGameteDisabled: React.PropTypes.func,
-  onGameteSelected: React.PropTypes.func
+  gametes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  hiddenAlleles: PropTypes.arrayOf(PropTypes.string),
+  width: PropTypes.number,
+  height: PropTypes.number,
+  animStiffness: PropTypes.number,
+  selectedId: PropTypes.number,
+  isGameteDisabled: PropTypes.func,
+  onGameteSelected: PropTypes.func
 };
 
 export default GametePoolView;

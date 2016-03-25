@@ -1,3 +1,4 @@
+import {PropTypes} from 'react';
 import ChromosomeImageView from './chromosome-image';
 
 let filterAlleles = function(alleles, hiddenAlleles, species) {
@@ -73,17 +74,17 @@ const GenomeTestView = ({org, hiddenAlleles=[], selection={}, selectionChanged})
 };
 
 TestPulldownView.propTypes = {
-  species: React.PropTypes.object.isRequired,
-  gene: React.PropTypes.object.isRequired,
-  selection: React.PropTypes.string,
-  onSelectionChange: React.PropTypes.func.isRequired
+  species: PropTypes.object.isRequired,
+  gene: PropTypes.object.isRequired,
+  selection: PropTypes.string,
+  onSelectionChange: PropTypes.func.isRequired
 };
 
 GenomeTestView.propTypes = {
-  org: React.PropTypes.object.isRequired,
-  hiddenAlleles: React.PropTypes.array,
-  selection: React.PropTypes.object,
-  selectionChanged: React.PropTypes.func.isRequired
+  org: PropTypes.object.isRequired,
+  hiddenAlleles: PropTypes.array,
+  selection: PropTypes.object,
+  selectionChanged: PropTypes.func.isRequired
 };
 
 export default GenomeTestView;

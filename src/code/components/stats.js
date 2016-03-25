@@ -1,3 +1,5 @@
+import {PropTypes} from 'react';
+
 /**
  * Stateless functional React component for displaying breeding statistics for a set of Biologica organisms
  * @param {Object[]} orgs - array of Biologica organisms for which statistics are to be displayed
@@ -81,8 +83,8 @@ const StatsView = ({orgs, lastClutchSize}) => {
 };
 
 StatsView.propTypes = {
-  orgs: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  lastClutchSize: React.PropTypes.number
+  orgs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  lastClutchSize: PropTypes.number
 };
 
 export default StatsView;

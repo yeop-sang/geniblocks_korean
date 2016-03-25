@@ -1,3 +1,4 @@
+import {PropTypes} from 'react';
 import OrganismGlowView from './organism-glow';
 import QuestionGlowView from './question-glow';
 
@@ -14,9 +15,9 @@ const QuestionOrganismGlowView = ({hidden, color, size, ...other}) => {
 };
 
 QuestionOrganismGlowView.propTypes = {
-  hidden: React.PropTypes.bool,
-  color: React.PropTypes.string.isRequired,
-  size: React.PropTypes.number
+  hidden: PropTypes.bool,
+  color: PropTypes.string.isRequired,
+  size: PropTypes.number
 };
 
 export default QuestionOrganismGlowView;

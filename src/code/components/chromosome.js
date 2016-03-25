@@ -1,3 +1,4 @@
+import {PropTypes} from 'react';
 import ChromosomeImageView from './chromosome-image';
 import GeneLabelView from './gene-label';
 
@@ -40,13 +41,13 @@ const ChromosomeView = ({org, chromosomeName, side, hiddenAlleles=[], editable=t
 };
 
 ChromosomeView.propTypes = {
-  org: React.PropTypes.object.isRequired,
-  chromosomeName: React.PropTypes.string.isRequired,
-  side: React.PropTypes.string.isRequired,
-  hiddenAlleles: React.PropTypes.array,
-  editable: React.PropTypes.bool,
-  alleleChanged: React.PropTypes.func.isRequired,
-  labelsOnRight: React.PropTypes.bool
+  org: PropTypes.object.isRequired,
+  chromosomeName: PropTypes.string.isRequired,
+  side: PropTypes.string.isRequired,
+  hiddenAlleles: PropTypes.array,
+  editable: PropTypes.bool,
+  alleleChanged: PropTypes.func.isRequired,
+  labelsOnRight: PropTypes.bool
 };
 
 export default ChromosomeView;

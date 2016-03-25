@@ -1,3 +1,4 @@
+import {PropTypes} from 'react';
 import CircularGlowView from './circular-glow';
 
 const GlowBackgroundView = ({id, color, size, containerStyle={}, glowStyle={}, ChildComponent, childStyle={}, ...others}) => {
@@ -14,13 +15,13 @@ const GlowBackgroundView = ({id, color, size, containerStyle={}, glowStyle={}, C
 };
 
 GlowBackgroundView.propTypes = {
-  id: React.PropTypes.string.isRequired,
-  color: React.PropTypes.string.isRequired,
-  size: React.PropTypes.number,
-  containerStyle: React.PropTypes.object,
-  glowStyle: React.PropTypes.object,
-  ChildComponent: React.PropTypes.func,
-  childStyle: React.PropTypes.object
+  id: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  size: PropTypes.number,
+  containerStyle: PropTypes.object,
+  glowStyle: PropTypes.object,
+  ChildComponent: PropTypes.func,
+  childStyle: PropTypes.object
 };
 
 export default GlowBackgroundView;

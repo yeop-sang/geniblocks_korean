@@ -9,6 +9,6 @@ gulp.task('watch', function() {
     gulp.watch(config.examplesJS.watch,   ['examplesJS']);
 });
 
-gulp.task('build-all', ['browserify-app', 'browserify-minify-app', 'vendor', 'css', 'resources', 'examples', 'examplesJS']);
+gulp.task('build-all', ['browserify', 'vendor', 'css', 'resources', 'examples', 'examplesJS']);
 
 gulp.task('default', ['build-all', 'watch']);

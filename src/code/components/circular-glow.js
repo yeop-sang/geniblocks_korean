@@ -1,3 +1,5 @@
+import {PropTypes} from 'react';
+
 /**
  * Uses an SVG circular gradient to implement a fading glow background.
  * Implemented as a stateless functional React component.
@@ -28,10 +30,10 @@ const CircularGlowView = ({id, color, size, style}) => {
 };
 
 CircularGlowView.propTypes = {
-  id: React.PropTypes.string,
-  color: React.PropTypes.string.isRequired,
-  size: React.PropTypes.number,
-  style: React.PropTypes.object
+  id: PropTypes.string,
+  color: PropTypes.string.isRequired,
+  size: PropTypes.number,
+  style: PropTypes.object
 };
 
 export default CircularGlowView;
