@@ -24,7 +24,7 @@ function render() {
       org: mother,
       hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
       alleleChanged: function(chrom, side, prevAllele, newAllele) {
-        mother.genetics.genotype.chromosomes[chrom][side].alleles.replaceFirst(prevAllele, newAllele);
+        mother.genetics.genotype.replaceAlleleChromName(chrom, side, prevAllele, newAllele);
         mother = new BioLogica.Organism(BioLogica.Species.Drake, mother.getAlleleString(), 1);
         clutch = [];
         offspring = [];
