@@ -124,7 +124,7 @@ function render() {
       hiddenAlleles: hiddenAlleles,
       style: {marginTop: 50, top: 50},
       alleleChanged: function(chrom, side, prevAllele, newAllele) {
-        yourDrake.genetics.genotype.chromosomes[chrom][side].alleles.replaceFirst(prevAllele, newAllele);
+        yourDrake.genetics.genotype.replaceAlleleChromName(chrom, side, prevAllele, newAllele);
         yourDrake = new BioLogica.Organism(BioLogica.Species.Drake,
                                             yourDrake.getAlleleString(),
                                             sexOfYourDrake);

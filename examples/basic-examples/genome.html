@@ -21,7 +21,7 @@
           React.createElement(GeniBlocks.GenomeView, {
             org: dragon,
             alleleChanged: function(chrom, side, prevAllele, newAllele) {
-            dragon.genetics.genotype.chromosomes[chrom][side].alleles.replaceFirst(prevAllele, newAllele);
+            dragon.genetics.genotype.replaceAlleleChromName(chrom, side, prevAllele, newAllele);
             dragon = new BioLogica.Organism(BioLogica.Species.Drake, dragon.getAlleleString(), 1);
             render();
           }}),

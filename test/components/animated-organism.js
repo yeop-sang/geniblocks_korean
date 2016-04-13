@@ -1,0 +1,21 @@
+import {assert} from 'chai';
+import {shallow} from 'enzyme';
+import React from 'react';
+import AnimatedOrganismView from '../../src/code/components/animated-organism';
+
+/* global describe, it */
+describe("<AnimatedOrganismView />", function(){
+  const drake = new BioLogica.Organism(BioLogica.Species.Drake, '');
+
+  it("should create a <Motion> component with appropriate classes", function() {
+    const wrapper = shallow(<AnimatedOrganismView org={drake}/>);
+    assert(wrapper.find('Motion').hasClass('geniblocks'), "Should create a <Motion> component with 'geniblocks' class");
+    assert(wrapper.find('Motion').hasClass('animated-organism-view'), "Should create a <Motion> component with 'animated-organism-view' class");
+  });
+
+  // it('should create an <OrganismView> component', function() {
+  //   const wrapper = shallow(<AnimatedOrganismView org={drake}/>);
+  //   assert.lengthOf(wrapper.find('div'), 1, "Should create a single child <div>");
+  // });
+
+});

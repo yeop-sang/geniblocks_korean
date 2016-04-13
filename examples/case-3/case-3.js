@@ -331,7 +331,7 @@ class Case3 extends React.Component {
   alleleChanged(sex, chrom, side, prevAllele, newAllele) {
     let parentDrakes = this.state.parentDrakes.slice(),
         drake = parentDrakes[sex];
-    drake.genetics.genotype.chromosomes[chrom][side].alleles.replaceFirst(prevAllele, newAllele);
+    drake.genetics.genotype.replaceAlleleChromName(chrom, side, prevAllele, newAllele);
     drake = new BioLogica.Organism(BioLogica.Species.Drake, drake.getAlleleString(), drake.sex);
     parentDrakes[sex] = drake;
     this.setState({ parentDrakes, clutch: [], moveCount: ++this.state.moveCount });

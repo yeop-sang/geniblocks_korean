@@ -1,4 +1,4 @@
-import {PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import CircularGlowView from './circular-glow';
 
 const GlowBackgroundView = ({id, color, size, containerStyle={}, glowStyle={}, ChildComponent, childStyle={}, ...others}) => {
@@ -7,9 +7,9 @@ const GlowBackgroundView = ({id, color, size, containerStyle={}, glowStyle={}, C
         tChildStyle = { position: 'absolute', ...childStyle };
 
   return (
-    <div classNames="geniblocks glow-background" style={tContainerStyle}>
-      <CircularGlowView id={id} color={color} size={size} style={tGlowStyle}/>
-      <ChildComponent id={id} style={tChildStyle} width={size} {...others} />
+    <div className="geniblocks glow-background" style={tContainerStyle}>
+      <CircularGlowView id={id+'-glow'} color={color} size={size} style={tGlowStyle}/>
+      <ChildComponent id={id+'-child'} style={tChildStyle} width={size} {...others} />
     </div>
   );
 };
@@ -20,7 +20,7 @@ GlowBackgroundView.propTypes = {
   size: PropTypes.number,
   containerStyle: PropTypes.object,
   glowStyle: PropTypes.object,
-  ChildComponent: PropTypes.func,
+  ChildComponent: PropTypes.func.isRequired,
   childStyle: PropTypes.object
 };
 

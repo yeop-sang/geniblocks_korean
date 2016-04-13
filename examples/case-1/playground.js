@@ -29,7 +29,7 @@ function render() {
       hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
       style: {marginTop: 50, top: 50},
       alleleChanged: function(chrom, side, prevAllele, newAllele) {
-        drake.genetics.genotype.chromosomes[chrom][side].alleles.replaceFirst(prevAllele, newAllele);
+        drake.genetics.genotype.replaceAlleleChromName(chrom, side, prevAllele, newAllele);
         drake = new BioLogica.Organism(BioLogica.Species.Drake, drake.getAlleleString(), sexOfDrake);
         render();
       }

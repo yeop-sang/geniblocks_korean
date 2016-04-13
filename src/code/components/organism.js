@@ -1,4 +1,4 @@
-import {PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 
 const OrganismView = ({org, id, width=200, style={}, onClick }) => {
   const baseUrl = "https://geniverse-resources.concord.org/resources/drakes/images/",

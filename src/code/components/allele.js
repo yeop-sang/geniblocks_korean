@@ -1,6 +1,7 @@
-const AlleleView = ({allele, target, color, shape, hovering}) => {
-  let width=21,
-      radius = width/2,
+import React, {PropTypes} from 'react';
+
+const AlleleView = ({allele, width=21, target, color, shape, hovering}) => {
+  let radius = width/2,
       stroke = target ? "#000000" : "none",
       fill = allele ? color : "white",
       strokeWidth = hovering ? 3 : 1,
@@ -22,6 +23,15 @@ const AlleleView = ({allele, target, color, shape, hovering}) => {
       </g>
     </svg>
   );
+};
+
+AlleleView.propTypes = {
+  allele: PropTypes.string,
+  width: PropTypes.number,
+  target: PropTypes.bool,
+  color: PropTypes.string,
+  shape: PropTypes.string,
+  hovering: PropTypes.bool
 };
 
 export default AlleleView;

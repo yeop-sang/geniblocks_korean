@@ -1,4 +1,4 @@
-import {PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import OrganismGlowView from './organism-glow';
 import QuestionGlowView from './question-glow';
 
@@ -8,7 +8,7 @@ const QuestionOrganismGlowView = ({hidden, color, size, ...other}) => {
         finalView = hidden ? questionView : orgView;
 
   return (
-    <div classNames="geniblocks question-organism-glow">
+    <div className="geniblocks question-organism-glow">
       {finalView}
     </div>
   );

@@ -1,3 +1,5 @@
+/* global ReactRedux, Redux */
+
 var initialState = {
   dragon: {
     alleles: "a:T,b:t,a:m,b:M,a:w,b:W,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:Hl,b:hl,a:a,b:a,a:D,b:D,a:Bog,b:Bog,a:rh,b:rh",
@@ -39,14 +41,14 @@ var ACTIONS = {
     return {
       type: "SET_STATE",
       state: hiztory[hiztoryPosition]
-    }
+    };
   },
   redo: function() {
     hiztoryPosition++;
     return {
       type: "SET_STATE",
       state: hiztory[hiztoryPosition]
-    }
+    };
   }
 };
 
@@ -57,8 +59,8 @@ var log = function(action) {
   console.log("  " + JSON.stringify(action));
 };
 
-var createAction = function(action, props) {
-  var action = ACTIONS[action](props);
+var createAction = function(actionKey, props) {
+  var action = ACTIONS[actionKey](props);
   log(action);
   return action;
 };
@@ -80,12 +82,17 @@ var APP = function(props) {
       {
         org: org,
         alleleChanged: function(chrom, side, prevAllele, newAllele) {
-          org.genetics.genotype.chromosomes[chrom][side].alleles.replaceFirst(prevAllele, newAllele);
+          org.genetics.genotype.replaceAlleleChromName(chrom, side, prevAllele, newAllele);
           props.dispatch(createAction("changedAllele", org.getAlleleString()));
         }
       }
     )
   );
+};
+
+APP.propTypes = {
+  dragon: React.PropTypes.object,
+  dispatch: React.PropTypes.func
 };
 
 function select(state) {
@@ -113,9 +120,9 @@ document.getElementById("undo").onclick = function() {
   undoing = true;
   store.dispatch(ACTIONS.undo());
   undoing = false;
-}
+};
 document.getElementById("redo").onclick = function() {
   undoing = true;
   store.dispatch(ACTIONS.redo());
   undoing = false;
-}
+};

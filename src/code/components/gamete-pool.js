@@ -1,4 +1,4 @@
-import {PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import AnimatedGameteView from './animated-gamete';
 
 const GametePoolView = ({gametes, hiddenAlleles=[], width=300, height=200, animStiffness=60, selectedId, isGameteDisabled, onGameteSelected}) => {
@@ -12,7 +12,7 @@ const GametePoolView = ({gametes, hiddenAlleles=[], width=300, height=200, animS
       rowDefault = Math.floor(height / spacingDefault),
       enabledCount = 0,
       disabledCount = 0,
-      disabledFlags = gametes.map(g => isGameteDisabled(g)),
+      disabledFlags = isGameteDisabled ? gametes.map(g => isGameteDisabled(g)) : [],
       totalDisabledCount = disabledFlags.reduce((total,flag) => total + flag, 0),
       // leave room for the disabled gamete row if there are disabled gametes
       availableHeight = height - (totalDisabledCount ? spacingDefault : 0) - 4 * margin,

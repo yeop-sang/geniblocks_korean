@@ -12,23 +12,22 @@ class PenStatsView extends React.Component {
     onSelectionChange: PropTypes.func
   }
 
-  render = () => {
+  render() {
     const { orgs, lastClutchSize, selectedIndex, onSelectionChange, ...others } = this.props,
           lastClutch = orgs.slice(-lastClutchSize);
 
     return (
       <Tabs>
         <Tabs.Panel title="Breeding Pen" key="Breeding Pen">
-          <GeniBlocks.PenView
-                        orgs={lastClutch} {...others}
-                        selectedIndex={selectedIndex}
-                        onClick={(evt, iSelectedIndex) => {
-                          if (onSelectionChange)
-                            onSelectionChange(iSelectedIndex);
-                        }} />
+          <PenView orgs={lastClutch} {...others}
+                  selectedIndex={selectedIndex}
+                  onClick={(evt, iSelectedIndex) => {
+                    if (onSelectionChange)
+                      onSelectionChange(iSelectedIndex);
+                  }} />
         </Tabs.Panel>
         <Tabs.Panel title="Stats" key="Stats">
-          <GeniBlocks.StatsView orgs={orgs} lastClutchSize={lastClutchSize} />
+          <StatsView orgs={orgs} lastClutchSize={lastClutchSize} />
         </Tabs.Panel>
       </Tabs>
     );

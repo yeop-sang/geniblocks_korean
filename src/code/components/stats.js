@@ -1,4 +1,5 @@
-import {PropTypes} from 'react';
+import React, {PropTypes} from 'react';
+import GeneticsUtils from '../utilities/genetics-utils';
 
 /**
  * Stateless functional React component for displaying breeding statistics for a set of Biologica organisms
@@ -8,40 +9,22 @@ import {PropTypes} from 'react';
  */
 const StatsView = ({orgs, lastClutchSize}) => {
 
-  let traits = new Map,
+  let traits = GeneticsUtils.computeTraitCountsForOrganisms(orgs, lastClutchSize),
+      clutchSize = lastClutchSize || orgs.length,
       rows = [];
-
-  // if no size specified, assume there's only one clutch
-  if (!lastClutchSize) lastClutchSize = orgs.length;
-
-  // accumulate stats for each trait/value combination
-  for (const [index, org] of orgs.entries()) {
-    const clutchKey = 'c' + org.sex;
-    for (const trait of Object.keys(org.phenotype.characteristics)) {
-      let value = org.phenotype.characteristics[trait],
-          traitValues = traits.get(trait) || new Map,
-          valueCounts = traitValues.get(value) || new Map;
-      if (!traits.has(trait)) traits.set(trait, traitValues);
-      if (!traitValues.has(value)) traitValues.set(value, valueCounts);
-      // most recent clutch assumed to be at end of organisms array
-      if (index >= orgs.length - lastClutchSize)
-        valueCounts.set(clutchKey, (valueCounts.get(clutchKey) || 0) + 1);
-      valueCounts.set(org.sex, (valueCounts.get(org.sex) || 0) + 1);
-    }
-  }
 
   // build cumulative stats for table rows
   let traitNum = 0;
   for (const [trait, values] of traits) {
     for (const [value, counts] of values) {
-      const cMales = counts.get('c' + BioLogica.MALE) || 0,
-            cFemales = counts.get('c' + BioLogica.FEMALE) || 0,
+      const cMales = counts.clutch[BioLogica.MALE],
+            cFemales = counts.clutch[BioLogica.FEMALE],
             cTotal = cMales + cFemales,
-            cPct = Math.round( 100 * cTotal / lastClutchSize),
-            tMales = counts.get(BioLogica.MALE) || 0,
-            tFemales = counts.get(BioLogica.FEMALE) || 0,
+            cPct = Math.round(100 * cTotal / clutchSize),
+            tMales = counts.total[BioLogica.MALE],
+            tFemales = counts.total[BioLogica.FEMALE],
             tTotal = tMales + tFemales,
-            tPct = Math.round( 100 * tTotal / orgs.length);
+            tPct = Math.round(100 * tTotal / orgs.length);
       rows.push({ trait, traitNum, value, cMales, cFemales, cTotal, cPct,
                                           tMales, tFemales, tTotal, tPct });
     }
@@ -62,7 +45,8 @@ const StatsView = ({orgs, lastClutchSize}) => {
         {
           rows.map(function(row, index) {
             return (
-              <tr key={index} className={row.traitNum & 1 ? "odd-trait" : "even-trait"}>
+              <tr key={index} className={row.traitNum & 1 ? "odd-trait" : "even-trait"}
+                              data-trait-value={row.value}>
                 <td className="label">{row.value}</td>
                 <td className="numeric">{row.cTotal}</td>
                 <td className="numeric">{row.cPct}%</td>
