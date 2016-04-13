@@ -1,16 +1,17 @@
-import {PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 
 /**
  * Stateless functional React component for displaying male/female change buttons
+ * The appearance of the buttons is currently entirely controlled via external CSS.
  * @param {string} sex - ['male' | 'female'] currently selected button
  * @param {function} onChange(evt, sex) - callback to be called when use clicks to change sex
  */
 const ChangeSexButtons = ({sex, species, showLabel, style={}, onChange}) => {
   const capSex = sex.substr(0, 1).toUpperCase() + sex.substr(1),
-        selectedSexClass = sex === 'male' ? "male-selected" : "female-selected",
+        selectedSexClass = sex === 'male' ? 'male-selected' : 'female-selected',
         BUTTON_IMAGE_WIDTH = 100,
         BUTTON_IMAGE_MIDPOINT_X = BUTTON_IMAGE_WIDTH / 2,
-        imageStyle = Object.assign(style, {position: 'absolute'}),
+        imageStyle = { position: 'absolute', ...style },
         label = showLabel ? `${capSex} ${species}` : '',
         labelElement = showLabel ? <div style={{position: 'absolute',
                                                 fontSize: '14pt',

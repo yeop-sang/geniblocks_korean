@@ -1,4 +1,4 @@
-import {PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 
 /**
  * Stateless functional React component for displaying a Biologica gamete
@@ -25,7 +25,7 @@ const GameteView = ({gamete, id, hiddenAlleles=[], display, isSelected=false, is
   function handleClick(evt) {
     const elt = evt.target,
           rect = elt.getBoundingClientRect();
-    if (!isDisabled) {
+    if (!isDisabled && onClick) {
       onClick(evt, id, rect);
     }
   }

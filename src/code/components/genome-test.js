@@ -1,14 +1,8 @@
-import {PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import ChromosomeImageView from './chromosome-image';
+import GeneticsUtils from '../utilities/genetics-utils';
 
-let filterAlleles = function(alleles, hiddenAlleles, species) {
-      let hiddenGenes = hiddenAlleles.map( a => BioLogica.Genetics.getGeneOfAllele(species, a));
-      return alleles.filter( a => {
-        let gene = BioLogica.Genetics.getGeneOfAllele(species, a);
-        return hiddenGenes.indexOf(gene) === -1;
-      });
-    },
-    TestPulldownView = ({species, gene, selection, onSelectionChange}) => {
+let TestPulldownView = ({species, gene, selection, onSelectionChange}) => {
       let alleles = gene.alleles,
           alleleNames = alleles.map(a => species.alleleLabelMap[a]),
           numAlleles = alleleNames.length,
@@ -40,7 +34,7 @@ const GenomeTestView = ({org, hiddenAlleles=[], selection={}, selectionChanged})
   for (let chromosomeName of org.species.chromosomeNames) {
     let chrom = org.genetics.genotype.chromosomes[chromosomeName],
         alleles = chrom[Object.keys(chrom)[0]].alleles,
-        visibleAlleles = filterAlleles(alleles, hiddenAlleles, org.species),
+        visibleAlleles = GeneticsUtils.filterAlleles(alleles, hiddenAlleles, org.species),
         genes = visibleAlleles.map(a => BioLogica.Genetics.getGeneOfAllele(org.species, a)),
         pulldowns = genes.map(g => {
           return (

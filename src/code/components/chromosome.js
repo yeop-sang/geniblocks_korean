@@ -1,18 +1,11 @@
-import {PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import ChromosomeImageView from './chromosome-image';
 import GeneLabelView from './gene-label';
-
-const filterAlleles = function(alleles, hiddenAlleles, species) {
-  let hiddenGenes = hiddenAlleles.map( a => BioLogica.Genetics.getGeneOfAllele(species, a));
-  return alleles.filter( a => {
-    let gene = BioLogica.Genetics.getGeneOfAllele(species, a);
-    return hiddenGenes.indexOf(gene) === -1;
-  });
-};
+import GeneticsUtils from '../utilities/genetics-utils';
 
 const ChromosomeView = ({org, chromosomeName, side, hiddenAlleles=[], editable=true, alleleChanged, labelsOnRight=true}) => {
   let alleles = org.getGenotype().chromosomes[chromosomeName][side].alleles,
-      visibleAlleles = filterAlleles(alleles, hiddenAlleles, org.species),
+      visibleAlleles = GeneticsUtils.filterAlleles(alleles, hiddenAlleles, org.species),
       labels  = visibleAlleles.map(a => {
         return (
           <GeneLabelView key={a} species={org.species} allele={a} editable={editable}
@@ -46,7 +39,7 @@ ChromosomeView.propTypes = {
   side: PropTypes.string.isRequired,
   hiddenAlleles: PropTypes.array,
   editable: PropTypes.bool,
-  alleleChanged: PropTypes.func.isRequired,
+  alleleChanged: PropTypes.func,
   labelsOnRight: PropTypes.bool
 };
 

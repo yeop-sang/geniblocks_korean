@@ -1,12 +1,11 @@
-const ChromosomeImageView = () => {
-  let width=23,
-      height=126,
-      split=45,
-      radius = width/2,
-      imageWidth = width+4,
-      halfImageWidth = imageWidth/2,
-      imageHeight = height+4,
-      color = "#FF9999";
+import React, {PropTypes} from 'react';
+
+const ChromosomeImageView = ({width=23, height=126, color='#FF9999'}) => {
+  const split=45,
+        radius = width/2,
+        imageWidth = width+4,
+        halfImageWidth = imageWidth/2,
+        imageHeight = height+4;
 
   return (
     <svg width={imageWidth} height={imageHeight} xmlns="http://www.w3.org/2000/svg">
@@ -24,6 +23,12 @@ const ChromosomeImageView = () => {
       </g>
     </svg>
   );
+};
+
+ChromosomeImageView.propTypes = {
+  width: PropTypes.number,
+  height: PropTypes.number,
+  color: PropTypes.string
 };
 
 export default ChromosomeImageView;

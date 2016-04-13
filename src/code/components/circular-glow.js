@@ -1,4 +1,4 @@
-import {PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 
 /**
  * Uses an SVG circular gradient to implement a fading glow background.
@@ -15,7 +15,7 @@ const CircularGlowView = ({id, color, size, style}) => {
       gradientIDUrl = `url(#${gradientID})`;
 
   return (
-    <div classNames="geniblocks glow" style={style}>
+    <div className="geniblocks circular-glow" style={style}>
       <svg width={size+2} height={size+2} xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id={gradientID}>

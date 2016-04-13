@@ -52,28 +52,28 @@ export default class FertilizingGameteView extends React.Component {
                                                           : RESTING_MOTHER_GAMETE_X,
         xFertilizing = this.props.type === GAMETE_TYPE.FATHER ? FERTILIZING_FATHER_GAMETE_X
                                                               : FERTILIZING_MOTHER_GAMETE_X,
-        initial, final;
+        initial, tFinal;
 
-    if (!gamete || !id) return;
+    if (!gamete || (id == null)) return;
 
     if (this.props.fertilizationState === 'none') {
       if (this.props.type === GAMETE_TYPE.FATHER)
         xOffset += RESTING_FATHER_GAMETE_X;
       initial = { x: xOffset, y: yOffset, size: INITIAL_GAMETE_SIZE };
-      final = { x: xResting, y: 0, size: FINAL_GAMETE_SIZE };
+      tFinal = { x: xResting, y: 0, size: FINAL_GAMETE_SIZE };
     }
     else if (this.props.fertilizationState === 'fertilizing') {
       initial = { x: xResting, y: 0, size: FINAL_GAMETE_SIZE, opacity: 1.0 };
-      final = { x: xFertilizing, y: 0, size: FINAL_GAMETE_SIZE, rotation: 0, opacity: 1.0 };
+      tFinal = { x: xFertilizing, y: 0, size: FINAL_GAMETE_SIZE, rotation: 0, opacity: 1.0 };
     }
     else {
       initial = { x: xFertilizing, y: 0, size: FINAL_GAMETE_SIZE, rotation: 0, opacity: 1.0 };
-      final = { x: xFertilizing, y: FINAL_ZYGOTE_Y, size: FINAL_GAMETE_SIZE, rotation: 0, opacity: 0.0 };
+      tFinal = { x: xFertilizing, y: FINAL_ZYGOTE_Y, size: FINAL_GAMETE_SIZE, rotation: 0, opacity: 0.0 };
     }
 
     return (
       <AnimatedGameteView gamete={gamete} id={id} hiddenAlleles={hiddenAlleles}
-                          initialDisplay={initial} display={final}
+                          initialDisplay={initial} display={tFinal}
                           animStiffness={animStiffness} onRest={onRest} />
     );
   }

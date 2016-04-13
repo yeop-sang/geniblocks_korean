@@ -5,12 +5,56 @@
 export default class GeneticsUtils {
 
   /**
+   * Filters out hidden alleles from an original list of alleles
+   *
+   * @param {string[]} alleles - the set of alleles to be filtered
+   * @param {string[]} hiddenAlleles - the alleles identifying the hidden genes
+   * @param {BioLogica.species} species - the species that defines the genotype
+   * @return {string[]} - the filtered alleles
+   */
+  static filterAlleles(alleles, hiddenAlleles, species) {
+    const hiddenGenes = hiddenAlleles.map(a => BioLogica.Genetics.getGeneOfAllele(species, a));
+    return alleles.filter(a => {
+      const gene = BioLogica.Genetics.getGeneOfAllele(species, a);
+      return hiddenGenes.indexOf(gene) === -1;
+    });
+  }
+
+  /**
+   * Compute a map of traits -> traitValues -> traitCounts.
+   *
+   * @param {BioLogica.Organism[]} organisms - the set of organisms to compute stats for
+   * @param {number} clutchSize - the last 'clutchSize' organisms are assumed to be the last clutch
+   * @return {Map} - e.g. { "tail": { "long tail": { "clutch": [9, 11], "total": [53, 47] }}}
+   */
+  static computeTraitCountsForOrganisms(organisms, lastClutchSize) {
+    let traits = new Map,
+        clutchSize = lastClutchSize || organisms.length;
+
+    // accumulate stats for each trait/value combination
+    for (const [index, org] of organisms.entries()) {
+      for (const trait of Object.keys(org.phenotype.characteristics)) {
+        let value = org.phenotype.characteristics[trait],
+            traitValues = traits.get(trait) || new Map,
+            valueCounts = traitValues.get(value) || { clutch: [0, 0], total: [0, 0] };
+        if (!traits.has(trait)) traits.set(trait, traitValues);
+        if (!traitValues.has(value)) traitValues.set(value, valueCounts);
+        // most recent clutch assumed to be at end of organisms array
+        if (index >= organisms.length - clutchSize)
+          ++ valueCounts.clutch[org.sex];
+        ++ valueCounts.total[org.sex];
+      }
+    }
+    return traits;
+  }
+
+  /**
    * Converts an allele string to a JavaScript object that maps genes to alleles.
    * This can be useful for comparison purposes, for instance.
    *
    * @param {BioLogica.Genetics} genetics - genetics object to use for gene mapping
    * @param {string} alleleString - allele string of form "a:h,b:h,a:a,b:a..." to be modified
-   * @return {object} - gene map of form { horn: {a:"h", b:"h"}, armor: {a:"a", b:"a"}, ...} to use as defaults
+   * @return {object} - gene map of form { horns: {a:"h", b:"h"}, armor: {a:"a", b:"a"}, ...}
    */
   static buildGeneMapFromAlleleString(genetics, alleleString) {
     let geneMap = {},
@@ -40,9 +84,11 @@ export default class GeneticsUtils {
     let   dstAlleleString = alleleString;
     for (const gene in dstGeneMap) {
       const geneValue = dstGeneMap[gene];
+      // replace a missing 'a' side allele with the default if appropriate
       if (!geneValue.a && baseGeneMap[gene] && baseGeneMap[gene].a) {
         dstAlleleString = dstAlleleString.replace(`b:${geneValue.b}`, `a:${baseGeneMap[gene].a},$&`);
       }
+      // replace a missing 'b' side allele with the default if appropriate
       if (!geneValue.b && baseGeneMap[gene] && baseGeneMap[gene].b) {
         dstAlleleString = dstAlleleString.replace(`a:${geneValue.a}`, `$&,b:${baseGeneMap[gene].b}`);
       }

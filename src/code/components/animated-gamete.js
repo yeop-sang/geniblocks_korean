@@ -1,4 +1,4 @@
-import {PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import {Motion, spring} from 'react-motion';
 import GameteView from './gamete';
 
@@ -43,7 +43,7 @@ const AnimatedGameteView = ({id, initialDisplay, display, animStiffness=100, onR
         finalOpacity = display.opacity != null ? display.opacity : 1.0,
         springConfig = { stiffness: animStiffness };
   return (
-    <Motion
+    <Motion className='geniblocks animated-gamete'
           defaultStyle={{
             x: initial.x, y: initial.y, size: initialSize,
             rotation: initialRotation, opacity: initialOpacity
