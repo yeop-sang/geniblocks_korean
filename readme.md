@@ -6,9 +6,9 @@ used as building blocks for genetics-based applications.
 As much as possible, the views are designed to be "dumb," stateless views
 that render entirely based on their properties, and output events that an
 outside container or application can handle. As such, most of the views
-can be written as [Stateless functional components](https://facebook.github.io/react/blog/2015/10/07/react-v0.14.html#stateless-functional-components)
+can be written as [Stateless functional components](https://facebook.github.io/react/blog/2015/10/07/react-v0.14.html#stateless-functional-components).
 
-Most views take a [Biologica.js](https://github.com/concord-consortium/biologica.js)
+Many views take a [Biologica.js](https://github.com/concord-consortium/biologica.js)
 organism as a property.
 
 ## Development Setup
@@ -41,7 +41,7 @@ with duplicates of the built scripts, css, and the vendor libraries (React and
 biologica.js), allowing `/public` to be a secondary, stand-alone build product for
 development and deploying demos.
 
-## Code linting
+## Code Linting
 
 Run `npm run lint` to lint from the command line.
 
@@ -49,6 +49,10 @@ If you are using Sublime, install the `SublimeLinter` and `SublimeLinter-contrib
 packages, using https://packagecontrol.io/
 
 (You will also probably want ES6 syntax highlighting, so install `Babel` as well.)
+
+## Code Testing
+
+Run `npm test` to run unit tests from the command line.
 
 ## Resources
 
