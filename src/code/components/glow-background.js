@@ -8,8 +8,8 @@ const GlowBackgroundView = ({id, color, size, containerStyle={}, glowStyle={}, C
 
   return (
     <div className="geniblocks glow-background" style={tContainerStyle}>
-      <CircularGlowView id={id+'-glow'} color={color} size={size} style={tGlowStyle}/>
-      <ChildComponent id={id+'-child'} style={tChildStyle} width={size} {...others} />
+      <CircularGlowView id={'glow-'+id} color={color} size={size} style={tGlowStyle}/>
+      <ChildComponent id={'child-'+id} style={tChildStyle} width={size} {...others} />
     </div>
   );
 };
