@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {PropTypes} from 'react';
 import {Motion, spring} from 'react-motion';
 import OrganismView from './organism';
 

@@ -9,7 +9,7 @@
     // in CommonJS
     "node": true
   },
-  "globals": { "GeniBlocks": false, "BioLogica": false },
+  "globals": { "GeniBlocks": false, "BioLogica": false, "React": false },
   // To get a default set of options
   "extends": [ "eslint:recommended", "plugin:react/recommended" ],
   // To give you an idea how to override rule options:
