@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {PropTypes} from 'react';
 
 const GeneLabelView = ({species, allele, editable=false, onAlleleChange}) => {
   if (!editable) {

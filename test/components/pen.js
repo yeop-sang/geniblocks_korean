@@ -1,11 +1,7 @@
-import {assert} from 'chai';
-import {shallow} from 'enzyme';
-import React from 'react';
 import PenView from '../../src/code/components/pen';
 
 import OrganismGlowView from '../../src/code/components/organism-glow';
 
-/* global describe, it */
 describe("<PenView />", function(){
   const drakes = [...Array(20).keys()].map( () => new BioLogica.Organism(BioLogica.Species.Drake, ''));
 

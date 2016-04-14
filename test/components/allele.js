@@ -1,9 +1,5 @@
-import {assert} from 'chai';
-import {shallow} from 'enzyme';
-import React from 'react';
 import AlleleView from '../../src/code/components/allele';
 
-/* global describe, it */
 describe("<AlleleView />", function(){
 
   it("should create an <svg> tag", function() {

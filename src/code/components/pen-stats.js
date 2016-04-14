@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {PropTypes} from 'react';
 import PenView from './pen';
 import StatsView from './stats';
 import Tabs from 'react-simpletabs';

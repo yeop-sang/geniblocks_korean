@@ -1,9 +1,5 @@
-import {assert} from 'chai';
-import {shallow} from 'enzyme';
-import React from 'react';
 import GameteView from '../../src/code/components/gamete';
 
-/* global describe, it */
 describe("<GameteView />", function(){
   const drake = new BioLogica.Organism(BioLogica.Species.Drake, ''),
         gametes = drake.createGametes(10);

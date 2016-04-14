@@ -1,9 +1,5 @@
-import {assert} from 'chai';
-import {shallow} from 'enzyme';
-import React from 'react';
 import OrganismGlowView from '../../src/code/components/organism-glow';
 
-/* global describe, it */
 describe("<OrganismGlowView />", function(){
   const drake = new BioLogica.Organism(BioLogica.Species.Drake, '');
 

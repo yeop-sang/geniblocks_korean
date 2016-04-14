@@ -1,9 +1,5 @@
-import {assert} from 'chai';
-import {shallow} from 'enzyme';
-import React from 'react';
 import CircularGlowView from '../../src/code/components/circular-glow';
 
-/* global describe, it */
 describe("<CircularGlowView />", function(){
 
   it("should create a <div> tag with appropriate classes", function() {

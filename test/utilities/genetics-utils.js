@@ -1,7 +1,5 @@
-import {assert} from 'chai';
 import GeneticsUtils from '../../src/code/utilities/genetics-utils';
 
-/* global describe, it */
 describe("GeneticsUtils.filterAlleles()", function() {
   const initialAlleles = ['T', 't', 'A1', 'a'];
 

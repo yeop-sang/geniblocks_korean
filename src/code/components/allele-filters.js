@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {PropTypes} from 'react';
 
 const AlleleFiltersView = ({species, hiddenAlleles=[], disabledAlleles = [], onFilterChange}) => {
   let hiddenGenes = new Set,

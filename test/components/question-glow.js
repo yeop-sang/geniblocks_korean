@@ -1,9 +1,5 @@
-import {assert} from 'chai';
-import {shallow} from 'enzyme';
-import React from 'react';
 import QuestionGlowView from '../../src/code/components/question-glow';
 
-/* global describe, it */
 describe("<QuestionGlowView />", function(){
 
   it("should create a <div> tag with appropriate classes", function() {

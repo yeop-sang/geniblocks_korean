@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {PropTypes} from 'react';
 import ChromosomeView from './chromosome';
 
 const GenomeView = ({org, hiddenAlleles = [], editable=true, alleleChanged}) => {

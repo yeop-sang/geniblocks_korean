@@ -1,9 +1,5 @@
-import {assert} from 'chai';
-import {shallow} from 'enzyme';
-import React from 'react';
 import StatsView from '../../src/code/components/stats';
 
-/* global describe, it */
 describe("<StatsView />", function(){
   const tailAlleles = BioLogica.Species.Drake.geneList.tail.alleles,
         armorAlleles = BioLogica.Species.Drake.geneList.armor.alleles;

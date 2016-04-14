@@ -1,9 +1,5 @@
-import {assert} from 'chai';
-import {shallow} from 'enzyme';
-import React from 'react';
 import FeedbackView from '../../src/code/components/feedback';
 
-/* global describe, it */
 describe("<FeedbackView />", function(){
 
   it("should accept a single string of text", function() {
