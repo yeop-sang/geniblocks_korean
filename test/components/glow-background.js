@@ -1,10 +1,6 @@
-import {assert} from 'chai';
-import {shallow} from 'enzyme';
-import React from 'react';
 import GlowBackgroundView from '../../src/code/components/glow-background';
 import OrganismView from '../../src/code/components/organism';
 
-/* global describe, it */
 describe("<GlowBackgroundView />", function(){
   const drake = new BioLogica.Organism(BioLogica.Species.Drake, '');
 

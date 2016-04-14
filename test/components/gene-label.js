@@ -1,9 +1,5 @@
-import {assert} from 'chai';
-import {shallow} from 'enzyme';
-import React from 'react';
 import GeneLabelView from '../../src/code/components/gene-label';
 
-/* global describe, it */
 describe("<GeneLabelView />", function(){
   const drake = BioLogica.Species.Drake,
         tailAllele = 'T'; // long tail

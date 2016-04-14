@@ -1,9 +1,5 @@
-import {assert} from 'chai';
-import {shallow} from 'enzyme';
-import React from 'react';
 import AlleleFilters from '../../src/code/components/allele-filters';
 
-/* global describe, it */
 describe("<AlleleFilters />", function(){
 
   it("should create a <div> tag with appropriate classes", function() {

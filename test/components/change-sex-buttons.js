@@ -1,9 +1,5 @@
-import {assert} from 'chai';
-import {shallow, mount} from 'enzyme';
-import React from 'react';
 import ChangeSexButtons from '../../src/code/components/change-sex-buttons';
 
-/* global describe, it */
 describe("<ChangeSexButtons />", function(){
 
   it("should create a <div> tag with appropriate classes", function() {

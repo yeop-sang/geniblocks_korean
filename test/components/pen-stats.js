@@ -1,9 +1,5 @@
-import {assert} from 'chai';
-import {shallow} from 'enzyme';
-import React from 'react';
 import PenStatsView from '../../src/code/components/pen-stats';
 
-/* global describe, it */
 describe("<PenStatsView />", function(){
 
   it("should create a <Tabs> component with two panels", function() {

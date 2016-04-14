@@ -1,9 +1,5 @@
-import {assert} from 'chai';
-import {shallow} from 'enzyme';
-import React from 'react';
 import ChromosomeView from '../../src/code/components/chromosome';
 
-/* global describe, it */
 describe("<ChromosomeView />", function(){
   const drake = new BioLogica.Organism(BioLogica.Species.Drake, '');
 

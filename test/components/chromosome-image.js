@@ -1,9 +1,5 @@
-import {assert} from 'chai';
-import {shallow} from 'enzyme';
-import React from 'react';
 import ChromosomeImageView from '../../src/code/components/chromosome-image';
 
-/* global describe, it */
 describe("<ChromosomeImageView />", function(){
 
   it("should create an <svg> tag", function() {

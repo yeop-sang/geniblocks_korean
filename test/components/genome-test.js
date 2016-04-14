@@ -1,9 +1,5 @@
-import {assert} from 'chai';
-import {shallow} from 'enzyme';
-import React from 'react';
 import GenomeTestView from '../../src/code/components/genome-test';
 
-/* global describe, it */
 describe("<GenomeTestView />", function(){
   const drake = new BioLogica.Organism(BioLogica.Species.Drake, ''),
         chromosomeNameCount = BioLogica.Species.Drake.chromosomeNames.length,

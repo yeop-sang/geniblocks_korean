@@ -12,6 +12,15 @@ import fs from 'fs';
 import vm from 'vm';
 import jsdom from 'jsdom';
 
+// Make libraries available to all tests (http://stackoverflow.com/a/31290131)
+import {assert} from 'chai';
+import {mount,shallow} from 'enzyme';
+import React from 'react';
+global.assert = assert;
+global.mount = mount;
+global.shallow = shallow;
+global.React = React;
+
 function execScript(path, context) {
   context = context || {};
   var data = fs.readFileSync(path, 'utf8');
