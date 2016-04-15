@@ -16,14 +16,23 @@ describe("<PenView />", function(){
     assert.lengthOf(wrapper.find('OrganismView'), 20, "Should create 20 <OrganismView> components");
   });
 
-  it("clicking an <OrganismView> should trigger the onClick handler", function() {
-    let clickedIndex;
-    function handleClick(evt, index) { clickedIndex = index; }
-    const wrapper = shallow(<PenView orgs={drakes} onClick={handleClick}/>),
-          firstOrg = wrapper.find('OrganismView').first(),
-          firstOrgID = firstOrg.prop('id');
-    wrapper.find('OrganismView').first().simulate('click', { currentTarget: { id: firstOrgID }});
+  it("clicking an <OrganismView> should trigger the handleClick handler", function() {
+    let clickedIndex, clickedID;
+    function testHandleClick(index, id) {
+      clickedIndex = index;
+      clickedID = id;
+    }
+    const wrapper = mount(<PenView orgs={drakes} handleClick={testHandleClick}/>),
+          firstOrgView = wrapper.find('OrganismView').first(),
+          firstOrgID = firstOrgView.prop('id'),
+          lastOrgView = wrapper.find('OrganismView').last(),
+          lastOrgID = lastOrgView.prop('id');
+    firstOrgView.simulate('click');
     assert.equal(clickedIndex, 0, "Clicking an <OrganismView> should select it");
+    assert.equal(clickedID, firstOrgID, "Clicking an <OrganismView> should select it");
+    lastOrgView.simulate('click');
+    assert.equal(clickedIndex, drakes.length-1, "Clicking an <OrganismView> should select it");
+    assert.equal(clickedID, lastOrgID, "Clicking an <OrganismView> should select it");
   });
 
   it("can specify another class for the selected item", function() {

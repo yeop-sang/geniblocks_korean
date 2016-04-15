@@ -85,6 +85,7 @@ const DragOrganismGlowView = ReactDnD.DragSource(
                           function(connect, monitor) {
                             return {
                               connectDragSource: connect.dragSource(),
+                              wrapper: connect.dragPreview(),
                               isDragging: monitor.isDragging()
                             };
                           }

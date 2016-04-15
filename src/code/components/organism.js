@@ -1,11 +1,28 @@
 import {PropTypes} from 'react';
 
-const OrganismView = ({org, id, width=200, style={}, onClick }) => {
+const OrganismView = ({org, id, width=200, style={}, handleClick, wrapper }) => {
   const baseUrl = "https://geniverse-resources.concord.org/resources/drakes/images/",
-        url     = baseUrl + org.getImageName();
+        url     = baseUrl + org.getImageName(),
+        // The goal here was to have the onMouseDown handler select the organism,
+        // so that mousedown-drag will both select the organism and begin the
+        // drag. This works on Chrome and Safari, but on Firefox it disables
+        // dragging. Disabling the onMouseDown handler means that Firefox users
+        // must click to select and then click to drag, but at least they can
+        // drag. The right solution is probably to allow organisms to be dragged
+        // whether or not they're selected and then hopefully the onMouseDown
+        // handler will work as expected. Otherwise, it may be necessary to
+        // select the organism (if it isn't already selected) in beginDrag.
+        isFirefox = (navigator.userAgent.toLowerCase().indexOf('firefox') >= 0),
+        handleMouseDown = isFirefox ? undefined : localhandleClick,
+        divWrapper = wrapper || function(elt) { return elt; };
 
-  return (
-    <div className="geniblocks organism" id={id} style={style} onMouseDown={onClick} onClick={onClick}>
+  function localhandleClick() {
+    if (handleClick) handleClick(id, org);
+  }
+
+  return divWrapper(
+    <div className="geniblocks organism" id={id} style={style} 
+          onMouseDown={handleMouseDown} onClick={localhandleClick}>
       <img src={url} width={width} />
     </div>
   );
@@ -14,10 +31,10 @@ const OrganismView = ({org, id, width=200, style={}, onClick }) => {
 OrganismView.propTypes = {
   org: PropTypes.object.isRequired,
   id: PropTypes.string,
-  index: PropTypes.number,
   width: PropTypes.number,
   style: PropTypes.object,
-  onClick: PropTypes.func
+  handleClick: PropTypes.func,
+  wrapper: PropTypes.func
 };
 
 export default OrganismView;
