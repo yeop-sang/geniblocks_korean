@@ -6,6 +6,9 @@
  *  Challenge 1: Modify mother drake so as to breed a particular target drake
  *  Challenge 2: Modify father drake so as to breed a pair of target drakes
  */
+/* global DrakeGenomeColumn */
+//import DrakeGenomeColumn from '../js/parent-genome-column';
+
 const MALE = 0,
       FEMALE = 1,
       minChallenge = 1,
@@ -134,44 +137,6 @@ const DropOrganismGlowView = ReactDnD.DropTarget(
                             };
                           }
                         )(_DropOrganismGlowView);
-
-/**
- * ParentDrakeColumn - shows mother/father image and genome
- */
-class ParentDrakeColumn extends React.Component {
-
-  static propTypes = {
-    id: React.PropTypes.string.isRequired,
-    sex: React.PropTypes.string.isRequired,
-    drake: React.PropTypes.object.isRequired,
-    isDrakeEditable: React.PropTypes.bool.isRequired,
-    hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string),
-    alleleChanged: React.PropTypes.func.isRequired
-  }
-
-  render = () => {
-    const { id, sex, drake, isDrakeEditable, hiddenAlleles, alleleChanged } = this.props,
-          drakeLabelID = `${sex}-drake-label`,
-          columnLabel = `${sex.charAt(0).toUpperCase() + sex.slice(1)} Drake`,
-          drakeOrgID = `${sex}-drake`;
-    return (
-      <div id={id} className="column">
-
-        {/* parent drake label */}
-        <div id={drakeLabelID} className="column-label">{columnLabel}</div>
-
-        {/* parent drake image */}
-        <GeniBlocks.OrganismGlowView
-          id={drakeOrgID} className='parent-drake' org={drake} color='#FFFFAA' size={200} />
-
-        {/* parent drake genome */}
-        <GeniBlocks.GenomeView
-          className='parent-genome' org={drake} hiddenAlleles={hiddenAlleles}
-          editable={isDrakeEditable} alleleChanged={alleleChanged} />
-      </div>
-    );
-  }
-}
 
 /**
  * Center panel has target drakes, breedng pen, breed button, etc.
@@ -385,7 +350,7 @@ class Case3 extends React.Component {
             clutch, requiredMoveCount, moveCount } = this.state;
     return (
       <div id="challenges-wrapper">
-        <ParentDrakeColumn
+        <DrakeGenomeColumn
               id='left' sex='female'
               drake={parentDrakes[FEMALE]}
               isDrakeEditable={editableParentSex === FEMALE}
@@ -399,7 +364,7 @@ class Case3 extends React.Component {
               handleBreed={this.breed}
               handleDrop={this.handleDrop}
               requiredMoveCount={requiredMoveCount} moveCount={moveCount} />
-        <ParentDrakeColumn
+        <DrakeGenomeColumn
               id='right' sex='male'
               drake={parentDrakes[MALE]}
               isDrakeEditable={editableParentSex === MALE}

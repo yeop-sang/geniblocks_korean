@@ -32,7 +32,7 @@ const CircularGlowView = ({id, color, size, style}) => {
 CircularGlowView.propTypes = {
   id: PropTypes.string,
   color: PropTypes.string.isRequired,
-  size: PropTypes.number,
+  size: PropTypes.number.isRequired,
   style: PropTypes.object
 };
 
