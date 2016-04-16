@@ -2,6 +2,7 @@ var src = './src',
     bower = './bower_components',
     node = './node_modules',
     examples = './examples',
+    gv2 = './gv2',
     pub  = './public',
     dist = './dist';
 
@@ -33,6 +34,16 @@ module.exports = {
     watch: examples + '/**/*.js',
     src: examples + '/**/*.js',
     dest: pub
+  },
+  gv2: {
+    watch: [gv2 + '/**/*.*', '!' + gv2 + '/**/*.js'],
+    src: [gv2 + '/**/*.*', '!' + gv2 + '/**/*.js'],
+    dest: pub + '/gv2'
+  },
+  gv2JS: {
+    watch: gv2 + '/**/*.js',
+    src: gv2 + '/**/*.js',
+    dest: pub + '/gv2'
   },
   vendor: {
     src: [ bower + '/*/*.js', bower + '/*/*/*.js', bower + '/*/*/*.css' ],

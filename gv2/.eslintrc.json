@@ -1,0 +1,32 @@
+{
+  // I want to use babel-eslint for parsing!
+  "parser": "babel-eslint",
+  "plugins": [ "react" ],
+  "env": {
+    "es6": true,
+    // I write for browser
+    "browser": true,
+    // in CommonJS
+    "node": true
+  },
+  "globals": { "GeniBlocks": false, "BioLogica": false,
+                "React": false, "ReactDOM": false },
+  // To get a default set of options
+  "extends": [ "eslint:recommended", "plugin:react/recommended" ],
+  // To give you an idea how to override rule options:
+  "rules": {
+    "semi": [2, "always"],
+    "eqeqeq": [2, "allow-null"],
+    "no-unused-vars": [1, { "vars": "all", "args": "after-used" }],
+    "no-console": [0],
+    "quotes": [0],
+    "eol-last": [0],
+    "no-mixed-requires": [0],
+    "no-underscore-dangle": [0],
+
+    // react plugin rules
+    "react/display-name": [0],  // don't require displayName for components
+    "react/prop-types": [1],    // propTypes declarations recommended
+    "react/react-in-jsx-scope": [0] // React need not be explicitly declared in scope
+  }
+}
