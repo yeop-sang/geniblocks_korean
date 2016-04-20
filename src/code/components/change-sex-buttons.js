@@ -6,7 +6,7 @@ import {PropTypes} from 'react';
  * @param {string} sex - ['male' | 'female'] currently selected button
  * @param {function} onChange(evt, sex) - callback to be called when use clicks to change sex
  */
-const ChangeSexButtons = ({sex, species, showLabel, style={}, onChange}) => {
+const ChangeSexButtons = ({id, sex, species, showLabel, style={}, handleSexChange}) => {
   const capSex = sex.substr(0, 1).toUpperCase() + sex.substr(1),
         selectedSexClass = sex === 'male' ? 'male-selected' : 'female-selected',
         BUTTON_IMAGE_WIDTH = 100,
@@ -25,11 +25,11 @@ const ChangeSexButtons = ({sex, species, showLabel, style={}, onChange}) => {
     const eltRect = evt.target.getBoundingClientRect(),
           clickX = evt.clientX - eltRect.left;
     if ((sex === 'male') !== (clickX > BUTTON_IMAGE_MIDPOINT_X))
-      onChange(evt, sex === 'male' ? 'female' : 'male');
+      handleSexChange(sex === 'male' ? 'female' : 'male');
   }
 
   return (
-    <div style={{position: 'relative'}}>
+    <div id={id} style={{position: 'relative'}}>
       <div  className={`geniblocks change-sex-buttons ${selectedSexClass}`}
             style={imageStyle} onClick={handleClick} >
       </div>
@@ -39,11 +39,12 @@ const ChangeSexButtons = ({sex, species, showLabel, style={}, onChange}) => {
 };
 
 ChangeSexButtons.propTypes = {
+  id: PropTypes.string,
   sex: PropTypes.oneOf(['male', 'female']).isRequired,
   species: PropTypes.string,
   showLabel: PropTypes.bool,
   style: PropTypes.object,
-  onChange: PropTypes.func.isRequired
+  handleSexChange: PropTypes.func.isRequired
 };
 
 export default ChangeSexButtons;
