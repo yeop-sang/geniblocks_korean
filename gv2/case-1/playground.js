@@ -112,4 +112,6 @@ function render() {
     document.getElementById('wrapper'));
 }
 
+GeniBlocks.Button.enableButtonFocusHighlightOnKeyDown();
+
 render();

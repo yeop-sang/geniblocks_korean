@@ -48,7 +48,7 @@ class Button extends React.Component {
 
   render() {
     const { className, label, ...others } = this.props,
-          classes = className + ' gb-button';
+          classes = (className ? className + ' ' : '') + 'gb-button';
 
     return (
       <button className={classes} {...others}

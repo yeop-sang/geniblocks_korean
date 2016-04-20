@@ -446,4 +446,6 @@ function enableButtonFocusHighlight() {
     button.className = button.className.replace(/(?:^|\s)no-focus-highlight(?!\S)/g , '');
 }
 
+GeniBlocks.Button.enableButtonFocusHighlightOnKeyDown();
+
 render();
