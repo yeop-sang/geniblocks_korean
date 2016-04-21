@@ -9,19 +9,19 @@ class Case1PlaygroundLeft extends React.Component {
     sexLabels: React.PropTypes.arrayOf(React.PropTypes.string),
     drake: React.PropTypes.object.isRequired,
     hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string),
-    handleSexChange: React.PropTypes.func.isRequired,
-    handleAlleleChange: React.PropTypes.func.isRequired
+    onSexChange: React.PropTypes.func.isRequired,
+    onAlleleChange: React.PropTypes.func.isRequired
   }
 
   render() {
-    const { sexLabels, drake, hiddenAlleles, handleSexChange, handleAlleleChange } = this.props;
+    const { sexLabels, drake, hiddenAlleles } = this.props;
     return (
       <div id='left' className='column'>
         <GeniBlocks.ChangeSexButtons id='change-sex-buttons'
-          sex={sexLabels[drake.sex]} handleSexChange={handleSexChange}
+          sex={sexLabels[drake.sex]} onChange={this.props.onSexChange}
           species="Drake" showLabel={true}/>
         <GeniBlocks.GenomeView id='drake-genome'
-          org={drake} hiddenAlleles={hiddenAlleles} alleleChanged={handleAlleleChange}
+          org={drake} hiddenAlleles={hiddenAlleles} onAlleleChange={this.props.onAlleleChange}
           style={{marginTop: 50, top: 50}}/>
       </div>
     );
@@ -89,8 +89,8 @@ class Case1Playground extends React.Component {
       <div id="playground-wrapper">
         <Case1PlaygroundLeft drake={drake} sexLabels={sexLabels}
                             hiddenAlleles={hiddenAlleles}
-                            handleSexChange={this.handleSexChange}
-                            handleAlleleChange={this.handleAlleleChange}/>
+                            onSexChange={this.handleSexChange}
+                            onAlleleChange={this.handleAlleleChange}/>
         <Case1PlaygroundRight drake={drake} handleProceedButton={handleProceedButton}/>
       </div>
     );

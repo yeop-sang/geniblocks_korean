@@ -102,7 +102,7 @@ function render() {
     React.createElement(GeniBlocks.ChangeSexButtons, {
           sex: sexLabels[sexOfYourDrake],
           species: "Drake",
-          onChange: function(evt, iSex) {
+          onChange: function(iSex) {
             // replace alleles lost when switching to male and back
             const alleleString = GeniBlocks.GeneticsUtils.fillInMissingAllelesFromAlleleString(
                                   yourDrake.genetics, yourDrake.getAlleleString(), organismAlleles);
@@ -123,7 +123,7 @@ function render() {
       org: yourDrake,
       hiddenAlleles: hiddenAlleles,
       style: {marginTop: 50, top: 50},
-      alleleChanged: function(chrom, side, prevAllele, newAllele) {
+      onAlleleChange: function(chrom, side, prevAllele, newAllele) {
         yourDrake.genetics.genotype.replaceAlleleChromName(chrom, side, prevAllele, newAllele);
         yourDrake = new BioLogica.Organism(BioLogica.Species.Drake,
                                             yourDrake.getAlleleString(),

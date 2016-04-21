@@ -1,3 +1,4 @@
+/* global ReactDnD, ReactDnDHTML5Backend, AlleleContainer, PunnettContainer */
 var DragDropContext = ReactDnD.DragDropContext,
     Backend = ReactDnDHTML5Backend,
     layoutAsLabels = false,

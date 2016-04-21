@@ -21,7 +21,7 @@ class PenStatsView extends React.Component {
         <Tabs.Panel title="Breeding Pen" key="Breeding Pen">
           <PenView orgs={lastClutch} {...others}
                   selectedIndex={selectedIndex}
-                  handleClick={(iSelectedIndex) => {
+                  onClick={function(iSelectedIndex) {
                     if (onSelectionChange)
                       onSelectionChange(iSelectedIndex);
                   }} />

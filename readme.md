@@ -23,11 +23,11 @@ or to build without watching:
 
 in a separate shell/console:
 
-    npm run serve         # or its alias 'live-server public'
+    npm run examples      # or its alias 'live-server public'
 
 which will launch a browser tab pointing to the examples at http://localhost:8080/, or
 
-    npm run serve:gv2     # or its alias 'live-server public --open=gv2'
+    npm run gv2           # or its alias 'live-server public --open=gv2'
 
 which will launch a browser tab pointing to the GV2 prototype at http://localhost:8080/gv2/
 

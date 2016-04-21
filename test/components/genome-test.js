@@ -7,13 +7,13 @@ describe("<GenomeTestView />", function(){
         geneCount = Object.keys(BioLogica.Species.Drake.geneList).length;
 
   it("should create a <div> tag with appropriate classes", function() {
-    const wrapper = shallow(<GenomeTestView org={drake} selectionChanged={function() {}}/>);
+    const wrapper = shallow(<GenomeTestView org={drake} onSelectionChange={function() {}}/>);
     assert(wrapper.find('div').at(0).hasClass('geniblocks'), "Should create a <div> with 'geniblocks' class");
     assert(wrapper.find('div').at(0).hasClass('genome-test'), "Should create a <div> with 'genome-test' class");
   });
 
   it("should create appropriate child components with no filtering", function() {
-    const wrapper = shallow(<GenomeTestView org={drake} selectionChanged={function() {}}/>);
+    const wrapper = shallow(<GenomeTestView org={drake} onSelectionChange={function() {}}/>);
     assert.lengthOf(wrapper.find('div.items'), chromosomeNameCount, "Should create three <div>s with 'items' class");
     assert.lengthOf(wrapper.find('div.genome-test-options'), chromosomeNameCount, "Should create three <div>s with 'genome-test-options' class");
     assert.lengthOf(wrapper.find('ChromosomeImageView'), chromosomeCount, "Should create six <ChromosomeImageView> components");
@@ -22,7 +22,7 @@ describe("<GenomeTestView />", function(){
 
   it("should create appropriate child components with allele filtering", function() {
     const wrapper = shallow(<GenomeTestView org={drake} hiddenAlleles={['t', 'a']}
-                                            selectionChanged={function() {}}/>),
+                                            onSelectionChange={function() {}}/>),
           hiddenGeneCount = 2,  // tail and armor genes are hidden
           filteredGeneCount = Object.keys(BioLogica.Species.Drake.geneList).length - hiddenGeneCount;
     assert.lengthOf(wrapper.find('div.items'), chromosomeNameCount, "Should create three <div>s with 'items' class");

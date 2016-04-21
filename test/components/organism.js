@@ -17,12 +17,12 @@ describe("<OrganismView />", function(){
 
   it("clicking an <OrganismView> should trigger the handleClick handler", function() {
     let clickedID, clickedOrg;
-    function testHandleClick(id, org) {
+    function handleTestClick(id, org) {
       clickedID = id;
       clickedOrg = org;
     }
     const wrapper = shallow(<OrganismView org={drake}  id={orgID}
-                                          handleClick={testHandleClick} />);
+                                          onClick={handleTestClick} />);
     wrapper.simulate('click');
     assert.equal(clickedID, orgID, "Clicking an <OrganismView> should trigger click handler");
     assert.equal(clickedOrg, drake, "Clicking an <OrganismView> should trigger click handler");

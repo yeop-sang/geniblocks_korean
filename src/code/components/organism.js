@@ -1,6 +1,6 @@
 import {PropTypes} from 'react';
 
-const OrganismView = ({org, id, width=200, style={}, handleClick, wrapper }) => {
+const OrganismView = ({org, id, width=200, style={}, onClick, wrapper }) => {
   const baseUrl = "https://geniverse-resources.concord.org/resources/drakes/images/",
         url     = baseUrl + org.getImageName(),
         // The goal here was to have the onMouseDown handler select the organism,
@@ -13,16 +13,16 @@ const OrganismView = ({org, id, width=200, style={}, handleClick, wrapper }) => 
         // handler will work as expected. Otherwise, it may be necessary to
         // select the organism (if it isn't already selected) in beginDrag.
         isFirefox = (navigator.userAgent.toLowerCase().indexOf('firefox') >= 0),
-        handleMouseDown = isFirefox ? undefined : localhandleClick,
+        handleMouseDown = isFirefox ? undefined : handleClick,
         divWrapper = wrapper || function(elt) { return elt; };
 
-  function localhandleClick() {
-    if (handleClick) handleClick(id, org);
+  function handleClick() {
+    if (onClick) onClick(id, org);
   }
 
   return divWrapper(
     <div className="geniblocks organism" id={id} style={style} 
-          onMouseDown={handleMouseDown} onClick={localhandleClick}>
+          onMouseDown={handleMouseDown} onClick={handleClick}>
       <img src={url} width={width} />
     </div>
   );
@@ -33,7 +33,7 @@ OrganismView.propTypes = {
   id: PropTypes.string,
   width: PropTypes.number,
   style: PropTypes.object,
-  handleClick: PropTypes.func,
+  onClick: PropTypes.func,
   wrapper: PropTypes.func
 };
 

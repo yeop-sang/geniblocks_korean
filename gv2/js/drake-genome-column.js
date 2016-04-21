@@ -8,30 +8,42 @@ class DrakeGenomeColumn extends React.Component {
     id: React.PropTypes.string.isRequired,
     sex: React.PropTypes.string.isRequired,
     drake: React.PropTypes.object.isRequired,
-    isDrakeEditable: React.PropTypes.bool.isRequired,
+    editable: React.PropTypes.bool.isRequired,
     hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string),
-    alleleChanged: React.PropTypes.func.isRequired
+    onAlleleChange: React.PropTypes.func.isRequired,
+    buttonID: React.PropTypes.string,
+    buttonLabel: React.PropTypes.string,
+    onButtonClick: React.PropTypes.func
   }
 
   render() {
-    const { id, sex, drake, isDrakeEditable, hiddenAlleles, alleleChanged } = this.props,
+    const { id, sex, drake, editable, hiddenAlleles,
+            buttonID, buttonLabel } = this.props,
           drakeLabelID = `${sex}-drake-label`,
           columnLabel = `${sex.charAt(0).toUpperCase() + sex.slice(1)} Drake`,
-          drakeOrgID = `${sex}-drake`;
+          drakeOrgID = `${sex}-drake`,
+          button = buttonID
+                    ? <GeniBlocks.Button id={buttonID} onClick={this.props.onButtonClick}>
+                        {buttonLabel}
+                      </GeniBlocks.Button>
+                    : null;
     return (
       <div id={id} className="column">
 
-        {/* parent drake label */}
+        {/* drake label */}
         <div id={drakeLabelID} className="column-label">{columnLabel}</div>
 
-        {/* parent drake image */}
+        {/* drake image */}
         <GeniBlocks.OrganismGlowView
           id={drakeOrgID} className='parent-drake' org={drake} color='#FFFFAA' size={200} />
 
-        {/* parent drake genome */}
+        {/* drake genome */}
         <GeniBlocks.GenomeView
           className='parent-genome' org={drake} hiddenAlleles={hiddenAlleles}
-          editable={isDrakeEditable} alleleChanged={alleleChanged} />
+          editable={editable} onAlleleChange={this.props.onAlleleChange} />
+
+        {/* optional button */}
+        {button}
       </div>
     );
   }

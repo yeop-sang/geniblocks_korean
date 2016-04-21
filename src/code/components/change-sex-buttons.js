@@ -6,7 +6,7 @@ import {PropTypes} from 'react';
  * @param {string} sex - ['male' | 'female'] currently selected button
  * @param {function} onChange(evt, sex) - callback to be called when use clicks to change sex
  */
-const ChangeSexButtons = ({id, sex, species, showLabel, style={}, handleSexChange}) => {
+const ChangeSexButtons = ({id, sex, species, showLabel, style={}, onChange}) => {
   const capSex = sex.substr(0, 1).toUpperCase() + sex.substr(1),
         selectedSexClass = sex === 'male' ? 'male-selected' : 'female-selected',
         BUTTON_IMAGE_WIDTH = 100,
@@ -25,7 +25,7 @@ const ChangeSexButtons = ({id, sex, species, showLabel, style={}, handleSexChang
     const eltRect = evt.target.getBoundingClientRect(),
           clickX = evt.clientX - eltRect.left;
     if ((sex === 'male') !== (clickX > BUTTON_IMAGE_MIDPOINT_X))
-      handleSexChange(sex === 'male' ? 'female' : 'male');
+      onChange(sex === 'male' ? 'female' : 'male');
   }
 
   return (
@@ -44,7 +44,7 @@ ChangeSexButtons.propTypes = {
   species: PropTypes.string,
   showLabel: PropTypes.bool,
   style: PropTypes.object,
-  handleSexChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired
 };
 
 export default ChangeSexButtons;

@@ -17,7 +17,7 @@ const GlowBackgroundView = ({id, color, size, containerStyle={}, glowStyle={}, C
 GlowBackgroundView.propTypes = {
   id: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
-  size: PropTypes.number,
+  size: PropTypes.number.isRequired,
   containerStyle: PropTypes.object,
   glowStyle: PropTypes.object,
   ChildComponent: PropTypes.func.isRequired,

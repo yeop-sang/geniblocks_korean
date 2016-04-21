@@ -1,23 +1,21 @@
 import {PropTypes} from 'react';
 import OrganismView from './organism';
 
-const PenView = ({orgs, idPrefix='organism-', width=400, columns=5, SelectedOrganismView=OrganismView, selectedIndex, handleClick}) => {
+const PenView = ({orgs, idPrefix='organism-', width=400, columns=5, SelectedOrganismView=OrganismView, selectedIndex, onClick}) => {
 
-  function localHandleClick(id, org) {
-    // That this conversion would be better done by the OrganismView
-    // and then propagated up to here.
+  function handleClick(id, org) {
     const prefixIndex = id.indexOf(idPrefix),
           index = Number(id.substr(prefixIndex + idPrefix.length));
-    if (handleClick) handleClick(index, id, org);
+    if (onClick) onClick(index, id, org);
   }
 
   let orgWidth = width/columns,
       orgViews = orgs.map((org, index) => {
         return index === selectedIndex
                 ? <SelectedOrganismView org={org} id={idPrefix + index} index={index} key={index}
-                                    color="#FFFFAA" size={orgWidth} handleClick={localHandleClick}/>
+                                    color="#FFFFAA" size={orgWidth} onClick={handleClick}/>
                 : <OrganismView org={org} id={idPrefix + index} index={index} key={index}
-                                width={orgWidth} handleClick={localHandleClick}/>;
+                                width={orgWidth} onClick={handleClick}/>;
       });
 
   return (
@@ -34,7 +32,7 @@ PenView.propTypes = {
   columns: PropTypes.number,
   SelectedOrganismView: PropTypes.func,
   selectedIndex: PropTypes.number,
-  handleClick: PropTypes.func
+  onClick: PropTypes.func
 };
 
 export default PenView;
