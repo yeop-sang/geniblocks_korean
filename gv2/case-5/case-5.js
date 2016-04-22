@@ -22,20 +22,20 @@ class BreedButtonAndPenView extends React.Component {
   static propTypes = {
     clutch: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     clutchSize: React.PropTypes.number.isRequired,
-    handleBreed: React.PropTypes.func.isRequired
+    onBreed: React.PropTypes.func.isRequired
   }
 
-  breed = () => {
+  handleBreed = () => {
     this.setState({ selectedIndex: null });
-    if (this.props.handleBreed)
-      this.props.handleBreed();
+    if (this.props.onBreed)
+      this.props.onBreed();
   }
 
   render() {
     const { clutch, clutchSize } = this.props;
     return (
-      <div id="center" className="column">
-        <GeniBlocks.Button id="breed-button" label="Breed" onClick={this.breed} />
+      <div id='center' className='column'>
+        <GeniBlocks.Button id="breed-button" label="Breed" onClick={this.handleBreed} />
         <GeniBlocks.PenStatsView id="breeding-pen" orgs={clutch} lastClutchSize={clutchSize} />
       </div>
     );
@@ -52,24 +52,24 @@ class Case5RightColumn extends React.Component {
     hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     testSelection: React.PropTypes.object.isRequired,
     toggleTest: React.PropTypes.func.isRequired,
-    handleGeneSelected: React.PropTypes.func.isRequired,
+    onGeneSelected: React.PropTypes.func.isRequired,
     checkAnswer: React.PropTypes.func.isRequired
   }
 
   componentDidMount() {
     const { toggleTest, checkAnswer } = this.props;
-    document.getElementsByClassName("toggle-test-button")[0].onclick = toggleTest;
-    document.getElementsByClassName("toggle-test-button")[1].onclick = toggleTest;
-    document.getElementById("submit-button").onclick = checkAnswer;
+    document.getElementsByClassName('toggle-test-button')[0].onclick = toggleTest;
+    document.getElementsByClassName('toggle-test-button')[1].onclick = toggleTest;
+    document.getElementById('submit-button').onclick = checkAnswer;
   }
 
   render() {
-    const { org, hiddenAlleles, testSelection, handleGeneSelected } = this.props;
+    const { org, hiddenAlleles, testSelection } = this.props;
 
     return(
       <div id='right' className='column'>
         {/* parent drake label */}
-        <div id='father-drake-label' className="column-label">Male Drake</div>
+        <div id='father-drake-label' className='column-label'>Male Drake</div>
 
         <GeniBlocks.OrganismGlowView org={org} id='father' size={200} color='#FFFFAA' />
         <div id='father-genome-unknown'>?</div>
@@ -77,7 +77,7 @@ class Case5RightColumn extends React.Component {
           <GeniBlocks.GenomeTestView id='father-genome-test'
                                     org={org} hiddenAlleles={hiddenAlleles}
                                     selection={testSelection}
-                                    selectionChanged={handleGeneSelected} />
+                                    onSelectionChange={this.props.onGeneSelected} />
           <GeniBlocks.Button className='toggle-test-button' label="Return to Lab" />
           <GeniBlocks.Button id='submit-button' label="Submit!" />
         </div>
@@ -120,7 +120,7 @@ class Case5 extends React.Component {
     this.state.father = new BioLogica.Organism(BioLogica.Species.Drake, props.fatherAlleles, BioLogica.MALE);
   }
 
-  alleleChanged = (chrom, side, prevAllele, newAllele) => {
+  handleAlleleChange = (chrom, side, prevAllele, newAllele) => {
     let { mother } = this.state;
     mother.genetics.genotype.replaceAlleleChromName(chrom, side, prevAllele, newAllele);
     mother = new BioLogica.Organism(BioLogica.Species.Drake,
@@ -129,7 +129,7 @@ class Case5 extends React.Component {
     this.setState({ mother, offspring: [], clutch: [] });
   }
 
-  breed = () => {
+  handleBreed = () => {
     const { clutchSize } = this.props;
     let   { offspring, clutch } = this.state,
           count = clutchSize;
@@ -192,19 +192,20 @@ class Case5 extends React.Component {
     return (
       <div className='column-wrapper'>
         <DrakeGenomeColumn
-              id='left' className='column'
+              id='left' idPrefix='female' className='column'
+              columnLabel="Female Drake"
               drake={this.state.mother} sex='female'
-              isDrakeEditable={true}
+              editable={true}
               hiddenAlleles={hiddenAlleles}
-              alleleChanged={this.alleleChanged} />
+              onAlleleChange={this.handleAlleleChange} />
         <BreedButtonAndPenView id='center' className='column'
                               clutch={this.state.clutch} clutchSize={clutchSize}
-                              handleBreed={this.breed}/>
+                              onBreed={this.handleBreed}/>
         <Case5RightColumn id='right' className='column' 
                           org={this.state.father} hiddenAlleles={hiddenAlleles}
                           testSelection={this.state.testSelection}
                           toggleTest={this.toggleTest}
-                          handleGeneSelected={this.handleGeneSelected}
+                          onGeneSelected={this.handleGeneSelected}
                           checkAnswer={this.checkAnswer} />
       </div>
     );

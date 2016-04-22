@@ -18,11 +18,11 @@ describe("<PenView />", function(){
 
   it("clicking an <OrganismView> should trigger the handleClick handler", function() {
     let clickedIndex, clickedID;
-    function testHandleClick(index, id) {
+    function handleTestClick(index, id) {
       clickedIndex = index;
       clickedID = id;
     }
-    const wrapper = mount(<PenView orgs={drakes} handleClick={testHandleClick}/>),
+    const wrapper = mount(<PenView orgs={drakes} onClick={handleTestClick}/>),
           firstOrgView = wrapper.find('OrganismView').first(),
           firstOrgID = firstOrgView.prop('id'),
           lastOrgView = wrapper.find('OrganismView').last(),

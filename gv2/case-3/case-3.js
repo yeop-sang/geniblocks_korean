@@ -112,7 +112,7 @@ _DropOrganismGlowView.propTypes = {
   connectDropTarget: React.PropTypes.func.isRequired,
   isOver: React.PropTypes.bool.isRequired,
   canDrop: React.PropTypes.bool.isRequired,
-  handleDrop: React.PropTypes.func.isRequired
+  onDrop: React.PropTypes.func.isRequired
 };
 
 const DropOrganismGlowView = ReactDnD.DropTarget(
@@ -124,8 +124,8 @@ const DropOrganismGlowView = ReactDnD.DropTarget(
                             drop: function(props, monitor) {
                               const { org, id } = props,
                                     dropTarget = { org, id };
-                              if (props.handleDrop)
-                                props.handleDrop(monitor.getItem(), dropTarget);
+                              if (props.onDrop)
+                                props.onDrop(monitor.getItem(), dropTarget);
                             }
                           },
                           // collecting function
@@ -151,10 +151,10 @@ class _Case3Center extends React.Component {
     matchedColor: React.PropTypes.string.isRequired,
     clutch: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     clutchSize: React.PropTypes.number.isRequired,
-    handleBreed: React.PropTypes.func.isRequired,
+    onBreed: React.PropTypes.func.isRequired,
     requiredMoveCount: React.PropTypes.number.isRequired,
     moveCount: React.PropTypes.number.isRequired,
-    handleDrop: React.PropTypes.func.isRequired
+    onDrop: React.PropTypes.func.isRequired
   }
 
   state = {
@@ -166,15 +166,19 @@ class _Case3Center extends React.Component {
     document.addEventListener('keydown', () => enableButtonFocusHighlight());
   }
 
-  breed = () => {
+  handleSelectionChange = (iSelectedIndex) => {
+    this.setState({ selectedIndex: iSelectedIndex });
+  }
+
+  handleBreed = () => {
     this.setState({ selectedIndex: null });
-    if (this.props.handleBreed)
-      this.props.handleBreed();
+    if (this.props.onBreed)
+      this.props.onBreed();
   }
 
   renderTargetDrake(index) {
     const { targetDrakes, targetsMatched, targetDrakeSize,
-            glowColor, matchedColor, handleDrop } = this.props,
+            glowColor, matchedColor } = this.props,
           id = `target-drake-${index}`,
           isMatched = targetsMatched.has(id),
           color = isMatched ? matchedColor : glowColor;
@@ -183,7 +187,7 @@ class _Case3Center extends React.Component {
                 id={id} className="small-drake-image"
                 org={targetDrakes[index]} size={targetDrakeSize}
                 color={color} dropColor={dropGlowColor}
-                isMatched={isMatched} handleDrop={handleDrop} />
+                isMatched={isMatched} onDrop={this.props.onDrop} />
             : null;
   }
 
@@ -200,7 +204,7 @@ class _Case3Center extends React.Component {
         </div>
         <div id="breed-button-and-goal-feedback">
           <button id="breed-button"
-                  onClick={this.breed}
+                  onClick={this.handleBreed}
                   onMouseOver={suppressButtonFocusHighlight}
                   onMouseDown={suppressButtonFocusHighlight} >
             Breed
@@ -214,9 +218,7 @@ class _Case3Center extends React.Component {
         <GeniBlocks.PenStatsView id="breeding-pen" orgs={clutch} lastClutchSize={clutchSize}
                                   selectedIndex={this.state.selectedIndex}
                                   SelectedOrganismView={DragOrganismGlowView}
-                                  onSelectionChange={(iSelectedIndex) => {
-                                    this.setState({ selectedIndex: iSelectedIndex });
-                                  }}/>
+                                  onSelectionChange={this.handleSelectionChange}/>
         <div id="alert-wrapper">
           <h3 id="alert-title"></h3>
           <div id="alert-message"></div>
@@ -294,7 +296,7 @@ class Case3 extends React.Component {
                     clutch, requiredMoveCount, moveCount });
   }
 
-  alleleChanged(sex, chrom, side, prevAllele, newAllele) {
+  handleAlleleChange = (sex, chrom, side, prevAllele, newAllele) => {
     let parentDrakes = this.state.parentDrakes.slice(),
         drake = parentDrakes[sex];
     drake.genetics.genotype.replaceAlleleChromName(chrom, side, prevAllele, newAllele);
@@ -303,7 +305,7 @@ class Case3 extends React.Component {
     this.setState({ parentDrakes, clutch: [], moveCount: ++this.state.moveCount });
   }
 
-  breed = () => {
+  handleBreed = () => {
     let { parentDrakes } = this.state,
         clutch = [];
     for (let i = 0; i < clutchSize; ++i) {
@@ -348,28 +350,39 @@ class Case3 extends React.Component {
     const { editableParentSex } = this.props.challenge,
           { parentDrakes, targetDrakes, targetsMatched,
             clutch, requiredMoveCount, moveCount } = this.state;
+
+    const handleMotherAlleleChange = function(...args) {
+      this.handleAlleleChange(FEMALE, ...args);
+    }.bind(this);
+
+    const handleFatherAlleleChange = function(...args) {
+      this.handleAlleleChange(MALE, ...args);
+    }.bind(this);
+
     return (
       <div id="challenges-wrapper">
         <DrakeGenomeColumn
-              id='left' sex='female'
+              id='left' idPrefix='female' sex='female'
+              columnLabel="Female Drake"
               drake={parentDrakes[FEMALE]}
-              isDrakeEditable={editableParentSex === FEMALE}
+              editable={editableParentSex === FEMALE}
               hiddenAlleles={hiddenAlleles}
-              alleleChanged={(...args) => this.alleleChanged(FEMALE, ...args)} />
+              onAlleleChange={handleMotherAlleleChange} />
         <Case3Center
               targetDrakes={targetDrakes} targetDrakeSize={targetDrakeSize}
               targetsMatched={targetsMatched}
               glowColor={glowColor} matchedColor={matchedColor}
               clutch={clutch} clutchSize={clutchSize}
-              handleBreed={this.breed}
-              handleDrop={this.handleDrop}
+              onBreed={this.handleBreed}
+              onDrop={this.handleDrop}
               requiredMoveCount={requiredMoveCount} moveCount={moveCount} />
         <DrakeGenomeColumn
-              id='right' sex='male'
+              id='right' idPrefix='male' sex='male'
+              columnLabel="Male Drake"
               drake={parentDrakes[MALE]}
-              isDrakeEditable={editableParentSex === MALE}
+              editable={editableParentSex === MALE}
               hiddenAlleles={hiddenAlleles}
-              alleleChanged={(...args) => this.alleleChanged(MALE, ...args)} />
+              onAlleleChange={handleFatherAlleleChange} />
       </div>
     );
   }
@@ -445,5 +458,7 @@ function enableButtonFocusHighlight() {
   if (button && button.className)
     button.className = button.className.replace(/(?:^|\s)no-focus-highlight(?!\S)/g , '');
 }
+
+GeniBlocks.Button.enableButtonFocusHighlightOnKeyDown();
 
 render();

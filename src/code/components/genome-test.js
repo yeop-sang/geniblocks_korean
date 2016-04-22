@@ -29,7 +29,7 @@ let TestPulldownView = ({species, gene, selection, onSelectionChange}) => {
       );
     };
 
-const GenomeTestView = ({org, hiddenAlleles=[], selection={}, selectionChanged}) => {
+const GenomeTestView = ({org, hiddenAlleles=[], selection={}, onSelectionChange}) => {
   let pairWrappers = [];
   for (let chromosomeName of org.species.chromosomeNames) {
     let chrom = org.genetics.genotype.chromosomes[chromosomeName],
@@ -44,7 +44,7 @@ const GenomeTestView = ({org, hiddenAlleles=[], selection={}, selectionChanged})
               gene      = { g }
               selection = { selection[g.name] }
               onSelectionChange = { function(event) {
-                selectionChanged(g, event.target.value);
+                onSelectionChange(g, event.target.value);
               } }
             />
           );
@@ -78,7 +78,7 @@ GenomeTestView.propTypes = {
   org: PropTypes.object.isRequired,
   hiddenAlleles: PropTypes.array,
   selection: PropTypes.object,
-  selectionChanged: PropTypes.func.isRequired
+  onSelectionChange: PropTypes.func.isRequired
 };
 
 export default GenomeTestView;

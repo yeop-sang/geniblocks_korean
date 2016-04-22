@@ -28,7 +28,7 @@ describe("<ChangeSexButtons />", function(){
 
   it("clicking the male button should trigger the onChange handler", function() {
     let sex = 'female';
-    function handleChange(evt, iSex) { sex = iSex; }
+    function handleChange(iSex) { sex = iSex; }
     const wrapper = mount(<ChangeSexButtons sex={sex} onChange={handleChange} />);
     wrapper.find('div.change-sex-buttons').simulate('click', { clientX: 90 });
     assert.equal(sex, 'male', "an appropriate click should change the sex to 'male'");
@@ -36,7 +36,7 @@ describe("<ChangeSexButtons />", function(){
 
   it("clicking the female button should trigger the onChange handler", function() {
     let sex = 'male';
-    function handleChange(evt, iSex) { sex = iSex; }
+    function handleChange(iSex) { sex = iSex; }
     const wrapper = mount(<ChangeSexButtons sex={sex} onChange={handleChange} />);
     wrapper.find('div.change-sex-buttons').simulate('click', { clientX: 10 });
     assert.equal(sex, 'female', "an appropriate click should change the sex to 'female'");

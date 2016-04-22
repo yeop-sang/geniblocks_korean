@@ -30,30 +30,39 @@ class Button extends React.Component {
   // Enables button focus highlighting; designed to be called from the keydown handler above
   // but available separately for implementations that require it.
   static enableButtonFocusHighlight() {
-    const buttons = document.querySelectorAll('.gb-button');
-    // cf. http://stackoverflow.com/questions/195951/change-an-elements-class-with-javascript
-    buttons.forEach(function(button) {
-      if (button && button.className)
+    const buttons = document.querySelectorAll('.gb-button'),
+          count = buttons.length;
+    // cf. https://developer.mozilla.org/en-US/docs/Web/API/NodeList#Example
+    for (let i = 0; i < count; ++i) {
+      const button = buttons[i];
+      if (button && button.className) {
+        // cf. http://stackoverflow.com/questions/195951/change-an-elements-class-with-javascript
         button.className = button.className.replace(/(?:^|\s)no-focus-highlight(?!\S)/g , '');
-    });
+      }
+    }
   }
 
   // prevent extraneous focus highlight on click while maintaining keyboard accessibility
   // see https://www.paciellogroup.com/blog/2012/04/how-to-remove-css-outlines-in-an-accessible-manner/
-  suppressButtonFocusHighlight = (evt) => {
-    const noFocusHighlight = 'no-focus-highlight';
-    if (evt.target.className.indexOf(noFocusHighlight) < 0)
-      evt.target.className += ' ' + noFocusHighlight;
+  suppressButtonFocusHighlight = () => {
+    const noFocusHighlight = 'no-focus-highlight',
+          button = this.refs.button;
+    if (button.className.indexOf(noFocusHighlight) < 0)
+      button.className += ' ' + noFocusHighlight;
   }
 
   render() {
     const { className, label, ...others } = this.props,
-          classes = className + ' gb-button';
+          classes = (className ? className + ' ' : '') + 'gb-button';
+
+    const handleMouseEvent = function() {
+      this.suppressButtonFocusHighlight();
+    }.bind(this);
 
     return (
-      <button className={classes} {...others}
-              onMouseEnter={this.suppressButtonFocusHighlight}
-              onMouseDown={this.suppressButtonFocusHighlight}>
+      <button className={classes} ref='button' {...others}
+              onMouseEnter={handleMouseEvent}
+              onMouseDown={handleMouseEvent}>
         {label}
       </button>
     );

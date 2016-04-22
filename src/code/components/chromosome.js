@@ -3,14 +3,14 @@ import ChromosomeImageView from './chromosome-image';
 import GeneLabelView from './gene-label';
 import GeneticsUtils from '../utilities/genetics-utils';
 
-const ChromosomeView = ({org, chromosomeName, side, hiddenAlleles=[], editable=true, alleleChanged, labelsOnRight=true}) => {
+const ChromosomeView = ({org, chromosomeName, side, hiddenAlleles=[], editable=true, onAlleleChange, labelsOnRight=true}) => {
   let alleles = org.getGenotype().chromosomes[chromosomeName][side].alleles,
       visibleAlleles = GeneticsUtils.filterAlleles(alleles, hiddenAlleles, org.species),
       labels  = visibleAlleles.map(a => {
         return (
           <GeneLabelView key={a} species={org.species} allele={a} editable={editable}
           onAlleleChange={function(event) {
-            alleleChanged(a, event.target.value);
+            onAlleleChange(a, event.target.value);
           }}/>
         );
       }),
@@ -39,7 +39,7 @@ ChromosomeView.propTypes = {
   side: PropTypes.string.isRequired,
   hiddenAlleles: PropTypes.array,
   editable: PropTypes.bool,
-  alleleChanged: PropTypes.func,
+  onAlleleChange: PropTypes.func,
   labelsOnRight: PropTypes.bool
 };
 

@@ -81,7 +81,7 @@ var APP = function(props) {
       GeniBlocks.GenomeView,
       {
         org: org,
-        alleleChanged: function(chrom, side, prevAllele, newAllele) {
+        onAlleleChange: function(chrom, side, prevAllele, newAllele) {
           org.genetics.genotype.replaceAlleleChromName(chrom, side, prevAllele, newAllele);
           props.dispatch(createAction("changedAllele", org.getAlleleString()));
         }

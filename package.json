@@ -55,10 +55,10 @@
     "deploy": "gulp deploy",
 
     "env": "env",
-    "lint": "eslint gv2 src test",
+    "lint": "eslint examples gv2 src test",
 
-    "serve": "live-server public",
-    "serve:gv2": "npm run serve -- --open=gv2",
+    "examples": "live-server public",
+    "gv2": "live-server public --open=gv2",
 
     "pretest": "npm run lint",
     "test": "mocha --compilers js:babel-core/register --recursive --require ./test/setup.js",

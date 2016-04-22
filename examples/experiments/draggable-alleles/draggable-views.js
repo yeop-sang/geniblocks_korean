@@ -1,3 +1,5 @@
+/* global ReactDnD */
+/* eslint react/prop-types:0 */
 var DragSource = ReactDnD.DragSource,
     DropTarget = ReactDnD.DropTarget,
 
