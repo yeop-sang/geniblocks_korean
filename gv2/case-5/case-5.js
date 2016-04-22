@@ -192,7 +192,8 @@ class Case5 extends React.Component {
     return (
       <div className='column-wrapper'>
         <DrakeGenomeColumn
-              id='left' className='column'
+              id='left' idPrefix='female' className='column'
+              columnLabel="Female Drake"
               drake={this.state.mother} sex='female'
               editable={true}
               hiddenAlleles={hiddenAlleles}

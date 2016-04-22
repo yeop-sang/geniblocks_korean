@@ -362,7 +362,8 @@ class Case3 extends React.Component {
     return (
       <div id="challenges-wrapper">
         <DrakeGenomeColumn
-              id='left' sex='female'
+              id='left' idPrefix='female' sex='female'
+              columnLabel="Female Drake"
               drake={parentDrakes[FEMALE]}
               editable={editableParentSex === FEMALE}
               hiddenAlleles={hiddenAlleles}
@@ -376,7 +377,8 @@ class Case3 extends React.Component {
               onDrop={this.handleDrop}
               requiredMoveCount={requiredMoveCount} moveCount={moveCount} />
         <DrakeGenomeColumn
-              id='right' sex='male'
+              id='right' idPrefix='male' sex='male'
+              columnLabel="Male Drake"
               drake={parentDrakes[MALE]}
               editable={editableParentSex === MALE}
               hiddenAlleles={hiddenAlleles}

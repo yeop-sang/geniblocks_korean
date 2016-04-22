@@ -6,8 +6,10 @@ class DrakeGenomeColumn extends React.Component {
 
   static propTypes = {
     id: React.PropTypes.string.isRequired,
-    sex: React.PropTypes.string.isRequired,
+    idPrefix: React.PropTypes.string.isRequired,
+    columnLabel: React.PropTypes.string,
     drake: React.PropTypes.object.isRequired,
+    showDrake: React.PropTypes.bool,
     editable: React.PropTypes.bool.isRequired,
     hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string),
     onAlleleChange: React.PropTypes.func.isRequired,
@@ -16,26 +18,32 @@ class DrakeGenomeColumn extends React.Component {
     onButtonClick: React.PropTypes.func
   }
 
+  static defaultProps = {
+    columnLabel: "",
+    showDrake: true
+  }
+
   render() {
-    const { id, sex, drake, editable, hiddenAlleles,
-            buttonID, buttonLabel } = this.props,
-          drakeLabelID = `${sex}-drake-label`,
-          columnLabel = `${sex.charAt(0).toUpperCase() + sex.slice(1)} Drake`,
-          drakeOrgID = `${sex}-drake`,
+    const { id, idPrefix, columnLabel, drake, showDrake, editable,
+            hiddenAlleles, buttonID, buttonLabel } = this.props,
+          drakeLabelID = `${idPrefix}-drake-label`,
+          drakeOrgID = `${idPrefix}-drake`,
+          drakeImage = showDrake
+                        ? <GeniBlocks.OrganismGlowView id={drakeOrgID} className='parent-drake' 
+                            org={drake} color='#FFFFAA' size={200} />
+                        : null,
           button = buttonID
-                    ? <GeniBlocks.Button id={buttonID} onClick={this.props.onButtonClick}>
-                        {buttonLabel}
-                      </GeniBlocks.Button>
+                    ? <GeniBlocks.Button id={buttonID} label={buttonLabel}
+                                          onClick={this.props.onButtonClick}/>
                     : null;
     return (
-      <div id={id} className="column">
+      <div id={id} className='column'>
 
-        {/* drake label */}
+        {/* column label */}
         <div id={drakeLabelID} className="column-label">{columnLabel}</div>
 
-        {/* drake image */}
-        <GeniBlocks.OrganismGlowView
-          id={drakeOrgID} className='parent-drake' org={drake} color='#FFFFAA' size={200} />
+        {/* optional drake image */}
+        {drakeImage}
 
         {/* drake genome */}
         <GeniBlocks.GenomeView
