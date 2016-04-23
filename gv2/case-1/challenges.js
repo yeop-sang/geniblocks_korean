@@ -96,21 +96,13 @@ class Case1ChallengeCenter extends React.Component {
     yourDrakeSex: React.PropTypes.number.isRequired,
     isDrakeHidden: React.PropTypes.bool.isRequired,
     showDrakeForConfirmation: React.PropTypes.bool.isRequired,
-    onSexChange: React.PropTypes.func.isRequired
+    onSexChange: React.PropTypes.func.isRequired,
+    onAlertButtonClick: React.PropTypes.func.isRequired
   }
 
   componentDidMount() {
-    document.getElementById("alert-ok-button").onclick = this.handleAlertButtonClick;
-    document.getElementById("alert-try-button").onclick = this.handleAlertButtonClick;    
-  }
-
-  handleAlertButtonClick = (evt) => {
-    const targetID = evt.target.id;
-    const clientClickHandler = alertClientButtonClickHandlers[targetID];
-    showAlert(false);
-    this.setState({ showDrakeForConfirmation: false });
-    if (clientClickHandler)
-      clientClickHandler();
+    document.getElementById("alert-ok-button").onclick = this.props.onAlertButtonClick;
+    document.getElementById("alert-try-button").onclick = this.props.onAlertButtonClick;
   }
 
   render() {
@@ -193,7 +185,8 @@ class Case1Challenge extends React.Component {
       moveCount: 0,
       requiredMoveCount: 0,
       trialIndex: 1,
-      showDrakeForConfirmation: false
+      showDrakeForConfirmation: false,
+      alertButtonClickHandlers: {}
     };
   }
 
@@ -242,14 +235,14 @@ class Case1Challenge extends React.Component {
           { trialIndex } = this.state;
     if (gChallenge >= gLastChallenge) {
       if (trialIndex >= trialCount) {
-        showAlert(true, {
-                          title: "Congratulations!",
-                          message: "You've completed all the trials in this challenge.",
-                          okButton: "Go back to the Case Log",
-                          okCallback: this.advanceChallenge,
-                          tryButton: "Try Again",
-                          tryCallback: this.resetChallenge
-                        });
+        this.showAlert(true, {
+              title: "Congratulations!",
+              message: "You've completed all the trials in this challenge.",
+              okButton: "Go back to the Case Log",
+              okCallback: this.advanceChallenge,
+              tryButton: "Try Again",
+              tryCallback: this.resetChallenge
+            });
         return;
       }
       this.setState({ trialIndex: ++this.state.trialIndex });
@@ -305,32 +298,66 @@ class Case1Challenge extends React.Component {
 
     if (0 === GeniBlocks.GeneticsUtils.numberOfChangesToReachPhenotype(yourDrake, targetDrake)) {
       if (gChallenge < gLastChallenge) {
-        showAlert(true, { 
-                          title: "Good work!",
-                          message: "The drake you have created matches the target drake.",
-                          okButton: "Next Challenge",
-                          okCallback: this.advanceChallenge,
-                          tryButton: "Try Again",
-                          tryCallback: this.resetChallenge
-                        });
+        this.showAlert(true, { 
+              title: "Good work!",
+              message: "The drake you have created matches the target drake.",
+              okButton: "Next Challenge",
+              okCallback: this.advanceChallenge,
+              tryButton: "Try Again",
+              tryCallback: this.resetChallenge
+            });
       }
       else {
-        showAlert(true, { 
-                          title: "Good work!",
-                          message: "The drake you have created matches the target drake.",
-                          okButton: "OK",
-                          okCallback: this.advanceTrial
-                        });
+        this.showAlert(true, { 
+              title: "Good work!",
+              message: "The drake you have created matches the target drake.",
+              okButton: "OK",
+              okCallback: this.advanceTrial
+            });
       }
     }
     else {
-      showAlert(true, {
-                        title: "That's not the drake!",
-                        message: "The drake you have created doesn't match the target drake.\nPlease try again.",
-                        tryButton: "Try Again",
-                        tryCallback: this.continueTrial
-                      });
+      this.showAlert(true, {
+            title: "That's not the drake!",
+            message: "The drake you have created doesn't match the target drake.\nPlease try again.",
+            tryButton: "Try Again",
+            tryCallback: this.continueTrial
+          });
     }
+  }
+
+  showAlert(iShow, iOptions) {
+    const displayMode = iShow ? 'block' : 'none',
+          okButton = document.getElementById('alert-ok-button'),
+          tryButton = document.getElementById('alert-try-button');
+    let { alertButtonClickHandlers } = this.state;
+    if (iShow) {
+      document.getElementById("alert-title").innerHTML = iOptions.title || "";
+      document.getElementById("alert-message").innerHTML = iOptions.message || "";
+      okButton.innerHTML = iOptions.okButton || "";
+      okButton.style.display = iOptions.okButton ? 'block' : 'none';
+      okButton.dataset.okCallback = iOptions.okCallback || '';
+      alertButtonClickHandlers[okButton.id] = iOptions.okCallback || null;
+      tryButton.innerHTML = iOptions.tryButton || "";
+      tryButton.style.display = iOptions.tryButton ? 'block' : 'none';
+      alertButtonClickHandlers[tryButton.id] = iOptions.tryCallback || null;
+    }
+    else {
+      alertButtonClickHandlers[okButton.id] = null;
+      alertButtonClickHandlers[tryButton.id] = null;
+    }
+    this.setState({ alertButtonClickHandlers });
+    document.getElementById("overlay").style.display = displayMode;
+    document.getElementById("alert-wrapper").style.display = displayMode;
+  }
+
+  handleAlertButtonClick = (evt) => {
+    const targetID = evt.target.id,
+          { alertButtonClickHandlers } = this.state;
+    const clientClickHandler = alertButtonClickHandlers[targetID];
+    this.showAlert(false);
+    if (clientClickHandler)
+      clientClickHandler();
   }
 
   render() {
@@ -347,7 +374,8 @@ class Case1Challenge extends React.Component {
         <Case1ChallengeCenter yourDrake={yourDrake} yourDrakeSex={yourDrakeSex}
                             isDrakeHidden={isDrakeHidden}
                             showDrakeForConfirmation={showDrakeForConfirmation}
-                            onSexChange={this.handleSexChange}/>
+                            onSexChange={this.handleSexChange}
+                            onAlertButtonClick={this.handleAlertButtonClick}/>
         <Case1ChallengeRight hiddenAlleles={hiddenAlleles}
                             yourDrake={yourDrake}
                             onAlleleChange={this.handleAlleleChange}
@@ -365,30 +393,6 @@ function render() {
     }),
     document.getElementById('wrapper')
   );
-}
-
-let alertClientButtonClickHandlers = {};
-function showAlert(iShow, iOptions) {
-  const displayMode = iShow ? 'block' : 'none',
-        okButton = document.getElementById("alert-ok-button"),
-        tryButton = document.getElementById("alert-try-button");
-  if (iShow) {
-    document.getElementById("alert-title").innerHTML = iOptions.title || "";
-    document.getElementById("alert-message").innerHTML = iOptions.message || "";
-    okButton.innerHTML = iOptions.okButton || "";
-    okButton.style.display = iOptions.okButton ? 'block' : 'none';
-    okButton.dataset.okCallback = iOptions.okCallback || '';
-    alertClientButtonClickHandlers[okButton.id] = iOptions.okCallback || null;
-    tryButton.innerHTML = iOptions.tryButton || "";
-    tryButton.style.display = iOptions.tryButton ? 'block' : 'none';
-    alertClientButtonClickHandlers[tryButton.id] = iOptions.tryCallback || null;
-  }
-  else {
-    alertClientButtonClickHandlers[okButton.id] = null;
-    alertClientButtonClickHandlers[tryButton.id] = null;
-  }
-  document.getElementById("overlay").style.display = displayMode;
-  document.getElementById("alert-wrapper").style.display = displayMode;
 }
 
 render();
