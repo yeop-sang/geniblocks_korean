@@ -233,6 +233,10 @@ class Case1Challenge extends React.Component {
     this.setState({ moveCount: ++this.state.moveCount });
   }
 
+  continueTrial = () => {
+    this.setState({ showDrakeForConfirmation: false });
+  }
+
   advanceTrial = () => {
     const { trialCount } = this.props.challengeSpec,
           { trialIndex } = this.state;
@@ -323,9 +327,9 @@ class Case1Challenge extends React.Component {
       showAlert(true, {
                         title: "That's not the drake!",
                         message: "The drake you have created doesn't match the target drake.\nPlease try again.",
-                        tryButton: "Try Again"
+                        tryButton: "Try Again",
+                        tryCallback: this.continueTrial
                       });
-      render();
     }
   }
 
