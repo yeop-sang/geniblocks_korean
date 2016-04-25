@@ -9,8 +9,7 @@
 /* global DrakeGenomeColumn */
 //import DrakeGenomeColumn from '../js/parent-genome-column';
 
-const MALE = 0,
-      FEMALE = 1,
+const { MALE, FEMALE } = BioLogica,
       minChallenge = 1,
       maxChallenge = 2,
       challengeSpecs = {
@@ -161,11 +160,6 @@ class _Case3Center extends React.Component {
     selectedIndex: null
   }
 
-  constructor(props) {
-    super(props);
-    document.addEventListener('keydown', () => enableButtonFocusHighlight());
-  }
-
   handleSelectionChange = (iSelectedIndex) => {
     this.setState({ selectedIndex: iSelectedIndex });
   }
@@ -203,12 +197,7 @@ class _Case3Center extends React.Component {
           {this.renderTargetDrake(1)}
         </div>
         <div id="breed-button-and-goal-feedback">
-          <button id="breed-button"
-                  onClick={this.handleBreed}
-                  onMouseOver={suppressButtonFocusHighlight}
-                  onMouseDown={suppressButtonFocusHighlight} >
-            Breed
-          </button>
+          <GeniBlocks.Button id="breed-button" label="Breed" onClick={this.handleBreed} />
           <GeniBlocks.FeedbackView id="goal-feedback" className="feedback-view"
                                     text={[
                                       `GOAL is ${requiredMoveCount} MOVES`,
@@ -442,21 +431,6 @@ function alertButtonClickHandler(evt) {
   if (clientClickHandler)
     clientClickHandler();
   render();
-}
-
-// prevent extraneous focus highlight on click while maintaining keyboard accessibility
-// see https://www.paciellogroup.com/blog/2012/04/how-to-remove-css-outlines-in-an-accessible-manner/
-function suppressButtonFocusHighlight(evt) {
-  const noFocusHighlight = 'no-focus-highlight';
-  if (evt.target.className.indexOf(noFocusHighlight) < 0)
-    evt.target.className += ' ' + noFocusHighlight;
-}
-
-function enableButtonFocusHighlight() {
-  const button = document.getElementById('breed-button');
-  // cf. http://stackoverflow.com/questions/195951/change-an-elements-class-with-javascript
-  if (button && button.className)
-    button.className = button.className.replace(/(?:^|\s)no-focus-highlight(?!\S)/g , '');
 }
 
 GeniBlocks.Button.enableButtonFocusHighlightOnKeyDown();
