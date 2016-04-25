@@ -1,8 +1,3 @@
-const kSexLabels = ['male', 'female'],
-      kHiddenAlleles = ['t','tk','h','c','a','b','d','bog','rh'],
-      kInitialAlleles = "a:m,b:M,a:h,b:h,a:C,b:C,a:a,b:a,a:B,b:B,a:D,b:D,a:w,b:W,a:Fl,b:Fl,a:Hl,b:hl,a:T,b:t,a:rh,b:rh,a:Bog,b:Bog",
-      kInitialSex = BioLogica.FEMALE;
-
 class Case1PlaygroundLeft extends React.Component {
 
   static propTypes = {
@@ -32,15 +27,16 @@ class Case1PlaygroundRight extends React.Component {
 
   static propTypes = {
     drake: React.PropTypes.object.isRequired,
-    handleProceedButton: React.PropTypes.func.isRequired
+    onAdvanceChallenge: React.PropTypes.func.isRequired
   }
 
   render() {
-    const { drake, handleProceedButton } = this.props;
+    const { drake } = this.props;
     return (
       <div id="right" className="column">
         <GeniBlocks.OrganismGlowView id='drake-image' org={drake} color='#FFFFAA' size={200}/>
-        <GeniBlocks.Button id='advance-button' label="Bring It On!" onClick={handleProceedButton}/>
+        <GeniBlocks.Button id='advance-button' label="Bring It On!"
+                            onClick={this.props.onAdvanceChallenge}/>
       </div>
     );
   }
@@ -49,27 +45,36 @@ class Case1PlaygroundRight extends React.Component {
 class Case1Playground extends React.Component {
 
   static propTypes = {
-    sexLabels: React.PropTypes.arrayOf(React.PropTypes.string),
-    hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string),
-    initialAlleles: React.PropTypes.string.isRequired,
-    initialSex: React.PropTypes.oneOf([BioLogica.MALE, BioLogica.FEMALE]).isRequired,
-    handleProceedButton: React.PropTypes.func.isRequired
+    sexLabels: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+    challengeSpec: React.PropTypes.shape({
+      label: React.PropTypes.string.isRequired,
+      isDrakeHidden: React.PropTypes.bool.isRequired,
+      trialCount: React.PropTypes.number.isRequired,
+      drakeAlleles: React.PropTypes.string.isRequired,
+      hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string)
+    }).isRequired,
+    currChallenge: React.PropTypes.number.isRequired,
+    lastChallenge: React.PropTypes.number.isRequired,
+    onAdvanceChallenge: React.PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props);
 
+    const { drakeAlleles } = props.challengeSpec,
+          drakeSex = Math.floor(2 * Math.random());
     this.state = {
-      drake: new BioLogica.Organism(BioLogica.Species.Drake, props.initialAlleles, props.initialSex)
+      drake: new BioLogica.Organism(BioLogica.Species.Drake, drakeAlleles, drakeSex)
     };
   }
 
   handleSexChange = (iSex) => {
-    const { sexLabels, initialAlleles } = this.props;
+    const { sexLabels } = this.props,
+          { drakeAlleles } = this.props.challengeSpec;
     let { drake } = this.state;
     // replace alleles lost when switching to male and back
     const alleleString = GeniBlocks.GeneticsUtils.fillInMissingAllelesFromAlleleString(
-                          drake.genetics, drake.getAlleleString(), initialAlleles),
+                          drake.genetics, drake.getAlleleString(), drakeAlleles),
           sexOfDrake = sexLabels.indexOf(iSex);
     drake = new BioLogica.Organism(BioLogica.Species.Drake, alleleString, sexOfDrake);
     this.setState({ drake });
@@ -83,7 +88,8 @@ class Case1Playground extends React.Component {
   }
 
   render() {
-    const { sexLabels, hiddenAlleles, handleProceedButton } = this.props;
+    const { sexLabels } = this.props,
+          { hiddenAlleles } = this.props.challengeSpec;
     const { drake } = this.state;
     return (
       <div id="playground-wrapper">
@@ -91,27 +97,10 @@ class Case1Playground extends React.Component {
                             hiddenAlleles={hiddenAlleles}
                             onSexChange={this.handleSexChange}
                             onAlleleChange={this.handleAlleleChange}/>
-        <Case1PlaygroundRight drake={drake} handleProceedButton={handleProceedButton}/>
+        <Case1PlaygroundRight drake={drake} onAdvanceChallenge={this.props.onAdvanceChallenge}/>
       </div>
     );
   }
 }
 
-function handleProceedButton() {
-  window.location.assign(window.location.href.replace("playground.html", "challenges.html?challenge=0"));
-}
-
-function render() {
-  ReactDOM.render(
-    React.createElement(Case1Playground, {
-      sexLabels: kSexLabels,
-      hiddenAlleles: kHiddenAlleles,
-      initialAlleles: kInitialAlleles,
-      initialSex: kInitialSex,
-      handleProceedButton }),
-    document.getElementById('wrapper'));
-}
-
-GeniBlocks.Button.enableButtonFocusHighlightOnKeyDown();
-
-render();
+Case1Playground;
