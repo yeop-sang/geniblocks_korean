@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "react-motion": "^0.4.2",
+    "react-overlays": "^0.6.3",
     "react-simpletabs": "^0.7.0"
   },
   "peerDependencies": {
@@ -49,17 +50,13 @@
     "prebuild": "npm run lint",
     "build": "gulp clean-and-build",
     "build:watch": "gulp",
-
     "clean": "gulp clean",
     "predeploy": "npm run lint && npm test",
     "deploy": "gulp deploy",
-
     "env": "env",
     "lint": "eslint examples gv2 src test",
-
     "examples": "live-server public",
     "gv2": "live-server public --open=gv2",
-
     "pretest": "npm run lint",
     "test": "mocha --compilers js:babel-core/register --recursive --require ./test/setup.js",
     "test:watch": "npm run test -- --watch"

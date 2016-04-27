@@ -14,6 +14,14 @@ const kHiddenAlleles = ['t','tk','h','c','a','b','d','bog','rh'],
       kInitialMotherAlleles = "a:m,b:M,a:h,b:h,a:C,b:C,a:a,b:a,a:B,b:B,a:D,b:D,a:w,b:W,a:Fl,b:Fl,a:Hl,b:hl,a:T,b:t,a:rh,b:rh,a:Bog,b:Bog",
       kClutchSize = 20;
 
+function handleCompleteCase() {
+  let url = window.location.href;
+  // back to case log
+  const case5Index = url.indexOf('case-5'),
+        nextUrl = url.substr(0, case5Index);
+  window.location.assign(nextUrl);
+}
+
 /**
  * Center panel has breed button and breeding pen
  */
@@ -53,14 +61,14 @@ class Case5RightColumn extends React.Component {
     testSelection: React.PropTypes.object.isRequired,
     toggleTest: React.PropTypes.func.isRequired,
     onGeneSelected: React.PropTypes.func.isRequired,
-    checkAnswer: React.PropTypes.func.isRequired
+    onCheckAnswer: React.PropTypes.func.isRequired
   }
 
   componentDidMount() {
-    const { toggleTest, checkAnswer } = this.props;
+    const { toggleTest, onCheckAnswer } = this.props;
     document.getElementsByClassName('toggle-test-button')[0].onclick = toggleTest;
     document.getElementsByClassName('toggle-test-button')[1].onclick = toggleTest;
-    document.getElementById('submit-button').onclick = checkAnswer;
+    document.getElementById('submit-button').onclick = onCheckAnswer;
   }
 
   render() {
@@ -95,7 +103,8 @@ class Case5 extends React.Component {
     hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string),
     initialMotherAlleles: React.PropTypes.string.isRequired,
     fatherAlleles: React.PropTypes.string.isRequired,
-    clutchSize: React.PropTypes.number
+    clutchSize: React.PropTypes.number,
+    onCompleteCase: React.PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -109,15 +118,34 @@ class Case5 extends React.Component {
     offspring: [],
     clutch: [],
     testSelection: {},
-    isShowingTest: false
+    showingTest: false
   }
 
-  constructor(props) {
-    super(props);
+  static userStates = {
+    NORMAL: 'normal',
+    ALERT_INCOMPLETE: 'alert-incomplete',
+    ALERT_CORRECT: 'alert-correct',
+    ALERT_INCORRECT: 'alert-incorrect'
+  }
 
-    /* eslint-disable react/no-direct-mutation-state */
-    this.state.mother = new BioLogica.Organism(BioLogica.Species.Drake, props.initialMotherAlleles, BioLogica.FEMALE);
-    this.state.father = new BioLogica.Organism(BioLogica.Species.Drake, props.fatherAlleles, BioLogica.MALE);
+  resetChallenge = () => {
+    if (this.state.showingTest)
+      this.toggleTest();
+
+    const { initialMotherAlleles, fatherAlleles } = this.props;
+    this.setState({
+      mother: new BioLogica.Organism(BioLogica.Species.Drake, initialMotherAlleles, BioLogica.FEMALE),
+      father: new BioLogica.Organism(BioLogica.Species.Drake, fatherAlleles, BioLogica.MALE),
+      offspring: [],
+      clutch: [],
+      testSelection: {},
+      showingTest: false,
+      userState: Case5.userStates.NORMAL
+    });
+  }
+
+  componentWillMount() {
+    this.resetChallenge();
   }
 
   handleAlleleChange = (chrom, side, prevAllele, newAllele) => {
@@ -158,7 +186,7 @@ class Case5 extends React.Component {
     this.setState({ testSelection });
   }
 
-  checkAnswer = () => {
+  handleCheckAnswer = () => {
     let allSelectedAlleles = [],
         alleleString = this.state.father.getAlleleString(),
         alleleStringLength = alleleString.length,
@@ -167,7 +195,7 @@ class Case5 extends React.Component {
 
     // hard-coded check to see if user has made all four choices
     if (Object.keys(this.state.testSelection).length !== 4) {
-      alert("First make a selection for all four genes!");
+      this.setState({ userState: Case5.userStates.ALERT_INCOMPLETE });
       return;
     }
 
@@ -183,12 +211,42 @@ class Case5 extends React.Component {
       }
       alleleStringLength = alleleString.length;
     }
-    var message = success ? "That's right!" : "Sorry, that's not right";
-    alert(message);
+    const userState = success ? Case5.userStates.ALERT_CORRECT
+                              : Case5.userStates.ALERT_INCORRECT;
+    this.setState({ userState });
+  }
+
+  handleCloseAlert = () => {
+    this.setState({ userState: Case5.userStates.NORMAL });
   }
 
   render() {
     const { hiddenAlleles, clutchSize } = this.props;
+    let showAlert, message, leftButton = {}, rightButton = {};
+    switch (this.state.userState) {
+      case Case5.userStates.ALERT_INCOMPLETE:
+        showAlert = true;
+        message = "First make a selection for all four genes!";
+        leftButton = null;
+        rightButton.label = "OK";
+        rightButton.onClick = this.handleCloseAlert;
+        break;
+      case Case5.userStates.ALERT_INCORRECT:
+        showAlert = true;
+        message = "Sorry, that's not correct";
+        leftButton = null;
+        rightButton.label = "Try Again";
+        rightButton.onClick = this.handleCloseAlert;
+        break;
+      case Case5.userStates.ALERT_CORRECT:
+        showAlert = true;
+        message = "That's correct!";
+        leftButton.label = "Try Again";
+        leftButton.onClick = this.resetChallenge;
+        rightButton.label = "Case Log";
+        rightButton.onClick = this.props.onCompleteCase;
+        break;
+    }
     return (
       <div className='column-wrapper'>
         <DrakeGenomeColumn
@@ -206,7 +264,10 @@ class Case5 extends React.Component {
                           testSelection={this.state.testSelection}
                           toggleTest={this.toggleTest}
                           onGeneSelected={this.handleGeneSelected}
-                          checkAnswer={this.checkAnswer} />
+                          onCheckAnswer={this.handleCheckAnswer} />
+        <GeniBlocks.ModalAlert
+              show={showAlert} message={message}
+              leftButton={leftButton} rightButton={rightButton}/>
       </div>
     );
   }
@@ -223,7 +284,8 @@ function render() {
       hiddenAlleles: kHiddenAlleles,
       fatherAlleles: kFatherAlleles,
       initialMotherAlleles: kInitialMotherAlleles,
-      clutchSize: kClutchSize
+      clutchSize: kClutchSize,
+      onCompleteCase: handleCompleteCase
     }),
     document.getElementById('wrapper')
   );

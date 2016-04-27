@@ -24,7 +24,8 @@ gulp.task('browserify-app', function(){
   // turn module requires (e.g. require('react')) into global references (e.g. window.React)
   .transform(exposify, {
     expose: {
-      'react': 'React'
+      'react': 'React',
+      'react-dom': 'ReactDOM'
     },
     global: true  // apply to dependencies of dependencies as well
   });
@@ -41,7 +42,15 @@ gulp.task('browserify-minify-app', function(){
     debug: !production,
     standalone: 'GeniBlocks'
   })
-  .transform(babelify);
+  .transform(babelify)
+  // turn module requires (e.g. require('react')) into global references (e.g. window.React)
+  .transform(exposify, {
+    expose: {
+      'react': 'React',
+      'react-dom': 'ReactDOM'
+    },
+    global: true  // apply to dependencies of dependencies as well
+  });
   b.add(config.src);
   return b.bundle()
     .on('error', errorHandler)
