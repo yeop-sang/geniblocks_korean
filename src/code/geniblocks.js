@@ -22,6 +22,7 @@ export { default as GeneLabelView } from './components/gene-label';
 export { default as GenomeTestView } from './components/genome-test';
 export { default as GenomeView } from './components/genome';
 export { default as GlowBackgroundView } from './components/glow-background';
+export { default as ModalAlert } from './components/modal-alert';
 export { default as OrganismView } from './components/organism';
 export { default as OrganismGlowView } from './components/organism-glow';
 export { default as PenView } from './components/pen';

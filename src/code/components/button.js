@@ -47,7 +47,7 @@ class Button extends React.Component {
   suppressButtonFocusHighlight = () => {
     const noFocusHighlight = 'no-focus-highlight',
           button = this.refs.button;
-    if (button.className.indexOf(noFocusHighlight) < 0)
+    if (button && button.className.indexOf(noFocusHighlight) < 0)
       button.className += ' ' + noFocusHighlight;
   }
 
