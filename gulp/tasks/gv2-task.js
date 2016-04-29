@@ -2,13 +2,13 @@ var gulp              = require('gulp');
 var beep              = require('beepbeep');
 var babel             = require('gulp-babel');
 var sourcemaps        = require('gulp-sourcemaps');
-var gv2Config         = require('../config').gv2;
-var gv2JSConfig       = require('../config').gv2JS;
+var config            = require('../config').gv2;
+var configJS          = require('../config').gv2JS;
 
 // Copy non-JS files directly
 gulp.task('gv2', function() {
-  return gulp.src(gv2Config.src)
-    .pipe(gulp.dest(gv2Config.dest));
+  return gulp.src(config.src)
+    .pipe(gulp.dest(config.dest));
 });
 
 var errorHandler = function (error) {
@@ -22,12 +22,11 @@ var errorHandler = function (error) {
 // so as to enable some of the syntax improvements described in
 // https://babeljs.io/blog/2015/06/07/react-on-es6-plus.
 
-gulp.task('gv2JS', function(){
-  return gulp.src(gv2JSConfig.src)
+gulp.task('gv2-js', function(){
+  return gulp.src(configJS.src)
     .pipe(sourcemaps.init())
     .pipe(babel())
     .on('error', errorHandler)
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(gv2JSConfig.dest));
+    .pipe(gulp.dest(configJS.dest));
 });
-

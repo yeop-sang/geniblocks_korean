@@ -7,20 +7,20 @@ var src = './src',
     dist = './dist';
 
 module.exports = {
-  browserify: {
+  geniblocksJS: {
     watch: [src + '/code/**/*.*'],
     src: src + '/code/geniblocks.js',
     public: pub + '/js/',
     dist: dist
   },
-  css: {
+  geniblocksCSS: {
     watch: src + '/stylus/**/*.styl',
     src: [node + '/react-simpletabs/lib/react-simpletabs.css',
           src + '/stylus/**/*.styl'],
     public: pub + '/css/',
     dist: dist
   },
-  resources: {
+  geniblocksRsrc: {
     watch: src + '/resources/**/*.*',
     src: src + '/resources/**/*.*',
     dest: pub + '/resources'
