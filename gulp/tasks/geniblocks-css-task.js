@@ -13,5 +13,6 @@ gulp.task('geniblocks-css', function() {
   gulp.src(config.src)
     .pipe(stylus({ compress: true}))
     .pipe(concat('geniblocks.min.css'))
+    .pipe(gulp.dest(config.public))
     .pipe(gulp.dest(config.dist));
 });

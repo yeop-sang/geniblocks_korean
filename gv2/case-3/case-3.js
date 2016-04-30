@@ -6,51 +6,28 @@
  *  Challenge 1: Modify mother drake so as to breed a particular target drake
  *  Challenge 2: Modify father drake so as to breed a pair of target drakes
  */
-/* global Case3Challenge */
-const { MALE, FEMALE } = BioLogica,
-      kInitialAlleles = "a:h,b:h,a:C,b:C,a:a,b:a,a:B,b:B,a:D,b:D,a:T,b:t,a:rh,b:rh,a:Bog,b:Bog",
-      kHiddenAlleles = ['t','tk','h','c','a','b','d','bog','rh'],
-      kEditableAlleles = ['m','w','fl','hl'],
-      kChallengeSpecs = [
-        { // Challenge 1: female is editable, male is fixed, one target drake
-          label: 'challenge-1',
-          targetDrakeCount: 1,
-          fixedParentSex: MALE,
-          editableParentSex: FEMALE,
-          initialAlleles: kInitialAlleles,
-          hiddenAlleles: kHiddenAlleles,
-          editableAlleles: kEditableAlleles
-        },
-        { // Challenge 2: male is editable, female is fixed, two target drakes
-          label: 'challenge-2',
-          targetDrakeCount: 2,
-          fixedParentSex: FEMALE,
-          editableParentSex: MALE,
-          initialAlleles: kInitialAlleles,
-          hiddenAlleles: kHiddenAlleles,
-          editableAlleles: kEditableAlleles
-        }
-      ],
-      kGlowColor = '#FFFFAA',
-      kDropGlowColor = '#FFFF00',
-      kCorrectGlowColor = '#88FF88',
-      kIncorrectGlowColor = '#FF8888',
-      kTargetDrakeSize = 150,
-      kClutchSize = 20;
-
-function handleCompleteCase() {
-  // back to case log
-  let url = window.location.href;
-  const case3Index = url.indexOf('case-3'),
-        nextUrl = url.substr(0, case3Index);
-  window.location.assign(nextUrl);
-}
+import Case3Challenge from './challenge';
 
 class Case3 extends React.Component {
 
   static propTypes = {
     challengeSpecs: React.PropTypes.arrayOf(React.PropTypes.object),
+    glowColor: React.PropTypes.string,
+    dropGlowColor: React.PropTypes.string,
+    correctGlowColor: React.PropTypes.string,
+    incorrectGlowColor: React.PropTypes.string,
+    targetDrakeSize: React.PropTypes.number,
+    clutchSize: React.PropTypes.number,
     onCompleteCase: React.PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    glowColor: '#FFFFAA',
+    dropGlowColor: '#FFFF00',
+    correctGlowColor: '#88FF88',
+    incorrectGlowColor: '#FF8888',
+    targetDrakeSize: 150,
+    clutchSize: 20
   }
 
   constructor() {
@@ -74,30 +51,24 @@ class Case3 extends React.Component {
   }
 
   render() {
-    const { challengeSpecs } = this.props,
+    const { challengeSpecs, glowColor, dropGlowColor, correctGlowColor,
+            incorrectGlowColor, targetDrakeSize, clutchSize } = this.props,
           { currChallenge } = this.state,
           challengeSpec = challengeSpecs[currChallenge],
           maxChallenge = challengeSpecs.length - 1;
     return (
-      <Case3Challenge currChallenge={currChallenge} maxChallenge={maxChallenge}
-                      challengeSpec={challengeSpec}
-                      targetDrakeSize={kTargetDrakeSize} clutchSize={kClutchSize}
-                      glowColor={kGlowColor} dropGlowColor={kDropGlowColor}
-                      correctGlowColor={kCorrectGlowColor} incorrectGlowColor={kIncorrectGlowColor}
-                      onNextChallenge={this.handleNextChallenge}/>
+      <div id='case-backdrop'>
+        <div id='case-3'>
+          <Case3Challenge currChallenge={currChallenge} maxChallenge={maxChallenge}
+                          challengeSpec={challengeSpec}
+                          targetDrakeSize={targetDrakeSize} clutchSize={clutchSize}
+                          glowColor={glowColor} dropGlowColor={dropGlowColor}
+                          correctGlowColor={correctGlowColor} incorrectGlowColor={incorrectGlowColor}
+                          onNextChallenge={this.handleNextChallenge}/>
+        </div>
+      </div>
     );
   }
 }
 
-function render() {
-  ReactDOM.render(
-    React.createElement(Case3, {
-      challengeSpecs: kChallengeSpecs,
-      onCompleteCase: handleCompleteCase }),
-    document.getElementById('wrapper')
-  );
-}
-
-GeniBlocks.Button.enableButtonFocusHighlightOnKeyDown();
-
-render();
+export default Case3;

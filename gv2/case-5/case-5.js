@@ -6,21 +6,7 @@
  * for the mother drake, breed a clutch of offspring, and then use the results to
  * deduce the alleles of the father drake.
  */
-/* global DrakeGenomeColumn */
-//import DrakeGenomeColumn from '../js/parent-genome-column';
-
-const kHiddenAlleles = ['t','tk','h','c','a','b','d','bog','rh'],
-      kFatherAlleles = "a:M,a:h,b:h,a:C,b:C,a:a,b:a,a:B,a:D,a:W,a:fl,b:fl,a:Hl,a:t,b:T,a:rh,a:Bog,b:Bog",
-      kInitialMotherAlleles = "a:m,b:M,a:h,b:h,a:C,b:C,a:a,b:a,a:B,b:B,a:D,b:D,a:w,b:W,a:Fl,b:Fl,a:Hl,b:hl,a:T,b:t,a:rh,b:rh,a:Bog,b:Bog",
-      kClutchSize = 20;
-
-function handleCompleteCase() {
-  let url = window.location.href;
-  // back to case log
-  const case5Index = url.indexOf('case-5'),
-        nextUrl = url.substr(0, case5Index);
-  window.location.assign(nextUrl);
-}
+import DrakeGenomeColumn from '../js/drake-genome-column';
 
 /**
  * Center panel has breed button and breeding pen
@@ -248,49 +234,33 @@ class Case5 extends React.Component {
         break;
     }
     return (
-      <div className='column-wrapper'>
-        <DrakeGenomeColumn
-              id='left' idPrefix='female' className='column'
-              columnLabel="Female Drake"
-              drake={this.state.mother} sex='female'
-              editable={true}
-              hiddenAlleles={hiddenAlleles}
-              onAlleleChange={this.handleAlleleChange} />
-        <BreedButtonAndPenView id='center' className='column'
-                              clutch={this.state.clutch} clutchSize={clutchSize}
-                              onBreed={this.handleBreed}/>
-        <Case5RightColumn id='right' className='column' 
-                          org={this.state.father} hiddenAlleles={hiddenAlleles}
-                          testSelection={this.state.testSelection}
-                          toggleTest={this.toggleTest}
-                          onGeneSelected={this.handleGeneSelected}
-                          onCheckAnswer={this.handleCheckAnswer} />
-        <GeniBlocks.ModalAlert
-              show={showAlert} message={message}
-              leftButton={leftButton} rightButton={rightButton}/>
+      <div id='case-backdrop'>
+        <div id='case-5'>
+          <div className='column-wrapper'>
+            <DrakeGenomeColumn
+                  id='left' idPrefix='female' className='column'
+                  columnLabel="Female Drake"
+                  drake={this.state.mother} sex='female'
+                  editable={true}
+                  hiddenAlleles={hiddenAlleles}
+                  onAlleleChange={this.handleAlleleChange} />
+            <BreedButtonAndPenView id='center' className='column'
+                                  clutch={this.state.clutch} clutchSize={clutchSize}
+                                  onBreed={this.handleBreed}/>
+            <Case5RightColumn id='right' className='column' 
+                              org={this.state.father} hiddenAlleles={hiddenAlleles}
+                              testSelection={this.state.testSelection}
+                              toggleTest={this.toggleTest}
+                              onGeneSelected={this.handleGeneSelected}
+                              onCheckAnswer={this.handleCheckAnswer} />
+            <GeniBlocks.ModalAlert
+                  show={showAlert} message={message}
+                  leftButton={leftButton} rightButton={rightButton}/>
+          </div>
+        </div>
       </div>
     );
   }
 }
 
-/*
- * Global render function
- */
-function render() {
- 
-  // Render Case5
-  ReactDOM.render(
-    React.createElement(Case5, {
-      hiddenAlleles: kHiddenAlleles,
-      fatherAlleles: kFatherAlleles,
-      initialMotherAlleles: kInitialMotherAlleles,
-      clutchSize: kClutchSize,
-      onCompleteCase: handleCompleteCase
-    }),
-    document.getElementById('wrapper')
-  );
-}
-
-GeniBlocks.Button.enableButtonFocusHighlightOnKeyDown();
-
-render();
+export default Case5;

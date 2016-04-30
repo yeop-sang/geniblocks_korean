@@ -8,25 +8,13 @@
  *  Challenge 1: Match the phenotype of a hidden test drake to that of a target drake
  *  Challenge 2: Match the phenotype of three hidden test drakes to target drakes
  */
-/* global Case1Playground, Case1Challenge */
-
-const kSexLabels = ['male', 'female'],
-      kInitialAlleles = "a:h,b:h,a:C,b:C,a:a,b:a,a:B,b:B,a:D,b:D,a:T,b:t,a:rh,b:rh,a:Bog,b:Bog",
-      kHiddenAlleles = ['t','tk','h','c','a','b','d','bog','rh'],
-      gChallengeSpecs = [
-        { label: 'playground', Component: Case1Playground, isDrakeHidden: false, trialCount: 1,
-          drakeAlleles: kInitialAlleles, hiddenAlleles: kHiddenAlleles },
-        { label: 'challenge-0', Component: Case1Challenge, isDrakeHidden: false, trialCount: 1,
-          drakeAlleles: kInitialAlleles, hiddenAlleles: kHiddenAlleles },
-        { label: 'challenge-1', Component: Case1Challenge, isDrakeHidden: true, trialCount: 1,
-          drakeAlleles: kInitialAlleles, hiddenAlleles: kHiddenAlleles },
-        { label: 'challenge-2', Component: Case1Challenge, isDrakeHidden: true, trialCount: 3,
-          drakeAlleles: kInitialAlleles, hiddenAlleles: kHiddenAlleles }
-      ];
+import Case1Challenge from './challenge.js';
+import Case1Playground from './playground.js';
 
 class Case1 extends React.Component {
 
   static propTypes = {
+    sexLabels: React.PropTypes.arrayOf(React.PropTypes.string),
     challengeSpecs: React.PropTypes.arrayOf(
                       React.PropTypes.shape({
                         label: React.PropTypes.string.isRequired,
@@ -35,7 +23,8 @@ class Case1 extends React.Component {
                         trialCount: React.PropTypes.number.isRequired,
                         drakeAlleles: React.PropTypes.string.isRequired,
                         hiddenAlleles: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
-                      }))
+                      })).isRequired,
+    onCompleteCase: React.PropTypes.func.isRequired
   }
 
   constructor() {
@@ -60,60 +49,43 @@ class Case1 extends React.Component {
     if (currChallenge < lastChallenge)
       this.setState({ currChallenge: ++currChallenge });
     else
-      this.completeCase();
-  }
-
-  completeCase() {
-    let url = window.location.href,
-        nextUrl;
-    const case1Index = url.indexOf('case-1');
-    nextUrl = url.substr(0, case1Index);
-    window.location.assign(nextUrl);
+      this.props.onCompleteCase();
   }
 
   render() {
-    const challengeSpec = this.props.challengeSpecs[this.state.currChallenge],
+    const { sexLabels } = this.props,
+          challengeSpec = this.props.challengeSpecs[this.state.currChallenge],
           { currChallenge } = this.state,
           lastChallenge = this.getLastChallengeIndex();
     return (
-      <div>
-        {(() => {
-          if (challengeSpec.Component === Case1Playground) {
-            return (
-              <Case1Playground
-                  sexLabels={kSexLabels}
-                  challengeSpec={challengeSpec}
-                  currChallenge={currChallenge}
-                  lastChallenge={lastChallenge}
-                  onAdvanceChallenge={this.handleAdvanceChallenge}/>
-            );
-          }
-          else {
-            return (
-              <Case1Challenge
-                  sexLabels={kSexLabels}
-                  challengeSpec={challengeSpec}
-                  currChallenge={currChallenge}
-                  lastChallenge={lastChallenge}
-                  onAdvanceChallenge={this.handleAdvanceChallenge}/>
-            );
-          }
-        })()}
+      <div id='case-backdrop'>
+        <div id='case-1'>
+          {(() => {
+            if (challengeSpec.Component === Case1Playground) {
+              return (
+                <Case1Playground
+                    sexLabels={sexLabels}
+                    challengeSpec={challengeSpec}
+                    currChallenge={currChallenge}
+                    lastChallenge={lastChallenge}
+                    onAdvanceChallenge={this.handleAdvanceChallenge}/>
+              );
+            }
+            else {
+              return (
+                <Case1Challenge
+                    sexLabels={sexLabels}
+                    challengeSpec={challengeSpec}
+                    currChallenge={currChallenge}
+                    lastChallenge={lastChallenge}
+                    onAdvanceChallenge={this.handleAdvanceChallenge}/>
+              );
+            }
+          })()}
+        </div>
       </div>
     );
   }
 }
 
-function render() {
-
-  ReactDOM.render(
-    React.createElement(Case1, {
-      challengeSpecs: gChallengeSpecs
-    }),
-    document.getElementById('wrapper')
-  );
-}
-
-GeniBlocks.Button.enableButtonFocusHighlightOnKeyDown();
-
-render();
+export default Case1;

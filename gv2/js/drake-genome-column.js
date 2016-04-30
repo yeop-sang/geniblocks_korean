@@ -1,7 +1,6 @@
 /**
  * DrakeGenomeColumn - shows drake image and genome
  */
-/* exported DrakeGenomeColumn */
 class DrakeGenomeColumn extends React.Component {
 
   static propTypes = {
@@ -57,5 +56,4 @@ class DrakeGenomeColumn extends React.Component {
   }
 }
 
-DrakeGenomeColumn;
-//export default DrakeGenomeColumn;
+export default DrakeGenomeColumn;

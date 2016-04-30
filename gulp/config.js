@@ -36,13 +36,18 @@ module.exports = {
     dest: pub
   },
   gv2: {
-    watch: [gv2 + '/**/*.*', '!' + gv2 + '/**/*.js'],
-    src: [gv2 + '/**/*.*', '!' + gv2 + '/**/*.js'],
+    watch: [gv2 + '/**/*.*', '!' + gv2 + '/**/*.js', '!' + gv2 + '/**/*.styl'],
+    src: [gv2 + '/**/*.*', '!' + gv2 + '/**/*.js', '!' + gv2 + '/**/*.styl'],
+    dest: pub + '/gv2'
+  },
+  gv2CSS: {
+    watch: gv2 + '/**/*.styl',
+    src: gv2 + '/**/*.styl',
     dest: pub + '/gv2'
   },
   gv2JS: {
     watch: gv2 + '/**/*.js',
-    src: gv2 + '/**/*.js',
+    src: gv2 + '/gv2.js',
     dest: pub + '/gv2'
   },
   vendor: {

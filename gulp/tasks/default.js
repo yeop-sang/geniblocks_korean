@@ -8,10 +8,12 @@ gulp.task('watch', function() {
     gulp.watch(config.examples.watch,       ['examples']);
     gulp.watch(config.examplesJS.watch,     ['examples-js']);
     gulp.watch(config.gv2.watch,            ['gv2']);
-    gulp.watch(config.gv2JS.watch,          ['gv2-js']);
+    gulp.watch(config.gv2CSS.watch,         ['gv2-css']);
+    gulp.watch(config.gv2JS.watch,          ['gv2-js-dev']);
 });
 
 gulp.task('build-all', ['geniblocks-js', 'geniblocks-css', 'geniblocks-rsrc',
-                        'vendor', 'examples', 'examples-js', 'gv2', 'gv2-js']);
+                        'vendor', 'examples', 'examples-js',
+                        'gv2', 'gv2-css', 'gv2-js']);
 
 gulp.task('default', ['build-all', 'watch']);

@@ -56,6 +56,7 @@ gulp.task('geniblocks-js-min', function(){
     .on('error', errorHandler)
     .pipe(source('geniblocks.min.js'))
     .pipe(streamify(uglify()))
+    .pipe(gulp.dest(config.public))
     .pipe(gulp.dest(config.dist));
 });
 
