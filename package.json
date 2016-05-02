@@ -3,13 +3,21 @@
     "comment": "workaround for the lack of true comments in JSON",
     "general": "Currently, this package.json is serving the needs of the GeniBlocks library, the standalone examples, and the GV2 application. This isn't ideal where dependencies are concerned. These comments attempt to document some of the dependencies, but in the long run a proper division into modules with separate package.jsons will be preferable.",
     "dependencies": "application dependencies (e.g. react) that are not built into the GeniBlocks library are currently handled with bower",
-    "dependencies-geniblocks": ["react-motion", "react-overlays", "react-simpletabs"],
-    "dependencies-gv2": ["react-router"],
+    "dependencies-geniblocks": [
+      "react-motion",
+      "react-overlays",
+      "react-simpletabs"
+    ],
+    "dependencies-gv2": [
+      "babel-polyfill",
+      "react-router"
+    ],
     "devDependencies": {
       "babel-preset-stage-0": "Enables support for ES6+ features such as those described at https://babeljs.io/blog/2015/06/07/react-on-es6-plus. We bring in all experimental features, but the particular stages supported is configured in .babelrc."
     }
   },
   "dependencies": {
+    "babel-polyfill": "^6.7.4",
     "react-motion": "^0.4.2",
     "react-overlays": "^0.6.3",
     "react-router": "^2.4.0",
