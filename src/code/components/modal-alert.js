@@ -40,29 +40,33 @@ const dialogStyle = function() {
 class ModalAlert extends React.Component {
 
   static propTypes = {
-    show: PropTypes.bool.isRequired,
-    message: PropTypes.string.isRequired,
+    show: PropTypes.bool,
+    message: PropTypes.string,
     explanation: PropTypes.string,
     leftButton: PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      onClick: PropTypes.func.isRequired
+      label: PropTypes.string,
+      onClick: PropTypes.func
     }),
     rightButton: PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      onClick: PropTypes.func.isRequired
-    }).isRequired,
+      label: PropTypes.string,
+      onClick: PropTypes.func
+    }),
     onHide: PropTypes.func
+  }
+
+  static defaultProps = {
+    show: false
   }
 
   render() {
     /* eslint react/jsx-handler-names: 0 */
-    const leftProps = this.props.leftButton,
+    const leftProps = this.props.leftButton || {},
           leftButton = leftProps
-                        ? <Button label={leftProps.label}
+                        ? <Button label={leftProps.label || ""}
                                   onClick={leftProps.onClick}/>
                         : null,
-          rightProps = this.props.rightButton,
-          rightButton = <Button label={rightProps.label}
+          rightProps = this.props.rightButton || {},
+          rightButton = <Button label={rightProps.label || ""}
                                 onClick={rightProps.onClick}/>;
 
     return (

@@ -136,7 +136,7 @@ class _Case3Center extends React.Component {
           color = isMatched ? correctGlowColor : glowColor;
     return index < targetDrakes.length
             ? <DropOrganismGlowView
-                id={id} className="small-drake-image"
+                id={id} key={index} className="small-drake-image"
                 org={targetDrakes[index]} size={targetDrakeSize}
                 color={color} dropColor={dropGlowColor}
                 isMatched={isMatched} onDrop={this.props.onDrop} />

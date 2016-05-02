@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import Case1 from './case-1/case-1';
 import Case1Challenge from './case-1/challenge';
 import Case1Playground from './case-1/playground';
