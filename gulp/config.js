@@ -7,20 +7,20 @@ var src = './src',
     dist = './dist';
 
 module.exports = {
-  browserify: {
+  geniblocksJS: {
     watch: [src + '/code/**/*.*'],
     src: src + '/code/geniblocks.js',
     public: pub + '/js/',
     dist: dist
   },
-  css: {
+  geniblocksCSS: {
     watch: src + '/stylus/**/*.styl',
     src: [node + '/react-simpletabs/lib/react-simpletabs.css',
           src + '/stylus/**/*.styl'],
     public: pub + '/css/',
     dist: dist
   },
-  resources: {
+  geniblocksRsrc: {
     watch: src + '/resources/**/*.*',
     src: src + '/resources/**/*.*',
     dest: pub + '/resources'
@@ -36,13 +36,18 @@ module.exports = {
     dest: pub
   },
   gv2: {
-    watch: [gv2 + '/**/*.*', '!' + gv2 + '/**/*.js'],
-    src: [gv2 + '/**/*.*', '!' + gv2 + '/**/*.js'],
+    watch: [gv2 + '/**/*.*', '!' + gv2 + '/**/*.js', '!' + gv2 + '/**/*.styl'],
+    src: [gv2 + '/**/*.*', '!' + gv2 + '/**/*.js', '!' + gv2 + '/**/*.styl'],
+    dest: pub + '/gv2'
+  },
+  gv2CSS: {
+    watch: gv2 + '/**/*.styl',
+    src: gv2 + '/**/*.styl',
     dest: pub + '/gv2'
   },
   gv2JS: {
     watch: gv2 + '/**/*.js',
-    src: gv2 + '/**/*.js',
+    src: gv2 + '/gv2.js',
     dest: pub + '/gv2'
   },
   vendor: {

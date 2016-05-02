@@ -103,4 +103,4 @@ class Case1Playground extends React.Component {
   }
 }
 
-Case1Playground;
+export default Case1Playground;

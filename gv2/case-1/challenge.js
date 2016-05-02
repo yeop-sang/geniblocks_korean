@@ -8,8 +8,7 @@
  *  Challenge 1: Match the phenotype of a hidden test drake to that of a target drake
  *  Challenge 2: Match the phenotype of three hidden test drakes to target drakes
  */
-/* global DrakeGenomeColumn */
-//import DrakeGenomeColumn from '../js/parent-genome-column';
+import DrakeGenomeColumn from '../js/drake-genome-column';
 
 /*
  * Left column contains target drake and trial/goal feedback views
@@ -350,4 +349,4 @@ class Case1Challenge extends React.Component {
   }
 }
 
-Case1Challenge;
+export default Case1Challenge;

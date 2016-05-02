@@ -4,7 +4,7 @@ var babelify    = require('babelify');
 var exposify    = require('exposify');
 var source      = require('vinyl-source-stream');
 var production  = require('../config').production;
-var config      = require('../config').browserify;
+var config      = require('../config').geniblocksJS;
 var beep        = require('beepbeep');
 var uglify      = require('gulp-uglify');
 var streamify   = require('gulp-streamify');
@@ -15,7 +15,7 @@ var errorHandler = function (error) {
   this.emit('end');
 };
 
-gulp.task('browserify-app', function(){
+gulp.task('geniblocks-js-dev', function(){
   var b = browserify({
     debug: !production,
     standalone: 'GeniBlocks'
@@ -37,7 +37,7 @@ gulp.task('browserify-app', function(){
     .pipe(gulp.dest(config.dist));
 });
 
-gulp.task('browserify-minify-app', function(){
+gulp.task('geniblocks-js-min', function(){
   var b = browserify({
     debug: !production,
     standalone: 'GeniBlocks'
@@ -56,7 +56,8 @@ gulp.task('browserify-minify-app', function(){
     .on('error', errorHandler)
     .pipe(source('geniblocks.min.js'))
     .pipe(streamify(uglify()))
+    .pipe(gulp.dest(config.public))
     .pipe(gulp.dest(config.dist));
 });
 
-gulp.task('browserify', ['browserify-app', 'browserify-minify-app']);
+gulp.task('geniblocks-js', ['geniblocks-js-dev', 'geniblocks-js-min']);

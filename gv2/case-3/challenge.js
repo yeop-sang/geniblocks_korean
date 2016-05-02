@@ -6,8 +6,7 @@
  *  Challenge 1: Modify mother drake so as to breed a particular target drake
  *  Challenge 2: Modify father drake so as to breed a pair of target drakes
  */
-/* global DrakeGenomeColumn */
-//import DrakeGenomeColumn from '../js/parent-genome-column';
+import DrakeGenomeColumn from '../js/drake-genome-column';
 
 const { MALE, FEMALE } = BioLogica;
 
@@ -396,4 +395,4 @@ class Case3Challenge extends React.Component {
   }
 }
 
-Case3Challenge;
+export default Case3Challenge;
