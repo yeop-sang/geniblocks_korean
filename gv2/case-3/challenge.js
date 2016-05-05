@@ -237,7 +237,7 @@ class Case3Challenge extends React.Component {
         requiredMoveCount = 0,
         moveCount = 0;
     // regenerate if we generate drakes that are too close to/far from each other
-    while ((requiredMoveCount < 4) || (requiredMoveCount > 8)) {
+    while ((requiredMoveCount < 3) || (requiredMoveCount > 8)) {
       parentDrakes = [];
       for (let sex = MALE; sex <= FEMALE; ++sex) {
         parentDrakes.push(new BioLogica.Organism(BioLogica.Species.Drake, initialAlleles, sex));
@@ -261,8 +261,6 @@ class Case3Challenge extends React.Component {
                                           editableParentSex === FEMALE ? editableAlleles : [],
                                           targetDrakes[i]));
       }
-      // add one for dragging an offspring to each target drake
-      requiredMoveCount += targetDrakeCount;
     }
     this.setState({ parentDrakes, targetParentDrake, targetDrakes, targetsMatched,
                     clutch, requiredMoveCount, moveCount });
@@ -289,7 +287,6 @@ class Case3Challenge extends React.Component {
 
   handleDrop = (dragItem, dropTarget) => {
     const { currChallenge, maxChallenge } = this.props;
-    this.setState({ moveCount: ++this.state.moveCount });
 
     if (0 === GeniBlocks.GeneticsUtils.numberOfChangesToReachPhenotype(dragItem.org, dropTarget.org)) {
       this.setState((state) => ({ targetsMatched: new Set(state.targetsMatched).add(dropTarget.id) }));
@@ -312,6 +309,8 @@ class Case3Challenge extends React.Component {
       }
     }
     else {
+      // only incorrect drops count as a move
+      this.setState({ moveCount: ++this.state.moveCount });
       this.showAlert(true, {
         title: "That's not the drake!",
         message: "The drake you have created doesn't match the target drake.\nPlease try again.",
