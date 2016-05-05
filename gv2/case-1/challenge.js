@@ -187,9 +187,8 @@ class Case1Challenge extends React.Component {
       yourDrakeSex = Math.floor(2 * Math.random());
       yourDrake = new BioLogica.Organism(BioLogica.Species.Drake,
                                           drakeAlleles, yourDrakeSex);
-      // add one for clicking the "Check Drake" button
       requiredMoveCount = GeniBlocks.GeneticsUtils.
-                            numberOfChangesToReachPhenotype(yourDrake, targetDrake) + 1;
+                            numberOfChangesToReachPhenotype(yourDrake, targetDrake);
     }
     this.setState({ targetDrakeSex, targetDrake,
                     yourDrakeSex, yourDrake,
@@ -360,8 +359,6 @@ class Case1Challenge extends React.Component {
               correct: isCorrect
             });
 
-    // Checking the answer counts as a move
-    this.advanceMove();
     this.setState({ showDrakeForConfirmation: true });
 
     if (isCorrect) {
@@ -369,6 +366,8 @@ class Case1Challenge extends React.Component {
       this.advanceTrial();
     }
     else {
+      // Checking when incorrect counts as a move
+      this.advanceMove();
       // checked drake is not correct
       this.showAlert(true, {
             title: "That's not the drake!",
