@@ -42,7 +42,10 @@ browserify to build `geniblocks.js` into the global object `GeniBlocks`.
 
 This project aims to be a lightweight library for consumption by other applications.
 Its built products are therefore simply `dist/geniblocks.js` and `dist/geniblocks.css`,
-and we do not bundle React or Biologica.js with the library.
+and we do not bundle React or Biologica.js with the library. The `GV2` sample application
+is currently built along with the `GeniBlocks` lib and is installed into the `/public`
+folder along with the other examples as described below. Eventually, it will presumably
+become a separate project in its own right but for now it's convenient to keep them together.
 
 Demos and tests are created in `/examples`, and are built into `/public`, along
 with duplicates of the built scripts, css, and the vendor libraries (React and

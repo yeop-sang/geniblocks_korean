@@ -5,11 +5,13 @@
     "dependencies": "application dependencies (e.g. react) that are not built into the GeniBlocks library are currently handled with bower",
     "dependencies-geniblocks": [
       "react-motion",
-      "react-overlays",
+      "react-overlays -- only for ModalAlert component; could move to GV2",
       "react-simpletabs"
     ],
     "dependencies-gv2": [
+      "axios",
       "babel-polyfill",
+      "lodash",
       "react-router"
     ],
     "devDependencies": {
@@ -17,7 +19,9 @@
     }
   },
   "dependencies": {
+    "axios": "^0.11.0",
     "babel-polyfill": "^6.7.4",
+    "lodash": "^4.11.2",
     "react-motion": "^0.4.2",
     "react-overlays": "^0.6.3",
     "react-router": "^2.4.0",

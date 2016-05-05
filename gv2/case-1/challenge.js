@@ -9,6 +9,8 @@
  *  Challenge 2: Match the phenotype of three hidden test drakes to target drakes
  */
 import DrakeGenomeColumn from '../js/drake-genome-column';
+import EVENT from '../event';
+import _ from 'lodash';
 
 /*
  * Left column contains target drake and trial/goal feedback views
@@ -131,6 +133,10 @@ class Case1Challenge extends React.Component {
 
   static propTypes = {
     sexLabels: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+    caseSpec: React.PropTypes.shape({
+                title: React.PropTypes.string.isRequired,
+                path: React.PropTypes.string.isRequired
+              }).isRequired,
     challengeSpec: React.PropTypes.shape({
       label: React.PropTypes.string.isRequired,
       isDrakeHidden: React.PropTypes.bool.isRequired,
@@ -141,6 +147,10 @@ class Case1Challenge extends React.Component {
     currChallenge: React.PropTypes.number.isRequired,
     lastChallenge: React.PropTypes.number.isRequired,
     onAdvanceChallenge: React.PropTypes.func.isRequired
+  }
+
+  static contextTypes = {
+    logEvent: React.PropTypes.func.isRequired
   }
 
   constructor() {
@@ -164,7 +174,7 @@ class Case1Challenge extends React.Component {
     }
   }
 
-  resetDrakes() {
+  resetDrakes(iCallback) {
     const { drakeAlleles } = this.props.challengeSpec;
     let requiredMoveCount = 0,
         targetDrakeSex, targetDrake,
@@ -184,12 +194,29 @@ class Case1Challenge extends React.Component {
     this.setState({ targetDrakeSex, targetDrake,
                     yourDrakeSex, yourDrake,
                     moveCount: 0, requiredMoveCount,
-                    showDrakeForConfirmation: false });
+                    showDrakeForConfirmation: false },
+                  iCallback);
   }
 
   resetChallenge = () => {
     this.setState({ trialIndex: 1 });
-    this.resetDrakes();
+    this.resetDrakes(function() {
+      // called after the setState call is complete
+      const { logEvent } = this.context,
+            { caseSpec, currChallenge } = this.props,
+            { targetDrake, yourDrake, requiredMoveCount } = this.state;
+      logEvent(EVENT.STARTED_CHALLENGE, {
+                title: caseSpec.title,
+                route: caseSpec.path,
+                case: 1,
+                challenge: currChallenge,
+                targetSex: targetDrake.sex,
+                targetAlleles: targetDrake.getAlleleString(),
+                drakeSex: yourDrake.sex,
+                drakeAlleles: yourDrake.getAlleleString(),
+                requiredMoveCount
+              });
+    });
   }
 
   advanceMove() {
@@ -200,7 +227,7 @@ class Case1Challenge extends React.Component {
     this.setState({ showDrakeForConfirmation: false });
   }
 
-  resetTrial = () => {
+  nextTrial = () => {
     this.setState({ trialIndex: ++this.state.trialIndex });
     this.resetDrakes();
   }
@@ -214,7 +241,7 @@ class Case1Challenge extends React.Component {
             title: "Good work!",
             message: "The drake you have created matches the target drake.",
             okButton: "OK",
-            okCallback: this.resetTrial
+            okCallback: this.nextTrial
           });
     }
     else {
@@ -225,7 +252,7 @@ class Case1Challenge extends React.Component {
               title: "Good work!",
               message: "The drake you have created matches the target drake.",
               okButton: "Next Challenge",
-              okCallback: this.props.onAdvanceChallenge,
+              okCallback: this.handleAdvanceChallenge,
               tryButton: "Try Again",
               tryCallback: this.resetChallenge
             });
@@ -236,7 +263,7 @@ class Case1Challenge extends React.Component {
               title: "Congratulations!",
               message: "You've completed all the trials in this challenge.",
               okButton: "Go back to the Case Log",
-              okCallback: this.props.onAdvanceChallenge,
+              okCallback: this.handleAdvanceChallenge,
               tryButton: "Try Again",
               tryCallback: this.resetChallenge
             });
@@ -244,10 +271,39 @@ class Case1Challenge extends React.Component {
     }
   }
 
+  /*
+   * Placeholder for a real scoring algorithm
+   */
+  computeStars() {
+    const { moveCount, requiredMoveCount } = this.state;
+    if (moveCount <= requiredMoveCount) return 3;
+    if (moveCount <= requiredMoveCount + 2) return 2;
+    return 1;
+  }
+
+  handleAdvanceChallenge = () => {
+    const { logEvent } = this.context,
+          { caseSpec, currChallenge } = this.props,
+          { moveCount, requiredMoveCount } = this.state;
+    logEvent(EVENT.COMPLETED_CHALLENGE, {
+              title: caseSpec.title,
+              route: caseSpec.path,
+              case: 1,
+              challenge: currChallenge,
+              moveCount,
+              requiredMoveCount,
+              starsAwarded: this.computeStars()
+            });
+    this.props.onAdvanceChallenge();
+  }
+
   handleSexChange = (iSex) => {
-    let { yourDrake, yourDrakeSex } = this.state;
+    let { yourDrake, yourDrakeSex, moveCount, requiredMoveCount } = this.state;
+    const { logEvent } = this.context,
+          prevDrakeSex = yourDrake.sex,
+          prevAlleleString = yourDrake.getAlleleString(),
                           // replace alleles lost when switching to male and back
-    const { sexLabels } = this.props,
+          { sexLabels } = this.props,
           { drakeAlleles } = this.props.challengeSpec,
           alleleString = GeniBlocks.GeneticsUtils.fillInMissingAllelesFromAlleleString(
                           yourDrake.genetics, yourDrake.getAlleleString(), drakeAlleles);
@@ -255,26 +311,60 @@ class Case1Challenge extends React.Component {
     yourDrake = new BioLogica.Organism(BioLogica.Species.Drake, alleleString, yourDrakeSex);
     this.advanceMove();
     this.setState({ yourDrake, yourDrakeSex });
+    logEvent(EVENT.CHANGED_SEX, {
+              drakeId: this.state.trialIndex,
+              oldSex: prevDrakeSex,
+              newSex: yourDrake.sex,
+              oldAlleles: prevAlleleString,
+              newAlleles: yourDrake.getAlleleString(),
+              moveCount: moveCount + 1, // increment ourselves to avoid setState callback
+              requiredMoveCount
+            });
   }
 
   handleAlleleChange = (chrom, side, prevAllele, newAllele) => {
-    let { yourDrake } = this.state;
+    let { yourDrake, moveCount, requiredMoveCount } = this.state;
+    const { logEvent } = this.context,
+          prevAlleleString = yourDrake.getAlleleString();
     yourDrake.genetics.genotype.replaceAlleleChromName(chrom, side, prevAllele, newAllele);
     yourDrake = new BioLogica.Organism(BioLogica.Species.Drake,
                                         yourDrake.getAlleleString(),
                                         yourDrake.sex);
     this.advanceMove();
     this.setState({ yourDrake });
+    logEvent(EVENT.CHANGED_ALLELE, {
+              drakeId: this.state.trialIndex,
+              chromosome: chrom,
+              side: side,
+              oldAllele: prevAllele,
+              newAllele: newAllele,
+              oldAlleles: prevAlleleString,
+              newAlleles: yourDrake.getAlleleString(),
+              moveCount: moveCount + 1, // increment ourselves to avoid setState callback
+              requiredMoveCount
+            });
   }
 
   handleCheckDrake = () => {
-    const { yourDrake, targetDrake } = this.state;
+    const { logEvent } = this.context,
+          { yourDrake, targetDrake, moveCount, requiredMoveCount } = this.state,
+          diffCount = GeniBlocks.GeneticsUtils.numberOfChangesToReachPhenotype(
+                                                yourDrake, targetDrake),
+          isCorrect = (diffCount === 0);
+
+    logEvent(EVENT.DRAKE_SUBMITTED, {
+              correctPhenotype: _.cloneDeep(targetDrake.phenotype.characteristics),
+              submittedPhenotype: _.cloneDeep(yourDrake.phenotype.characteristics),
+              moveCount,
+              requiredMoveCount,
+              correct: isCorrect
+            });
 
     // Checking the answer counts as a move
     this.advanceMove();
     this.setState({ showDrakeForConfirmation: true });
 
-    if (0 === GeniBlocks.GeneticsUtils.numberOfChangesToReachPhenotype(yourDrake, targetDrake)) {
+    if (isCorrect) {
       // checked drake is correct
       this.advanceTrial();
     }
