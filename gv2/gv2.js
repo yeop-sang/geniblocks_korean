@@ -6,7 +6,7 @@ import Case3 from './case-3/case-3';
 import Case5 from './case-5/case-5';
 import CaseLog from './case-log/case-log';
 import Logger from './cc-logger';
-import { Router, Route, hashHistory } from 'react-router';
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 
 /*
  * These globals are representative of the kind of state that would be part
@@ -106,6 +106,24 @@ class CaseLogConnected extends React.Component {
 }
 
 /*
+ * Placeholder app component that could eventually contain a toolbar, etc.j
+ */
+class GV2 extends React.Component {
+
+  static propTypes = {
+    children: React.PropTypes.node.isRequired
+  }
+
+  render() {
+    return (
+      <div id='GV2'>
+        {this.props.children}
+      </div>
+    );
+  }
+}
+
+/*
  * These "Connected" component wrappers handle passing parameters to the cases and
  * tying into the router. The variability in Case API could be simplified by having
  * every case take a single configuration object and return (via onCompleteCase())
@@ -198,12 +216,15 @@ ReactDOM.render((
         Requires server configuration, however, so hashHistory is preferred for
         development and for Github pages deployment. */}
     <Router history={hashHistory}>
-      <Route path="/" component={CaseLogConnected}/>
+      <Route path="/" component={GV2}>
 
-      {/* should extend the routes to include the challenge level as well */}
-      <Route path="/case-1" component={Case1Connected}/>
-      <Route path="/case-3" component={Case3Connected}/>
-      <Route path="/case-5" component={Case5Connected}/>
+        <IndexRoute component={CaseLogConnected}/>
+
+        {/* should extend the routes to include the challenge level as well */}
+        <Route path="case-1" component={Case1Connected}/>
+        <Route path="case-3" component={Case3Connected}/>
+        <Route path="case-5" component={Case5Connected}/>
+      </Route>
     </Router>
   </Logger>
 ), document.getElementById('wrapper'));
