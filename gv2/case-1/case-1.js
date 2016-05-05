@@ -15,6 +15,10 @@ class Case1 extends React.Component {
 
   static propTypes = {
     sexLabels: React.PropTypes.arrayOf(React.PropTypes.string),
+    caseSpec: React.PropTypes.shape({
+                title: React.PropTypes.string.isRequired,
+                path: React.PropTypes.string.isRequired
+              }).isRequired,
     challengeSpecs: React.PropTypes.arrayOf(
                       React.PropTypes.shape({
                         label: React.PropTypes.string.isRequired,
@@ -53,7 +57,7 @@ class Case1 extends React.Component {
   }
 
   render() {
-    const { sexLabels } = this.props,
+    const { sexLabels, caseSpec } = this.props,
           challengeSpec = this.props.challengeSpecs[this.state.currChallenge],
           { currChallenge } = this.state,
           lastChallenge = this.getLastChallengeIndex();
@@ -65,6 +69,7 @@ class Case1 extends React.Component {
               return (
                 <Case1Playground
                     sexLabels={sexLabels}
+                    caseSpec={caseSpec}
                     challengeSpec={challengeSpec}
                     currChallenge={currChallenge}
                     lastChallenge={lastChallenge}
@@ -75,6 +80,7 @@ class Case1 extends React.Component {
               return (
                 <Case1Challenge
                     sexLabels={sexLabels}
+                    caseSpec={caseSpec}
                     challengeSpec={challengeSpec}
                     currChallenge={currChallenge}
                     lastChallenge={lastChallenge}

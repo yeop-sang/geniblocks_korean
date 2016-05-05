@@ -5,6 +5,7 @@ import Case1Playground from './case-1/playground';
 import Case3 from './case-3/case-3';
 import Case5 from './case-5/case-5';
 import CaseLog from './case-log/case-log';
+import Logger from './cc-logger';
 import { Router, Route, hashHistory } from 'react-router';
 
 /*
@@ -105,10 +106,12 @@ class CaseLogConnected extends React.Component {
 }
 
 /*
- * The variability in Case API could be simplified by having every case take a single
- * configuration object and return (via onCompleteCase()) a single results object.
- * This would then allow a single higher-order-component function to connect the case
- * to its routes analogous to the way Redux's connect() can connect different components.
+ * These "Connected" component wrappers handle passing parameters to the cases and
+ * tying into the router. The variability in Case API could be simplified by having
+ * every case take a single configuration object and return (via onCompleteCase())
+ * a single results object. This would then allow a single higher-order-component
+ * function to connect the case to its routes analogous to the way Redux's connect()
+ * can connect different components.
  */
 class Case1Connected extends React.Component {
 
@@ -122,8 +125,10 @@ class Case1Connected extends React.Component {
   }
 
   render() {
+    const caseSpec = caseSpecs.find(function(iCaseSpec) { return iCaseSpec.component === Case1; });
     return (
       <Case1 sexLabels={kSexLabels}
+              caseSpec={caseSpec}
               challengeSpecs={kCase1ChallengeSpecs}
               onCompleteCase={this.handleCaseCompleted}/>
     );
@@ -142,8 +147,10 @@ class Case3Connected extends React.Component {
   }
 
   render() {
+    const caseSpec = caseSpecs.find(function(iCaseSpec) { return iCaseSpec.component === Case3; });
     return (
-      <Case3 challengeSpecs={kCase3ChallengeSpecs}
+      <Case3 caseSpec={caseSpec}
+              challengeSpecs={kCase3ChallengeSpecs}
               onCompleteCase={this.handleCaseCompleted}/>
     );
   }
@@ -161,8 +168,10 @@ class Case5Connected extends React.Component {
   }
 
   render() {
+    const caseSpec = caseSpecs.find(function(iCaseSpec) { return iCaseSpec.component === Case3; });
     return (
-      <Case5 hiddenAlleles={kHiddenAlleles}
+      <Case5 caseSpec={caseSpec}
+              hiddenAlleles={kHiddenAlleles}
               fatherAlleles={kFatherAlleles}
               initialMotherAlleles={kInitialMotherAlleles}
               clutchSize={kClutchSize}
@@ -176,15 +185,25 @@ class Case5Connected extends React.Component {
  */
 GeniBlocks.Button.enableButtonFocusHighlightOnKeyDown();
 
-ReactDOM.render((
-  // Note: switch to browserHistory for production deployment.
-  // Requires server configuration, however, so hashHistory is preferred for
-  // development and for Github pages deployment.
-  <Router history={hashHistory}>
-    <Route path="/" component={CaseLogConnected}/>
+const user = '',  // get from context or state?
+      ccLoggerUrl = `//learn.concord.org/dataservice/bucket_loggers/name/${user}/bucket_log_items.bundle`,
+      loggerConfig = { console: true, endPoints: [] };
+// add an endpoint for the CC log server if we have a username
+if (user)
+  loggerConfig.endPoints.push({ url: ccLoggerUrl });
 
-    <Route path="/case-1" component={Case1Connected}/>
-    <Route path="/case-3" component={Case3Connected}/>
-    <Route path="/case-5" component={Case5Connected}/>
-  </Router>
+ReactDOM.render((
+  <Logger application="GV2Test" config={loggerConfig}>
+    {/* Note: switch to browserHistory for production deployment.
+        Requires server configuration, however, so hashHistory is preferred for
+        development and for Github pages deployment. */}
+    <Router history={hashHistory}>
+      <Route path="/" component={CaseLogConnected}/>
+
+      {/* should extend the routes to include the challenge level as well */}
+      <Route path="/case-1" component={Case1Connected}/>
+      <Route path="/case-3" component={Case3Connected}/>
+      <Route path="/case-5" component={Case5Connected}/>
+    </Router>
+  </Logger>
 ), document.getElementById('wrapper'));
