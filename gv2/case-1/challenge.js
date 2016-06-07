@@ -160,7 +160,9 @@ class Case1Challenge extends React.Component {
       requiredMoveCount: 0,
       trialIndex: 1,
       showDrakeForConfirmation: false,
-      alertButtonClickHandlers: {}
+      alertButtonClickHandlers: {},
+      showModalAlert: false,
+      modalDialogProperties: {}
     };
   }
 
@@ -198,7 +200,7 @@ class Case1Challenge extends React.Component {
   }
 
   resetChallenge = () => {
-    this.setState({ trialIndex: 1 });
+    this.setState({ trialIndex: 1, showModalAlert: false});
     this.resetDrakes(function() {
       // called after the setState call is complete
       const { logEvent } = this.context,
@@ -225,9 +227,25 @@ class Case1Challenge extends React.Component {
   continueTrial = () => {
     this.setState({ showDrakeForConfirmation: false });
   }
-
+  showStars = () => {
+    var modalDialogProperties = {
+      message: "Good work! You scored " + this.computeStars() + " star(s)!",
+      challengeProgress: {"id": 2, "progress": [this.computeStars(),0,0,0,0]},
+      leftButton: {
+                   label: "Try Again",
+                   onClick: this.resetChallenge
+      },
+      rightButton: {
+                    label: "Next Challenge",
+                    onClick: this.handleAdvanceChallenge
+      }      
+    };
+    
+    this.setState({showModalAlert: true, modalDialogProperties: modalDialogProperties});
+    
+  }
   nextTrial = () => {
-    this.setState({ trialIndex: ++this.state.trialIndex });
+    this.setState({ trialIndex: ++this.state.trialIndex, showModalAlert: false });
     this.resetDrakes();
   }
 
@@ -251,7 +269,7 @@ class Case1Challenge extends React.Component {
               title: "Good work!",
               message: "The drake you have created matches the target drake.",
               okButton: "Next Challenge",
-              okCallback: this.handleAdvanceChallenge,
+              okCallback: this.showStars,
               tryButton: "Try Again",
               tryCallback: this.resetChallenge
             });
@@ -415,7 +433,7 @@ class Case1Challenge extends React.Component {
   render() {
     const { hiddenAlleles, isDrakeHidden, trialCount } = this.props.challengeSpec,
           { targetDrake, yourDrake, yourDrakeSex, showDrakeForConfirmation,
-            moveCount, requiredMoveCount, trialIndex } = this.state;
+            moveCount, requiredMoveCount, trialIndex, showModalAlert, modalDialogProperties } = this.state;
     return (
       <div id='challenges-wrapper'>
         <Case1ChallengeLeft targetDrake={targetDrake}
@@ -433,6 +451,9 @@ class Case1Challenge extends React.Component {
                             yourDrake={yourDrake}
                             onAlleleChange={this.handleAlleleChange}
                             onCheckDrake={this.handleCheckDrake}/>
+        <GeniBlocks.ModalAlert
+                  show={showModalAlert} message={modalDialogProperties.message}
+                  leftButton={modalDialogProperties.leftButton} rightButton={modalDialogProperties.rightButton} challengeProgress={modalDialogProperties.challengeProgress}/>
       </div>
     );
   }

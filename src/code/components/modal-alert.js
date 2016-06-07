@@ -3,6 +3,7 @@
  */
 import Modal from 'react-overlays/lib/Modal';
 import Button from './button';
+import AwardView from './challenge-award';
 import { PropTypes } from 'react';
 
 const modalStyle = {
@@ -51,11 +52,13 @@ class ModalAlert extends React.Component {
       label: PropTypes.string,
       onClick: PropTypes.func
     }),
-    onHide: PropTypes.func
+    onHide: PropTypes.func,
+    challengeProgress: PropTypes.object
   }
 
   static defaultProps = {
-    show: false
+    show: false,
+    challengeProgress: null
   }
 
   render() {
@@ -77,6 +80,7 @@ class ModalAlert extends React.Component {
               onHide={this.props.onHide} >
         <div style={dialogStyle()} >
           <h4 id='modal-label'>{this.props.message}</h4>
+          <AwardView challengeProgress={this.props.challengeProgress} />
           <p>{this.props.explanation}</p>
           {leftButton} {rightButton}
         </div>
