@@ -15,7 +15,7 @@ class AwardView extends React.Component {
     let challengeId = 0, progress = [];
     if (this.props.challengeProgress){
      challengeId = this.props.challengeProgress.id;
-     progress = this.props.challengeProgress.progress; //challengesJson.Challenges[this.props.challengeId].Progress;
+     progress = this.props.challengeProgress.progress;
     } else return null;
     
     if (challengeId === 0 || !progress || progress === []) 
@@ -47,17 +47,3 @@ class AwardView extends React.Component {
 }
 
 export default AwardView;
-
-/*
-    imageUrl = imageUrl + "_" + challengeId + "_" + pieceId + "_" + completionLevel + '.png'      
-
-
-    completionLevel:
-      {
-        notStarted: 0,
-        completedBronze: 1,
-        completedSilver: 2,
-        completedGold: 3
-      }
-
-*/
