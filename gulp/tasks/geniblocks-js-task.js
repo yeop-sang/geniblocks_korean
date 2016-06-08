@@ -20,15 +20,7 @@ gulp.task('geniblocks-js-dev', function(){
     debug: !production,
     standalone: 'GeniBlocks'
   })
-  .transform(babelify)
-  // turn module requires (e.g. require('react')) into global references (e.g. window.React)
-  .transform(exposify, {
-    expose: {
-      'react': 'React',
-      'react-dom': 'ReactDOM'
-    },
-    global: true  // apply to dependencies of dependencies as well
-  });
+  .transform(babelify);
   b.add(config.src);
   return b.bundle()
     .on('error', errorHandler)
@@ -42,15 +34,7 @@ gulp.task('geniblocks-js-min', function(){
     debug: !production,
     standalone: 'GeniBlocks'
   })
-  .transform(babelify)
-  // turn module requires (e.g. require('react')) into global references (e.g. window.React)
-  .transform(exposify, {
-    expose: {
-      'react': 'React',
-      'react-dom': 'ReactDOM'
-    },
-    global: true  // apply to dependencies of dependencies as well
-  });
+  .transform(babelify);
   b.add(config.src);
   return b.bundle()
     .on('error', errorHandler)
