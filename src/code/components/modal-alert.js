@@ -72,7 +72,7 @@ class ModalAlert extends React.Component {
                                 onClick={rightProps.onClick}/>;
     var awardView;
     if (this.props.challengeProgress){
-      awardView = <AwardView challengeProgress={this.props.challengeProgress} />
+      awardView = <AwardView challengeProgress={this.props.challengeProgress} />;
     }
     return (
       <Modal  aria-labelledby='modal-label'
