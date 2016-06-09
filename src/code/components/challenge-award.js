@@ -21,7 +21,7 @@ class AwardView extends React.Component {
     if (challengeId === 0 || !progress || progress === []) 
       return null;
     
-    let baseUrl = `http://127.0.0.1:8080/gv2/images/challenge${challengeId}`;
+    let baseUrl = `/gv2/images/challenge${challengeId}`;
     let challengeBackground = `${baseUrl}.png`;
     let size = this.props.size || 80;
     var sizeStyle = {

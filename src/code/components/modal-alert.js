@@ -71,7 +71,10 @@ class ModalAlert extends React.Component {
           rightProps = this.props.rightButton || {},
           rightButton = <Button label={rightProps.label || ""}
                                 onClick={rightProps.onClick}/>;
-
+    var awardView;
+    if (this.props.challengeProgress){
+      awardView = <AwardView challengeProgress={this.props.challengeProgress} />
+    }
     return (
       <Modal  aria-labelledby='modal-label'
               style={modalStyle}
@@ -80,7 +83,7 @@ class ModalAlert extends React.Component {
               onHide={this.props.onHide} >
         <div style={dialogStyle()} >
           <h4 id='modal-label'>{this.props.message}</h4>
-          <AwardView challengeProgress={this.props.challengeProgress} />
+          {awardView}
           <p>{this.props.explanation}</p>
           {leftButton} {rightButton}
         </div>
