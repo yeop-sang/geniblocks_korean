@@ -19,11 +19,6 @@ module.exports = {
     public: publicExamples + '/css/',
     dist: dist
   },
-  geniblocksRsrc: {
-    watch: src + '/resources/**/*.*',
-    src: src + '/resources/**/*.*',
-    dest: publicExamples + '/resources'
-  },
   examples: {
     watch: [examples + '/**/*.*', '!' + examples + '/**/*.js', '!' + examples + '/**/*.styl'],
     src: [examples + '/**/*.*', '!' + examples + '/**/*.js', '!' + examples + '/**/*.styl'],
