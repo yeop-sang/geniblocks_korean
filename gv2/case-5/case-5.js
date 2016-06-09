@@ -208,7 +208,7 @@ class Case5 extends React.Component {
 
   render() {
     const { hiddenAlleles, clutchSize } = this.props;
-    let showAlert, message, leftButton = {}, rightButton = {};
+    let showAlert, message, leftButton = {}, rightButton = {}, challengeProgress = {};
     switch (this.state.userState) {
       case Case5.userStates.ALERT_INCOMPLETE:
         showAlert = true;
@@ -227,6 +227,7 @@ class Case5 extends React.Component {
       case Case5.userStates.ALERT_CORRECT:
         showAlert = true;
         message = "That's correct!";
+        challengeProgress = {"id": 2, "progress": [3,2,1,3,1]};
         leftButton.label = "Try Again";
         leftButton.onClick = this.resetChallenge;
         rightButton.label = "Case Log";
@@ -255,7 +256,7 @@ class Case5 extends React.Component {
                               onCheckAnswer={this.handleCheckAnswer} />
             <GeniBlocks.ModalAlert
                   show={showAlert} message={message}
-                  leftButton={leftButton} rightButton={rightButton}/>
+                  leftButton={leftButton} rightButton={rightButton} challengeProgress={challengeProgress}/>
           </div>
         </div>
       </div>
