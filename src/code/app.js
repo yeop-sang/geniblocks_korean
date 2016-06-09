@@ -1,13 +1,21 @@
-import ReactDOM from "react-dom";
-import React from "react";
-import { OrganismView } from "./geniblocks";
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
 
-var org = new BioLogica.Organism(BioLogica.Species.Drake, "");
+import { createStore } from 'redux';
 
-ReactDOM.render(
-  <div>
-    <h1>Hello world</h1>
-    <OrganismView org={org} />
-  </div>,
-  document.getElementById('gv')
-);
+import reducer from './reducers/reducer';
+
+import OrganismContainer from "./containers/organism-container";
+
+
+const store = createStore(reducer);
+
+
+render(
+  <Provider store={store}>
+    <OrganismContainer />
+  </Provider>
+  , document.getElementById("gv"));
+
+
