@@ -1,21 +1,41 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 
 import { createStore } from 'redux';
 
 import reducer from './reducers/reducer';
 
-import OrganismContainer from "./containers/organism-container";
+import { initializeStateFromAuthoring, breed } from './actions';
+
+import BreedingContainer from "./containers/breeding-container";
 
 
 const store = createStore(reducer);
 
+store.dispatch(initializeStateFromAuthoring());
+
+const container = connect(
+  function mapStateToProps (state) {
+    return state;
+  },
+  function mapDispatchToProps(dispatch) {
+    return {
+      breed: (mother, father, offspringBin, quantity) => dispatch(breed(mother, father, offspringBin, quantity))
+    };
+  }
+)(BreedingContainer);
+
+const App = () => (
+  <div>
+    { React.createElement(container) }
+  </div>
+);
 
 render(
   <Provider store={store}>
-    <OrganismContainer />
+    <App />
   </Provider>
-  , document.getElementById("gv"));
+, document.getElementById("gv"));
 
 
