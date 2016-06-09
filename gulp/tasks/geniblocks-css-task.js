@@ -8,11 +8,11 @@ gulp.task('geniblocks-css', function() {
     .pipe(stylus({ compress: false}))
     .pipe(concat('geniblocks.css'))
     .pipe(gulp.dest(config.public))
+    .pipe(gulp.dest(config.publicGV))
     .pipe(gulp.dest(config.dist));
 
   gulp.src(config.src)
     .pipe(stylus({ compress: true}))
     .pipe(concat('geniblocks.min.css'))
-    .pipe(gulp.dest(config.public))
     .pipe(gulp.dest(config.dist));
 });
