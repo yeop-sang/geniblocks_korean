@@ -1,15 +1,22 @@
 # GeniBlocks
 
-GeniBlocks is a collection of small, modular React components that can be
-used as building blocks for genetics-based applications.
+This repo contains the React-based "Geniverse-2.0" project, as well as an
+independent collection of small, modular React components ("GeniBlocks")
+that can be used as building blocks for other genetics-based applications.
 
-As much as possible, the views are designed to be "dumb" stateless views
+### GeniBlocks components
+
+The GeniBlocks components are a collection of "dumb" stateless views
 that render entirely based on their properties, and output events that an
 outside container or application can handle. As such, most of the views
 can be written as [Stateless functional components](https://facebook.github.io/react/blog/2015/10/07/react-v0.14.html#stateless-functional-components).
 
 Many views take a [Biologica.js](https://github.com/concord-consortium/biologica.js)
 organism as a property.
+
+The components are used by Geniverse-2.0, but are also built as their to /dist
+as their own independent React component library. The examples in /public/examples
+all use the GeniBlocks library this way.
 
 ## Development Setup
 
@@ -23,13 +30,13 @@ or to build without watching:
 
 in a separate shell/console:
 
-    npm run examples      # or its alias 'live-server public'
+    npm run gv2           # or its alias 'live-server public/gv2'
 
-which will launch a browser tab pointing to the examples at http://localhost:8080/, or
+which will launch a browser tab pointing to the gv2 app at http://localhost:8080/, or
 
-    npm run gv2           # or its alias 'live-server public --open=gv2'
+    npm run examples      # or its alias `live-server public/examples`
 
-which will launch a browser tab pointing to the GV2 prototype at http://localhost:8080/gv2/
+which will launch a browser tab pointing to the examples page.
 
 ### Deploy Examples to gh-pages
 
