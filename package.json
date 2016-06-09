@@ -22,14 +22,12 @@
     "axios": "^0.11.0",
     "babel-polyfill": "^6.7.4",
     "lodash": "^4.11.2",
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1",
     "react-motion": "^0.4.2",
     "react-overlays": "^0.6.3",
     "react-router": "^2.4.0",
     "react-simpletabs": "^0.7.0"
-  },
-  "peerDependencies": {
-    "react": "^15.0.1",
-    "react-dom": "^15.0.1"
   },
   "devDependencies": {
     "babel-eslint": "^6.0.2",
@@ -51,6 +49,7 @@
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
     "gulp-gh-pages": "^0.5.4",
+    "gulp-src-ordered-globs": "^1.0.3",
     "gulp-streamify": "^1.0.2",
     "gulp-stylus": "^2.3.1",
     "gulp-uglify": "^1.5.3",
@@ -72,8 +71,8 @@
     "deploy": "gulp deploy",
     "env": "env",
     "lint": "eslint examples gv2 src test",
-    "examples": "live-server public",
-    "gv2": "live-server public --open=gv2",
+    "examples": "live-server public/examples",
+    "gv2": "live-server public/gv2",
     "pretest": "npm run lint",
     "test": "mocha --compilers js:babel-core/register --recursive --require ./test/setup.js",
     "test:watch": "npm run test -- --watch"

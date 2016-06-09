@@ -10,25 +10,25 @@ class AwardView extends React.Component {
      challengeProgress: {"id":0,"progress":[]},
      size: 80
   }
-  
-  render() {    
+
+  render() {
     let challengeId = 0, progress = [];
     if (this.props.challengeProgress){
      challengeId = this.props.challengeProgress.id;
      progress = this.props.challengeProgress.progress;
     } else return null;
-    
-    if (challengeId === 0 || !progress || progress === []) 
+
+    if (challengeId === 0 || !progress || progress === [])
       return null;
-    
-    let baseUrl = `/gv2/images/challenge${challengeId}`;
+
+    let baseUrl = `resources/images/challenge${challengeId}`;
     let challengeBackground = `${baseUrl}.png`;
     let size = this.props.size || 80;
     var sizeStyle = {
       width: size + "px",
       height: size + "px"
     };
-    
+
     var progressImages = [];
     progress.map(function(p, i){
       if (p > 0){

@@ -2,57 +2,55 @@ var src = './src',
     bower = './bower_components',
     node = './node_modules',
     examples = './examples',
-    gv2 = './gv2',
-    pub  = './public',
+    publicExamples  = './public/examples',
+    publicGeniverse = './public/gv2',
     dist = './dist';
 
 module.exports = {
+  geniverseJS: {
+    watch: [src + '/code/**/*.*'],
+    src: src + '/code/app.js',
+    public: publicGeniverse + '/js/'
+  },
   geniblocksJS: {
     watch: [src + '/code/**/*.*'],
     src: src + '/code/geniblocks.js',
-    public: pub + '/js/',
+    public: publicExamples + '/js/',
     dist: dist
   },
   geniblocksCSS: {
     watch: src + '/stylus/**/*.styl',
     src: [node + '/react-simpletabs/lib/react-simpletabs.css',
           src + '/stylus/**/*.styl'],
-    public: pub + '/css/',
+    public: publicExamples + '/css/',
+    publicGV: publicGeniverse + '/css/',
     dist: dist
   },
-  geniblocksRsrc: {
-    watch: src + '/resources/**/*.*',
-    src: src + '/resources/**/*.*',
-    dest: pub + '/resources'
+  geniverseRsrc: {
+    watch: [src + '/index.html', src + '/resources/**/*.*'],
+    src: [src + '/index.html', src + '/resources/**/*.*'],
+    dest: publicGeniverse
   },
   examples: {
-    watch: [examples + '/**/*.*', '!' + examples + '/**/*.js'],
-    src: [examples + '/**/*.*', '!' + examples + '/**/*.js'],
-    dest: pub
+    watch: [examples + '/**/*.*', '!' + examples + '/**/*.js', '!' + examples + '/**/*.styl'],
+    src: [examples + '/**/*.*', '!' + examples + '/**/*.js', '!' + examples + '/**/*.styl'],
+    jssrc: [examples + '/experiments/**/*.js'],
+    dir: examples,
+    dest: publicExamples
   },
   examplesJS: {
     watch: examples + '/**/*.js',
-    src: examples + '/**/*.js',
-    dest: pub
+    src: [examples + '/gv2-prototype/gv2.js'],
+    dir: examples,
+    dest: publicExamples
   },
-  gv2: {
-    watch: [gv2 + '/**/*.*', '!' + gv2 + '/**/*.js', '!' + gv2 + '/**/*.styl'],
-    src: [gv2 + '/**/*.*', '!' + gv2 + '/**/*.js', '!' + gv2 + '/**/*.styl'],
-    dest: pub + '/gv2'
-  },
-  gv2CSS: {
-    watch: gv2 + '/**/*.styl',
-    src: gv2 + '/**/*.styl',
-    dest: pub + '/gv2'
-  },
-  gv2JS: {
-    watch: gv2 + '/**/*.js',
-    src: gv2 + '/gv2.js',
-    dest: pub + '/gv2'
-  },
-  vendor: {
+  vendorExamples: {
     src: [ bower + '/*/*.js', bower + '/*/*/*.js', bower + '/*/*/*.css' ],
-    dest: pub + '/js/lib/'
+    dest: publicExamples + '/js/lib/'
+  },
+  vendorGeniverse: {
+    src: [ bower + '/biologica.js/dist/*.js' ],
+    dest: publicGeniverse + '/js/lib/'
   },
   trim: {
     examples: {
@@ -69,6 +67,6 @@ module.exports = {
     }
   },
   deploy: {
-    src: pub + '/**/*'
+    src: publicExamples + '/**/*'
   }
 };
