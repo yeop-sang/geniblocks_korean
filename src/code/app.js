@@ -6,9 +6,9 @@ import { createStore } from 'redux';
 
 import reducer from './reducers/reducer';
 
-import { initializeStateFromAuthoring, breed } from './actions';
+import { initializeStateFromAuthoring, chromosomeAlleleChange } from './actions';
 
-import BreedingContainer from "./containers/breeding-container";
+import GenomeContainer from "./containers/genome-container";
 
 
 const store = createStore(reducer);
@@ -17,14 +17,17 @@ store.dispatch(initializeStateFromAuthoring());
 
 const container = connect(
   function mapStateToProps (state) {
-    return state;
+    return {
+      drakes: state.drakes,
+      index: [0, 0]
+    };
   },
   function mapDispatchToProps(dispatch) {
     return {
-      breed: (mother, father, offspringBin, quantity) => dispatch(breed(mother, father, offspringBin, quantity))
+      onAlleleChange: (org, chrom, side, prevAllele, newAllele) => dispatch(chromosomeAlleleChange(org, chrom, side, prevAllele, newAllele))
     };
   }
-)(BreedingContainer);
+)(GenomeContainer);
 
 const App = () => (
   <div>

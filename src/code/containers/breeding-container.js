@@ -4,8 +4,6 @@ import OrganismView from '../components/organism';
 export default class BreedingContainer extends Component {
 
   render() {
-    console.log("render!!!");
-    console.log(this.props);
     const { drakes, breed } = this.props;
 
     let motherDef = drakes[0][0],

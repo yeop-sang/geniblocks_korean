@@ -1,12 +1,14 @@
 import Immutable from 'seamless-immutable';
+import { actionTypes } from '../actions';
 
 const initialState = Immutable({
-  drakes: []
+  drakes: [],
+  hiddenAlleles: ""
 });
 
 export default function reducer(state = initialState, action) {
   switch(action.type) {
-    case 'INITIALIZE_STATE_FROM_AUTHORING': {
+    case actionTypes.INITIALIZE_STATE_FROM_AUTHORING: {
       let parents  = [],
           children = [];
 
@@ -15,7 +17,7 @@ export default function reducer(state = initialState, action) {
 
       return state.set("drakes", [parents, children]);
     }
-    case 'BREED': {
+    case actionTypes.BREED: {
       let mother = new BioLogica.Organism(BioLogica.Species.Drake, action.mother, 1),
           father = new BioLogica.Organism(BioLogica.Species.Drake, action.father, 0),
           children = [];
@@ -27,6 +29,16 @@ export default function reducer(state = initialState, action) {
 
       return state.setIn(["drakes", 1], children);
     }
+    case actionTypes.CHROMESOME_ALLELE_CHANGED: {
+      let organismDef = state.drakes[action.index[0]][action.index[1]],
+          organism = new BioLogica.Organism(BioLogica.Species.Drake, organismDef, 1);
+
+      organism.genetics.genotype.replaceAlleleChromName(action.chrom, action.side, action.prevAllele, action.newAllele);
+
+      // state.setIn(["drakes", 0, 0], "a:h,b:h");
+      return state.setIn(["drakes"].concat(action.index), organism.getAlleleString());
+    }
+
     default:
       return state;
   }

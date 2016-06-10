@@ -37,7 +37,7 @@ const GenomeView = ({org, hiddenAlleles = [], editable=true, onAlleleChange}) =>
 GenomeView.propTypes = {
   org: PropTypes.object.isRequired,
   hiddenAlleles: PropTypes.array,
-  onAlleleChange: PropTypes.func,
+  onAlleleChange: PropTypes.func.isRequired,
   editable: PropTypes.bool
 };
 
