@@ -72,6 +72,16 @@ packages, using https://packagecontrol.io/
 
 Run `npm test` to run unit tests from the command line.
 
+## Using Redux DevTools
+
+See [https://github.com/zalmoxisus/redux-devtools-extension](https://github.com/zalmoxisus/redux-devtools-extension).
+
+1. Install Chrome extension from [Chrome Web Store](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd)
+2. While in GV2 app, open Developer Console and select "Redux" tab (may need to restart console to see this)
+3. Or click the DevTools icon (greenish atom) to open tools in separate window
+
+Now you can see a list of actions and state changes, a history slider, have the ability to export and import state and history, and fire actions directly from the tool panel.
+
 ## Resources
 
 * [GeniBlocks Examples](http://concord-consortium.github.io/geniblocks/)

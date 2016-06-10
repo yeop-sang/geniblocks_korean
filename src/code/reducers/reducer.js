@@ -6,7 +6,9 @@ const initialState = Immutable({
   hiddenAlleles: ""
 });
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state, action) {
+  if (!state) state = initialState;
+
   switch(action.type) {
     case actionTypes.INITIALIZE_STATE_FROM_AUTHORING: {
       let parents  = [],

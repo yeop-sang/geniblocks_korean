@@ -11,7 +11,7 @@ import { initializeStateFromAuthoring, chromosomeAlleleChange } from './actions'
 import GenomeContainer from "./containers/genome-container";
 
 
-const store = createStore(reducer);
+const store = createStore(reducer, null, window.devToolsExtension && window.devToolsExtension());
 
 store.dispatch(initializeStateFromAuthoring());
 
