@@ -7,8 +7,10 @@ class ChallengeContainer extends Component {
   render() {
     const Template = templates[this.props.template];
     return (
-      <div>
-        <Template {...this.props} />
+      <div id="challenges" className="case-backdrop">
+        <div id="case-wrapper">
+          <Template {...this.props} />
+        </div>
       </div>
     );
   }
@@ -17,7 +19,8 @@ class ChallengeContainer extends Component {
 function mapStateToProps (state) {
     return {
       template: state.template,
-      drakes: state.drakes
+      drakes: state.drakes,
+      hiddenAlleles: state.hiddenAlleles
     };
   }
 
