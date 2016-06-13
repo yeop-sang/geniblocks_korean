@@ -3,7 +3,7 @@
  */
 import Modal from 'react-overlays/lib/Modal';
 import Button from './button';
-import AwardView from './challenge-award';
+import ChallengeAwardView from './challenge-award';
 import React, { PropTypes } from 'react';
 
 const modalStyle = {
@@ -72,7 +72,7 @@ class ModalAlert extends React.Component {
                                 onClick={rightProps.onClick}/>;
     var awardView;
     if (this.props.challengeProgress){
-      awardView = <AwardView challengeProgress={this.props.challengeProgress} />;
+      awardView = <ChallengeAwardView challengeProgress={this.props.challengeProgress} />;
     }
     return (
       <Modal  aria-labelledby='modal-label'

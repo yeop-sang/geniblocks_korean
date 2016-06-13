@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-class AwardView extends React.Component {
+class ChallengeAwardView extends React.Component {
 
   static propTypes = {
     challengeProgress: PropTypes.object,
@@ -24,15 +24,15 @@ class AwardView extends React.Component {
     let baseUrl = `resources/images/challenge${challengeId}`;
     let challengeBackground = `${baseUrl}.png`;
     let size = this.props.size || 80;
-    var sizeStyle = {
+    let sizeStyle = {
       width: size + "px",
       height: size + "px"
     };
 
-    var progressImages = [];
+    let progressImages = [];
     progress.map(function(p, i){
       if (p > 0){
-        var imgSrc = `${baseUrl}_${i+1}_${p}.png`;
+        let imgSrc = `${baseUrl}_${i+1}_${p}.png`;
         progressImages.push (<img key={i+1} src={imgSrc} />);
       }
     });
@@ -46,4 +46,4 @@ class AwardView extends React.Component {
   }
 }
 
-export default AwardView;
+export default ChallengeAwardView;
