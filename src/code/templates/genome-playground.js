@@ -6,17 +6,17 @@ import ChangeSexButtons from '../components/change-sex-buttons';
 export default class GenomeContainer extends Component {
 
   render() {
-    const { drakes, index, onAlleleChange, onSexChange } = this.props,
-          drakeDef = drakes[index[0]][index[1]].alleleString,
-          drakeSex = drakes[index[0]][index[1]].sex,
+    const { drakes, chromosomeAlleleChange, sexChange } = this.props,
+          drakeDef = drakes[0][0].alleleString,
+          drakeSex = drakes[0][0].sex,
           drake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef, drakeSex);
 
-    const alleleChange = function(chrom, side, prevAllele, newAllele) {
-      onAlleleChange(index, chrom, side, prevAllele, newAllele);
+    const onAlleleChange = function(chrom, side, prevAllele, newAllele) {
+      chromosomeAlleleChange([0,0], chrom, side, prevAllele, newAllele);
     };
 
-    const sexChange = function(newSex) {
-      onSexChange(index, newSex);
+    const onSexChange = function(newSex) {
+      sexChange([0,0], newSex);
     };
 
     return (
@@ -25,10 +25,10 @@ export default class GenomeContainer extends Component {
           <OrganismView org={ drake } />
         </div>
         <div>
-          <ChangeSexButtons sex={ drakeSex } onChange= { sexChange } />
+          <ChangeSexButtons sex={ drakeSex } onChange= { onSexChange } />
         </div>
         <div>
-          <GenomeView org={ drake } onAlleleChange={ alleleChange }/>
+          <GenomeView org={ drake } onAlleleChange={ onAlleleChange }/>
         </div>
       </div>
     );
@@ -36,8 +36,7 @@ export default class GenomeContainer extends Component {
 
   static propTypes = {
     drakes: PropTypes.array.isRequired,
-    index: PropTypes.array.isRequired,
-    onAlleleChange: PropTypes.func.isRequired,
-    onSexChange: PropTypes.func.isRequired
+    chromosomeAlleleChange: PropTypes.func.isRequired,
+    sexChange: PropTypes.func.isRequired
   };
 }

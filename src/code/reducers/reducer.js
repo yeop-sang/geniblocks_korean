@@ -1,8 +1,8 @@
 import Immutable from 'seamless-immutable';
 import { actionTypes } from '../actions';
-import GeneticsUtils from '../utilities/genetics-utils';
 
 const initialState = Immutable({
+  template: "GenomePlayground",
   drakes: [],
   hiddenAlleles: ""
 });
@@ -45,7 +45,7 @@ export default function reducer(state, action) {
     case actionTypes.SEX_CHANGED: {
       let sexPath = ["drakes", action.index[0], action.index[1], "sex"];
       return state.setIn(sexPath, action.newSex);
-             
+
     }
 
     default:
