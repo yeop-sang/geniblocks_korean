@@ -47,6 +47,9 @@ export default function reducer(state, action) {
       return state.setIn(sexPath, action.newSex);
 
     }
+    case actionTypes.NAVIGATE_NEXT_CHALLENGE: {
+      return state.set("template", "GenomeTarget");
+    }
 
     default:
       return state;
