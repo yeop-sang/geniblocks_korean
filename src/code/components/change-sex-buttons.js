@@ -7,8 +7,8 @@ import React, {PropTypes} from 'react';
  * @param {function} onChange(evt, sex) - callback to be called when use clicks to change sex
  */
 const ChangeSexButtons = ({id, sex, species, showLabel, style={}, onChange}) => {
-  const capSex = sex.substr(0, 1).toUpperCase() + sex.substr(1),
-        selectedSexClass = sex === 'male' ? 'male-selected' : 'female-selected',
+  const capSex = sex === BioLogica.MALE ? 'Male' : 'Female',
+        selectedSexClass = sex === BioLogica.MALE ? 'male-selected' : 'female-selected',
         BUTTON_IMAGE_WIDTH = 100,
         BUTTON_IMAGE_MIDPOINT_X = BUTTON_IMAGE_WIDTH / 2,
         imageStyle = { position: 'absolute', ...style },
@@ -24,8 +24,13 @@ const ChangeSexButtons = ({id, sex, species, showLabel, style={}, onChange}) => 
   function handleClick(evt) {
     const eltRect = evt.target.getBoundingClientRect(),
           clickX = evt.clientX - eltRect.left;
-    if ((sex === 'male') !== (clickX > BUTTON_IMAGE_MIDPOINT_X))
-      onChange(sex === 'male' ? 'female' : 'male');
+
+    if (sex === BioLogica.FEMALE && clickX > BUTTON_IMAGE_MIDPOINT_X){ // user clicked on Right (male) icon while female was selected
+      onChange(BioLogica.MALE);
+    }
+    else if (sex === BioLogica.MALE && clickX < BUTTON_IMAGE_MIDPOINT_X){ // user clicked on Left (female) icon while male was selected
+      onChange(BioLogica.FEMALE);
+    }
   }
 
   return (
@@ -40,7 +45,7 @@ const ChangeSexButtons = ({id, sex, species, showLabel, style={}, onChange}) => 
 
 ChangeSexButtons.propTypes = {
   id: PropTypes.string,
-  sex: PropTypes.oneOf(['male', 'female']).isRequired,
+  sex: PropTypes.oneOf([BioLogica.MALE, BioLogica.FEMALE]),
   species: PropTypes.string,
   showLabel: PropTypes.bool,
   style: PropTypes.object,

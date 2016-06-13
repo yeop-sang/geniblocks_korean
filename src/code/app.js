@@ -6,7 +6,7 @@ import { createStore } from 'redux';
 
 import reducer from './reducers/reducer';
 
-import { initializeStateFromAuthoring, chromosomeAlleleChange } from './actions';
+import { initializeStateFromAuthoring, chromosomeAlleleChange, sexChange } from './actions';
 
 import GenomeContainer from "./containers/genome-container";
 
@@ -24,7 +24,8 @@ const container = connect(
   },
   function mapDispatchToProps(dispatch) {
     return {
-      onAlleleChange: (org, chrom, side, prevAllele, newAllele) => dispatch(chromosomeAlleleChange(org, chrom, side, prevAllele, newAllele))
+      onAlleleChange: (index, chrom, side, prevAllele, newAllele) => dispatch(chromosomeAlleleChange(index, chrom, side, prevAllele, newAllele)),
+      onSexChange: (index, newSex) => dispatch(sexChange(index, newSex))
     };
   }
 )(GenomeContainer);

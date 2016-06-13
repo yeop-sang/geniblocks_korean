@@ -52,7 +52,6 @@ class Case1ChallengeLeft extends React.Component {
 class Case1ChallengeCenter extends React.Component {
 
   static propTypes = {
-    sexLabels: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     yourDrake: React.PropTypes.object.isRequired,
     yourDrakeSex: React.PropTypes.number.isRequired,
     isDrakeHidden: React.PropTypes.bool.isRequired,
@@ -67,7 +66,7 @@ class Case1ChallengeCenter extends React.Component {
   }
 
   render() {
-    const { sexLabels, yourDrake, yourDrakeSex,
+    const { yourDrake, yourDrakeSex,
             isDrakeHidden, showDrakeForConfirmation } = this.props;
     return (
       <div id='center-column' className='column'>
@@ -81,7 +80,7 @@ class Case1ChallengeCenter extends React.Component {
         <div id="change-sex-buttons" className="no-label"></div>
         <GeniBlocks.ChangeSexButtons
             id='change-sex-buttons' className='no-label'
-            sex={sexLabels[yourDrakeSex]}
+            sex={yourDrakeSex}
             species="Drake"
             onChange={this.props.onSexChange}/>
 
@@ -132,7 +131,6 @@ class Case1ChallengeRight extends React.Component {
 class Case1Challenge extends React.Component {
 
   static propTypes = {
-    sexLabels: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     caseSpec: React.PropTypes.shape({
                 title: React.PropTypes.string.isRequired,
                 path: React.PropTypes.string.isRequired
@@ -320,11 +318,10 @@ class Case1Challenge extends React.Component {
           prevDrakeSex = yourDrake.sex,
           prevAlleleString = yourDrake.getAlleleString(),
                           // replace alleles lost when switching to male and back
-          { sexLabels } = this.props,
           { drakeAlleles } = this.props.challengeSpec,
           alleleString = GeniBlocks.GeneticsUtils.fillInMissingAllelesFromAlleleString(
                           yourDrake.genetics, yourDrake.getAlleleString(), drakeAlleles);
-    yourDrakeSex = sexLabels.indexOf(iSex);
+    yourDrakeSex = iSex;
     yourDrake = new BioLogica.Organism(BioLogica.Species.Drake, alleleString, yourDrakeSex);
     this.advanceMove();
     this.setState({ yourDrake, yourDrakeSex });
@@ -441,8 +438,7 @@ class Case1Challenge extends React.Component {
                             requiredMoveCount={requiredMoveCount}
                             trialIndex={trialIndex}
                             trialCount={trialCount}/>
-        <Case1ChallengeCenter sexLabels={this.props.sexLabels}
-                            yourDrake={yourDrake} yourDrakeSex={yourDrakeSex}
+        <Case1ChallengeCenter yourDrake={yourDrake} yourDrakeSex={yourDrakeSex}
                             isDrakeHidden={isDrakeHidden}
                             showDrakeForConfirmation={showDrakeForConfirmation}
                             onSexChange={this.handleSexChange}
