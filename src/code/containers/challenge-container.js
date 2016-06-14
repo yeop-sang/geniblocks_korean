@@ -20,7 +20,7 @@ function mapStateToProps (state) {
     return {
       template: state.template,
       drakes: state.drakes,
-      hiddenAlleles: state.hiddenAlleles
+      hiddenAlleles: state.hiddenAlleles.asMutable()
     };
   }
 
