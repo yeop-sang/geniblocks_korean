@@ -10,6 +10,9 @@ gulp.task('geniblocks-rsrc', function() {
 
 
 gulp.task('geniverse-rsrc', function() {
+  gulp.src(gvConfig.index)
+    .pipe(gulp.dest(gvConfig.destIndex));
+
   return gulp.src(gvConfig.src)
     .pipe(gulp.dest(gvConfig.dest));
 });

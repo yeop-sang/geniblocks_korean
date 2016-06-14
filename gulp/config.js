@@ -28,8 +28,10 @@ module.exports = {
   },
   geniverseRsrc: {
     watch: [src + '/index.html', src + '/resources/**/*.*'],
-    src: [src + '/index.html', src + '/resources/**/*.*'],
-    dest: publicGeniverse + '/resources/'
+    src: [src + '/resources/**/*.*'],
+    index: src + '/index.html',
+    dest: publicGeniverse + '/resources/',
+    destIndex: publicGeniverse
   },
   examples: {
     watch: [examples + '/**/*.*', '!' + examples + '/**/*.js', '!' + examples + '/**/*.styl'],
