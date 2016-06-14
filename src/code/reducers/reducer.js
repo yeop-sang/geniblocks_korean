@@ -1,6 +1,6 @@
 import Immutable from 'seamless-immutable';
 import { actionTypes } from '../actions';
-import GeneticsUtils from '../utilities/genetics-utils';
+import loadStateFromAuthoring from './loadStateFromAuthoring';
 
 const initialState = Immutable({
   template: "GenomePlayground",
@@ -12,17 +12,8 @@ export default function reducer(state, action) {
   if (!state) state = initialState;
 
   switch(action.type) {
-    case actionTypes.INITIALIZE_STATE_FROM_AUTHORING: {
-      let parents  = [],
-          children = [];
-
-      let parent1Def = "a:T,b:T,a:m,b:M,a:W,b:W,a:H,b:h,a:C,b:C,a:b,b:B,a:Fl,b:fl,a:Hl,b:Hl,a:A1,b:A2,a:D,b:dl,a:bog,b:bog,a:rh,b:Rh";
-      let parent2Def = "a:Tk,b:T,a:M,b:M,a:w,b:w,a:H,b:H,a:C,b:C,a:b,b:b,a:Fl,b:Fl,a:hl,b:Hl,a:A2,b:a,a:D,a:Bog,a:rh";  
-
-      parents.push({alleleString:parent1Def,sex:BioLogica.FEMALE});
-      parents.push({alleleString:parent2Def,sex:BioLogica.MALE});
-
-      return state.set("drakes", [parents, children]);
+    case actionTypes.LOAD_CHALLENGE_FROM_AUTHORING: {
+      return loadStateFromAuthoring(state, action.authoring, action.case, action.challenge);
     }
     case actionTypes.BREED: {
       let mother = new BioLogica.Organism(BioLogica.Species.Drake, action.mother, 1),
@@ -40,7 +31,7 @@ export default function reducer(state, action) {
       let organismDef = state.drakes[action.index[0]][action.index[1]].alleleString,
           organismSex = state.drakes[action.index[0]][action.index[1]].sex,
           organism = new BioLogica.Organism(BioLogica.Species.Drake, organismDef, organismSex);
-      
+
       organism.genetics.genotype.replaceAlleleChromName(action.chrom, action.side, action.prevAllele, action.newAllele);
       let allelePath = ["drakes", action.index[0], action.index[1], "alleleString"];
 
@@ -49,10 +40,6 @@ export default function reducer(state, action) {
     case actionTypes.SEX_CHANGED: {
       let sexPath = ["drakes", action.index[0], action.index[1], "sex"];
       return state.setIn(sexPath, action.newSex);
-
-    }
-    case actionTypes.NAVIGATE_NEXT_CHALLENGE: {
-      return state.set("template", "GenomeTarget");
     }
 
     default:

@@ -6,14 +6,14 @@ import { createStore } from 'redux';
 
 import reducer from './reducers/reducer';
 
-import { initializeStateFromAuthoring } from './actions';
+import { loadAuthoredChallenge } from './actions';
 
 import ChallengeContainer from "./containers/challenge-container";
 
 
 const store = createStore(reducer, null, window.devToolsExtension && window.devToolsExtension());
 
-store.dispatch(initializeStateFromAuthoring());
+store.dispatch(loadAuthoredChallenge());
 
 render(
   <Provider store={store}>

@@ -1,14 +1,18 @@
 export const actionTypes = {
-  INITIALIZE_STATE_FROM_AUTHORING: "INITIALIZE_STATE_FROM_AUTHORING",
+  LOAD_CHALLENGE_FROM_AUTHORING: "LOAD_CHALLENGE_FROM_AUTHORING",
   BREED: "BREED",
   CHROMESOME_ALLELE_CHANGED: "CHROMESOME_ALLELE_CHANGED",
   SEX_CHANGED: "SEX_CHANGED",
   NAVIGATE_NEXT_CHALLENGE: "NAVIGATE_NEXT_CHALLENGE"
 };
 
-export function initializeStateFromAuthoring() {
+export function loadAuthoredChallenge(_case=0, challenge=0) {
+  let authoring = window.GV2Authoring;
   return {
-    type: actionTypes.INITIALIZE_STATE_FROM_AUTHORING
+    type: actionTypes.LOAD_CHALLENGE_FROM_AUTHORING,
+    authoring,
+    case: _case,
+    challenge
   };
 }
 
@@ -38,11 +42,5 @@ export function sexChange(index, newSex) {
     type: actionTypes.SEX_CHANGED,
     index,
     newSex
-  };
-}
-
-export function navigateNextChallenge() {
-  return {
-    type: actionTypes.NAVIGATE_NEXT_CHALLENGE
   };
 }

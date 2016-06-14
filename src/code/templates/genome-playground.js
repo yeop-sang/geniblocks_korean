@@ -31,7 +31,7 @@ export default class GenomeContainer extends Component {
             <OrganismView org={ drake } />
           </div>
         </div>
-        <div className='column'>    
+        <div className='column'>
           <div>
             <ChangeSexButtons id="change-sex-buttons-playground" sex={ drakeSex } onChange= { onSexChange } showLabel={true} species="Drake" />
           </div>

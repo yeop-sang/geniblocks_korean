@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import templates from '../templates';
-import { chromosomeAlleleChange, sexChange, navigateNextChallenge } from '../actions';
+import { chromosomeAlleleChange, sexChange, loadAuthoredChallenge } from '../actions';
 
 class ChallengeContainer extends Component {
   render() {
@@ -28,7 +28,7 @@ function mapDispatchToProps(dispatch) {
   return {
     chromosomeAlleleChange: (org, chrom, side, prevAllele, newAllele) => dispatch(chromosomeAlleleChange(org, chrom, side, prevAllele, newAllele)),
     sexChange: (index, newSex) => dispatch(sexChange(index, newSex)),
-    navigateNextChallenge: () => dispatch(navigateNextChallenge())
+    navigateNextChallenge: () => dispatch(loadAuthoredChallenge(0,1)) // hard-coded for the moment
   };
 }
 
