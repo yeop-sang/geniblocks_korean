@@ -1,7 +1,7 @@
 import GenomePlayground from './genome-playground';
-import GenomeTarget from './genome-target';
+import GenomeChallenge from './genome-challenge';
 
 export default {
   GenomePlayground,
-  GenomeTarget
+  GenomeChallenge
 };

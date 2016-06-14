@@ -3,7 +3,7 @@ import OrganismView from '../components/organism';
 import GenomeView from '../components/genome';
 import ChangeSexButtons from '../components/change-sex-buttons';
 
-export default class GenomeTargetTemplate extends Component {
+export default class GenomeChallengeTemplate extends Component {
 
   render() {
     const { drakes, chromosomeAlleleChange, sexChange, hiddenAlleles } = this.props,
