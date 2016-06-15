@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import OrganismGlowView from '../components/organism-glow';
 import GenomeView from '../components/genome';
 import ChangeSexButtons from '../components/change-sex-buttons';
+import FeedbackView from '../components/feedback';
 
 export default class GenomeChallengeTemplate extends Component {
 
@@ -24,6 +25,11 @@ export default class GenomeChallengeTemplate extends Component {
         <div className='column'>
           <div id="target-drake-label" className="column-label">Target Drake</div>
           <OrganismGlowView id="target-drake" org={ targetDrake } />
+          <FeedbackView id='trial-feedback' className='feedback-view'
+                                text={["TRIAL", `${this.props.trial} of __`]}/>
+          <FeedbackView id='goal-feedback' className='feedback-view'
+                                text={[`GOAL is __ MOVES`,
+                                        `Your moves: __`]}/>
         </div>
         <div id="center-column" className='column'>
           <div id="your-drake-label" className="column-label">Your Drake</div>
@@ -42,6 +48,7 @@ export default class GenomeChallengeTemplate extends Component {
     drakes: PropTypes.array.isRequired,
     hiddenAlleles: PropTypes.array.isRequired,
     chromosomeAlleleChange: PropTypes.func.isRequired,
-    sexChange: PropTypes.func.isRequired
+    sexChange: PropTypes.func.isRequired,
+    trial: PropTypes.number.isRequired
   };
 }

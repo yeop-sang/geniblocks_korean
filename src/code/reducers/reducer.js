@@ -5,7 +5,8 @@ import loadStateFromAuthoring from './loadStateFromAuthoring';
 const initialState = Immutable({
   template: "GenomePlayground",
   drakes: [],
-  hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh']
+  hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
+  trial: 1
 });
 
 export default function reducer(state, action) {
