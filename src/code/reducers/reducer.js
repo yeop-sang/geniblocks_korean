@@ -6,11 +6,16 @@ const initialState = Immutable({
   template: "GenomePlayground",
   drakes: [],
   hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
-  trial: 1
+  trial: 1,
+  moves: 0
 });
 
 export default function reducer(state, action) {
   if (!state) state = initialState;
+
+  if (action.incrementMoves) {
+    state = state.set("moves", state.moves + 1);
+  }
 
   switch(action.type) {
     case actionTypes.LOAD_CHALLENGE_FROM_AUTHORING: {

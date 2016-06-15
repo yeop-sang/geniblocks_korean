@@ -21,14 +21,15 @@ function mapStateToProps (state) {
       template: state.template,
       drakes: state.drakes,
       hiddenAlleles: state.hiddenAlleles.asMutable(),
-      trial: state.trial
+      trial: state.trial,
+      moves: state.moves
     };
   }
 
 function mapDispatchToProps(dispatch) {
   return {
-    chromosomeAlleleChange: (org, chrom, side, prevAllele, newAllele) => dispatch(chromosomeAlleleChange(org, chrom, side, prevAllele, newAllele)),
-    sexChange: (index, newSex) => dispatch(sexChange(index, newSex)),
+    chromosomeAlleleChange: (org, chrom, side, prevAllele, newAllele) => dispatch(chromosomeAlleleChange(org, chrom, side, prevAllele, newAllele, true)),
+    sexChange: (index, newSex) => dispatch(sexChange(index, newSex, true)),
     navigateNextChallenge: () => dispatch(loadAuthoredChallenge(0,1)) // hard-coded for the moment
   };
 }

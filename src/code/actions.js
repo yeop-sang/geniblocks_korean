@@ -16,31 +16,34 @@ export function loadAuthoredChallenge(_case=0, challenge=0) {
   };
 }
 
-export function breed(mother, father, offspringBin, quantity=1) {
+export function breed(mother, father, offspringBin, quantity=1, incrementMoves=false) {
   return {
     type: actionTypes.BREED,
     mother,
     father,
     offspringBin,
-    quantity
+    quantity,
+    incrementMoves
   };
 }
 
-export function chromosomeAlleleChange(index, chrom, side, prevAllele, newAllele) {
+export function chromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, incrementMoves=false) {
  return {
     type: actionTypes.CHROMESOME_ALLELE_CHANGED,
     index,
     chrom,
     side,
     prevAllele,
-    newAllele
+    newAllele,
+    incrementMoves
   };
 }
 
-export function sexChange(index, newSex) {
+export function sexChange(index, newSex, incrementMoves=false) {
   return{
     type: actionTypes.SEX_CHANGED,
     index,
-    newSex
+    newSex,
+    incrementMoves
   };
 }

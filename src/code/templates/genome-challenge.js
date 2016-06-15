@@ -29,7 +29,7 @@ export default class GenomeChallengeTemplate extends Component {
                                 text={["TRIAL", `${this.props.trial} of __`]}/>
           <FeedbackView id='goal-feedback' className='feedback-view'
                                 text={[`GOAL is __ MOVES`,
-                                        `Your moves: __`]}/>
+                                        `Your moves: ${this.props.moves}`]}/>
         </div>
         <div id="center-column" className='column'>
           <div id="your-drake-label" className="column-label">Your Drake</div>
@@ -49,6 +49,7 @@ export default class GenomeChallengeTemplate extends Component {
     hiddenAlleles: PropTypes.array.isRequired,
     chromosomeAlleleChange: PropTypes.func.isRequired,
     sexChange: PropTypes.func.isRequired,
-    trial: PropTypes.number.isRequired
+    trial: PropTypes.number.isRequired,
+    moves: PropTypes.number.isRequired
   };
 }
