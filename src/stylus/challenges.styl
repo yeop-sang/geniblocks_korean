@@ -27,12 +27,28 @@
     font-weight: bold;
   }
 
+  #case-wrapper .column-label {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    color: white;
+    font-size: 14pt;
+    font-weight: bold;
+  }
+
   #center-column {
     width: 300px;
   }
 
   #playground-wrapper #change-sex-buttons {
     margin: 160px 0 30px -100px;
+  }
+
+  #genome-playground #change-sex-buttons {
+    margin: 60px 0 30px -100px;
+  }
+
+  #genome-challenge #change-sex-buttons {
+    margin: 60px 0 0 0;
   }
 
   #change-sex-buttons {
@@ -43,27 +59,28 @@
   #change-sex-buttons.no-label {
     margin-left: 0;
   }
-  #change-sex-buttons-playground{
-    height:43px;
-    width:100px;
-  }
   /* playground */
-  #drake-image {
+  #playground-wrapper #drake-image {
     margin: 200px 25px 0;
   }
 
-  /* challenges */
-  .drake-image {
-    margin: 0 25px;
+  #case-wrapper #drake-image {
+    margin: 100px 25px 0;
   }
 
   .geniblocks.question-glow.question-mark {
     background: url("./resources/images/question_mark.png");
   }
 
-  #advance-button {
+  #playground-wrapper #advance-button {
     background-color: white;
     margin: 180px 0 10px 0;
+    padding: 2px 19px 3px 19px;
+  }
+
+  #case-wrapper #advance-button {
+    background-color: white;
+    margin: 80px 0 10px 0;
     padding: 2px 19px 3px 19px;
   }
 
@@ -127,7 +144,6 @@
   background: url("../resources/images/lab_background.jpg") top center no-repeat;
   display: flex;
   justify-content: center;
-  height: 100%;
 }
 
 #case-wrapper {
@@ -141,7 +157,7 @@
 .challenge-award {
   display: block;
   position: relative;
-  
+
 }
 
 .challenge-award img{

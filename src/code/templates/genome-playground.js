@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import OrganismView from '../components/organism';
+import OrganismGlowView from '../components/organism-glow';
 import GenomeView from '../components/genome';
 import ButtonView from '../components/button';
 import ChangeSexButtons from '../components/change-sex-buttons';
@@ -25,21 +25,21 @@ export default class GenomeContainer extends Component {
     };
 
     return (
-      <div>
+      <div id="genome-playground">
         <div className='column'>
           <div>
-            <OrganismView org={ drake } />
+            <ChangeSexButtons id="change-sex-buttons" sex={ drakeSex } onChange= { onSexChange } showLabel={true} species="Drake" />
+          </div>
+          <div>
+            <GenomeView className="drake-genome" org={ drake } onAlleleChange={ onAlleleChange } hiddenAlleles= { hiddenAlleles } />
           </div>
         </div>
         <div className='column'>
           <div>
-            <ChangeSexButtons id="change-sex-buttons-playground" sex={ drakeSex } onChange= { onSexChange } showLabel={true} species="Drake" />
+            <OrganismGlowView id="drake-image" org={ drake } />
           </div>
           <div>
-            <GenomeView className='parent-genome' org={ drake } onAlleleChange={ onAlleleChange } hiddenAlleles= { hiddenAlleles } />
-          </div>
-          <div>
-            <ButtonView label="Bring It On!" onClick={ onAdvanceChallenge } />
+            <ButtonView label="Bring It On!" id="advance-button" onClick={ onAdvanceChallenge } />
           </div>
         </div>
       </div>
