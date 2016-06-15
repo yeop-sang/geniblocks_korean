@@ -2,6 +2,7 @@ var src = './src',
     bower = './bower_components',
     node = './node_modules',
     examples = './examples',
+    publicRoot  = './public',
     publicExamples  = './public/examples',
     publicGeniverse = './public/gv2',
     dist = './dist';
@@ -69,6 +70,6 @@ module.exports = {
     }
   },
   deploy: {
-    src: publicExamples + '/**/*'
+    src: publicRoot + '/**/*'
   }
 };
