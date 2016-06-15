@@ -30,7 +30,8 @@
     "react-router": "^2.4.0",
     "react-simpletabs": "^0.7.0",
     "redux": "^3.5.2",
-    "seamless-immutable": "^6.1.0"
+    "seamless-immutable": "^6.1.0",
+    "socket.io-client": "^1.4.6"
   },
   "devDependencies": {
     "babel-eslint": "^6.0.2",
