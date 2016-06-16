@@ -3,6 +3,7 @@ import OrganismGlowView from '../components/organism-glow';
 import GenomeView from '../components/genome';
 import ChangeSexButtons from '../components/change-sex-buttons';
 import FeedbackView from '../components/feedback';
+import GeneticsUtils from '../utilities/genetics-utils';
 
 const userDrakeIndex   = 0,
       targetDrakeIndex = 1;
@@ -31,7 +32,7 @@ export default class GenomeChallengeTemplate extends Component {
           <FeedbackView id='trial-feedback' className='feedback-view'
                                 text={["TRIAL", `${this.props.trial} of __`]}/>
           <FeedbackView id='goal-feedback' className='feedback-view'
-                                text={[`GOAL is __ MOVES`,
+                                text={[`GOAL is ${this.props.goalMoves} MOVES`,
                                         `Your moves: ${this.props.moves}`]}/>
         </div>
         <div id="center-column" className='column'>
@@ -53,10 +54,16 @@ export default class GenomeChallengeTemplate extends Component {
     chromosomeAlleleChange: PropTypes.func.isRequired,
     sexChange: PropTypes.func.isRequired,
     trial: PropTypes.number.isRequired,
-    moves: PropTypes.number.isRequired
-  };
+    moves: PropTypes.number.isRequired,
+    goalMoves: PropTypes.number.isRequired
+  }
 
   static authoredDrakesToDrakeArray = function(auth) {
     return [auth.initialDrake, auth.targetDrake];
+  }
+
+  static calculateGoalMoves = function(drakesArray) {
+    let [initial, target] = drakesArray;
+    return GeneticsUtils.numberOfChangesToReachPhenotype(initial, target);
   }
 }

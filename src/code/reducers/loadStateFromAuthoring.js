@@ -2,8 +2,9 @@ import templates from '../templates';
 
 export default function loadStateFromAuthoring(state, authoring, case_, challenge) {
   let authoredChallenge = authoring[case_][challenge],
-      template = authoredChallenge.template,
-      authoredDrakesArray = templates[template].authoredDrakesToDrakeArray(authoredChallenge),
+      templateName = authoredChallenge.template,
+      template = templates[templateName],
+      authoredDrakesArray = template.authoredDrakesToDrakeArray(authoredChallenge),
 
       // turn authored alleles into completely-specified alleleStrings
       // (once we have nested arrays this will need to be tweaked)
@@ -15,10 +16,16 @@ export default function loadStateFromAuthoring(state, authoring, case_, challeng
         };
       });
 
+  let goalMoves = null;
+  if (template.calculateGoalMoves) {
+    goalMoves = template.calculateGoalMoves(drakes);
+  }
+
   return state.merge({
-    template: template,
+    template: templateName,
     drakes: drakes,
     trial: 1,
-    moves: 0
+    moves: 0,
+    goalMoves: goalMoves
   });
 }

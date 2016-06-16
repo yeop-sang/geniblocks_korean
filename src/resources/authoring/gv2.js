@@ -16,7 +16,7 @@ window.GV2Authoring = [
       },
       "targetDrake": {
         "alleles": "a:w,a:m,b:m,a:fl,a:hl,a:T,b:T,a:h,b:h,a:C,b:C,a:A1,b:A1,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
-        "sex": 0
+        "sex": 1
       },
       "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh"
     }
