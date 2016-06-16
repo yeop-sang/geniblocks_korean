@@ -8,16 +8,16 @@ export default class GenomeContainer extends Component {
 
   render() {
     const { drakes, chromosomeAlleleChange, sexChange, navigateNextChallenge, hiddenAlleles } = this.props,
-          drakeDef = drakes[0][0].alleleString,
-          drakeSex = drakes[0][0].sex,
+          drakeDef = drakes[0].alleleString,
+          drakeSex = drakes[0].sex,
           drake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef, drakeSex);
 
     const onAlleleChange = function(chrom, side, prevAllele, newAllele) {
-      chromosomeAlleleChange([0,0], chrom, side, prevAllele, newAllele);
+      chromosomeAlleleChange([0], chrom, side, prevAllele, newAllele);
     };
 
     const onSexChange = function(newSex) {
-      sexChange([0,0], newSex);
+      sexChange([0], newSex);
     };
 
     const onAdvanceChallenge = function() {

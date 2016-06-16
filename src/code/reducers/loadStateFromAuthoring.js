@@ -11,7 +11,7 @@ export default function loadStateFromAuthoring(state, authoring, case_, challeng
         };
       });
 
-  newState = newState.set("drakes", [ drakes ]);
+  newState = newState.set("drakes", drakes);
   newState = newState.set("trial", 1);
   newState = newState.set("moves", 0);
   return newState;

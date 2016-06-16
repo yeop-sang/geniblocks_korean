@@ -4,20 +4,23 @@ import GenomeView from '../components/genome';
 import ChangeSexButtons from '../components/change-sex-buttons';
 import FeedbackView from '../components/feedback';
 
+const userDrakeIndex   = 0,
+      targetDrakeIndex = 1;
+
 export default class GenomeChallengeTemplate extends Component {
 
   render() {
     const { drakes, chromosomeAlleleChange, sexChange, hiddenAlleles } = this.props,
-          targetDrakeDef = drakes[0][0],
-          userDrakeDef = drakes[0][1],
-          targetDrake = new BioLogica.Organism(BioLogica.Species.Drake, targetDrakeDef.alleleString, targetDrakeDef.sex),
-          userDrake   = new BioLogica.Organism(BioLogica.Species.Drake, userDrakeDef.alleleString, userDrakeDef.sex);
+          userDrakeDef = drakes[userDrakeIndex],
+          targetDrakeDef = drakes[targetDrakeIndex],
+          userDrake   = new BioLogica.Organism(BioLogica.Species.Drake, userDrakeDef.alleleString, userDrakeDef.sex),
+          targetDrake = new BioLogica.Organism(BioLogica.Species.Drake, targetDrakeDef.alleleString, targetDrakeDef.sex);
 
     const onAlleleChange = function(chrom, side, prevAllele, newAllele) {
-      chromosomeAlleleChange([0,1], chrom, side, prevAllele, newAllele);
+      chromosomeAlleleChange([userDrakeIndex], chrom, side, prevAllele, newAllele);
     };
     const onSexChange = function(newSex) {
-      sexChange([0,1], newSex);
+      sexChange([userDrakeIndex], newSex);
     };
 
     return (
