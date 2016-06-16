@@ -8,9 +8,9 @@ export default function createLogger({ getState }) {
       const actionType = String(action.type);
       const message = `action ${actionType}`;
       console.log(message);
-      console.log(`%c prev state`, `color: #9E9E9E`, prevState);
-      console.log(`%c action`, `color: #03A9F4`, action);
-      console.log(`%c next state`, `color: #4CAF50`, nextState);
+      // console.log(`%c prev state`, `color: #9E9E9E`, prevState);
+      // console.log(`%c action`, `color: #03A9F4`, action);
+      // console.log(`%c next state`, `color: #4CAF50`, nextState);
       return returnValue;
     };
 }

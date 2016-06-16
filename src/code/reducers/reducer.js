@@ -49,8 +49,12 @@ export default function reducer(state, action) {
       return state.setIn(path, action.newSex);
     }
 
+    case actionTypes.SOCKET_RECEIVE: {
+      console.log("socket receive");
+      return state;
+    }
+
     default:
-      console.log("unknown state");
       return state;
   }
 }
