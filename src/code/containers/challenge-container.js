@@ -41,9 +41,9 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    chromosomeAlleleChange: (index, chrom, side, prevAllele, newAllele) => dispatch(chromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, true)),
-    sexChange: (index, newSex) => dispatch(sexChange(index, newSex, true)),
-    navigateNextChallenge: () => dispatch(loadAuthoredChallenge(0,1)) // hard-coded for the moment
+    onChromosomeAlleleChange: (index, chrom, side, prevAllele, newAllele) => dispatch(chromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, true)),
+    onSexChange: (index, newSex) => dispatch(sexChange(index, newSex, true)),
+    onNavigateNextChallenge: () => dispatch(loadAuthoredChallenge(0,1)) // hard-coded for the moment
   };
 }
 

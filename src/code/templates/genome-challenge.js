@@ -11,17 +11,17 @@ const userDrakeIndex   = 0,
 export default class GenomeChallengeTemplate extends Component {
 
   render() {
-    const { drakes, chromosomeAlleleChange, sexChange, hiddenAlleles } = this.props,
+    const { drakes, onChromosomeAlleleChange, onSexChange, hiddenAlleles } = this.props,
           userDrakeDef = drakes[userDrakeIndex],
           targetDrakeDef = drakes[targetDrakeIndex],
           userDrake   = new BioLogica.Organism(BioLogica.Species.Drake, userDrakeDef.alleleString, userDrakeDef.sex),
           targetDrake = new BioLogica.Organism(BioLogica.Species.Drake, targetDrakeDef.alleleString, targetDrakeDef.sex);
 
-    const onAlleleChange = function(chrom, side, prevAllele, newAllele) {
-      chromosomeAlleleChange([userDrakeIndex], chrom, side, prevAllele, newAllele);
+    const handleAlleleChange = function(chrom, side, prevAllele, newAllele) {
+      onChromosomeAlleleChange([userDrakeIndex], chrom, side, prevAllele, newAllele);
     };
-    const onSexChange = function(newSex) {
-      sexChange([userDrakeIndex], newSex);
+    const handleSexChange = function(newSex) {
+      onSexChange([userDrakeIndex], newSex);
     };
 
     return (
@@ -38,11 +38,11 @@ export default class GenomeChallengeTemplate extends Component {
         <div id="center-column" className='column'>
           <div id="your-drake-label" className="column-label">Your Drake</div>
           <OrganismGlowView org={ userDrake } id="your-drake" />
-          <ChangeSexButtons id="change-sex-buttons" sex={ userDrake.sex } onChange= { onSexChange } showLabel={false} species="Drake"/>
+          <ChangeSexButtons id="change-sex-buttons" sex={ userDrake.sex } onChange= { handleSexChange } showLabel={false} species="Drake"/>
         </div>
         <div className='column'>
           <div id="your-drake-label" className="column-label">Chromosome Control</div>
-          <GenomeView org={ userDrake } onAlleleChange={ onAlleleChange } hiddenAlleles= { hiddenAlleles } />
+          <GenomeView org={ userDrake } onAlleleChange={ handleAlleleChange } hiddenAlleles= { hiddenAlleles } />
         </div>
       </div>
     );
@@ -51,11 +51,11 @@ export default class GenomeChallengeTemplate extends Component {
   static propTypes = {
     drakes: PropTypes.array.isRequired,
     hiddenAlleles: PropTypes.array.isRequired,
-    chromosomeAlleleChange: PropTypes.func.isRequired,
-    sexChange: PropTypes.func.isRequired,
     trial: PropTypes.number.isRequired,
     moves: PropTypes.number.isRequired,
-    goalMoves: PropTypes.number.isRequired
+    goalMoves: PropTypes.number.isRequired,
+    onChromosomeAlleleChange: PropTypes.func.isRequired,
+    onSexChange: PropTypes.func.isRequired
   }
 
   static authoredDrakesToDrakeArray = function(auth) {
