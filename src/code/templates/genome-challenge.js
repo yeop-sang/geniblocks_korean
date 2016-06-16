@@ -55,4 +55,8 @@ export default class GenomeChallengeTemplate extends Component {
     trial: PropTypes.number.isRequired,
     moves: PropTypes.number.isRequired
   };
+
+  static authoredDrakesToDrakeArray = function(auth) {
+    return [auth.initialDrake, auth.targetDrake];
+  }
 }

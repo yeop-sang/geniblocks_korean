@@ -1,9 +1,13 @@
+import templates from '../templates';
+
 export default function loadStateFromAuthoring(state, authoring, case_, challenge) {
   let authoredChallenge = authoring[case_][challenge],
-      newState = state.set("template", authoredChallenge.template),
+      template = authoredChallenge.template,
+      authoredDrakesArray = templates[template].authoredDrakesToDrakeArray(authoredChallenge),
 
       // turn authored alleles into completely-specified alleleStrings
-      drakes = authoredChallenge.drakes.map(function(drakeDef) {
+      // (once we have nested arrays this will need to be tweaked)
+      drakes = authoredDrakesArray.map(function(drakeDef) {
         let drake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleles, drakeDef.sex);
         return {
           alleleString: drake.getAlleleString(),
@@ -11,8 +15,10 @@ export default function loadStateFromAuthoring(state, authoring, case_, challeng
         };
       });
 
-  newState = newState.set("drakes", drakes);
-  newState = newState.set("trial", 1);
-  newState = newState.set("moves", 0);
-  return newState;
+  return state.merge({
+    template: template,
+    drakes: drakes,
+    trial: 1,
+    moves: 0
+  });
 }

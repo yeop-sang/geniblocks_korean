@@ -53,4 +53,8 @@ export default class GenomeContainer extends Component {
     sexChange: PropTypes.func.isRequired,
     navigateNextChallenge: PropTypes.func.isRequired
   };
+
+  static authoredDrakesToDrakeArray = function(auth) {
+    return [auth.initialDrake];
+  }
 }
