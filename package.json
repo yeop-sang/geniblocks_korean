@@ -31,7 +31,8 @@
     "react-simpletabs": "^0.7.0",
     "redux": "^3.5.2",
     "seamless-immutable": "^6.1.0",
-    "socket.io-client": "^1.4.6"
+    "socket.io-client": "^1.4.6",
+    "uuid": "^2.0.2"
   },
   "devDependencies": {
     "babel-eslint": "^6.0.2",

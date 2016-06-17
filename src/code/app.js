@@ -11,6 +11,15 @@ import ChallengeContainer from "./containers/challenge-container";
 import loggerMiddleware from './middleware/gv-log';
 import itsMiddleware from './middleware/its-log';
 
+import uuid from 'uuid';
+
+// TODO: session ID and application name could be passed in via a container
+// use placeholder ID for duration of session and hard-coded name for now.
+const session = {
+  id: uuid.v4(),
+  applicationName: "GeniStar"
+};
+
 const socketEndpoint = "wss://guide.intellimedia.ncsu.edu";
 const socketOpts = {path: "/", protocol: "tutor-actions-v1"};
 
@@ -25,9 +34,8 @@ socket.onerror = (state=>
   store.dispatch({type: 'SOCKET_ERROR', state})
 );
 
-
 const createStoreWithMiddleware = 
-  applyMiddleware(loggerMiddleware, itsMiddleware(socket))(createStore);
+  applyMiddleware(loggerMiddleware(session), itsMiddleware(socket,session))(createStore);
 
 export default function configureStore(initialState) {
   return createStoreWithMiddleware(reducer, initialState, window.devToolsExtension && window.devToolsExtension());
