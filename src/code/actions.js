@@ -3,6 +3,7 @@ export const actionTypes = {
   BREED: "BREED",
   CHROMESOME_ALLELE_CHANGED: "CHROMESOME_ALLELE_CHANGED",
   SEX_CHANGED: "SEX_CHANGED",
+  SUBMIT_DRAKE: "SUBMIT_DRAKE",
   NAVIGATE_NEXT_CHALLENGE: "NAVIGATE_NEXT_CHALLENGE",
   SOCKET_CONNECT: "SOCKET_CONNECT",
   SOCKET_RECEIVE: "SOCKET_RECEIVE",
@@ -50,3 +51,16 @@ export function sexChange(index, newSex, incrementMoves=false) {
     incrementMoves
   };
 }
+
+export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
+  let incrementMoves = !correct;
+  return{
+    type: actionTypes.SUBMIT_DRAKE,
+    correctPhenotype,
+    submittedPhenotype,
+    correct,
+    incrementMoves
+  };
+}
+
+

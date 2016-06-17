@@ -7,7 +7,8 @@ const initialState = Immutable({
   drakes: [],
   hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
   trial: 1,
-  moves: 0
+  moves: 0,
+  showingInfoMessage: false
 });
 
 export default function reducer(state, action) {
@@ -47,6 +48,12 @@ export default function reducer(state, action) {
     case actionTypes.SEX_CHANGED: {
       let path = ["drakes"].concat(action.index, "sex");
       return state.setIn(path, action.newSex);
+    }
+    case actionTypes.SUBMIT_DRAKE: {
+      return state.merge({
+        showingInfoMessage: true,
+        trialSuccess: action.correct
+      });
     }
 
     case actionTypes.SOCKET_RECEIVE: {

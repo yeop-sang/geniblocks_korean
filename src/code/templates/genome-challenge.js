@@ -3,6 +3,7 @@ import OrganismGlowView from '../components/organism-glow';
 import GenomeView from '../components/genome';
 import ChangeSexButtons from '../components/change-sex-buttons';
 import FeedbackView from '../components/feedback';
+import ButtonView from '../components/button';
 import GeneticsUtils from '../utilities/genetics-utils';
 
 const userDrakeIndex   = 0,
@@ -11,7 +12,7 @@ const userDrakeIndex   = 0,
 export default class GenomeChallengeTemplate extends Component {
 
   render() {
-    const { drakes, onChromosomeAlleleChange, onSexChange, hiddenAlleles } = this.props,
+    const { drakes, onChromosomeAlleleChange, onSexChange, onDrakeSubmission, hiddenAlleles } = this.props,
           userDrakeDef = drakes[userDrakeIndex],
           targetDrakeDef = drakes[targetDrakeIndex],
           userDrake   = new BioLogica.Organism(BioLogica.Species.Drake, userDrakeDef.alleleString, userDrakeDef.sex),
@@ -22,6 +23,10 @@ export default class GenomeChallengeTemplate extends Component {
     };
     const handleSexChange = function(newSex) {
       onSexChange([userDrakeIndex], newSex);
+    };
+    const handleSubmit = function() {
+      let correct = targetDrake.getImageName() === userDrake.getImageName();
+      onDrakeSubmission(targetDrake.phenotype.characteristics, userDrake.phenotype.characteristics, correct);
     };
 
     return (
@@ -43,6 +48,7 @@ export default class GenomeChallengeTemplate extends Component {
         <div className='column'>
           <div id="your-drake-label" className="column-label">Chromosome Control</div>
           <GenomeView org={ userDrake } onAlleleChange={ handleAlleleChange } hiddenAlleles= { hiddenAlleles } />
+          <ButtonView label="Check Drake" onClick={ handleSubmit } />
         </div>
       </div>
     );
@@ -55,7 +61,8 @@ export default class GenomeChallengeTemplate extends Component {
     moves: PropTypes.number.isRequired,
     goalMoves: PropTypes.number.isRequired,
     onChromosomeAlleleChange: PropTypes.func.isRequired,
-    onSexChange: PropTypes.func.isRequired
+    onSexChange: PropTypes.func.isRequired,
+    onDrakeSubmission: PropTypes.func.isRequired
   }
 
   static authoredDrakesToDrakeArray = function(auth) {
