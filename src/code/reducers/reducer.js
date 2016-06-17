@@ -8,7 +8,8 @@ const initialState = Immutable({
   hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
   trial: 1,
   moves: 0,
-  showingInfoMessage: false
+  showingInfoMessage: false,
+  shouldShowITSMessages: false
 });
 
 export default function reducer(state, action) {
@@ -62,8 +63,15 @@ export default function reducer(state, action) {
     }
 
     case actionTypes.SOCKET_RECEIVE: {
-      console.log("socket receive");
-      return state;
+      // TODO: If you want to show dialog messages whenever you hear from the ITS...
+      if (action.state.data && state.shouldShowITSMessages){
+        return state.merge({
+          showingInfoMessage: true,
+          itsMessage: JSON.parse(action.state.data)
+        });
+      }
+      else 
+        return state;
     }
 
     default:

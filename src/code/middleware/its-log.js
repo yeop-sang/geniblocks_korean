@@ -7,7 +7,8 @@ export default (socket, session) => store => next => action => {
     actionTypes.SOCKET_CONNECT,
     actionTypes.SOCKET_ERROR,
     actionTypes.SOCKET_RECEIVE,
-    actionTypes.LOAD_CHALLENGE_FROM_AUTHORING
+    actionTypes.LOAD_CHALLENGE_FROM_AUTHORING,
+    actionTypes.DISMISS_DIALOG
     ];
 
   switch(action.type) {

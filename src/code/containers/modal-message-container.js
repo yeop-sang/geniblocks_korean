@@ -23,10 +23,21 @@ const messageProps = {
 
 function mapStateToProps (state) {
   var props;
-  if (state.trialSuccess) {
-    props = messageProps.MatchDrakeSuccessLastTrial;
+  if (state.itsMessage){
+    props = {
+      message: "Message from ITS",
+      explanation: state.itsMessage.text,
+      rightButton: {
+        label: "OK, thanks!",
+        clickFunc: "onDismiss"
+      }
+    };
   } else {
-    props = messageProps.MatchDrakeFailure;
+    if (state.trialSuccess) {
+      props = messageProps.MatchDrakeSuccessLastTrial;
+    } else {
+      props = messageProps.MatchDrakeFailure;
+    }
   }
   return {
     show: state.showingInfoMessage,
