@@ -52,6 +52,8 @@ class ModalAlert extends React.Component {
       onClick: PropTypes.func
     }),
     onHide: PropTypes.func,
+    onLeftButtonClick: PropTypes.func,        // optional click handlers if not defined
+    onRightButtonClick: PropTypes.func,       // in button props. (Better for `mapDispatchToProps`)
     challengeProgress: PropTypes.object
   }
 
@@ -63,13 +65,13 @@ class ModalAlert extends React.Component {
   render() {
     /* eslint react/jsx-handler-names: 0 */
     const leftProps = this.props.leftButton || {},
-          leftButton = leftProps
+          leftButton = leftProps.label
                         ? <Button label={leftProps.label || ""}
-                                  onClick={leftProps.onClick}/>
+                                  onClick={leftProps.onClick || this.props.onLeftButtonClick}/>
                         : null,
           rightProps = this.props.rightButton || {},
           rightButton = <Button label={rightProps.label || ""}
-                                onClick={rightProps.onClick}/>;
+                                onClick={rightProps.onClick || this.props.onRightButtonClick}/>;
     var awardView;
     if (this.props.challengeProgress){
       awardView = <ChallengeAwardView challengeProgress={this.props.challengeProgress} />;

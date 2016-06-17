@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import ModalAlert from '../components/modal-alert';
+import { dismissModalDialog } from '../actions';
 
 const messageProps = {
   MatchDrakeFailure: {
@@ -33,6 +34,23 @@ function mapStateToProps (state) {
   };
 }
 
-const ModalMessageContainer = connect(mapStateToProps)(ModalAlert);
+function mapDispatchToProps (dispatch) {
+  return {
+    onDismiss: () => dispatch(dismissModalDialog())
+  };
+}
+
+function mergeProps(stateProps, dispatchProps) {
+  let props = {...stateProps};
+  if (stateProps.leftButton) {
+    props.onLeftButtonClick = dispatchProps[props.leftButton.clickFunc];
+  }
+  if (props.rightButton) {
+    props.onRightButtonClick = dispatchProps[props.rightButton.clickFunc];
+  }
+  return props;
+}
+
+const ModalMessageContainer = connect(mapStateToProps, mapDispatchToProps, mergeProps)(ModalAlert);
 
 export default ModalMessageContainer;

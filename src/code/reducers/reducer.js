@@ -55,6 +55,11 @@ export default function reducer(state, action) {
         trialSuccess: action.correct
       });
     }
+    case actionTypes.DISMISS_DIALOG: {
+      return state.merge({
+        showingInfoMessage: false
+      });
+    }
 
     case actionTypes.SOCKET_RECEIVE: {
       console.log("socket receive");

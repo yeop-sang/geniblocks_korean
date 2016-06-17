@@ -5,6 +5,7 @@ export const actionTypes = {
   SEX_CHANGED: "SEX_CHANGED",
   SUBMIT_DRAKE: "SUBMIT_DRAKE",
   NAVIGATE_NEXT_CHALLENGE: "NAVIGATE_NEXT_CHALLENGE",
+  DISMISS_DIALOG: "DISMISS_DIALOG",
   SOCKET_CONNECT: "SOCKET_CONNECT",
   SOCKET_RECEIVE: "SOCKET_RECEIVE",
   SOCKET_ERROR: "SOCKET_ERROR"
@@ -60,6 +61,12 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
     submittedPhenotype,
     correct,
     incrementMoves
+  };
+}
+
+export function dismissModalDialog() {
+  return{
+    type: actionTypes.DISMISS_DIALOG
   };
 }
 
