@@ -7,6 +7,7 @@ import reducer from './reducers/reducer';
 import { loadAuthoredChallenge } from './actions';
 
 import ChallengeContainer from "./containers/challenge-container";
+import ModalMessageContainer from "./containers/modal-message-container";
 
 import loggerMiddleware from './middleware/gv-log';
 import itsMiddleware from './middleware/its-log';
@@ -47,7 +48,10 @@ store.dispatch(loadAuthoredChallenge());
 
 render(
   <Provider store={store}>
-    <ChallengeContainer />
+    <div>
+      <ChallengeContainer />
+      <ModalMessageContainer />
+    </div>
   </Provider>
 , document.getElementById("gv"));
 
