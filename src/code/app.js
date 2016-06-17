@@ -30,11 +30,11 @@ socket.onopen = (state =>
 socket.onmessage = (state =>
   store.dispatch({type: 'SOCKET_RECEIVE', state})
 );
-socket.onerror = (state=> 
+socket.onerror = (state=>
   store.dispatch({type: 'SOCKET_ERROR', state})
 );
 
-const createStoreWithMiddleware = 
+const createStoreWithMiddleware =
   applyMiddleware(loggerMiddleware(session), itsMiddleware(socket,session))(createStore);
 
 export default function configureStore(initialState) {
