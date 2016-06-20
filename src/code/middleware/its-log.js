@@ -39,13 +39,8 @@ export default (socket) => store => next => action => {
         // while we prepare for real ITS integration, use dummy data placeholder
         const testData = {"event": {
                 "session": session,
-                "time": 1448439534306,
-                "prettyTime": "Wed Nov 25 2015 00:18:54 GMT-0800 (PST)",
-                "timeDrift": -28799510,
-                "event": "User logged in",
-                "parameters": {
-                    "UniqueID": "SAM"
-                }
+                "time": Date.now(),
+                ...action
         }};
 
         switch (socket.readyState) {
