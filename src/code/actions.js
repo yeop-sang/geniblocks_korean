@@ -32,7 +32,7 @@ export function breed(mother, father, offspringBin, quantity=1, incrementMoves=f
   };
 }
 
-export function chromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, incrementMoves=false) {
+export function changeAllele(index, chrom, side, prevAllele, newAllele, incrementMoves=false) {
  return {
     type: actionTypes.ALLELE_CHANGED,
     index,
@@ -44,7 +44,7 @@ export function chromosomeAlleleChange(index, chrom, side, prevAllele, newAllele
   };
 }
 
-export function sexChange(index, newSex, incrementMoves=false) {
+export function changeSex(index, newSex, incrementMoves=false) {
   return{
     type: actionTypes.SEX_CHANGED,
     index,

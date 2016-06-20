@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import templates from '../templates';
-import { chromosomeAlleleChange, sexChange, submitDrake, loadAuthoredChallenge } from '../actions';
+import { changeAllele, changeSex, submitDrake, loadAuthoredChallenge } from '../actions';
 
 class ChallengeContainer extends Component {
   render() {
@@ -34,8 +34,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onChromosomeAlleleChange: (index, chrom, side, prevAllele, newAllele) => dispatch(chromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, true)),
-    onSexChange: (index, newSex) => dispatch(sexChange(index, newSex, true)),
+    onChromosomeAlleleChange: (index, chrom, side, prevAllele, newAllele) => dispatch(changeAllele(index, chrom, side, prevAllele, newAllele, true)),
+    onSexChange: (index, newSex) => dispatch(changeSex(index, newSex, true)),
     onDrakeSubmission: (targetPhenotype, userPhenotype, correct) => dispatch(submitDrake(targetPhenotype, userPhenotype, correct)),
     onNavigateNextChallenge: () => dispatch(loadAuthoredChallenge(0,1)) // hard-coded for the moment
   };
