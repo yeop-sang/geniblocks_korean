@@ -9,7 +9,8 @@ const initialState = Immutable({
   trial: 1,
   moves: 0,
   showingInfoMessage: false,
-  shouldShowITSMessages: false
+  shouldShowITSMessages: false,
+  userDrakeHidden: true
 });
 
 export default function reducer(state, action) {
@@ -21,6 +22,7 @@ export default function reducer(state, action) {
 
   switch(action.type) {
     case actionTypes.LOAD_CHALLENGE_FROM_AUTHORING: {
+      state = state.set("userDrakeHidden", true);
       return loadStateFromAuthoring(state, action.authoring, action.case, action.challenge);
     }
     case actionTypes.BREED: {
@@ -53,12 +55,14 @@ export default function reducer(state, action) {
     case actionTypes.SUBMIT_DRAKE: {
       return state.merge({
         showingInfoMessage: true,
+        userDrakeHidden: false,
         trialSuccess: action.correct
       });
     }
     case actionTypes.DISMISS_DIALOG: {
       return state.merge({
-        showingInfoMessage: false
+        showingInfoMessage: false,
+        userDrakeHidden: true
       });
     }
 

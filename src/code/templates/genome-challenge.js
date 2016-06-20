@@ -12,7 +12,7 @@ const userDrakeIndex   = 0,
 export default class GenomeChallengeTemplate extends Component {
 
   render() {
-    const { drakes, onChromosomeAlleleChange, onSexChange, onDrakeSubmission, hiddenAlleles } = this.props,
+    const { drakes, onChromosomeAlleleChange, onSexChange, onDrakeSubmission, hiddenAlleles, userDrakeHidden } = this.props,
           userDrakeDef = drakes[userDrakeIndex],
           targetDrakeDef = drakes[targetDrakeIndex],
           userDrake   = new BioLogica.Organism(BioLogica.Species.Drake, userDrakeDef.alleleString, userDrakeDef.sex),
@@ -29,6 +29,8 @@ export default class GenomeChallengeTemplate extends Component {
       onDrakeSubmission(targetDrake.phenotype.characteristics, userDrake.phenotype.characteristics, correct);
     };
 
+    const userDrakeStyle = userDrakeHidden ? "hiddenDrake" : "";
+
     return (
       <div id="genome-challenge">
         <div className='column'>
@@ -42,7 +44,7 @@ export default class GenomeChallengeTemplate extends Component {
         </div>
         <div id="center-column" className='column'>
           <div id="your-drake-label" className="column-label">Your Drake</div>
-          <OrganismGlowView org={ userDrake } id="your-drake" />
+          <OrganismGlowView org={ userDrake } id="your-drake" className={userDrakeStyle} />
           <ChangeSexButtons id="change-sex-buttons" sex={ userDrake.sex } onChange= { handleSexChange } showLabel={false} species="Drake"/>
         </div>
         <div className='column'>
@@ -60,6 +62,7 @@ export default class GenomeChallengeTemplate extends Component {
     trial: PropTypes.number.isRequired,
     moves: PropTypes.number.isRequired,
     goalMoves: PropTypes.number.isRequired,
+    userDrakeHidden: PropTypes.bool.isRequired,
     onChromosomeAlleleChange: PropTypes.func.isRequired,
     onSexChange: PropTypes.func.isRequired,
     onDrakeSubmission: PropTypes.func.isRequired
