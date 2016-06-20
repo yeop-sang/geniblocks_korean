@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 
 import reducer from './reducers/reducer';
-import { loadAuthoredChallenge } from './actions';
+import { actionTypes, loadAuthoredChallenge } from './actions';
 
 import ChallengeContainer from "./containers/challenge-container";
 import ModalMessageContainer from "./containers/modal-message-container";
@@ -26,13 +26,13 @@ const socketOpts = {path: "/", protocol: "tutor-actions-v1"};
 
 const socket = new WebSocket(socketEndpoint, socketOpts.protocol);
 socket.onopen = (state =>
-  store.dispatch({type: 'SOCKET_CONNECTED', state})
+  store.dispatch({type: actionTypes.SOCKET_CONNECTED, state})
   );
 socket.onmessage = (state =>
-  store.dispatch({type: 'SOCKET_RECEIVED', state})
+  store.dispatch({type: actionTypes.SOCKET_RECEIVED, state})
 );
 socket.onerror = (state=>
-  store.dispatch({type: 'SOCKET_ERRORED', state})
+  store.dispatch({type: actionTypes.SOCKET_ERRORED, state})
 );
 
 const createStoreWithMiddleware =
