@@ -4,29 +4,29 @@ import { logEntry } from './gv-log';
 export default (socket, session) => store => next => action => {
 
   const actionsToExclude = [
-    actionTypes.SOCKET_CONNECT,
-    actionTypes.SOCKET_ERROR,
-    actionTypes.SOCKET_RECEIVE,
-    actionTypes.LOAD_CHALLENGE_FROM_AUTHORING,
-    actionTypes.DISMISS_DIALOG
+    actionTypes.SOCKET_CONNECTED,
+    actionTypes.SOCKET_ERRORED,
+    actionTypes.SOCKET_RECEIVED,
+    actionTypes.LOADED_CHALLENGE_FROM_AUTHORING,
+    actionTypes.MODAL_DIALOG_DISMISSED
     ];
 
   switch(action.type) {
-    case actionTypes.SOCKET_ERROR: {
+    case actionTypes.SOCKET_ERRORED: {
       console.log("Error connecting to ITS");
       socket.close();
       break;
     }
-    case actionTypes.SOCKET_CONNECT: {
+    case actionTypes.SOCKET_CONNECTED: {
       console.log("Connection Success!");
       break;
     }
-    case actionTypes.SOCKET_RECEIVE: {
+    case actionTypes.SOCKET_RECEIVED: {
       console.log("Message received!", action.state.data);
       break;
     }
     default: {
-      // other action types - send to ITS 
+      // other action types - send to ITS
       if (!actionsToExclude.includes(action.type)){
 
         const logData = logEntry(session, action);

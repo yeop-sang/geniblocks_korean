@@ -21,11 +21,11 @@ export default function reducer(state, action) {
   }
 
   switch(action.type) {
-    case actionTypes.LOAD_CHALLENGE_FROM_AUTHORING: {
+    case actionTypes.LOADED_CHALLENGE_FROM_AUTHORING: {
       state = state.set("userDrakeHidden", true);
       return loadStateFromAuthoring(state, action.authoring, action.case, action.challenge);
     }
-    case actionTypes.BREED: {
+    case actionTypes.BRED: {
       let mother = new BioLogica.Organism(BioLogica.Species.Drake, action.mother, 1),
           father = new BioLogica.Organism(BioLogica.Species.Drake, action.father, 0),
           children = [];
@@ -37,7 +37,7 @@ export default function reducer(state, action) {
 
       return state.setIn(["drakes", 1], children);
     }
-    case actionTypes.CHROMESOME_ALLELE_CHANGED: {
+    case actionTypes.ALLELE_CHANGED: {
       let path = ["drakes"].concat(action.index);
       return state.updateIn(path, function(drakeDef) {
         let organism = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleleString, drakeDef.sex);
@@ -52,21 +52,21 @@ export default function reducer(state, action) {
       let path = ["drakes"].concat(action.index, "sex");
       return state.setIn(path, action.newSex);
     }
-    case actionTypes.SUBMIT_DRAKE: {
+    case actionTypes.DRAKE_SUBMITTED: {
       return state.merge({
         showingInfoMessage: true,
         userDrakeHidden: false,
         trialSuccess: action.correct
       });
     }
-    case actionTypes.DISMISS_DIALOG: {
+    case actionTypes.MODAL_DIALOG_DISMISSED: {
       return state.merge({
         showingInfoMessage: false,
         userDrakeHidden: true
       });
     }
 
-    case actionTypes.SOCKET_RECEIVE: {
+    case actionTypes.SOCKET_RECEIVED: {
       // TODO: If you want to show dialog messages whenever you hear from the ITS...
       if (action.state.data && state.shouldShowITSMessages){
         return state.merge({
@@ -74,7 +74,7 @@ export default function reducer(state, action) {
           itsMessage: JSON.parse(action.state.data)
         });
       }
-      else 
+      else
         return state;
     }
 

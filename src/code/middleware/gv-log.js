@@ -2,9 +2,9 @@ import { actionTypes } from '../actions';
 
 export default session => store => next => action => {
   const actionsToExclude = [
-    actionTypes.SOCKET_CONNECT,
-    actionTypes.SOCKET_ERROR,
-    actionTypes.SOCKET_RECEIVE
+    actionTypes.SOCKET_CONNECTED,
+    actionTypes.SOCKET_ERRORED,
+    actionTypes.SOCKET_RECEIVED
   ];
   if (!actionsToExclude.includes(action.type)){
     const message = logEntry(session, action);
@@ -15,7 +15,7 @@ export default session => store => next => action => {
 };
 
 export function logEntry(session, action){
-  const message = 
+  const message =
     {
       application: "test",
       activity: "case#-challenge-#",

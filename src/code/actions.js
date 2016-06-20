@@ -1,20 +1,20 @@
 export const actionTypes = {
-  LOAD_CHALLENGE_FROM_AUTHORING: "LOAD_CHALLENGE_FROM_AUTHORING",
-  BREED: "BREED",
-  CHROMESOME_ALLELE_CHANGED: "CHROMESOME_ALLELE_CHANGED",
+  LOADED_CHALLENGE_FROM_AUTHORING: "LOADED_CHALLENGE_FROM_AUTHORING",
+  BRED: "BRED",
+  ALLELE_CHANGED: "ALLELE_CHANGED",
   SEX_CHANGED: "SEX_CHANGED",
-  SUBMIT_DRAKE: "SUBMIT_DRAKE",
-  NAVIGATE_NEXT_CHALLENGE: "NAVIGATE_NEXT_CHALLENGE",
-  DISMISS_DIALOG: "DISMISS_DIALOG",
-  SOCKET_CONNECT: "SOCKET_CONNECT",
-  SOCKET_RECEIVE: "SOCKET_RECEIVE",
-  SOCKET_ERROR: "SOCKET_ERROR"
+  DRAKE_SUBMITTED: "DRAKE_SUBMITTED",
+  NAVIGATED_NEXT_CHALLENGE: "NAVIGATED_NEXT_CHALLENGE",
+  MODAL_DIALOG_DISMISSED: "MODAL_DIALOG_DISMISSED",
+  SOCKET_CONNECTED: "SOCKET_CONNECTED",
+  SOCKET_RECEIVED: "SOCKET_RECEIVED",
+  SOCKET_ERRORED: "SOCKET_ERRORED"
 };
 
 export function loadAuthoredChallenge(_case=0, challenge=0) {
   let authoring = window.GV2Authoring;
   return {
-    type: actionTypes.LOAD_CHALLENGE_FROM_AUTHORING,
+    type: actionTypes.LOADED_CHALLENGE_FROM_AUTHORING,
     authoring,
     case: _case,
     challenge
@@ -23,7 +23,7 @@ export function loadAuthoredChallenge(_case=0, challenge=0) {
 
 export function breed(mother, father, offspringBin, quantity=1, incrementMoves=false) {
   return {
-    type: actionTypes.BREED,
+    type: actionTypes.BRED,
     mother,
     father,
     offspringBin,
@@ -34,7 +34,7 @@ export function breed(mother, father, offspringBin, quantity=1, incrementMoves=f
 
 export function chromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, incrementMoves=false) {
  return {
-    type: actionTypes.CHROMESOME_ALLELE_CHANGED,
+    type: actionTypes.ALLELE_CHANGED,
     index,
     chrom,
     side,
@@ -56,7 +56,7 @@ export function sexChange(index, newSex, incrementMoves=false) {
 export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
   let incrementMoves = !correct;
   return{
-    type: actionTypes.SUBMIT_DRAKE,
+    type: actionTypes.DRAKE_SUBMITTED,
     correctPhenotype,
     submittedPhenotype,
     correct,
@@ -66,7 +66,7 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
 
 export function dismissModalDialog() {
   return{
-    type: actionTypes.DISMISS_DIALOG
+    type: actionTypes.MODAL_DIALOG_DISMISSED
   };
 }
 
