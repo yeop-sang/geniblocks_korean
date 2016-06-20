@@ -41,7 +41,7 @@ export default function reducer(state, action) {
       let path = ["drakes"].concat(action.index);
       return state.updateIn(path, function(drakeDef) {
         let organism = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleleString, drakeDef.sex);
-        organism.genetics.genotype.replaceAlleleChromName(action.chrom, action.side, action.prevAllele, action.newAllele);
+        organism.genetics.genotype.replaceAlleleChromName(action.chromosome, action.side, action.previousAllele, action.newAllele);
         return {
           alleleString: organism.getAlleleString(),
           sex: organism.sex
