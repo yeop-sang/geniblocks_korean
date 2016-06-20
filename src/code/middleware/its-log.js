@@ -1,7 +1,7 @@
 import { actionTypes } from '../actions';
-import { logEntry } from './gv-log';
+// import { logEntry } from './gv-log';
 
-export default (socket, session) => store => next => action => {
+export default (socket, loggingMetadata) => store => next => action => {
 
   const actionsToExclude = [
     actionTypes.SOCKET_CONNECTED,
@@ -29,7 +29,7 @@ export default (socket, session) => store => next => action => {
       // other action types - send to ITS
       if (!actionsToExclude.includes(action.type)){
 
-        const logData = logEntry(session, action);
+        // const logData = logEntry(loggingMetadata, action);
 
         // while we prepare for real ITS integration, use dummy data placeholder
         const testData = {"event": {

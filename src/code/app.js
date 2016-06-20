@@ -16,9 +16,9 @@ import uuid from 'uuid';
 
 // TODO: session ID and application name could be passed in via a container
 // use placeholder ID for duration of session and hard-coded name for now.
-const session = {
-  id: uuid.v4(),
-  applicationName: "GeniStar"
+const loggingMetadata = {
+  session: uuid.v4(),
+  applicationName: "GeniStarDev"
 };
 
 const socketEndpoint = "wss://guide.intellimedia.ncsu.edu";
@@ -36,7 +36,10 @@ socket.onerror = (state=>
 );
 
 const createStoreWithMiddleware =
-  applyMiddleware(loggerMiddleware(session), itsMiddleware(socket,session))(createStore);
+  applyMiddleware(
+    loggerMiddleware(loggingMetadata),
+    itsMiddleware(socket, loggingMetadata)
+  )(createStore);
 
 export default function configureStore(initialState) {
   return createStoreWithMiddleware(reducer, initialState, window.devToolsExtension && window.devToolsExtension());
