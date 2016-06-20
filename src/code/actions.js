@@ -1,4 +1,5 @@
 export const actionTypes = {
+  SESSION_STARTED: "Session started",
   LOADED_CHALLENGE_FROM_AUTHORING: "Loaded challenge from authoring",
   BRED: "Bred",
   ALLELE_CHANGED: "Allele changed",
@@ -10,6 +11,13 @@ export const actionTypes = {
   SOCKET_RECEIVED: "Socket received",
   SOCKET_ERRORED: "Socket errored"
 };
+
+export function startSession(uuid) {
+  return {
+    type: actionTypes.SESSION_STARTED,
+    session: uuid
+  };
+}
 
 export function loadAuthoredChallenge(_case=0, challenge=0) {
   let authoring = window.GV2Authoring;

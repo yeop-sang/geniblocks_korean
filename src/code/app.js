@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 
 import reducer from './reducers/reducer';
-import { actionTypes, loadAuthoredChallenge } from './actions';
+import { actionTypes, startSession, loadAuthoredChallenge } from './actions';
 
 import ChallengeContainer from "./containers/challenge-container";
 import ModalMessageContainer from "./containers/modal-message-container";
@@ -17,7 +17,6 @@ import uuid from 'uuid';
 // TODO: session ID and application name could be passed in via a container
 // use placeholder ID for duration of session and hard-coded name for now.
 const loggingMetadata = {
-  session: uuid.v4(),
   applicationName: "GeniStarDev"
 };
 
@@ -47,6 +46,7 @@ export default function configureStore(initialState) {
 
 const store = configureStore();
 
+store.dispatch(startSession(uuid.v4()));
 store.dispatch(loadAuthoredChallenge());
 
 render(

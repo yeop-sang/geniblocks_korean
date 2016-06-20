@@ -1,15 +1,20 @@
 import { actionTypes } from '../actions';
-// import { logEntry } from './gv-log';
 
-export default (socket, loggingMetadata) => store => next => action => {
+const actionsToExclude = [
+  actionTypes.SOCKET_CONNECTED,
+  actionTypes.SOCKET_ERRORED,
+  actionTypes.SOCKET_RECEIVED,
+  actionTypes.LOADED_CHALLENGE_FROM_AUTHORING,
+  actionTypes.MODAL_DIALOG_DISMISSED
+];
 
-  const actionsToExclude = [
-    actionTypes.SOCKET_CONNECTED,
-    actionTypes.SOCKET_ERRORED,
-    actionTypes.SOCKET_RECEIVED,
-    actionTypes.LOADED_CHALLENGE_FROM_AUTHORING,
-    actionTypes.MODAL_DIALOG_DISMISSED
-    ];
+var session = "";
+
+export default (socket) => store => next => action => {
+
+  if (action.type === actionTypes.SESSION_STARTED) {
+    session = action.session;
+  }
 
   switch(action.type) {
     case actionTypes.SOCKET_ERRORED: {
@@ -27,13 +32,13 @@ export default (socket, loggingMetadata) => store => next => action => {
     }
     default: {
       // other action types - send to ITS
-      if (!actionsToExclude.includes(action.type)){
+      if (!actionsToExclude.includes(action.type) && session !== ""){
 
         // const logData = logEntry(loggingMetadata, action);
 
         // while we prepare for real ITS integration, use dummy data placeholder
         const testData = {"event": {
-                "session": "e612ed8b-5305-4b80-87d7-3d2716219901",
+                "session": session,
                 "time": 1448439534306,
                 "prettyTime": "Wed Nov 25 2015 00:18:54 GMT-0800 (PST)",
                 "timeDrift": -28799510,
