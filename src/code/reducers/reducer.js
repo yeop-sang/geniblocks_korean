@@ -8,6 +8,9 @@ const initialState = Immutable({
   hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
   trial: 1,
   moves: 0,
+  case: 0,
+  challenge: 0,
+  challenges: 1,
   showingInfoMessage: false,
   shouldShowITSMessages: false,
   userDrakeHidden: true
@@ -28,7 +31,7 @@ export default function reducer(state, action) {
         trialSuccess: false
       });
 
-      return loadStateFromAuthoring(state, action.authoring, action.case, action.challenge);
+      return loadStateFromAuthoring(state, action.authoring, action.challenge);
     }
     case actionTypes.BRED: {
       let mother = new BioLogica.Organism(BioLogica.Species.Drake, action.mother, 1),
@@ -82,8 +85,8 @@ export default function reducer(state, action) {
     }
 
     case actionTypes.ADVANCED_CHALLENGE: {  
-      console.log("challenge complete");
-      return state;
+      let nextChallenge = state.challenge + 1;
+      return loadStateFromAuthoring(state, action.authoring, nextChallenge);
     }
 
     case actionTypes.SOCKET_RECEIVED: {

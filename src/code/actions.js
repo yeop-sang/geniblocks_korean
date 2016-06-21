@@ -21,12 +21,11 @@ export function startSession(uuid) {
   };
 }
 
-export function loadAuthoredChallenge(_case=0, challenge=0) {
+export function loadAuthoredChallenge(challenge=0) {
   let authoring = window.GV2Authoring;
   return {
     type: actionTypes.LOADED_CHALLENGE_FROM_AUTHORING,
     authoring,
-    case: _case,
     challenge
   };
 }
@@ -85,24 +84,20 @@ export function dismissModalDialog() {
   };
 }
 
-export function advanceTrial(_case=0, challenge=1) {
+export function advanceTrial() {
   let authoring = window.GV2Authoring;
   return{
     type: actionTypes.ADVANCED_TRIAL,
-    authoring,
-    case: _case,
-    challenge
+    authoring
   };
 }
 
 
-export function advanceChallenge(_case=0, challenge=1) {
+export function advanceChallenge() {
   let authoring = window.GV2Authoring;
   return{
     type: actionTypes.ADVANCED_CHALLENGE,
-    authoring,
-    case: _case,
-    challenge
+    authoring
   };
 }
 

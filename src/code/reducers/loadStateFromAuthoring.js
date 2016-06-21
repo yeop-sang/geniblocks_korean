@@ -1,8 +1,9 @@
 import templates from '../templates';
 
-export function loadStateFromAuthoring(state, authoring, case_, challenge) {
+export function loadStateFromAuthoring(state, authoring, challenge) {
   let trial = state.trial ? state.trial : 1;
-  let authoredChallenge = authoring[case_][challenge],
+  let challenges = authoring[state.case].length;
+  let authoredChallenge = authoring[state.case][challenge],
       templateName = authoredChallenge.template,
       template = templates[templateName],
       trials = authoredChallenge.targetDrakes,
@@ -28,8 +29,14 @@ export function loadStateFromAuthoring(state, authoring, case_, challenge) {
     drakes: drakes,
     trial,
     trials,
+    challenge,
+    challenges,
     moves: 0,
-    goalMoves: goalMoves
+    goalMoves: goalMoves,
+    showingInfoMessage: false,
+    userDrakeHidden: true,
+    trialSuccess: false,
+    challengeComplete: false
   });
 }
 

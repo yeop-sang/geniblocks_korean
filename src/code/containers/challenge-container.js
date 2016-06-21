@@ -27,6 +27,7 @@ function mapStateToProps (state) {
       hiddenAlleles: state.hiddenAlleles.asMutable(),
       trial: state.trial,
       trials: state.trials,
+      challenge: state.challenge,
       moves: state.moves,
       goalMoves: state.goalMoves,
       userDrakeHidden: state.userDrakeHidden
@@ -38,7 +39,7 @@ function mapDispatchToProps(dispatch) {
     onChromosomeAlleleChange: (index, chrom, side, prevAllele, newAllele) => dispatch(changeAllele(index, chrom, side, prevAllele, newAllele, true)),
     onSexChange: (index, newSex) => dispatch(changeSex(index, newSex, true)),
     onDrakeSubmission: (targetPhenotype, userPhenotype, correct) => dispatch(submitDrake(targetPhenotype, userPhenotype, correct)),
-    onNavigateNextChallenge: () => dispatch(loadAuthoredChallenge(0,1)) // hard-coded for the moment
+    onNavigateNextChallenge: (nextChallenge) => dispatch(loadAuthoredChallenge(nextChallenge)) // hard-coded for the moment
   };
 }
 
