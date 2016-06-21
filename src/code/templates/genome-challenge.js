@@ -19,10 +19,10 @@ export default class GenomeChallengeTemplate extends Component {
           targetDrake = new BioLogica.Organism(BioLogica.Species.Drake, targetDrakeDef.alleleString, targetDrakeDef.sex);
 
     const handleAlleleChange = function(chrom, side, prevAllele, newAllele) {
-      onChromosomeAlleleChange([userDrakeIndex], chrom, side, prevAllele, newAllele);
+      onChromosomeAlleleChange(userDrakeIndex, chrom, side, prevAllele, newAllele);
     };
     const handleSexChange = function(newSex) {
-      onSexChange([userDrakeIndex], newSex);
+      onSexChange(userDrakeIndex, newSex);
     };
     const handleSubmit = function() {
       let correct = targetDrake.getImageName() === userDrake.getImageName();

@@ -13,11 +13,11 @@ export default class GenomeContainer extends Component {
           drake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef, drakeSex);
 
     const handleAlleleChange = function(chrom, side, prevAllele, newAllele) {
-      onChromosomeAlleleChange([0], chrom, side, prevAllele, newAllele);
+      onChromosomeAlleleChange(0, chrom, side, prevAllele, newAllele);
     };
 
     const handleSexChange = function(newSex) {
-      onSexChange([0], newSex);
+      onSexChange(0, newSex);
     };
 
     const handleAdvanceChallenge = function() {

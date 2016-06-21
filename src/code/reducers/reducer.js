@@ -38,7 +38,7 @@ export default function reducer(state, action) {
       return state.setIn(["drakes", 1], children);
     }
     case actionTypes.ALLELE_CHANGED: {
-      let path = ["drakes"].concat(action.index);
+      let path = ["drakes", action.index];
       return state.updateIn(path, function(drakeDef) {
         let organism = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleleString, drakeDef.sex);
         organism.genetics.genotype.replaceAlleleChromName(action.chromosome, action.side, action.previousAllele, action.newAllele);
@@ -49,7 +49,7 @@ export default function reducer(state, action) {
       });
     }
     case actionTypes.SEX_CHANGED: {
-      let path = ["drakes"].concat(action.index, "sex");
+      let path = ["drakes", action.index, "sex"];
       return state.setIn(path, action.newSex);
     }
     case actionTypes.DRAKE_SUBMITTED: {
