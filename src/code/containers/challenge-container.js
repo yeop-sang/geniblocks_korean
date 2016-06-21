@@ -26,6 +26,7 @@ function mapStateToProps (state) {
       drakes: state.drakes,
       hiddenAlleles: state.hiddenAlleles.asMutable(),
       trial: state.trial,
+      trials: state.trials,
       moves: state.moves,
       goalMoves: state.goalMoves,
       userDrakeHidden: state.userDrakeHidden

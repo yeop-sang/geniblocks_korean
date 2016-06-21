@@ -12,7 +12,7 @@ const userDrakeIndex   = 0,
 export default class GenomeChallengeTemplate extends Component {
 
   render() {
-    const { drakes, onChromosomeAlleleChange, onSexChange, onDrakeSubmission, hiddenAlleles, userDrakeHidden } = this.props,
+    const { drakes, onChromosomeAlleleChange, onSexChange, onDrakeSubmission, hiddenAlleles, userDrakeHidden, trial, trials } = this.props,
           userDrakeDef = drakes[userDrakeIndex],
           targetDrakeDef = drakes[targetDrakeIndex],
           userDrake   = new BioLogica.Organism(BioLogica.Species.Drake, userDrakeDef.alleleString, userDrakeDef.sex),
@@ -37,7 +37,7 @@ export default class GenomeChallengeTemplate extends Component {
           <div id="target-drake-label" className="column-label">Target Drake</div>
           <OrganismGlowView id="target-drake" org={ targetDrake } />
           <FeedbackView id='trial-feedback' className='feedback-view'
-                                text={["TRIAL", `${this.props.trial} of __`]}/>
+                                text={["TRIAL", `${trial} of ${trials.length}`]}/>
           <FeedbackView id='goal-feedback' className='feedback-view'
                                 text={[`GOAL is ${this.props.goalMoves} MOVES`,
                                         `Your moves: ${this.props.moves}`]}/>
@@ -60,6 +60,7 @@ export default class GenomeChallengeTemplate extends Component {
     drakes: PropTypes.array.isRequired,
     hiddenAlleles: PropTypes.array.isRequired,
     trial: PropTypes.number.isRequired,
+    trials: PropTypes.array.isRequired,
     moves: PropTypes.number.isRequired,
     goalMoves: PropTypes.number.isRequired,
     userDrakeHidden: PropTypes.bool.isRequired,
@@ -68,8 +69,8 @@ export default class GenomeChallengeTemplate extends Component {
     onDrakeSubmission: PropTypes.func.isRequired
   }
 
-  static authoredDrakesToDrakeArray = function(auth) {
-    return [auth.initialDrake, auth.targetDrake];
+  static authoredDrakesToDrakeArray = function(authoredChallenge, trial) {
+    return [authoredChallenge.initialDrake, authoredChallenge.targetDrakes[trial-1]];
   }
 
   static calculateGoalMoves = function(drakesArray) {

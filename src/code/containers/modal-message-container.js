@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import ModalAlert from '../components/modal-alert';
-import { dismissModalDialog } from '../actions';
+import { dismissModalDialog, advanceTrial, advanceChallenge } from '../actions';
 
 const messageProps = {
   MatchDrakeFailure: {
@@ -15,8 +15,16 @@ const messageProps = {
     message: "Good work!",
     explanation: "The drake you have created matches the target drake.",
     rightButton: {
+      label: "Next trial",
+      clickFunc: "onAdvanceTrial"
+    }
+  },
+  ChallengeCompleted: {
+    message: "Good work!",
+    explanation: "You have completed all trials in this challenge.",
+    rightButton: {
       label: "Next challenge",
-      clickFunc: "onDismiss"
+      clickFunc: "onAdvanceChallenge"
     }
   }
 };
@@ -33,10 +41,14 @@ function mapStateToProps (state) {
       }
     };
   } else {
-    if (state.trialSuccess) {
-      props = messageProps.MatchDrakeSuccessLastTrial;
+    if (state.challengeComplete){
+      props = messageProps.ChallengeCompleted;
     } else {
-      props = messageProps.MatchDrakeFailure;
+      if (state.trialSuccess) {
+        props = messageProps.MatchDrakeSuccessLastTrial;
+      } else {
+        props = messageProps.MatchDrakeFailure;
+      }
     }
   }
   return {
@@ -47,7 +59,9 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    onDismiss: () => dispatch(dismissModalDialog())
+    onDismiss: () => dispatch(dismissModalDialog()),
+    onAdvanceTrial: () => dispatch(advanceTrial()),
+    onAdvanceChallenge: () => dispatch(advanceChallenge())
   };
 }
 

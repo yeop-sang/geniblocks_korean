@@ -1,6 +1,6 @@
 import Immutable from 'seamless-immutable';
 import { actionTypes } from '../actions';
-import loadStateFromAuthoring from './loadStateFromAuthoring';
+import { loadStateFromAuthoring, loadNextTrial } from './loadStateFromAuthoring';
 
 const initialState = Immutable({
   template: "GenomePlayground",
@@ -22,7 +22,12 @@ export default function reducer(state, action) {
 
   switch(action.type) {
     case actionTypes.LOADED_CHALLENGE_FROM_AUTHORING: {
-      state = state.set("userDrakeHidden", true);
+      state.merge({
+        userDrakeHidden: true,
+        showingInfoMessage: false,
+        trialSuccess: false
+      });
+
       return loadStateFromAuthoring(state, action.authoring, action.case, action.challenge);
     }
     case actionTypes.BRED: {
@@ -64,6 +69,21 @@ export default function reducer(state, action) {
         showingInfoMessage: false,
         userDrakeHidden: true
       });
+    }
+    case actionTypes.ADVANCED_TRIAL: {  
+      if (state.trialSuccess){
+        if (state.trial < state.trials.length) {
+          return loadNextTrial(state);
+        }   
+        else {
+          return state.merge ({ challengeComplete: true});
+        }
+      } else return state;
+    }
+
+    case actionTypes.ADVANCED_CHALLENGE: {  
+      console.log("challenge complete");
+      return state;
     }
 
     case actionTypes.SOCKET_RECEIVED: {
