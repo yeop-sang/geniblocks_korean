@@ -48,7 +48,12 @@ export function changeAllele(index, chromosome, side, previousAllele, newAllele,
     side,
     previousAllele,
     newAllele,
-    incrementMoves
+    incrementMoves,
+    meta: {
+      logNextState: {
+        newAlleles: ["drakes", index, "alleleString"]
+      }
+    }
   };
 }
 
