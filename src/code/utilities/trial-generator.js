@@ -33,7 +33,6 @@ function generateComboDrakeAlleles(base, combos, trial, isInitial) {
   if (randomColumns.length > rows) {
     randomColumns = _.take(randomColumns, rows);
   }
-  console.log(randomColumns);
   // we now have an array either in the form [3,0,1,2] or [0,1,1,0]
 
   if (!pastTrialData[trial]) pastTrialData[trial] = [];
@@ -48,7 +47,7 @@ function getNextColumns(combos) {
   let numCompletedTrials = pastTrialData.length - 1,
       numKeys = pastTrialData[0][0].length,
       pastTrials = {};
-  console.log(getNextColumns);
+
   _.times(numCompletedTrials, function (trial) {
     _.times(numKeys, function (i) {
       if (!pastTrials[pastTrialData[trial][0][i]]) pastTrials[pastTrialData[trial][0][i]] = [];
@@ -56,6 +55,33 @@ function getNextColumns(combos) {
     });
   });
 
-  console.log(pastTrials);
-  return [];
+  // pastTrials is an object showing, for each column of an initial drake, what columns
+  // have been shown in the past for a trial drake
+  /**
+    {
+      0: [0,1],
+      1: [0,0],
+      2: [1,0],
+      3: [1,1]
+    }
+  */
+
+  var targetColumns = combos[1].length,
+      possibleTargetColumns = _.range(targetColumns),     // [0,1]
+      result = {};
+
+  for (let column in pastTrials) {
+    let remainingPossibleTargetColumns = possibleTargetColumns.slice(0);
+    _.forEach(pastTrials[column], (shown) =>
+      remainingPossibleTargetColumns = _.without(remainingPossibleTargetColumns, shown)
+    );
+    if (remainingPossibleTargetColumns.length === 0) {
+      remainingPossibleTargetColumns = _.range(targetColumns);
+    }
+    result[column] = _.sample(remainingPossibleTargetColumns);
+  }
+
+  var currentInitialDrake = pastTrialData[pastTrialData.length-1][0];
+
+  return currentInitialDrake.map(column => result[column]);
 }
