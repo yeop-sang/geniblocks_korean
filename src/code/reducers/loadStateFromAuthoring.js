@@ -1,6 +1,6 @@
 import templates from '../templates';
 
-export function loadStateFromAuthoring(state, authoring, challenge) {
+export function loadStateFromAuthoring(state, authoring, challenge, progress={}) {
   let trial = state.trial ? state.trial : 1;
   let challenges = authoring[state.case].length;
   let authoredChallenge = authoring[state.case][challenge],
@@ -23,7 +23,7 @@ export function loadStateFromAuthoring(state, authoring, challenge) {
   if (template.calculateGoalMoves) {
     goalMoves = template.calculateGoalMoves(drakes);
   }
-
+  
   return state.merge({
     template: templateName,
     drakes: drakes,
@@ -36,11 +36,12 @@ export function loadStateFromAuthoring(state, authoring, challenge) {
     showingInfoMessage: false,
     userDrakeHidden: true,
     trialSuccess: false,
-    challengeComplete: false
+    challengeComplete: false,
+    challengeProgress: progress
   });
 }
 
-export function loadNextTrial(state) {
+export function loadNextTrial(state, progress) {
   let trial = state.trial;
   if (state.trialSuccess){
     trial = (state.trial < state.trials.length) ? (trial+1) : 1;
@@ -66,7 +67,8 @@ export function loadNextTrial(state) {
     moves: 0,
     goalMoves: goalMoves,
     showingInfoMessage: false,
-    userDrakeHidden: true
+    userDrakeHidden: true,
+    challengeProgress: progress
   });
   
 }

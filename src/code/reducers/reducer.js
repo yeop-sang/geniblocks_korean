@@ -1,6 +1,7 @@
 import Immutable from 'seamless-immutable';
 import { actionTypes } from '../actions';
 import { loadStateFromAuthoring, loadNextTrial } from './loadStateFromAuthoring';
+import { updateProgress } from './challengeProgress';
 
 const initialState = Immutable({
   template: "GenomePlayground",
@@ -11,6 +12,7 @@ const initialState = Immutable({
   case: 0,
   challenge: 0,
   challenges: 1,
+  challengeProgress: {},
   showingInfoMessage: false,
   shouldShowITSMessages: false,
   userDrakeHidden: true
@@ -75,18 +77,20 @@ export default function reducer(state, action) {
     }
     case actionTypes.ADVANCED_TRIAL: {  
       if (state.trialSuccess){
+        let progress = updateProgress(state);
         if (state.trial < state.trials.length) {
-          return loadNextTrial(state);
+          return loadNextTrial(state, progress);
         }   
         else {
-          return state.merge ({ challengeComplete: true});
+          return state.merge ({ challengeProgress: progress, challengeComplete: true});
         }
       } else return state;
     }
 
     case actionTypes.ADVANCED_CHALLENGE: {  
       let nextChallenge = state.challenge + 1;
-      return loadStateFromAuthoring(state, action.authoring, nextChallenge);
+      let progress = updateProgress(state);
+      return loadStateFromAuthoring(state, action.authoring, nextChallenge, progress);
     }
 
     case actionTypes.SOCKET_RECEIVED: {
