@@ -5,6 +5,7 @@ import ChangeSexButtons from '../components/change-sex-buttons';
 import FeedbackView from '../components/feedback';
 import ButtonView from '../components/button';
 import GeneticsUtils from '../utilities/genetics-utils';
+import { generateTrialDrakes } from '../utilities/trial-generator';
 
 const userDrakeIndex   = 0,
       targetDrakeIndex = 1;
@@ -37,7 +38,7 @@ export default class GenomeChallengeTemplate extends Component {
           <div id="target-drake-label" className="column-label">Target Drake</div>
           <OrganismGlowView id="target-drake" org={ targetDrake } />
           <FeedbackView id='trial-feedback' className='feedback-view'
-                                text={["TRIAL", `${trial} of ${trials.length}`]}/>
+                                text={["TRIAL", `${trial+1} of ${trials.length}`]}/>
           <FeedbackView id='goal-feedback' className='feedback-view'
                                 text={[`GOAL is ${this.props.goalMoves} MOVES`,
                                         `Your moves: ${this.props.moves}`]}/>
@@ -70,7 +71,11 @@ export default class GenomeChallengeTemplate extends Component {
   }
 
   static authoredDrakesToDrakeArray = function(authoredChallenge, trial) {
-    return [authoredChallenge.initialDrake, authoredChallenge.targetDrakes[trial-1]];
+    if (authoredChallenge.trialGenerator) {
+      return generateTrialDrakes(authoredChallenge.trialGenerator, trial);
+    } else {
+      return [authoredChallenge.initialDrake, authoredChallenge.targetDrakes[trial]];
+    }
   }
 
   static calculateGoalMoves = function(drakesArray) {

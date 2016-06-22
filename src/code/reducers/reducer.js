@@ -7,7 +7,7 @@ const initialState = Immutable({
   template: "GenomePlayground",
   drakes: [],
   hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
-  trial: 1,
+  trial: 0,
   moves: 0,
   case: 0,
   challenge: 0,
@@ -75,19 +75,19 @@ export default function reducer(state, action) {
         userDrakeHidden: true
       });
     }
-    case actionTypes.ADVANCED_TRIAL: {  
+    case actionTypes.ADVANCED_TRIAL: {
       if (state.trialSuccess){
         let progress = updateProgress(state);
-        if (state.trial < state.trials.length) {
-          return loadNextTrial(state, progress);
-        }   
+        if (state.trial < state.trials.length - 1) {
+          return loadNextTrial(state, action.authoring, progress);
+        }
         else {
           return state.merge ({ challengeProgress: progress, challengeComplete: true});
         }
       } else return state;
     }
 
-    case actionTypes.ADVANCED_CHALLENGE: {  
+    case actionTypes.ADVANCED_CHALLENGE: {
       let nextChallenge = state.challenge + 1;
       let progress = updateProgress(state);
       return loadStateFromAuthoring(state, action.authoring, nextChallenge, progress);
