@@ -14,7 +14,7 @@ const initialState = Immutable({
   challenges: 1,
   challengeProgress: {},
   showingInfoMessage: false,
-  shouldShowITSMessages: false,
+  shouldShowITSMessages: true,
   userDrakeHidden: true
 });
 
@@ -63,10 +63,15 @@ export default function reducer(state, action) {
       return state.setIn(path, action.newSex);
     }
     case actionTypes.DRAKE_SUBMITTED: {
+      let challengeComplete = false;
+      if (state.trial === state.trials.length-1) {
+        challengeComplete = true;
+      }
       return state.merge({
         showingInfoMessage: true,
         userDrakeHidden: false,
-        trialSuccess: action.correct
+        trialSuccess: action.correct,
+        challengeComplete
       });
     }
     case actionTypes.MODAL_DIALOG_DISMISSED: {
