@@ -64,7 +64,7 @@ export default function reducer(state, action) {
     }
     case actionTypes.DRAKE_SUBMITTED: {
       let challengeComplete = false;
-      if (state.trial === state.trials.length-1) {
+      if (action.correct && state.trial === state.trials.length-1) {
         challengeComplete = true;
       }
       return state.merge({

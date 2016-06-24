@@ -3,7 +3,7 @@ import * as actions from '../../src/code/actions';
 
 const types = actions.actionTypes;
 
-describe('startSession', () => {
+describe('startSession action', () => {
   it('should create an action to start a session', () => {
     const uuid = '123';
     expect(actions.startSession(uuid)).toEqual({
