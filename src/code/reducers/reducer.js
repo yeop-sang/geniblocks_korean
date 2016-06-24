@@ -1,7 +1,7 @@
 import Immutable from 'seamless-immutable';
 import { actionTypes } from '../actions';
 import { loadStateFromAuthoring, loadNextTrial } from './loadStateFromAuthoring';
-import { updateProgress } from './challengeProgress';
+import { updateProgress, getChallengeScore } from './challengeProgress';
 
 const initialState = Immutable({
   template: "GenomePlayground",
@@ -13,6 +13,7 @@ const initialState = Immutable({
   challenge: 0,
   challenges: 1,
   challengeProgress: {},
+  currentScore: -1,
   showingInfoMessage: false,
   shouldShowITSMessages: true,
   userDrakeHidden: true
@@ -64,6 +65,8 @@ export default function reducer(state, action) {
     }
     case actionTypes.DRAKE_SUBMITTED: {
       let challengeComplete = false;
+      let progress = updateProgress(state);
+      let currentScore = getChallengeScore(state.case, state.challenge, state.trials.length, progress);
       if (action.correct && state.trial === state.trials.length-1) {
         challengeComplete = true;
       }
@@ -71,6 +74,8 @@ export default function reducer(state, action) {
         showingInfoMessage: true,
         userDrakeHidden: false,
         trialSuccess: action.correct,
+        challengeProgress: progress,
+        currentScore,
         challengeComplete
       });
     }

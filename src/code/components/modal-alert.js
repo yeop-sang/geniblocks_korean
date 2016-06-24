@@ -54,12 +54,12 @@ class ModalAlert extends React.Component {
     onHide: PropTypes.func,
     onLeftButtonClick: PropTypes.func,        // optional click handlers if not defined
     onRightButtonClick: PropTypes.func,       // in button props. (Better for `mapDispatchToProps`)
-    challengeProgress: PropTypes.object
+    challengeAwards: PropTypes.object
   }
 
   static defaultProps = {
     show: false,
-    challengeProgress: null
+    challengeAwards: { id:0, progress: [] }
   }
 
   render() {
@@ -73,8 +73,8 @@ class ModalAlert extends React.Component {
           rightButton = <Button label={rightProps.label || ""}
                                 onClick={rightProps.onClick || this.props.onRightButtonClick}/>;
     var awardView;
-    if (this.props.challengeProgress){
-      awardView = <ChallengeAwardView challengeProgress={this.props.challengeProgress} />;
+    if (this.props.challengeAwards){
+      awardView = <ChallengeAwardView challengeAwards={this.props.challengeAwards} />;
     }
     return (
       <Modal  aria-labelledby='modal-label'

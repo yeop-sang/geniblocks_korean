@@ -25,7 +25,8 @@ const messageProps = {
     rightButton: {
       label: "Next challenge",
       clickFunc: "onAdvanceChallenge"
-    }
+    },
+    challengeAwards: {id: 0, progress: -1}
   }
 };
 
@@ -36,13 +37,15 @@ function mapStateToProps (state) {
       message: "Message from ITS",
       explanation: state.itsMessage.text,
       rightButton: {
-        label: "OK, thanks!",
+        label: "OK",
         clickFunc: "onDismiss"
       }
     };
   } else {
     if (state.challengeComplete){
       props = messageProps.ChallengeCompleted;
+      props.challengeAwards.id = state.challenge;
+      props.challengeAwards.progress = state.currentScore;
     } else {
       if (state.trialSuccess) {
         props = messageProps.MatchDrakeSuccessLastTrial;
