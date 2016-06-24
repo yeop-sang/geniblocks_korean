@@ -2,6 +2,7 @@ var src = './src',
     bower = './bower_components',
     node = './node_modules',
     examples = './examples',
+    publicRoot  = './public',
     publicExamples  = './public/examples',
     publicGeniverse = './public/gv2',
     dist = './dist';
@@ -28,8 +29,10 @@ module.exports = {
   },
   geniverseRsrc: {
     watch: [src + '/index.html', src + '/resources/**/*.*'],
-    src: [src + '/index.html', src + '/resources/**/*.*'],
-    dest: publicGeniverse
+    src: [src + '/resources/**/*.*'],
+    index: src + '/index.html',
+    dest: publicGeniverse + '/resources/',
+    destIndex: publicGeniverse
   },
   examples: {
     watch: [examples + '/**/*.*', '!' + examples + '/**/*.js', '!' + examples + '/**/*.styl'],
@@ -67,6 +70,6 @@ module.exports = {
     }
   },
   deploy: {
-    src: publicExamples + '/**/*'
+    src: publicRoot + '/**/*'
   }
 };

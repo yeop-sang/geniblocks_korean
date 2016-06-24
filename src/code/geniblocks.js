@@ -30,7 +30,7 @@ export { default as PenStatsView } from './components/pen-stats';
 export { default as QuestionGlowView } from './components/question-glow';
 export { default as QuestionOrganismGlowView } from './components/question-organism-glow';
 export { default as StatsView } from './components/stats';
-export { default as AwardView } from './components/challenge-award';
+export { default as ChallengeAwardView } from './components/challenge-award';
 
 // utilities
 export { default as GeneticsUtils } from './utilities/genetics-utils';

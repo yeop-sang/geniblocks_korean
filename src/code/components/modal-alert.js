@@ -3,7 +3,7 @@
  */
 import Modal from 'react-overlays/lib/Modal';
 import Button from './button';
-import AwardView from './challenge-award';
+import ChallengeAwardView from './challenge-award';
 import React, { PropTypes } from 'react';
 
 const modalStyle = {
@@ -52,27 +52,29 @@ class ModalAlert extends React.Component {
       onClick: PropTypes.func
     }),
     onHide: PropTypes.func,
-    challengeProgress: PropTypes.object
+    onLeftButtonClick: PropTypes.func,        // optional click handlers if not defined
+    onRightButtonClick: PropTypes.func,       // in button props. (Better for `mapDispatchToProps`)
+    challengeAwards: PropTypes.object
   }
 
   static defaultProps = {
     show: false,
-    challengeProgress: null
+    challengeAwards: { id:0, progress: [] }
   }
 
   render() {
     /* eslint react/jsx-handler-names: 0 */
     const leftProps = this.props.leftButton || {},
-          leftButton = leftProps
+          leftButton = leftProps.label
                         ? <Button label={leftProps.label || ""}
-                                  onClick={leftProps.onClick}/>
+                                  onClick={leftProps.onClick || this.props.onLeftButtonClick}/>
                         : null,
           rightProps = this.props.rightButton || {},
           rightButton = <Button label={rightProps.label || ""}
-                                onClick={rightProps.onClick}/>;
+                                onClick={rightProps.onClick || this.props.onRightButtonClick}/>;
     var awardView;
-    if (this.props.challengeProgress){
-      awardView = <AwardView challengeProgress={this.props.challengeProgress} />
+    if (this.props.challengeAwards){
+      awardView = <ChallengeAwardView challengeAwards={this.props.challengeAwards} />;
     }
     return (
       <Modal  aria-labelledby='modal-label'

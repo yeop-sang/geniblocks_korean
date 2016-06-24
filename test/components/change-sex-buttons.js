@@ -1,6 +1,6 @@
 import ChangeSexButtons from '../../src/code/components/change-sex-buttons';
 
-describe("<ChangeSexButtons />", function(){
+describe.skip("<ChangeSexButtons />", function(){
 
   it("should create a <div> tag with appropriate classes", function() {
     const wrapper = shallow(<ChangeSexButtons sex='male' onChange={function() {}}/>);

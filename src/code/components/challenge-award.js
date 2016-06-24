@@ -1,21 +1,22 @@
-import {PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 
-class AwardView extends React.Component {
+class ChallengeAwardView extends React.Component {
 
   static propTypes = {
-    challengeProgress: PropTypes.object,
+    challengeAwards: PropTypes.object,
     size: PropTypes.number
   };
    static defaultProps = {
-     challengeProgress: {"id":0,"progress":[]},
+     challengeAwards: {"id":0,"progress":[]},
      size: 80
   }
 
   render() {
     let challengeId = 0, progress = [];
-    if (this.props.challengeProgress){
-     challengeId = this.props.challengeProgress.id;
-     progress = this.props.challengeProgress.progress;
+
+    if (this.props.challengeAwards) {
+      challengeId = this.props.challengeAwards.id;
+      progress = this.props.challengeAwards.progress;
     } else return null;
 
     if (challengeId === 0 || !progress || progress === [])
@@ -24,15 +25,15 @@ class AwardView extends React.Component {
     let baseUrl = `resources/images/challenge${challengeId}`;
     let challengeBackground = `${baseUrl}.png`;
     let size = this.props.size || 80;
-    var sizeStyle = {
+    let sizeStyle = {
       width: size + "px",
       height: size + "px"
     };
 
-    var progressImages = [];
-    progress.map(function(p, i){
-      if (p > 0){
-        var imgSrc = `${baseUrl}_${i+1}_${p}.png`;
+    let progressImages = [];
+    progress.asMutable().map(function(p, i){
+      if (p > -1){
+        let imgSrc = `${baseUrl}/${i+1}_${p}.png`;
         progressImages.push (<img key={i+1} src={imgSrc} />);
       }
     });
@@ -46,4 +47,4 @@ class AwardView extends React.Component {
   }
 }
 
-export default AwardView;
+export default ChallengeAwardView;

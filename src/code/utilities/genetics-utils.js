@@ -4,6 +4,13 @@
  */
 export default class GeneticsUtils {
 
+  static ensureValidOrganism(orgOrDef, species=BioLogica.Species.Drake) {
+    if (orgOrDef.getAlleleString) {
+      return orgOrDef;
+    }
+    return new BioLogica.Organism(species, orgOrDef.alleleString, orgOrDef.sex);
+  }
+
   /**
    * Filters out hidden alleles from an original list of alleles
    *
@@ -173,6 +180,9 @@ export default class GeneticsUtils {
    * @return {number} - the total number of changes required for the phenotypes to match
    */
   static numberOfChangesToReachPhenotype(testOrganism, targetOrganism) {
+    testOrganism = this.ensureValidOrganism(testOrganism);
+    targetOrganism = this.ensureValidOrganism(targetOrganism);
+
     let requiredChangeCount = GeneticsUtils.numberOfAlleleChangesToReachPhenotype(
                                               testOrganism.phenotype.characteristics,
                                               targetOrganism.phenotype.characteristics,
