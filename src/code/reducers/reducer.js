@@ -3,6 +3,8 @@ import { actionTypes } from '../actions';
 import { loadStateFromAuthoring, loadNextTrial } from './loadStateFromAuthoring';
 import { updateProgress, getChallengeScore } from './challengeProgress';
 
+import { LOCATION_CHANGE } from 'react-router-redux';
+
 const initialState = Immutable({
   template: "GenomePlayground",
   drakes: [],
@@ -16,7 +18,8 @@ const initialState = Immutable({
   currentScore: -1,
   showingInfoMessage: false,
   shouldShowITSMessages: true,
-  userDrakeHidden: true
+  userDrakeHidden: true,
+  routing: {}
 });
 
 export default function reducer(state, action) {
@@ -27,6 +30,9 @@ export default function reducer(state, action) {
   }
 
   switch(action.type) {
+    case LOCATION_CHANGE: {
+      return state.set("routing", {locationBeforeTransitions: action.payload});
+    }
     case actionTypes.LOADED_CHALLENGE_FROM_AUTHORING: {
       state.merge({
         userDrakeHidden: true,

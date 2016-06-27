@@ -3,6 +3,10 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 
+import { Router, Route, useRouterHistory } from 'react-router';
+import { createHashHistory } from 'history';
+import { syncHistoryWithStore, routerMiddleware, push as pushHistory } from 'react-router-redux';
+
 import reducer from './reducers/reducer';
 import { actionTypes, startSession, loadAuthoredChallenge } from './actions';
 
@@ -34,10 +38,13 @@ socket.onerror = (state=>
   store.dispatch({type: actionTypes.SOCKET_ERRORED, state})
 );
 
+const hashHistory = useRouterHistory(createHashHistory)({ queryKey: false });
+
 const createStoreWithMiddleware =
   applyMiddleware(
     loggerMiddleware(loggingMetadata),
-    itsMiddleware(socket, loggingMetadata)
+    itsMiddleware(socket, loggingMetadata),
+    routerMiddleware(hashHistory)
   )(createStore);
 
 export default function configureStore(initialState) {
@@ -46,13 +53,19 @@ export default function configureStore(initialState) {
 
 const store = configureStore();
 
+const history = syncHistoryWithStore(hashHistory, store);
+
 store.dispatch(startSession(uuid.v4()));
 store.dispatch(loadAuthoredChallenge());
+
+store.dispatch(pushHistory("/1/1"));
 
 render(
   <Provider store={store}>
     <div>
-      <ChallengeContainer />
+      <Router history={history}>
+        <Route path="/:case/:challenge" component={ChallengeContainer} />
+      </Router>
       <ModalMessageContainer />
     </div>
   </Provider>
