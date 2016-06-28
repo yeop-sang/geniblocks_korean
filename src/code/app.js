@@ -60,13 +60,11 @@ const history = syncHistoryWithStore(hashHistory, store);
 
 store.dispatch(startSession(uuid.v4()));
 
-store.dispatch(navigateToChallenge(0, 0));
-
 render(
   <Provider store={store}>
     <div>
       <Router history={history}>
-        <Route path="/:case/:challenge" component={ChallengeContainer} />
+        <Route path="/(:case/:challenge)" component={ChallengeContainer} />
       </Router>
       <ModalMessageContainer />
     </div>

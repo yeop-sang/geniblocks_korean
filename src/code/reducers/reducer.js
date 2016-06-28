@@ -6,7 +6,7 @@ import { updateProgress, getChallengeScore } from './challengeProgress';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 const initialState = Immutable({
-  template: "GenomePlayground",
+  template: null,
   drakes: [],
   hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
   trial: 0,
