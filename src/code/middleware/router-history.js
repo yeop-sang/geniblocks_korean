@@ -10,7 +10,7 @@ import { actionTypes } from '../actions';
 
 export default function routerMiddleware(history) {
   return () => next => action => {
-    if (action.type === actionTypes.NAVIGATED) {
+    if (action.type === actionTypes.NAVIGATED && action.route) {
       history.push(action.route);
     }
 

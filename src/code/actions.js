@@ -38,6 +38,21 @@ export function navigateToNextChallenge() {
   };
 }
 
+/*
+ * Called when route params are different from current case and challenge,
+ * so user must have changed them in the address bar.
+ * Skips the route change, so just updates current case and challenge and
+ * triggers `loadStateFromAuthoring` in router
+ */
+export function navigateToCurrentRoute(_case, challenge) {
+  return {
+    type: actionTypes.NAVIGATED,
+    case: _case,
+    challenge,
+    skipRouteChange: true
+  };
+}
+
 export function breed(mother, father, offspringBin, quantity=1, incrementMoves=false) {
   return {
     type: actionTypes.BRED,
