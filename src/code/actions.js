@@ -40,6 +40,13 @@ export function navigateToChallenge(_case, challenge) {
   };
 }
 
+export function navigateToNextChallenge() {
+  return (dispatch, getState) => {
+    const { case: currentCase, challenge: currentChallenge} = getState();
+    dispatch(navigateToChallenge(currentCase, currentChallenge+1));
+  };
+}
+
 export function breed(mother, father, offspringBin, quantity=1, incrementMoves=false) {
   return {
     type: actionTypes.BRED,

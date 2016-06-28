@@ -16,6 +16,7 @@ import ModalMessageContainer from "./containers/modal-message-container";
 import loggerMiddleware from './middleware/gv-log';
 import itsMiddleware from './middleware/its-log';
 import routerMiddleware from './middleware/router-history';
+import thunk from 'redux-thunk';
 
 import uuid from 'uuid';
 
@@ -43,6 +44,7 @@ const hashHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 
 const createStoreWithMiddleware =
   applyMiddleware(
+    thunk,
     loggerMiddleware(loggingMetadata),
     itsMiddleware(socket, loggingMetadata),
     routerMiddleware(hashHistory)

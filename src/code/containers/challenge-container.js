@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import templates from '../templates';
-import { changeAllele, changeSex, submitDrake, loadAuthoredChallenge, navigateToChallenge } from '../actions';
+import { changeAllele, changeSex, submitDrake, loadAuthoredChallenge, navigateToNextChallenge } from '../actions';
 
 class ChallengeContainer extends Component {
   componentWillMount() {
@@ -48,7 +48,7 @@ function mapDispatchToProps(dispatch) {
     onChromosomeAlleleChange: (index, chrom, side, prevAllele, newAllele) => dispatch(changeAllele(index, chrom, side, prevAllele, newAllele, true)),
     onSexChange: (index, newSex) => dispatch(changeSex(index, newSex, true)),
     onDrakeSubmission: (targetPhenotype, userPhenotype, correct) => dispatch(submitDrake(targetPhenotype, userPhenotype, correct)),
-    onNavigateNextChallenge: () => dispatch(navigateToChallenge(0,1)), // still hard-coded
+    onNavigateNextChallenge: () => dispatch(navigateToNextChallenge()),
     loadAuthoredChallenge: (nextChallenge) => dispatch(loadAuthoredChallenge(nextChallenge)) // hard-coded for the moment
   };
 }
