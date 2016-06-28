@@ -22,15 +22,6 @@ export function startSession(uuid) {
   };
 }
 
-export function loadAuthoredChallenge(challenge=0) {
-  let authoring = window.GV2Authoring;
-  return {
-    type: actionTypes.LOADED_CHALLENGE_FROM_AUTHORING,
-    authoring,
-    challenge
-  };
-}
-
 export function navigateToChallenge(_case, challenge) {
   return {
     type: actionTypes.NAVIGATED,

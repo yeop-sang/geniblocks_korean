@@ -19,7 +19,8 @@ const initialState = Immutable({
   showingInfoMessage: false,
   shouldShowITSMessages: true,
   userDrakeHidden: true,
-  routing: {}
+  routing: {},
+  authoring: window.GV2Authoring
 });
 
 export default function reducer(state, action) {
@@ -32,15 +33,6 @@ export default function reducer(state, action) {
   switch(action.type) {
     case LOCATION_CHANGE: {
       return state.set("routing", {locationBeforeTransitions: action.payload});
-    }
-    case actionTypes.LOADED_CHALLENGE_FROM_AUTHORING: {
-      state.merge({
-        userDrakeHidden: true,
-        showingInfoMessage: false,
-        trialSuccess: false
-      });
-
-      return loadStateFromAuthoring(state, action.authoring, action.challenge);
     }
     case actionTypes.BRED: {
       let mother = new BioLogica.Organism(BioLogica.Species.Drake, action.mother, 1),
@@ -103,10 +95,13 @@ export default function reducer(state, action) {
       } else return state;
     }
 
-    case actionTypes.ADVANCED_CHALLENGE: {
-      let nextChallenge = state.challenge + 1;
+    case actionTypes.NAVIGATED: {
       let progress = updateProgress(state);
-      return loadStateFromAuthoring(state, action.authoring, nextChallenge, progress);
+      state = state.merge({
+        case: action.case,
+        challenge: action.challenge
+      });
+      return loadStateFromAuthoring(state, state.authoring, progress);
     }
 
     case actionTypes.SOCKET_RECEIVED: {

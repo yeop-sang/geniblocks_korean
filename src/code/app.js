@@ -8,7 +8,7 @@ import { createHashHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 import reducer from './reducers/reducer';
-import { actionTypes, startSession, loadAuthoredChallenge, navigateToChallenge } from './actions';
+import { actionTypes, startSession, navigateToChallenge } from './actions';
 
 import ChallengeContainer from "./containers/challenge-container";
 import ModalMessageContainer from "./containers/modal-message-container";
@@ -59,7 +59,6 @@ const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
 
 store.dispatch(startSession(uuid.v4()));
-store.dispatch(loadAuthoredChallenge());
 
 store.dispatch(navigateToChallenge(0, 0));
 
