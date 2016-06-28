@@ -1,6 +1,7 @@
 export const actionTypes = {
   SESSION_STARTED: "Session started",
   LOADED_CHALLENGE_FROM_AUTHORING: "Loaded challenge from authoring",
+  NAVIGATED: "Navigated",
   BRED: "Bred",
   ALLELE_CHANGED: "Allele changed",
   SEX_CHANGED: "Sex changed",
@@ -27,6 +28,15 @@ export function loadAuthoredChallenge(challenge=0) {
     type: actionTypes.LOADED_CHALLENGE_FROM_AUTHORING,
     authoring,
     challenge
+  };
+}
+
+export function navigateToChallenge(_case, challenge) {
+  return {
+    type: actionTypes.NAVIGATED,
+    case: _case,
+    challenge,
+    route: `/${_case+1}/${challenge+1}`
   };
 }
 

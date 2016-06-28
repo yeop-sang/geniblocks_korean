@@ -5,16 +5,17 @@ import { createStore, applyMiddleware } from 'redux';
 
 import { Router, Route, useRouterHistory } from 'react-router';
 import { createHashHistory } from 'history';
-import { syncHistoryWithStore, routerMiddleware, push as pushHistory } from 'react-router-redux';
+import { syncHistoryWithStore } from 'react-router-redux';
 
 import reducer from './reducers/reducer';
-import { actionTypes, startSession, loadAuthoredChallenge } from './actions';
+import { actionTypes, startSession, loadAuthoredChallenge, navigateToChallenge } from './actions';
 
 import ChallengeContainer from "./containers/challenge-container";
 import ModalMessageContainer from "./containers/modal-message-container";
 
 import loggerMiddleware from './middleware/gv-log';
 import itsMiddleware from './middleware/its-log';
+import routerMiddleware from './middleware/router-history';
 
 import uuid from 'uuid';
 
@@ -58,7 +59,7 @@ const history = syncHistoryWithStore(hashHistory, store);
 store.dispatch(startSession(uuid.v4()));
 store.dispatch(loadAuthoredChallenge());
 
-store.dispatch(pushHistory("/1/1"));
+store.dispatch(navigateToChallenge(0, 0));
 
 render(
   <Provider store={store}>
