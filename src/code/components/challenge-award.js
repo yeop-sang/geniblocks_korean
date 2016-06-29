@@ -7,22 +7,23 @@ class ChallengeAwardView extends React.Component {
     size: PropTypes.number
   };
    static defaultProps = {
-     challengeAwards: {"id":0,"progress":[]},
+     challengeAwards: {"caseId":0,"challengeId":0,"progress":[]},
      size: 80
   }
 
   render() {
-    let challengeId = 0, progress = [];
+    let caseId = 0, challengeId = 0, progress = [];
 
     if (this.props.challengeAwards) {
-      challengeId = this.props.challengeAwards.id;
+      caseId = this.props.challengeAwards.caseId,
+      challengeId = this.props.challengeAwards.challengeId;
       progress = this.props.challengeAwards.progress;
     } else return null;
 
     if (challengeId === 0 || !progress || progress === [])
       return null;
 
-    let baseUrl = `resources/images/challenge${challengeId}`;
+    let baseUrl = `resources/images/case${caseId}`;
     let challengeBackground = `${baseUrl}.png`;
     let size = this.props.size || 80;
     let sizeStyle = {
@@ -31,12 +32,16 @@ class ChallengeAwardView extends React.Component {
     };
 
     let progressImages = [];
-    progress.asMutable().map(function(p, i){
-      if (p > -1){
-        let imgSrc = `${baseUrl}/${i+1}_${p}.png`;
-        progressImages.push (<img key={i+1} src={imgSrc} />);
+    let score = -1;
+    let pieceKey = caseId + ":" + challengeId;
+    for (var key in progress){
+      if (key.startsWith(pieceKey)){
+        score = progress[key];
       }
-    });
+    }
+
+    let imgSrc = `${baseUrl}/${challengeId}_${score}.png`;
+    progressImages.push (<img key={pieceKey} src={imgSrc} />);
 
     return (
       <div className="geniblocks challenge-award" style={sizeStyle} >

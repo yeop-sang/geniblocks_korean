@@ -45,8 +45,7 @@ describe('submitDrake action', () => {
         trials: [{}, {}],
         challengeProgress: {
           "0:0:0" : 2
-        },
-        currentScore: [2]
+        }
       });
 
       let nextState = reducer(initialState, {
@@ -65,8 +64,7 @@ describe('submitDrake action', () => {
         challengeProgress: {
           "0:0:0" : 2,
           "0:0:1" : -1
-        },
-        currentScore: [2,-1]
+        }
       }));
     });
 
@@ -77,7 +75,6 @@ describe('submitDrake action', () => {
         trials: [{}, {}],
         challengeProgress: {
         },
-        currentScore: [],
         goalMoves: 3,
         moves: 3
       });
@@ -99,8 +96,7 @@ describe('submitDrake action', () => {
           challengeComplete: false,
           challengeProgress: {
             "0:0:0" : 0
-          },
-          currentScore: [0,-1]
+          }
         }));
       });
 
@@ -109,7 +105,6 @@ describe('submitDrake action', () => {
         initialState = initialState.set("goalMoves", 4);
         initialState = initialState.set("moves", 5);
         initialState = initialState.set( "challengeProgress", {"0:0:0" : 0} );
-        initialState = initialState.set("currentScore",[0]);
 
         let nextState = reducer(initialState, submitAction);
 
@@ -121,8 +116,7 @@ describe('submitDrake action', () => {
           challengeProgress: {
             "0:0:0" : 0,
             "0:0:1" : 1
-          },
-          currentScore: [0,1]
+          }
         }));
       });
     });

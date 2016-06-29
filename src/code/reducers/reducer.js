@@ -1,7 +1,7 @@
 import Immutable from 'seamless-immutable';
 import { actionTypes } from '../actions';
 import { loadStateFromAuthoring, loadNextTrial } from './loadStateFromAuthoring';
-import { updateProgress, getChallengeScore } from './challengeProgress';
+import { updateProgress } from './challengeProgress';
 
 import { LOCATION_CHANGE } from 'react-router-redux';
 
@@ -63,7 +63,6 @@ export default function reducer(state, action) {
     case actionTypes.DRAKE_SUBMITTED: {
       let challengeComplete = false;
       let progress = updateProgress(state, action.correct);
-      let currentScore = getChallengeScore(state.case, state.challenge, state.trials.length, progress);
       if (action.correct && state.trial === state.trials.length-1) {
         challengeComplete = true;
       }
@@ -72,7 +71,6 @@ export default function reducer(state, action) {
         userDrakeHidden: false,
         trialSuccess: action.correct,
         challengeProgress: progress,
-        currentScore,
         challengeComplete
       });
     }
