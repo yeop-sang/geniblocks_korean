@@ -15,7 +15,6 @@ const initialState = Immutable({
   challenge: 0,
   challenges: 1,
   challengeProgress: {},
-  currentScore: -1,
   showingInfoMessage: false,
   shouldShowITSMessages: true,
   userDrakeHidden: true,
@@ -63,7 +62,7 @@ export default function reducer(state, action) {
     }
     case actionTypes.DRAKE_SUBMITTED: {
       let challengeComplete = false;
-      let progress = updateProgress(state);
+      let progress = updateProgress(state, action.correct);
       let currentScore = getChallengeScore(state.case, state.challenge, state.trials.length, progress);
       if (action.correct && state.trial === state.trials.length-1) {
         challengeComplete = true;
@@ -85,7 +84,7 @@ export default function reducer(state, action) {
     }
     case actionTypes.ADVANCED_TRIAL: {
       if (state.trialSuccess){
-        let progress = updateProgress(state);
+        let progress = updateProgress(state, true);
         if (state.trial < state.trials.length - 1) {
           return loadNextTrial(state, action.authoring, progress);
         }
@@ -94,7 +93,6 @@ export default function reducer(state, action) {
         }
       } else return state;
     }
-
     case actionTypes.NAVIGATED: {
       let progress = updateProgress(state);
       state = state.merge({
@@ -102,6 +100,11 @@ export default function reducer(state, action) {
         challenge: action.challenge
       });
       return loadStateFromAuthoring(state, state.authoring, progress);
+    }
+    case actionTypes.ADVANCED_CHALLENGE: {
+      let nextChallenge = state.challenge + 1;
+      let progress = updateProgress(state, true);
+      return loadStateFromAuthoring(state, action.authoring, nextChallenge, progress);
     }
 
     case actionTypes.SOCKET_RECEIVED: {

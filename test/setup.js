@@ -17,9 +17,9 @@ import {assert} from 'chai';
 import {mount,shallow} from 'enzyme';
 import React from 'react';
 import chai from 'chai';
-import chaiImmutable from 'chai-immutable';
+// import chaiImmutable from 'chai-immutable';
 
-chai.use(chaiImmutable);
+// chai.use(chaiImmutable);
 
 global.assert = assert;
 global.mount = mount;

@@ -42,7 +42,11 @@ describe('submitDrake action', () => {
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
         trial: 1,
-        trials: [{}, {}]
+        trials: [{}, {}],
+        challengeProgress: {
+          "0:0:0" : 2
+        },
+        currentScore: [2]
       });
 
       let nextState = reducer(initialState, {
@@ -57,7 +61,12 @@ describe('submitDrake action', () => {
         showingInfoMessage: true,
         userDrakeHidden: false,
         trialSuccess: false,
-        challengeComplete: false
+        challengeComplete: false,
+        challengeProgress: {
+          "0:0:0" : 2,
+          "0:0:1" : -1
+        },
+        currentScore: [2,-1]
       }));
     });
 
@@ -65,7 +74,12 @@ describe('submitDrake action', () => {
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
         trial: 0,
-        trials: [{}, {}]
+        trials: [{}, {}],
+        challengeProgress: {
+        },
+        currentScore: [],
+        goalMoves: 3,
+        moves: 3
       });
       let submitAction = {
         type: types.DRAKE_SUBMITTED,
@@ -82,19 +96,33 @@ describe('submitDrake action', () => {
           showingInfoMessage: true,
           userDrakeHidden: false,
           trialSuccess: true,
-          challengeComplete: false
+          challengeComplete: false,
+          challengeProgress: {
+            "0:0:0" : 0
+          },
+          currentScore: [0,-1]
         }));
       });
 
       it('should update the trialSuccess and challengeComplete property correctly when there are no more trials', () => {
         initialState = initialState.set("trial", 1);
+        initialState = initialState.set("goalMoves", 4);
+        initialState = initialState.set("moves", 5);
+        initialState = initialState.set( "challengeProgress", {"0:0:0" : 0} );
+        initialState = initialState.set("currentScore",[0]);
+
         let nextState = reducer(initialState, submitAction);
 
         expect(nextState).toEqual(initialState.merge({
           showingInfoMessage: true,
           userDrakeHidden: false,
           trialSuccess: true,
-          challengeComplete: true
+          challengeComplete: true,
+          challengeProgress: {
+            "0:0:0" : 0,
+            "0:0:1" : 1
+          },
+          currentScore: [0,1]
         }));
       });
     });
