@@ -3,8 +3,10 @@ import { actionTypes } from '../actions';
 import { loadStateFromAuthoring, loadNextTrial } from './loadStateFromAuthoring';
 import { updateProgress, getChallengeScore } from './challengeProgress';
 
+import { LOCATION_CHANGE } from 'react-router-redux';
+
 const initialState = Immutable({
-  template: "GenomePlayground",
+  template: null,
   drakes: [],
   hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
   trial: 0,
@@ -16,7 +18,9 @@ const initialState = Immutable({
   currentScore: -1,
   showingInfoMessage: false,
   shouldShowITSMessages: true,
-  userDrakeHidden: true
+  userDrakeHidden: true,
+  routing: {},
+  authoring: window.GV2Authoring
 });
 
 export default function reducer(state, action) {
@@ -27,14 +31,8 @@ export default function reducer(state, action) {
   }
 
   switch(action.type) {
-    case actionTypes.LOADED_CHALLENGE_FROM_AUTHORING: {
-      state.merge({
-        userDrakeHidden: true,
-        showingInfoMessage: false,
-        trialSuccess: false
-      });
-
-      return loadStateFromAuthoring(state, action.authoring, action.challenge);
+    case LOCATION_CHANGE: {
+      return state.set("routing", {locationBeforeTransitions: action.payload});
     }
     case actionTypes.BRED: {
       let mother = new BioLogica.Organism(BioLogica.Species.Drake, action.mother, 1),
@@ -97,10 +95,13 @@ export default function reducer(state, action) {
       } else return state;
     }
 
-    case actionTypes.ADVANCED_CHALLENGE: {
-      let nextChallenge = state.challenge + 1;
+    case actionTypes.NAVIGATED: {
       let progress = updateProgress(state);
-      return loadStateFromAuthoring(state, action.authoring, nextChallenge, progress);
+      state = state.merge({
+        case: action.case,
+        challenge: action.challenge
+      });
+      return loadStateFromAuthoring(state, state.authoring, progress);
     }
 
     case actionTypes.SOCKET_RECEIVED: {

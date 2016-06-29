@@ -1,6 +1,7 @@
 export const actionTypes = {
   SESSION_STARTED: "Session started",
   LOADED_CHALLENGE_FROM_AUTHORING: "Loaded challenge from authoring",
+  NAVIGATED: "Navigated",
   BRED: "Bred",
   ALLELE_CHANGED: "Allele changed",
   SEX_CHANGED: "Sex changed",
@@ -21,12 +22,34 @@ export function startSession(uuid) {
   };
 }
 
-export function loadAuthoredChallenge(challenge=0) {
-  let authoring = window.GV2Authoring;
+export function navigateToChallenge(_case, challenge) {
   return {
-    type: actionTypes.LOADED_CHALLENGE_FROM_AUTHORING,
-    authoring,
-    challenge
+    type: actionTypes.NAVIGATED,
+    case: _case,
+    challenge,
+    route: `/${_case+1}/${challenge+1}`
+  };
+}
+
+export function navigateToNextChallenge() {
+  return (dispatch, getState) => {
+    const { case: currentCase, challenge: currentChallenge} = getState();
+    dispatch(navigateToChallenge(currentCase, currentChallenge+1));
+  };
+}
+
+/*
+ * Called when route params are different from current case and challenge,
+ * so user must have changed them in the address bar.
+ * Skips the route change, so just updates current case and challenge and
+ * triggers `loadStateFromAuthoring` in router
+ */
+export function navigateToCurrentRoute(_case, challenge) {
+  return {
+    type: actionTypes.NAVIGATED,
+    case: _case,
+    challenge,
+    skipRouteChange: true
   };
 }
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import ModalAlert from '../components/modal-alert';
-import { dismissModalDialog, advanceTrial, advanceChallenge } from '../actions';
+import { dismissModalDialog, advanceTrial, navigateToNextChallenge } from '../actions';
 
 const messageProps = {
   MatchDrakeFailure: {
@@ -24,7 +24,7 @@ const messageProps = {
     explanation: "You have completed all trials in this challenge.",
     rightButton: {
       label: "Next challenge",
-      clickFunc: "onAdvanceChallenge"
+      clickFunc: "onNavigateToNextChallenge"
     },
     challengeAwards: {id: 0, progress: -1}
   }
@@ -64,7 +64,7 @@ function mapDispatchToProps (dispatch) {
   return {
     onDismiss: () => dispatch(dismissModalDialog()),
     onAdvanceTrial: () => dispatch(advanceTrial()),
-    onAdvanceChallenge: () => dispatch(advanceChallenge())
+    onNavigateToNextChallenge: () => dispatch(navigateToNextChallenge())
   };
 }
 

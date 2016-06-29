@@ -1,10 +1,10 @@
 import templates from '../templates';
 
-export function loadStateFromAuthoring(state, authoring, challenge, progress={}) {
+export function loadStateFromAuthoring(state, authoring, progress={}) {
   let trial = state.trial ? state.trial : 0;
 
   let challenges = authoring[state.case].length;
-  let authoredChallenge = authoring[state.case][challenge],
+  let authoredChallenge = authoring[state.case][state.challenge],
       templateName = authoredChallenge.template,
       template = templates[templateName],
       trials = authoredChallenge.targetDrakes,
@@ -30,7 +30,6 @@ export function loadStateFromAuthoring(state, authoring, challenge, progress={})
     drakes: drakes,
     trial,
     trials,
-    challenge,
     challenges,
     moves: 0,
     goalMoves: goalMoves,
