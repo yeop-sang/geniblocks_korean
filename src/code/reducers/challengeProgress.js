@@ -36,17 +36,3 @@ export function getChallengeName(case_, challenge, trial){
   let challengeName = `${case_}:${challenge}:${trial}`;
   return challengeName;
 }
-// export function getChallengeScore(case_, challenge, trialCount, progress) {
-//   let challengeAwardProgress = [];
-//   for (let i = 0; i < trialCount; i++){
-//     let challengeProgressName = getChallengeName(case_, challenge, i);
-//     let score = progress[challengeProgressName];
-//     if (score != null) {
-//       challengeAwardProgress.push(score);
-//     } else {
-//       challengeAwardProgress.push(-1);
-//     }
-//   }
-  
-//   return challengeAwardProgress;
-// }

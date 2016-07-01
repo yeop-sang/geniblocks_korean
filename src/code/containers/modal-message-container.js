@@ -26,7 +26,7 @@ const messageProps = {
       label: "Next challenge",
       clickFunc: "onNavigateToNextChallenge"
     },
-    challengeAwards: {caseId: 0, challengeId: 0, progress: -1}
+    challengeAwards: {caseId: 0, challengeId:0, challengeCount: 0, progress: -1}
   }
 };
 
@@ -46,6 +46,7 @@ function mapStateToProps (state) {
       props = messageProps.ChallengeCompleted;
       props.challengeAwards.caseId = state.case;
       props.challengeAwards.challengeId = state.challenge;
+      props.challengeAwards.challengeCount = state.challenges;
       props.challengeAwards.progress = state.challengeProgress;
     } else {
       if (state.trialSuccess) {
