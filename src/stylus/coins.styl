@@ -30,8 +30,10 @@ coinPieces = {
   position: absolute;
   height: h;
   width: w;
-  background-image: url("../resources/images/coin-background.png");
+  &.background
+    background-image: url("../resources/images/coin-background.png");
   &.piece
+    z-index: 2;
     for pieces in 2..5
       // coins in 2 3 4 or 5 pieces
       &.pieces{pieces}
@@ -41,6 +43,14 @@ coinPieces = {
           // for each piece in pieces
           &.piece{pieceNum}
             &.single
+              opacity: 0;
+
+              -webkit-transition: opacity 2s ease-in;
+              -moz-transition: opacity 2s ease-in;
+              -o-transition: opacity 2s ease-in;
+              -ms-transition: opacity 2s ease-in;
+              transition: opacity 2s ease-in;
+              
               &.bronze
                 background-position: horizontalOffset(pieces,pieceNum,single) verticalOffset(bronze);
               &.silver

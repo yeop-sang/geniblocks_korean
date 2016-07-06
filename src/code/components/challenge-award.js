@@ -31,7 +31,7 @@ class ChallengeAwardView extends React.Component {
       challengeId = this.props.challengeAwards.challengeId,
       challengeCount = this.props.challengeAwards.challengeCount;
       progress = this.props.challengeAwards.progress;
-      challengeBackgroundImage = <div className="coin" />;
+      challengeBackgroundImage = <div className="coin background" />;
     } else return null;
 
     if (!progress || progress === [])

@@ -69,10 +69,12 @@ class ModalAlert extends React.Component {
     const leftProps = this.props.leftButton || {},
           leftButton = leftProps.label
                         ? <Button label={leftProps.label || ""}
+                                  className="alert-button"
                                   onClick={leftProps.onClick || this.props.onLeftButtonClick}/>
                         : null,
           rightProps = this.props.rightButton || {},
           rightButton = <Button label={rightProps.label || ""}
+                                className="alert-button"
                                 onClick={rightProps.onClick || this.props.onRightButtonClick}/>;
     var awardView;
 
