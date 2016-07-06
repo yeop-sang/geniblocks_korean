@@ -2,6 +2,7 @@ export const actionTypes = {
   SESSION_STARTED: "Session started",
   LOADED_CHALLENGE_FROM_AUTHORING: "Loaded challenge from authoring",
   NAVIGATED: "Navigated",
+  PLAYGROUND_COMPLETE: "Playground completed",
   BRED: "Bred",
   ALLELE_CHANGED: "Allele changed",
   SEX_CHANGED: "Sex changed",
@@ -124,4 +125,9 @@ export function advanceChallenge() {
   };
 }
 
+export function playgroundComplete() {
+  return{
+    type:actionTypes.PLAYGROUND_COMPLETE
+  };
+}
 

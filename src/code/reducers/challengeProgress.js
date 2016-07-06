@@ -5,6 +5,13 @@ export const scoreValues = {
   BRONZE: 2
 };
 
+export function setProgressScore(state, score){
+  let currentProgress = state.challengeProgress.asMutable();
+  let level = getChallengeName(state.case, state.challenge,state.trial);
+  currentProgress[level] = getScoreValue(score);
+  return currentProgress;
+}
+
 export function updateProgress(state, correct) {
   let currentProgress = state.challengeProgress.asMutable();
   let score = -1;
@@ -12,6 +19,17 @@ export function updateProgress(state, correct) {
     score = state.moves - state.goalMoves;
   } 
 
+  let level = getChallengeName(state.case,state.challenge,state.trial);
+  currentProgress[level] = getScoreValue(score);
+
+  return currentProgress;
+}
+export function getChallengeName(case_, challenge, trial){
+  let challengeName = `${case_}:${challenge}:${trial}`;
+  return challengeName;
+}
+
+export function getScoreValue(score){
   let scoreValue = scoreValues.NONE;
 
   switch (score) {
@@ -27,12 +45,5 @@ export function updateProgress(state, correct) {
     default:
       scoreValue = scoreValues.NONE;
   }
-  let level = getChallengeName(state.case,state.challenge,state.trial);
-  currentProgress[level] = scoreValue;
-
-  return currentProgress;
-}
-export function getChallengeName(case_, challenge, trial){
-  let challengeName = `${case_}:${challenge}:${trial}`;
-  return challengeName;
+  return scoreValue;
 }

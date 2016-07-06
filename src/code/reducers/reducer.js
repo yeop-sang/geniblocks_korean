@@ -1,7 +1,7 @@
 import Immutable from 'seamless-immutable';
 import { actionTypes } from '../actions';
 import { loadStateFromAuthoring, loadNextTrial } from './loadStateFromAuthoring';
-import { updateProgress } from './challengeProgress';
+import { updateProgress, setProgressScore } from './challengeProgress';
 
 import { LOCATION_CHANGE } from 'react-router-redux';
 
@@ -32,6 +32,17 @@ export default function reducer(state, action) {
   switch(action.type) {
     case LOCATION_CHANGE: {
       return state.set("routing", {locationBeforeTransitions: action.payload});
+    }
+    case actionTypes.PLAYGROUND_COMPLETE:{
+      let challengeComplete = true;
+      let progress = setProgressScore(state, 0);
+
+      return state.merge({
+        showingInfoMessage: true,
+        trialSuccess: action.correct,
+        challengeProgress: progress,
+        challengeComplete
+      });
     }
     case actionTypes.BRED: {
       let mother = new BioLogica.Organism(BioLogica.Species.Drake, action.mother, 1),

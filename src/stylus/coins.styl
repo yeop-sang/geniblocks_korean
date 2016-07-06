@@ -34,9 +34,11 @@ coinPieces = {
   &.piece
     for pieces in 2..5
       // coins in 2 3 4 or 5 pieces
-      for pieceNum in 1..pieces
-        // for each piece in pieces
-        &.pieces{pieces}
+      &.pieces{pieces}
+        imageUrl = '../resources/images/coin-pieces-' + pieces + '.png'
+        background-image: url(imageUrl);
+        for pieceNum in 1..pieces
+          // for each piece in pieces
           &.piece{pieceNum}
             &.single
               &.bronze

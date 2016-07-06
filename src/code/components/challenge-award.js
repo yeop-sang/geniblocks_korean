@@ -14,19 +14,19 @@ class ChallengeAwardView extends React.Component {
      coinParts: 3
   };
 
-  addAwardImage = (progressImages, pieces, pieceNum, score, coinStyle, pieceStyle) => {
+  addAwardImage = (progressImages, pieces, pieceNum, score, pieceStyle) => {
     let awardLevel = "gold";
     if (score === 1) awardLevel = "silver";
     if (score >= 2) awardLevel = "bronze";
     let pieceName = `coin piece pieces${pieces} piece${pieceNum} ${pieceStyle} ${awardLevel}`;
-    progressImages.push(<div key={pieceNum} className={pieceName} style={coinStyle} />);
+    progressImages.push(<div key={pieceNum} className={pieceName} />);
     return progressImages;
   };
 
   render() {
-    let caseId = 0, challengeId = 0, challengeCount = 0, progress = [], challengeBackgroundImage, progressImages = [];
+    let caseId = 0, challengeId = 0, challengeCount = 0, progress = [], challengeBackgroundImage, currentPiece = [], progressImages = [];
     console.log(this.props);
-    if (this.props.challengeAwards.challengeId) {
+    if (this.props.challengeAwards.challengeId != null) {
       caseId = this.props.challengeAwards.caseId,
       challengeId = this.props.challengeAwards.challengeId,
       challengeCount = this.props.challengeAwards.challengeCount;
@@ -43,15 +43,8 @@ class ChallengeAwardView extends React.Component {
       height: size + "px"
     };
 
-    let coinStyle = {
-      backgroundImage: `url(../resources/images/coin-pieces-${challengeCount}.png)`
-    };
-
     let pieceKey = caseId + ":";
     let challengeScore = {};
-
-    // if all challenges in case completed, show all coin pieces
-    let showAllPieces = challengeId === challengeCount;
 
     for (let i = 0; i < challengeCount; i++){
       for (var key in progress){
@@ -67,19 +60,20 @@ class ChallengeAwardView extends React.Component {
         }
       }
     }
+    let pieceNum = challengeId + 1;
+    currentPiece = this.addAwardImage(currentPiece, challengeCount, pieceNum, challengeScore[challengeId], "single");
 
-    if (showAllPieces){
-      for (var challenge in challengeScore){
-          progressImages = this.addAwardImage(progressImages, challengeCount, challenge, challengeScore[challenge], coinStyle, "whole");
-      }
-    } else {
-      progressImages = this.addAwardImage(progressImages, challengeCount, challengeId, challengeScore[challengeId], coinStyle, "single");
+    for (var challenge in challengeScore){
+      pieceNum = parseInt(challenge) + 1;
+      progressImages = this.addAwardImage(progressImages, challengeCount, pieceNum, challengeScore[challenge], "whole");
     }
+
 
     return (
       <div className="geniblocks challenge-award" style={sizeStyle} >
         {challengeBackgroundImage}
         {progressImages}
+        {currentPiece}
       </div>
     );
   }
