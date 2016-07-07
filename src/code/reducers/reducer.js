@@ -132,6 +132,18 @@ export default function reducer(state, action) {
         }));
         state = state.set("gametes", [{}, {}]);
         state = state.setIn(["drakes", 2], null);
+
+        if (state.drakes.length === 8) {
+          let challengeComplete = true,
+              progress = setProgressScore(state, 0);
+
+          state = state.merge({
+            showingInfoMessage: true,
+            trialSuccess: true,
+            challengeProgress: progress,
+            challengeComplete
+          });
+        }
         return state;
       } else {
         return state.merge({
