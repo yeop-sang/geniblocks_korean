@@ -26,13 +26,15 @@ const dialogStyle = function() {
   let left = 50;
   return {
     position: 'absolute',
-    width: 400,
+    width: 385,
     top: top + '%', left: left + '%',
     transform: `translate(-${top}%, -${left}%)`,
-    border: '1px solid #e5e5e5',
-    backgroundColor: 'white',
-    boxShadow: '0 5px 15px rgba(0,0,0,.5)',
-    padding: 20
+    backgroundImage: 'url(resources/images/parchment.jpg)',
+    backgroundRepeat: 'no-repeat',
+    backgroundOrigin: 'border-box',
+    boxShadow: '0 10px 5px rgba(0,0,0,.5)',
+    padding: 20,
+    outline: 'none'
   };
 };
 
@@ -67,12 +69,15 @@ class ModalAlert extends React.Component {
     const leftProps = this.props.leftButton || {},
           leftButton = leftProps.label
                         ? <Button label={leftProps.label || ""}
+                                  className="alert-button"
                                   onClick={leftProps.onClick || this.props.onLeftButtonClick}/>
                         : null,
           rightProps = this.props.rightButton || {},
           rightButton = <Button label={rightProps.label || ""}
+                                className="alert-button"
                                 onClick={rightProps.onClick || this.props.onRightButtonClick}/>;
     var awardView;
+
     if (this.props.challengeAwards){
       awardView = <ChallengeAwardView challengeAwards={this.props.challengeAwards} />;
     }

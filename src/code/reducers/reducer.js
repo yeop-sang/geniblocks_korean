@@ -1,7 +1,7 @@
 import Immutable from 'seamless-immutable';
 import { actionTypes } from '../actions';
 import { loadStateFromAuthoring, loadNextTrial } from './loadStateFromAuthoring';
-import { updateProgress, getChallengeScore } from './challengeProgress';
+import { updateProgress, setProgressScore } from './challengeProgress';
 
 import { LOCATION_CHANGE } from 'react-router-redux';
 
@@ -33,6 +33,17 @@ export default function reducer(state, action) {
     case LOCATION_CHANGE: {
       return state.set("routing", {locationBeforeTransitions: action.payload});
     }
+    case actionTypes.PLAYGROUND_COMPLETE:{
+      let challengeComplete = true;
+      let progress = setProgressScore(state, 0);
+
+      return state.merge({
+        showingInfoMessage: true,
+        trialSuccess: action.correct,
+        challengeProgress: progress,
+        challengeComplete
+      });
+    }
     case actionTypes.BRED: {
       let mother = new BioLogica.Organism(BioLogica.Species.Drake, action.mother, 1),
           father = new BioLogica.Organism(BioLogica.Species.Drake, action.father, 0),
@@ -63,7 +74,6 @@ export default function reducer(state, action) {
     case actionTypes.DRAKE_SUBMITTED: {
       let challengeComplete = false;
       let progress = updateProgress(state, action.correct);
-      let currentScore = getChallengeScore(state.case, state.challenge, state.trials.length, progress);
       if (action.correct && state.trial === state.trials.length-1) {
         challengeComplete = true;
       }
@@ -72,7 +82,6 @@ export default function reducer(state, action) {
         userDrakeHidden: false,
         trialSuccess: action.correct,
         challengeProgress: progress,
-        currentScore,
         challengeComplete
       });
     }
@@ -94,12 +103,11 @@ export default function reducer(state, action) {
       } else return state;
     }
     case actionTypes.NAVIGATED: {
-      let progress = updateProgress(state);
       state = state.merge({
         case: action.case,
         challenge: action.challenge
       });
-      return loadStateFromAuthoring(state, state.authoring, progress);
+      return loadStateFromAuthoring(state, state.authoring, state.challengeProgress);
     }
     case actionTypes.ADVANCED_CHALLENGE: {
       let nextChallenge = state.challenge + 1;
