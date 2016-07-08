@@ -19,13 +19,6 @@ horizontalOffset(pieces, piece, pieceStyle)
   pieceOffset = totalWidth - rightOffset - (w*piece)
   pieceOffset * -1
 
-coinPieces = {
-  two: 2,
-  three: 3,
-  four: 4,
-  five: 5
-}
-
 .coin
   position: absolute;
   height: h;
@@ -34,6 +27,16 @@ coinPieces = {
     background-image: url("../resources/images/coin-background.png");
   &.piece
     z-index: 2;
+    // The following section should handle single-challenge cases
+    &.pieces1
+      background-image: url('../resources/images/coin-pieces-2.png');          
+      &.bronze
+        background-position: 0 verticalOffset(bronze);
+      &.silver
+        background-position: 0 verticalOffset(silver);
+      &.gold
+        background-position: 0 verticalOffset(gold);
+
     for pieces in 2..5
       // coins in 2 3 4 or 5 pieces
       &.pieces{pieces}
