@@ -8,6 +8,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 const initialState = Immutable({
   template: null,
   drakes: [],
+  gametes: [],
   hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
   trial: 0,
   moves: 0,
@@ -18,6 +19,7 @@ const initialState = Immutable({
   showingInfoMessage: false,
   shouldShowITSMessages: true,
   userDrakeHidden: true,
+  transientStates: [],
   routing: {},
   authoring: window.GV2Authoring
 });
@@ -71,6 +73,101 @@ export default function reducer(state, action) {
       let path = ["drakes", action.index, "sex"];
       return state.setIn(path, action.newSex);
     }
+
+    case actionTypes.GAMETE_CHROMOSOME_ADDED: {
+      let path = ["gametes", action.index, action.name];
+      return state.setIn(path, action.side);
+    }
+
+    case actionTypes.ADD_TRANSIENT_STATE: {
+      return state.set("transientStates", state.transientStates.concat(action.transientState));
+    }
+
+    case actionTypes.REMOVE_TRANSIENT_STATE: {
+      return state.set("transientStates", state.transientStates.filter((s) => s !== action.transientState));
+    }
+
+    case actionTypes.FERTILIZED: {
+      let chromosomes0 = new BioLogica.Organism(BioLogica.Species.Drake, state.drakes[0].alleleString, state.drakes[0].sex).getGenotype().chromosomes,
+          chromosomes1 = new BioLogica.Organism(BioLogica.Species.Drake, state.drakes[1].alleleString, state.drakes[1].sex).getGenotype().chromosomes,
+          alleleString = "",
+          sex = 1;
+      for (let name in chromosomes0) {
+        let side = state.gametes[1][name];
+        let chromosome = chromosomes0[name][side];
+        if (chromosome && chromosome.alleles) alleleString += "a:" + chromosome.alleles.join(",a:") + ",";
+      }
+      for (let name in chromosomes1) {
+        let side = state.gametes[0][name];
+        if (side === "y") sex = 0;
+        let chromosome = chromosomes1[name][side];
+        if (chromosome && chromosome.alleles && chromosome.alleles.length) alleleString += "b:" + chromosome.alleles.join(",b:") + ",";
+      }
+
+      return state.setIn(["drakes", 2], {
+        alleleString,
+        sex
+      });
+    }
+
+    case actionTypes.OFFSPRING_KEPT: {
+      let drakeDef = state.drakes[2],
+          newOrg = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleleString, drakeDef.sex),
+          newOrgImage = newOrg.getImageName(),
+          [,,,...keptDrakes] = state.drakes,
+          success = true;
+      for (let drake of keptDrakes) {
+        let org = new BioLogica.Organism(BioLogica.Species.Drake, drake.alleleString, drake.sex);
+        if (org.getImageName() === newOrgImage) {
+          success = false;
+          break;
+        }
+      }
+      if (success) {
+        state = state.set("drakes", state.drakes.concat({
+          alleleString: state.drakes[2].alleleString,
+          sex: state.drakes[2].sex
+        }));
+        state = state.set("gametes", [{}, {}]);
+        state = state.setIn(["drakes", 2], null);
+
+        if (state.drakes.length === 8) {
+          let challengeComplete = true,
+              progress = setProgressScore(state, 0);
+
+          state = state.merge({
+            showingInfoMessage: true,
+            trialSuccess: true,
+            challengeProgress: progress,
+            challengeComplete
+          });
+        }
+        return state;
+      } else {
+        return state.merge({
+          showingInfoMessage: true,
+          message: {
+            message: "Uh oh!",
+            explanation: "You already have a drake that looks just like that!",
+            rightButton: {
+              label: "Try again",
+              action: "resetGametes"
+            }
+          }
+        });
+      }
+    }
+
+    case actionTypes.GAMETES_RESET: {
+      state = state.set("gametes", [{}, {}]);
+      state = state.setIn(["drakes", 2], null);
+      state = state.merge({
+        showingInfoMessage: false,
+        message: null
+      });
+      return state;
+    }
+
     case actionTypes.DRAKE_SUBMITTED: {
       let challengeComplete = false;
       let progress = updateProgress(state, action.correct);

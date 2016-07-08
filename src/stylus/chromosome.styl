@@ -12,10 +12,22 @@
       align-items: flex-start;
       div
         order: 0
-        flex: 0 1 40px
         align-self: auto
+        &.editable
+          flex: 0 1 32px
       select
         height: 20px
+    .chromosome-allele-container
+      position: relative
+      .alleles
+        display: flex
+        flex-direction: column
+        justify-content: space-around
+        position: absolute
+        top: -5px
+        left: 2px
+        height: 100%
+
 
     &.rtl
       flex-direction: row-reverse

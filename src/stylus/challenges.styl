@@ -183,3 +183,106 @@
 .hiddenDrake div{
   display:none;
 }
+
+.columns{
+  display:flex;
+}
+
+.fade-in-on-render
+  opacity: 0
+  transition: opacity 3s
+  &.show
+    opacity: 1
+
+#egg-game
+  .geniblocks.genome
+    position: relative
+    top: -33px
+  .geniblocks.organism
+    height: 202px
+
+.egg
+  position: relative
+  display: flex
+  width: 420px
+
+  .top
+    display: flex
+    align-items: flex-start
+    height: 218px
+
+    .organism
+      padding-left: 25px
+      height: 170px
+
+    .offspring-buttons
+      display: flex
+      flex-direction: column
+      justify-content: center
+      height: 100%
+      button
+        margin: 3px
+        padding: 4px
+        width: 76px
+
+  .gametes
+    display: flex
+    justify-content: space-between
+    >div
+      width: 170px
+      padding: 0 0 0 0
+      transition: padding 2s
+      &.half-genome-left .chromosome-pair
+          justify-content: flex-end
+    &.unfertilized
+      >div.half-genome-left
+        padding: 0 65px 0 0
+        transition: padding 0.2s
+      >div.half-genome-right
+        padding: 0 0 0 65px
+        transition: padding 0.2s
+    .half-genome
+      position: relative
+
+    .ovum
+      position: absolute
+      transition: left 2s
+      top: -135px
+      left: 110px
+    .sperm
+      position: absolute
+      transition: left 2s
+      top: -117px
+      left: -12px
+
+
+    &.unfertilized
+      .ovum
+        left: 75px
+      .sperm
+        left: 65px
+
+  .fertilize-button
+    margin-top: 45px
+    &.disabled
+      color: gray
+
+  .egg-image
+    width: 103px
+    padding: 34px
+
+  .organism
+    padding-top: 40px
+
+#egg-game .bottom
+  justify-content center
+  margin-top -28px
+
+
+.egg-alleles {
+    position: relative;
+    width: 160px;
+    height: 129px;
+    background-color: #fff;
+    border: 1px solid #000;
+}

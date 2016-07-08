@@ -6,14 +6,25 @@ export const actionTypes = {
   BRED: "Bred",
   ALLELE_CHANGED: "Allele changed",
   SEX_CHANGED: "Sex changed",
+  GAMETE_CHROMOSOME_ADDED: "Gamete chromosome added",
+  FERTILIZED: "Fertilized",
+  OFFSPRING_KEPT: "Offspring kept",
   DRAKE_SUBMITTED: "Drake submitted",
+  GAMETES_RESET: "Gametes reset",
   NAVIGATED_NEXT_CHALLENGE: "Navigated to next challenge",
   MODAL_DIALOG_DISMISSED: "Modal dialog dismissed",
   ADVANCED_TRIAL: "Advanced to next trial",
   ADVANCED_CHALLENGE: "Advanced to next challenge",
+  ADD_TRANSIENT_STATE: "Add transient state",
+  REMOVE_TRANSIENT_STATE: "Remove transient state",
   SOCKET_CONNECTED: "Socket connected",
   SOCKET_RECEIVED: "Socket received",
   SOCKET_ERRORED: "Socket errored"
+};
+
+export const transientStateTypes = {
+  FERTILIZING: "Fertilizing",
+  HATCHING: "Hatching"
 };
 
 export function startSession(uuid) {
@@ -34,8 +45,14 @@ export function navigateToChallenge(_case, challenge) {
 
 export function navigateToNextChallenge() {
   return (dispatch, getState) => {
-    const { case: currentCase, challenge: currentChallenge} = getState();
-    dispatch(navigateToChallenge(currentCase, currentChallenge+1));
+    const { case: currentCase, challenge: currentChallenge, authoring} = getState();
+    let nextCase = currentCase,
+        nextChallenge = currentChallenge+1;
+    if (authoring[currentCase].length <= nextChallenge) {
+      if (authoring[currentCase+1]) nextCase++;
+      nextChallenge = 0;
+    }
+    dispatch(navigateToChallenge(nextCase, nextChallenge));
   };
 }
 
@@ -131,3 +148,57 @@ export function playgroundComplete() {
   };
 }
 
+export function addGameteChromosome(index, name, side) {
+  return{
+    type: actionTypes.GAMETE_CHROMOSOME_ADDED,
+    index,
+    name,
+    side
+  };
+}
+
+export function fertilize(gamete1, gamete2) {
+  return {
+    type: actionTypes.FERTILIZED,
+    gamete1,
+    gamete2
+  };
+}
+
+export function initiateDelayedFertilization(delay, gamete1, gamete2) {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.ADD_TRANSIENT_STATE,
+      transientState: transientStateTypes.FERTILIZING
+    });
+    setTimeout( () => {
+      dispatch({
+        type: actionTypes.REMOVE_TRANSIENT_STATE,
+        transientState: transientStateTypes.FERTILIZING
+      });
+      dispatch({
+        type: actionTypes.ADD_TRANSIENT_STATE,
+        transientState: transientStateTypes.HATCHING
+      });
+      setTimeout( () => {
+        dispatch({
+          type: actionTypes.REMOVE_TRANSIENT_STATE,
+          transientState: transientStateTypes.HATCHING
+        });
+        dispatch(fertilize(gamete1, gamete2));
+      }, 3000);
+    }, delay);
+  };
+}
+
+export function keepOffspring() {
+  return {
+    type: actionTypes.OFFSPRING_KEPT
+  };
+}
+
+export function resetGametes() {
+  return {
+    type: actionTypes.GAMETES_RESET
+  };
+}
