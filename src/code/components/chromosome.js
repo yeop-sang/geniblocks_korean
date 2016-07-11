@@ -4,12 +4,14 @@ import GeneLabelView from './gene-label';
 import AlleleView from './allele';
 import GeneticsUtils from '../utilities/genetics-utils';
 import AnimatedChromosomeView from './animated-chromosome';
+import AnimatedComponentView from './animated-component';
 /**
  * View of a single chromosome, with optional labels, pulldowns, and embedded alleles.
  *
  * Defined EITHER using a Biologica Chromosome object, OR with a Biologica organism,
  * chromosome name and side.
  */
+
 const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles=[], small=false, editable=true, selected=false, onAlleleChange, onChromosomeSelected, showLabels=true, showAlleles=false, labelsOnRight=true, orgName}) => {
   var containerClass = "items",
       empty = false,
@@ -82,6 +84,16 @@ const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles=[]
   animatedChromosome = <AnimatedChromosomeView chromosome={chromosome} id={chromosomeName} hiddenAlleles={hiddenAlleles}
                           onRest={onRest} selected={selected} small={small} startPositionId={chromId} targetPositionId={orgName}/>;
 
+  let animatedComponent = <ChromosomeImageView small={small} empty={empty} bold={selected} yChromosome={yChromosome}/>;
+  let startDisplay = { 
+    startPositionId: chromId,
+    opacity: 1.0 
+  };
+  let targetDisplay = { 
+    targetPositionId: "target" + orgName,   
+    opacity: 0
+  };
+
   return (
     <div className="geniblocks chromosome-container" onClick={ handleSelect } >
       <div className={ containerClass }>
@@ -90,7 +102,7 @@ const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles=[]
           { allelesContainer }
         </div>
         { labelsContainer }
-        { animatedChromosome }
+        <AnimatedComponentView viewObject={animatedComponent} startDisplay={startDisplay} targetDisplay={targetDisplay} runAnimation={selected} onRest={onRest} />
       </div>
     </div>
   );
@@ -107,7 +119,8 @@ ChromosomeView.propTypes = {
   showAlleles: PropTypes.bool,
   labelsOnRight: PropTypes.bool,
   onAlleleChange: PropTypes.func,
-  onChromosomeSelected: PropTypes.func
+  onChromosomeSelected: PropTypes.func,
+  orgName: PropTypes.string
 };
 
 export default ChromosomeView;
