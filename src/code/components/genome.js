@@ -33,9 +33,9 @@ const GenomeView = ({org, chromosomes, species, hiddenAlleles = [], editable=tru
           onAlleleChange={function(prevAllele, newAllele) {
             onAlleleChange(chromosomeName, side, prevAllele, newAllele);
           }}
-          onChromosomeSelected={function(){
+          onChromosomeSelected={function(el){
             if (onChromosomeSelected)
-              onChromosomeSelected(org, chromosomeName, side);
+              onChromosomeSelected(org, chromosomeName, side, el);
           }}/>
       );
     }

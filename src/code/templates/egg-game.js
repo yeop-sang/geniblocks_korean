@@ -5,6 +5,19 @@ import ButtonView from '../components/button';
 import PenView from '../components/pen';
 import { transientStateTypes } from '../actions';
 
+// a "reasonable" lookup function
+function lookupGameteChromosomeDOMElement(org, chromosomeName) {
+  let wrapperId = org.sex === 0 ? "father-gamete-genome" : "mother-gamete-genome",
+      wrapper = document.getElementById(wrapperId),
+      chromosomePositions = {"1": 0, "2": 1, "XY": 2};
+  return wrapper.querySelectorAll(".chromosome-image")[chromosomePositions[chromosomeName]];
+}
+
+function findBothElements(org, name, el){
+  console.log("source element: ", el.querySelector(".chromosome-image"));
+  console.log("target element: ", lookupGameteChromosomeDOMElement(org, name));
+}
+
 export default class EggGame extends Component {
     render() {
       const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onResetGametes, onKeepOffspring, hiddenAlleles, transientStates } = this.props,
@@ -14,8 +27,9 @@ export default class EggGame extends Component {
       const handleAlleleChange = function(chrom, side, prevAllele, newAllele) {
         onChromosomeAlleleChange(0, chrom, side, prevAllele, newAllele);
       };
-      const handleChromosomeSelected = function(org, name, side) {
+      const handleChromosomeSelected = function(org, name, side, el) {
         onGameteChromosomeAdded(org.sex, name, side);
+        findBothElements(org, name, el);
       };
       const handleFertilize = function() {
         if (Object.keys(gametes[0]).length === 3 && Object.keys(gametes[1]).length === 3) {
@@ -99,11 +113,11 @@ export default class EggGame extends Component {
               { childView }
             </div>
             <div className={ gametesClass }>
-              <div className='half-genome half-genome-left'>
+              <div className='half-genome half-genome-left' id="mother-gamete-genome">
                 { ovumView }
                 <GenomeView orgName="targetmother" chromosomes={ femaleGameteChromosomeMap } species={ mother.species } editable={false} hiddenAlleles= { hiddenAlleles } small={ true } />
               </div>
-              <div className='half-genome half-genome-right'>
+              <div className='half-genome half-genome-right' id="father-gamete-genome">
                 { spermView }
                 <GenomeView orgName="targetfather" chromosomes={ maleGameteChromosomeMap }   species={ mother.species } editable={false} hiddenAlleles= { hiddenAlleles } small={ true } />
               </div>
