@@ -70,9 +70,9 @@ const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles=[]
     chromId = orgName;
     empty = true;
   }
-  const handleSelect = function() {
+  const handleSelect = function(evt) {
     if (onChromosomeSelected) {
-      onChromosomeSelected();
+      onChromosomeSelected(evt.currentTarget);
     }
   };
   let animatedChromosome;
@@ -85,12 +85,12 @@ const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles=[]
                           onRest={onRest} selected={selected} small={small} startPositionId={chromId} targetPositionId={orgName}/>;
 
   let animatedComponent = <ChromosomeImageView small={small} empty={empty} bold={selected} yChromosome={yChromosome}/>;
-  let startDisplay = { 
+  let startDisplay = {
     startPositionId: chromId,
-    opacity: 1.0 
+    opacity: 1.0
   };
-  let targetDisplay = { 
-    targetPositionId: "target" + orgName,   
+  let targetDisplay = {
+    targetPositionId: "target" + orgName,
     opacity: 0
   };
 
