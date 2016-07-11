@@ -78,10 +78,15 @@ const AnimatedChromosomeView = ({chromosome, hiddenAlleles=[], style={}, onRest,
             opacity: spring(endStyle.opacity, springConfig)
           }}
           onRest={onAnimationFinished} >
+          
       {
         interpolatedStyle => {
+
           return (
-            <ChromosomeImageView empty={empty} small={small} className="animated-chromosome-allele-container" display={interpolatedStyle} />
+            <div className="chromosome-allele-container">
+              <ChromosomeImageView empty={empty} small={small} className="animated-chromosome-allele-container" display={interpolatedStyle} />
+              { allelesContainer }
+            </div>            
           );
         }
       }
