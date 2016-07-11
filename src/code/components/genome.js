@@ -57,7 +57,7 @@ GenomeView.propTypes = {
   chromosomes: PropTypes.object,
   species: PropTypes.object,
   hiddenAlleles: PropTypes.array,
-  onAlleleChange: PropTypes.func.isRequired,
+  onAlleleChange: PropTypes.func,
   editable: PropTypes.bool,
   onChromosomeSelected: PropTypes.func,
   orgName: PropTypes.string
