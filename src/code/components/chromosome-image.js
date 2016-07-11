@@ -37,7 +37,7 @@ const ChromosomeImageView = ({width, height, split=45, color='#FF9999', small=fa
         halfImageWidth = imageWidth/2,
         imageHeight = height+4;
 
-  let strokeWidth = 2;
+  let strokeWidth = width < 10 ? 1 : 2;
 
   if (bold) {
     color = '#FF6666';

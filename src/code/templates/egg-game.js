@@ -3,6 +3,7 @@ import OrganismView from '../components/organism';
 import GenomeView from '../components/genome';
 import ButtonView from '../components/button';
 import PenView from '../components/pen';
+import GameteImageView from '../components/gamete-image';
 import { transientStateTypes } from '../actions';
 import AnimatedComponentView from '../components/animated-component';
 import ChromosomeImageView from '../components/chromosome-image';
@@ -124,8 +125,13 @@ export default class EggGame extends Component {
 
       var ovumView, spermView;
       if ((transientStates.length === 0 && !drakes[2]) ||  transientStates.indexOf(transientStateTypes.FERTILIZING) > -1) {
-        ovumView  = <img className="ovum" src="resources/images/egg.svg" />;
-        spermView = <img className="sperm" src="resources/images/sperm.svg" />;
+        let oChroms = femaleGameteChromosomeMap,
+            sChroms = maleGameteChromosomeMap,
+            ovumChromosomes  = [oChroms[1] && oChroms[1].a, oChroms[2] && oChroms[2].a, oChroms.XY && oChroms.XY.a],
+            spermChromosomes = [sChroms[1] && sChroms[1].b, sChroms[2] && sChroms[2].b, sChroms.XY && sChroms.XY.b];
+
+        ovumView  = <GameteImageView className="ovum"  isEgg={true}  chromosomes={ovumChromosomes} />;
+        spermView = <GameteImageView className="sperm" isEgg={false} chromosomes={spermChromosomes} />;
       }
 
       let [,,,...keptDrakes] = drakes;
