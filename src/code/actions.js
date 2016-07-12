@@ -22,6 +22,28 @@ export const actionTypes = {
   SOCKET_ERRORED: "Socket errored"
 };
 
+const ITS_ACTORS = {
+  SYSTEM: "SYSTEM",
+  USER: "USER"
+};
+
+const ITS_ACTIONS = {
+  STARTED: "STARTED",
+  NAVIGATED: "NAVIGATED",
+  ADVANCED: "ADVANCED",
+  CHANGED: "CHANGED",
+  SUBMITTED: "SUBMITTED"
+};
+
+const ITS_TARGETS = {
+  SESSION: "SESSION",
+  CHALLENGE: "CHALLENGE",
+  TRIAL: "TRIAL",
+  ALLELE: "ALLELE",
+  SEX: "SEX",
+  DRAKE: "DRAKE"
+};
+
 export const transientStateTypes = {
   FERTILIZING: "Fertilizing",
   HATCHING: "Hatching"
@@ -30,7 +52,14 @@ export const transientStateTypes = {
 export function startSession(uuid) {
   return {
     type: actionTypes.SESSION_STARTED,
-    session: uuid
+    session: uuid,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.SYSTEM,
+        action: ITS_ACTIONS.STARTED,
+        target: ITS_TARGETS.SESSION
+      }
+    }
   };
 }
 
@@ -39,7 +68,14 @@ export function navigateToChallenge(_case, challenge) {
     type: actionTypes.NAVIGATED,
     case: _case,
     challenge,
-    route: `/${_case+1}/${challenge+1}`
+    route: `/${_case+1}/${challenge+1}`,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.NAVIGATED,
+        target: ITS_TARGETS.CHALLENGE
+      }
+    }
   };
 }
 
@@ -67,7 +103,14 @@ export function navigateToCurrentRoute(_case, challenge) {
     type: actionTypes.NAVIGATED,
     case: _case,
     challenge,
-    skipRouteChange: true
+    skipRouteChange: true,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.NAVIGATED,
+        target: ITS_TARGETS.CHALLENGE
+      }
+    }
   };
 }
 
@@ -94,6 +137,11 @@ export function changeAllele(index, chromosome, side, previousAllele, newAllele,
     meta: {
       logNextState: {
         newAlleles: ["drakes", index, "alleleString"]
+      },
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.CHANGED,
+        target: ITS_TARGETS.ALLELE
       }
     }
   };
@@ -104,7 +152,14 @@ export function changeSex(index, newSex, incrementMoves=false) {
     type: actionTypes.SEX_CHANGED,
     index,
     newSex,
-    incrementMoves
+    incrementMoves,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.CHANGED,
+        target: ITS_TARGETS.SEX
+      }
+    }
   };
 }
 
@@ -115,7 +170,14 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
     correctPhenotype,
     submittedPhenotype,
     correct,
-    incrementMoves
+    incrementMoves,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.SUBMITTED,
+        target: ITS_TARGETS.DRAKE
+      }
+    }
   };
 }
 
@@ -129,7 +191,14 @@ export function advanceTrial() {
   let authoring = window.GV2Authoring;
   return{
     type: actionTypes.ADVANCED_TRIAL,
-    authoring
+    authoring,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.ADVANCED,
+        target: ITS_TARGETS.TRIAL
+      }
+    }
   };
 }
 
@@ -138,7 +207,14 @@ export function advanceChallenge() {
   let authoring = window.GV2Authoring;
   return{
     type: actionTypes.ADVANCED_CHALLENGE,
-    authoring
+    authoring,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.ADVANCED,
+        target: ITS_TARGETS.CHALLENGE
+      }
+    }
   };
 }
 

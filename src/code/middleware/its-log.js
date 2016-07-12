@@ -1,17 +1,13 @@
 import { actionTypes } from '../actions';
 
-const actionsToExclude = [
-  actionTypes.SOCKET_CONNECTED,
-  actionTypes.SOCKET_ERRORED,
-  actionTypes.SOCKET_RECEIVED,
-  actionTypes.LOADED_CHALLENGE_FROM_AUTHORING,
-  actionTypes.MODAL_DIALOG_DISMISSED
-];
-
 var session = "",
+    sequence = 0,
     queue = [];
 
 export default (socket) => store => next => action => {
+
+  let result = next(action),
+      nextState = store.getState();
 
   if (action.type === actionTypes.SESSION_STARTED) {
     session = action.session;
@@ -34,25 +30,17 @@ export default (socket) => store => next => action => {
     }
     default: {
       // other action types - send to ITS
-      if (!actionsToExclude.includes(action.type) && session !== ""){
+      if (action.meta && action.meta.itsLog){
 
-        // const logData = logEntry(loggingMetadata, action);
-
-        // while we prepare for real ITS integration, use dummy data placeholder
-        const testData = {"event": {
-                "session": session,
-                "time": Date.now(),
-                ...action
-        }};
+        let message = createLogEntry(action, nextState);
 
         switch (socket.readyState) {
           case WebSocket.CONNECTING:
-            queue.push(testData);
+            queue.push(message);
             break;
           case WebSocket.OPEN:
-            // TODO: replace testData with logData when ready
             flushQueue(socket);
-            socket.send(JSON.stringify(testData));
+            sendMessage(message, socket);
             break;
           case WebSocket.CLOSING:
             // TODO: Are we going to forcibly close the socket at any point?
@@ -63,15 +51,56 @@ export default (socket) => store => next => action => {
             console.log("Data not sent - socket state: CLOSED");
             break;
         }
+
+        sequence++;
       }
     }
   }
 
-  return next(action);
+  return result;
 };
 
 function flushQueue(socket) {
   while (queue.length > 0) {
-    socket.send(JSON.stringify(queue.shift()));
+    sendMessage(queue.shift(), socket);
   }
+}
+
+function sendMessage(message, socket) {
+  socket.send(JSON.stringify(message));
+}
+
+function getValue(obj, path) {
+  for (let i=0, ii=path.length; i<ii; i++){
+      obj = obj[path[i]];
+  }
+  return obj;
+}
+
+function createLogEntry(action, nextState){
+  let event = { ...action.meta.itsLog },
+      context = { ...action };
+
+  if (action.meta.logNextState) {
+    for (let prop in action.meta.logNextState) {
+      context[prop] = getValue(nextState, action.meta.logNextState[prop]);
+    }
+  }
+
+  delete context.type;
+  delete context.meta;
+
+  const message =
+    {
+      event:
+        {
+          username: "testuser-"+session.split("-")[0],
+          session: session,
+          time: Date.now(),
+          sequence: sequence,
+          ...event,
+          context: context
+        }
+    };
+  return message;
 }
