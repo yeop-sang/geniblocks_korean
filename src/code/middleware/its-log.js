@@ -68,7 +68,7 @@ function flushQueue(socket) {
 }
 
 function sendMessage(message, socket) {
-  socket.send(JSON.stringify(message));
+  socket.emit("event", message);
 }
 
 function getValue(obj, path) {
