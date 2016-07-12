@@ -7,13 +7,12 @@ import ChromosomeView from './chromosome';
  * Usually defined by passing in a Biologica Organism, but may also be defined by
  * passing in a map of Biologica Chromosomes and a Biologica Species.
  */
-const GenomeView = ({org, chromosomes, species, hiddenAlleles = [], editable=true, showLabels=true, showAlleles=false, selectedChromosomes={}, small=false, onAlleleChange, onChromosomeSelected}) => {
+const GenomeView = ({org, chromosomes, species, hiddenAlleles = [], editable=true, showLabels=true, showAlleles=false, selectedChromosomes={}, small=false, orgName, onAlleleChange, onChromosomeSelected}) => {
   let pairWrappers = [];
   if (org) {
     chromosomes = org.genetics.genotype.chromosomes;
     species = org.species;
   }
-
   for (let chromosomeName of species.chromosomeNames) {
     let chrom = chromosomes[chromosomeName],
         pairs = [];
@@ -30,12 +29,13 @@ const GenomeView = ({org, chromosomes, species, hiddenAlleles = [], editable=tru
           showLabels={showLabels}
           showAlleles={showAlleles}
           small={small}
+          orgName={orgName}
           onAlleleChange={function(prevAllele, newAllele) {
             onAlleleChange(chromosomeName, side, prevAllele, newAllele);
           }}
-          onChromosomeSelected={function(){
+          onChromosomeSelected={function(el){
             if (onChromosomeSelected)
-              onChromosomeSelected(org, chromosomeName, side);
+              onChromosomeSelected(org, chromosomeName, side, el);
           }}/>
       );
     }
@@ -57,9 +57,10 @@ GenomeView.propTypes = {
   chromosomes: PropTypes.object,
   species: PropTypes.object,
   hiddenAlleles: PropTypes.array,
-  onAlleleChange: PropTypes.func.isRequired,
+  onAlleleChange: PropTypes.func,
   editable: PropTypes.bool,
-  onChromosomeSelected: PropTypes.func
+  onChromosomeSelected: PropTypes.func,
+  orgName: PropTypes.string
 };
 
 export default GenomeView;

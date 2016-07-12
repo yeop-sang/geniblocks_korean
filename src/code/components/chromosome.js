@@ -3,18 +3,18 @@ import ChromosomeImageView from './chromosome-image';
 import GeneLabelView from './gene-label';
 import AlleleView from './allele';
 import GeneticsUtils from '../utilities/genetics-utils';
-
 /**
  * View of a single chromosome, with optional labels, pulldowns, and embedded alleles.
  *
  * Defined EITHER using a Biologica Chromosome object, OR with a Biologica organism,
  * chromosome name and side.
  */
-const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles=[], small=false, editable=true, selected=false, onAlleleChange, onChromosomeSelected, showLabels=true, showAlleles=false, labelsOnRight=true}) => {
+
+const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles=[], small=false, editable=true, selected=false, onAlleleChange, onChromosomeSelected, showLabels=true, showAlleles=false, labelsOnRight=true, orgName}) => {
   var containerClass = "items",
       empty = false,
       yChromosome = false,
-      labelsContainer, allelesContainer;
+      labelsContainer, allelesContainer, chromId;
 
   if (org && chromosomeName && side) {
     chromosome = org.getGenotype().chromosomes[chromosomeName][side];
@@ -58,27 +58,30 @@ const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles=[]
         </div>
       );
     }
+
     if (chromosome.side === "y") {
       yChromosome = true;
     }
+
+    chromId = orgName + chromosome.chromosome + chromosome.side;
   } else {
+    chromId = orgName;
     empty = true;
   }
-
-  const handleSelect = function() {
+  const handleSelect = function(evt) {
     if (onChromosomeSelected) {
-      onChromosomeSelected();
+      onChromosomeSelected(evt.currentTarget);
     }
   };
 
   return (
     <div className="geniblocks chromosome-container" onClick={ handleSelect } >
       <div className={ containerClass }>
-        <div className="chromosome-allele-container">
+        <div className="chromosome-allele-container" id={chromId}>
           <ChromosomeImageView small={small} empty={empty} bold={selected} yChromosome={yChromosome}/>
           { allelesContainer }
         </div>
-        { labelsContainer }
+        { labelsContainer }        
       </div>
     </div>
   );
@@ -95,7 +98,8 @@ ChromosomeView.propTypes = {
   showAlleles: PropTypes.bool,
   labelsOnRight: PropTypes.bool,
   onAlleleChange: PropTypes.func,
-  onChromosomeSelected: PropTypes.func
+  onChromosomeSelected: PropTypes.func,
+  orgName: PropTypes.string
 };
 
 export default ChromosomeView;
