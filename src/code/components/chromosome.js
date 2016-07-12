@@ -3,8 +3,6 @@ import ChromosomeImageView from './chromosome-image';
 import GeneLabelView from './gene-label';
 import AlleleView from './allele';
 import GeneticsUtils from '../utilities/genetics-utils';
-import AnimatedChromosomeView from './animated-chromosome';
-import AnimatedComponentView from './animated-component';
 /**
  * View of a single chromosome, with optional labels, pulldowns, and embedded alleles.
  *
@@ -75,24 +73,6 @@ const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles=[]
       onChromosomeSelected(evt.currentTarget);
     }
   };
-  let animatedChromosome;
-  const onRest = function(){
-    console.log("on rest");
-  };
-
-
-  animatedChromosome = <AnimatedChromosomeView chromosome={chromosome} id={chromosomeName} hiddenAlleles={hiddenAlleles}
-                          onRest={onRest} selected={selected} small={small} startPositionId={chromId} targetPositionId={orgName}/>;
-
-  let animatedComponent = <ChromosomeImageView small={small} empty={empty} bold={selected} yChromosome={yChromosome}/>;
-  let startDisplay = {
-    startPositionId: chromId,
-    opacity: 1.0
-  };
-  let targetDisplay = {
-    targetPositionId: "target" + orgName,
-    opacity: 0
-  };
 
   return (
     <div className="geniblocks chromosome-container" onClick={ handleSelect } >
@@ -101,8 +81,7 @@ const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles=[]
           <ChromosomeImageView small={small} empty={empty} bold={selected} yChromosome={yChromosome}/>
           { allelesContainer }
         </div>
-        { labelsContainer }
-        <AnimatedComponentView viewObject={animatedComponent} startDisplay={startDisplay} targetDisplay={targetDisplay} runAnimation={selected} onRest={onRest} />
+        { labelsContainer }        
       </div>
     </div>
   );
