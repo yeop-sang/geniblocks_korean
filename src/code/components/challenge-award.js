@@ -23,7 +23,7 @@ class ChallengeAwardView extends React.Component {
     }
     return progressImages;
   };
-  
+
   getAwardStyle = (score) => {
     let awardLevel = "gold";
     if (score === 1) awardLevel = "silver";
@@ -44,7 +44,7 @@ class ChallengeAwardView extends React.Component {
 
     if (!progress || progress === [])
       return null;
-    
+
     let size = this.props.size || 256;
     let sizeStyle = {
       width: size + "px",
@@ -83,7 +83,7 @@ class ChallengeAwardView extends React.Component {
       <div className="geniblocks challenge-award" style={sizeStyle} >
         {challengeBackgroundImage}
         {progressImages}
-        <Motion className='geniblocks animated-organism-view'
+        <Motion className='geniblocks animated-coin-view'
             defaultStyle={{opacity: singlePieceOpacityStart}} style={{opacity: singlePieceOpacityEnd}} onRest={onRest} >
             {
               interpolatedStyle => {

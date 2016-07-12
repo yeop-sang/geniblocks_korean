@@ -8,6 +8,7 @@ export const actionTypes = {
   SEX_CHANGED: "Sex changed",
   GAMETE_CHROMOSOME_ADDED: "Gamete chromosome added",
   FERTILIZED: "Fertilized",
+  HATCHED: "Hatched",
   OFFSPRING_KEPT: "Offspring kept",
   DRAKE_SUBMITTED: "Drake submitted",
   GAMETES_RESET: "Gametes reset",
@@ -299,7 +300,8 @@ export function advanceChallenge() {
 export function completeChallenge() {
   return (dispatch) => {
     dispatch({
-      type:actionTypes.CHALLENGE_COMPLETE
+      type: actionTypes.CHALLENGE_COMPLETE,
+      meta: {sound: 'receiveCoin'}
     });
     dispatch(showModalDialog({
       message: "~ALERT.TITLE.GOOD_WORK",
@@ -327,6 +329,13 @@ export function fertilize(gamete1, gamete2) {
     type: actionTypes.FERTILIZED,
     gamete1,
     gamete2
+  };
+}
+
+export function hatch() {
+  return {
+    type: actionTypes.HATCHED,
+    meta: {sound: 'hatchDrake'}
   };
 }
 
