@@ -18,6 +18,8 @@ import itsMiddleware from './middleware/its-log';
 import routerMiddleware from './middleware/router-history';
 import thunk from 'redux-thunk';
 
+import io from 'socket.io-client';
+
 import uuid from 'uuid';
 
 // TODO: session ID and application name could be passed in via a container
@@ -27,16 +29,15 @@ const loggingMetadata = {
 };
 
 const socketEndpoint = "wss://guide.intellimedia.ncsu.edu";
-const socketOpts = {path: "/", protocol: "tutor-actions-v1"};
 
-const socket = new WebSocket(socketEndpoint, socketOpts.protocol);
-socket.onopen = (state =>
+const socket = io(socketEndpoint, {reconnection: false});
+socket.on('connection', state =>
   store.dispatch({type: actionTypes.SOCKET_CONNECTED, state})
-  );
-socket.onmessage = (state =>
+);
+socket.on('message', state =>
   store.dispatch({type: actionTypes.SOCKET_RECEIVED, state})
 );
-socket.onerror = (state=>
+socket.on('error', state=>
   store.dispatch({type: actionTypes.SOCKET_ERRORED, state})
 );
 

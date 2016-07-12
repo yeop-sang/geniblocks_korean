@@ -1,16 +1,14 @@
 import { actionTypes } from '../actions';
+import templates from '../templates';
 
-const actionsToExclude = [
-  actionTypes.SOCKET_CONNECTED,
-  actionTypes.SOCKET_ERRORED,
-  actionTypes.SOCKET_RECEIVED,
-  actionTypes.LOADED_CHALLENGE_FROM_AUTHORING,
-  actionTypes.MODAL_DIALOG_DISMISSED
-];
-
-var session = "";
+var session = "",
+    sequence = 0,
+    queue = [];
 
 export default (socket) => store => next => action => {
+
+  let result = next(action),
+      nextState = store.getState();
 
   if (action.type === actionTypes.SESSION_STARTED) {
     session = action.session;
@@ -24,6 +22,7 @@ export default (socket) => store => next => action => {
     }
     case actionTypes.SOCKET_CONNECTED: {
       console.log("Connection Success!");
+      flushQueue(socket);
       break;
     }
     case actionTypes.SOCKET_RECEIVED: {
@@ -32,26 +31,17 @@ export default (socket) => store => next => action => {
     }
     default: {
       // other action types - send to ITS
-      if (!actionsToExclude.includes(action.type) && session !== ""){
+      if (action.meta && action.meta.itsLog){
 
-        // const logData = logEntry(loggingMetadata, action);
-
-        // while we prepare for real ITS integration, use dummy data placeholder
-        const testData = {"event": {
-                "session": session,
-                "time": Date.now(),
-                ...action
-        }};
+        let message = createLogEntry(action, nextState);
 
         switch (socket.readyState) {
           case WebSocket.CONNECTING:
-            // not ready to send
-            // TODO: decide how long before we timeout - do we show errors?
-            console.log("Data not sent - socket state: CONNECTING");
+            queue.push(message);
             break;
           case WebSocket.OPEN:
-            // TODO: replace testData with logData when ready
-            socket.send(JSON.stringify(testData));
+            flushQueue(socket);
+            sendMessage(message, socket);
             break;
           case WebSocket.CLOSING:
             // TODO: Are we going to forcibly close the socket at any point?
@@ -62,9 +52,106 @@ export default (socket) => store => next => action => {
             console.log("Data not sent - socket state: CLOSED");
             break;
         }
+
+        sequence++;
       }
     }
   }
 
-  return next(action);
+  return result;
 };
+
+function flushQueue(socket) {
+  while (queue.length > 0) {
+    sendMessage(queue.shift(), socket);
+  }
+}
+
+function sendMessage(message, socket) {
+  socket.emit("event", message);
+}
+
+function getValue(obj, path) {
+  for (let i=0, ii=path.length; i<ii; i++){
+      obj = obj[path[i]];
+  }
+  return obj;
+}
+
+function makeMutable(obj) {
+  if (obj.asMutable) {
+    return obj.asMutable();
+  } else if (obj.isArray) {
+    for (let item of obj) {
+      item = makeMutable(item);
+    }
+  } else if (typeof obj === "object") {
+    for (let key in obj) {
+      obj[key] = makeMutable(obj[key]);
+    }
+  }
+  return obj;
+}
+
+function changePropertyValues(obj, key, func) {
+  if (obj.isArray) {
+    for (let item of obj) {
+      changePropertyValues(item, key, func);
+    }
+  } else for (let prop in obj) {
+    if (prop === key) {
+      obj[prop] = func(obj[prop]);
+    } else if (typeof obj[prop] === "object") {
+      changePropertyValues(obj[prop], key, func);
+    }
+  }
+}
+
+function createLogEntry(action, nextState){
+  let event = { ...action.meta.itsLog },
+      context = { ...action };
+
+  if (action.meta.logNextState) {
+    for (let prop in action.meta.logNextState) {
+      context[prop] = getValue(nextState, action.meta.logNextState[prop]);
+    }
+  }
+  if (action.meta.logTemplateState) {
+    let Template = templates[nextState.template];
+    if (Template.logState) {
+      let templateState = Template.logState(nextState);
+      context = {
+        ...context,
+        ...templateState
+      };
+    }
+  }
+  if (action.meta.dontLog) {
+    for (let prop of action.meta.dontLog) {
+      delete context[prop];
+    }
+  }
+
+  delete context.type;
+  delete context.meta;
+
+  context = makeMutable(context);
+
+  let changeSexToString = sex => sex === 0 ? "male" : "female";
+  changePropertyValues(context, "sex", changeSexToString);
+  changePropertyValues(context, "newSex", changeSexToString);
+
+  const message =
+    {
+      event:
+        {
+          username: "testuser-"+session.split("-")[0],
+          session: session,
+          time: Date.now(),
+          sequence: sequence,
+          ...event,
+          context: context
+        }
+    };
+  return message;
+}

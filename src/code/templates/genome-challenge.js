@@ -82,4 +82,14 @@ export default class GenomeChallengeTemplate extends Component {
     let [initial, target] = drakesArray;
     return GeneticsUtils.numberOfChangesToReachPhenotype(initial, target);
   }
+
+  static logState = function(state) {
+    return {
+      initialDrake: state.drakes[0],
+      targetDrake: state.drakes[1],
+      goalMoves: state.goalMoves,
+      trials: state.trials.length,
+      trial: state.trial
+    };
+  }
 }
