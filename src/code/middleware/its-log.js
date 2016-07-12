@@ -97,6 +97,11 @@ function createLogEntry(action, nextState){
       };
     }
   }
+  if (action.meta.dontLog) {
+    for (let prop of action.meta.dontLog) {
+      delete context[prop];
+    }
+  }
 
   delete context.type;
   delete context.meta;

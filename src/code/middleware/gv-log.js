@@ -53,6 +53,11 @@ function createLogEntry(loggingMetadata, action, nextState){
       };
     }
   }
+  if (action.meta && action.meta.dontLog) {
+    for (let prop of action.meta.dontLog) {
+      delete parameters[prop];
+    }
+  }
 
   delete parameters.type;
   delete parameters.meta;

@@ -54,6 +54,7 @@ export function startSession(uuid) {
     type: actionTypes.SESSION_STARTED,
     session: uuid,
     meta: {
+      dontLog: ["session"],
       itsLog: {
         actor: ITS_ACTORS.SYSTEM,
         action: ITS_ACTIONS.STARTED,
@@ -107,6 +108,7 @@ export function navigateToCurrentRoute(_case, challenge) {
     skipRouteChange: true,
     meta: {
       logTemplateState: true,
+      dontLog: ["skipRouteChange"],
       itsLog: {
         actor: ITS_ACTORS.USER,
         action: ITS_ACTIONS.NAVIGATED,
@@ -196,6 +198,7 @@ export function advanceTrial() {
     authoring,
     meta: {
       logTemplateState: true,
+      dontLog: ["authoring"],
       itsLog: {
         actor: ITS_ACTORS.USER,
         action: ITS_ACTIONS.ADVANCED,
@@ -213,6 +216,7 @@ export function advanceChallenge() {
     authoring,
     meta: {
       logTemplateState: true,
+      dontLog: ["authoring"],
       itsLog: {
         actor: ITS_ACTORS.USER,
         action: ITS_ACTIONS.ADVANCED,
