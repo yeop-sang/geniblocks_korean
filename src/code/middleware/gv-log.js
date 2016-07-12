@@ -1,4 +1,5 @@
 import { actionTypes } from '../actions';
+import templates from '../templates';
 
 const logManagerUrl  = '//cc-log-manager.herokuapp.com/api/logs';
 
@@ -40,6 +41,16 @@ function createLogEntry(loggingMetadata, action, nextState){
   if (action.meta && action.meta.logNextState) {
     for (let prop in action.meta.logNextState) {
       parameters[prop] = getValue(nextState, action.meta.logNextState[prop]);
+    }
+  }
+  if (action.meta && action.meta.logTemplateState) {
+    let Template = templates[nextState.template];
+    if (Template.logState) {
+      let templateState = Template.logState(nextState);
+      parameters = {
+        ...parameters,
+        ...templateState
+      };
     }
   }
 

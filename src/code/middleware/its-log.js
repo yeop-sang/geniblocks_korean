@@ -1,4 +1,5 @@
 import { actionTypes } from '../actions';
+import templates from '../templates';
 
 var session = "",
     sequence = 0,
@@ -84,6 +85,16 @@ function createLogEntry(action, nextState){
   if (action.meta.logNextState) {
     for (let prop in action.meta.logNextState) {
       context[prop] = getValue(nextState, action.meta.logNextState[prop]);
+    }
+  }
+  if (action.meta.logTemplateState) {
+    let Template = templates[nextState.template];
+    if (Template.logState) {
+      let templateState = Template.logState(nextState);
+      context = {
+        ...context,
+        ...templateState
+      };
     }
   }
 

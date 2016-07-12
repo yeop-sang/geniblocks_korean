@@ -70,6 +70,7 @@ export function navigateToChallenge(_case, challenge) {
     challenge,
     route: `/${_case+1}/${challenge+1}`,
     meta: {
+      logTemplateState: true,
       itsLog: {
         actor: ITS_ACTORS.USER,
         action: ITS_ACTIONS.NAVIGATED,
@@ -105,6 +106,7 @@ export function navigateToCurrentRoute(_case, challenge) {
     challenge,
     skipRouteChange: true,
     meta: {
+      logTemplateState: true,
       itsLog: {
         actor: ITS_ACTORS.USER,
         action: ITS_ACTIONS.NAVIGATED,
@@ -193,6 +195,7 @@ export function advanceTrial() {
     type: actionTypes.ADVANCED_TRIAL,
     authoring,
     meta: {
+      logTemplateState: true,
       itsLog: {
         actor: ITS_ACTORS.USER,
         action: ITS_ACTIONS.ADVANCED,
@@ -209,6 +212,7 @@ export function advanceChallenge() {
     type: actionTypes.ADVANCED_CHALLENGE,
     authoring,
     meta: {
+      logTemplateState: true,
       itsLog: {
         actor: ITS_ACTORS.USER,
         action: ITS_ACTIONS.ADVANCED,
