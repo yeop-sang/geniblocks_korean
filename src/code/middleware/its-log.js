@@ -78,6 +78,35 @@ function getValue(obj, path) {
   return obj;
 }
 
+function makeMutable(obj) {
+  if (obj.asMutable) {
+    return obj.asMutable();
+  } else if (obj.isArray) {
+    for (let item of obj) {
+      item = makeMutable(item);
+    }
+  } else if (typeof obj === "object") {
+    for (let key in obj) {
+      obj[key] = makeMutable(obj[key]);
+    }
+  }
+  return obj;
+}
+
+function changePropertyValues(obj, key, func) {
+  if (obj.isArray) {
+    for (let item of obj) {
+      changePropertyValues(item, key, func);
+    }
+  } else for (let prop in obj) {
+    if (prop === key) {
+      obj[prop] = func(obj[prop]);
+    } else if (typeof obj[prop] === "object") {
+      changePropertyValues(obj[prop], key, func);
+    }
+  }
+}
+
 function createLogEntry(action, nextState){
   let event = { ...action.meta.itsLog },
       context = { ...action };
@@ -105,6 +134,12 @@ function createLogEntry(action, nextState){
 
   delete context.type;
   delete context.meta;
+
+  context = makeMutable(context);
+
+  let changeSexToString = sex => sex === 0 ? "male" : "female";
+  changePropertyValues(context, "sex", changeSexToString);
+  changePropertyValues(context, "newSex", changeSexToString);
 
   const message =
     {
