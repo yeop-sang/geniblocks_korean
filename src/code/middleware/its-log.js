@@ -8,7 +8,8 @@ const actionsToExclude = [
   actionTypes.MODAL_DIALOG_DISMISSED
 ];
 
-var session = "";
+var session = "",
+    queue = [];
 
 export default (socket) => store => next => action => {
 
@@ -24,6 +25,7 @@ export default (socket) => store => next => action => {
     }
     case actionTypes.SOCKET_CONNECTED: {
       console.log("Connection Success!");
+      flushQueue(socket);
       break;
     }
     case actionTypes.SOCKET_RECEIVED: {
@@ -45,12 +47,11 @@ export default (socket) => store => next => action => {
 
         switch (socket.readyState) {
           case WebSocket.CONNECTING:
-            // not ready to send
-            // TODO: decide how long before we timeout - do we show errors?
-            console.log("Data not sent - socket state: CONNECTING");
+            queue.push(testData);
             break;
           case WebSocket.OPEN:
             // TODO: replace testData with logData when ready
+            flushQueue(socket);
             socket.send(JSON.stringify(testData));
             break;
           case WebSocket.CLOSING:
@@ -68,3 +69,9 @@ export default (socket) => store => next => action => {
 
   return next(action);
 };
+
+function flushQueue(socket) {
+  while (queue.length > 0) {
+    socket.send(JSON.stringify(queue.shift()));
+  }
+}
