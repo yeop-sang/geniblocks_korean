@@ -4,6 +4,8 @@ import GenomeView from '../components/genome';
 import ButtonView from '../components/button';
 import PenView from '../components/pen';
 import { transientStateTypes } from '../actions';
+import AnimatedComponentView from '../components/animated-component';
+import ChromosomeImageView from '../components/chromosome-image';
 
 // a "reasonable" lookup function
 function lookupGameteChromosomeDOMElement(org, chromosomeName) {
@@ -14,25 +16,54 @@ function lookupGameteChromosomeDOMElement(org, chromosomeName) {
 }
 
 function findBothElements(org, name, el){
-  console.log("source element: ", el.querySelector(".chromosome-image"));
-  console.log("target element: ", lookupGameteChromosomeDOMElement(org, name));
+  let t = lookupGameteChromosomeDOMElement(org, name);
+  let s = el.getElementsByClassName("chromosome-allele-container")[0]; // the image of the alleles inside the chromosome container
+  let positions = { 
+    startPositionRect : s.getClientRects()[0],
+    targetPositionRect: t.getClientRects()[0]
+  };
+  return positions;
 }
+
+var animatedComponents = [], animatedChromosome, startDisplay, targetDisplay, lastComponentId=0;
+function updateAnimationPositions(positions, el){
+  startDisplay = {
+    startPositionRect: positions.startPositionRect,
+    opacity: 1.0
+  };
+  targetDisplay = {
+    targetPositionRect: positions.targetPositionRect,
+    opacity: 0.0
+  };
+  let targetIsY = el.getElementsByClassName("chromosome-allele-container")[0].id.endsWith('XYy');
+  animatedChromosome = <ChromosomeImageView small={true} empty={false} bold={false} yChromosome={targetIsY}/>;
+  animatedComponents.push(<AnimatedComponentView key={lastComponentId} viewObject={animatedChromosome} startDisplay={startDisplay} targetDisplay={targetDisplay} runAnimation={true} onRest={animationFinish} />);
+  lastComponentId++;
+}
+
+function animationFinish(){
+  // remove older components?
+  // animatedComponents.shift();
+}
+      
 
 export default class EggGame extends Component {
     render() {
       const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onResetGametes, onKeepOffspring, hiddenAlleles, transientStates } = this.props,
           mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
           father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex);
-
+  
       const handleAlleleChange = function(chrom, side, prevAllele, newAllele) {
         onChromosomeAlleleChange(0, chrom, side, prevAllele, newAllele);
       };
-      const handleChromosomeSelected = function(org, name, side, el) {
+      const handleChromosomeSelected = function(org, name, side, el) {        
+        let positions = findBothElements(org, name, el);
+        updateAnimationPositions(positions, el);
         onGameteChromosomeAdded(org.sex, name, side);
-        findBothElements(org, name, el);
       };
       const handleFertilize = function() {
         if (Object.keys(gametes[0]).length === 3 && Object.keys(gametes[1]).length === 3) {
+          animatedComponents = [];
           onFertilize(2000, 0, 1);
         }
       };
@@ -100,6 +131,7 @@ export default class EggGame extends Component {
       let [,,,...keptDrakes] = drakes;
       keptDrakes = keptDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
 
+
       return (
       <div id="egg-game">
         <div className="columns">
@@ -132,6 +164,7 @@ export default class EggGame extends Component {
         <div className='columns bottom'>
           <PenView orgs={ keptDrakes } width={500} columns={5} rows={1} tightenRows={20}/>
         </div>
+        {animatedComponents}
       </div>
     );
   }
