@@ -13,6 +13,7 @@
  * or by adding your own event handler that calls Button.enableButtonFocusHighlight().
  */
 import React, {PropTypes} from 'react';
+import t from '../utilities/translate';
 
 class Button extends React.Component {
 
@@ -63,7 +64,7 @@ class Button extends React.Component {
       <button className={classes} ref='button' {...others}
               onMouseEnter={handleMouseEvent}
               onMouseDown={handleMouseEvent}>
-        {label}
+        {t(label)}
       </button>
     );
   }
