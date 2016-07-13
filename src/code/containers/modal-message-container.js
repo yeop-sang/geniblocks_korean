@@ -4,17 +4,17 @@ import * as actions from '../actions';
 
 const messageProps = {
   MatchDrakeFailure: {
-    message: "That's not the drake!",
-    explanation: "The drake you have created doesn't match the target drake.\nPlease try again.",
+    message: "~ALERT.TITLE.INCORRECT_DRAKE",
+    explanation: "~ALERT.INCORRECT_DRAKE",
     top: "475px",
     rightButton: {
-      label: "Try again",
+      label: "~BUTTON.TRY_AGAIN",
       action: "dismissModalDialog"
     }
   },
   MatchDrakeSuccessLastTrial: {
-    message: "Good work!",
-    explanation: "The drake you have created matches the target drake.",
+    message: "~ALERT.TITLE.GOOD_WORK",
+    explanation: "~ALERT.CORRECT_DRAKE",
     top: "475px",
     rightButton: {
       label: "Next trial",
@@ -22,17 +22,17 @@ const messageProps = {
     }
   },
   ChallengeCompleted: {
-    message: "Good work!",
-    explanation: "You earned a piece of a coin!",
+    message: "~ALERT.TITLE.GOOD_WORK",
+    explanation: "~ALERT.NEW_PIECE_OF_COIN",
     rightButton: {
-      label: "Next challenge",
+      label: "~BUTTON.NEXT_CHALLENGE",
       action: "navigateToNextChallenge"
     },
     challengeAwards: {caseId: 0, challengeId:0, challengeCount: 0, progress: -1}
   },
   CaseCompleted: {
-    message: "Good work!",
-    explanation: "You have found all the pieces of this coin!",
+    message: "~ALERT.TITLE.GOOD_WORK",
+    explanation: "~ALERT.COMPLETE_COIN",
     rightButton: {
       label: "Next case",
       action: "navigateToNextChallenge"

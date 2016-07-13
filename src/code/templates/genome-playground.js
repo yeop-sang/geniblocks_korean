@@ -32,7 +32,7 @@ export default class GenomeContainer extends Component {
         </div>
         <div className='column'>
             <OrganismGlowView id="drake-image" org={ drake } />
-            <ButtonView label="Bring It On!" id="advance-button" onClick={ handleAdvanceChallenge } />
+            <ButtonView label="~BUTTON.PLAYGROUND_MOVE_FORWARD" id="advance-button" onClick={ handleAdvanceChallenge } />
         </div>
       </div>
     );

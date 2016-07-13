@@ -51,7 +51,7 @@ export default class GenomeChallengeTemplate extends Component {
         <div className='column'>
           <div id="your-drake-label" className="column-label">Chromosome Control</div>
           <GenomeView org={ userDrake } onAlleleChange={ handleAlleleChange } hiddenAlleles= { hiddenAlleles } />
-          <ButtonView label="Check Drake" onClick={ handleSubmit } />
+          <ButtonView label="~BUTTON.CHECK_DRAKE" onClick={ handleSubmit } />
         </div>
       </div>
     );
