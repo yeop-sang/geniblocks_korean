@@ -32,7 +32,7 @@ class ChallengeContainer extends Component {
   }
 
   static propTypes = {
-    template: PropTypes.string.isRequired
+    template: PropTypes.string
   }
 }
 
