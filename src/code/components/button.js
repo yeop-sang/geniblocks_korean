@@ -19,7 +19,7 @@ class Button extends React.Component {
 
   static propTypes = {
     className: PropTypes.string,
-    label: PropTypes.string.isRequired
+    label: React.PropTypes.oneOfType([PropTypes.string, PropTypes.array])
   }
 
   // Installs a keydown handler on the document which will enable button focus highlighting.

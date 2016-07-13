@@ -43,14 +43,14 @@ class ModalAlert extends React.Component {
 
   static propTypes = {
     show: PropTypes.bool,
-    message: PropTypes.string,
-    explanation: PropTypes.string,
+    message: React.PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    explanation: React.PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     leftButton: PropTypes.shape({
-      label: PropTypes.string,
+      label: React.PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
       onClick: PropTypes.func
     }),
     rightButton: PropTypes.shape({
-      label: PropTypes.string,
+      label: React.PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
       onClick: PropTypes.func
     }),
     onHide: PropTypes.func,
