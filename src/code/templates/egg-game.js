@@ -13,7 +13,8 @@ function lookupGameteChromosomeDOMElement(org, chromosomeName) {
   let wrapperId = org.sex === 0 ? "father-gamete-genome" : "mother-gamete-genome",
       wrapper = document.getElementById(wrapperId),
       chromosomePositions = {"1": 0, "2": 1, "XY": 2};
-  return wrapper.querySelectorAll(".chromosome-image")[chromosomePositions[chromosomeName]];
+  let genomeWrapper = wrapper.getElementsByClassName("genome")[0];
+  return genomeWrapper.querySelectorAll(".chromosome-image")[chromosomePositions[chromosomeName]];
 }
 
 function findBothElements(org, name, el){
