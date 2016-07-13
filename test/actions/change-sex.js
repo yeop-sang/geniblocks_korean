@@ -16,7 +16,14 @@ describe('changeSex action', () => {
       type: types.SEX_CHANGED,
       index,
       newSex,
-      incrementMoves
+      incrementMoves,
+      meta: {
+        "itsLog": {
+          "actor": "USER",
+          "action": "CHANGED",
+          "target": "SEX"
+        }
+      }
     });
   });
 

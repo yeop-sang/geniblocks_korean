@@ -23,6 +23,11 @@ describe('changeAllele action', () => {
       newAllele,
       incrementMoves: false,
       meta: {
+        "itsLog": {
+          "actor": "USER",
+          "action": "CHANGED",
+          "target": "ALLELE"
+        },
         logNextState: {
           newAlleles: ["drakes", 1, "alleleString"]
         }
