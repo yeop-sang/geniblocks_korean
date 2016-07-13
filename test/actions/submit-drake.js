@@ -17,7 +17,14 @@ describe('submitDrake action', () => {
       correctPhenotype,
       submittedPhenotype,
       correct,
-      incrementMoves: false
+      incrementMoves: false,
+      meta: {
+        "itsLog": {
+          "actor": "USER",
+          "action": "SUBMITTED",
+          "target": "DRAKE"
+        }
+      }
     });
   });
 
@@ -33,7 +40,14 @@ describe('submitDrake action', () => {
       correctPhenotype,
       submittedPhenotype,
       correct,
-      incrementMoves: true
+      incrementMoves: true,
+      meta: {
+        "itsLog": {
+          "actor": "USER",
+          "action": "SUBMITTED",
+          "target": "DRAKE"
+        }
+      }
     });
   });
 

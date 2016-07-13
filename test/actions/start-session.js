@@ -8,7 +8,17 @@ describe('startSession action', () => {
     const uuid = '123';
     expect(actions.startSession(uuid)).toEqual({
       type: types.SESSION_STARTED,
-      session: uuid
+      session: uuid,
+      meta: {
+        "dontLog": [
+          "session"
+        ],
+        "itsLog": {
+          "actor": "SYSTEM",
+          "action": "STARTED",
+          "target": "SESSION"
+        }
+      }
     });
   });
 });

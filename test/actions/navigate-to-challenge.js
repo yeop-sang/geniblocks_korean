@@ -13,7 +13,15 @@ describe('navigateToChallenge action', () => {
       type: types.NAVIGATED,
       case: _case,
       challenge,
-      route: "/3/4"
+      route: "/3/4",
+      meta: {
+        "itsLog": {
+          "actor": "USER",
+          "action": "NAVIGATED",
+          "target": "CHALLENGE"
+        },
+        logTemplateState: true
+      }
     });
   });
 
