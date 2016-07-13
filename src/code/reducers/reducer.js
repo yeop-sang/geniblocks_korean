@@ -185,7 +185,8 @@ export default function reducer(state, action) {
     case actionTypes.MODAL_DIALOG_DISMISSED: {
       return state.merge({
         showingInfoMessage: false,
-        userDrakeHidden: true
+        userDrakeHidden: true,
+        itsMessage: null
       });
     }
     case actionTypes.ADVANCED_TRIAL: {
