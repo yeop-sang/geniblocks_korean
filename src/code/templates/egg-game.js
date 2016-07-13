@@ -27,8 +27,14 @@ function findBothElements(org, name, el){
   return positions;
 }
 
-var animatedComponents = [], animatedChromosome, startDisplay, targetDisplay, lastComponentId=0;
-function updateAnimationPositions(positions, el){
+var animatedComponents = [], 
+    animatedComponentToRender,
+    startDisplay, targetDisplay, 
+    lastComponentId=0,
+    ovumView, spermView,
+    firstload = true;
+
+function updateAnimationPositions(positions, opacity){
   startDisplay = {
     startPositionRect: positions.startPositionRect,
     opacity: 1.0
@@ -37,9 +43,8 @@ function updateAnimationPositions(positions, el){
     targetPositionRect: positions.targetPositionRect,
     opacity: 0.0
   };
-  let targetIsY = el.getElementsByClassName("chromosome-allele-container")[0].id.endsWith('XYy');
-  animatedChromosome = <ChromosomeImageView small={true} empty={false} bold={false} yChromosome={targetIsY}/>;
-  animatedComponents.push(<AnimatedComponentView key={lastComponentId} viewObject={animatedChromosome} startDisplay={startDisplay} targetDisplay={targetDisplay} runAnimation={true} onRest={animationFinish} />);
+
+  animatedComponents.push(<AnimatedComponentView key={lastComponentId} viewObject={animatedComponentToRender} startDisplay={startDisplay} targetDisplay={targetDisplay} runAnimation={true} onRest={animationFinish} />);
   lastComponentId++;
 }
 
@@ -50,6 +55,10 @@ function animationFinish(){
       
 
 export default class EggGame extends Component {
+  componentDidMount() {
+    
+  }
+
     render() {
       const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onResetGametes, onKeepOffspring, hiddenAlleles, transientStates } = this.props,
           mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
@@ -60,7 +69,14 @@ export default class EggGame extends Component {
       };
       const handleChromosomeSelected = function(org, name, side, el) {        
         let positions = findBothElements(org, name, el);
-        updateAnimationPositions(positions, el);
+        let targetIsY = el.getElementsByClassName("chromosome-allele-container")[0].id.endsWith('XYy');
+        animatedComponentToRender = <ChromosomeImageView small={true} empty={false} bold={false} yChromosome={targetIsY}/>;
+        let opacity = {
+          start: 1.0,
+          end: 0.0
+        };
+        updateAnimationPositions(positions, opacity);
+
         onGameteChromosomeAdded(org.sex, name, side);
       };
       const handleFertilize = function() {
@@ -124,13 +140,12 @@ export default class EggGame extends Component {
         childView = <ButtonView className={ className } label={ text } onClick={ handleFertilize } />;
       }
 
-      var ovumView, spermView;
       if ((transientStates.length === 0 && !drakes[2]) ||  transientStates.indexOf(transientStateTypes.FERTILIZING) > -1) {
         let oChroms = femaleGameteChromosomeMap,
             sChroms = maleGameteChromosomeMap,
             ovumChromosomes  = [oChroms[1] && oChroms[1].a, oChroms[2] && oChroms[2].a, oChroms.XY && oChroms.XY.a],
             spermChromosomes = [sChroms[1] && sChroms[1].b, sChroms[2] && sChroms[2].b, sChroms.XY && sChroms.XY.b];
-
+        
         ovumView  = <GameteImageView className="ovum"  isEgg={true}  chromosomes={ovumChromosomes} />;
         spermView = <GameteImageView className="sperm" isEgg={false} chromosomes={spermChromosomes} />;
       }
@@ -138,13 +153,37 @@ export default class EggGame extends Component {
       let [,,,...keptDrakes] = drakes;
       keptDrakes = keptDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
 
+///
+if (firstload){
+ovumView  = <GameteImageView className="ovum"  isEgg={true} />;
+    spermView = <GameteImageView className="sperm" isEgg={false} />;
+    animatedComponentToRender = ovumView;
+    let positions = { 
+      startPositionRect : {top: 200, left:360},
+      targetPositionRect: {top:206, left:603}
+    };
+    let opacity = {
+          start: 1.0,
+          end: 0.0
+        };
+    updateAnimationPositions(positions, opacity);
 
+    animatedComponentToRender = spermView;
+    positions = { 
+      startPositionRect : {top:220, left:1100},
+      targetPositionRect: {top:224, left:828}
+    };
+
+    updateAnimationPositions(positions, opacity);
+    firstload = false;
+}
+///
       return (
       <div id="egg-game">
         <div className="columns">
           <div className='column'>
             <div>Mother</div>
-              <OrganismView org={ mother } flipped={ true }/>
+              <OrganismView org={ mother } flipped={ true } className="mother" />
               <GenomeView orgName="mother" org={ mother } onAlleleChange={ handleAlleleChange } onChromosomeSelected={handleChromosomeSelected} editable={false} hiddenAlleles= { hiddenAlleles } small={ true } selectedChromosomes={ gametes[1] } />
           </div>
           <div className='egg column'>
@@ -164,7 +203,7 @@ export default class EggGame extends Component {
           </div>
           <div className='column'>
             <div>Father</div>
-              <OrganismView org={ father } />
+              <OrganismView org={ father } className="father" />
               <GenomeView orgName="father" org={ father } onAlleleChange={ handleAlleleChange } onChromosomeSelected={handleChromosomeSelected} editable={false} hiddenAlleles= { hiddenAlleles } small={ true } selectedChromosomes={ gametes[0] } />
           </div>
         </div>
