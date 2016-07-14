@@ -4,7 +4,7 @@ const defaultLang = "en_us",
       varRegExp = /\$\{\s*(\d+)\s*\}/g,
       error = "** TRANSLATION ERROR **";
 
-const translateString = (key, lang) => translations[lang][key] || key;
+const translateString = (key, lang) => translations[lang] && translations[lang][key] || key;
 
 /**
  * Translates strings if they exist in the language file. Otherwise, passes back

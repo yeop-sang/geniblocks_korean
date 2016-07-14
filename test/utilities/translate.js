@@ -17,6 +17,13 @@ describe.only("Translation", function() {
     expect(t(input)).toEqual(expectedOutput);
   });
 
+  it("should return the original string if request a non-existant language", function() {
+    let input           = "~ALERT.TITLE.GOOD_WORK",
+        expectedOutput  = input;
+
+    expect(t(input, "elvish")).toEqual(expectedOutput);
+  });
+
   it("should accept an array and fill in the parts with raw strings", function() {
     let input           = ["${0}, ${1}!", "Hello", "world"],
         expectedOutput  = "Hello, world!";
