@@ -30,34 +30,48 @@ function findBothElements(org, name, el){
 var animatedComponents = [], 
     animatedComponentToRender,
     startDisplay, targetDisplay, 
-    lastComponentId=0,
+    lastAnimatedComponentId = 0,
     ovumView, spermView,
-    firstload = true;
+    animationTimeline = {};
 
-function updateAnimationPositions(positions, opacity){
+var animationEvents = {
+  moveGametes:      { id: 0, count: 0, complete: false},
+  selectChromosome: { id: 1, complete: false, ready: false},
+  fertilize:        { id: 2, complete: false }
+};
+
+function runAnimation(animationEvent, positions, opacity){
   startDisplay = {
     startPositionRect: positions.startPositionRect,
-    opacity: 1.0
+    opacity: opacity.start
   };
   targetDisplay = {
     targetPositionRect: positions.targetPositionRect,
-    opacity: 0.0
+    opacity: opacity.end
   };
-
-  animatedComponents.push(<AnimatedComponentView key={lastComponentId} viewObject={animatedComponentToRender} startDisplay={startDisplay} targetDisplay={targetDisplay} runAnimation={true} onRest={animationFinish} />);
-  lastComponentId++;
+  let animationSpeed = "medium";
+  animationTimeline[lastAnimatedComponentId] = animationEvent;
+  animatedComponents.push(<AnimatedComponentView key={lastAnimatedComponentId} animEvent={animationEvent} speed={animationSpeed} viewObject={animatedComponentToRender} startDisplay={startDisplay} targetDisplay={targetDisplay} runAnimation={true} onRest={animationFinish} />);
+  lastAnimatedComponentId++;
 }
 
-function animationFinish(){
-  // remove older components?
-  // animatedComponents.shift();
+function animationFinish(animatedComponent){
+  switch(animatedComponent){
+    case animationEvents.moveGametes:
+      animationEvents.moveGametes.count++;
+      if (animationEvents.moveGametes.count === 2){
+        animatedComponents = [];
+        animationEvents.moveGametes.complete = true;
+        animationEvents.selectChromosome.ready = true;
+      }      
+      break;
+
+    default:
+      break;
+  }
 }
-      
 
 export default class EggGame extends Component {
-  componentDidMount() {
-    
-  }
 
     render() {
       const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onResetGametes, onKeepOffspring, hiddenAlleles, transientStates } = this.props,
@@ -67,20 +81,23 @@ export default class EggGame extends Component {
       const handleAlleleChange = function(chrom, side, prevAllele, newAllele) {
         onChromosomeAlleleChange(0, chrom, side, prevAllele, newAllele);
       };
-      const handleChromosomeSelected = function(org, name, side, el) {        
-        let positions = findBothElements(org, name, el);
-        let targetIsY = el.getElementsByClassName("chromosome-allele-container")[0].id.endsWith('XYy');
-        animatedComponentToRender = <ChromosomeImageView small={true} empty={false} bold={false} yChromosome={targetIsY}/>;
-        let opacity = {
-          start: 1.0,
-          end: 0.0
-        };
-        updateAnimationPositions(positions, opacity);
+      const handleChromosomeSelected = function(org, name, side, el) {
+        if (animationEvents.selectChromosome.ready){
+          let positions = findBothElements(org, name, el);
+          let targetIsY = el.getElementsByClassName("chromosome-allele-container")[0].id.endsWith('XYy');
+          animatedComponentToRender = <ChromosomeImageView small={true} empty={false} bold={false} yChromosome={targetIsY}/>;
+          let opacity = {
+            start: 1.0,
+            end: 0.0
+          };
+          runAnimation(animationEvents.selectChromosome, positions, opacity);
 
-        onGameteChromosomeAdded(org.sex, name, side);
+          onGameteChromosomeAdded(org.sex, name, side);
+        }
       };
       const handleFertilize = function() {
         if (Object.keys(gametes[0]).length === 3 && Object.keys(gametes[1]).length === 3) {
+          animationEvents.selectChromosome.ready = false;
           animatedComponents = [];
           onFertilize(2000, 0, 1);
         }
@@ -145,45 +162,23 @@ export default class EggGame extends Component {
             sChroms = maleGameteChromosomeMap,
             ovumChromosomes  = [oChroms[1] && oChroms[1].a, oChroms[2] && oChroms[2].a, oChroms.XY && oChroms.XY.a],
             spermChromosomes = [sChroms[1] && sChroms[1].b, sChroms[2] && sChroms[2].b, sChroms.XY && sChroms.XY.b];
-        
-        ovumView  = <GameteImageView className="ovum"  isEgg={true}  chromosomes={ovumChromosomes} />;
-        spermView = <GameteImageView className="sperm" isEgg={false} chromosomes={spermChromosomes} />;
+        let displayStyle = {};
+        if (!animationEvents.moveGametes.complete) {
+          displayStyle = {display: "none"};
+        }
+        ovumView  = <GameteImageView className="ovum"  isEgg={true}  chromosomes={ovumChromosomes} displayStyle={displayStyle} />;
+        spermView = <GameteImageView className="sperm" isEgg={false} chromosomes={spermChromosomes} displayStyle={displayStyle} />;
       }
 
       let [,,,...keptDrakes] = drakes;
       keptDrakes = keptDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
 
-///
-if (firstload){
-ovumView  = <GameteImageView className="ovum"  isEgg={true} />;
-    spermView = <GameteImageView className="sperm" isEgg={false} />;
-    animatedComponentToRender = ovumView;
-    let positions = { 
-      startPositionRect : {top: 200, left:360},
-      targetPositionRect: {top:206, left:603}
-    };
-    let opacity = {
-          start: 1.0,
-          end: 0.0
-        };
-    updateAnimationPositions(positions, opacity);
-
-    animatedComponentToRender = spermView;
-    positions = { 
-      startPositionRect : {top:220, left:1100},
-      targetPositionRect: {top:224, left:828}
-    };
-
-    updateAnimationPositions(positions, opacity);
-    firstload = false;
-}
-///
       return (
       <div id="egg-game">
         <div className="columns">
           <div className='column'>
-            <div>Mother</div>
-              <OrganismView org={ mother } flipped={ true } className="mother" />
+            <div className="mother">Mother</div>
+              <OrganismView org={ mother } flipped={ true } />
               <GenomeView orgName="mother" org={ mother } onAlleleChange={ handleAlleleChange } onChromosomeSelected={handleChromosomeSelected} editable={false} hiddenAlleles= { hiddenAlleles } small={ true } selectedChromosomes={ gametes[1] } />
           </div>
           <div className='egg column'>
@@ -202,7 +197,7 @@ ovumView  = <GameteImageView className="ovum"  isEgg={true} />;
             </div>
           </div>
           <div className='column'>
-            <div>Father</div>
+            <div className="father">Father</div>
               <OrganismView org={ father } className="father" />
               <GenomeView orgName="father" org={ father } onAlleleChange={ handleAlleleChange } onChromosomeSelected={handleChromosomeSelected} editable={false} hiddenAlleles= { hiddenAlleles } small={ true } selectedChromosomes={ gametes[0] } />
           </div>
@@ -215,14 +210,65 @@ ovumView  = <GameteImageView className="ovum"  isEgg={true} />;
     );
   }
 
+  componentDidMount() {
+    // on first loading the game, animate the gametes moving from parents
+    setTimeout( () => {
+      let mother = document.getElementsByClassName("mother")[0].getClientRects()[0];
+      let father = document.getElementsByClassName("father")[0].getClientRects()[0];
+      
+      let offsetTop = 100;
+      let motherStart = {
+        top: mother.top + offsetTop,
+        left: mother.left
+      };
+      let fatherStart = {
+        top: father.top + offsetTop,
+        left: father.left
+      };
+
+      let ovumTarget = document.getElementsByClassName("ovum")[0].getClientRects()[0];
+      let spermTarget = document.getElementsByClassName("sperm")[0].getClientRects()[0];
+
+      let animatedOvumView  = <GameteImageView isEgg={true} />;
+      let animatedSpermView = <GameteImageView isEgg={false} />;
+
+      let opacity = {
+        start: 1.0,
+        end: 1.0
+      };
+      // first the ovum
+      animatedComponentToRender = animatedOvumView;
+      let motherPositions = { 
+        startPositionRect : motherStart,
+        targetPositionRect: ovumTarget
+      };
+      runAnimation(animationEvents.moveGametes, motherPositions, opacity);
+
+      // now the sperm
+      animatedComponentToRender = animatedSpermView;
+      let fatherPositions = { 
+        startPositionRect : fatherStart,
+        targetPositionRect: spermTarget
+      };
+
+      runAnimation(animationEvents.moveGametes, fatherPositions, opacity);
+
+      // force a re-render 
+      this.setState({gametesMove:true});
+      console.log(motherPositions, fatherPositions, "done!");
+    },2000);
+  }
+
   componentDidUpdate() {
     setTimeout( () => {
       let fadeIns = document.getElementsByClassName("fade-in-on-render");
       for (let el of fadeIns) {
         el.classList.add("show");
       }
-    }, 1);
+    }, 100);
   }
+    
+
 
   static propTypes = {
     drakes: PropTypes.array.isRequired,

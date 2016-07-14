@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 
 import ChromosomeImageView from './chromosome-image';
 
-const GameteImageView = ({isEgg, chromosomes=[], className}) => {
+const GameteImageView = ({isEgg, chromosomes=[], className, displayStyle}) => {
   let gameteImage = isEgg ? getEggImage() : getSpermImage(),
       chromosomeImages = [];
 
@@ -28,10 +28,12 @@ const GameteImageView = ({isEgg, chromosomes=[], className}) => {
 
   return (
     <div className={className}>
-      <div style={chromosomeStyle}>
-      { chromosomeImages }
+      <div style={displayStyle}>
+        <div style={chromosomeStyle}>
+        { chromosomeImages }
+        </div>
+        { gameteImage }
       </div>
-      { gameteImage }
     </div>
   );
 };

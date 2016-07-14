@@ -1,10 +1,27 @@
 import React, {PropTypes} from 'react';
 import {Motion, spring} from 'react-motion';
 
-const AnimatedComponentView = ({viewObject, springiness = 100, damping = 30, startDisplay, targetDisplay, runAnimation, onRest}) => {
-
+const AnimatedComponentView = ({animEvent, viewObject, speed, bouncy, startDisplay, targetDisplay, runAnimation, onRest}) => {
+  
   if (!runAnimation) return null;
   if (!startDisplay || !targetDisplay) return null;
+
+  let springiness = 90, damping = 30;
+  if (bouncy) damping = 2;
+
+  if (speed != null){
+    if (speed === "slow"){
+      springiness = 30;
+    } else if (speed === "medium"){
+      springiness = 60;
+    }
+    else if (speed === "fast"){
+      springiness = 90;
+    }
+    else if (speed === "superfast"){
+      springiness = 120;
+    }
+  }
 
   const springConfig = { stiffness: springiness, damping: damping };
 
@@ -26,7 +43,7 @@ const AnimatedComponentView = ({viewObject, springiness = 100, damping = 30, sta
   }
 
   const onAnimationFinished = () => {
-    onRest();
+    onRest(animEvent);
   };
 
   return (
@@ -48,9 +65,10 @@ const AnimatedComponentView = ({viewObject, springiness = 100, damping = 30, sta
 };
 
 AnimatedComponentView.propTypes = {
+  animEvent: PropTypes.object,
   viewObject: PropTypes.object,
-  springiness: PropTypes.number,
-  damping: PropTypes.number,
+  speed: PropTypes.string,
+  bouncy: PropTypes.bool,
   onRest: PropTypes.func,
   startDisplay: PropTypes.shape({   // initial display properties
     startPositionRect: PropTypes.object,
