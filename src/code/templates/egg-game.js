@@ -8,7 +8,7 @@ import { transientStateTypes } from '../actions';
 import AnimatedComponentView from '../components/animated-component';
 import ChromosomeImageView from '../components/chromosome-image';
 
-// a "reasonable" lookup function
+// a "reasonable" lookup function for the two gametes
 function lookupGameteChromosomeDOMElement(org, chromosomeName) {
   let wrapperId = org.sex === 0 ? "father-gamete-genome" : "mother-gamete-genome",
       wrapper = document.getElementById(wrapperId),
@@ -37,21 +37,34 @@ var animatedComponents = [],
 var animationEvents = {
   moveGametes:      { id: 0, count: 0, complete: false},
   selectChromosome: { id: 1, complete: false, ready: false},
-  fertilize:        { id: 2, complete: false }
+  fertilize:        { id: 2, inProgress: false, complete: false },
+  hatch:            { id: 3, inProgress: false, complete: false }
 };
+
+var _this;
 
 function runAnimation(animationEvent, positions, opacity){
   startDisplay = {
     startPositionRect: positions.startPositionRect,
-    opacity: opacity.start
+    opacity: opacity.start,
+    size: positions.startSize
   };
   targetDisplay = {
     targetPositionRect: positions.targetPositionRect,
-    opacity: opacity.end
+    opacity: opacity.end,
+    size: positions.endSize
   };
   let animationSpeed = "medium";
   animationTimeline[lastAnimatedComponentId] = animationEvent;
-  animatedComponents.push(<AnimatedComponentView key={lastAnimatedComponentId} animEvent={animationEvent} speed={animationSpeed} viewObject={animatedComponentToRender} startDisplay={startDisplay} targetDisplay={targetDisplay} runAnimation={true} onRest={animationFinish} />);
+  animatedComponents.push(
+    <AnimatedComponentView key={lastAnimatedComponentId} 
+      animEvent={animationEvent} 
+      speed={animationSpeed} 
+      viewObject={animatedComponentToRender} 
+      startDisplay={startDisplay} 
+      targetDisplay={targetDisplay} 
+      runAnimation={true} 
+      onRest={animationFinish} />);
   lastAnimatedComponentId++;
 }
 
@@ -69,10 +82,12 @@ function animationFinish(animatedComponent){
     default:
       break;
   }
+  _this.setState({animation:"complete"});
 }
 
-export default class EggGame extends Component {
 
+export default class EggGame extends Component {
+    
     render() {
       const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onResetGametes, onKeepOffspring, hiddenAlleles, transientStates } = this.props,
           mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
@@ -103,9 +118,13 @@ export default class EggGame extends Component {
         }
       };
       const handleKeepOffspring = function() {
+        animationEvents.selectChromosome.ready = true;
+        animationEvents.hatch.inProgress = false;
         onKeepOffspring();
       };
       const handleReset = function() {
+        animationEvents.selectChromosome.ready = true;
+        animationEvents.hatch.inProgress = false;
         onResetGametes();
       };
 
@@ -146,6 +165,7 @@ export default class EggGame extends Component {
           ]
         );
       } else if (transientStates.indexOf(transientStateTypes.HATCHING) > -1) {
+        animationEvents.hatch.inProgress = true;
         childView = <img className="egg-image" src="resources/images/egg_yellow.png" />;
       } else if (transientStates.indexOf(transientStateTypes.FERTILIZING) === -1) {
         let text = "Fertilize ❤️",
@@ -157,13 +177,13 @@ export default class EggGame extends Component {
         childView = <ButtonView className={ className } label={ text } onClick={ handleFertilize } />;
       }
 
-      if ((transientStates.length === 0 && !drakes[2]) ||  transientStates.indexOf(transientStateTypes.FERTILIZING) > -1) {
+      if ((!drakes[2]) || transientStates.indexOf(transientStateTypes.FERTILIZING) > -1) {
         let oChroms = femaleGameteChromosomeMap,
             sChroms = maleGameteChromosomeMap,
             ovumChromosomes  = [oChroms[1] && oChroms[1].a, oChroms[2] && oChroms[2].a, oChroms.XY && oChroms.XY.a],
             spermChromosomes = [sChroms[1] && sChroms[1].b, sChroms[2] && sChroms[2].b, sChroms.XY && sChroms.XY.b];
         let displayStyle = {};
-        if (!animationEvents.moveGametes.complete) {
+        if (!animationEvents.moveGametes.complete || animationEvents.hatch.inProgress) {
           displayStyle = {display: "none"};
         }
         ovumView  = <GameteImageView className="ovum"  isEgg={true}  chromosomes={ovumChromosomes} displayStyle={displayStyle} />;
@@ -240,7 +260,9 @@ export default class EggGame extends Component {
       animatedComponentToRender = animatedOvumView;
       let motherPositions = { 
         startPositionRect : motherStart,
-        targetPositionRect: ovumTarget
+        targetPositionRect: ovumTarget,
+        startSize: "30%",
+        endSize: "100%"
       };
       runAnimation(animationEvents.moveGametes, motherPositions, opacity);
 
@@ -248,14 +270,16 @@ export default class EggGame extends Component {
       animatedComponentToRender = animatedSpermView;
       let fatherPositions = { 
         startPositionRect : fatherStart,
-        targetPositionRect: spermTarget
+        targetPositionRect: spermTarget,
+        startSize: "30%",
+        endSize: "100%"
       };
 
       runAnimation(animationEvents.moveGametes, fatherPositions, opacity);
 
       // force a re-render 
-      this.setState({gametesMove:true});
-      console.log(motherPositions, fatherPositions, "done!");
+      _this = this;
+      _this.setState({animation:"running"});
     },2000);
   }
 
@@ -267,8 +291,6 @@ export default class EggGame extends Component {
       }
     }, 100);
   }
-    
-
 
   static propTypes = {
     drakes: PropTypes.array.isRequired,
@@ -277,6 +299,8 @@ export default class EggGame extends Component {
     onChromosomeAlleleChange: PropTypes.func.isRequired,
     onGameteChromosomeAdded: PropTypes.func.isRequired,
     onFertilize: PropTypes.func.isRequired,
+    onAnimationStart: PropTypes.func,
+    onAnimationEnd: PropTypes.func,
     challenge: PropTypes.number.isRequired
   }
   static authoredDrakesToDrakeArray = function(authoredChallenge) {

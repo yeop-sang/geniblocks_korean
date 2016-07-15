@@ -8,7 +8,7 @@ const AnimatedComponentView = ({animEvent, viewObject, speed, bouncy, startDispl
 
   let springiness = 90, damping = 30;
   if (bouncy) damping = 2;
-
+  let linear = false;
   if (speed != null){
     if (speed === "slow"){
       springiness = 30;
@@ -21,6 +21,8 @@ const AnimatedComponentView = ({animEvent, viewObject, speed, bouncy, startDispl
     else if (speed === "superfast"){
       springiness = 120;
     }
+  } else {
+    linear = true;
   }
 
   const springConfig = { stiffness: springiness, damping: damping };
@@ -33,13 +35,26 @@ const AnimatedComponentView = ({animEvent, viewObject, speed, bouncy, startDispl
   if (startDisplay.opacity != null){
     startStyle.opacity = startDisplay.opacity;
   }
+  if (startDisplay.size != null){
+    // startStyle.width = startDisplay.size.width;
+    // startStyle.height = startDisplay.size.height;
+  }
 
   if (targetDisplay.targetPositionRect) {
-    endStyle.left = spring(targetDisplay.targetPositionRect.left, springConfig);
-    endStyle.top = spring(targetDisplay.targetPositionRect.top, springConfig);
+    if (!linear){
+      endStyle.left = spring(targetDisplay.targetPositionRect.left, springConfig);
+      endStyle.top = spring(targetDisplay.targetPositionRect.top, springConfig);
+    } else {
+      endStyle.left = targetDisplay.targetPositionRect.left;
+      endStyle.top = targetDisplay.targetPositionRect.top;
+    }
   }
   if (targetDisplay.opacity != null) {
     endStyle.opacity = spring(targetDisplay.opacity, springConfig);
+  }
+  if (targetDisplay.size != null){
+    // endStyle.width = targetDisplay.size.width;
+    // endStyle.height = targetDisplay.size.height;
   }
 
   const onAnimationFinished = () => {
@@ -56,7 +71,7 @@ const AnimatedComponentView = ({animEvent, viewObject, speed, bouncy, startDispl
           return (
             <div className="animated-component-container" style={interpolatedStyle}>
              { viewObject }
-            </div>            
+            </div>
           );
         }
       }
@@ -72,15 +87,15 @@ AnimatedComponentView.propTypes = {
   onRest: PropTypes.func,
   startDisplay: PropTypes.shape({   // initial display properties
     startPositionRect: PropTypes.object,
-    size: PropTypes.number,         // size of gamete image (default: 30)
-    rotation: PropTypes.number,     // rotation (deg) of gamete image (default: 0|90|180|270)
-    opacity: PropTypes.number       // opacity of gamete image (default: 1.0)
+    size: PropTypes.string,         // size of rendered component (percentage string)
+    rotation: PropTypes.number,     // rotation (deg) of component (default: 0|90|180|270)
+    opacity: PropTypes.number       // opacity of component (default: 1.0)
   }).isRequired,
   targetDisplay: PropTypes.shape({  // final display properties
     targetPositionRect: PropTypes.object,
-    size: PropTypes.number,         // size of gamete image (default: 30)
-    rotation: PropTypes.number,     // rotation (deg) of gamete image (default: 0|90|180|270)
-    opacity: PropTypes.number       // opacity of gamete image (default: 1.0)
+    size: PropTypes.string,
+    rotation: PropTypes.number,
+    opacity: PropTypes.number
   }).isRequired,
   runAnimation: PropTypes.bool
 };
