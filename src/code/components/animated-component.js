@@ -36,8 +36,7 @@ const AnimatedComponentView = ({animEvent, viewObject, speed, bouncy, startDispl
     startStyle.opacity = startDisplay.opacity;
   }
   if (startDisplay.size != null){
-    // startStyle.width = startDisplay.size.width;
-    // startStyle.height = startDisplay.size.height;
+    startStyle.size = startDisplay.size;
   }
 
   if (targetDisplay.targetPositionRect) {
@@ -53,9 +52,14 @@ const AnimatedComponentView = ({animEvent, viewObject, speed, bouncy, startDispl
     endStyle.opacity = spring(targetDisplay.opacity, springConfig);
   }
   if (targetDisplay.size != null){
-    // endStyle.width = targetDisplay.size.width;
-    // endStyle.height = targetDisplay.size.height;
+    endStyle.size = spring(targetDisplay.size, springConfig);
   }
+
+  const animatedViewObject = function(interpolatedStyle) {
+    return React.cloneElement(viewObject, {
+        displayStyle: interpolatedStyle 
+      });
+  };
 
   const onAnimationFinished = () => {
     onRest(animEvent);
@@ -70,7 +74,7 @@ const AnimatedComponentView = ({animEvent, viewObject, speed, bouncy, startDispl
         interpolatedStyle => {
           return (
             <div className="animated-component-container" style={interpolatedStyle}>
-             { viewObject }
+             { animatedViewObject(interpolatedStyle) }
             </div>
           );
         }
@@ -87,13 +91,13 @@ AnimatedComponentView.propTypes = {
   onRest: PropTypes.func,
   startDisplay: PropTypes.shape({   // initial display properties
     startPositionRect: PropTypes.object,
-    size: PropTypes.string,         // size of rendered component (percentage string)
+    size: PropTypes.number,         // size of rendered component (percentage string)
     rotation: PropTypes.number,     // rotation (deg) of component (default: 0|90|180|270)
     opacity: PropTypes.number       // opacity of component (default: 1.0)
   }).isRequired,
   targetDisplay: PropTypes.shape({  // final display properties
     targetPositionRect: PropTypes.object,
-    size: PropTypes.string,
+    size: PropTypes.number,
     rotation: PropTypes.number,
     opacity: PropTypes.number
   }).isRequired,

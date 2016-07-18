@@ -3,7 +3,36 @@ import React, {PropTypes} from 'react';
 import ChromosomeImageView from './chromosome-image';
 
 const GameteImageView = ({isEgg, chromosomes=[], className, displayStyle}) => {
-  let gameteImage = isEgg ? getEggImage() : getSpermImage(),
+
+  let imageScale = 1.0;
+  let imageWidth = 150;
+  let imageHeight = 90;
+
+  let containerStyle = {
+    width: imageWidth + "px",
+    height: imageHeight + "px"
+  };
+  
+  if (displayStyle != null){
+    containerStyle.display = displayStyle.display;
+  }
+
+  if (displayStyle.size != null){
+    // scale the parent div
+    containerStyle.width = (imageWidth * displayStyle.size)  + "px";
+    containerStyle.height = (imageHeight * displayStyle.size) + "px";
+    // for scaling the svg directly:
+    imageScale = displayStyle.size;    
+  }
+  containerStyle.position = "relative";
+
+  let currentScale = {
+                       //transform: `scale(${imageScale})`,
+                       position:'absolute',
+                       left:0, top:0, width:'100%', height:'100%'
+                     };
+
+  let gameteImage = isEgg ? getEggImage(currentScale) : getSpermImage(currentScale),
       chromosomeImages = [];
 
   for(var i = 0; i < chromosomes.length; i++){
@@ -28,7 +57,7 @@ const GameteImageView = ({isEgg, chromosomes=[], className, displayStyle}) => {
 
   return (
     <div className={className}>
-      <div style={displayStyle}>
+      <div style={containerStyle}>
         <div style={chromosomeStyle}>
         { chromosomeImages }
         </div>
@@ -38,9 +67,10 @@ const GameteImageView = ({isEgg, chromosomes=[], className, displayStyle}) => {
   );
 };
 
-function getEggImage() {
+function getEggImage(scale) {
+  let viewBox = "0 0 154 94";
   return (
-    <svg width={150} height={90} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox={viewBox} width={150} height={90} style={scale} xmlns="http://www.w3.org/2000/svg">
       <g>
         <path
           d="m 0.987473,40.556786 c 0,-21.857735 14.961774,-39.5625 33.433099,-39.5625 18.471326,0 33.433099,17.704765 33.433099,39.5625 0,21.857735 -14.961773,39.5625 -33.433099,39.5625 -18.471325,0 -33.433099,-17.704765 -33.433099,-39.5625 z"
@@ -51,9 +81,10 @@ function getEggImage() {
   );
 }
 
-function getSpermImage() {
+function getSpermImage(scale) {
+  let viewBox = "0 0 154 94";
   return (
-    <svg width={150} height={90} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox={viewBox} width={150} height={90} style={scale} xmlns="http://www.w3.org/2000/svg">
       <g>
         <path
           d="m 1.009921,20.994286 c 0,-11.049724 14.991709,-20 33.499999,-20 18.50829,0 33.5,8.950276 33.5,20 0,11.049724 -14.99171,20 -33.5,20 -18.50829,0 -33.499999,-8.950276 -33.499999,-20 z"
@@ -71,7 +102,8 @@ function getSpermImage() {
 GameteImageView.propTypes = {
   isEgg: PropTypes.bool.isRequired,
   chromosomes: PropTypes.array,
-  className: PropTypes.string
+  className: PropTypes.string,
+  displayStyle: PropTypes.object
 };
 
 export default GameteImageView;

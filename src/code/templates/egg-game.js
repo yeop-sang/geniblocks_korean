@@ -236,7 +236,7 @@ export default class EggGame extends Component {
       let mother = document.getElementsByClassName("mother")[0].getClientRects()[0];
       let father = document.getElementsByClassName("father")[0].getClientRects()[0];
       
-      let offsetTop = 100;
+      let offsetTop = 150;
       let motherStart = {
         top: mother.top + offsetTop,
         left: mother.left
@@ -248,9 +248,10 @@ export default class EggGame extends Component {
 
       let ovumTarget = document.getElementsByClassName("ovum")[0].getClientRects()[0];
       let spermTarget = document.getElementsByClassName("sperm")[0].getClientRects()[0];
-
-      let animatedOvumView  = <GameteImageView isEgg={true} />;
-      let animatedSpermView = <GameteImageView isEgg={false} />;
+      
+      let displayStyleContainer = {animated: true};
+      let animatedOvumView  = <GameteImageView isEgg={true} displayStyle={displayStyleContainer} />;
+      let animatedSpermView = <GameteImageView isEgg={false} displayStyle={displayStyleContainer} />;
 
       let opacity = {
         start: 1.0,
@@ -261,8 +262,8 @@ export default class EggGame extends Component {
       let motherPositions = { 
         startPositionRect : motherStart,
         targetPositionRect: ovumTarget,
-        startSize: "30%",
-        endSize: "100%"
+        startSize: 0.3,
+        endSize: 1.0
       };
       runAnimation(animationEvents.moveGametes, motherPositions, opacity);
 
@@ -271,8 +272,8 @@ export default class EggGame extends Component {
       let fatherPositions = { 
         startPositionRect : fatherStart,
         targetPositionRect: spermTarget,
-        startSize: "30%",
-        endSize: "100%"
+        startSize: 0.3,
+        endSize: 1.0
       };
 
       runAnimation(animationEvents.moveGametes, fatherPositions, opacity);
