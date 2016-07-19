@@ -84,7 +84,7 @@ const AnimatedComponentView = ({animEvent, viewObject, speed, bouncy, startDispl
 };
 
 AnimatedComponentView.propTypes = {
-  animEvent: PropTypes.object,
+  animEvent: PropTypes.number,
   viewObject: PropTypes.object,
   speed: PropTypes.string,
   bouncy: PropTypes.bool,
