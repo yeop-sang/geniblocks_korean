@@ -151,6 +151,11 @@ function animationFinish(evt){
         animatedComponents = [];
         animationEvents.moveGametes.complete = true;
         animationEvents.selectChromosome.ready = true;
+        // fade in gamete placeholders
+        let fadeIns = document.getElementsByClassName("chromosome-image");
+        for (let el of fadeIns) {
+          el.classList.add("show");
+        }
       }      
       break;
     default:
