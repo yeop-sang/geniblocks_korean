@@ -3,7 +3,7 @@ import { actionTypes } from '../actions';
 import { loadStateFromAuthoring, loadNextTrial } from './loadStateFromAuthoring';
 import { updateProgress, setProgressScore } from './challengeProgress';
 
-import { LOCATION_CHANGE } from 'react-router-redux';
+import routing from './routing';
 
 const initialState = Immutable({
   template: null,
@@ -20,21 +20,21 @@ const initialState = Immutable({
   shouldShowITSMessages: true,
   userDrakeHidden: true,
   transientStates: [],
-  routing: {},
   authoring: window.GV2Authoring
 });
 
 export default function reducer(state, action) {
   if (!state) state = initialState;
 
+  state = state.merge({
+    routing: routing(state.routing, action)
+  });
+
   if (action.incrementMoves) {
     state = state.set("moves", state.moves + 1);
   }
 
   switch(action.type) {
-    case LOCATION_CHANGE: {
-      return state.set("routing", {locationBeforeTransitions: action.payload});
-    }
     case actionTypes.PLAYGROUND_COMPLETE:{
       let challengeComplete = true;
       let progress = setProgressScore(state, 0);
