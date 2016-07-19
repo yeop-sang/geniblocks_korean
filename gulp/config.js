@@ -34,9 +34,12 @@ module.exports = {
     dest: publicGeniverse + '/resources/',
     destIndex: publicGeniverse
   },
+  // this used to use glob negations to select everything EXCEPT .js and .styl, but that's slow, so now
+  // we explicitly refer to each filetype we want copied over.
+  // https://github.com/benweet/stackedit/pull/550
   examples: {
-    watch: [examples + '/**/*.*', '!' + examples + '/**/*.js', '!' + examples + '/**/*.styl'],
-    src: [examples + '/**/*.*', '!' + examples + '/**/*.js', '!' + examples + '/**/*.styl'],
+    watch: [examples + '/**/*.{html,css,png,jpg,ttf,woff}'],
+    src: [examples + '/**/*.{html,css,png,jpg,ttf,woff}'],
     jssrc: [examples + '/experiments/**/*.js'],
     dir: examples,
     dest: publicExamples
@@ -48,7 +51,7 @@ module.exports = {
     dest: publicExamples
   },
   vendorExamples: {
-    src: [ bower + '/*/*.js', bower + '/*/*/*.js', bower + '/*/*/*.css' ],
+    src: [ bower + '/*/*.js', bower + '/*/*/*.{js,css}' ],
     dest: publicExamples + '/js/lib/'
   },
   vendorGeniverse: {
@@ -57,7 +60,7 @@ module.exports = {
   },
   trim: {
     examples: {
-      src: [examples + '/**/*.html', examples + '/**/*.json'],
+      src: [examples + '/**/*.{html,json}'],
       dest: examples
     },
     code: {
