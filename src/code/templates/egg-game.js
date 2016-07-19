@@ -41,7 +41,7 @@ var _this,
     motherDrakeStart, motherGameteStart,
     fatherDrakeStart, fatherGameteStart, 
 
-    offsetTopDrake = 120, offsetTopGamete = 150;
+    offsetTopDrake = 130, offsetTopGamete = 160;
 
 var animationEvents = {
   showGametes: { id: 0, count: 0, complete: false, animate: function() {
@@ -109,7 +109,7 @@ var animationEvents = {
   hatch:            { id: 4, inProgress: false, complete: false }
 };
 
-function runAnimation(animationEvent, positions, opacity, speed = "medium"){
+function runAnimation(animationEvent, positions, opacity, speed = "fast"){
   startDisplay = {
     startPositionRect: positions.startPositionRect,
     opacity: opacity.start,

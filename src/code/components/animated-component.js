@@ -6,26 +6,27 @@ const AnimatedComponentView = ({animEvent, viewObject, speed, bouncy, startDispl
   if (!runAnimation) return null;
   if (!startDisplay || !targetDisplay) return null;
 
-  let springiness = 90, damping = 30;
+  let springiness = 100, damping = 25;
   if (bouncy) damping = 2;
   let linear = false;
   if (speed != null){
     if (speed === "slow"){
-      springiness = 30;
-    } else if (speed === "medium"){
       springiness = 60;
-    }
-    else if (speed === "fast"){
+    } else if (speed === "medium"){
       springiness = 90;
     }
-    else if (speed === "superfast"){
+    else if (speed === "fast"){
       springiness = 120;
+    }
+    else if (speed === "superfast"){
+      springiness = 150;
     }
   } else {
     linear = true;
   }
 
   const springConfig = { stiffness: springiness, damping: damping };
+  //const springConfig = {...presets.noWobble, precision: 0.1};
 
   let startStyle = {}, endStyle = {};
   if (startDisplay.startPositionRect) {
