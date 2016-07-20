@@ -241,8 +241,19 @@ export function advanceChallenge() {
 }
 
 export function playgroundComplete() {
-  return{
-    type:actionTypes.PLAYGROUND_COMPLETE
+  return (dispatch) => {
+    dispatch({
+      type:actionTypes.PLAYGROUND_COMPLETE
+    });
+    dispatch(showModalDialog({
+      message: "Good work!",
+      explanation: "You earned a piece of a coin!",
+      rightButton:{
+        label: "Next challenge",
+        action: "navigateToNextChallenge"
+      },
+      showAward: true
+    }));
   };
 }
 
