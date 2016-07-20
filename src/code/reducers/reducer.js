@@ -7,6 +7,7 @@ import { updateProgress, setProgressScore } from './challengeProgress';
 import routing from './routing';
 import moves from './moves';
 import transientStates from './transientStates';
+import modalDialog from './modalDialog';
 
 const initialState = Immutable({
   template: null,
@@ -18,8 +19,6 @@ const initialState = Immutable({
   challenge: 0,
   challenges: 1,
   challengeProgress: {},
-  showingInfoMessage: false,
-  shouldShowITSMessages: true,
   userDrakeHidden: true,
   authoring: window.GV2Authoring
 });
@@ -30,7 +29,8 @@ export default function reducer(state, action) {
   state = state.merge({
     routing: routing(state.routing, action),
     moves: moves(state.moves, action),
-    transientStates: transientStates(state.transientStates, action)
+    transientStates: transientStates(state.transientStates, action),
+    modalDialog: modalDialog(state.modalDialog, action)
   });
 
   switch(action.type) {
@@ -39,7 +39,6 @@ export default function reducer(state, action) {
       let progress = setProgressScore(state, 0);
 
       return state.merge({
-        showingInfoMessage: true,
         trialSuccess: action.correct,
         challengeProgress: progress,
         challengeComplete
@@ -127,35 +126,18 @@ export default function reducer(state, action) {
               progress = setProgressScore(state, 0);
 
           state = state.merge({
-            showingInfoMessage: true,
             trialSuccess: true,
             challengeProgress: progress,
             challengeComplete
           });
         }
-        return state;
-      } else {
-        return state.merge({
-          showingInfoMessage: true,
-          message: {
-            message: "Uh oh!",
-            explanation: "You already have a drake that looks just like that!",
-            rightButton: {
-              label: "Try again",
-              action: "resetGametes"
-            }
-          }
-        });
       }
+      return state;
     }
 
     case actionTypes.GAMETES_RESET: {
       state = state.set("gametes", [{}, {}]);
       state = state.setIn(["drakes", 2], null);
-      state = state.merge({
-        showingInfoMessage: false,
-        message: null
-      });
       return state;
     }
 
@@ -166,18 +148,10 @@ export default function reducer(state, action) {
         challengeComplete = true;
       }
       return state.merge({
-        showingInfoMessage: true,
         userDrakeHidden: false,
         trialSuccess: action.correct,
         challengeProgress: progress,
         challengeComplete
-      });
-    }
-    case actionTypes.MODAL_DIALOG_DISMISSED: {
-      return state.merge({
-        showingInfoMessage: false,
-        userDrakeHidden: true,
-        itsMessage: null
       });
     }
     case actionTypes.ADVANCED_TRIAL: {
@@ -202,18 +176,6 @@ export default function reducer(state, action) {
       let nextChallenge = state.challenge + 1;
       let progress = updateProgress(state, true);
       return loadStateFromAuthoring(state, action.authoring, nextChallenge, progress);
-    }
-
-    case actionTypes.SOCKET_RECEIVED: {
-      // TODO: If you want to show dialog messages whenever you hear from the ITS...
-      if (action.state.data && state.shouldShowITSMessages){
-        return state.merge({
-          showingInfoMessage: true,
-          itsMessage: JSON.parse(action.state.data)
-        });
-      }
-      else
-        return state;
     }
 
     default:

@@ -12,6 +12,7 @@ export const actionTypes = {
   DRAKE_SUBMITTED: "Drake submitted",
   GAMETES_RESET: "Gametes reset",
   NAVIGATED_NEXT_CHALLENGE: "Navigated to next challenge",
+  MODAL_DIALOG_SHOWN: "Modal dialog shown",
   MODAL_DIALOG_DISMISSED: "Modal dialog dismissed",
   ADVANCED_TRIAL: "Advanced to next trial",
   ADVANCED_CHALLENGE: "Advanced to next challenge",
@@ -182,6 +183,19 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
         target: ITS_TARGETS.DRAKE
       }
     }
+  };
+}
+
+export function showModalDialog(message, explanation, rightButton, leftButton, showAward=false, top) {
+export function showModalDialog({message, explanation, rightButton, leftButton, showAward=false, top}) {
+  return{
+    type: actionTypes.MODAL_DIALOG_SHOWN,
+    message,
+    explanation,
+    rightButton,
+    leftButton,
+    showAward,
+    top
   };
 }
 

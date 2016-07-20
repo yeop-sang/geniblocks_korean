@@ -39,7 +39,6 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     challenges,
     moves: 0,
     goalMoves,
-    showingInfoMessage: false,
     userDrakeHidden: true,
     trialSuccess: false,
     challengeComplete: false,
@@ -81,7 +80,6 @@ export function loadNextTrial(state, authoring, progress) {
     trial,
     moves: 0,
     goalMoves: goalMoves,
-    showingInfoMessage: false,
     userDrakeHidden: true,
     challengeProgress: progress
   });
