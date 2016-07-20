@@ -4,7 +4,7 @@ import * as actions from '../../src/code/actions';
 
 const types = actions.actionTypes;
 
-describe.only('showModalDialog action', () => {
+describe('showModalDialog action', () => {
   it('should create the correct action', () => {
     let message = "Message",
         explanation = "Body",
@@ -51,7 +51,8 @@ describe.only('showModalDialog action', () => {
           leftButton: undefined,
           showAward: false,
           top: undefined
-        }
+        },
+        userDrakeHidden: false
       }));
     });
 
@@ -89,7 +90,8 @@ describe.only('showModalDialog action', () => {
           },
           showAward: true,
           top: "50px"
-        }
+        },
+        userDrakeHidden: false
       }));
     });
 

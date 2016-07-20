@@ -10,9 +10,12 @@ describe('submitDrake action', () => {
           submittedPhenotype = [{armor: "Five armor"}],
           correct = true;
 
-    let actionObject = actions.submitDrake(correctPhenotype, submittedPhenotype, correct);
+    const dispatch = expect.createSpy();
+    const getState = () => ({case: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]]});
 
-    expect(actionObject).toEqual({
+    actions.submitDrake(correctPhenotype, submittedPhenotype, correct)(dispatch, getState);
+
+    expect(dispatch).toHaveBeenCalledWith({
       type: types.DRAKE_SUBMITTED,
       correctPhenotype,
       submittedPhenotype,
@@ -33,9 +36,12 @@ describe('submitDrake action', () => {
           submittedPhenotype = [{armor: "Three armor"}],
           correct = false;
 
-    let actionObject = actions.submitDrake(correctPhenotype, submittedPhenotype, correct);
+    const dispatch = expect.createSpy();
+    const getState = () => ({case: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]]});
 
-    expect(actionObject).toEqual({
+    actions.submitDrake(correctPhenotype, submittedPhenotype, correct)(dispatch, getState);
+
+    expect(dispatch).toHaveBeenCalledWith({
       type: types.DRAKE_SUBMITTED,
       correctPhenotype,
       submittedPhenotype,
@@ -71,9 +77,7 @@ describe('submitDrake action', () => {
       });
 
       expect(nextState).toEqual(initialState.merge({
-        showingInfoMessage: true,
         trialSuccess: false,
-        challengeComplete: false,
         challengeProgress: {
           "0:0:0" : 2,
           "0:0:1" : -1
@@ -103,9 +107,7 @@ describe('submitDrake action', () => {
         let nextState = reducer(initialState, submitAction);
 
         expect(nextState).toEqual(initialState.merge({
-          showingInfoMessage: true,
           trialSuccess: true,
-          challengeComplete: false,
           challengeProgress: {
             "0:0:0" : 0
           }
@@ -121,9 +123,7 @@ describe('submitDrake action', () => {
         let nextState = reducer(initialState, submitAction);
 
         expect(nextState).toEqual(initialState.merge({
-          showingInfoMessage: true,
           trialSuccess: true,
-          challengeComplete: true,
           challengeProgress: {
             "0:0:0" : 0,
             "0:0:1" : 1
