@@ -363,9 +363,29 @@ export function initiateDelayedFertilization(delay, gamete1, gamete2) {
   };
 }
 
-export function keepOffspring() {
+export function _keepOffspring() {
   return {
     type: actionTypes.OFFSPRING_KEPT
+  };
+}
+
+export function keepOffspring() {
+    return (dispatch, getState) => {
+    dispatch(_keepOffspring());
+
+    const { trialSuccess } = getState();
+
+    if (trialSuccess) {
+      dispatch(showModalDialog({
+        message: "Good work!",
+        explanation: "You earned a piece of a coin!",
+        rightButton: {
+          label: "Next challenge",
+          action: "navigateToNextChallenge"
+        },
+        showAward: true
+      }));
+    }
   };
 }
 
