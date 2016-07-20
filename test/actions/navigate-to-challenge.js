@@ -49,7 +49,6 @@ describe('navigateToChallenge action', () => {
         case: 1,
         challenge: 2,
         template: "GenomePlayground",
-        challengeComplete: false,
         challenges: 3,
         trialSuccess: false,
 

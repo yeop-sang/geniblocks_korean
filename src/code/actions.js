@@ -168,7 +168,7 @@ export function changeSex(index, newSex, incrementMoves=false) {
   };
 }
 
-export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
+export function _submitDrake(correctPhenotype, submittedPhenotype, correct) {
   let incrementMoves = !correct;
   return{
     type: actionTypes.DRAKE_SUBMITTED,
@@ -186,7 +186,70 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
   };
 }
 
-export function showModalDialog(message, explanation, rightButton, leftButton, showAward=false, top) {
+export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
+  return (dispatch, getState) => {
+    dispatch(_submitDrake(correctPhenotype, submittedPhenotype, correct));
+
+    const state = getState();
+    let challengeComplete = false,
+        caseComplete = false;
+
+    if (correct && state.trial === state.trials.length-1) {
+      challengeComplete = true;
+      if (state.authoring[state.case].length <= state.challenge+1) {
+        caseComplete = true;
+      }
+    }
+
+    let dialog = {};
+
+    if (correct) {
+      if (caseComplete) {
+        dialog = {
+          message: "Good work!",
+          explanation: "You have found all the pieces of this coin!",
+          rightButton: {
+            label: "Next case",
+            action: "navigateToNextChallenge"
+          },
+          showAward: true
+        };
+      } else if (challengeComplete) {
+        dialog = {
+          message: "Good work!",
+          explanation: "You earned a piece of a coin!",
+          rightButton: {
+            label: "Next challenge",
+            action: "navigateToNextChallenge"
+          },
+          showAward: true
+        };
+      } else {
+        dialog = {
+          message: "Good work!",
+          explanation: "The drake you have created matches the target drake.",
+          rightButton:{
+            label: "Next trial",
+            action: "advanceTrial"
+          },
+          top: "475px"
+        };
+      }
+    } else {
+      dialog = {
+        message: "That's not the drake!",
+        explanation: "The drake you have created doesn't match the target drake.\nPlease try again.",
+        rightButton: {
+          label: "Try again",
+          action: "dismissModalDialog"
+        },
+        top: "475px"
+      };
+    }
+    dispatch(showModalDialog(dialog));
+  };
+}
+
 export function showModalDialog({message, explanation, rightButton, leftButton, showAward=false, top}) {
   return{
     type: actionTypes.MODAL_DIALOG_SHOWN,

@@ -41,7 +41,6 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     goalMoves,
     userDrakeHidden: true,
     trialSuccess: false,
-    challengeComplete: false,
     challengeProgress: progress
   });
 }

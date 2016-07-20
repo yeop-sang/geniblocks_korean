@@ -36,13 +36,11 @@ export default function reducer(state, action) {
 
   switch(action.type) {
     case actionTypes.PLAYGROUND_COMPLETE:{
-      let challengeComplete = true;
       let progress = setProgressScore(state, 0);
 
       return state.merge({
         trialSuccess: action.correct,
-        challengeProgress: progress,
-        challengeComplete
+        challengeProgress: progress
       });
     }
     case actionTypes.BRED: {
@@ -143,15 +141,11 @@ export default function reducer(state, action) {
     }
 
     case actionTypes.DRAKE_SUBMITTED: {
-      let challengeComplete = false;
       let progress = updateProgress(state, action.correct);
-      if (action.correct && state.trial === state.trials.length-1) {
-        challengeComplete = true;
-      }
+
       return state.merge({
         trialSuccess: action.correct,
-        challengeProgress: progress,
-        challengeComplete
+        challengeProgress: progress
       });
     }
     case actionTypes.ADVANCED_TRIAL: {
@@ -161,7 +155,7 @@ export default function reducer(state, action) {
           return loadNextTrial(state, action.authoring, progress);
         }
         else {
-          return state.merge ({ challengeProgress: progress, challengeComplete: true});
+          return state.merge ({ challengeProgress: progress});
         }
       } else return state;
     }
