@@ -103,6 +103,7 @@ var animationEvents = {
       };
       animatedComponentToRender = <ChromosomeImageView small={true} empty={false} bold={false} yChromosome={targetIsY}/>;
       animateMultipleComponents([animatedComponentToRender], [positions], opacity, animationEvents.selectChromosome.id);
+      _this.setState({animation:"selectChromosome"});
     }
   },
   fertilize:        { id: 3, inProgress: false, complete: false },
@@ -188,7 +189,9 @@ export default class EggGame extends Component {
           // animate the chromosomes being added
           animationEvents.selectChromosome.animate(positions, targetIsY);
 
-          onGameteChromosomeAdded(org.sex, name, side);
+          setTimeout(function() {
+            onGameteChromosomeAdded(org.sex, name, side);
+          }, 500);
         }
       };
       const handleFertilize = function() {
