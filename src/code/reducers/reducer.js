@@ -8,6 +8,7 @@ import routing from './routing';
 import moves from './moves';
 import transientStates from './transientStates';
 import modalDialog from './modalDialog';
+import userDrakeHidden from './userDrakeHidden';
 
 const initialState = Immutable({
   template: null,
@@ -19,7 +20,6 @@ const initialState = Immutable({
   challenge: 0,
   challenges: 1,
   challengeProgress: {},
-  userDrakeHidden: true,
   authoring: window.GV2Authoring
 });
 
@@ -30,7 +30,8 @@ export default function reducer(state, action) {
     routing: routing(state.routing, action),
     moves: moves(state.moves, action),
     transientStates: transientStates(state.transientStates, action),
-    modalDialog: modalDialog(state.modalDialog, action)
+    modalDialog: modalDialog(state.modalDialog, action),
+    userDrakeHidden: userDrakeHidden(state.userDrakeHidden, action)
   });
 
   switch(action.type) {
@@ -148,7 +149,6 @@ export default function reducer(state, action) {
         challengeComplete = true;
       }
       return state.merge({
-        userDrakeHidden: false,
         trialSuccess: action.correct,
         challengeProgress: progress,
         challengeComplete

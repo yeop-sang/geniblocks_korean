@@ -72,7 +72,6 @@ describe('submitDrake action', () => {
 
       expect(nextState).toEqual(initialState.merge({
         showingInfoMessage: true,
-        userDrakeHidden: false,
         trialSuccess: false,
         challengeComplete: false,
         challengeProgress: {
@@ -105,7 +104,6 @@ describe('submitDrake action', () => {
 
         expect(nextState).toEqual(initialState.merge({
           showingInfoMessage: true,
-          userDrakeHidden: false,
           trialSuccess: true,
           challengeComplete: false,
           challengeProgress: {
@@ -124,7 +122,6 @@ describe('submitDrake action', () => {
 
         expect(nextState).toEqual(initialState.merge({
           showingInfoMessage: true,
-          userDrakeHidden: false,
           trialSuccess: true,
           challengeComplete: true,
           challengeProgress: {
