@@ -209,7 +209,6 @@ export default class EggGame extends Component {
       const handleReset = function() {
         animationEvents.selectChromosome.ready = true;
         animationEvents.hatch.inProgress = false;
-        animationEvents.showGametes.animate();
         onResetGametes();
       };
 
