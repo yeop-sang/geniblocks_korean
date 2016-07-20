@@ -13,12 +13,13 @@
  * or by adding your own event handler that calls Button.enableButtonFocusHighlight().
  */
 import React, {PropTypes} from 'react';
+import t from '../utilities/translate';
 
 class Button extends React.Component {
 
   static propTypes = {
     className: PropTypes.string,
-    label: PropTypes.string.isRequired
+    label: React.PropTypes.oneOfType([PropTypes.string, PropTypes.array])
   }
 
   // Installs a keydown handler on the document which will enable button focus highlighting.
@@ -63,7 +64,7 @@ class Button extends React.Component {
       <button className={classes} ref='button' {...others}
               onMouseEnter={handleMouseEvent}
               onMouseDown={handleMouseEvent}>
-        {label}
+        {t(label)}
       </button>
     );
   }

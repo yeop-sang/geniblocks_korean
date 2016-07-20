@@ -5,6 +5,7 @@ import Modal from 'react-overlays/lib/Modal';
 import Button from './button';
 import ChallengeAwardView from './challenge-award';
 import React, { PropTypes } from 'react';
+import t from '../utilities/translate';
 
 const modalStyle = {
   position: 'fixed',
@@ -42,14 +43,14 @@ class ModalAlert extends React.Component {
 
   static propTypes = {
     show: PropTypes.bool,
-    message: PropTypes.string,
-    explanation: PropTypes.string,
+    message: React.PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    explanation: React.PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     leftButton: PropTypes.shape({
-      label: PropTypes.string,
+      label: React.PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
       onClick: PropTypes.func
     }),
     rightButton: PropTypes.shape({
-      label: PropTypes.string,
+      label: React.PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
       onClick: PropTypes.func
     }),
     onHide: PropTypes.func,
@@ -88,9 +89,9 @@ class ModalAlert extends React.Component {
               show={this.props.show}
               onHide={this.props.onHide} >
         <div style={dialogStyle(this.props.top)} >
-          <h4 id='modal-label'>{this.props.message}</h4>
+          <h4 id='modal-label'>{t(this.props.message)}</h4>
           {awardView}
-          <p>{this.props.explanation}</p>
+          <p>{t(this.props.explanation)}</p>
           {leftButton} {rightButton}
         </div>
       </Modal>
