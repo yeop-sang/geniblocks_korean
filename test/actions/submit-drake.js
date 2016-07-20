@@ -5,7 +5,7 @@ import * as actions from '../../src/code/actions';
 const types = actions.actionTypes;
 
 describe('submitDrake action', () => {
-  it('should create the correct action when the drake is submitted correctly', () => {
+  describe('when the drake is submitted correctly', () => {
     const correctPhenotype = [{armor: "Five armor"}],
           submittedPhenotype = [{armor: "Five armor"}],
           correct = true;
@@ -15,46 +15,82 @@ describe('submitDrake action', () => {
 
     actions.submitDrake(correctPhenotype, submittedPhenotype, correct)(dispatch, getState);
 
-    expect(dispatch).toHaveBeenCalledWith({
-      type: types.DRAKE_SUBMITTED,
-      correctPhenotype,
-      submittedPhenotype,
-      correct,
-      incrementMoves: false,
-      meta: {
-        "itsLog": {
-          "actor": "USER",
-          "action": "SUBMITTED",
-          "target": "DRAKE"
+    it('should call dispatch with the correct _submitDrake action', () => {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: types.DRAKE_SUBMITTED,
+        correctPhenotype,
+        submittedPhenotype,
+        correct,
+        incrementMoves: false,
+        meta: {
+          "itsLog": {
+            "actor": "USER",
+            "action": "SUBMITTED",
+            "target": "DRAKE"
+          }
         }
-      }
+      });
     });
+
+    it('should call dispatch with the correct message action', () => {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: types.MODAL_DIALOG_SHOWN,
+        message: "Good work!",
+        explanation: "You have found all the pieces of this coin!",
+        rightButton: {
+          label: "Next case",
+          action: "navigateToNextChallenge"
+        },
+        leftButton: undefined,
+        showAward: true,
+        top: undefined
+      });
+    });
+
   });
 
-  it('should create the correct action when the drake is submitted incorrectly', () => {
+  describe('when the drake is submitted incorrectly', () => {
     const correctPhenotype = [{armor: "Five armor"}],
-          submittedPhenotype = [{armor: "Three armor"}],
-          correct = false;
+            submittedPhenotype = [{armor: "Three armor"}],
+            correct = false;
 
     const dispatch = expect.createSpy();
     const getState = () => ({case: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]]});
 
     actions.submitDrake(correctPhenotype, submittedPhenotype, correct)(dispatch, getState);
 
-    expect(dispatch).toHaveBeenCalledWith({
-      type: types.DRAKE_SUBMITTED,
-      correctPhenotype,
-      submittedPhenotype,
-      correct,
-      incrementMoves: true,
-      meta: {
-        "itsLog": {
-          "actor": "USER",
-          "action": "SUBMITTED",
-          "target": "DRAKE"
+    it('should call dispatch with the correct _submitDrake action', () => {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: types.DRAKE_SUBMITTED,
+        correctPhenotype,
+        submittedPhenotype,
+        correct,
+        incrementMoves: true,
+        meta: {
+          "itsLog": {
+            "actor": "USER",
+            "action": "SUBMITTED",
+            "target": "DRAKE"
+          }
         }
-      }
+      });
     });
+
+    it('should call dispatch with the correct message action', () => {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: types.MODAL_DIALOG_SHOWN,
+        message: "That's not the drake!",
+        explanation: "The drake you have created doesn't match the target drake.\nPlease try again.",
+        rightButton: {
+          label: "Try again",
+          action: "dismissModalDialog"
+        },
+        leftButton: undefined,
+        showAward: false,
+        top: "475px"
+      });
+    });
+
   });
 
   describe('the reducer', () => {
