@@ -3,7 +3,10 @@ import { actionTypes } from '../actions';
 import { loadStateFromAuthoring, loadNextTrial } from './loadStateFromAuthoring';
 import { updateProgress, setProgressScore } from './challengeProgress';
 
+// reducers
 import routing from './routing';
+import moves from './moves';
+import transientStates from './transientStates';
 
 const initialState = Immutable({
   template: null,
@@ -11,7 +14,6 @@ const initialState = Immutable({
   gametes: [],
   hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
   trial: 0,
-  moves: 0,
   case: 0,
   challenge: 0,
   challenges: 1,
@@ -19,7 +21,6 @@ const initialState = Immutable({
   showingInfoMessage: false,
   shouldShowITSMessages: true,
   userDrakeHidden: true,
-  transientStates: [],
   authoring: window.GV2Authoring
 });
 
@@ -27,12 +28,10 @@ export default function reducer(state, action) {
   if (!state) state = initialState;
 
   state = state.merge({
-    routing: routing(state.routing, action)
+    routing: routing(state.routing, action),
+    moves: moves(state.moves, action),
+    transientStates: transientStates(state.transientStates, action)
   });
-
-  if (action.incrementMoves) {
-    state = state.set("moves", state.moves + 1);
-  }
 
   switch(action.type) {
     case actionTypes.PLAYGROUND_COMPLETE:{
@@ -77,14 +76,6 @@ export default function reducer(state, action) {
     case actionTypes.GAMETE_CHROMOSOME_ADDED: {
       let path = ["gametes", action.index, action.name];
       return state.setIn(path, action.side);
-    }
-
-    case actionTypes.ADD_TRANSIENT_STATE: {
-      return state.set("transientStates", state.transientStates.concat(action.transientState));
-    }
-
-    case actionTypes.REMOVE_TRANSIENT_STATE: {
-      return state.set("transientStates", state.transientStates.filter((s) => s !== action.transientState));
     }
 
     case actionTypes.FERTILIZED: {
