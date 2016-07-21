@@ -1,4 +1,4 @@
-import templates from '../templates';
+import templates from '../../templates';
 
 export function loadStateFromAuthoring(state, authoring, progress={}) {
   let trial = state.trial ? state.trial : 0;

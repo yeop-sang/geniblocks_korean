@@ -1,7 +1,7 @@
 import Immutable from 'seamless-immutable';
 import { actionTypes } from '../actions';
-import { loadStateFromAuthoring, loadNextTrial } from './load-state-from-authoring';
-import { updateProgress, setProgressScore } from './challenge-progress';
+import { loadStateFromAuthoring, loadNextTrial } from './helpers/load-state-from-authoring';
+import { updateProgress, setProgressScore } from './helpers/challenge-progress';
 
 // reducers
 import routing from './routing';
