@@ -100,25 +100,13 @@ export default function reducer(state, action) {
     }
 
     case actionTypes.OFFSPRING_KEPT: {
-      let drakeDef = state.drakes[2],
-          newOrg = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleleString, drakeDef.sex),
-          newOrgImage = newOrg.getImageName(),
-          [,,,...keptDrakes] = state.drakes,
-          success = true;
-      for (let drake of keptDrakes) {
-        let org = new BioLogica.Organism(BioLogica.Species.Drake, drake.alleleString, drake.sex);
-        if (org.getImageName() === newOrgImage) {
-          success = false;
-          break;
-        }
-      }
-      if (success) {
+      if (action.success) {
         state = state.set("drakes", state.drakes.concat({
-          alleleString: state.drakes[2].alleleString,
-          sex: state.drakes[2].sex
+          alleleString: state.drakes[action.index].alleleString,
+          sex: state.drakes[action.index].sex
         }));
         state = state.set("gametes", [{}, {}]);
-        state = state.setIn(["drakes", 2], null);
+        state = state.setIn(["drakes", action.index], null);
 
         if (state.drakes.length === 8) {
           let challengeComplete = true,

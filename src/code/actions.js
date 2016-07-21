@@ -251,7 +251,7 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
 }
 
 export function showModalDialog({message, explanation, rightButton, leftButton, showAward=false, top}) {
-  return{
+  return {
     type: actionTypes.MODAL_DIALOG_SHOWN,
     message,
     explanation,
@@ -363,27 +363,39 @@ export function initiateDelayedFertilization(delay, gamete1, gamete2) {
   };
 }
 
-export function _keepOffspring() {
+export function _keepOffspring(index, success) {
   return {
-    type: actionTypes.OFFSPRING_KEPT
+    type: actionTypes.OFFSPRING_KEPT,
+    index,
+    success
   };
 }
 
-export function keepOffspring() {
+export function keepOffspring(index, success) {
     return (dispatch, getState) => {
-    dispatch(_keepOffspring());
+    dispatch(_keepOffspring(index, success));
 
-    const { trialSuccess } = getState();
-
-    if (trialSuccess) {
+    if (success) {
+      const { trialSuccess } = getState();
+      if (trialSuccess) {
+        dispatch(showModalDialog({
+          message: "~ALERT.TITLE.GOOD_WORK",
+          explanation: "~ALERT.NEW_PIECE_OF_COIN",
+          rightButton: {
+            label: "~BUTTON.NEXT_CHALLENGE",
+            action: "navigateToNextChallenge"
+          },
+          showAward: true
+        }));
+      }
+    } else {
       dispatch(showModalDialog({
-        message: "~ALERT.TITLE.GOOD_WORK",
-        explanation: "~ALERT.NEW_PIECE_OF_COIN",
+        message: "~ALERT.TITLE.MISTAKE",
+        explanation: "~ALERT.DUPLICATE_DRAKE",
         rightButton: {
-          label: "~BUTTON.NEXT_CHALLENGE",
-          action: "navigateToNextChallenge"
-        },
-        showAward: true
+          label: "~BUTTON.TRY_AGAIN",
+          action: "resetGametes"
+        }
       }));
     }
   };

@@ -18,7 +18,7 @@ function lookupGameteChromosomeDOMElement(org, chromosomeName) {
 function findBothElements(org, name, el){
   let t = lookupGameteChromosomeDOMElement(org, name);
   let s = el.getElementsByClassName("chromosome-allele-container")[0]; // the image of the alleles inside the chromosome container
-  let positions = { 
+  let positions = {
     startPositionRect : s.getClientRects()[0],
     targetPositionRect: t.getClientRects()[0]
   };
@@ -45,18 +45,23 @@ function animationFinish(){
   // remove older components?
   // animatedComponents.shift();
 }
-      
+
 
 export default class EggGame extends Component {
     render() {
       const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onResetGametes, onKeepOffspring, hiddenAlleles, transientStates } = this.props,
           mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
           father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex);
-  
+
+      let child = null;
+      if (drakes[2]) {
+        child = new BioLogica.Organism(BioLogica.Species.Drake, drakes[2].alleleString, drakes[2].sex);
+      }
+
       const handleAlleleChange = function(chrom, side, prevAllele, newAllele) {
         onChromosomeAlleleChange(0, chrom, side, prevAllele, newAllele);
       };
-      const handleChromosomeSelected = function(org, name, side, el) {        
+      const handleChromosomeSelected = function(org, name, side, el) {
         let positions = findBothElements(org, name, el);
         updateAnimationPositions(positions, el);
         onGameteChromosomeAdded(org.sex, name, side);
@@ -68,7 +73,17 @@ export default class EggGame extends Component {
         }
       };
       const handleKeepOffspring = function() {
-        onKeepOffspring();
+        let childImage = child.getImageName(),
+            [,,,...keptDrakes] = drakes,
+            success = true;
+        for (let drake of keptDrakes) {
+          let org = new BioLogica.Organism(BioLogica.Species.Drake, drake.alleleString, drake.sex);
+          if (org.getImageName() === childImage) {
+            success = false;
+            break;
+          }
+        }
+        onKeepOffspring(2, success);
       };
       const handleReset = function() {
         onResetGametes();
