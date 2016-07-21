@@ -10,10 +10,10 @@ import transientStates from './transientStates';
 import modalDialog from './modalDialog';
 import userDrakeHidden from './userDrakeHidden';
 import gametes from './gametes';
+import drakes from './drakes';
 
 const initialState = Immutable({
   template: null,
-  drakes: [],
   hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
   trial: 0,
   case: 0,
@@ -32,7 +32,8 @@ export default function reducer(state, action) {
     transientStates: transientStates(state.transientStates, action),
     modalDialog: modalDialog(state.modalDialog, action),
     userDrakeHidden: userDrakeHidden(state.userDrakeHidden, action),
-    gametes: gametes(state.gametes, action)
+    gametes: gametes(state.gametes, action),
+    drakes: drakes(state.drakes, action)
   });
 
   switch(action.type) {
@@ -42,33 +43,6 @@ export default function reducer(state, action) {
       return state.merge({
         challengeProgress: progress
       });
-    }
-    case actionTypes.BRED: {
-      let mother = new BioLogica.Organism(BioLogica.Species.Drake, action.mother, 1),
-          father = new BioLogica.Organism(BioLogica.Species.Drake, action.father, 0),
-          children = [];
-
-      for (let i = 0; i < action.quantity; i++) {
-        let child = BioLogica.breed(mother, father).getAlleleString();
-        children.push(child);
-      }
-
-      return state.setIn(["drakes", 1], children);
-    }
-    case actionTypes.ALLELE_CHANGED: {
-      let path = ["drakes", action.index];
-      return state.updateIn(path, function(drakeDef) {
-        let organism = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleleString, drakeDef.sex);
-        organism.genetics.genotype.replaceAlleleChromName(action.chromosome, action.side, action.previousAllele, action.newAllele);
-        return {
-          alleleString: organism.getAlleleString(),
-          sex: organism.sex
-        };
-      });
-    }
-    case actionTypes.SEX_CHANGED: {
-      let path = ["drakes", action.index, "sex"];
-      return state.setIn(path, action.newSex);
     }
     case actionTypes.FERTILIZED: {
       let chromosomes0 = new BioLogica.Organism(BioLogica.Species.Drake, state.drakes[0].alleleString, state.drakes[0].sex).getGenotype().chromosomes,
@@ -92,20 +66,6 @@ export default function reducer(state, action) {
         sex
       });
     }
-
-    case actionTypes.OFFSPRING_KEPT: {
-      if (action.success) {
-        state = state.set("drakes", state.drakes.concat({
-          alleleString: state.drakes[action.index].alleleString,
-          sex: state.drakes[action.index].sex
-        }));
-        state = state.setIn(["drakes", action.index], null);
-      }
-      return state;
-    }
-
-    case actionTypes.GAMETES_RESET:
-      return state.setIn(["drakes", 2], null);
 
     case actionTypes.DRAKE_SUBMITTED: {
       let progress = updateProgress(state, action.correct);
