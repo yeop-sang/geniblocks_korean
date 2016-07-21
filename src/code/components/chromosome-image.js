@@ -26,7 +26,7 @@ const defaultsY = {
   }
 };
 
-const ChromosomeImageView = ({width, height, split=45, color='#FF9999', small=false, bold=false, empty=false, yChromosome=false, display}) => {
+const ChromosomeImageView = ({width, height, split=45, color='#FF9999', small=false, bold=false, empty=false, yChromosome=false, animationStyling}) => {
   if (!width || !height) {
     let defaultDims = yChromosome ? defaultsY : defaults;
     ({width, height, split} = small ? defaultDims.small : defaultDims.normal);
@@ -37,7 +37,7 @@ const ChromosomeImageView = ({width, height, split=45, color='#FF9999', small=fa
         halfImageWidth = imageWidth/2,
         imageHeight = height+4;
 
-  let strokeWidth = 2;
+  let strokeWidth = width < 10 ? 1 : 2;
 
   if (bold) {
     color = '#FF6666';
@@ -48,9 +48,9 @@ const ChromosomeImageView = ({width, height, split=45, color='#FF9999', small=fa
     strokeWidth = 1;
   }
   let positionStyling = {};
-  if (display){
+  if (animationStyling){
     positionStyling = {
-      position: 'fixed', left: display.x, top: display.y, opacity: display.opacity
+      position: 'fixed', left: animationStyling.x, top: animationStyling.y, opacity: animationStyling.opacity
     };
   }
   return (

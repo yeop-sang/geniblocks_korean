@@ -249,32 +249,6 @@ export function fertilize(gamete1, gamete2) {
   };
 }
 
-export function initiateDelayedFertilization(delay, gamete1, gamete2) {
-  return (dispatch) => {
-    dispatch({
-      type: actionTypes.ADD_TRANSIENT_STATE,
-      transientState: transientStateTypes.FERTILIZING
-    });
-    setTimeout( () => {
-      dispatch({
-        type: actionTypes.REMOVE_TRANSIENT_STATE,
-        transientState: transientStateTypes.FERTILIZING
-      });
-      dispatch({
-        type: actionTypes.ADD_TRANSIENT_STATE,
-        transientState: transientStateTypes.HATCHING
-      });
-      setTimeout( () => {
-        dispatch({
-          type: actionTypes.REMOVE_TRANSIENT_STATE,
-          transientState: transientStateTypes.HATCHING
-        });
-        dispatch(fertilize(gamete1, gamete2));
-      }, 3000);
-    }, delay);
-  };
-}
-
 export function keepOffspring() {
   return {
     type: actionTypes.OFFSPRING_KEPT
