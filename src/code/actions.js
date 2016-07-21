@@ -16,8 +16,6 @@ export const actionTypes = {
   MODAL_DIALOG_DISMISSED: "Modal dialog dismissed",
   ADVANCED_TRIAL: "Advanced to next trial",
   ADVANCED_CHALLENGE: "Advanced to next challenge",
-  ADD_TRANSIENT_STATE: "Add transient state",
-  REMOVE_TRANSIENT_STATE: "Remove transient state",
   SOCKET_CONNECTED: "Socket connected",
   SOCKET_RECEIVED: "Socket received",
   SOCKET_ERRORED: "Socket errored"
@@ -43,11 +41,6 @@ const ITS_TARGETS = {
   ALLELE: "ALLELE",
   SEX: "SEX",
   DRAKE: "DRAKE"
-};
-
-export const transientStateTypes = {
-  FERTILIZING: "Fertilizing",
-  HATCHING: "Hatching"
 };
 
 export function startSession(uuid) {

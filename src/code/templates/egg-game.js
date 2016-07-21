@@ -4,7 +4,6 @@ import GenomeView from '../components/genome';
 import ButtonView from '../components/button';
 import PenView from '../components/pen';
 import GameteImageView from '../components/gamete-image';
-import { transientStateTypes } from '../actions';
 import AnimatedComponentView from '../components/animated-component';
 import ChromosomeImageView from '../components/chromosome-image';
 
@@ -212,7 +211,7 @@ function animateMultipleComponents(componentsToAnimate, positions, opacity, anim
 export default class EggGame extends Component {
 
     render() {
-       const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onResetGametes, onKeepOffspring, hiddenAlleles, transientStates } = this.props,
+       const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onResetGametes, onKeepOffspring, hiddenAlleles } = this.props,
           mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
           father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex);
 
@@ -283,7 +282,7 @@ export default class EggGame extends Component {
       };
 
       let gametesClass = "gametes";
-      if (transientStates.length === 0 && !drakes[2]) {
+      if (!drakes[2]) {
         gametesClass += " unfertilized";
       }
 

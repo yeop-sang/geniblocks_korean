@@ -6,7 +6,6 @@ import { updateProgress, setProgressScore } from './helpers/challenge-progress';
 // reducers
 import routing from './routing';
 import moves from './moves';
-import transientStates from './transient-states';
 import modalDialog from './modal-dialog';
 import userDrakeHidden from './user-drake-hidden';
 import gametes from './gametes';
@@ -29,7 +28,6 @@ export default function reducer(state, action) {
   state = state.merge({
     routing: routing(state.routing, action),
     moves: moves(state.moves, action),
-    transientStates: transientStates(state.transientStates, action),
     modalDialog: modalDialog(state.modalDialog, action),
     userDrakeHidden: userDrakeHidden(state.userDrakeHidden, action),
     gametes: gametes(state.gametes, action),
