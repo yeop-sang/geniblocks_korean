@@ -14,7 +14,9 @@ class ChallengeContainer extends Component {
   componentWillReceiveProps(newProps) {
     if (newProps.case !== newProps.routeParams.case-1 ||
       newProps.challenge !== newProps.routeParams.challenge-1) {
-      this.props.navigateToCurrentRoute(newProps.routeParams.case-1, newProps.routeParams.challenge-1);
+      if (newProps.routeParams.case && newProps.routeParams.challenge) {
+        this.props.navigateToCurrentRoute(newProps.routeParams.case-1, newProps.routeParams.challenge-1);
+      }
     }
   }
 
