@@ -1,4 +1,5 @@
 # GeniBlocks
+[![Build Status](https://travis-ci.org/concord-consortium/geniblocks.svg?branch=master)](https://travis-ci.org/concord-consortium/geniblocks)
 
 This repo contains the React-based "Geniverse-2.0" project, as well as an
 independent collection of small, modular React components ("GeniBlocks")
