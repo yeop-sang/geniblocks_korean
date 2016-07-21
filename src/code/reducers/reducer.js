@@ -9,11 +9,11 @@ import moves from './moves';
 import transientStates from './transientStates';
 import modalDialog from './modalDialog';
 import userDrakeHidden from './userDrakeHidden';
+import gametes from './gametes';
 
 const initialState = Immutable({
   template: null,
   drakes: [],
-  gametes: [],
   hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
   trial: 0,
   case: 0,
@@ -31,7 +31,8 @@ export default function reducer(state, action) {
     moves: moves(state.moves, action),
     transientStates: transientStates(state.transientStates, action),
     modalDialog: modalDialog(state.modalDialog, action),
-    userDrakeHidden: userDrakeHidden(state.userDrakeHidden, action)
+    userDrakeHidden: userDrakeHidden(state.userDrakeHidden, action),
+    gametes: gametes(state.gametes, action)
   });
 
   switch(action.type) {
@@ -70,12 +71,6 @@ export default function reducer(state, action) {
       let path = ["drakes", action.index, "sex"];
       return state.setIn(path, action.newSex);
     }
-
-    case actionTypes.GAMETE_CHROMOSOME_ADDED: {
-      let path = ["gametes", action.index, action.name];
-      return state.setIn(path, action.side);
-    }
-
     case actionTypes.FERTILIZED: {
       let chromosomes0 = new BioLogica.Organism(BioLogica.Species.Drake, state.drakes[0].alleleString, state.drakes[0].sex).getGenotype().chromosomes,
           chromosomes1 = new BioLogica.Organism(BioLogica.Species.Drake, state.drakes[1].alleleString, state.drakes[1].sex).getGenotype().chromosomes,
@@ -105,7 +100,6 @@ export default function reducer(state, action) {
           alleleString: state.drakes[action.index].alleleString,
           sex: state.drakes[action.index].sex
         }));
-        state = state.set("gametes", [{}, {}]);
         state = state.setIn(["drakes", action.index], null);
 
         if (state.drakes.length === 8) {
@@ -122,11 +116,8 @@ export default function reducer(state, action) {
       return state;
     }
 
-    case actionTypes.GAMETES_RESET: {
-      state = state.set("gametes", [{}, {}]);
-      state = state.setIn(["drakes", 2], null);
-      return state;
-    }
+    case actionTypes.GAMETES_RESET:
+      return state.setIn(["drakes", 2], null);
 
     case actionTypes.DRAKE_SUBMITTED: {
       let progress = updateProgress(state, action.correct);
