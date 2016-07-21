@@ -371,22 +371,14 @@ export function _keepOffspring(index, success) {
   };
 }
 
-export function keepOffspring(index, success) {
+export function keepOffspring(index, success, maxDrakes) {
     return (dispatch, getState) => {
     dispatch(_keepOffspring(index, success));
 
     if (success) {
-      const { trialSuccess } = getState();
-      if (trialSuccess) {
-        dispatch(showModalDialog({
-          message: "~ALERT.TITLE.GOOD_WORK",
-          explanation: "~ALERT.NEW_PIECE_OF_COIN",
-          rightButton: {
-            label: "~BUTTON.NEXT_CHALLENGE",
-            action: "navigateToNextChallenge"
-          },
-          showAward: true
-        }));
+      const { drakes } = getState();
+      if (drakes.length === maxDrakes) {
+        dispatch(completeChallenge());
       }
     } else {
       dispatch(showModalDialog({

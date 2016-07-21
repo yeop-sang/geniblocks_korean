@@ -100,17 +100,6 @@ export default function reducer(state, action) {
           sex: state.drakes[action.index].sex
         }));
         state = state.setIn(["drakes", action.index], null);
-
-        if (state.drakes.length === 8) {
-          let challengeComplete = true,
-              progress = setProgressScore(state, 0);
-
-          state = state.merge({
-            trialSuccess: true,
-            challengeProgress: progress,
-            challengeComplete
-          });
-        }
       }
       return state;
     }

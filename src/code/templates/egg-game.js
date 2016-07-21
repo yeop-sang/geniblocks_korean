@@ -83,7 +83,7 @@ export default class EggGame extends Component {
             break;
           }
         }
-        onKeepOffspring(2, success);
+        onKeepOffspring(2, success, 8);
       };
       const handleReset = function() {
         onResetGametes();

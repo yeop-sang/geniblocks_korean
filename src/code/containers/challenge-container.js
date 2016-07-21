@@ -67,7 +67,7 @@ function mapDispatchToProps(dispatch) {
     onGameteChromosomeAdded: (index, name, side) => dispatch(addGameteChromosome(index, name, side)),
     onFertilize: (delay, gamete1, gamete2) => dispatch(initiateDelayedFertilization(delay, gamete1, gamete2)),
     onResetGametes: () => dispatch(resetGametes()),
-    onKeepOffspring: (index, success) => dispatch(keepOffspring(index, success))
+    onKeepOffspring: (index, success, maxDrakes) => dispatch(keepOffspring(index, success, maxDrakes))
   };
 }
 
