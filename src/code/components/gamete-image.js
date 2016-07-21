@@ -39,6 +39,7 @@ const GameteImageView = ({isEgg, chromosomes=[], className, displayStyle}) => {
     let chromosome = chromosomes[i];
     chromosomeImages.push(
       <ChromosomeImageView
+        key={i}
         empty={!chromosome}
         width={6}
         height={chromosome && chromosome.side === "y" ? 15 : 20}

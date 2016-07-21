@@ -40,7 +40,9 @@ var _this,
 
     motherDrakeStart, motherGameteStart,
     fatherDrakeStart, fatherGameteStart, 
-
+    
+    gameteDisplayStyle = {display:"none"},
+    
     offsetTopDrake = 130, offsetTopGamete = 160;
 
 var animationEvents = {
@@ -106,9 +108,34 @@ var animationEvents = {
       _this.setState({animation:"selectChromosome"});
     }
   },
-  fertilize:        { id: 3, inProgress: false, complete: false },
-  hatch:            { id: 4, inProgress: false, complete: false }
+  fertilize: { id: 3, inProgress: false, complete: false, animate: function(){
+      animationEvents.selectChromosome.ready = false;
+      animationEvents.fertilize.started = true;
+
+      setTimeout( () => {
+        animationFinish(animationEvents.fertilize.id);
+      }, 3000);
+    } 
+  },
+  hatch: { id: 4, inProgress: false, complete: false, animate: function(){
+      animationEvents.hatch.inProgress = true;
+      animationEvents.hatch.complete = false;
+      _this.setState({hatchStarted:"true"});
+      setTimeout( () => {
+        animationFinish(animationEvents.hatch.id);
+      }, 3000);
+    } 
+  }
+
 };
+function resetAnimationEvents(){
+  animationEvents.selectChromosome.ready = true;
+  animationEvents.fertilize.started = false;
+  animationEvents.fertilize.complete = false;
+  animationEvents.hatch.inProgress = false;
+  animationEvents.hatch.complete = false;
+  gameteDisplayStyle = {};
+}
 
 function runAnimation(animationEvent, positions, opacity, speed = "fast"){
   startDisplay = {
@@ -150,6 +177,8 @@ function animationFinish(evt){
       animationEvents.moveGametes.count++;
       if (animationEvents.moveGametes.count === 2){
         animatedComponents = [];
+        // show gametes
+        gameteDisplayStyle = {};
         animationEvents.moveGametes.complete = true;
         animationEvents.selectChromosome.ready = true;
         // fade in gamete placeholders
@@ -158,6 +187,14 @@ function animationFinish(evt){
           el.classList.add("show");
         }
       }      
+      break;
+    case animationEvents.fertilize.id:
+      animationEvents.fertilize.complete = true;
+      gameteDisplayStyle = {display: "none"};
+      animationEvents.hatch.animate();
+      break;
+    case animationEvents.hatch.id:
+      animationEvents.hatch.complete = true;
       break;
     default:
       break;
@@ -175,7 +212,7 @@ function animateMultipleComponents(componentsToAnimate, positions, opacity, anim
 export default class EggGame extends Component {
     
     render() {
-      const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onResetGametes, onKeepOffspring, hiddenAlleles, transientStates } = this.props,
+       const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onResetGametes, onKeepOffspring, hiddenAlleles, transientStates } = this.props,
           mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
           father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex);
   
@@ -198,17 +235,16 @@ export default class EggGame extends Component {
         if (Object.keys(gametes[0]).length === 3 && Object.keys(gametes[1]).length === 3) {
           animationEvents.selectChromosome.ready = false;
           animatedComponents = [];
-          onFertilize(2000, 0, 1);
+          animationEvents.fertilize.animate();
+          onFertilize(0,1);
         }
       };
       const handleKeepOffspring = function() {
-        animationEvents.selectChromosome.ready = true;
-        animationEvents.hatch.inProgress = false;
+        resetAnimationEvents();
         onKeepOffspring();
       };
       const handleReset = function() {
-        animationEvents.selectChromosome.ready = true;
-        animationEvents.hatch.inProgress = false;
+        resetAnimationEvents();
         onResetGametes();
       };
 
@@ -237,42 +273,37 @@ export default class EggGame extends Component {
       }
 
       var childView;
-      if (drakes[2]) {
+      if (drakes[2] && animationEvents.hatch.complete) {
         let child = new BioLogica.Organism(BioLogica.Species.Drake, drakes[2].alleleString, drakes[2].sex);
         childView = (
           [
-            <OrganismView org={ child } width={170} />,
-            <div className="offspring-buttons fade-in-on-render">
-              <ButtonView label={ "Save this" } onClick={ handleKeepOffspring } />
-              <ButtonView label={ "Try again" } onClick={ handleReset } />
+            <OrganismView org={ child } width={170} key={0}/>,
+            <div className="offspring-buttons fade-in-on-render" key={1}>
+              <ButtonView label={ "Save this" } onClick={ handleKeepOffspring } key={2} />
+              <ButtonView label={ "Try again" } onClick={ handleReset } key={3} />
             </div>
           ]
         );
-      } else if (transientStates.indexOf(transientStateTypes.HATCHING) > -1) {
-        animationEvents.hatch.inProgress = true;
-        childView = <img className="egg-image" src="resources/images/egg_yellow.png" />;
-      } else if (transientStates.indexOf(transientStateTypes.FERTILIZING) === -1) {
-        let text = "Fertilize ❤️",
-            className = "fertilize-button";
-        if (Object.keys(gametes[0]).length !== 3 || Object.keys(gametes[1]).length !== 3) {
-          text = "Fertilize",
-          className += " disabled";
+      } else {
+        if (animationEvents.hatch.inProgress) {
+          childView = <img className="egg-image" src="resources/images/egg_yellow.png" />;
+        } else {
+          let text = "Fertilize ❤️",
+              className = "fertilize-button";
+          if (Object.keys(gametes[0]).length !== 3 || Object.keys(gametes[1]).length !== 3) {
+            text = "Fertilize",
+            className += " disabled";
+          }
+          childView = <ButtonView className={ className } label={ text } onClick={ handleFertilize } />;
         }
-        childView = <ButtonView className={ className } label={ text } onClick={ handleFertilize } />;
       }
+      let oChroms = femaleGameteChromosomeMap,
+          sChroms = maleGameteChromosomeMap,
+          ovumChromosomes  = [oChroms[1] && oChroms[1].a, oChroms[2] && oChroms[2].a, oChroms.XY && oChroms.XY.a],
+          spermChromosomes = [sChroms[1] && sChroms[1].b, sChroms[2] && sChroms[2].b, sChroms.XY && sChroms.XY.b];
 
-      if ((!drakes[2]) || transientStates.indexOf(transientStateTypes.FERTILIZING) > -1) {
-        let oChroms = femaleGameteChromosomeMap,
-            sChroms = maleGameteChromosomeMap,
-            ovumChromosomes  = [oChroms[1] && oChroms[1].a, oChroms[2] && oChroms[2].a, oChroms.XY && oChroms.XY.a],
-            spermChromosomes = [sChroms[1] && sChroms[1].b, sChroms[2] && sChroms[2].b, sChroms.XY && sChroms.XY.b];
-        let displayStyle = {};
-        if (!animationEvents.moveGametes.complete || animationEvents.hatch.inProgress) {
-          displayStyle = {display: "none"};
-        }
-        ovumView  = <GameteImageView className="ovum"  isEgg={true}  chromosomes={ovumChromosomes} displayStyle={displayStyle} />;
-        spermView = <GameteImageView className="sperm" isEgg={false} chromosomes={spermChromosomes} displayStyle={displayStyle} />;
-      }
+      ovumView  = <GameteImageView className="ovum"  isEgg={true}  chromosomes={ovumChromosomes} displayStyle={gameteDisplayStyle} />;
+      spermView = <GameteImageView className="sperm" isEgg={false} chromosomes={spermChromosomes} displayStyle={gameteDisplayStyle} />;
 
       let [,,,...keptDrakes] = drakes;
       keptDrakes = keptDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
