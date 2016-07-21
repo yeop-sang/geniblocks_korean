@@ -168,7 +168,7 @@ export function changeSex(index, newSex, incrementMoves=false) {
   };
 }
 
-export function _submitDrake(correctPhenotype, submittedPhenotype, correct) {
+function _submitDrake(correctPhenotype, submittedPhenotype, correct) {
   let incrementMoves = !correct;
   return{
     type: actionTypes.DRAKE_SUBMITTED,
@@ -363,7 +363,7 @@ export function initiateDelayedFertilization(delay, gamete1, gamete2) {
   };
 }
 
-export function _keepOffspring(index, success) {
+function _keepOffspring(index, success) {
   return {
     type: actionTypes.OFFSPRING_KEPT,
     index,
