@@ -1,5 +1,5 @@
 import expect from 'expect';
-import reducer from '../../src/code/reducers/reducer';
+import reducer from '../../src/code/reducers/';
 import * as actions from '../../src/code/actions';
 
 const types = actions.actionTypes;

@@ -1,5 +1,5 @@
 import expect from 'expect';
-import reducer from '../../src/code/reducers/reducer';
+import reducer from '../../src/code/reducers/';
 import { navigateToChallenge, actionTypes as types } from '../../src/code/actions';
 
 describe('navigateToChallenge action', () => {

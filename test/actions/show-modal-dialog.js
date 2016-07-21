@@ -1,5 +1,5 @@
 import expect from 'expect';
-import reducer from '../../src/code/reducers/reducer';
+import reducer from '../../src/code/reducers/';
 import * as actions from '../../src/code/actions';
 
 const types = actions.actionTypes;
@@ -46,7 +46,7 @@ describe('showModalDialog action', () => {
           explanation: undefined,
           rightButton: {
             "action": "dismissModalDialog",
-            "label": "OK"
+            "label": "~BUTTON.OK"
           },
           leftButton: undefined,
           showAward: false,
@@ -112,7 +112,7 @@ describe('showModalDialog action', () => {
           explanation: "Hi from ITS",
           rightButton: {
             "action": "dismissModalDialog",
-            "label": "OK"
+            "label": "~BUTTON.OK"
           },
           leftButton: null
         }
