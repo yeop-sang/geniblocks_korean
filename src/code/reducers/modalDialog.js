@@ -10,7 +10,7 @@ const initialState = Immutable({
 });
 
 const defaultRightButton = {
-  label: "OK",
+  label: "~BUTTON.OK",
   action: "dismissModalDialog"
 };
 

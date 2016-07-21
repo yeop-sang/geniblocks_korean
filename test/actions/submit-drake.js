@@ -35,10 +35,10 @@ describe('submitDrake action', () => {
     it('should call dispatch with the correct message action', () => {
       expect(dispatch).toHaveBeenCalledWith({
         type: types.MODAL_DIALOG_SHOWN,
-        message: "Good work!",
-        explanation: "You have found all the pieces of this coin!",
+        message: "~ALERT.TITLE.GOOD_WORK",
+        explanation: "~ALERT.COMPLETE_COIN",
         rightButton: {
-          label: "Next case",
+          label: "~BUTTON.NEXT_CASE",
           action: "navigateToNextChallenge"
         },
         leftButton: undefined,
@@ -79,10 +79,10 @@ describe('submitDrake action', () => {
     it('should call dispatch with the correct message action', () => {
       expect(dispatch).toHaveBeenCalledWith({
         type: types.MODAL_DIALOG_SHOWN,
-        message: "That's not the drake!",
-        explanation: "The drake you have created doesn't match the target drake.\nPlease try again.",
+        message: "~ALERT.TITLE.INCORRECT_DRAKE",
+        explanation: "~ALERT.INCORRECT_DRAKE",
         rightButton: {
-          label: "Try again",
+          label: "~BUTTON.TRY_AGAIN",
           action: "dismissModalDialog"
         },
         leftButton: undefined,

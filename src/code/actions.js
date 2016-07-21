@@ -206,30 +206,30 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
     if (correct) {
       if (caseComplete) {
         dialog = {
-          message: "Good work!",
-          explanation: "You have found all the pieces of this coin!",
+          message: "~ALERT.TITLE.GOOD_WORK",
+          explanation: "~ALERT.COMPLETE_COIN",
           rightButton: {
-            label: "Next case",
+            label: "~BUTTON.NEXT_CASE",
             action: "navigateToNextChallenge"
           },
           showAward: true
         };
       } else if (challengeComplete) {
         dialog = {
-          message: "Good work!",
-          explanation: "You earned a piece of a coin!",
+          message: "~ALERT.TITLE.GOOD_WORK",
+          explanation: "~ALERT.NEW_PIECE_OF_COIN",
           rightButton: {
-            label: "Next challenge",
+            label: "~BUTTON.NEXT_CHALLENGE",
             action: "navigateToNextChallenge"
           },
           showAward: true
         };
       } else {
         dialog = {
-          message: "Good work!",
-          explanation: "The drake you have created matches the target drake.",
+          message: "~ALERT.TITLE.GOOD_WORK",
+          explanation: "~ALERT.CORRECT_DRAKE",
           rightButton:{
-            label: "Next trial",
+            label: "~BUTTON.NEXT_TRIAL",
             action: "advanceTrial"
           },
           top: "475px"
@@ -237,10 +237,10 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
       }
     } else {
       dialog = {
-        message: "That's not the drake!",
-        explanation: "The drake you have created doesn't match the target drake.\nPlease try again.",
+        message: "~ALERT.TITLE.INCORRECT_DRAKE",
+        explanation: "~ALERT.INCORRECT_DRAKE",
         rightButton: {
-          label: "Try again",
+          label: "~BUTTON.TRY_AGAIN",
           action: "dismissModalDialog"
         },
         top: "475px"
@@ -309,10 +309,10 @@ export function playgroundComplete() {
       type:actionTypes.PLAYGROUND_COMPLETE
     });
     dispatch(showModalDialog({
-      message: "Good work!",
-      explanation: "You earned a piece of a coin!",
+      message: "~ALERT.TITLE.GOOD_WORK",
+      explanation: "~ALERT.NEW_PIECE_OF_COIN",
       rightButton:{
-        label: "Next challenge",
+        label: "~BUTTON.NEXT_CHALLENGE",
         action: "navigateToNextChallenge"
       },
       showAward: true
@@ -377,10 +377,10 @@ export function keepOffspring() {
 
     if (trialSuccess) {
       dispatch(showModalDialog({
-        message: "Good work!",
-        explanation: "You earned a piece of a coin!",
+        message: "~ALERT.TITLE.GOOD_WORK",
+        explanation: "~ALERT.NEW_PIECE_OF_COIN",
         rightButton: {
-          label: "Next challenge",
+          label: "~BUTTON.NEXT_CHALLENGE",
           action: "navigateToNextChallenge"
         },
         showAward: true
