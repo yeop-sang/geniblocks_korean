@@ -36,11 +36,10 @@ export default function reducer(state, action) {
   });
 
   switch(action.type) {
-    case actionTypes.PLAYGROUND_COMPLETE:{
+    case actionTypes.CHALLENGE_COMPLETE:{
       let progress = setProgressScore(state, 0);
 
       return state.merge({
-        trialSuccess: action.correct,
         challengeProgress: progress
       });
     }

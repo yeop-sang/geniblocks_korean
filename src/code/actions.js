@@ -2,7 +2,7 @@ export const actionTypes = {
   SESSION_STARTED: "Session started",
   LOADED_CHALLENGE_FROM_AUTHORING: "Loaded challenge from authoring",
   NAVIGATED: "Navigated",
-  PLAYGROUND_COMPLETE: "Playground completed",
+  CHALLENGE_COMPLETE: "Challenge completed",
   BRED: "Bred",
   ALLELE_CHANGED: "Allele changed",
   SEX_CHANGED: "Sex changed",
@@ -303,10 +303,10 @@ export function advanceChallenge() {
   };
 }
 
-export function playgroundComplete() {
+export function completeChallenge() {
   return (dispatch) => {
     dispatch({
-      type:actionTypes.PLAYGROUND_COMPLETE
+      type:actionTypes.CHALLENGE_COMPLETE
     });
     dispatch(showModalDialog({
       message: "~ALERT.TITLE.GOOD_WORK",
