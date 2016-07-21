@@ -4,7 +4,6 @@ import GenomeView from '../components/genome';
 import ButtonView from '../components/button';
 import PenView from '../components/pen';
 import GameteImageView from '../components/gamete-image';
-import { transientStateTypes } from '../actions';
 import AnimatedComponentView from '../components/animated-component';
 import ChromosomeImageView from '../components/chromosome-image';
 
@@ -212,9 +211,14 @@ function animateMultipleComponents(componentsToAnimate, positions, opacity, anim
 export default class EggGame extends Component {
 
     render() {
-       const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onResetGametes, onKeepOffspring, hiddenAlleles, transientStates } = this.props,
+       const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onResetGametes, onKeepOffspring, hiddenAlleles } = this.props,
           mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
           father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex);
+
+      let child = null;
+      if (drakes[2]) {
+        child = new BioLogica.Organism(BioLogica.Species.Drake, drakes[2].alleleString, drakes[2].sex);
+      }
 
       const handleAlleleChange = function(chrom, side, prevAllele, newAllele) {
         onChromosomeAlleleChange(0, chrom, side, prevAllele, newAllele);
@@ -240,8 +244,18 @@ export default class EggGame extends Component {
         }
       };
       const handleKeepOffspring = function() {
+        let childImage = child.getImageName(),
+            [,,,...keptDrakes] = drakes,
+            success = true;
+        for (let drake of keptDrakes) {
+          let org = new BioLogica.Organism(BioLogica.Species.Drake, drake.alleleString, drake.sex);
+          if (org.getImageName() === childImage) {
+            success = false;
+            break;
+          }
+        }
         resetAnimationEvents();
-        onKeepOffspring();
+        onKeepOffspring(2, success, 8);
       };
       const handleReset = function() {
         resetAnimationEvents();
@@ -268,7 +282,7 @@ export default class EggGame extends Component {
       };
 
       let gametesClass = "gametes";
-      if (transientStates.length === 0 && !drakes[2]) {
+      if (!drakes[2]) {
         gametesClass += " unfertilized";
       }
 

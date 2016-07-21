@@ -1,54 +1,96 @@
 import expect from 'expect';
-import reducer from '../../src/code/reducers/reducer';
+import reducer from '../../src/code/reducers/';
 import * as actions from '../../src/code/actions';
 
 const types = actions.actionTypes;
 
 describe('submitDrake action', () => {
-  it('should create the correct action when the drake is submitted correctly', () => {
+  describe('when the drake is submitted correctly', () => {
     const correctPhenotype = [{armor: "Five armor"}],
           submittedPhenotype = [{armor: "Five armor"}],
           correct = true;
 
-    let actionObject = actions.submitDrake(correctPhenotype, submittedPhenotype, correct);
+    const dispatch = expect.createSpy();
+    const getState = () => ({case: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]]});
 
-    expect(actionObject).toEqual({
-      type: types.DRAKE_SUBMITTED,
-      correctPhenotype,
-      submittedPhenotype,
-      correct,
-      incrementMoves: false,
-      meta: {
-        "itsLog": {
-          "actor": "USER",
-          "action": "SUBMITTED",
-          "target": "DRAKE"
+    actions.submitDrake(correctPhenotype, submittedPhenotype, correct)(dispatch, getState);
+
+    it('should call dispatch with the correct _submitDrake action', () => {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: types.DRAKE_SUBMITTED,
+        correctPhenotype,
+        submittedPhenotype,
+        correct,
+        incrementMoves: false,
+        meta: {
+          "itsLog": {
+            "actor": "USER",
+            "action": "SUBMITTED",
+            "target": "DRAKE"
+          }
         }
-      }
+      });
     });
+
+    it('should call dispatch with the correct message action', () => {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: types.MODAL_DIALOG_SHOWN,
+        message: "~ALERT.TITLE.GOOD_WORK",
+        explanation: "~ALERT.COMPLETE_COIN",
+        rightButton: {
+          label: "~BUTTON.NEXT_CASE",
+          action: "navigateToNextChallenge"
+        },
+        leftButton: undefined,
+        showAward: true,
+        top: undefined
+      });
+    });
+
   });
 
-  it('should create the correct action when the drake is submitted incorrectly', () => {
+  describe('when the drake is submitted incorrectly', () => {
     const correctPhenotype = [{armor: "Five armor"}],
-          submittedPhenotype = [{armor: "Three armor"}],
-          correct = false;
+            submittedPhenotype = [{armor: "Three armor"}],
+            correct = false;
 
-    let actionObject = actions.submitDrake(correctPhenotype, submittedPhenotype, correct);
+    const dispatch = expect.createSpy();
+    const getState = () => ({case: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]]});
 
-    expect(actionObject).toEqual({
-      type: types.DRAKE_SUBMITTED,
-      correctPhenotype,
-      submittedPhenotype,
-      correct,
-      incrementMoves: true,
-      meta: {
-        "itsLog": {
-          "actor": "USER",
-          "action": "SUBMITTED",
-          "target": "DRAKE"
+    actions.submitDrake(correctPhenotype, submittedPhenotype, correct)(dispatch, getState);
+
+    it('should call dispatch with the correct _submitDrake action', () => {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: types.DRAKE_SUBMITTED,
+        correctPhenotype,
+        submittedPhenotype,
+        correct,
+        incrementMoves: true,
+        meta: {
+          "itsLog": {
+            "actor": "USER",
+            "action": "SUBMITTED",
+            "target": "DRAKE"
+          }
         }
-      }
+      });
     });
+
+    it('should call dispatch with the correct message action', () => {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: types.MODAL_DIALOG_SHOWN,
+        message: "~ALERT.TITLE.INCORRECT_DRAKE",
+        explanation: "~ALERT.INCORRECT_DRAKE",
+        rightButton: {
+          label: "~BUTTON.TRY_AGAIN",
+          action: "dismissModalDialog"
+        },
+        leftButton: undefined,
+        showAward: false,
+        top: "475px"
+      });
+    });
+
   });
 
   describe('the reducer', () => {
@@ -71,10 +113,7 @@ describe('submitDrake action', () => {
       });
 
       expect(nextState).toEqual(initialState.merge({
-        showingInfoMessage: true,
-        userDrakeHidden: false,
         trialSuccess: false,
-        challengeComplete: false,
         challengeProgress: {
           "0:0:0" : 2,
           "0:0:1" : -1
@@ -104,10 +143,7 @@ describe('submitDrake action', () => {
         let nextState = reducer(initialState, submitAction);
 
         expect(nextState).toEqual(initialState.merge({
-          showingInfoMessage: true,
-          userDrakeHidden: false,
           trialSuccess: true,
-          challengeComplete: false,
           challengeProgress: {
             "0:0:0" : 0
           }
@@ -123,10 +159,7 @@ describe('submitDrake action', () => {
         let nextState = reducer(initialState, submitAction);
 
         expect(nextState).toEqual(initialState.merge({
-          showingInfoMessage: true,
-          userDrakeHidden: false,
           trialSuccess: true,
-          challengeComplete: true,
           challengeProgress: {
             "0:0:0" : 0,
             "0:0:1" : 1

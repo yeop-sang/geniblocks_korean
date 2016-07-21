@@ -7,7 +7,7 @@ import { Router, Route, useRouterHistory } from 'react-router';
 import { createHashHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
 
-import reducer from './reducers/reducer';
+import reducer from './reducers/';
 import { actionTypes, startSession, navigateToChallenge } from './actions';
 
 import ChallengeContainer from "./containers/challenge-container";

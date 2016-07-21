@@ -2,7 +2,7 @@ export const actionTypes = {
   SESSION_STARTED: "Session started",
   LOADED_CHALLENGE_FROM_AUTHORING: "Loaded challenge from authoring",
   NAVIGATED: "Navigated",
-  PLAYGROUND_COMPLETE: "Playground completed",
+  CHALLENGE_COMPLETE: "Challenge completed",
   BRED: "Bred",
   ALLELE_CHANGED: "Allele changed",
   SEX_CHANGED: "Sex changed",
@@ -12,11 +12,10 @@ export const actionTypes = {
   DRAKE_SUBMITTED: "Drake submitted",
   GAMETES_RESET: "Gametes reset",
   NAVIGATED_NEXT_CHALLENGE: "Navigated to next challenge",
+  MODAL_DIALOG_SHOWN: "Modal dialog shown",
   MODAL_DIALOG_DISMISSED: "Modal dialog dismissed",
   ADVANCED_TRIAL: "Advanced to next trial",
   ADVANCED_CHALLENGE: "Advanced to next challenge",
-  ADD_TRANSIENT_STATE: "Add transient state",
-  REMOVE_TRANSIENT_STATE: "Remove transient state",
   SOCKET_CONNECTED: "Socket connected",
   SOCKET_RECEIVED: "Socket received",
   SOCKET_ERRORED: "Socket errored"
@@ -42,11 +41,6 @@ const ITS_TARGETS = {
   ALLELE: "ALLELE",
   SEX: "SEX",
   DRAKE: "DRAKE"
-};
-
-export const transientStateTypes = {
-  FERTILIZING: "Fertilizing",
-  HATCHING: "Hatching"
 };
 
 export function startSession(uuid) {
@@ -167,7 +161,7 @@ export function changeSex(index, newSex, incrementMoves=false) {
   };
 }
 
-export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
+function _submitDrake(correctPhenotype, submittedPhenotype, correct) {
   let incrementMoves = !correct;
   return{
     type: actionTypes.DRAKE_SUBMITTED,
@@ -182,6 +176,82 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
         target: ITS_TARGETS.DRAKE
       }
     }
+  };
+}
+
+export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
+  return (dispatch, getState) => {
+    dispatch(_submitDrake(correctPhenotype, submittedPhenotype, correct));
+
+    const state = getState();
+    let challengeComplete = false,
+        caseComplete = false;
+
+    if (correct && state.trial === state.trials.length-1) {
+      challengeComplete = true;
+      if (state.authoring[state.case].length <= state.challenge+1) {
+        caseComplete = true;
+      }
+    }
+
+    let dialog = {};
+
+    if (correct) {
+      if (caseComplete) {
+        dialog = {
+          message: "~ALERT.TITLE.GOOD_WORK",
+          explanation: "~ALERT.COMPLETE_COIN",
+          rightButton: {
+            label: "~BUTTON.NEXT_CASE",
+            action: "navigateToNextChallenge"
+          },
+          showAward: true
+        };
+      } else if (challengeComplete) {
+        dialog = {
+          message: "~ALERT.TITLE.GOOD_WORK",
+          explanation: "~ALERT.NEW_PIECE_OF_COIN",
+          rightButton: {
+            label: "~BUTTON.NEXT_CHALLENGE",
+            action: "navigateToNextChallenge"
+          },
+          showAward: true
+        };
+      } else {
+        dialog = {
+          message: "~ALERT.TITLE.GOOD_WORK",
+          explanation: "~ALERT.CORRECT_DRAKE",
+          rightButton:{
+            label: "~BUTTON.NEXT_TRIAL",
+            action: "advanceTrial"
+          },
+          top: "475px"
+        };
+      }
+    } else {
+      dialog = {
+        message: "~ALERT.TITLE.INCORRECT_DRAKE",
+        explanation: "~ALERT.INCORRECT_DRAKE",
+        rightButton: {
+          label: "~BUTTON.TRY_AGAIN",
+          action: "dismissModalDialog"
+        },
+        top: "475px"
+      };
+    }
+    dispatch(showModalDialog(dialog));
+  };
+}
+
+export function showModalDialog({message, explanation, rightButton, leftButton, showAward=false, top}) {
+  return {
+    type: actionTypes.MODAL_DIALOG_SHOWN,
+    message,
+    explanation,
+    rightButton,
+    leftButton,
+    showAward,
+    top
   };
 }
 
@@ -226,9 +296,20 @@ export function advanceChallenge() {
   };
 }
 
-export function playgroundComplete() {
-  return{
-    type:actionTypes.PLAYGROUND_COMPLETE
+export function completeChallenge() {
+  return (dispatch) => {
+    dispatch({
+      type:actionTypes.CHALLENGE_COMPLETE
+    });
+    dispatch(showModalDialog({
+      message: "~ALERT.TITLE.GOOD_WORK",
+      explanation: "~ALERT.NEW_PIECE_OF_COIN",
+      rightButton:{
+        label: "~BUTTON.NEXT_CHALLENGE",
+        action: "navigateToNextChallenge"
+      },
+      showAward: true
+    }));
   };
 }
 
@@ -249,9 +330,34 @@ export function fertilize(gamete1, gamete2) {
   };
 }
 
-export function keepOffspring() {
+
+function _keepOffspring(index, success) {
   return {
-    type: actionTypes.OFFSPRING_KEPT
+    type: actionTypes.OFFSPRING_KEPT,
+    index,
+    success
+  };
+}
+
+export function keepOffspring(index, success, maxDrakes) {
+    return (dispatch, getState) => {
+    dispatch(_keepOffspring(index, success));
+
+    if (success) {
+      const { drakes } = getState();
+      if (drakes.length === maxDrakes) {
+        dispatch(completeChallenge());
+      }
+    } else {
+      dispatch(showModalDialog({
+        message: "~ALERT.TITLE.MISTAKE",
+        explanation: "~ALERT.DUPLICATE_DRAKE",
+        rightButton: {
+          label: "~BUTTON.TRY_AGAIN",
+          action: "resetGametes"
+        }
+      }));
+    }
   };
 }
 

@@ -1,7 +1,7 @@
 import expect from 'expect';
 import t from '../../src/code/utilities/translate';
 
-describe.only("Translation", function() {
+describe("Translation", function() {
 
   it("should return the original string if we don't have a key", function() {
     let input           = "Hello",

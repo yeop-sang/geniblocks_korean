@@ -1,4 +1,4 @@
-import templates from '../templates';
+import templates from '../../templates';
 
 export function loadStateFromAuthoring(state, authoring, progress={}) {
   let trial = state.trial ? state.trial : 0;
@@ -39,10 +39,8 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     challenges,
     moves: 0,
     goalMoves,
-    showingInfoMessage: false,
     userDrakeHidden: true,
     trialSuccess: false,
-    challengeComplete: false,
     challengeProgress: progress
   });
 }
@@ -81,7 +79,6 @@ export function loadNextTrial(state, authoring, progress) {
     trial,
     moves: 0,
     goalMoves: goalMoves,
-    showingInfoMessage: false,
     userDrakeHidden: true,
     challengeProgress: progress
   });

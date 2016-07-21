@@ -7,7 +7,7 @@ import ChangeSexButtons from '../components/change-sex-buttons';
 export default class GenomeContainer extends Component {
 
   render() {
-    const { drakes, onChromosomeAlleleChange, onSexChange, onPlaygroundComplete, onNavigateNextChallenge, hiddenAlleles, challenge } = this.props,
+    const { drakes, onChromosomeAlleleChange, onSexChange, onCompleteChallenge, hiddenAlleles } = this.props,
           drakeDef = drakes[0].alleleString,
           drakeSex = drakes[0].sex,
           drake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef, drakeSex);
@@ -21,7 +21,7 @@ export default class GenomeContainer extends Component {
     };
 
     const handleAdvanceChallenge = function() {
-      onPlaygroundComplete();
+      onCompleteChallenge();
     };
 
     return (
@@ -43,9 +43,7 @@ export default class GenomeContainer extends Component {
     hiddenAlleles: PropTypes.array.isRequired,
     onChromosomeAlleleChange: PropTypes.func.isRequired,
     onSexChange: PropTypes.func.isRequired,
-    onPlaygroundComplete: PropTypes.func.isRequired,
-    onNavigateNextChallenge: PropTypes.func.isRequired,
-    challenge: PropTypes.number.isRequired
+    onCompleteChallenge: PropTypes.func.isRequired
   }
 
   static authoredDrakesToDrakeArray = function(auth) {

@@ -1,5 +1,5 @@
 import expect from 'expect';
-import reducer from '../../src/code/reducers/reducer';
+import reducer from '../../src/code/reducers/';
 import { navigateToChallenge, actionTypes as types } from '../../src/code/actions';
 
 describe('navigateToChallenge action', () => {
@@ -49,7 +49,6 @@ describe('navigateToChallenge action', () => {
         case: 1,
         challenge: 2,
         template: "GenomePlayground",
-        challengeComplete: false,
         challenges: 3,
         trialSuccess: false,
 
