@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Motion, spring} from 'react-motion';
 
 const AnimatedComponentView = ({animEvent, viewObject, speed, bouncy, startDisplay, targetDisplay, runAnimation, onRest}) => {
-  
+
   if (!runAnimation) return null;
   if (!startDisplay || !targetDisplay) return null;
 
@@ -58,7 +58,7 @@ const AnimatedComponentView = ({animEvent, viewObject, speed, bouncy, startDispl
 
   const animatedViewObject = function(interpolatedStyle) {
     return React.cloneElement(viewObject, {
-        displayStyle: interpolatedStyle 
+        displayStyle: interpolatedStyle
       });
   };
 

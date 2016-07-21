@@ -20,41 +20,41 @@ function lookupGameteChromosomeDOMElement(org, chromosomeName) {
 function findBothElements(org, name, el){
   let t = lookupGameteChromosomeDOMElement(org, name);
   let s = el.getElementsByClassName("chromosome-allele-container")[0]; // the image of the alleles inside the chromosome container
-  let positions = { 
+  let positions = {
     startPositionRect : s.getClientRects()[0],
     targetPositionRect: t.getClientRects()[0]
   };
   return positions;
 }
 
-var _this,  
-    animatedComponents = [], 
+var _this,
+    animatedComponents = [],
     animatedComponentToRender,
-    startDisplay, targetDisplay, 
+    startDisplay, targetDisplay,
     lastAnimatedComponentId = 0,
     ovumView, spermView,
     animationTimeline = {},
-    mother, father, 
-    ovumTarget, spermTarget, 
-    animatedOvumView, animatedSpermView, 
+    mother, father,
+    ovumTarget, spermTarget,
+    animatedOvumView, animatedSpermView,
 
     motherDrakeStart, motherGameteStart,
-    fatherDrakeStart, fatherGameteStart, 
-    
+    fatherDrakeStart, fatherGameteStart,
+
     gameteDisplayStyle = {display:"none"},
-    
+
     offsetTopDrake = 130, offsetTopGamete = 160;
 
 var animationEvents = {
   showGametes: { id: 0, count: 0, complete: false, animate: function() {
-      let motherPositions = { 
+      let motherPositions = {
           startPositionRect : motherDrakeStart,
           targetPositionRect: motherGameteStart,
           startSize: 0.3,
           endSize: 0.3
         };
 
-      let fatherPositions = { 
+      let fatherPositions = {
         startPositionRect : fatherDrakeStart,
         targetPositionRect: fatherGameteStart,
         startSize: 0.3,
@@ -75,14 +75,14 @@ var animationEvents = {
     }
   },
   moveGametes: { id: 1, count: 0, complete: false, animate: function(){
-      let motherPositions = { 
+      let motherPositions = {
           startPositionRect : motherGameteStart,
           targetPositionRect: ovumTarget,
           startSize: 0.3,
           endSize: 1.0
       };
 
-      let fatherPositions = { 
+      let fatherPositions = {
         startPositionRect : fatherGameteStart,
         targetPositionRect: spermTarget,
         startSize: 0.3,
@@ -115,7 +115,7 @@ var animationEvents = {
       setTimeout( () => {
         animationFinish(animationEvents.fertilize.id);
       }, 3000);
-    } 
+    }
   },
   hatch: { id: 4, inProgress: false, complete: false, animate: function(){
       animationEvents.hatch.inProgress = true;
@@ -124,7 +124,7 @@ var animationEvents = {
       setTimeout( () => {
         animationFinish(animationEvents.hatch.id);
       }, 3000);
-    } 
+    }
   }
 
 };
@@ -152,13 +152,13 @@ function runAnimation(animationEvent, positions, opacity, speed = "fast"){
   let animationSpeed = speed;
   animationTimeline[lastAnimatedComponentId] = animationEvent;
   animatedComponents.push(
-    <AnimatedComponentView key={lastAnimatedComponentId} 
-      animEvent={animationEvent} 
-      speed={animationSpeed} 
-      viewObject={animatedComponentToRender} 
-      startDisplay={startDisplay} 
-      targetDisplay={targetDisplay} 
-      runAnimation={true} 
+    <AnimatedComponentView key={lastAnimatedComponentId}
+      animEvent={animationEvent}
+      speed={animationSpeed}
+      viewObject={animatedComponentToRender}
+      startDisplay={startDisplay}
+      targetDisplay={targetDisplay}
+      runAnimation={true}
       onRest={animationFinish} />);
   lastAnimatedComponentId++;
 }
@@ -186,7 +186,7 @@ function animationFinish(evt){
         for (let el of fadeIns) {
           el.classList.add("show");
         }
-      }      
+      }
       break;
     case animationEvents.fertilize.id:
       animationEvents.fertilize.complete = true;
@@ -210,12 +210,12 @@ function animateMultipleComponents(componentsToAnimate, positions, opacity, anim
 }
 
 export default class EggGame extends Component {
-    
+
     render() {
        const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onResetGametes, onKeepOffspring, hiddenAlleles, transientStates } = this.props,
           mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
           father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex);
-  
+
       const handleAlleleChange = function(chrom, side, prevAllele, newAllele) {
         onChromosomeAlleleChange(0, chrom, side, prevAllele, newAllele);
       };
@@ -344,7 +344,7 @@ export default class EggGame extends Component {
       </div>
     );
   }
-  
+
   componentDidMount() {
     // now that the DOM is loaded, get the positions of the elements
     _this = this;
@@ -378,7 +378,7 @@ export default class EggGame extends Component {
       animationEvents.showGametes.animate();
     },1000);
   }
-  
+
   componentDidUpdate() {
     setTimeout( () => {
       let fadeIns = document.getElementsByClassName("fade-in-on-render");
