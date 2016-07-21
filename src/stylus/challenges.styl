@@ -244,6 +244,12 @@
     .half-genome
       position: relative
 
+      .chromosome-image
+        opacity: 0.0
+        transition: opacity 1s
+        &.show
+          opacity: 1.0
+
     .ovum
       position: absolute
       transition: left 2s
