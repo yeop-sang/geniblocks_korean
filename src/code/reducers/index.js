@@ -1,14 +1,14 @@
 import Immutable from 'seamless-immutable';
 import { actionTypes } from '../actions';
-import { loadStateFromAuthoring, loadNextTrial } from './loadStateFromAuthoring';
-import { updateProgress, setProgressScore } from './challengeProgress';
+import { loadStateFromAuthoring, loadNextTrial } from './load-state-from-authoring';
+import { updateProgress, setProgressScore } from './challenge-progress';
 
 // reducers
 import routing from './routing';
 import moves from './moves';
-import transientStates from './transientStates';
-import modalDialog from './modalDialog';
-import userDrakeHidden from './userDrakeHidden';
+import transientStates from './transient-states';
+import modalDialog from './modal-dialog';
+import userDrakeHidden from './user-drake-hidden';
 import gametes from './gametes';
 import drakes from './drakes';
 
