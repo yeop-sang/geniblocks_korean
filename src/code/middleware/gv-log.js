@@ -19,7 +19,7 @@ export default loggingMetadata => store => next => action => {
   let result = next(action),
       nextState = store.getState();
 
-  if (!actionsToExclude.includes(action.type) && session !== null){
+  if (!actionsToExclude.indexOf(action.type) > -1 && session !== null){
     const message = createLogEntry(loggingMetadata, action, nextState);
     // postToLogManager(message);
     console.log(`%c action`, `color: #03A9F4`, message);
