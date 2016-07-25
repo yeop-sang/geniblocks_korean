@@ -40,7 +40,8 @@ var _this,
     motherDrakeStart, motherGameteStart,
     fatherDrakeStart, fatherGameteStart,
 
-    gameteDisplayStyle = {display:"none"},
+    gameteDisplayStyle = { display: "none" },
+    chromosomeDisplayStyle = {display: "none"},
 
     offsetTopDrake = 130, offsetTopGamete = 160;
 
@@ -180,11 +181,8 @@ function animationFinish(evt){
         gameteDisplayStyle = {};
         animationEvents.moveGametes.complete = true;
         animationEvents.selectChromosome.ready = true;
-        // fade in gamete placeholders
-        let fadeIns = document.getElementsByClassName("chromosome-image");
-        for (let el of fadeIns) {
-          el.classList.add("show");
-        }
+        // show gamete placeholders
+        chromosomeDisplayStyle = {};
       }
       break;
     case animationEvents.fertilize.id:
@@ -292,7 +290,7 @@ export default class EggGame extends Component {
         childView = (
           [
             <OrganismView org={ child } width={170} key={0}/>,
-            <div className="offspring-buttons fade-in-on-render" key={1}>
+            <div className="offspring-buttons" key={1}>
               <ButtonView label={ "Save this" } onClick={ handleKeepOffspring } key={2} />
               <ButtonView label={ "Try again" } onClick={ handleReset } key={3} />
             </div>
@@ -337,11 +335,11 @@ export default class EggGame extends Component {
             <div className={ gametesClass }>
               <div className='half-genome half-genome-left' id="mother-gamete-genome">
                 { ovumView }
-                <GenomeView orgName="targetmother" chromosomes={ femaleGameteChromosomeMap } species={ mother.species } editable={false} hiddenAlleles= { hiddenAlleles } small={ true } />
+                <GenomeView orgName="targetmother" chromosomes={ femaleGameteChromosomeMap } species={ mother.species } editable={false} hiddenAlleles= { hiddenAlleles } small={ true } displayStyle={chromosomeDisplayStyle} />
               </div>
               <div className='half-genome half-genome-right' id="father-gamete-genome">
                 { spermView }
-                <GenomeView orgName="targetfather" chromosomes={ maleGameteChromosomeMap }   species={ mother.species } editable={false} hiddenAlleles= { hiddenAlleles } small={ true } />
+                <GenomeView orgName="targetfather" chromosomes={ maleGameteChromosomeMap }   species={ mother.species } editable={false} hiddenAlleles= { hiddenAlleles } small={ true } displayStyle={chromosomeDisplayStyle} />
               </div>
             </div>
           </div>
@@ -391,15 +389,6 @@ export default class EggGame extends Component {
       // first animation - show gametes
       animationEvents.showGametes.animate();
     },1000);
-  }
-
-  componentDidUpdate() {
-    setTimeout( () => {
-      let fadeIns = document.getElementsByClassName("fade-in-on-render");
-      for (let el of fadeIns) {
-        el.classList.add("show");
-      }
-    }, 100);
   }
 
   static propTypes = {

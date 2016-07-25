@@ -10,7 +10,7 @@ import GeneticsUtils from '../utilities/genetics-utils';
  * chromosome name and side.
  */
 
-const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles=[], small=false, editable=true, selected=false, onAlleleChange, onChromosomeSelected, showLabels=true, showAlleles=false, labelsOnRight=true, orgName}) => {
+const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles = [], small = false, editable = true, selected = false, onAlleleChange, onChromosomeSelected, showLabels = true, showAlleles = false, labelsOnRight = true, orgName, displayStyle = {}}) => {
   var containerClass = "items",
       empty = false,
       yChromosome = false,
@@ -77,11 +77,11 @@ const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles=[]
   return (
     <div className="geniblocks chromosome-container" onClick={ handleSelect } >
       <div className={ containerClass }>
-        <div className="chromosome-allele-container" id={chromId}>
+        <div className="chromosome-allele-container" id={chromId} style={displayStyle}>
           <ChromosomeImageView small={small} empty={empty} bold={selected} yChromosome={yChromosome}/>
           { allelesContainer }
         </div>
-        { labelsContainer }        
+        { labelsContainer }
       </div>
     </div>
   );
@@ -97,6 +97,7 @@ ChromosomeView.propTypes = {
   showLabels: PropTypes.bool,
   showAlleles: PropTypes.bool,
   labelsOnRight: PropTypes.bool,
+  displayStyle: PropTypes.object,
   onAlleleChange: PropTypes.func,
   onChromosomeSelected: PropTypes.func,
   orgName: PropTypes.string

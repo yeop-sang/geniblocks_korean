@@ -7,7 +7,7 @@ import ChromosomeView from './chromosome';
  * Usually defined by passing in a Biologica Organism, but may also be defined by
  * passing in a map of Biologica Chromosomes and a Biologica Species.
  */
-const GenomeView = ({org, chromosomes, species, hiddenAlleles = [], editable=true, showLabels=true, showAlleles=false, selectedChromosomes={}, small=false, orgName, onAlleleChange, onChromosomeSelected}) => {
+const GenomeView = ({org, chromosomes, species, hiddenAlleles = [], editable=true, showLabels=true, showAlleles=false, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected}) => {
   let pairWrappers = [];
   if (org) {
     chromosomes = org.genetics.genotype.chromosomes;
@@ -30,6 +30,7 @@ const GenomeView = ({org, chromosomes, species, hiddenAlleles = [], editable=tru
           showAlleles={showAlleles}
           small={small}
           orgName={orgName}
+          displayStyle={displayStyle}
           onAlleleChange={function(prevAllele, newAllele) {
             onAlleleChange(chromosomeName, side, prevAllele, newAllele);
           }}
@@ -59,6 +60,7 @@ GenomeView.propTypes = {
   hiddenAlleles: PropTypes.array,
   onAlleleChange: PropTypes.func,
   editable: PropTypes.bool,
+  displayStyle: PropTypes.object,
   onChromosomeSelected: PropTypes.func,
   orgName: PropTypes.string
 };
