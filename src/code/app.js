@@ -45,8 +45,8 @@ socket.on('error', state=>
 const hashHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 
 const soundsData = {
-  hatchDrake: "/resources/audio/BabyDragon.mp3",
-  receiveCoin: "/resources/audio/coin.mp3"
+  hatchDrake: "resources/audio/BabyDragon.mp3",
+  receiveCoin: "resources/audio/coin.mp3"
 };
 // Pre-load middleware with our sounds.
 const loadedSoundsMiddleware = soundsMiddleware(soundsData);
