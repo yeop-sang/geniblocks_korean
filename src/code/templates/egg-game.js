@@ -27,23 +27,24 @@ function findBothElements(org, name, el){
 }
 
 var _this,
-    animatedComponents = [],
-    animatedComponentToRender,
-    startDisplay, targetDisplay,
-    lastAnimatedComponentId = 0,
-    ovumView, spermView,
-    animationTimeline = {},
-    mother, father,
-    ovumTarget, spermTarget,
-    animatedOvumView, animatedSpermView,
+  animatedComponents = [],
+  animatedComponentToRender,
+  startDisplay, targetDisplay,
+  lastAnimatedComponentId = 0,
+  ovumView, spermView,
+  animationTimeline = {},
+  mother, father,
+  ovumTarget, spermTarget,
+  animatedOvumView, animatedSpermView,
 
-    motherDrakeStart, motherGameteStart,
-    fatherDrakeStart, fatherGameteStart,
+  motherDrakeStart, motherGameteStart,
+  fatherDrakeStart, fatherGameteStart,
 
-    gameteDisplayStyle = { display: "none" },
-    chromosomeDisplayStyle = {display: "none"},
+  gameteDisplayStyle = { display: "none" },
+  chromosomeDisplayStyle = {display: "none"},
 
-    offsetTopDrake = 130, offsetTopGamete = 160;
+  hatchSoundPlayed = false,
+  offsetTopDrake = 130, offsetTopGamete = 160;
 
 var animationEvents = {
   showGametes: { id: 0, count: 0, complete: false, animate: function() {
@@ -120,6 +121,7 @@ var animationEvents = {
   hatch: { id: 4, inProgress: false, complete: false, animate: function(){
       animationEvents.hatch.inProgress = true;
       animationEvents.hatch.complete = false;
+      hatchSoundPlayed = false;
       _this.setState({hatchStarted:"true"});
       setTimeout( () => {
         animationFinish(animationEvents.hatch.id);
@@ -209,7 +211,7 @@ function animateMultipleComponents(componentsToAnimate, positions, opacity, anim
 export default class EggGame extends Component {
 
     render() {
-       const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onResetGametes, onKeepOffspring, hiddenAlleles } = this.props,
+       const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onHatch, onResetGametes, onKeepOffspring, hiddenAlleles } = this.props,
           mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
           father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex);
 
@@ -241,7 +243,15 @@ export default class EggGame extends Component {
           onFertilize(0,1);
         }
       };
-      const handleKeepOffspring = function() {
+
+      const handleHatch = function () {
+        if (!hatchSoundPlayed) {
+          onHatch();
+          hatchSoundPlayed = true;
+        }
+      };
+
+      const handleKeepOffspring = function () {
         let childImage = child.getImageName(),
             [,,,...keptDrakes] = drakes,
             success = true;
@@ -286,6 +296,7 @@ export default class EggGame extends Component {
 
       var childView;
       if (drakes[2] && animationEvents.hatch.complete) {
+        handleHatch();
         let child = new BioLogica.Organism(BioLogica.Species.Drake, drakes[2].alleleString, drakes[2].sex);
         childView = (
           [
@@ -388,7 +399,7 @@ export default class EggGame extends Component {
     setTimeout( () => {
       // first animation - show gametes
       animationEvents.showGametes.animate();
-    },1000);
+    }, 1000);
   }
 
   static propTypes = {
@@ -398,6 +409,7 @@ export default class EggGame extends Component {
     onChromosomeAlleleChange: PropTypes.func.isRequired,
     onGameteChromosomeAdded: PropTypes.func.isRequired,
     onFertilize: PropTypes.func.isRequired,
+    onHatch: PropTypes.func,
     onAnimationStart: PropTypes.func,
     onAnimationEnd: PropTypes.func,
     challenge: PropTypes.number.isRequired

@@ -16,6 +16,7 @@ import ModalMessageContainer from "./containers/modal-message-container";
 import loggerMiddleware from './middleware/gv-log';
 import itsMiddleware from './middleware/its-log';
 import routerMiddleware from './middleware/router-history';
+import soundsMiddleware from 'redux-sounds';
 import thunk from 'redux-thunk';
 
 import io from 'socket.io-client';
@@ -43,12 +44,20 @@ socket.on('error', state=>
 
 const hashHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 
+const soundsData = {
+  hatchDrake: "/resources/audio/BabyDragon.mp3",
+  receiveCoin: "/resources/audio/coin.mp3"
+};
+// Pre-load middleware with our sounds.
+const loadedSoundsMiddleware = soundsMiddleware(soundsData);
+
 const createStoreWithMiddleware =
   applyMiddleware(
     thunk,
     loggerMiddleware(loggingMetadata),
     itsMiddleware(socket, loggingMetadata),
-    routerMiddleware(hashHistory)
+    routerMiddleware(hashHistory),
+    loadedSoundsMiddleware
   )(createStore);
 
 export default function configureStore(initialState) {
