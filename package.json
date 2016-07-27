@@ -30,7 +30,6 @@
     "react-router": "^2.4.0",
     "react-router-redux": "^4.0.5",
     "react-simpletabs": "^0.7.0",
-    "react-sound": "^0.5.0",
     "redux": "^3.5.2",
     "redux-sounds": "^1.1.0",
     "redux-thunk": "^2.1.0",
