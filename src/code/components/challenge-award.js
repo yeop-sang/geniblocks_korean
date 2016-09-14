@@ -57,13 +57,11 @@ class ChallengeAwardView extends React.Component {
     for (let i = 0; i < challengeCount; i++){
       for (var key in progress){
         if (key.startsWith(pieceKey + i)){
-          let score = progress[key];
-          let currentScore = challengeScore[i];
-          if (!currentScore) {
+          const score = progress[key];
+          if (challengeScore[i] == null) {
              challengeScore[i] = score;
           } else {
-            currentScore = currentScore + score;
-            challengeScore[i] = score;
+            challengeScore[i] += score;
           }
         }
       }

@@ -19,6 +19,8 @@ export default {
   "~BUTTON.PLAYGROUND_MOVE_FORWARD": "Bring It On!",
   "~BUTTON.CHECK_DRAKE": "Check Drake",
   "~BUTTON.SAVE_DRAKE": "Save this",
+  "~BUTTON.SUBMIT": "Submit",
+  "~BUTTON.RESET": "Reset",
   "~BUTTON.FERTILIZE_DISABLED": "Fertilize",
   "~BUTTON.FERTILIZE": "Fertilize ❤️",
 

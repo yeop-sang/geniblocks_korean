@@ -7,12 +7,15 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
   let authoredChallenge = authoring[state.case][state.challenge],
       templateName = authoredChallenge.template,
       template = templates[templateName],
+      challengeType = authoredChallenge.challengeType,
+      showUserDrake = authoredChallenge.showUserDrake != null ? authoredChallenge.showUserDrake : false,
       trials = authoredChallenge.targetDrakes,
       authoredDrakesArray = template.authoredDrakesToDrakeArray(authoredChallenge, trial),
 
       // turn authored alleles into completely-specified alleleStrings
       // (once we have nested arrays this will need to be tweaked)
       drakes = authoredDrakesArray.map(function(drakeDef) {
+        if (!drakeDef) return null;
         let drake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleles, drakeDef.sex);
         return {
           alleleString: drake.getAlleleString(),
@@ -32,6 +35,8 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
 
   return state.merge({
     template: templateName,
+    challengeType,
+    showUserDrake,
     drakes,
     gametes,
     trial,
@@ -55,12 +60,12 @@ export function loadNextTrial(state, authoring, progress) {
   let authoredChallenge = authoring[state.case][state.challenge],
       templateName = state.template,
       template = templates[templateName],
-      //trials = authoredChallenge.targetDrakes,
       authoredDrakesArray = template.authoredDrakesToDrakeArray(authoredChallenge, trial),
 
       // turn authored alleles into completely-specified alleleStrings
       // (once we have nested arrays this will need to be tweaked)
       drakes = authoredDrakesArray.map(function(drakeDef) {
+        if (!drakeDef) return null;
         let drake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleles, drakeDef.sex);
         return {
           alleleString: drake.getAlleleString(),
@@ -69,7 +74,6 @@ export function loadNextTrial(state, authoring, progress) {
       });
 
   let goalMoves = null;
-  // let template = templates[state.template];
   if (template.calculateGoalMoves) {
     goalMoves = template.calculateGoalMoves(drakes);
   }

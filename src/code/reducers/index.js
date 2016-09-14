@@ -87,7 +87,8 @@ export default function reducer(state, action) {
     case actionTypes.NAVIGATED: {
       state = state.merge({
         case: action.case,
-        challenge: action.challenge
+        challenge: action.challenge,
+        trial: 0
       });
       return loadStateFromAuthoring(state, state.authoring, state.challengeProgress);
     }

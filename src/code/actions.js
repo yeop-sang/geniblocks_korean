@@ -180,7 +180,7 @@ function _submitDrake(correctPhenotype, submittedPhenotype, correct) {
   };
 }
 
-export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
+export function submitDrake(correctPhenotype, submittedPhenotype, correct, incorrectAction) {
   return (dispatch, getState) => {
     dispatch(_submitDrake(correctPhenotype, submittedPhenotype, correct));
 
@@ -235,7 +235,7 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
         explanation: "~ALERT.INCORRECT_DRAKE",
         rightButton: {
           label: "~BUTTON.TRY_AGAIN",
-          action: "dismissModalDialog"
+          action: incorrectAction || "dismissModalDialog"
         },
         top: "475px"
       };

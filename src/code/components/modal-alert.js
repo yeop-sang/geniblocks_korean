@@ -21,7 +21,7 @@ const backdropStyle = {
 };
 
 const dialogStyle = function(top="50%") {
-  // we use some psuedo random coords so nested modals
+  // we use some pseudo random coords so nested modals
   // don't sit right on top of each other.
   let left = 50;
   return {
