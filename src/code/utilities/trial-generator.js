@@ -18,7 +18,7 @@ export function generateTrialDrakes(trialDef, trial=0) {
   return [];
 }
 
-function generateComboDrakeAlleles(base, combos, trial, isInitial) {
+function generateComboDrakeAlleles(base, combos, trial) {
   let alleles = base,
       rows = combos.length,
       columns = combos[0].length,

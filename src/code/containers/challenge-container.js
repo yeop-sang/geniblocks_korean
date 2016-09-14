@@ -34,7 +34,13 @@ class ChallengeContainer extends Component {
   }
 
   static propTypes = {
-    template: PropTypes.string
+    template: PropTypes.string,
+    routeParams: PropTypes.shape({
+      case: PropTypes.number,
+      challenge: PropTypes.number
+    }),
+    navigateToChallenge: PropTypes.function,
+    navigateToCurrentRoute: PropTypes.function
   }
 }
 

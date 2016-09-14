@@ -51,11 +51,11 @@ export function loadNextTrial(state, authoring, progress) {
     trial = (state.trial < state.trials.length) ? (trial+1) : 1;
   }
 
-  let challenges = authoring[state.case].length;
+  //let challenges = authoring[state.case].length;
   let authoredChallenge = authoring[state.case][state.challenge],
       templateName = state.template,
       template = templates[templateName],
-      trials = authoredChallenge.targetDrakes,
+      //trials = authoredChallenge.targetDrakes,
       authoredDrakesArray = template.authoredDrakesToDrakeArray(authoredChallenge, trial),
 
       // turn authored alleles into completely-specified alleleStrings

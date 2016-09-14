@@ -9,7 +9,7 @@ class Case1PlaygroundLeft extends React.Component {
   }
 
   render() {
-    const { sexLabels, drake, hiddenAlleles } = this.props;
+    const { drake, hiddenAlleles } = this.props;
     return (
       <div id='left' className='column'>
         <GeniBlocks.ChangeSexButtons id='change-sex-buttons'
@@ -69,8 +69,7 @@ class Case1Playground extends React.Component {
   }
 
   handleSexChange = (iSex) => {
-    const { sexLabels } = this.props,
-          { drakeAlleles } = this.props.challengeSpec;
+    const { drakeAlleles } = this.props.challengeSpec;
     let { drake } = this.state;
     // replace alleles lost when switching to male and back
     const alleleString = GeniBlocks.GeneticsUtils.fillInMissingAllelesFromAlleleString(

@@ -76,8 +76,17 @@ const ChromosomeImageView = ({width, height, split=45, color='#FF9999', small=fa
 ChromosomeImageView.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
+  split: PropTypes.number,
   color: PropTypes.string,
-  empty: PropTypes.bool
+  small: PropTypes.bool,
+  bold: PropTypes.bool,
+  empty: PropTypes.bool,
+  yChromosome: PropTypes.bool,
+  animationStyling: PropTypes.shape({
+                      x: PropTypes.number,
+                      y: PropTypes.number,
+                      opacity: PropTypes.number
+                    })
 };
 
 export default ChromosomeImageView;
