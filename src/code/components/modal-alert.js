@@ -77,10 +77,13 @@ class ModalAlert extends React.Component {
           rightButton = <Button label={rightProps.label || ""}
                                 className="alert-button"
                                 onClick={rightProps.onClick || this.props.onRightButtonClick}/>;
-    var awardView;
+    var awardView, explanationView;
 
     if (this.props.challengeAwards){
       awardView = <ChallengeAwardView challengeAwards={this.props.challengeAwards} />;
+    }
+    if (this.props.explanation) {
+      explanationView = <p>{t(this.props.explanation)}</p>;
     }
     return (
       <Modal  aria-labelledby='modal-label'
@@ -91,7 +94,7 @@ class ModalAlert extends React.Component {
         <div style={dialogStyle(this.props.top)} >
           <h4 id='modal-label'>{t(this.props.message)}</h4>
           {awardView}
-          <p>{t(this.props.explanation)}</p>
+          {explanationView}
           {leftButton} {rightButton}
         </div>
       </Modal>
