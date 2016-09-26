@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import AlleleView from './allele';
 
 const GeneLabelView = ({species, allele, editable=false, onAlleleChange}) => {
   if (!editable) {

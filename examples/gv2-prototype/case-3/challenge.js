@@ -151,9 +151,7 @@ class _Case3Center extends React.Component {
       <div id="center" className="column">
         <div id="target-drakes-label" className="column-label">{targetDrakesLabel}</div>
         <div id="target-drakes">
-          {[0, 1].map(function(index) {
-            return this.renderTargetDrake(index);
-          }.bind(this))}
+          {[0, 1].map(index => this.renderTargetDrake(index))}
         </div>
         <div id="breed-button-and-goal-feedback">
           <GeniBlocks.Button id="breed-button" label="Breed" onClick={this.handleBreed} />
@@ -356,13 +354,9 @@ class Case3Challenge extends React.Component {
           { parentDrakes, targetDrakes, targetsMatched,
             clutch, requiredMoveCount, moveCount } = this.state;
 
-    const handleMotherAlleleChange = function(...args) {
-      this.handleAlleleChange(FEMALE, ...args);
-    }.bind(this);
+    const handleMotherAlleleChange = (...args) => this.handleAlleleChange(FEMALE, ...args);
 
-    const handleFatherAlleleChange = function(...args) {
-      this.handleAlleleChange(MALE, ...args);
-    }.bind(this);
+    const handleFatherAlleleChange = (...args) => this.handleAlleleChange(MALE, ...args);
 
     return (
       <div id="challenges-wrapper">

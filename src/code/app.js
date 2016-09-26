@@ -8,7 +8,7 @@ import { createHashHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 import reducer from './reducers/';
-import { actionTypes, startSession, navigateToChallenge } from './actions';
+import { actionTypes, startSession } from './actions';
 
 import ChallengeContainer from "./containers/challenge-container";
 import ModalMessageContainer from "./containers/modal-message-container";

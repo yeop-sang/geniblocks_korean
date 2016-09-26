@@ -4,7 +4,7 @@ import ChromosomeImageView from './chromosome-image';
 
 const GameteImageView = ({isEgg, chromosomes=[], className, displayStyle}) => {
 
-  let imageScale = 1.0;
+  //let imageScale = 1.0;
   let imageWidth = 150;
   let imageHeight = 90;
 
@@ -22,7 +22,7 @@ const GameteImageView = ({isEgg, chromosomes=[], className, displayStyle}) => {
     containerStyle.width = (imageWidth * displayStyle.size)  + "px";
     containerStyle.height = (imageHeight * displayStyle.size) + "px";
     // for scaling the svg directly:
-    imageScale = displayStyle.size;    
+    //imageScale = displayStyle.size;
   }
   containerStyle.position = "relative";
 

@@ -56,9 +56,7 @@ class Button extends React.Component {
     const { className, label, ...others } = this.props,
           classes = (className ? className + ' ' : '') + 'gb-button';
 
-    const handleMouseEvent = function() {
-      this.suppressButtonFocusHighlight();
-    }.bind(this);
+    const handleMouseEvent = () => this.suppressButtonFocusHighlight();
 
     return (
       <button className={classes} ref='button' {...others}

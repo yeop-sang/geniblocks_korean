@@ -60,6 +60,10 @@ GenomeView.propTypes = {
   hiddenAlleles: PropTypes.array,
   onAlleleChange: PropTypes.func,
   editable: PropTypes.bool,
+  showLabels: PropTypes.bool,
+  showAlleles: PropTypes.bool,
+  selectedChromosomes: PropTypes.object,
+  small: PropTypes.bool,
   displayStyle: PropTypes.object,
   onChromosomeSelected: PropTypes.func,
   orgName: PropTypes.string

@@ -1,7 +1,7 @@
 import { actionTypes } from '../actions';
 import templates from '../templates';
 
-const logManagerUrl  = '//cc-log-manager.herokuapp.com/api/logs';
+//const logManagerUrl  = '//cc-log-manager.herokuapp.com/api/logs';
 
 const actionsToExclude = [
   actionTypes.SOCKET_CONNECTED,
@@ -75,9 +75,11 @@ function createLogEntry(loggingMetadata, action, nextState){
   return message;
 }
 
+/*
 function postToLogManager(data) {
   let request = new XMLHttpRequest();
   request.open('POST', logManagerUrl, true);
   request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
   request.send(JSON.stringify(data));
 }
+*/

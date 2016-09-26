@@ -22,6 +22,7 @@ import chai from 'chai';
 // chai.use(chaiImmutable);
 
 global.assert = assert;
+global.chai = chai;
 global.mount = mount;
 global.shallow = shallow;
 global.React = React;
