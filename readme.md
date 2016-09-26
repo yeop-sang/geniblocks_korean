@@ -85,7 +85,7 @@ Now you can see a list of actions and state changes, a history slider, have the 
 
 ## Resources
 
-* [GeniBlocks Examples](http://concord-consortium.github.io/geniblocks/)
+* [GeniBlocks Examples](http://concord-consortium.github.io/geniblocks/examples)
 * [GV2 Prototype](http://concord-consortium.github.io/geniblocks/gv2/)
 * [Geniverse Demo](http://demo.geniverse.concord.org)
 * [Geniverse Lab](https://geniverse-lab.concord.org)
