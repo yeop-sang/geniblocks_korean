@@ -6,7 +6,6 @@ import PenView from '../components/pen';
 import GameteImageView from '../components/gamete-image';
 import AnimatedComponentView from '../components/animated-component';
 import ChromosomeImageView from '../components/chromosome-image';
-import { actionTypes } from '../actions';
 import t from '../utilities/translate';
 
 // a "reasonable" lookup function for the two gametes

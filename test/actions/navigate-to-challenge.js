@@ -31,6 +31,8 @@ describe('navigateToChallenge action', () => {
       let initialState = defaultState.merge({
         case: 0,
         challenge: 0,
+        challengeType: undefined,
+        showUserDrake: false,
         authoring: [
           [],
           [{}, {}, {
@@ -50,6 +52,7 @@ describe('navigateToChallenge action', () => {
         challenge: 2,
         template: "GenomePlayground",
         challenges: 3,
+        showUserDrake: false,
         trialSuccess: false,
 
         // punt on these, as they're not part of the test
