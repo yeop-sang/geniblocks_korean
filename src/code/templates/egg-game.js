@@ -340,6 +340,15 @@ export default class EggGame extends Component {
       "XY": { b: getGameteChromosome(0, "XY") }
     };
 
+    // map all chromosomes in a gamete to a single side for selection purposes
+    function mapChromosomesToSide(gamete, side) {
+      let chromName, mappedGamete = {};
+      for (chromName in gamete) {
+        mappedGamete[chromName] = side;
+      }
+      return mappedGamete;
+    }
+
     let gametesClass = "gametes";
     if (!drakes[2]) {
       gametesClass += " unfertilized";
@@ -394,6 +403,8 @@ export default class EggGame extends Component {
         sChroms = maleGameteChromosomeMap,
         ovumChromosomes  = [oChroms[1] && oChroms[1].a, oChroms[2] && oChroms[2].a, oChroms.XY && oChroms.XY.a],
         spermChromosomes = [sChroms[1] && sChroms[1].b, sChroms[2] && sChroms[2].b, sChroms.XY && sChroms.XY.b],
+        ovumSelected = mapChromosomesToSide(gametes[1], 'a'),
+        spermSelected = mapChromosomesToSide(gametes[0], 'b'),
         ovumClasses = "ovum" + (isMatchingChallenge ? " matching" : ""),
         spermClasses = "sperm" + (isMatchingChallenge ? " matching" : "");
 
@@ -427,11 +438,17 @@ export default class EggGame extends Component {
             <div className={ gametesClass }>
               <div className='half-genome half-genome-left' id="mother-gamete-genome">
                 { ovumView }
-                <GenomeView className={childGenomeClass} orgName="targetmother" chromosomes={ femaleGameteChromosomeMap } species={ mother.species } editable={false} hiddenAlleles= { hiddenAlleles } small={ true } displayStyle={chromosomeDisplayStyle} />
+                <GenomeView className={childGenomeClass} orgName="targetmother" species={ mother.species }
+                            chromosomes={ femaleGameteChromosomeMap } selectedChromosomes={ ovumSelected }
+                            editable={false} hiddenAlleles={ hiddenAlleles }
+                            small={ true } displayStyle={chromosomeDisplayStyle} />
               </div>
               <div className='half-genome half-genome-right' id="father-gamete-genome">
                 { spermView }
-                <GenomeView className={childGenomeClass} orgName="targetfather" chromosomes={ maleGameteChromosomeMap }   species={ mother.species } editable={false} hiddenAlleles= { hiddenAlleles } small={ true } displayStyle={chromosomeDisplayStyle} />
+                <GenomeView className={childGenomeClass} orgName="targetfather" species={ mother.species } 
+                            chromosomes={ maleGameteChromosomeMap } selectedChromosomes={ spermSelected }
+                            editable={false} hiddenAlleles={ hiddenAlleles }
+                            small={ true } displayStyle={chromosomeDisplayStyle} />
               </div>
             </div>
           </div>
