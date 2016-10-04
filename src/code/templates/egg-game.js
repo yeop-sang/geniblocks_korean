@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import OrdinalOrganismView from '../components/ordinal-organism';
 import OrganismView from '../components/organism';
 import GenomeView from '../components/genome';
 import ButtonView from '../components/button';
@@ -34,6 +35,7 @@ var _this,
   lastAnimatedComponentId = 0,
   animationTimeline = {},
   mother, father,
+  authoredDrakes = [],
   ovumTarget, spermTarget,
   animatedOvumView, animatedSpermView,
 
@@ -349,6 +351,30 @@ export default class EggGame extends Component {
       return mappedGamete;
     }
 
+    // create the trial feedback views
+    function mapTargetDrakesToFeedbackViews(drakes, currentTrial) {
+      let ordOrgViews = [];
+      for (let i = firstTargetDrakeIndex; i < drakes.length; ++i) {
+        const trial = i - firstTargetDrakeIndex,
+              isCompleted = currentTrial >= trial,
+              ordinal = trial + 1,
+              drake = drakes[i],
+              organism = currentTrial > trial
+                          ? new BioLogica.Organism(BioLogica.Species.Drake,
+                                                    drake.alleleString,
+                                                    drake.sex)
+                          : null,
+              bgColor = isCompleted ? "#AAAAAA" : null,
+              targetID = `target-${trial+1}`,
+              classes = `matched-target` + (isCompleted ? ' complete' : ''),
+              ordOrgView = <OrdinalOrganismView id={targetID} className={classes}
+                                                ordinal={ordinal} organism={organism}
+                                                bgColor={bgColor} key={targetID}/>;
+        ordOrgViews.push(ordOrgView);
+      }
+      return ordOrgViews;
+    }
+
     let gametesClass = "gametes";
     if (!drakes[2]) {
       gametesClass += " unfertilized";
@@ -364,6 +390,14 @@ export default class EggGame extends Component {
                                   <OrganismView className="target" org={targetDrakeOrg} width={140} key={0} />
                                 </div>
                               : null,
+          targetDrakeSection = isMatchingChallenge
+                                ? <div className='target-section'>
+                                    {targetDrakeView}
+                                    <div className='target-counters'>
+                                      {mapTargetDrakesToFeedbackViews(drakes, trial)}
+                                    </div>
+                                  </div>
+                                : null,
           eggClasses = "egg-image" + (isMatchingChallenge ? " matching" : ""),
           eggImageView = <img className={eggClasses} src="resources/images/egg_yellow.png" key={1}/>;
     let childView, ovumView, spermView, penView;
@@ -431,7 +465,7 @@ export default class EggGame extends Component {
             <GenomeView className={parentGenomeClass} orgName="mother" org={ mother } onAlleleChange={ handleAlleleChange } onChromosomeSelected={handleChromosomeSelected} editable={false} hiddenAlleles= { hiddenAlleles } small={ true } selectedChromosomes={ gametes[1] } />
           </div>
           <div className='egg column'>
-            { targetDrakeView }
+            { targetDrakeSection }
             <div className='fertilization'>
               { childView }
             </div>
@@ -517,9 +551,13 @@ export default class EggGame extends Component {
     onDrakeSubmission: PropTypes.func
   }
 
-  static authoredDrakesToDrakeArray = function(authoredChallenge) {
+  static authoredDrakesToDrakeArray = function(authoredChallenge, trial) {
     if (authoredChallenge.challengeType === 'create-unique')
       return [authoredChallenge.mother, authoredChallenge.father];
+
+    // already generated drakes
+    if (trial > 0)
+      return authoredDrakes;
 
     // challengeType === 'match-target'
     const mother = new BioLogica.Organism(BioLogica.Species.Drake,
@@ -531,15 +569,15 @@ export default class EggGame extends Component {
           // authored specs may be incomplete; these are complete specs
           motherSpec = { alleles: mother.getAlleleString(), sex: mother.sex },
           fatherSpec = { alleles: father.getAlleleString(), sex: father.sex },
-          targetDrakeCount = authoredChallenge.targetDrakes.length,
-          drakes = [motherSpec, fatherSpec, null];
+          targetDrakeCount = authoredChallenge.targetDrakes.length;
+    authoredDrakes = [motherSpec, fatherSpec, null];
     for (let i = 0; i < targetDrakeCount; ++i) {
       const child = BioLogica.breed(mother, father, false),
             alleles = child.getAlleleString(),
             sex = child.sex;
-      drakes.push({ alleles, sex });
+      authoredDrakes.push({ alleles, sex });
     }
-    return drakes;
+    return authoredDrakes;
   }
 
   static initialGametesArray = function() {
