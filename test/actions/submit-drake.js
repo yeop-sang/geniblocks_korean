@@ -37,11 +37,14 @@ describe('submitDrake action', () => {
         type: types.MODAL_DIALOG_SHOWN,
         message: "~ALERT.TITLE.GOOD_WORK",
         explanation: "~ALERT.COMPLETE_COIN",
+        leftButton: {
+          label: "~BUTTON.TRY_AGAIN",
+          action: "retryCurrentChallenge"
+        },
         rightButton: {
           label: "~BUTTON.NEXT_CASE",
           action: "navigateToNextChallenge"
         },
-        leftButton: undefined,
         showAward: true,
         top: undefined
       });
