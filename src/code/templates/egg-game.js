@@ -36,6 +36,7 @@ var _this,
   animationTimeline = {},
   mother, father,
   authoredDrakes = [],
+  challengeDidChange = true,
   ovumTarget, spermTarget,
   animatedOvumView, animatedSpermView,
 
@@ -74,6 +75,8 @@ var animationEvents = {
         end: 1.0
       };
 
+      // hide the static gametes while the animated gametes are visible
+      showStaticGametes(false);
       animateMultipleComponents([animatedOvumView, animatedSpermView],  [motherPositions, fatherPositions], opacity, animationEvents.showGametes.id);
       _this.setState({animation:"showGametes"});
     }
@@ -133,14 +136,16 @@ var animationEvents = {
   }
 
 };
-function resetAnimationEvents(iShowHatchAnimation){
+function resetAnimationEvents(iShowGametes, iShowHatchAnimation){
+  animationEvents.showGametes.count = 0;
+  animationEvents.moveGametes.count = 0;
   animationEvents.selectChromosome.ready = true;
   animationEvents.fertilize.started = false;
   animationEvents.fertilize.complete = false;
   animationEvents.hatch.inProgress = false;
   animationEvents.hatch.complete = false;
-  showHatchAnimation = iShowHatchAnimation;
-  gameteDisplayStyle = {};
+  showHatchAnimation = !!iShowHatchAnimation;
+  showStaticGametes(!!iShowGametes);
 }
 
 function runAnimation(animationEvent, positions, opacity, speed = "fast"){
@@ -183,8 +188,8 @@ function animationFinish(evt){
       animationEvents.moveGametes.count++;
       if (animationEvents.moveGametes.count === 2){
         animatedComponents = [];
-        // show gametes
-        gameteDisplayStyle = {};
+        // show static gametes when move complete
+        showStaticGametes(true);
         animationEvents.moveGametes.complete = true;
         animationEvents.selectChromosome.ready = true;
         // show gamete placeholders
@@ -193,7 +198,8 @@ function animationFinish(evt){
       break;
     case animationEvents.fertilize.id:
       animationEvents.fertilize.complete = true;
-      gameteDisplayStyle = {display: "none"};
+      // hide static gametes during fertilization
+      showStaticGametes(false);
       if (showHatchAnimation)
         animationEvents.hatch.animate();
       else
@@ -225,25 +231,37 @@ function areGametesEmpty(gametes) {
   return true;
 }
 
+function showStaticGametes(show) {
+  gameteDisplayStyle = show ? {} : { display: "none" };
+}
+
 export default class EggGame extends Component {
 
   state = {}
+
+  componentWillMount() {
+    challengeDidChange = true;
+    resetAnimationEvents(false, this.props.showUserDrake);
+  }
 
   componentWillReceiveProps(nextProps) {
     const { case: prevCase, challenge: prevChallenge,
             trial: prevTrial, gametes: prevGametes } = this.props,
           { case: nextCase, challenge: nextChallenge,
             trial: nextTrial, gametes: nextGametes,
-            challengeType, showUserDrake, onResetGametes } = nextProps,
+            showUserDrake, onResetGametes } = nextProps,
           newChallenge = (prevCase !== nextCase) || (prevChallenge !== nextChallenge),
           newTrialInChallenge = !newChallenge && (prevTrial !== nextTrial),
           gametesReset = !areGametesEmpty(prevGametes) && areGametesEmpty(nextGametes);
-    if ((challengeType === 'match-target') &&
-        (newChallenge || newTrialInChallenge || gametesReset)) {
+    if (newChallenge || newTrialInChallenge || gametesReset) {
+      if (newChallenge) {
+        challengeDidChange = true;
+      }
+      resetAnimationEvents(!challengeDidChange, showUserDrake);
       if (newTrialInChallenge && onResetGametes) {
         onResetGametes();
+        showStaticGametes(true);
       }
-      resetAnimationEvents(showUserDrake);
     }
   }
 
@@ -307,7 +325,7 @@ export default class EggGame extends Component {
             break;
           }
         }
-        resetAnimationEvents(showUserDrake);
+        resetAnimationEvents(false, showUserDrake);
         onKeepOffspring(2, success, 8);
       }
       else if (challengeType === 'match-target') {
@@ -319,7 +337,7 @@ export default class EggGame extends Component {
       }
     };
     const handleReset = function() {
-      resetAnimationEvents(showUserDrake);
+      resetAnimationEvents(true, showUserDrake);
       onResetGametes();
     };
 
@@ -498,7 +516,7 @@ export default class EggGame extends Component {
     );
   }
 
-  componentDidMount() {
+  updateComponentLayout() {
     // now that the DOM is loaded, get the positions of the elements
     _this = this;
 
@@ -525,11 +543,26 @@ export default class EggGame extends Component {
       left: father.left
     };
 
-    // animate the gametes moving from parents after page has rendered
-    setTimeout( () => {
-      // first animation - show gametes
-      animationEvents.showGametes.animate();
-    }, 1000);
+    if (challengeDidChange) {
+      // animate the gametes moving from parents after page has rendered
+      setTimeout( () => {
+        // first animation - show gametes
+        animationEvents.showGametes.animate();
+      }, 1000);
+      challengeDidChange = false;
+    }
+  }
+
+  componentDidMount() {
+    this.updateComponentLayout();
+  }
+
+  componentDidUpdate() {
+    this.updateComponentLayout();
+  }
+
+  componentWillUnmount() {
+    resetAnimationEvents();
   }
 
   static propTypes = {
