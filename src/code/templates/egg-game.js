@@ -325,7 +325,6 @@ export default class EggGame extends Component {
             break;
           }
         }
-        resetAnimationEvents(false, showUserDrake);
         onKeepOffspring(2, success, 8);
       }
       else if (challengeType === 'match-target') {
