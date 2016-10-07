@@ -9,6 +9,9 @@ export const actionTypes = {
   GAMETE_CHROMOSOME_ADDED: "Gamete chromosome added",
   FERTILIZED: "Fertilized",
   HATCHED: "Hatched",
+  EGG_SUBMITTED: "Egg submitted",
+  EGG_ACCEPTED: "Egg accepted",
+  EGG_REJECTED: "Egg rejected",
   EGG_PLACED: "Egg placed",
   OFFSPRING_KEPT: "Offspring kept",
   DRAKE_SUBMITTED: "Drake submitted",
@@ -268,12 +271,42 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct, incor
   };
 }
 
-function _putEggInBasket(egg, basket, isCorrect) {
+function _rejectEggFromBasket(eggIndex, basketIndex) {
+  return {
+    type: actionTypes.EGG_REJECTED,
+    eggIndex,
+    basketIndex
+  };
+}
+
+export function rejectEggFromBasket() {
+  return (dispatch, getState) => {
+    const { submittedEggIndex, submittedBasketIndex } = getState();
+    dispatch(_rejectEggFromBasket(submittedEggIndex, submittedBasketIndex));
+  };
+}
+
+function _acceptEggInBasket(eggIndex, basketIndex) {
+  return {
+    type: actionTypes.EGG_ACCEPTED,
+    eggIndex,
+    basketIndex
+  };
+}
+
+export function acceptEggInBasket() {
+  return (dispatch, getState) => {
+    const { submittedEggIndex, submittedBasketIndex } = getState();
+    dispatch(_acceptEggInBasket(submittedEggIndex, submittedBasketIndex));
+  };
+}
+
+function _submitEggForBasket(eggIndex, basketIndex, isCorrect) {
   let incrementMoves = !isCorrect;
   return{
-    type: actionTypes.EGG_PLACED,
-    egg,
-    basket,
+    type: actionTypes.EGG_SUBMITTED,
+    eggIndex,
+    basketIndex,
     isCorrect,
     incrementMoves,
     meta: {
@@ -286,11 +319,11 @@ function _putEggInBasket(egg, basket, isCorrect) {
   };
 }
 
-export function putEggInBasket(egg, basket, isCorrect, isChallengeComplete) {
+export function submitEggForBasket(eggIndex, basketIndex, isCorrect, isChallengeComplete) {
   return (dispatch, getState) => {
-    dispatch(_putEggInBasket(egg, basket, isCorrect));
-
     const state = getState();
+    dispatch(_submitEggForBasket(eggIndex, basketIndex, isCorrect));
+
     let caseComplete = false;
 
     if (isChallengeComplete) {
@@ -336,7 +369,7 @@ export function putEggInBasket(egg, basket, isCorrect, isChallengeComplete) {
           explanation: "~ALERT.EGG_BASKET_MATCH",
           rightButton:{
             label: "~BUTTON.CONTINUE",
-            action: "dismissModalDialog"
+            action: "acceptEggInBasket"
           },
           top: "475px"
         };
@@ -347,7 +380,7 @@ export function putEggInBasket(egg, basket, isCorrect, isChallengeComplete) {
         explanation: "~ALERT.EGG_BASKET_MISMATCH",
         rightButton: {
           label: "~BUTTON.TRY_AGAIN",
-          action: "dismissModalDialog"
+          action: "rejectEggFromBasket"
         },
         top: "475px"
       };

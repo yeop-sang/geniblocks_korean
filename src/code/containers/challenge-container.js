@@ -4,7 +4,7 @@ import templates from '../templates';
 import { changeAllele, changeSex, submitDrake, resetGametes,
         navigateToCurrentRoute, navigateToChallenge, navigateToNextChallenge,
         addGameteChromosome, keepOffspring, fertilize, hatch,
-        completeChallenge, putEggInBasket } from '../actions';
+        completeChallenge, submitEggForBasket } from '../actions';
 
 class ChallengeContainer extends Component {
   componentWillMount() {
@@ -56,6 +56,8 @@ function mapStateToProps (state) {
       gametes: state.gametes,
       hiddenAlleles: state.hiddenAlleles.asMutable(),
       baskets: state.baskets,
+      submittedEggIndex: state.submittedEggIndex,
+      submittedBasketIndex: state.submittedBasketIndex,
       trial: state.trial,
       trials: state.trials,
       case: state.case,
@@ -81,7 +83,7 @@ function mapDispatchToProps(dispatch) {
     onHatch: () => dispatch(hatch()),
     onResetGametes: () => dispatch(resetGametes()),
     onKeepOffspring: (index, success, maxDrakes) => dispatch(keepOffspring(index, success, maxDrakes)),
-    onEggPlaced: (egg, basket, correct) => dispatch(putEggInBasket(egg, basket, correct))
+    onEggPlaced: (eggIndex, basketIndex, correct) => dispatch(submitEggForBasket(eggIndex, basketIndex, correct))
   };
 }
 

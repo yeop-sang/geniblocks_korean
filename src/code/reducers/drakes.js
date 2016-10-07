@@ -27,6 +27,8 @@ export default function drakes(state = initialState, action) {
         state = state.set(action.index, null);
       }
       return state;
+    case actionTypes.EGG_ACCEPTED:
+      return state.setIn([action.eggIndex + 3, "basket"], action.basketIndex);
     default:
       return state;
   }

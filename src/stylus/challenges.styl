@@ -368,21 +368,32 @@
     justify-content: space-around
 
     .clutch-egg
-      background-image: url('../resources/images/egg_brown.png')
+      background-image: url('../resources/images/egg_yellow.png')
       background-size: contain
       background-repeat: no-repeat
+      opacity: 0.4
       width: 75px
       height: 109px
       margin-left: 35px
       margin-right: 35px
 
     .clutch-egg.selected
-      background-image: url('../resources/images/egg_yellow.png')
+      opacity: 1.0
+    
+    .clutch-egg.hidden
+      visibility: hidden
 
   .geniblocks.genome
     position: absolute
     top: 105px
     left: 730px
+
+  .clutch-egg
+    background-image: url('../resources/images/egg_yellow.png')
+    background-size: contain
+    background-repeat: no-repeat
+    width: 75px
+    height: 109px
 
 .egg-alleles {
     position: relative;
