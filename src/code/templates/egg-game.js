@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import OrdinalOrganismView from '../components/ordinal-organism';
 import OrganismView from '../components/organism';
 import GenomeView from '../components/genome';
 import ButtonView from '../components/button';
@@ -6,6 +7,7 @@ import PenView from '../components/pen';
 import GameteImageView from '../components/gamete-image';
 import AnimatedComponentView from '../components/animated-component';
 import ChromosomeImageView from '../components/chromosome-image';
+import t from '../utilities/translate';
 
 // a "reasonable" lookup function for the two gametes
 function lookupGameteChromosomeDOMElement(org, chromosomeName) {
@@ -31,9 +33,10 @@ var _this,
   animatedComponentToRender,
   startDisplay, targetDisplay,
   lastAnimatedComponentId = 0,
-  ovumView, spermView,
   animationTimeline = {},
   mother, father,
+  authoredDrakes = [],
+  challengeDidChange = true,
   ovumTarget, spermTarget,
   animatedOvumView, animatedSpermView,
 
@@ -43,6 +46,7 @@ var _this,
   gameteDisplayStyle = { display: "none" },
   chromosomeDisplayStyle = {display: "none"},
 
+  showHatchAnimation = false,
   hatchSoundPlayed = false,
   offsetTopDrake = 130, offsetTopGamete = 160;
 
@@ -71,6 +75,8 @@ var animationEvents = {
         end: 1.0
       };
 
+      // hide the static gametes while the animated gametes are visible
+      showStaticGametes(false);
       animateMultipleComponents([animatedOvumView, animatedSpermView],  [motherPositions, fatherPositions], opacity, animationEvents.showGametes.id);
       _this.setState({animation:"showGametes"});
     }
@@ -130,13 +136,16 @@ var animationEvents = {
   }
 
 };
-function resetAnimationEvents(){
+function resetAnimationEvents(iShowGametes, iShowHatchAnimation){
+  animationEvents.showGametes.count = 0;
+  animationEvents.moveGametes.count = 0;
   animationEvents.selectChromosome.ready = true;
   animationEvents.fertilize.started = false;
   animationEvents.fertilize.complete = false;
   animationEvents.hatch.inProgress = false;
   animationEvents.hatch.complete = false;
-  gameteDisplayStyle = {};
+  showHatchAnimation = !!iShowHatchAnimation;
+  showStaticGametes(!!iShowGametes);
 }
 
 function runAnimation(animationEvent, positions, opacity, speed = "fast"){
@@ -179,8 +188,8 @@ function animationFinish(evt){
       animationEvents.moveGametes.count++;
       if (animationEvents.moveGametes.count === 2){
         animatedComponents = [];
-        // show gametes
-        gameteDisplayStyle = {};
+        // show static gametes when move complete
+        showStaticGametes(true);
         animationEvents.moveGametes.complete = true;
         animationEvents.selectChromosome.ready = true;
         // show gamete placeholders
@@ -189,8 +198,12 @@ function animationFinish(evt){
       break;
     case animationEvents.fertilize.id:
       animationEvents.fertilize.complete = true;
-      gameteDisplayStyle = {display: "none"};
-      animationEvents.hatch.animate();
+      // hide static gametes during fertilization
+      showStaticGametes(false);
+      if (showHatchAnimation)
+        animationEvents.hatch.animate();
+      else
+        animationEvents.hatch.complete = true;
       break;
     case animationEvents.hatch.id:
       animationEvents.hatch.complete = true;
@@ -208,10 +221,58 @@ function animateMultipleComponents(componentsToAnimate, positions, opacity, anim
   }
 }
 
+function areGametesEmpty(gametes) {
+  const length = gametes && gametes.length;
+  for (let i = 0; i < length; ++i) {
+    let gamete = gametes[i];
+    if (gamete && Object.keys(gamete).length)
+      return false;
+  }
+  return true;
+}
+
+function showStaticGametes(show) {
+  gameteDisplayStyle = show ? {} : { display: "none" };
+}
+
 export default class EggGame extends Component {
 
-    render() {
-       const { drakes, gametes, onChromosomeAlleleChange, onGameteChromosomeAdded, onFertilize, onHatch, onResetGametes, onKeepOffspring, hiddenAlleles } = this.props,
+  state = {}
+
+  componentWillMount() {
+    challengeDidChange = true;
+    resetAnimationEvents(false, this.props.showUserDrake);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { case: prevCase, challenge: prevChallenge,
+            trial: prevTrial, gametes: prevGametes } = this.props,
+          { case: nextCase, challenge: nextChallenge,
+            trial: nextTrial, gametes: nextGametes,
+            showUserDrake, onResetGametes } = nextProps,
+          newChallenge = (prevCase !== nextCase) || (prevChallenge !== nextChallenge),
+          newTrialInChallenge = !newChallenge && (prevTrial !== nextTrial),
+          gametesReset = !areGametesEmpty(prevGametes) && areGametesEmpty(nextGametes);
+    if (newChallenge || newTrialInChallenge || gametesReset) {
+      if (newChallenge) {
+        challengeDidChange = true;
+      }
+      resetAnimationEvents(!challengeDidChange, showUserDrake);
+      if (newTrialInChallenge && onResetGametes) {
+        onResetGametes();
+        showStaticGametes(true);
+      }
+    }
+  }
+
+  render() {
+    const { challengeType, showUserDrake, trial, drakes, gametes, hiddenAlleles, userDrakeHidden,
+            onChromosomeAlleleChange, onGameteChromosomeAdded, 
+            onFertilize, onHatch, onResetGametes, onKeepOffspring, onDrakeSubmission } = this.props,
+          firstTargetDrakeIndex = 3, // 0: mother, 1: father, 2: child, 3-5: targets
+          targetDrake = drakes[firstTargetDrakeIndex + trial],
+          isCreationChallenge = challengeType === 'create-unique',
+          isMatchingChallenge = challengeType === 'match-target',
           mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
           father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex);
 
@@ -251,22 +312,31 @@ export default class EggGame extends Component {
       }
     };
 
-    const handleKeepOffspring = function () {
+    const handleSubmit = function () {
       let childImage = child.getImageName(),
           [,,,...keptDrakes] = drakes,
-          success = true;
-      for (let drake of keptDrakes) {
-        let org = new BioLogica.Organism(BioLogica.Species.Drake, drake.alleleString, drake.sex);
-        if (org.getImageName() === childImage) {
           success = false;
-          break;
+      if (challengeType === 'create-unique') {
+        success = true;
+        for (let drake of keptDrakes) {
+          let org = new BioLogica.Organism(BioLogica.Species.Drake, drake.alleleString, drake.sex);
+          if (org.getImageName() === childImage) {
+            success = false;
+            break;
+          }
         }
+        onKeepOffspring(2, success, 8);
       }
-      resetAnimationEvents();
-      onKeepOffspring(2, success, 8);
+      else if (challengeType === 'match-target') {
+        const targetDrakeOrg = new BioLogica.Organism(BioLogica.Species.Drake,
+                                                      targetDrake.alleleString,
+                                                      targetDrake.sex);
+        success = (childImage === targetDrakeOrg.getImageName());
+        onDrakeSubmission(targetDrakeOrg.phenotype, child.phenotype, success, "resetGametes");
+      }
     };
     const handleReset = function() {
-      resetAnimationEvents();
+      resetAnimationEvents(true, showUserDrake);
       onResetGametes();
     };
 
@@ -289,32 +359,92 @@ export default class EggGame extends Component {
       "XY": { b: getGameteChromosome(0, "XY") }
     };
 
+    // map all chromosomes in a gamete to a single side for selection purposes
+    function mapChromosomesToSide(gamete, side) {
+      let chromName, mappedGamete = {};
+      for (chromName in gamete) {
+        mappedGamete[chromName] = side;
+      }
+      return mappedGamete;
+    }
+
+    // create the trial feedback views
+    function mapTargetDrakesToFeedbackViews(drakes, currentTrial) {
+      let ordOrgViews = [];
+      for (let i = firstTargetDrakeIndex; i < drakes.length; ++i) {
+        const trial = i - firstTargetDrakeIndex,
+              isCompleted = currentTrial >= trial,
+              ordinal = trial + 1,
+              drake = drakes[i],
+              organism = currentTrial > trial
+                          ? new BioLogica.Organism(BioLogica.Species.Drake,
+                                                    drake.alleleString,
+                                                    drake.sex)
+                          : null,
+              bgColor = isCompleted ? "#AAAAAA" : null,
+              targetID = `target-${trial+1}`,
+              classes = `matched-target` + (isCompleted ? ' complete' : ''),
+              ordOrgView = <OrdinalOrganismView id={targetID} className={classes}
+                                                ordinal={ordinal} organism={organism}
+                                                bgColor={bgColor} key={targetID}/>;
+        ordOrgViews.push(ordOrgView);
+      }
+      return ordOrgViews;
+    }
+
     let gametesClass = "gametes";
     if (!drakes[2]) {
       gametesClass += " unfertilized";
     }
 
-    var childView;
+    const targetDrakeOrg = targetDrake && targetDrake.alleleString
+                              ? new BioLogica.Organism(BioLogica.Species.Drake,
+                                                        targetDrake.alleleString,
+                                                        targetDrake.sex)
+                              : null,
+          targetDrakeView = isMatchingChallenge && targetDrakeOrg
+                              ? <div className='target-drake'>
+                                  <OrganismView className="target" org={targetDrakeOrg} width={140} key={0} />
+                                </div>
+                              : null,
+          targetDrakeSection = isMatchingChallenge
+                                ? <div className='target-section'>
+                                    {targetDrakeView}
+                                    <div className='target-counters'>
+                                      {mapTargetDrakesToFeedbackViews(drakes, trial)}
+                                    </div>
+                                  </div>
+                                : null,
+          eggClasses = "egg-image" + (isMatchingChallenge ? " matching" : ""),
+          eggImageView = <img className={eggClasses} src="resources/images/egg_yellow.png" key={1}/>;
+    let childView, ovumView, spermView, penView;
     if (drakes[2] && animationEvents.hatch.complete) {
-      handleHatch();
-      let child = new BioLogica.Organism(BioLogica.Species.Drake, drakes[2].alleleString, drakes[2].sex);
+      if (showUserDrake)
+        handleHatch();
+      const child = new BioLogica.Organism(BioLogica.Species.Drake, drakes[2].alleleString, drakes[2].sex),
+            drakeImageView = <OrganismView className="matching" org={ child } width={140} key={1} />,
+            eggOrDrakeView = showUserDrake || !userDrakeHidden ? drakeImageView : eggImageView,
+            saveOrSubmitTitle = isCreationChallenge ? t("~BUTTON.SAVE_DRAKE") : t("~BUTTON.SUBMIT"),
+            tryAgainOrResetTitle = isCreationChallenge ? t("~BUTTON.TRY_AGAIN") : t("~BUTTON.RESET");
       childView = (
         [
-          <OrganismView org={ child } width={170} key={0}/>,
-          <div className="offspring-buttons" key={1}>
-            <ButtonView label={ "Save this" } onClick={ handleKeepOffspring } key={2} />
-            <ButtonView label={ "Try again" } onClick={ handleReset } key={3} />
+          eggOrDrakeView,
+          <div className="offspring-buttons" key={2}>
+            <ButtonView label={ saveOrSubmitTitle } onClick={ handleSubmit } key={3} />
+            <ButtonView label={ tryAgainOrResetTitle } onClick={ handleReset } key={4} />
           </div>
         ]
       );
     } else {
       if (animationEvents.hatch.inProgress) {
-        childView = <img className="egg-image" src="resources/images/egg_yellow.png" />;
+        childView = eggImageView;
       } else {
-        let text = "Fertilize ❤️",
+        let text = t("~BUTTON.FERTILIZE"),
             className = "fertilize-button";
+        if (isMatchingChallenge)
+          className += " matching";
         if (Object.keys(gametes[0]).length !== 3 || Object.keys(gametes[1]).length !== 3) {
-          text = "Fertilize",
+          text = t("~BUTTON.FERTILIZE_DISABLED"),
           className += " disabled";
         }
         childView = <ButtonView className={ className } label={ text } onClick={ handleFertilize } />;
@@ -323,52 +453,69 @@ export default class EggGame extends Component {
     let oChroms = femaleGameteChromosomeMap,
         sChroms = maleGameteChromosomeMap,
         ovumChromosomes  = [oChroms[1] && oChroms[1].a, oChroms[2] && oChroms[2].a, oChroms.XY && oChroms.XY.a],
-        spermChromosomes = [sChroms[1] && sChroms[1].b, sChroms[2] && sChroms[2].b, sChroms.XY && sChroms.XY.b];
+        spermChromosomes = [sChroms[1] && sChroms[1].b, sChroms[2] && sChroms[2].b, sChroms.XY && sChroms.XY.b],
+        ovumSelected = mapChromosomesToSide(gametes[1], 'a'),
+        spermSelected = mapChromosomesToSide(gametes[0], 'b'),
+        ovumClasses = "ovum" + (isMatchingChallenge ? " matching" : ""),
+        spermClasses = "sperm" + (isMatchingChallenge ? " matching" : "");
 
-    ovumView  = <GameteImageView className="ovum"  isEgg={true}  chromosomes={ovumChromosomes} displayStyle={gameteDisplayStyle} />;
-    spermView = <GameteImageView className="sperm" isEgg={false} chromosomes={spermChromosomes} displayStyle={gameteDisplayStyle} />;
+    ovumView  = <GameteImageView className={ovumClasses}  isEgg={true}  chromosomes={ovumChromosomes} displayStyle={gameteDisplayStyle} />;
+    spermView = <GameteImageView className={spermClasses} isEgg={false} chromosomes={spermChromosomes} displayStyle={gameteDisplayStyle} />;
 
     let [,,,...keptDrakes] = drakes;
     keptDrakes = keptDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
 
+    if (isCreationChallenge) {
+      penView = <div className='columns bottom'>
+                  <PenView orgs={ keptDrakes } width={500} columns={5} rows={1} tightenRows={20}/>
+                </div>;
+    }
+
+    const parentGenomeClass = "parent" + (isMatchingChallenge ? " matching" : ""),
+          childGenomeClass = "child" + (isMatchingChallenge ? " matching" : "");
     return (
       <div id="egg-game">
         <div className="columns">
           <div className='column'>
             <div className="mother">Mother</div>
             <OrganismView org={ mother } flipped={ true } />
-            <GenomeView orgName="mother" org={ mother } onAlleleChange={ handleAlleleChange } onChromosomeSelected={handleChromosomeSelected} editable={false} hiddenAlleles= { hiddenAlleles } small={ true } selectedChromosomes={ gametes[1] } />
+            <GenomeView className={parentGenomeClass} orgName="mother" org={ mother } onAlleleChange={ handleAlleleChange } onChromosomeSelected={handleChromosomeSelected} editable={false} hiddenAlleles= { hiddenAlleles } small={ true } selectedChromosomes={ gametes[1] } />
           </div>
           <div className='egg column'>
-            <div className='top'>
+            { targetDrakeSection }
+            <div className='fertilization'>
               { childView }
             </div>
             <div className={ gametesClass }>
               <div className='half-genome half-genome-left' id="mother-gamete-genome">
                 { ovumView }
-                <GenomeView orgName="targetmother" chromosomes={ femaleGameteChromosomeMap } species={ mother.species } editable={false} hiddenAlleles= { hiddenAlleles } small={ true } displayStyle={chromosomeDisplayStyle} />
+                <GenomeView className={childGenomeClass} orgName="targetmother" species={ mother.species }
+                            chromosomes={ femaleGameteChromosomeMap } selectedChromosomes={ ovumSelected }
+                            editable={false} hiddenAlleles={ hiddenAlleles }
+                            small={ true } displayStyle={chromosomeDisplayStyle} />
               </div>
               <div className='half-genome half-genome-right' id="father-gamete-genome">
                 { spermView }
-                <GenomeView orgName="targetfather" chromosomes={ maleGameteChromosomeMap }   species={ mother.species } editable={false} hiddenAlleles= { hiddenAlleles } small={ true } displayStyle={chromosomeDisplayStyle} />
+                <GenomeView className={childGenomeClass} orgName="targetfather" species={ mother.species } 
+                            chromosomes={ maleGameteChromosomeMap } selectedChromosomes={ spermSelected }
+                            editable={false} hiddenAlleles={ hiddenAlleles }
+                            small={ true } displayStyle={chromosomeDisplayStyle} />
               </div>
             </div>
           </div>
           <div className='column'>
             <div className="father">Father</div>
             <OrganismView org={ father } className="father" />
-            <GenomeView orgName="father" org={ father } onAlleleChange={ handleAlleleChange } onChromosomeSelected={handleChromosomeSelected} editable={false} hiddenAlleles= { hiddenAlleles } small={ true } selectedChromosomes={ gametes[0] } />
+            <GenomeView className={parentGenomeClass} orgName="father" org={ father } onAlleleChange={ handleAlleleChange } onChromosomeSelected={handleChromosomeSelected} editable={false} hiddenAlleles= { hiddenAlleles } small={ true } selectedChromosomes={ gametes[0] } />
           </div>
         </div>
-        <div className='columns bottom'>
-          <PenView orgs={ keptDrakes } width={500} columns={5} rows={1} tightenRows={20}/>
-        </div>
+        {penView}
         {animatedComponents}
       </div>
     );
   }
 
-  componentDidMount() {
+  updateComponentLayout() {
     // now that the DOM is loaded, get the positions of the elements
     _this = this;
 
@@ -395,31 +542,84 @@ export default class EggGame extends Component {
       left: father.left
     };
 
-    // animate the gametes moving from parents after page has rendered
-    setTimeout( () => {
-      // first animation - show gametes
-      animationEvents.showGametes.animate();
-    }, 1000);
+    if (challengeDidChange) {
+      // animate the gametes moving from parents after page has rendered
+      setTimeout( () => {
+        // first animation - show gametes
+        animationEvents.showGametes.animate();
+      }, 1000);
+      challengeDidChange = false;
+    }
+  }
+
+  componentDidMount() {
+    this.updateComponentLayout();
+  }
+
+  componentDidUpdate() {
+    this.updateComponentLayout();
+  }
+
+  componentWillUnmount() {
+    resetAnimationEvents();
   }
 
   static propTypes = {
+    case: PropTypes.number.isRequired,
+    challenge: PropTypes.number.isRequired,
+    challengeType: PropTypes.string.isRequired,
+    showUserDrake: PropTypes.bool.isRequired,
+    trial: PropTypes.number.isRequired,
     drakes: PropTypes.array.isRequired,
     gametes: PropTypes.array.isRequired,
     hiddenAlleles: PropTypes.array.isRequired,
+    userDrakeHidden: PropTypes.bool,
     onChromosomeAlleleChange: PropTypes.func.isRequired,
     onGameteChromosomeAdded: PropTypes.func.isRequired,
     onFertilize: PropTypes.func.isRequired,
     onHatch: PropTypes.func,
     onResetGametes: PropTypes.func,
     onKeepOffspring: PropTypes.func,
-    onAnimationStart: PropTypes.func,
-    onAnimationEnd: PropTypes.func,
-    challenge: PropTypes.number.isRequired
+    onDrakeSubmission: PropTypes.func
   }
-  static authoredDrakesToDrakeArray = function(authoredChallenge) {
-    return [authoredChallenge.mother, authoredChallenge.father];
+
+  static authoredDrakesToDrakeArray = function(authoredChallenge, trial) {
+    if (authoredChallenge.challengeType === 'create-unique')
+      return [authoredChallenge.mother, authoredChallenge.father];
+
+    // already generated drakes
+    if (trial > 0)
+      return authoredDrakes;
+
+    // challengeType === 'match-target'
+    const mother = new BioLogica.Organism(BioLogica.Species.Drake,
+                                          authoredChallenge.mother.alleles,
+                                          authoredChallenge.mother.sex),
+          father = new BioLogica.Organism(BioLogica.Species.Drake,
+                                          authoredChallenge.father.alleles,
+                                          authoredChallenge.father.sex),
+          // authored specs may be incomplete; these are complete specs
+          motherSpec = { alleles: mother.getAlleleString(), sex: mother.sex },
+          fatherSpec = { alleles: father.getAlleleString(), sex: father.sex },
+          targetDrakeCount = authoredChallenge.targetDrakes.length;
+    authoredDrakes = [motherSpec, fatherSpec, null];
+    for (let i = 0; i < targetDrakeCount; ++i) {
+      const child = BioLogica.breed(mother, father, false),
+            alleles = child.getAlleleString(),
+            sex = child.sex;
+      authoredDrakes.push({ alleles, sex });
+    }
+    return authoredDrakes;
   }
+
   static initialGametesArray = function() {
     return [{}, {}];
   }
+
+  static calculateGoalMoves = function() {
+    // each incorrect submission counts as one move
+    // the goal is to have no incorrect submissions
+    return 0;
+  }
+
 }

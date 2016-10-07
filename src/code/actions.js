@@ -76,13 +76,26 @@ export function navigateToChallenge(_case, challenge) {
   };
 }
 
+export function retryCurrentChallenge() {
+  return (dispatch, getState) => {
+    const { case: currentCase, challenge: currentChallenge } = getState();
+    dispatch(navigateToChallenge(currentCase, currentChallenge));
+  };
+}
+
 export function navigateToNextChallenge() {
   return (dispatch, getState) => {
     const { case: currentCase, challenge: currentChallenge, authoring} = getState();
     let nextCase = currentCase,
-        nextChallenge = currentChallenge+1;
-    if (authoring[currentCase].length <= nextChallenge) {
-      if (authoring[currentCase+1]) nextCase++;
+        nextChallenge = currentChallenge+1,
+        challengeCountInCase = authoring[currentCase].length;
+    if (challengeCountInCase <= nextChallenge) {
+      // if the next case exists, navigate to it
+      if (authoring[currentCase+1])
+        nextCase++;
+      // otherwise, circle back to the beginning
+      else
+        nextCase = 0;
       nextChallenge = 0;
     }
     dispatch(navigateToChallenge(nextCase, nextChallenge));
@@ -180,7 +193,7 @@ function _submitDrake(correctPhenotype, submittedPhenotype, correct) {
   };
 }
 
-export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
+export function submitDrake(correctPhenotype, submittedPhenotype, correct, incorrectAction) {
   return (dispatch, getState) => {
     dispatch(_submitDrake(correctPhenotype, submittedPhenotype, correct));
 
@@ -202,6 +215,10 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
         dialog = {
           message: "~ALERT.TITLE.GOOD_WORK",
           explanation: "~ALERT.COMPLETE_COIN",
+          leftButton: {
+            label: "~BUTTON.TRY_AGAIN",
+            action: "retryCurrentChallenge"
+          },
           rightButton: {
             label: "~BUTTON.NEXT_CASE",
             action: "navigateToNextChallenge"
@@ -212,6 +229,10 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
         dialog = {
           message: "~ALERT.TITLE.GOOD_WORK",
           explanation: "~ALERT.NEW_PIECE_OF_COIN",
+          leftButton: {
+            label: "~BUTTON.TRY_AGAIN",
+            action: "retryCurrentChallenge"
+          },
           rightButton: {
             label: "~BUTTON.NEXT_CHALLENGE",
             action: "navigateToNextChallenge"
@@ -235,7 +256,7 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct) {
         explanation: "~ALERT.INCORRECT_DRAKE",
         rightButton: {
           label: "~BUTTON.TRY_AGAIN",
-          action: "dismissModalDialog"
+          action: incorrectAction || "dismissModalDialog"
         },
         top: "475px"
       };
@@ -306,6 +327,10 @@ export function completeChallenge() {
     dispatch(showModalDialog({
       message: "~ALERT.TITLE.GOOD_WORK",
       explanation: "~ALERT.NEW_PIECE_OF_COIN",
+      leftButton:{
+        label: "~BUTTON.TRY_AGAIN",
+        action: "retryCurrentChallenge"
+      },
       rightButton:{
         label: "~BUTTON.NEXT_CHALLENGE",
         action: "navigateToNextChallenge"

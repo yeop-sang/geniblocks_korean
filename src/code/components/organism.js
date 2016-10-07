@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-const OrganismView = ({org, id, width=200, flipped=false, style={}, onClick, wrapper }) => {
+const OrganismView = ({org, id, className="", width=200, flipped=false, style={}, onClick, wrapper }) => {
   const baseUrl = "https://geniverse-resources.concord.org/resources/drakes/images/",
         url     = baseUrl + org.getImageName(),
         // The goal here was to have the onMouseDown handler select the organism,
@@ -16,9 +16,9 @@ const OrganismView = ({org, id, width=200, flipped=false, style={}, onClick, wra
         handleMouseDown = isFirefox ? undefined : handleClick,
         divWrapper = wrapper || function(elt) { return elt; };
 
-  let className = "geniblocks organism";
+  let classes = "geniblocks organism" + (className ? " " + className : "");
   if (flipped) {
-    className += " flipped";
+    classes += " flipped";
   }
 
   function handleClick() {
@@ -26,7 +26,7 @@ const OrganismView = ({org, id, width=200, flipped=false, style={}, onClick, wra
   }
 
   return divWrapper(
-    <div className={className} id={id} style={style}
+    <div className={classes} id={id} style={style}
           onMouseDown={handleMouseDown} onClick={handleClick}>
       <img src={url} width={width} />
     </div>
@@ -36,6 +36,7 @@ const OrganismView = ({org, id, width=200, flipped=false, style={}, onClick, wra
 OrganismView.propTypes = {
   org: PropTypes.object.isRequired,
   id: PropTypes.string,
+  className: PropTypes.string,
   width: PropTypes.number,
   style: PropTypes.object,
   onClick: PropTypes.func,

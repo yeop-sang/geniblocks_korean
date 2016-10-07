@@ -197,22 +197,50 @@
   .geniblocks.genome
     position: relative
     top: -33px
+    &.matching
+      top: -60px
+    &.matching.parent
+      top: 50px
   .geniblocks.organism
     height: 202px
+    &.target
+      height: 102px
 
 .egg
   position: relative
   display: flex
   width: 420px
+  
+  .target-section
+    display: flex
+    flex-direction: row
+    justify-content: center
+    margin-left: -40px;
+  
+  .target-drake
+    margin-top: -20px;
+  
+  .target-counters
+    display: flex
+    flex-direction: column
+    justify-content: center
+    margin-top: 10px;
+    margin-left: 30px;
 
-  .top
+  .fertilization
     display: flex
     align-items: flex-start
     height: 218px
 
     .organism
       padding-left: 25px
+      padding-right: 10px
       height: 170px
+      &.matching
+        margin-top: 10px
+        padding-left: 10px
+        padding-right: 20px
+        height: 140px
 
     .offspring-buttons
       display: flex
@@ -248,12 +276,15 @@
       transition: left 2s
       top: -135px
       left: 110px
+      &.matching
+        top: -160px
     .sperm
       position: absolute
       transition: left 2s
       top: -117px
       left: -12px
-
+      &.matching
+        top: -142px
 
     &.unfertilized
       .ovum
@@ -263,15 +294,24 @@
 
   .fertilize-button
     margin-top: 45px
+    &.matching
+      margin-top: 25px
     &.disabled
       color: gray
 
   .egg-image
     width: 103px
     padding: 34px
+    &.matching
+      margin-top: 0px
+      width: 70px
 
   .organism
     padding-top: 40px
+    &.target
+      padding-top: 10px
+    &.matching
+      padding-top: 10px
 
 #egg-game .bottom
   justify-content center

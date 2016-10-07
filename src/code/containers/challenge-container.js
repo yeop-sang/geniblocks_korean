@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import templates from '../templates';
-import { changeAllele, changeSex, submitDrake, resetGametes, navigateToCurrentRoute, navigateToChallenge, navigateToNextChallenge, addGameteChromosome, keepOffspring, fertilize, hatch, completeChallenge } from '../actions';
+import { changeAllele, changeSex, submitDrake, resetGametes,
+        navigateToCurrentRoute, navigateToChallenge, navigateToNextChallenge,
+        addGameteChromosome, keepOffspring, fertilize, hatch,
+        completeChallenge } from '../actions';
 
 class ChallengeContainer extends Component {
   componentWillMount() {
@@ -47,6 +50,8 @@ class ChallengeContainer extends Component {
 function mapStateToProps (state) {
     return {
       template: state.template,
+      challengeType: state.challengeType,
+      showUserDrake: state.showUserDrake,
       drakes: state.drakes,
       gametes: state.gametes,
       hiddenAlleles: state.hiddenAlleles.asMutable(),
@@ -64,7 +69,8 @@ function mapDispatchToProps(dispatch) {
   return {
     onChromosomeAlleleChange: (index, chrom, side, prevAllele, newAllele) => dispatch(changeAllele(index, chrom, side, prevAllele, newAllele, true)),
     onSexChange: (index, newSex) => dispatch(changeSex(index, newSex, true)),
-    onDrakeSubmission: (targetPhenotype, userPhenotype, correct) => dispatch(submitDrake(targetPhenotype, userPhenotype, correct)),
+    onDrakeSubmission: (targetPhenotype, userPhenotype, correct, incorrectAction) => 
+      dispatch(submitDrake(targetPhenotype, userPhenotype, correct, incorrectAction)),
     onNavigateNextChallenge: () => dispatch(navigateToNextChallenge()),
     onCompleteChallenge: () => dispatch(completeChallenge()),
     navigateToChallenge: (_case, challenge) => dispatch(navigateToChallenge(_case, challenge)),
