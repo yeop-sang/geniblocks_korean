@@ -120,7 +120,7 @@ window.GV2Authoring = [
       },
       "hiddenAlleles": "t,m,w,h,c,b,a,d,bog,rh",
       "baskets": [
-        { "label": "Drakes with Forelimbs and Hindlimbs", "alleles": ["a:Fl,a:Hl","a:Fl,b:Hl","b:Fl,a:Hl","b:Fl,a:Hl"] },
+        { "label": "Drakes with Forelimbs and Hindlimbs", "alleles": ["a:Fl,a:Hl","a:Fl,b:Hl","b:Fl,a:Hl","b:Fl,b:Hl"] },
         { "label": "Drakes without Forelimbs or Hindlimbs", "alleles": ["a:fl,b:fl,a:hl,b:hl"] }
       ],
       "eggCount": 8

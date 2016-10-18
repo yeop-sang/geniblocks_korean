@@ -12,8 +12,8 @@ export const actionTypes = {
   EGG_SUBMITTED: "Egg submitted",
   EGG_ACCEPTED: "Egg accepted",
   EGG_REJECTED: "Egg rejected",
-  EGG_PLACED: "Egg placed",
   OFFSPRING_KEPT: "Offspring kept",
+  DRAKE_SELECTION_CHANGED: "Drake selection changed",
   DRAKE_SUBMITTED: "Drake submitted",
   GAMETES_RESET: "Gametes reset",
   NAVIGATED_NEXT_CHALLENGE: "Navigated to next challenge",
@@ -36,8 +36,10 @@ const ITS_ACTIONS = {
   NAVIGATED: "NAVIGATED",
   ADVANCED: "ADVANCED",
   CHANGED: "CHANGED",
+  CHANGED_SELECTION: "CHANGED_SELECTION",
   SUBMITTED: "SUBMITTED",
-  PLACED: "PLACED"
+  ACCEPTED: "ACCEPTED",
+  REJECTED: "REJECTED"
 };
 
 const ITS_TARGETS = {
@@ -181,6 +183,20 @@ export function changeSex(index, newSex, incrementMoves=false) {
   };
 }
 
+export function changeDrakeSelection(selectedIndices) {
+  return{
+    type: actionTypes.DRAKE_SELECTION_CHANGED,
+    selectedIndices,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.CHANGE_SELECTION,
+        target: ITS_TARGETS.DRAKE
+      }
+    }
+  };
+}
+
 function _submitDrake(correctPhenotype, submittedPhenotype, correct) {
   let incrementMoves = !correct;
   return{
@@ -301,11 +317,11 @@ export function acceptEggInBasket() {
   };
 }
 
-function _submitEggForBasket(eggIndex, basketIndex, isCorrect) {
+function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect) {
   let incrementMoves = !isCorrect;
   return{
     type: actionTypes.EGG_SUBMITTED,
-    eggIndex,
+    eggDrakeIndex,
     basketIndex,
     isCorrect,
     incrementMoves,
@@ -319,10 +335,10 @@ function _submitEggForBasket(eggIndex, basketIndex, isCorrect) {
   };
 }
 
-export function submitEggForBasket(eggIndex, basketIndex, isCorrect, isChallengeComplete) {
+export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChallengeComplete) {
   return (dispatch, getState) => {
     const state = getState();
-    dispatch(_submitEggForBasket(eggIndex, basketIndex, isCorrect));
+    dispatch(_submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect));
 
     let caseComplete = false;
 

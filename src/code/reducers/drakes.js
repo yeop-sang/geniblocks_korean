@@ -16,6 +16,19 @@ export default function drakes(state = initialState, action) {
       });
     case actionTypes.SEX_CHANGED:
       return state.setIn([action.index, "sex"], action.newSex);
+    case actionTypes.DRAKE_SELECTION_CHANGED:
+      return state.map((drake, index) => {
+        if (drake == null) return drake;
+        const wasSelected = !!drake.isSelected,
+              isSelected = (action.selectedIndices != null) && 
+                            (action.selectedIndices.indexOf(index) >= 0);
+        let newDrake = drake;
+        if (isSelected !== wasSelected) {
+          newDrake = drake.asMutable();
+          newDrake.isSelected = isSelected;
+        }
+        return newDrake;
+      });
     case actionTypes.GAMETES_RESET:
       return state.set(2, null);
     case actionTypes.OFFSPRING_KEPT:
@@ -28,7 +41,7 @@ export default function drakes(state = initialState, action) {
       }
       return state;
     case actionTypes.EGG_ACCEPTED:
-      return state.setIn([action.eggIndex + 3, "basket"], action.basketIndex);
+      return state.setIn([action.eggDrakeIndex, "basket"], action.basketIndex);
     default:
       return state;
   }

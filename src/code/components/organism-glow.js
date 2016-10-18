@@ -10,7 +10,7 @@ import OrganismView from './organism';
  * @param {string} color - the color of the circular gradient "glow" background view.
  * @param {number} size
  */
-const OrganismGlowView = ({id, className, color="#FFFFAA", size=200, style={}, glowStyle={}, ...other}) => {
+const OrganismGlowView = ({id='org-glow', className='', color="#FFFFAA", size=200, style={}, glowStyle={}, ...other}) => {
   const containerStyle = {position: 'relative', width: size, height: size},
         localGlowStyle = { position: 'absolute', ...glowStyle },
         orgStyle = { position: 'absolute', ...style };

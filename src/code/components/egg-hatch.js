@@ -23,9 +23,10 @@ class EggHatchView extends React.Component {
           drakeStyle = { position: 'absolute', opacity: drakeOpacity, marginLeft: -width/4 },
           glowStyle = { opacity: drakeOpacity, marginLeft: -width/4 },
           orgView = glow
-                      ? <OrganismGlowView org={organism} size={1.5 * width}
+                      ? <OrganismGlowView id='egg-hatch-org' org={organism} size={1.5 * width}
                                           style={drakeStyle} glowStyle={glowStyle}/>
-                      : <OrganismView org={organism} width={1.5 * width} style={drakeStyle} />;
+                      : <OrganismView id='egg-hatch-org' org={organism} width={1.5 * width} 
+                                          style={drakeStyle} />;
     return (
       <div className='geniblocks egg-hatch' style={{ position: 'relative', width }} >
         <EggView egg={egg} displayStyle={eggStyle} isSelected={true} />

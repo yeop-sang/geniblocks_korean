@@ -9,6 +9,8 @@ import urlParams from '../utilities/url-params';
 const EGG_IMAGE_WIDTH_MEDIUM = EGG_IMAGE_WIDTH * 2 / 3,
       EGG_IMAGE_WIDTH_SMALL = EGG_IMAGE_WIDTH / 3,
 
+      DRAKE_INDEX_OF_FIRST_EGG = 3,
+
       modeHatchInPlace = urlParams.hatchInPlace > 0,
       modeHatchInBasket = !modeHatchInPlace,
       modeCollectInBasket = urlParams.collectInBasket > 0,
@@ -226,21 +228,20 @@ export default class EggSortGame extends Component {
     baskets: PropTypes.array.isRequired,
     submittedEggIndex: PropTypes.number,
     submittedBasketIndex: PropTypes.number,
-    onEggPlaced: PropTypes.func.isRequired
+    onChangeDrakeSelection: PropTypes.func,
+    onEggSubmitted: PropTypes.func.isRequired
   }
 
   state = {
     selectedBaskets: [],
-    clickedBasket: null,
-    selectedEggIndex: null,
-    selectedEgg: null
+    clickedBasket: null
   }
 
   componentWillMount() {
     const { drakes } = this.props,
           mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleles, drakes[0].sex),
           father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleles, drakes[1].sex),
-          eggs = drakes.slice(3).map((child) =>
+          eggs = drakes.slice(DRAKE_INDEX_OF_FIRST_EGG).map((child) =>
                     new BioLogica.Organism(BioLogica.Species.Drake, child.alleleString, child.sex));
     this.setState({ mother, father, eggs });
   }
@@ -267,9 +268,21 @@ export default class EggSortGame extends Component {
     }
   }
 
+  selectedEgg() {
+    const { drakes } = this.props,
+          { eggs } = this.state,
+          eggDrakeIndex = drakes.findIndex((drake) => drake && drake.isSelected),
+          eggIndex = eggDrakeIndex >= DRAKE_INDEX_OF_FIRST_EGG
+                      ? eggDrakeIndex - DRAKE_INDEX_OF_FIRST_EGG
+                      : null,
+          egg = eggIndex != null && eggIndex >= 0 ? eggs[eggIndex] : null;
+    return { index: eggIndex, egg };
+  }
+
   clearSelection() {
-    this.setState({ selectedBaskets: [], clickedBasket: null,
-                    selectedEggIndex: null, selectedEgg: null });
+    const { onChangeDrakeSelection } = this.props;
+    onChangeDrakeSelection([]);
+    this.setState({ selectedBaskets: [], clickedBasket: null });
   }
 
   handleUpdateBasketBounds = (basket, index, bounds) => {
@@ -287,39 +300,39 @@ export default class EggSortGame extends Component {
   }
 
   handleBasketClick = (id, index, basket) => {
-    const { onEggPlaced } = this.props,
-          { selectedEgg, selectedEggIndex } = this.state;
+    const { onEggSubmitted } = this.props,
+          { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),
+          eggDrakeIndex = selectedEggIndex + DRAKE_INDEX_OF_FIRST_EGG;
     isSubmittedEggCorrect = selectedEgg && isEggCompatibleWithBasket(selectedEgg, basket);
     if (selectedEgg) {
       if (modeHatchInPlace)
         animationEvents.hatchDrakeInEgg.animate(selectedEgg, selectedEggIndex, index);
       else
         animationEvents.moveEggToBasket.animate(selectedEgg, selectedEggIndex, index);
-      onEggPlaced(selectedEggIndex, index, isSubmittedEggCorrect);
+      onEggSubmitted(eggDrakeIndex, index, isSubmittedEggCorrect);
     }
     this.setState({ selectedBaskets: [index], clickedBasket: basket });
   }
 
-  handleEggClick = (id, index, egg) => {
-    const { baskets } = this.props,
-          { eggs } = this.state,
-          selectedDrake = eggs && eggs[index],
+  handleEggClick = (id, index) => {
+    const { baskets, onChangeDrakeSelection } = this.props,
           // all baskets selected/highlighted on egg click
           selectedBaskets = baskets.map((basket, index) => index);
-    this.setState({ selectedBaskets, clickedBasket: null,
-                    selectedEggIndex: index, selectedEgg: egg, selectedDrake });
+    onChangeDrakeSelection([index + DRAKE_INDEX_OF_FIRST_EGG]);
+    this.setState({ selectedBaskets, clickedBasket: null });
   }
 
   render() {
     const { hiddenAlleles, drakes, baskets } = this.props,
-          { animation, eggs, selectedEgg, selectedEggIndex, selectedBaskets } = this.state,
+          { animation, eggs, selectedBaskets } = this.state,
+          { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),
           isHatchingDrakeInEgg = (animation === "hatchDrakeInEgg") ||
                                   ((animation === "complete") && (animatingEggIndex != null)),
           showSelectedEggIndex = isHatchingDrakeInEgg ? -1 : selectedEggIndex,
           basketEggs = modeCollectInBasket ? eggs : null,
           displayEggs = eggs.map((egg, index) => {
             const isAnimatingEgg = (animatingEggIndex === index) && !modeHatchInPlace,
-                  drake = drakes[index + 3],
+                  drake = drakes[index + DRAKE_INDEX_OF_FIRST_EGG],
                   isEggInBasket = drake && (drake.basket != null);
             return isAnimatingEgg || isEggInBasket ? null : egg;
           }),
