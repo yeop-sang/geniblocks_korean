@@ -42,6 +42,8 @@ export default function drakes(state = initialState, action) {
       return state;
     case actionTypes.EGG_ACCEPTED:
       return state.setIn([action.eggDrakeIndex, "basket"], action.basketIndex);
+    case actionTypes.EGG_REJECTED:
+      return state.setIn([action.eggDrakeIndex, "basket"], -1);
     default:
       return state;
   }

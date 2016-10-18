@@ -339,6 +339,7 @@
       margin-top: 60px
       
       .basket-image
+        // https://openclipart.org/detail/203250/garden-basket-game-component-superb-quality
         background-image: url('../resources/images/garden-basket.png')
         background-size: contain
         background-repeat: no-repeat
@@ -369,6 +370,8 @@
       background-image: url('../resources/images/egg_yellow.png')
       background-size: contain
       background-repeat: no-repeat
+      // http://kirkdev.blogspot.com/2014/07/magnifying-glass-cursor.html
+      cursor: url('../resources/images/magnify.cur'), zoom-in
       opacity: 0.4
       width: 75px
       height: 109px
@@ -376,15 +379,38 @@
       margin-right: 35px
 
     .clutch-egg.selected
+      cursor: default
       opacity: 1.0
     
     .clutch-egg.hidden
       visibility: hidden
 
-  .geniblocks.genome
+  #right-section
     position: absolute
-    top: 105px
-    left: 730px
+    top: 110px
+    left: 715px
+    width: 320px
+    height: 440px
+    border: 3px #888 solid
+    border-radius: 10px
+
+    #container
+      position: relative
+      width: 100%
+      height: 100%
+      
+      #background
+        position: absolute
+        width: 314px
+        height: 434px
+        border: 3px white solid
+        border-radius: 7px
+        background: white
+        opacity: 0.2
+
+      .geniblocks.genome
+        position: absolute
+        margin: 20px 0
 
   .clutch-egg
     background-image: url('../resources/images/egg_yellow.png')

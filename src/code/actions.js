@@ -287,10 +287,10 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct, incor
   };
 }
 
-function _rejectEggFromBasket(eggIndex, basketIndex) {
+function _rejectEggFromBasket(eggDrakeIndex, basketIndex) {
   return {
     type: actionTypes.EGG_REJECTED,
-    eggIndex,
+    eggDrakeIndex,
     basketIndex
   };
 }
@@ -326,7 +326,7 @@ function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect) {
     meta: {
       itsLog: {
         actor: ITS_ACTORS.USER,
-        action: ITS_ACTIONS.PLACED,
+        action: ITS_ACTIONS.SUBMITTED,
         target: ITS_TARGETS.EGG
       }
     }

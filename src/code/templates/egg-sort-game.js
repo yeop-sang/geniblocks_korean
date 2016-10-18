@@ -260,7 +260,7 @@ export default class EggSortGame extends Component {
         animationEvents.settleEggInBasket.animate();
     }
     if (prevErrors !== nextErrors) {
-      animationEvents.returnEggFromBasket.animate();
+      animationEvents.fadeDrakeAway.animate();
       
       const selectedBaskets = baskets.map((basket, index) => index);
       this.setState({ selectedBaskets, clickedBasket: null });
@@ -355,7 +355,10 @@ export default class EggSortGame extends Component {
           </div>
         </div>
         <div id="right-section">
-          {genomeView}
+          <div id="container">
+            <div id="background"></div>
+            {genomeView}
+          </div>
         </div>
         {animatedComponents}
       </div>
