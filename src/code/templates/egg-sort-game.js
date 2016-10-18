@@ -226,8 +226,8 @@ export default class EggSortGame extends Component {
     drakes: PropTypes.array.isRequired,
     hiddenAlleles: PropTypes.array.isRequired,
     baskets: PropTypes.array.isRequired,
-    submittedEggIndex: PropTypes.number,
-    submittedBasketIndex: PropTypes.number,
+    correct: PropTypes.number,
+    errors: PropTypes.number,
     onChangeDrakeSelection: PropTypes.func,
     onEggSubmitted: PropTypes.func.isRequired
   }
@@ -248,23 +248,22 @@ export default class EggSortGame extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { case: prevCase, challenge: prevChallenge, trial: prevTrial,
-            submittedEggIndex: prevEggIndex } = this.props,
+            correct: prevCorrect, errors: prevErrors } = this.props,
           { case: nextCase, challenge: nextChallenge, trial: nextTrial,
-            submittedEggIndex: nextEggIndex, baskets } = nextProps;
+            correct: nextCorrect, errors: nextErrors, baskets } = nextProps;
     if ((prevCase !== nextCase) || (prevChallenge !== nextChallenge) || (prevTrial !== nextTrial))
       this.clearSelection();
-    if ((prevEggIndex != null) && (nextEggIndex == null)) {
-      if (isSubmittedEggCorrect)
-        if (modeFadeAway)
-          animationEvents.fadeDrakeAway.animate();
-        else
-          animationEvents.settleEggInBasket.animate();
-      else {
-        animationEvents.returnEggFromBasket.animate();
-        
-        const selectedBaskets = baskets.map((basket, index) => index);
-        this.setState({ selectedBaskets, clickedBasket: null });
-      }
+    if (prevCorrect !== nextCorrect) {
+      if (modeFadeAway)
+        animationEvents.fadeDrakeAway.animate();
+      else
+        animationEvents.settleEggInBasket.animate();
+    }
+    if (prevErrors !== nextErrors) {
+      animationEvents.returnEggFromBasket.animate();
+      
+      const selectedBaskets = baskets.map((basket, index) => index);
+      this.setState({ selectedBaskets, clickedBasket: null });
     }
   }
 
@@ -299,19 +298,19 @@ export default class EggSortGame extends Component {
     this.clearSelection();
   }
 
-  handleBasketClick = (id, index, basket) => {
+  handleBasketClick = (id, basketIndex, basket) => {
     const { onEggSubmitted } = this.props,
           { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),
           eggDrakeIndex = selectedEggIndex + DRAKE_INDEX_OF_FIRST_EGG;
     isSubmittedEggCorrect = selectedEgg && isEggCompatibleWithBasket(selectedEgg, basket);
     if (selectedEgg) {
       if (modeHatchInPlace)
-        animationEvents.hatchDrakeInEgg.animate(selectedEgg, selectedEggIndex, index);
+        animationEvents.hatchDrakeInEgg.animate(selectedEgg, selectedEggIndex, basketIndex);
       else
-        animationEvents.moveEggToBasket.animate(selectedEgg, selectedEggIndex, index);
-      onEggSubmitted(eggDrakeIndex, index, isSubmittedEggCorrect);
+        animationEvents.moveEggToBasket.animate(selectedEgg, selectedEggIndex, basketIndex);
+      onEggSubmitted(eggDrakeIndex, basketIndex, isSubmittedEggCorrect);
     }
-    this.setState({ selectedBaskets: [index], clickedBasket: basket });
+    this.setState({ selectedBaskets: [basketIndex], clickedBasket: basket });
   }
 
   handleEggClick = (id, index) => {

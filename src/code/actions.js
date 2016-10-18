@@ -295,25 +295,23 @@ function _rejectEggFromBasket(eggIndex, basketIndex) {
   };
 }
 
-export function rejectEggFromBasket() {
-  return (dispatch, getState) => {
-    const { submittedEggIndex, submittedBasketIndex } = getState();
-    dispatch(_rejectEggFromBasket(submittedEggIndex, submittedBasketIndex));
+export function rejectEggFromBasket(args) {
+  return (dispatch) => {
+    dispatch(_rejectEggFromBasket(args.eggDrakeIndex, args.basketIndex));
   };
 }
 
-function _acceptEggInBasket(eggIndex, basketIndex) {
+function _acceptEggInBasket(eggDrakeIndex, basketIndex) {
   return {
     type: actionTypes.EGG_ACCEPTED,
-    eggIndex,
+    eggDrakeIndex,
     basketIndex
   };
 }
 
-export function acceptEggInBasket() {
-  return (dispatch, getState) => {
-    const { submittedEggIndex, submittedBasketIndex } = getState();
-    dispatch(_acceptEggInBasket(submittedEggIndex, submittedBasketIndex));
+export function acceptEggInBasket(args) {
+  return (dispatch) => {
+    dispatch(_acceptEggInBasket(args.eggDrakeIndex, args.basketIndex));
   };
 }
 
@@ -385,7 +383,8 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
           explanation: "~ALERT.EGG_BASKET_MATCH",
           rightButton:{
             label: "~BUTTON.CONTINUE",
-            action: "acceptEggInBasket"
+            action: "acceptEggInBasket",
+            args: { eggDrakeIndex, basketIndex }
           },
           top: "475px"
         };
@@ -396,7 +395,8 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
         explanation: "~ALERT.EGG_BASKET_MISMATCH",
         rightButton: {
           label: "~BUTTON.TRY_AGAIN",
-          action: "rejectEggFromBasket"
+          action: "rejectEggFromBasket",
+          args: { eggDrakeIndex, basketIndex }
         },
         top: "475px"
       };

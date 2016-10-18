@@ -21,20 +21,21 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    actionCreator: function (actionName) {
+    actionCreator: function (actionName, actionArgs) {
       return () =>
-        dispatch(actions[actionName]());
+        dispatch(actions[actionName](actionArgs));
     }
   };
 }
 
 function mergeProps(stateProps, dispatchProps) {
-  let props = {...stateProps};
-  if (stateProps.leftButton && props.leftButton.action) {
-    props.onLeftButtonClick = dispatchProps.actionCreator(props.leftButton.action);
+  let props = {...stateProps},
+      { leftButton, rightButton } = props;
+  if (leftButton && leftButton.action) {
+    props.onLeftButtonClick = dispatchProps.actionCreator(leftButton.action, leftButton.args);
   }
-  if (props.rightButton && props.rightButton.action) {
-    props.onRightButtonClick = dispatchProps.actionCreator(props.rightButton.action);
+  if (rightButton && rightButton.action) {
+    props.onRightButtonClick = dispatchProps.actionCreator(rightButton.action, rightButton.args);
   }
   return props;
 }

@@ -84,22 +84,19 @@ export default function reducer(state, action) {
       let progress = updateProgress(state, action.correct);
 
       return state.merge({
-        submittedEggIndex: action.eggIndex,
-        submittedBasketIndex: action.basketIndex,
         success: action.correct,
         challengeProgress: progress
       });
     }
     case actionTypes.EGG_REJECTED: {
+
       return state.merge({
-        submittedEggIndex: null,
-        submittedBasketIndex: null
+        errors: state.errors + 1
       });
     }
     case actionTypes.EGG_ACCEPTED: {
       return state.merge({
-        submittedEggIndex: null,
-        submittedBasketIndex: null
+        correct: state.correct + 1
       });
     }
     case actionTypes.ADVANCED_TRIAL: {
