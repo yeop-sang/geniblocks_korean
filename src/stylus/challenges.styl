@@ -318,9 +318,7 @@
   margin-top -28px
 
 #egg-sort-game
-  position: absolute
-  top: 115px
-  left: 170px
+  position: relative
   width: 1000px
   height: 600px
   
@@ -341,7 +339,8 @@
       margin-top: 60px
       
       .basket-image
-        background-image: url('../resources/images/garden-basket-300px.png')
+        // https://openclipart.org/detail/203250/garden-basket-game-component-superb-quality
+        background-image: url('../resources/images/garden-basket.png')
         background-size: contain
         background-repeat: no-repeat
         width: 150px
@@ -351,6 +350,10 @@
         width: 150px
         color: white
         font: 1.4em bold
+
+    .basket.selected
+      .basket-image
+        background-image: url('../resources/images/garden-basket-glow.png')
 
   #eggs
     position: absolute
@@ -364,21 +367,72 @@
     justify-content: space-around
 
     .clutch-egg
-      background-image: url('../resources/images/egg_brown.png')
+      background-image: url('../resources/images/egg_yellow.png')
       background-size: contain
       background-repeat: no-repeat
+      // http://kirkdev.blogspot.com/2014/07/magnifying-glass-cursor.html
+      cursor: url('../resources/images/magnify.cur'), zoom-in
+      opacity: 0.4
       width: 75px
       height: 109px
       margin-left: 35px
       margin-right: 35px
 
     .clutch-egg.selected
-      background-image: url('../resources/images/egg_yellow.png')
+      cursor: default
+      opacity: 1.0
+    
+    .clutch-egg.hidden
+      visibility: hidden
 
-  .geniblocks.genome
+  #right-section
     position: absolute
-    top: 105px
-    left: 730px
+    top: 80px
+    left: 715px
+    width: 320px
+    height: 440px
+
+    .section-title
+      font-size: 1.5em
+      text-align: center
+      color: white
+      
+    #container
+      position: relative
+      width: 100%
+      height: 100%
+      border: 3px #888 solid
+      border-radius: 10px
+      
+      #background
+        position: absolute
+        width: 314px
+        height: 434px
+        border: 3px white solid
+        border-radius: 7px
+        background: white
+        opacity: 0.2
+
+      .instr-heading
+        padding-top: 3em
+        font-size: 2em
+        text-align: center
+        color: lightGray
+
+      .instr-item
+        font-size: 1.5em
+        color: lightGray
+
+      .geniblocks.genome
+        position: absolute
+        margin: 20px 0
+
+  .clutch-egg
+    background-image: url('../resources/images/egg_yellow.png')
+    background-size: contain
+    background-repeat: no-repeat
+    width: 75px
+    height: 109px
 
 .egg-alleles {
     position: relative;

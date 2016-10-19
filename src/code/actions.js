@@ -9,8 +9,12 @@ export const actionTypes = {
   GAMETE_CHROMOSOME_ADDED: "Gamete chromosome added",
   FERTILIZED: "Fertilized",
   HATCHED: "Hatched",
-  EGG_PLACED: "Egg placed",
+  EGG_SUBMITTED: "Egg submitted",
+  EGG_ACCEPTED: "Egg accepted",
+  EGG_REJECTED: "Egg rejected",
   OFFSPRING_KEPT: "Offspring kept",
+  BASKET_SELECTION_CHANGED: "Basket selection changed",
+  DRAKE_SELECTION_CHANGED: "Drake selection changed",
   DRAKE_SUBMITTED: "Drake submitted",
   GAMETES_RESET: "Gametes reset",
   NAVIGATED_NEXT_CHALLENGE: "Navigated to next challenge",
@@ -33,8 +37,10 @@ const ITS_ACTIONS = {
   NAVIGATED: "NAVIGATED",
   ADVANCED: "ADVANCED",
   CHANGED: "CHANGED",
+  CHANGED_SELECTION: "CHANGED_SELECTION",
   SUBMITTED: "SUBMITTED",
-  PLACED: "PLACED"
+  ACCEPTED: "ACCEPTED",
+  REJECTED: "REJECTED"
 };
 
 const ITS_TARGETS = {
@@ -44,6 +50,7 @@ const ITS_TARGETS = {
   ALLELE: "ALLELE",
   SEX: "SEX",
   EGG: "EGG",
+  BASKET: "BASKET",
   DRAKE: "DRAKE"
 };
 
@@ -178,6 +185,34 @@ export function changeSex(index, newSex, incrementMoves=false) {
   };
 }
 
+export function changeBasketSelection(selectedIndices) {
+  return{
+    type: actionTypes.BASKET_SELECTION_CHANGED,
+    selectedIndices,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.CHANGE_SELECTION,
+        target: ITS_TARGETS.BASKET
+      }
+    }
+  };
+}
+
+export function changeDrakeSelection(selectedIndices) {
+  return{
+    type: actionTypes.DRAKE_SELECTION_CHANGED,
+    selectedIndices,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.CHANGE_SELECTION,
+        target: ITS_TARGETS.DRAKE
+      }
+    }
+  };
+}
+
 function _submitDrake(correctPhenotype, submittedPhenotype, correct) {
   let incrementMoves = !correct;
   return{
@@ -268,29 +303,57 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct, incor
   };
 }
 
-function _putEggInBasket(egg, basket, isCorrect) {
+function _rejectEggFromBasket(eggDrakeIndex, basketIndex) {
+  return {
+    type: actionTypes.EGG_REJECTED,
+    eggDrakeIndex,
+    basketIndex
+  };
+}
+
+export function rejectEggFromBasket(args) {
+  return (dispatch) => {
+    dispatch(_rejectEggFromBasket(args.eggDrakeIndex, args.basketIndex));
+  };
+}
+
+function _acceptEggInBasket(eggDrakeIndex, basketIndex) {
+  return {
+    type: actionTypes.EGG_ACCEPTED,
+    eggDrakeIndex,
+    basketIndex
+  };
+}
+
+export function acceptEggInBasket(args) {
+  return (dispatch) => {
+    dispatch(_acceptEggInBasket(args.eggDrakeIndex, args.basketIndex));
+  };
+}
+
+function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect) {
   let incrementMoves = !isCorrect;
   return{
-    type: actionTypes.EGG_PLACED,
-    egg,
-    basket,
+    type: actionTypes.EGG_SUBMITTED,
+    eggDrakeIndex,
+    basketIndex,
     isCorrect,
     incrementMoves,
     meta: {
       itsLog: {
         actor: ITS_ACTORS.USER,
-        action: ITS_ACTIONS.PLACED,
+        action: ITS_ACTIONS.SUBMITTED,
         target: ITS_TARGETS.EGG
       }
     }
   };
 }
 
-export function putEggInBasket(egg, basket, isCorrect, isChallengeComplete) {
+export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChallengeComplete) {
   return (dispatch, getState) => {
-    dispatch(_putEggInBasket(egg, basket, isCorrect));
-
     const state = getState();
+    dispatch(_submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect));
+
     let caseComplete = false;
 
     if (isChallengeComplete) {
@@ -336,7 +399,8 @@ export function putEggInBasket(egg, basket, isCorrect, isChallengeComplete) {
           explanation: "~ALERT.EGG_BASKET_MATCH",
           rightButton:{
             label: "~BUTTON.CONTINUE",
-            action: "dismissModalDialog"
+            action: "acceptEggInBasket",
+            args: { eggDrakeIndex, basketIndex }
           },
           top: "475px"
         };
@@ -347,12 +411,15 @@ export function putEggInBasket(egg, basket, isCorrect, isChallengeComplete) {
         explanation: "~ALERT.EGG_BASKET_MISMATCH",
         rightButton: {
           label: "~BUTTON.TRY_AGAIN",
-          action: "dismissModalDialog"
+          action: "rejectEggFromBasket",
+          args: { eggDrakeIndex, basketIndex }
         },
         top: "475px"
       };
     }
-    dispatch(showModalDialog(dialog));
+    setTimeout(function() {
+      dispatch(showModalDialog(dialog));
+    }, 4000);
   };
 }
 

@@ -1,11 +1,8 @@
 import React, {PropTypes} from 'react';
+import { EggView, EGG_IMAGE_WIDTH } from './egg-clutch';
 
-/**
- * @param {number} rows - Option number of rows. If defined, it will be fixed at that. Otherwise, it
- *                        will default to 1 when there are no orgs, and grows as more rows are needed.
- * @param {number} tightenRows - If given, will shrink the vertical height of the pen by this amount
- *                        per row, crowding the org images as needed.
- */
+const EGG_IMAGE_WIDTH_SMALL = EGG_IMAGE_WIDTH / 3;
+
 class BasketView extends React.Component {
 
   static propTypes = {
@@ -16,9 +13,22 @@ class BasketView extends React.Component {
     }),
     id: PropTypes.string,
     index: PropTypes.number,
+    eggs: PropTypes.arrayOf(PropTypes.object),
     isSelected: PropTypes.bool,
+    onUpdateBounds: PropTypes.func,
     onClick: PropTypes.func
   };
+
+  componentDidMount() {
+    this.componentDidUpdate();
+  }
+
+  componentDidUpdate() {
+    const { basket, index, onUpdateBounds } = this.props,
+          { domNode } = this.refs;
+    if (domNode && onUpdateBounds)
+      onUpdateBounds(basket, index, domNode.getBoundingClientRect());
+  }
 
   handleClick = (evt) => {
     const { basket, id, index, onClick } = this.props;
@@ -28,23 +38,52 @@ class BasketView extends React.Component {
   }
 
   render() {
-    const { basket, id, isSelected } = this.props,
+    const { basket, id, eggs, isSelected } = this.props,
           classes = 'basket' + (isSelected ? ' selected' : '');
+
+    function eggsDiv() {
+      if (!eggs || !eggs.length) return null;
+      let eggViews = eggs.map(function(egg, index) {
+        return (
+          <EggView egg={egg} key={`basket-egg-${index}`} isSelected={true}
+                            displayStyle={{size: EGG_IMAGE_WIDTH_SMALL}} />
+        );
+      });
+      return (
+        <div className='basket-eggs' style={{ position: 'absolute', display: 'flex',
+                                              justifyContent: 'center',
+                                              left: 30, top: 10, width: 70 }}>
+          {eggViews}
+        </div>
+      );
+    }
+
     return (
-      <div className={classes} key={id} onClick={this.handleClick}>
-        <div className='basket-image'></div>
-        <div className='basket-label'>{basket.label}</div>
+      <div className={classes} key={id} style={{ position: 'relative' }} onClick={this.handleClick}>
+        <div className='basket-image' ref='domNode'></div>
+        {eggsDiv()}
+        <div className='basket-label unselectable'>{basket.label}</div>
       </div>
     );
   }
 }
 
-const BasketSetView = ({baskets, idPrefix='basket-', selectedIndex, onClick}) => {
+const BasketSetView = ({baskets, idPrefix='basket-', selectedIndices=[],
+                        eggs, eggIndexOffset, animatingEggIndex, onUpdateBounds, onClick}) => {
 
   let basketViews = baskets.map((basket, index) => {
-        const id = `${idPrefix}${index}`;
-        return <BasketView basket={basket} id={id} key={id} index={index}
-                        isSelected={index === selectedIndex} onClick={onClick} />;
+        const id = `${idPrefix}${index}`,
+              isSelected = selectedIndices.indexOf(index) >= 0;
+        let eggIndices = (basket && basket.eggs) || [],
+            displayEggs = [];
+            eggIndices.forEach((eggDrakeIndex) => {
+              const eggIndex = eggDrakeIndex - eggIndexOffset;
+              if (eggDrakeIndex === animatingEggIndex) return;
+              if (eggs && eggs[eggIndex])
+                displayEggs.push(eggs[eggIndex]);
+            });
+        return <BasketView basket={basket} id={id} key={id} index={index} eggs={displayEggs}
+                        isSelected={isSelected} onUpdateBounds={onUpdateBounds} onClick={onClick} />;
       });
 
   return (
@@ -57,7 +96,11 @@ const BasketSetView = ({baskets, idPrefix='basket-', selectedIndex, onClick}) =>
 BasketSetView.propTypes = {
   baskets: PropTypes.arrayOf(PropTypes.object).isRequired,
   idPrefix: PropTypes.string,
-  selectedIndex: PropTypes.number,
+  selectedIndices: PropTypes.arrayOf(PropTypes.number),
+  eggs: PropTypes.arrayOf(PropTypes.object),
+  eggIndexOffset: PropTypes.number,
+  animatingEggIndex: PropTypes.number,
+  onUpdateBounds: PropTypes.func,
   onClick: PropTypes.func
 };
 

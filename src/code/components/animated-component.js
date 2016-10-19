@@ -28,32 +28,33 @@ const AnimatedComponentView = ({animEvent, viewObject, speed, bouncy, startDispl
   const springConfig = { stiffness: springiness, damping: damping };
   //const springConfig = {...presets.noWobble, precision: 0.1};
 
-  let startStyle = {}, endStyle = {};
-  if (startDisplay.startPositionRect) {
-    startStyle.left = startDisplay.startPositionRect.left;
-    startStyle.top = startDisplay.startPositionRect.top;
+  let startStyle = {}, endStyle = {},
+      prop;
+  const { startPositionRect: startRect, ...startOthers } = startDisplay,
+        { targetPositionRect: endRect, ...endOthers } = targetDisplay;
+  if (startRect) {
+    startStyle.left = startRect.left;
+    startStyle.top = startRect.top;
   }
-  if (startDisplay.opacity != null){
-    startStyle.opacity = startDisplay.opacity;
-  }
-  if (startDisplay.size != null){
-    startStyle.size = startDisplay.size;
+  // handle size, opacity, etc.
+  for (prop in startOthers) {
+    if (startOthers[prop] != null)
+      startStyle[prop] = startOthers[prop];
   }
 
-  if (targetDisplay.targetPositionRect) {
+  if (endRect) {
     if (!linear){
-      endStyle.left = spring(targetDisplay.targetPositionRect.left, springConfig);
-      endStyle.top = spring(targetDisplay.targetPositionRect.top, springConfig);
+      endStyle.left = spring(endRect.left, springConfig);
+      endStyle.top = spring(endRect.top, springConfig);
     } else {
-      endStyle.left = targetDisplay.targetPositionRect.left;
-      endStyle.top = targetDisplay.targetPositionRect.top;
+      endStyle.left = endRect.left;
+      endStyle.top = endRect.top;
     }
   }
-  if (targetDisplay.opacity != null) {
-    endStyle.opacity = spring(targetDisplay.opacity, springConfig);
-  }
-  if (targetDisplay.size != null){
-    endStyle.size = spring(targetDisplay.size, springConfig);
+  // handle size, opacity, etc.
+  for (prop in endOthers) {
+    if (endOthers[prop] != null)
+      endStyle[prop] = spring(endOthers[prop], springConfig);
   }
 
   const animatedViewObject = function(interpolatedStyle) {

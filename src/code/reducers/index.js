@@ -10,6 +10,7 @@ import modalDialog from './modal-dialog';
 import userDrakeHidden from './user-drake-hidden';
 import gametes from './gametes';
 import drakes from './drakes';
+import baskets from './baskets';
 
 const initialState = Immutable({
   template: null,
@@ -31,7 +32,8 @@ export default function reducer(state, action) {
     modalDialog: modalDialog(state.modalDialog, action),
     userDrakeHidden: userDrakeHidden(state.userDrakeHidden, action),
     gametes: gametes(state.gametes, action),
-    drakes: drakes(state.drakes, action)
+    drakes: drakes(state.drakes, action),
+    baskets: baskets(state.baskets, action)
   });
 
   switch(action.type) {
@@ -71,6 +73,30 @@ export default function reducer(state, action) {
       return state.merge({
         trialSuccess: action.correct,
         challengeProgress: progress
+      });
+    }
+    case actionTypes.EGG_SELECTED: {
+      return state.merge({
+        selectedEggIndex: action.eggIndex
+      });
+    }
+    case actionTypes.EGG_SUBMITTED: {
+      let progress = updateProgress(state, action.correct);
+
+      return state.merge({
+        success: action.correct,
+        challengeProgress: progress
+      });
+    }
+    case actionTypes.EGG_REJECTED: {
+
+      return state.merge({
+        errors: state.errors + 1
+      });
+    }
+    case actionTypes.EGG_ACCEPTED: {
+      return state.merge({
+        correct: state.correct + 1
       });
     }
     case actionTypes.ADVANCED_TRIAL: {
