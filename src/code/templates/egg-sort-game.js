@@ -275,16 +275,20 @@ export default class EggSortGame extends Component {
             correct: prevCorrect, errors: prevErrors } = this.props,
           { case: nextCase, challenge: nextChallenge, trial: nextTrial,
             correct: nextCorrect, errors: nextErrors } = nextProps;
-    if ((prevCase !== nextCase) || (prevChallenge !== nextChallenge) || (prevTrial !== nextTrial))
+    if ((prevCase !== nextCase) || (prevChallenge !== nextChallenge) || (prevTrial !== nextTrial)) {
+      resetAnimationEvents(true);
       this.clearSelection();
-    if (prevCorrect !== nextCorrect) {
-      if (modeFadeAway)
-        animationEvents.fadeDrakeAway.animate();
-      else
-        animationEvents.settleEggInBasket.animate();
     }
-    if (prevErrors !== nextErrors) {
-      animationEvents.fadeDrakeAway.animate();
+    else {
+      if (prevCorrect !== nextCorrect) {
+        if (modeFadeAway)
+          animationEvents.fadeDrakeAway.animate();
+        else
+          animationEvents.settleEggInBasket.animate();
+      }
+      if (prevErrors !== nextErrors) {
+        animationEvents.fadeDrakeAway.animate();
+      }
     }
   }
 
@@ -349,16 +353,18 @@ export default class EggSortGame extends Component {
   }
 
   handleBasketClick = (id, basketIndex, basket) => {
-    const { onSubmitEggForBasket } = this.props,
+    const { correct, errors, onSubmitEggForBasket } = this.props,
+          { eggs } = this.state,
           { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),
-          eggDrakeIndex = selectedEggIndex + DRAKE_INDEX_OF_FIRST_EGG;
+          eggDrakeIndex = selectedEggIndex + DRAKE_INDEX_OF_FIRST_EGG,
+          isChallengeComplete = correct + errors + 1 >= eggs.length;
     isSubmittedEggCorrect = selectedEgg && isEggCompatibleWithBasket(selectedEgg, basket);
     if (selectedEgg) {
       if (modeHatchInPlace)
         animationEvents.hatchDrakeInEgg.animate(selectedEgg, selectedEggIndex, basketIndex);
       else
         animationEvents.moveEggToBasket.animate(selectedEgg, selectedEggIndex, basketIndex);
-      onSubmitEggForBasket(eggDrakeIndex, basketIndex, isSubmittedEggCorrect);
+      onSubmitEggForBasket(eggDrakeIndex, basketIndex, isSubmittedEggCorrect, isChallengeComplete);
     }
     this.setBasketSelection([basketIndex]);
   }

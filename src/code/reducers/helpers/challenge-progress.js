@@ -12,12 +12,9 @@ export function setProgressScore(state, score){
   return currentProgress;
 }
 
-export function updateProgress(state, correct) {
+export function updateProgress(state) {
   let currentProgress = state.challengeProgress.asMutable();
-  let score = -1;
-  if (correct){
-    score = state.moves - state.goalMoves;
-  } 
+  let score = state.moves - state.goalMoves;
 
   let level = getChallengeName(state.case,state.challenge,state.trial);
   currentProgress[level] = getScoreValue(score);
@@ -30,20 +27,12 @@ export function getChallengeName(case_, challenge, trial){
 }
 
 export function getScoreValue(score){
-  let scoreValue = scoreValues.NONE;
-
   switch (score) {
     case 0:
-      scoreValue = scoreValues.GOLD;
-      break;
+      return scoreValues.GOLD;
     case 1:
-      scoreValue = scoreValues.SILVER;
-      break;
-    case 2:
-      scoreValue = scoreValues.BRONZE;
-      break;
+      return scoreValues.SILVER;
     default:
-      scoreValue = scoreValues.NONE;
+      return score >= 2 ? scoreValues.BRONZE : scoreValues.NONE;
   }
-  return scoreValue;
 }

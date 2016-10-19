@@ -39,6 +39,11 @@ export default function modalDialog(state = initialState, action) {
         return state;
     case actionTypes.MODAL_DIALOG_DISMISSED:
       return initialState;
+    // actions which don't close the dialog, i.e. that can occur
+    // while a dialog is being shown
+    case actionTypes.BASKET_SELECTION_CHANGED:
+    case actionTypes.DRAKE_SELECTION_CHANGED:
+      return state;
     // Assume for now that all other actions also close dialog
     default:
       return initialState;

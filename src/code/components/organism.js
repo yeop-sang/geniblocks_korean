@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 
 const OrganismView = ({org, id, className="", width=200, flipped=false, style={}, onClick, wrapper }) => {
   const baseUrl = "https://geniverse-resources.concord.org/resources/drakes/images/",
-        url     = baseUrl + org.getImageName(),
+        url     = org ? baseUrl + org.getImageName() : null,
         // The goal here was to have the onMouseDown handler select the organism,
         // so that mousedown-drag will both select the organism and begin the
         // drag. This works on Chrome and Safari, but on Firefox it disables
@@ -28,13 +28,13 @@ const OrganismView = ({org, id, className="", width=200, flipped=false, style={}
   return divWrapper(
     <div className={classes} id={id} style={style}
           onMouseDown={handleMouseDown} onClick={handleClick}>
-      <img src={url} width={width} />
+      {url ? <img src={url} width={width} /> : null}
     </div>
   );
 };
 
 OrganismView.propTypes = {
-  org: PropTypes.object.isRequired,
+  org: PropTypes.object,
   id: PropTypes.string,
   className: PropTypes.string,
   width: PropTypes.number,

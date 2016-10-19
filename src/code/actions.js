@@ -314,6 +314,9 @@ function _rejectEggFromBasket(eggDrakeIndex, basketIndex) {
 export function rejectEggFromBasket(args) {
   return (dispatch) => {
     dispatch(_rejectEggFromBasket(args.eggDrakeIndex, args.basketIndex));
+
+    if (args.isChallengeComplete)
+      dispatch(showCompleteChallengeDialog());
   };
 }
 
@@ -328,6 +331,9 @@ function _acceptEggInBasket(eggDrakeIndex, basketIndex) {
 export function acceptEggInBasket(args) {
   return (dispatch) => {
     dispatch(_acceptEggInBasket(args.eggDrakeIndex, args.basketIndex));
+
+    if (args.isChallengeComplete)
+      dispatch(showCompleteChallengeDialog());
   };
 }
 
@@ -350,69 +356,31 @@ function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect) {
 }
 
 export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChallengeComplete) {
-  return (dispatch, getState) => {
-    const state = getState();
+  return (dispatch) => {
     dispatch(_submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect));
-
-    let caseComplete = false;
-
-    if (isChallengeComplete) {
-      if (state.authoring[state.case].length <= state.challenge+1) {
-        caseComplete = true;
-      }
-    }
 
     let dialog = {};
 
     if (isCorrect) {
-      if (caseComplete) {
-        dialog = {
-          message: "~ALERT.TITLE.GOOD_WORK",
-          explanation: "~ALERT.COMPLETE_COIN",
-          leftButton: {
-            label: "~BUTTON.TRY_AGAIN",
-            action: "retryCurrentChallenge"
-          },
-          rightButton: {
-            label: "~BUTTON.NEXT_CASE",
-            action: "navigateToNextChallenge"
-          },
-          showAward: true
-        };
-      } else if (isChallengeComplete) {
-        dialog = {
-          message: "~ALERT.TITLE.GOOD_WORK",
-          explanation: "~ALERT.NEW_PIECE_OF_COIN",
-          leftButton: {
-            label: "~BUTTON.TRY_AGAIN",
-            action: "retryCurrentChallenge"
-          },
-          rightButton: {
-            label: "~BUTTON.NEXT_CHALLENGE",
-            action: "navigateToNextChallenge"
-          },
-          showAward: true
-        };
-      } else {
-        dialog = {
-          message: "~ALERT.TITLE.GOOD_WORK",
-          explanation: "~ALERT.EGG_BASKET_MATCH",
-          rightButton:{
-            label: "~BUTTON.CONTINUE",
-            action: "acceptEggInBasket",
-            args: { eggDrakeIndex, basketIndex }
-          },
-          top: "475px"
-        };
-      }
-    } else {
+      dialog = {
+        message: "~ALERT.TITLE.GOOD_WORK",
+        explanation: "~ALERT.EGG_BASKET_MATCH",
+        rightButton:{
+          label: "~BUTTON.CONTINUE",
+          action: "acceptEggInBasket",
+          args: { eggDrakeIndex, basketIndex, isChallengeComplete }
+        },
+        top: "475px"
+      };
+    }
+    else {
       dialog = {
         message: "~ALERT.TITLE.EGG_MISMATCH",
         explanation: "~ALERT.EGG_BASKET_MISMATCH",
         rightButton: {
-          label: "~BUTTON.TRY_ANOTHER_EGG",
+          label: isChallengeComplete ? "~BUTTON.CONTINUE" : "~BUTTON.TRY_ANOTHER_EGG",
           action: "rejectEggFromBasket",
-          args: { eggDrakeIndex, basketIndex }
+          args: { eggDrakeIndex, basketIndex, isChallengeComplete }
         },
         top: "475px"
       };
@@ -420,6 +388,49 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
     setTimeout(function() {
       dispatch(showModalDialog(dialog));
     }, 4000);
+  };
+}
+
+export function showCompleteChallengeDialog() {
+  return (dispatch, getState) => {
+    const state = getState();
+
+    const caseComplete = (state.authoring[state.case].length <= state.challenge + 1);
+
+    let dialog = {};
+
+    if (caseComplete) {
+      dialog = {
+        message: "~ALERT.TITLE.GOOD_WORK",
+        explanation: "~ALERT.COMPLETE_COIN",
+        leftButton: {
+          label: "~BUTTON.TRY_AGAIN",
+          action: "retryCurrentChallenge"
+        },
+        rightButton: {
+          label: "~BUTTON.NEXT_CASE",
+          action: "navigateToNextChallenge"
+        },
+        showAward: true
+      };
+    }
+    else {
+      dialog = {
+        message: "~ALERT.TITLE.GOOD_WORK",
+        explanation: "~ALERT.NEW_PIECE_OF_COIN",
+        leftButton: {
+          label: "~BUTTON.TRY_AGAIN",
+          action: "retryCurrentChallenge"
+        },
+        rightButton: {
+          label: "~BUTTON.NEXT_CHALLENGE",
+          action: "navigateToNextChallenge"
+        },
+        showAward: true
+      };
+    }
+    
+    dispatch(showModalDialog(dialog));
   };
 }
 
