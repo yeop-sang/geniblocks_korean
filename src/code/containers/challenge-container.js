@@ -85,7 +85,7 @@ function mapDispatchToProps(dispatch) {
     onKeepOffspring: (index, success, maxDrakes) => dispatch(keepOffspring(index, success, maxDrakes)),
     onChangeBasketSelection: (selectedIndices) => dispatch(changeBasketSelection(selectedIndices)),
     onChangeDrakeSelection: (selectedIndices) => dispatch(changeDrakeSelection(selectedIndices)),
-    onEggSubmitted: (eggDrakeIndex, basketIndex, correct) => dispatch(submitEggForBasket(eggDrakeIndex, basketIndex, correct))
+    onSubmitEggForBasket: (...args) => dispatch(submitEggForBasket(...args))
   };
 }
 

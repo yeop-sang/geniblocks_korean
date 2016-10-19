@@ -99,6 +99,9 @@ function animationLayout(eggIndex, basketIndex) {
 
 let animationEvents = {
       moveEggToBasket: { id: 0, complete: false, animate: function(egg, eggIndex, basketIndex) {
+        // kill any earlier animations still running
+        resetAnimationEvents(true);
+
         layout = animationLayout(eggIndex, basketIndex);
 
         if (layout.startBounds && layout.targetBounds) {
@@ -252,7 +255,7 @@ export default class EggSortGame extends Component {
     errors: PropTypes.number,
     onChangeBasketSelection: PropTypes.func,
     onChangeDrakeSelection: PropTypes.func,
-    onEggSubmitted: PropTypes.func.isRequired
+    onSubmitEggForBasket: PropTypes.func.isRequired
   }
 
   state = {
@@ -326,7 +329,7 @@ export default class EggSortGame extends Component {
   setEggSelection(selectedIndices) {
     const { onChangeDrakeSelection } = this.props,
           { index: currSelectedIndex } = this.selectedEgg(),
-          currSelectedIndices = currSelectedIndex != null ? [currSelectedIndex] : [];
+          currSelectedIndices = currSelectedIndex != null ? [currSelectedIndex + DRAKE_INDEX_OF_FIRST_EGG] : [];
     if (!_.isEqual(selectedIndices, currSelectedIndices))
       onChangeDrakeSelection(selectedIndices);
   }
@@ -346,7 +349,7 @@ export default class EggSortGame extends Component {
   }
 
   handleBasketClick = (id, basketIndex, basket) => {
-    const { onEggSubmitted } = this.props,
+    const { onSubmitEggForBasket } = this.props,
           { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),
           eggDrakeIndex = selectedEggIndex + DRAKE_INDEX_OF_FIRST_EGG;
     isSubmittedEggCorrect = selectedEgg && isEggCompatibleWithBasket(selectedEgg, basket);
@@ -355,7 +358,7 @@ export default class EggSortGame extends Component {
         animationEvents.hatchDrakeInEgg.animate(selectedEgg, selectedEggIndex, basketIndex);
       else
         animationEvents.moveEggToBasket.animate(selectedEgg, selectedEggIndex, basketIndex);
-      onEggSubmitted(eggDrakeIndex, basketIndex, isSubmittedEggCorrect);
+      onSubmitEggForBasket(eggDrakeIndex, basketIndex, isSubmittedEggCorrect);
     }
     this.setBasketSelection([basketIndex]);
   }
@@ -398,7 +401,10 @@ export default class EggSortGame extends Component {
           genomeView = selectedEgg
                         ? <GenomeView org={selectedEgg} hiddenAlleles={hiddenAlleles} editable={false} />
                         : null,
-          genomeOrInstructionsView = selectedEgg ? genomeView : instructionsView;
+          genomeOrInstructionsView = selectedEgg ? genomeView : instructionsView,
+          disableSelection = (['moveEggToBasket', 'hatchDrakeInBasket', 'hatchDrakeInEgg']
+                                          .indexOf(animation) >= 0) ||
+                              ((animation === 'complete') && (animatedComponents.length > 0));
 
     return (
       <div id="egg-sort-game" onClick={this.handleBackgroundClick}>
@@ -408,12 +414,12 @@ export default class EggSortGame extends Component {
                             eggs={basketEggs} eggIndexOffset={DRAKE_INDEX_OF_FIRST_EGG}
                             animatingEggIndex={animatingEggDrakeIndex}
                             onUpdateBounds={this.handleUpdateBasketBounds}
-                            onClick={this.handleBasketClick}/>
+                            onClick={disableSelection ? null : this.handleBasketClick}/>
           </div>
           <div id="eggs">
             <EggClutchView eggs={displayEggs} selectedIndex={showSelectedEggIndex}
                             onUpdateBounds={this.handleUpdateEggBounds}
-                            onClick={this.handleEggClick} />
+                            onClick={disableSelection ? null : this.handleEggClick} />
           </div>
         </div>
         <div id="right-section">
