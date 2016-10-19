@@ -386,9 +386,11 @@ export default class EggSortGame extends Component {
                   isEggInBasket = drake && (drake.basket != null);
             return isAnimatingEgg || isEggInBasket ? null : egg;
           }),
-          sectionTitle = !selectedEgg && !correct && !errors
+          showInstructions = !selectedEgg && !correct && !errors,
+          sectionTitle = showInstructions
                             ? t('~EGG_GAME_3.INSTRUCTIONS_TITLE')
                             : t('~EGG_GAME_3.CHROMOSOMES_TITLE'),
+          sectionTitleClasses = 'section-title unselectable' + (showInstructions ? ' instructions' : ' chromosomes'),
           instructionsView = !correct && !errors
                                 ? <div>
                                     <div className='instr-heading unselectable'>{t("~EGG_GAME_3.INSTR_HEADING")}</div>
@@ -423,9 +425,9 @@ export default class EggSortGame extends Component {
           </div>
         </div>
         <div id="right-section">
-          <div className="section-title unselectable">{sectionTitle}</div>
           <div id="container">
             <div id="background"></div>
+            <div className={sectionTitleClasses}>{sectionTitle}</div>
             {genomeOrInstructionsView}
           </div>
         </div>
