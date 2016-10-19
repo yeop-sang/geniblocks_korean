@@ -13,6 +13,7 @@ export const actionTypes = {
   EGG_ACCEPTED: "Egg accepted",
   EGG_REJECTED: "Egg rejected",
   OFFSPRING_KEPT: "Offspring kept",
+  BASKET_SELECTION_CHANGED: "Basket selection changed",
   DRAKE_SELECTION_CHANGED: "Drake selection changed",
   DRAKE_SUBMITTED: "Drake submitted",
   GAMETES_RESET: "Gametes reset",
@@ -49,6 +50,7 @@ const ITS_TARGETS = {
   ALLELE: "ALLELE",
   SEX: "SEX",
   EGG: "EGG",
+  BASKET: "BASKET",
   DRAKE: "DRAKE"
 };
 
@@ -178,6 +180,20 @@ export function changeSex(index, newSex, incrementMoves=false) {
         actor: ITS_ACTORS.USER,
         action: ITS_ACTIONS.CHANGED,
         target: ITS_TARGETS.SEX
+      }
+    }
+  };
+}
+
+export function changeBasketSelection(selectedIndices) {
+  return{
+    type: actionTypes.BASKET_SELECTION_CHANGED,
+    selectedIndices,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.CHANGE_SELECTION,
+        target: ITS_TARGETS.BASKET
       }
     }
   };

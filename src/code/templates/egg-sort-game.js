@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import _ from 'lodash';
 import AnimatedComponentView from '../components/animated-component';
 import BasketSetView from '../components/basket-set';
 import EggClutchView, { EGG_IMAGE_WIDTH } from '../components/egg-clutch';
@@ -41,9 +42,14 @@ function animationLayout(eggIndex, basketIndex) {
     targetBounds = Object.assign({}, startBounds);
     targetSize = startSize;
     finalBounds = Object.assign({}, basketsBounds[basketIndex]);
-    finalBounds.left += 52;
-    finalBounds.top += 10;
-    finalSize = EGG_IMAGE_WIDTH_SMALL;
+    if (isSubmittedEggCorrect) {
+      finalBounds.left += 52;
+      finalBounds.top += 10;
+      finalSize = EGG_IMAGE_WIDTH_SMALL;
+    }
+    else {
+      finalSize = targetSize;
+    }
   }
   else if (modeHatchInBasket && modeCollectInBasket) {
     targetBounds = Object.assign({}, basketsBounds[basketIndex]);
@@ -51,18 +57,27 @@ function animationLayout(eggIndex, basketIndex) {
     targetBounds.top -= 80;
     targetSize = EGG_IMAGE_WIDTH_MEDIUM,
     finalBounds = Object.assign({}, targetBounds);
-    finalBounds.left += 10;
-    finalBounds.top += 90;
-    finalSize = EGG_IMAGE_WIDTH_SMALL;
+    if (isSubmittedEggCorrect) {
+      finalBounds.left += 10;
+      finalBounds.top += 90;
+      finalSize = EGG_IMAGE_WIDTH_SMALL;
+    }
+    else {
+      finalSize = targetSize;
+    }
   }
   else if (modeHatchInPlace && modeFadeAway) {
     targetBounds = Object.assign({}, startBounds);
     targetSize = startSize;
     finalBounds = Object.assign({}, basketsBounds[basketIndex]);
-    finalBounds.left += 52;
-    finalBounds.top += 10;
-    finalSize = EGG_IMAGE_WIDTH_SMALL;
-
+    if (isSubmittedEggCorrect) {
+      finalBounds.left += 52;
+      finalBounds.top += 10;
+      finalSize = EGG_IMAGE_WIDTH_SMALL;
+    }
+    else {
+      finalSize = targetSize;
+    }
   }
   else /* (modeHatchInBasket && modeFadeAway) */ {
     targetBounds = Object.assign({}, basketsBounds[basketIndex]);
@@ -70,7 +85,13 @@ function animationLayout(eggIndex, basketIndex) {
     targetBounds.top -= 30;
     targetSize = EGG_IMAGE_WIDTH_MEDIUM,
     finalBounds = Object.assign({}, targetBounds);
-    finalSize = EGG_IMAGE_WIDTH_MEDIUM;
+    if (isSubmittedEggCorrect) {
+      finalBounds.top += 40;
+    }
+    else {
+      finalBounds.top -= 40;
+    }
+    finalSize = targetSize;
   }
 
   return { startBounds, startSize, targetBounds, targetSize, finalBounds, finalSize };
@@ -229,29 +250,28 @@ export default class EggSortGame extends Component {
     baskets: PropTypes.array.isRequired,
     correct: PropTypes.number,
     errors: PropTypes.number,
+    onChangeBasketSelection: PropTypes.func,
     onChangeDrakeSelection: PropTypes.func,
     onEggSubmitted: PropTypes.func.isRequired
   }
 
   state = {
-    selectedBaskets: [],
-    clickedBasket: null
+    animation: null,
+    eggs: []
   }
 
   componentWillMount() {
     const { drakes } = this.props,
-          mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleles, drakes[0].sex),
-          father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleles, drakes[1].sex),
           eggs = drakes.slice(DRAKE_INDEX_OF_FIRST_EGG).map((child) =>
                     new BioLogica.Organism(BioLogica.Species.Drake, child.alleleString, child.sex));
-    this.setState({ mother, father, eggs });
+    this.setState({ eggs });
   }
 
   componentWillReceiveProps(nextProps) {
     const { case: prevCase, challenge: prevChallenge, trial: prevTrial,
             correct: prevCorrect, errors: prevErrors } = this.props,
           { case: nextCase, challenge: nextChallenge, trial: nextTrial,
-            correct: nextCorrect, errors: nextErrors, baskets } = nextProps;
+            correct: nextCorrect, errors: nextErrors } = nextProps;
     if ((prevCase !== nextCase) || (prevChallenge !== nextChallenge) || (prevTrial !== nextTrial))
       this.clearSelection();
     if (prevCorrect !== nextCorrect) {
@@ -262,9 +282,6 @@ export default class EggSortGame extends Component {
     }
     if (prevErrors !== nextErrors) {
       animationEvents.fadeDrakeAway.animate();
-      
-      const selectedBaskets = baskets.map((basket, index) => index);
-      this.setState({ selectedBaskets, clickedBasket: null });
     }
   }
 
@@ -279,10 +296,39 @@ export default class EggSortGame extends Component {
     return { index: eggIndex, egg };
   }
 
+  selectedBaskets() {
+    const { baskets } = this.props;
+    return baskets.reduce((prev, basket, index) => {
+                      if (basket && basket.isSelected)
+                        prev.push(index);
+                      return prev;
+                    }, []);
+  }
+
   clearSelection() {
-    const { onChangeDrakeSelection } = this.props;
-    onChangeDrakeSelection([]);
-    this.setState({ selectedBaskets: [], clickedBasket: null });
+    this.setBasketSelection([]);
+    this.setEggSelection([]);
+  }
+
+  setBasketSelection(selectedIndices) {
+    const { onChangeBasketSelection } = this.props,
+          currSelectedIndices = this.selectedBaskets();
+    if (!_.isEqual(selectedIndices, currSelectedIndices))
+      onChangeBasketSelection(selectedIndices);
+  }
+
+  selectAllBaskets() {
+    const { baskets } = this.props,
+          allBaskets = baskets.map((basket, index) => index);
+    this.setBasketSelection(allBaskets);
+  }
+
+  setEggSelection(selectedIndices) {
+    const { onChangeDrakeSelection } = this.props,
+          { index: currSelectedIndex } = this.selectedEgg(),
+          currSelectedIndices = currSelectedIndex != null ? [currSelectedIndex] : [];
+    if (!_.isEqual(selectedIndices, currSelectedIndices))
+      onChangeDrakeSelection(selectedIndices);
   }
 
   handleUpdateBasketBounds = (basket, index, bounds) => {
@@ -311,21 +357,22 @@ export default class EggSortGame extends Component {
         animationEvents.moveEggToBasket.animate(selectedEgg, selectedEggIndex, basketIndex);
       onEggSubmitted(eggDrakeIndex, basketIndex, isSubmittedEggCorrect);
     }
-    this.setState({ selectedBaskets: [basketIndex], clickedBasket: basket });
+    this.setBasketSelection([basketIndex]);
   }
 
   handleEggClick = (id, index) => {
-    const { baskets, onChangeDrakeSelection } = this.props,
-          // all baskets selected/highlighted on egg click
-          selectedBaskets = baskets.map((basket, index) => index);
-    onChangeDrakeSelection([index + DRAKE_INDEX_OF_FIRST_EGG]);
-    this.setState({ selectedBaskets, clickedBasket: null });
+    this.setEggSelection([index + DRAKE_INDEX_OF_FIRST_EGG]);
+    this.selectAllBaskets();
   }
 
   render() {
     const { hiddenAlleles, drakes, baskets, correct, errors } = this.props,
-          { animation, eggs, selectedBaskets } = this.state,
+          { animation, eggs } = this.state,
+          selectedBaskets = this.selectedBaskets(),
           { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),
+          animatingEggDrakeIndex = (animatingEggIndex != null)
+                                    ? animatingEggIndex + DRAKE_INDEX_OF_FIRST_EGG
+                                    : null,
           isHatchingDrakeInEgg = (animation === "hatchDrakeInEgg") ||
                                   ((animation === "complete") && (animatingEggIndex != null)),
           showSelectedEggIndex = isHatchingDrakeInEgg ? -1 : selectedEggIndex,
@@ -358,7 +405,8 @@ export default class EggSortGame extends Component {
         <div id="left-section">
           <div id="baskets">
             <BasketSetView baskets={baskets} selectedIndices={selectedBaskets}
-                            eggs={basketEggs} animatingEggIndex={animatingEggIndex}
+                            eggs={basketEggs} eggIndexOffset={DRAKE_INDEX_OF_FIRST_EGG}
+                            animatingEggIndex={animatingEggDrakeIndex}
                             onUpdateBounds={this.handleUpdateBasketBounds}
                             onClick={this.handleBasketClick}/>
           </div>

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import templates from '../templates';
 import { changeAllele, changeSex, submitDrake, resetGametes,
         navigateToCurrentRoute, navigateToChallenge, navigateToNextChallenge,
-        addGameteChromosome, keepOffspring, fertilize, hatch,
-        completeChallenge, changeDrakeSelection, submitEggForBasket } from '../actions';
+        addGameteChromosome, keepOffspring, fertilize, hatch, completeChallenge,
+        changeBasketSelection, changeDrakeSelection, submitEggForBasket } from '../actions';
 
 class ChallengeContainer extends Component {
   componentWillMount() {
@@ -83,6 +83,7 @@ function mapDispatchToProps(dispatch) {
     onHatch: () => dispatch(hatch()),
     onResetGametes: () => dispatch(resetGametes()),
     onKeepOffspring: (index, success, maxDrakes) => dispatch(keepOffspring(index, success, maxDrakes)),
+    onChangeBasketSelection: (selectedIndices) => dispatch(changeBasketSelection(selectedIndices)),
     onChangeDrakeSelection: (selectedIndices) => dispatch(changeDrakeSelection(selectedIndices)),
     onEggSubmitted: (eggDrakeIndex, basketIndex, correct) => dispatch(submitEggForBasket(eggDrakeIndex, basketIndex, correct))
   };
