@@ -401,7 +401,9 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
         top: "475px"
       };
     }
-    dispatch(showModalDialog(dialog));
+    setTimeout(function() {
+      dispatch(showModalDialog(dialog));
+    }, 4000);
   };
 }
 

@@ -62,7 +62,7 @@ class BasketView extends React.Component {
       <div className={classes} key={id} style={{ position: 'relative' }} onClick={this.handleClick}>
         <div className='basket-image' ref='domNode'></div>
         {eggsDiv()}
-        <div className='basket-label'>{basket.label}</div>
+        <div className='basket-label unselectable'>{basket.label}</div>
       </div>
     );
   }

@@ -1,4 +1,11 @@
 export default {
+  // Challenge instructions
+  "~EGG_GAME_3.CHROMOSOMES_TITLE": "Chromosomes",
+  "~EGG_GAME_3.INSTRUCTIONS_TITLE": "Instructions",
+  "~EGG_GAME_3.INSTR_HEADING": "Sort these eggs!",
+  "~EGG_GAME_3.INSTR_ITEM1": "Scope an egg to see a baby's chromosomes.",
+  "~EGG_GAME_3.INSTR_ITEM2": "Sort the egg into the correct basket!",
+
   // Challenge popup alerts
   "~ALERT.TITLE.GOOD_WORK": "Good work!",
   "~ALERT.TITLE.INCORRECT_DRAKE": "That's not the drake!",

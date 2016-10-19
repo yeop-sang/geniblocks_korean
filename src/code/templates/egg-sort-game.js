@@ -5,6 +5,7 @@ import EggClutchView, { EGG_IMAGE_WIDTH } from '../components/egg-clutch';
 import EggHatchView from '../components/egg-hatch';
 import GenomeView from '../components/genome';
 import urlParams from '../utilities/url-params';
+import t from '../utilities/translate';
 
 const EGG_IMAGE_WIDTH_MEDIUM = EGG_IMAGE_WIDTH * 2 / 3,
       EGG_IMAGE_WIDTH_SMALL = EGG_IMAGE_WIDTH / 3,
@@ -322,7 +323,7 @@ export default class EggSortGame extends Component {
   }
 
   render() {
-    const { hiddenAlleles, drakes, baskets } = this.props,
+    const { hiddenAlleles, drakes, baskets, correct, errors } = this.props,
           { animation, eggs, selectedBaskets } = this.state,
           { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),
           isHatchingDrakeInEgg = (animation === "hatchDrakeInEgg") ||
@@ -335,9 +336,22 @@ export default class EggSortGame extends Component {
                   isEggInBasket = drake && (drake.basket != null);
             return isAnimatingEgg || isEggInBasket ? null : egg;
           }),
+          sectionTitle = !selectedEgg && !correct && !errors
+                            ? t('~EGG_GAME_3.INSTRUCTIONS_TITLE')
+                            : t('~EGG_GAME_3.CHROMOSOMES_TITLE'),
+          instructionsView = !correct && !errors
+                                ? <div>
+                                    <div className='instr-heading unselectable'>{t("~EGG_GAME_3.INSTR_HEADING")}</div>
+                                    <ul>
+                                      <li className='instr-item'>{t("~EGG_GAME_3.INSTR_ITEM1")}</li>
+                                      <li className='instr-item'>{t("~EGG_GAME_3.INSTR_ITEM2")}</li>
+                                    </ul>
+                                  </div>
+                                : null,
           genomeView = selectedEgg
                         ? <GenomeView org={selectedEgg} hiddenAlleles={hiddenAlleles} editable={false} />
-                        : null;
+                        : null,
+          genomeOrInstructionsView = selectedEgg ? genomeView : instructionsView;
 
     return (
       <div id="egg-sort-game" onClick={this.handleBackgroundClick}>
@@ -355,9 +369,10 @@ export default class EggSortGame extends Component {
           </div>
         </div>
         <div id="right-section">
+          <div className="section-title unselectable">{sectionTitle}</div>
           <div id="container">
             <div id="background"></div>
-            {genomeView}
+            {genomeOrInstructionsView}
           </div>
         </div>
         {animatedComponents}
