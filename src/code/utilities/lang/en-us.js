@@ -4,7 +4,7 @@ export default {
   "~EGG_GAME_3.INSTRUCTIONS_TITLE": "Instructions",
   "~EGG_GAME_3.INSTR_HEADING": "Sort these eggs!",
   "~EGG_GAME_3.INSTR_ITEM1": "Scope an egg to see a baby's chromosomes.",
-  "~EGG_GAME_3.INSTR_ITEM2": "Sort the egg into the correct basket!",
+  "~EGG_GAME_3.INSTR_ITEM2": "Click the correct basket for the egg.",
 
   // Challenge popup alerts
   "~ALERT.TITLE.GOOD_WORK": "Good work!",
@@ -24,6 +24,7 @@ export default {
   // Challenge buttons
   "~BUTTON.OK": "OK",
   "~BUTTON.TRY_AGAIN": "Try again",
+  "~BUTTON.TRY_ANOTHER_EGG": "Try another egg!",
   "~BUTTON.CONTINUE": "Continue",
   "~BUTTON.NEXT_TRIAL": "Next trial",
   "~BUTTON.NEXT_CHALLENGE": "Next challenge",

@@ -410,7 +410,7 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
         message: "~ALERT.TITLE.EGG_MISMATCH",
         explanation: "~ALERT.EGG_BASKET_MISMATCH",
         rightButton: {
-          label: "~BUTTON.TRY_AGAIN",
+          label: "~BUTTON.TRY_ANOTHER_EGG",
           action: "rejectEggFromBasket",
           args: { eggDrakeIndex, basketIndex }
         },
