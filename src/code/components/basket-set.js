@@ -31,9 +31,9 @@ class BasketView extends React.Component {
   }
 
   handleClick = (evt) => {
-    const { basket, id, index, onClick } = this.props;
+    const { basket, index, onClick } = this.props;
     if (onClick)
-      onClick(id, index, basket);
+      onClick(index, basket);
     evt.stopPropagation();
   }
 

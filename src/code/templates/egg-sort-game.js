@@ -29,7 +29,7 @@ let _this,
 
     isSubmittedEggCorrect,
     animatingEgg, animatingEggIndex,
-    animatingDrake,
+    animatingDrake, targetBasketIndex,
     startBounds, targetBounds, finalBounds,
     startSize, targetSize, finalSize,
     layout;
@@ -108,6 +108,7 @@ let animationEvents = {
           animatingEgg = egg;
           animatingEggIndex = eggIndex;
           animatingDrake = new BioLogica.Organism(BioLogica.Species.Drake, egg.alleles, egg.sex);
+          targetBasketIndex = basketIndex;
 
           animatedComponentToRender = <EggHatchView egg={animatingEgg} organism={animatingDrake} />;
           runAnimation(animationEvents.moveEggToBasket.id,
@@ -125,11 +126,22 @@ let animationEvents = {
         _this.setState({animation:"hatchDrakeInBasket"});
       }},
       fadeDrakeAway: { id: 2, complete: false, animate: function() {
-        let startBounds = modeHatchInPlace ? layout.startBounds : layout.targetBounds,
-            startSize = modeHatchInPlace ? layout.startSize : layout.targetSize;
+        const { baskets } = _this.props,
+              targetBasket = targetBasketIndex >= 0 ? baskets[targetBasketIndex] : null,
+              startBounds = modeHatchInPlace ? layout.startBounds : layout.targetBounds,
+              startSize = modeHatchInPlace ? layout.startSize : layout.targetSize;
         _this.clearSelection();
         resetAnimationEvents(false);
-        animatedComponentToRender = <EggHatchView egg={animatingEgg} organism={animatingDrake} glow={true}/>;
+
+        // click handler forwards to underlying basket; otherwise, the animating view interferes
+        // with click handling until the fade is complete.
+        function handleClick(evt) {
+          _this.handleBasketClick(targetBasketIndex, targetBasket);
+          evt.stopPropagation();
+        }
+        
+        animatedComponentToRender = <EggHatchView egg={animatingEgg} organism={animatingDrake} glow={true}
+                                                  onClick={handleClick}/>;
         runAnimation(animationEvents.fadeDrakeAway.id,
                         { bounds: startBounds, size: startSize, opacity: 1, hatchProgress: 1 },
                         { bounds: layout.finalBounds, size: layout.finalSize, opacity: 0, hatchProgress: 1 },
@@ -160,6 +172,7 @@ let animationEvents = {
           animatingEgg = egg;
           animatingEggIndex = eggIndex;
           animatingDrake = new BioLogica.Organism(BioLogica.Species.Drake, egg.alleles, egg.sex);
+          targetBasketIndex = basketIndex;
 
           animatedComponentToRender = <EggHatchView egg={animatingEgg} organism={animatingDrake} glow={true}/>;
           runAnimation(animationEvents.hatchDrakeInEgg.id,
@@ -176,6 +189,7 @@ function resetAnimationEvents(clearEggSequence) {
     animatingEgg = null;
     animatingEggIndex = null;
     animatingDrake = null;
+    targetBasketIndex = null;
   }
 }
 
@@ -352,7 +366,7 @@ export default class EggSortGame extends Component {
     this.clearSelection();
   }
 
-  handleBasketClick = (id, basketIndex, basket) => {
+  handleBasketClick = (basketIndex, basket) => {
     const { correct, errors, onSubmitEggForBasket } = this.props,
           { eggs } = this.state,
           { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),

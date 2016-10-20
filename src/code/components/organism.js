@@ -27,7 +27,8 @@ const OrganismView = ({org, id, className="", width=200, flipped=false, style={}
 
   return divWrapper(
     <div className={classes} id={id} style={style}
-          onMouseDown={handleMouseDown} onClick={handleClick}>
+          onMouseDown={onClick ? handleMouseDown : null}
+          onClick={onClick ? handleClick : null}>
       {url ? <img src={url} width={width} /> : null}
     </div>
   );
