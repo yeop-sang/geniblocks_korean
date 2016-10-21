@@ -29,7 +29,7 @@ let _this,
 
     isSubmittedEggCorrect,
     animatingEgg, animatingEggIndex,
-    animatingDrake,
+    animatingDrake, targetBasketIndex,
     startBounds, targetBounds, finalBounds,
     startSize, targetSize, finalSize,
     layout;
@@ -99,12 +99,16 @@ function animationLayout(eggIndex, basketIndex) {
 
 let animationEvents = {
       moveEggToBasket: { id: 0, complete: false, animate: function(egg, eggIndex, basketIndex) {
+        // kill any earlier animations still running
+        resetAnimationEvents(true);
+
         layout = animationLayout(eggIndex, basketIndex);
 
         if (layout.startBounds && layout.targetBounds) {
           animatingEgg = egg;
           animatingEggIndex = eggIndex;
           animatingDrake = new BioLogica.Organism(BioLogica.Species.Drake, egg.alleles, egg.sex);
+          targetBasketIndex = basketIndex;
 
           animatedComponentToRender = <EggHatchView egg={animatingEgg} organism={animatingDrake} />;
           runAnimation(animationEvents.moveEggToBasket.id,
@@ -122,11 +126,22 @@ let animationEvents = {
         _this.setState({animation:"hatchDrakeInBasket"});
       }},
       fadeDrakeAway: { id: 2, complete: false, animate: function() {
-        let startBounds = modeHatchInPlace ? layout.startBounds : layout.targetBounds,
-            startSize = modeHatchInPlace ? layout.startSize : layout.targetSize;
+        const { baskets } = _this.props,
+              targetBasket = targetBasketIndex >= 0 ? baskets[targetBasketIndex] : null,
+              startBounds = modeHatchInPlace ? layout.startBounds : layout.targetBounds,
+              startSize = modeHatchInPlace ? layout.startSize : layout.targetSize;
         _this.clearSelection();
         resetAnimationEvents(false);
-        animatedComponentToRender = <EggHatchView egg={animatingEgg} organism={animatingDrake} glow={true}/>;
+
+        // click handler forwards to underlying basket; otherwise, the animating view interferes
+        // with click handling until the fade is complete.
+        function handleClick(evt) {
+          _this.handleBasketClick(targetBasketIndex, targetBasket);
+          evt.stopPropagation();
+        }
+        
+        animatedComponentToRender = <EggHatchView egg={animatingEgg} organism={animatingDrake} glow={true}
+                                                  onClick={handleClick}/>;
         runAnimation(animationEvents.fadeDrakeAway.id,
                         { bounds: startBounds, size: startSize, opacity: 1, hatchProgress: 1 },
                         { bounds: layout.finalBounds, size: layout.finalSize, opacity: 0, hatchProgress: 1 },
@@ -157,6 +172,7 @@ let animationEvents = {
           animatingEgg = egg;
           animatingEggIndex = eggIndex;
           animatingDrake = new BioLogica.Organism(BioLogica.Species.Drake, egg.alleles, egg.sex);
+          targetBasketIndex = basketIndex;
 
           animatedComponentToRender = <EggHatchView egg={animatingEgg} organism={animatingDrake} glow={true}/>;
           runAnimation(animationEvents.hatchDrakeInEgg.id,
@@ -173,6 +189,7 @@ function resetAnimationEvents(clearEggSequence) {
     animatingEgg = null;
     animatingEggIndex = null;
     animatingDrake = null;
+    targetBasketIndex = null;
   }
 }
 
@@ -252,7 +269,7 @@ export default class EggSortGame extends Component {
     errors: PropTypes.number,
     onChangeBasketSelection: PropTypes.func,
     onChangeDrakeSelection: PropTypes.func,
-    onEggSubmitted: PropTypes.func.isRequired
+    onSubmitEggForBasket: PropTypes.func.isRequired
   }
 
   state = {
@@ -272,16 +289,20 @@ export default class EggSortGame extends Component {
             correct: prevCorrect, errors: prevErrors } = this.props,
           { case: nextCase, challenge: nextChallenge, trial: nextTrial,
             correct: nextCorrect, errors: nextErrors } = nextProps;
-    if ((prevCase !== nextCase) || (prevChallenge !== nextChallenge) || (prevTrial !== nextTrial))
+    if ((prevCase !== nextCase) || (prevChallenge !== nextChallenge) || (prevTrial !== nextTrial)) {
+      resetAnimationEvents(true);
       this.clearSelection();
-    if (prevCorrect !== nextCorrect) {
-      if (modeFadeAway)
-        animationEvents.fadeDrakeAway.animate();
-      else
-        animationEvents.settleEggInBasket.animate();
     }
-    if (prevErrors !== nextErrors) {
-      animationEvents.fadeDrakeAway.animate();
+    else {
+      if (prevCorrect !== nextCorrect) {
+        if (modeFadeAway)
+          animationEvents.fadeDrakeAway.animate();
+        else
+          animationEvents.settleEggInBasket.animate();
+      }
+      if (prevErrors !== nextErrors) {
+        animationEvents.fadeDrakeAway.animate();
+      }
     }
   }
 
@@ -326,7 +347,7 @@ export default class EggSortGame extends Component {
   setEggSelection(selectedIndices) {
     const { onChangeDrakeSelection } = this.props,
           { index: currSelectedIndex } = this.selectedEgg(),
-          currSelectedIndices = currSelectedIndex != null ? [currSelectedIndex] : [];
+          currSelectedIndices = currSelectedIndex != null ? [currSelectedIndex + DRAKE_INDEX_OF_FIRST_EGG] : [];
     if (!_.isEqual(selectedIndices, currSelectedIndices))
       onChangeDrakeSelection(selectedIndices);
   }
@@ -345,17 +366,19 @@ export default class EggSortGame extends Component {
     this.clearSelection();
   }
 
-  handleBasketClick = (id, basketIndex, basket) => {
-    const { onEggSubmitted } = this.props,
+  handleBasketClick = (basketIndex, basket) => {
+    const { correct, errors, onSubmitEggForBasket } = this.props,
+          { eggs } = this.state,
           { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),
-          eggDrakeIndex = selectedEggIndex + DRAKE_INDEX_OF_FIRST_EGG;
+          eggDrakeIndex = selectedEggIndex + DRAKE_INDEX_OF_FIRST_EGG,
+          isChallengeComplete = correct + errors + 1 >= eggs.length;
     isSubmittedEggCorrect = selectedEgg && isEggCompatibleWithBasket(selectedEgg, basket);
     if (selectedEgg) {
       if (modeHatchInPlace)
         animationEvents.hatchDrakeInEgg.animate(selectedEgg, selectedEggIndex, basketIndex);
       else
         animationEvents.moveEggToBasket.animate(selectedEgg, selectedEggIndex, basketIndex);
-      onEggSubmitted(eggDrakeIndex, basketIndex, isSubmittedEggCorrect);
+      onSubmitEggForBasket(eggDrakeIndex, basketIndex, isSubmittedEggCorrect, isChallengeComplete);
     }
     this.setBasketSelection([basketIndex]);
   }
@@ -383,9 +406,11 @@ export default class EggSortGame extends Component {
                   isEggInBasket = drake && (drake.basket != null);
             return isAnimatingEgg || isEggInBasket ? null : egg;
           }),
-          sectionTitle = !selectedEgg && !correct && !errors
+          showInstructions = !selectedEgg && !correct && !errors,
+          sectionTitle = showInstructions
                             ? t('~EGG_GAME_3.INSTRUCTIONS_TITLE')
                             : t('~EGG_GAME_3.CHROMOSOMES_TITLE'),
+          sectionTitleClasses = 'section-title unselectable' + (showInstructions ? ' instructions' : ' chromosomes'),
           instructionsView = !correct && !errors
                                 ? <div>
                                     <div className='instr-heading unselectable'>{t("~EGG_GAME_3.INSTR_HEADING")}</div>
@@ -398,7 +423,10 @@ export default class EggSortGame extends Component {
           genomeView = selectedEgg
                         ? <GenomeView org={selectedEgg} hiddenAlleles={hiddenAlleles} editable={false} />
                         : null,
-          genomeOrInstructionsView = selectedEgg ? genomeView : instructionsView;
+          genomeOrInstructionsView = selectedEgg ? genomeView : instructionsView,
+          disableSelection = (['moveEggToBasket', 'hatchDrakeInBasket', 'hatchDrakeInEgg']
+                                          .indexOf(animation) >= 0) ||
+                              ((animation === 'complete') && (animatedComponents.length > 0));
 
     return (
       <div id="egg-sort-game" onClick={this.handleBackgroundClick}>
@@ -408,18 +436,18 @@ export default class EggSortGame extends Component {
                             eggs={basketEggs} eggIndexOffset={DRAKE_INDEX_OF_FIRST_EGG}
                             animatingEggIndex={animatingEggDrakeIndex}
                             onUpdateBounds={this.handleUpdateBasketBounds}
-                            onClick={this.handleBasketClick}/>
+                            onClick={disableSelection ? null : this.handleBasketClick}/>
           </div>
           <div id="eggs">
             <EggClutchView eggs={displayEggs} selectedIndex={showSelectedEggIndex}
                             onUpdateBounds={this.handleUpdateEggBounds}
-                            onClick={this.handleEggClick} />
+                            onClick={disableSelection ? null : this.handleEggClick} />
           </div>
         </div>
         <div id="right-section">
-          <div className="section-title unselectable">{sectionTitle}</div>
           <div id="container">
             <div id="background"></div>
+            <div className={sectionTitleClasses}>{sectionTitle}</div>
             {genomeOrInstructionsView}
           </div>
         </div>

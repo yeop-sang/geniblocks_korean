@@ -4,7 +4,7 @@ export default {
   "~EGG_GAME_3.INSTRUCTIONS_TITLE": "Instructions",
   "~EGG_GAME_3.INSTR_HEADING": "Sort these eggs!",
   "~EGG_GAME_3.INSTR_ITEM1": "Scope an egg to see a baby's chromosomes.",
-  "~EGG_GAME_3.INSTR_ITEM2": "Sort the egg into the correct basket!",
+  "~EGG_GAME_3.INSTR_ITEM2": "Click the correct basket for the egg.",
 
   // Challenge popup alerts
   "~ALERT.TITLE.GOOD_WORK": "Good work!",
@@ -17,13 +17,13 @@ export default {
   "~ALERT.INCORRECT_DRAKE": "The drake you have created doesn't match the target drake.\n\
                             Please try again.",
   "~ALERT.EGG_BASKET_MATCH": "The egg you have selected belongs in that basket.",
-  "~ALERT.EGG_BASKET_MISMATCH": "The egg you have selected doesn't belong in that basket.\n\
-                                  Please try again.",
+  "~ALERT.EGG_BASKET_MISMATCH": "The egg you have selected doesn't belong in that basket.",
   "~ALERT.DUPLICATE_DRAKE": "You already have a drake that looks just like that!",
 
   // Challenge buttons
   "~BUTTON.OK": "OK",
   "~BUTTON.TRY_AGAIN": "Try again",
+  "~BUTTON.TRY_ANOTHER_EGG": "Try another egg!",
   "~BUTTON.CONTINUE": "Continue",
   "~BUTTON.NEXT_TRIAL": "Next trial",
   "~BUTTON.NEXT_CHALLENGE": "Next challenge",

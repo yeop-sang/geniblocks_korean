@@ -9,11 +9,17 @@ class EggHatchView extends React.Component {
     egg: PropTypes.object,
     organism: PropTypes.object,
     glow: PropTypes.bool,
-    displayStyle: PropTypes.object
+    displayStyle: PropTypes.object,
+    onClick: PropTypes.func
   };
 
+  handleClick = (evt) => {
+    const { onClick } = this.props;
+    if (onClick) onClick(evt);
+  }
+
   render() {
-    const { egg, organism, glow, displayStyle } = this.props,
+    const { egg, organism, glow, displayStyle, onClick } = this.props,
           width = (displayStyle && displayStyle.size) || EGG_IMAGE_WIDTH,
           hatchProgress = (displayStyle && displayStyle.hatchProgress) || 0,
           opacity = (displayStyle && (displayStyle.opacity != null)) ? displayStyle.opacity : 1,
@@ -28,7 +34,8 @@ class EggHatchView extends React.Component {
                       : <OrganismView id='egg-hatch-org' org={organism} width={1.5 * width} 
                                           style={drakeStyle} />;
     return (
-      <div className='geniblocks egg-hatch' style={{ position: 'relative', width }} >
+      <div className='geniblocks egg-hatch' style={{ position: 'relative', width }}
+            onClick={onClick ? this.handleClick : null} >
         <EggView egg={egg} displayStyle={eggStyle} isSelected={true} />
         {orgView}
       </div>

@@ -36,18 +36,14 @@ export class EggView extends React.Component {
 
   render() {
     const { egg, id, displayStyle, isSelected } = this.props,
-          eggStyle = { flexShrink: 0 },
+          eggStyle = Object.assign({ flexShrink: 0 }, displayStyle),
           isHidden = (egg == null),
           classes = 'clutch-egg' + (isSelected ? ' selected' : '')
                                  + (isHidden ? ' hidden' : '');
-    if (displayStyle && (displayStyle.position != null))
-      eggStyle.position = displayStyle.position;
     if (displayStyle && (displayStyle.size != null)) {
       eggStyle.width = displayStyle.size;
       eggStyle.height = eggStyle.width * (EGG_IMAGE_HEIGHT / EGG_IMAGE_WIDTH);
     }
-    if (displayStyle && (displayStyle.opacity != null))
-      eggStyle.opacity = displayStyle.opacity;
     return (
       <div className={classes} key={id} ref='domNode' style={eggStyle} onClick={this.handleClick} />
     );
@@ -56,13 +52,36 @@ export class EggView extends React.Component {
 
 const EggClutchView = ({eggs, idPrefix='egg-', selectedIndex, onUpdateBounds, onClick}) => {
 
-  let orgViews = eggs.map((egg, index) => {
-        const id = `${idPrefix}${index}`,
-              eggStyle = egg && (egg.basket == null) ? {} : { visibility: 'hidden' };
-        return <EggView egg={egg} id={id} key={id} index={index}
-                        isSelected={index === selectedIndex} displayStyle={eggStyle}
-                        onUpdateBounds={onUpdateBounds} onClick={onClick} />;
-      });
+  const ODD_EGG_MARGIN = 8,
+        EVEN_EGG_MARGIN = 35;
+  let orgViews;
+
+  function eggViewForIndex(egg, index, margin) {
+    const id = `${idPrefix}${index}`,
+          visibilityStyle = egg && (egg.basket == null) ? {} : { visibility: 'hidden' },
+          eggStyle = Object.assign({ marginLeft: margin, marginRight: margin }, visibilityStyle);
+    return <EggView egg={egg} id={id} key={id} index={index}
+                    isSelected={index === selectedIndex} displayStyle={eggStyle}
+                    onUpdateBounds={onUpdateBounds} onClick={onClick} />;
+  }
+
+  // even number of eggs
+  if (eggs.length % 2 === 0) {
+    orgViews = eggs.map((egg, index) => eggViewForIndex(egg, index, EVEN_EGG_MARGIN));
+  }
+
+  else {
+    orgViews = eggs.reduce((prev, egg, index) => {
+      prev.push(eggViewForIndex(egg, index, ODD_EGG_MARGIN));
+      // for flex layout purposes, with odd numbers of items
+      // we add spacer items between the eggs
+      const spacerID = `${idPrefix}${index}-spacer`,
+            spacerStyle = { marginLeft: ODD_EGG_MARGIN, marginRight: ODD_EGG_MARGIN,
+                            visibility: 'hidden' };
+      prev.push(<EggView egg={null} key={spacerID} displayStyle={spacerStyle} />);
+      return prev;
+    }, []);
+  }
 
   return (
     <div className="geniblocks egg-clutch">
