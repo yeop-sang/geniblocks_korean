@@ -1,11 +1,12 @@
 import React, {PropTypes} from 'react';
-import { EggView, EGG_IMAGE_WIDTH } from './egg-clutch';
+import { EggView } from './egg-clutch';
 import OrganismView from './organism';
 import OrganismGlowView from './organism-glow';
 
 class EggHatchView extends React.Component {
 
   static propTypes = {
+    id: PropTypes.string,
     egg: PropTypes.object,
     organism: PropTypes.object,
     glow: PropTypes.bool,
@@ -19,9 +20,9 @@ class EggHatchView extends React.Component {
   }
 
   render() {
-    const { egg, organism, glow, displayStyle, onClick } = this.props,
-          width = (displayStyle && displayStyle.size) || EGG_IMAGE_WIDTH,
-          hatchProgress = (displayStyle && displayStyle.hatchProgress) || 0,
+    const { id, egg, organism, glow, displayStyle, onClick } = this.props,
+          { size: width, hatchProgress } = displayStyle,
+          newID = 'egg-hatch' + (id ? '-' + id : ''),
           opacity = (displayStyle && (displayStyle.opacity != null)) ? displayStyle.opacity : 1,
           drakeOpacity = hatchProgress * opacity,
           eggOpacity = (1.0 - hatchProgress) * opacity,
@@ -34,7 +35,7 @@ class EggHatchView extends React.Component {
                       : <OrganismView id='egg-hatch-org' org={organism} width={1.5 * width} 
                                           style={drakeStyle} />;
     return (
-      <div className='geniblocks egg-hatch' style={{ position: 'relative', width }}
+      <div id={newID} className='geniblocks egg-hatch' style={{ position: 'relative', width }}
             onClick={onClick ? this.handleClick : null} >
         <EggView egg={egg} displayStyle={eggStyle} isSelected={true} />
         {orgView}

@@ -15,20 +15,8 @@ class BasketView extends React.Component {
     index: PropTypes.number,
     eggs: PropTypes.arrayOf(PropTypes.object),
     isSelected: PropTypes.bool,
-    onUpdateBounds: PropTypes.func,
     onClick: PropTypes.func
   };
-
-  componentDidMount() {
-    this.componentDidUpdate();
-  }
-
-  componentDidUpdate() {
-    const { basket, index, onUpdateBounds } = this.props,
-          { domNode } = this.refs;
-    if (domNode && onUpdateBounds)
-      onUpdateBounds(basket, index, domNode.getBoundingClientRect());
-  }
 
   handleClick = (evt) => {
     const { basket, index, onClick } = this.props;
@@ -59,7 +47,7 @@ class BasketView extends React.Component {
     }
 
     return (
-      <div className={classes} key={id} style={{ position: 'relative' }} onClick={this.handleClick}>
+      <div className={classes} id={id} key={id} style={{ position: 'relative' }} onClick={this.handleClick}>
         <div className='basket-image' ref='domNode'></div>
         {eggsDiv()}
         <div className='basket-label unselectable'>{basket.label}</div>
@@ -69,7 +57,7 @@ class BasketView extends React.Component {
 }
 
 const BasketSetView = ({baskets, idPrefix='basket-', selectedIndices=[],
-                        eggs, eggIndexOffset, animatingEggIndex, onUpdateBounds, onClick}) => {
+                        eggs, eggIndexOffset, animatingEggIndex, onClick}) => {
 
   let basketViews = baskets.map((basket, index) => {
         const id = `${idPrefix}${index}`,
@@ -83,7 +71,7 @@ const BasketSetView = ({baskets, idPrefix='basket-', selectedIndices=[],
                 displayEggs.push(eggs[eggIndex]);
             });
         return <BasketView basket={basket} id={id} key={id} index={index} eggs={displayEggs}
-                        isSelected={isSelected} onUpdateBounds={onUpdateBounds} onClick={onClick} />;
+                        isSelected={isSelected} onClick={onClick} />;
       });
 
   return (
@@ -100,7 +88,6 @@ BasketSetView.propTypes = {
   eggs: PropTypes.arrayOf(PropTypes.object),
   eggIndexOffset: PropTypes.number,
   animatingEggIndex: PropTypes.number,
-  onUpdateBounds: PropTypes.func,
   onClick: PropTypes.func
 };
 

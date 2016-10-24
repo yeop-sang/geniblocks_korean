@@ -31,6 +31,7 @@
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.5",
     "react-simpletabs": "^0.7.0",
+    "recompose": "^0.20.2",
     "redux": "^3.6.0",
     "redux-sounds": "^1.1.1",
     "redux-thunk": "^2.1.0",

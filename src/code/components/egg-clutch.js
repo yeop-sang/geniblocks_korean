@@ -12,20 +12,8 @@ export class EggView extends React.Component {
     index: PropTypes.number,
     isSelected: PropTypes.bool,
     displayStyle: PropTypes.object,
-    onUpdateBounds: PropTypes.func,
     onClick: PropTypes.func
   };
-
-  componentDidMount() {
-    this.componentDidUpdate();
-  }
-
-  componentDidUpdate() {
-    const { egg, index, onUpdateBounds } = this.props,
-          { domNode } = this.refs;
-    if (domNode && onUpdateBounds)
-      onUpdateBounds(egg, index, domNode.getBoundingClientRect());
-  }
 
   handleClick = (evt) => {
     const { egg, id, index, onClick } = this.props;
@@ -45,12 +33,12 @@ export class EggView extends React.Component {
       eggStyle.height = eggStyle.width * (EGG_IMAGE_HEIGHT / EGG_IMAGE_WIDTH);
     }
     return (
-      <div className={classes} key={id} ref='domNode' style={eggStyle} onClick={this.handleClick} />
+      <div id={id} className={classes} key={id} ref='domNode' style={eggStyle} onClick={this.handleClick} />
     );
   }
 }
 
-const EggClutchView = ({eggs, idPrefix='egg-', selectedIndex, onUpdateBounds, onClick}) => {
+const EggClutchView = ({eggs, idPrefix='egg-', selectedIndex, onClick}) => {
 
   const ODD_EGG_MARGIN = 8,
         EVEN_EGG_MARGIN = 35;
@@ -60,9 +48,8 @@ const EggClutchView = ({eggs, idPrefix='egg-', selectedIndex, onUpdateBounds, on
     const id = `${idPrefix}${index}`,
           visibilityStyle = egg && (egg.basket == null) ? {} : { visibility: 'hidden' },
           eggStyle = Object.assign({ marginLeft: margin, marginRight: margin }, visibilityStyle);
-    return <EggView egg={egg} id={id} key={id} index={index}
-                    isSelected={index === selectedIndex} displayStyle={eggStyle}
-                    onUpdateBounds={onUpdateBounds} onClick={onClick} />;
+    return <EggView egg={egg} id={id} key={id} index={index} displayStyle={eggStyle}
+                    isSelected={index === selectedIndex} onClick={onClick} />;
   }
 
   // even number of eggs
@@ -94,7 +81,6 @@ EggClutchView.propTypes = {
   eggs: PropTypes.arrayOf(PropTypes.object).isRequired,
   idPrefix: PropTypes.string,
   selectedIndex: PropTypes.number,
-  onUpdateBounds: PropTypes.func,
   onClick: PropTypes.func
 };
 
