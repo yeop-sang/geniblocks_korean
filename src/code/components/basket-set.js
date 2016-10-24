@@ -57,7 +57,7 @@ class BasketView extends React.Component {
 }
 
 const BasketSetView = ({baskets, idPrefix='basket-', selectedIndices=[],
-                        eggs, eggIndexOffset, animatingEggIndex, onClick}) => {
+                        eggs, animatingEggIndex, onClick}) => {
 
   let basketViews = baskets.map((basket, index) => {
         const id = `${idPrefix}${index}`,
@@ -65,7 +65,7 @@ const BasketSetView = ({baskets, idPrefix='basket-', selectedIndices=[],
         let eggIndices = (basket && basket.eggs) || [],
             displayEggs = [];
             eggIndices.forEach((eggDrakeIndex) => {
-              const eggIndex = eggDrakeIndex - eggIndexOffset;
+              const eggIndex = eggDrakeIndex;
               if (eggDrakeIndex === animatingEggIndex) return;
               if (eggs && eggs[eggIndex])
                 displayEggs.push(eggs[eggIndex]);
@@ -86,7 +86,6 @@ BasketSetView.propTypes = {
   idPrefix: PropTypes.string,
   selectedIndices: PropTypes.arrayOf(PropTypes.number),
   eggs: PropTypes.arrayOf(PropTypes.object),
-  eggIndexOffset: PropTypes.number,
   animatingEggIndex: PropTypes.number,
   onClick: PropTypes.func
 };

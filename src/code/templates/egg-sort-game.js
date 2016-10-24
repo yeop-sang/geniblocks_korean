@@ -10,13 +10,12 @@ import BasketSetView from '../components/basket-set';
 import EggClutchView, { EGG_IMAGE_WIDTH } from '../components/egg-clutch';
 import EggHatchView from '../components/egg-hatch';
 import GenomeView from '../components/genome';
+import { generateTrialDrakes } from '../utilities/trial-generator';
 import urlParams from '../utilities/url-params';
 import t from '../utilities/translate';
 
 const EGG_IMAGE_WIDTH_MEDIUM = EGG_IMAGE_WIDTH * 2 / 3,
       EGG_IMAGE_WIDTH_SMALL = EGG_IMAGE_WIDTH / 3,
-
-      DRAKE_INDEX_OF_FIRST_EGG = 3,
 
       MEDIUM_EGG_ON_BASKET_X_OFFSET = 42,
       MEDIUM_EGG_ON_BASKET_Y_OFFSET = -30,
@@ -228,7 +227,7 @@ export default class EggSortGame extends Component {
 
   componentWillMount() {
     const { drakes } = this.props,
-          eggs = drakes.slice(DRAKE_INDEX_OF_FIRST_EGG).map((child) =>
+          eggs = drakes.map((child) =>
                     new BioLogica.Organism(BioLogica.Species.Drake, child.alleleString, child.sex));
     this.setState({ eggs });
     _this = this;
@@ -260,9 +259,7 @@ export default class EggSortGame extends Component {
     const { drakes } = this.props,
           { eggs } = this.state,
           eggDrakeIndex = drakes.findIndex((drake) => drake && drake.isSelected),
-          eggIndex = eggDrakeIndex >= DRAKE_INDEX_OF_FIRST_EGG
-                      ? eggDrakeIndex - DRAKE_INDEX_OF_FIRST_EGG
-                      : null,
+          eggIndex = eggDrakeIndex != null && eggDrakeIndex >= 0 ? eggDrakeIndex : null,
           egg = eggIndex != null && eggIndex >= 0 ? eggs[eggIndex] : null;
     return { index: eggIndex, egg };
   }
@@ -297,7 +294,7 @@ export default class EggSortGame extends Component {
   setEggSelection(selectedIndices) {
     const { onChangeDrakeSelection } = this.props,
           { index: currSelectedIndex } = this.selectedEgg(),
-          currSelectedIndices = currSelectedIndex != null ? [currSelectedIndex + DRAKE_INDEX_OF_FIRST_EGG] : [];
+          currSelectedIndices = currSelectedIndex != null ? [currSelectedIndex] : [];
     if (!_.isEqual(selectedIndices, currSelectedIndices))
       onChangeDrakeSelection(selectedIndices);
   }
@@ -310,7 +307,7 @@ export default class EggSortGame extends Component {
     const { correct, errors, onSubmitEggForBasket } = this.props,
           { eggs } = this.state,
           { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),
-          eggDrakeIndex = selectedEggIndex + DRAKE_INDEX_OF_FIRST_EGG,
+          eggDrakeIndex = selectedEggIndex,
           isChallengeComplete = correct + errors + 1 >= eggs.length;
     isSubmittedEggCorrect = selectedEgg && isEggCompatibleWithBasket(selectedEgg, basket);
     if (selectedEgg) {
@@ -321,7 +318,7 @@ export default class EggSortGame extends Component {
   }
 
   handleEggClick = (id, index) => {
-    this.setEggSelection([index + DRAKE_INDEX_OF_FIRST_EGG]);
+    this.setEggSelection([index]);
     this.selectAllBaskets();
   }
 
@@ -330,16 +327,14 @@ export default class EggSortGame extends Component {
           { animation, animatedComponents, eggs } = this.state,
           selectedBaskets = this.selectedBaskets(),
           { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),
-          animatingEggDrakeIndex = (animatingEggIndex != null)
-                                    ? animatingEggIndex + DRAKE_INDEX_OF_FIRST_EGG
-                                    : null,
+          animatingEggDrakeIndex = (animatingEggIndex != null) ? animatingEggIndex : null,
           isHatchingDrakeInEgg = (animation === "hatchDrakeInEgg") ||
                                   ((animation === "complete") && (animatingEggIndex != null)),
           showSelectedEggIndex = isHatchingDrakeInEgg ? -1 : selectedEggIndex,
           basketEggs = modeCollectInBasket ? eggs : null,
           displayEggs = eggs.map((egg, index) => {
             const isAnimatingEgg = (animatingEggIndex === index),
-                  drake = drakes[index + DRAKE_INDEX_OF_FIRST_EGG],
+                  drake = drakes[index],
                   isEggInBasket = drake && (drake.basket != null);
             return isAnimatingEgg || isEggInBasket ? null : egg;
           }),
@@ -370,8 +365,7 @@ export default class EggSortGame extends Component {
         <div id="left-section">
           <div id="baskets">
             <BasketSetView baskets={baskets} selectedIndices={selectedBaskets}
-                            eggs={basketEggs} eggIndexOffset={DRAKE_INDEX_OF_FIRST_EGG}
-                            animatingEggIndex={animatingEggDrakeIndex}
+                            eggs={basketEggs} animatingEggIndex={animatingEggDrakeIndex}
                             onClick={disableSelection ? null : this.handleBasketClick}/>
           </div>
           <div id="eggs">
@@ -396,24 +390,9 @@ export default class EggSortGame extends Component {
   }
 
   static authoredDrakesToDrakeArray = function(authoredChallenge) {
-
-    const mother = new BioLogica.Organism(BioLogica.Species.Drake,
-                                          authoredChallenge.mother.alleles,
-                                          authoredChallenge.mother.sex),
-          father = new BioLogica.Organism(BioLogica.Species.Drake,
-                                          authoredChallenge.father.alleles,
-                                          authoredChallenge.father.sex),
-          // authored specs may be incomplete; these are complete specs
-          motherSpec = { alleles: mother.getAlleleString(), sex: mother.sex },
-          fatherSpec = { alleles: father.getAlleleString(), sex: father.sex };
-    let drakes = [motherSpec, fatherSpec, null];
-    for (let i = 0; i < authoredChallenge.eggCount; ++i) {
-      const child = BioLogica.breed(mother, father),
-            alleles = child.getAlleleString(),
-            sex = child.sex;
-      drakes.push({ alleles, sex });
-    }
-    return drakes;
+    if (authoredChallenge.trialGenerator)
+      return generateTrialDrakes(authoredChallenge.trialGenerator);
+    return [];
   }
 
 }
