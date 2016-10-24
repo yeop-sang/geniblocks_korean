@@ -5,7 +5,7 @@ import renameProp from 'recompose/renameProp';
 import animateSpring from '../hoc/animate-spring';
 import initialElementId from '../hoc/initial-element-id';
 import targetElementId from '../hoc/target-element-id';
-import updateOnResize from '../hoc/update-on-resize';
+import updateOnResizeScroll from '../hoc/update-on-resize-scroll';
 import BasketSetView from '../components/basket-set';
 import EggClutchView, { EGG_IMAGE_WIDTH } from '../components/egg-clutch';
 import EggHatchView from '../components/egg-hatch';
@@ -37,14 +37,14 @@ let _this,
     animatingDrake, targetBasketIndex;
 
 const FastEggHatch = compose(
-                        updateOnResize,
+                        updateOnResizeScroll,
                         initialElementId(),
                         targetElementId(),
                         animateSpring(),
                         // animateSpring() generates 'style', but EggHatchView expects 'displayStyle'
                         renameProp('style', 'displayStyle'))(EggHatchView),
       SlowEggHatch = compose(
-                        updateOnResize,
+                        updateOnResizeScroll,
                         initialElementId(),
                         targetElementId(),
                         animateSpring(60),
