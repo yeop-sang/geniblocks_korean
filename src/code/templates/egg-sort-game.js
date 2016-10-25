@@ -226,11 +226,8 @@ export default class EggSortGame extends Component {
   }
 
   componentWillMount() {
-    const { drakes } = this.props,
-          eggs = drakes.map((child) =>
-                    new BioLogica.Organism(BioLogica.Species.Drake, child.alleleString, child.sex));
-    this.setState({ eggs });
     _this = this;
+    this.createEggsFromDrakes(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -240,6 +237,7 @@ export default class EggSortGame extends Component {
             correct: nextCorrect, errors: nextErrors } = nextProps;
     if ((prevCase !== nextCase) || (prevChallenge !== nextChallenge) || (prevTrial !== nextTrial)) {
       resetAnimationEvents(true);
+      this.createEggsFromDrakes(nextProps);
       this.clearSelection();
     }
     else {
@@ -253,6 +251,13 @@ export default class EggSortGame extends Component {
         animationEvents.fadeDrakeAway.animate();
       }
     }
+  }
+
+  createEggsFromDrakes(props) {
+    const { drakes } = props,
+          eggs = drakes.map((child) =>
+                    new BioLogica.Organism(BioLogica.Species.Drake, child.alleleString, child.sex));
+    this.setState({ eggs });
   }
 
   selectedEgg() {
