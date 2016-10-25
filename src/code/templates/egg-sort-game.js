@@ -198,7 +198,7 @@ function isEggCompatibleWithBasket(egg, basket) {
     // ... must match every one of its alleles ...
     return alleleString.split(',').every((allele) => {
       // ... to the alleles of the egg
-      return egg.alleles.indexOf(allele) >= 0;
+      return egg.alleles.search(`${allele}(,|$)`) >= 0;
     });
   });
 }
