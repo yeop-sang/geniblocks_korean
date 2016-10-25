@@ -27,12 +27,13 @@ class EggHatchView extends React.Component {
           drakeOpacity = hatchProgress * opacity,
           eggOpacity = (1.0 - hatchProgress) * opacity,
           eggStyle = { position: 'absolute', size: width, opacity: eggOpacity },
-          drakeStyle = { position: 'absolute', opacity: drakeOpacity, marginLeft: -width/4 },
-          glowStyle = { opacity: drakeOpacity, marginLeft: -width/4 },
+          drakeStyle = { position: 'absolute', opacity: drakeOpacity,
+                          marginLeft: -width*5/6, marginTop: -width/2 },
+          glowStyle = { opacity: drakeOpacity, marginLeft: -width*5/6, marginTop: -width/2 },
           orgView = glow
-                      ? <OrganismGlowView id='egg-hatch-org' org={organism} size={1.5 * width}
+                      ? <OrganismGlowView id='egg-hatch-org' org={organism} size={2.5 * width}
                                           style={drakeStyle} glowStyle={glowStyle}/>
-                      : <OrganismView id='egg-hatch-org' org={organism} width={1.5 * width} 
+                      : <OrganismView id='egg-hatch-org' org={organism} width={2.5 * width} 
                                           style={drakeStyle} />;
     return (
       <div id={newID} className='geniblocks egg-hatch' style={{ position: 'relative', width }}

@@ -41,7 +41,7 @@ export class EggView extends React.Component {
 const EggClutchView = ({eggs, idPrefix='egg-', selectedIndex, onClick}) => {
 
   const ODD_EGG_MARGIN = 8,
-        EVEN_EGG_MARGIN = 35;
+        EVEN_EGG_MARGIN = 0;
   let orgViews;
 
   function eggViewForIndex(egg, index, margin) {
@@ -54,7 +54,21 @@ const EggClutchView = ({eggs, idPrefix='egg-', selectedIndex, onClick}) => {
 
   // even number of eggs
   if (eggs.length % 2 === 0) {
-    orgViews = eggs.map((egg, index) => eggViewForIndex(egg, index, EVEN_EGG_MARGIN));
+    orgViews = eggs.reduce((prev, egg, index) => {
+      // for flex layout purposes, with odd numbers of items
+      // we add spacer items between the eggs
+      const spacerID = `${idPrefix}${index}-spacer`,
+            spacerStyle = { marginLeft: EVEN_EGG_MARGIN, marginRight: EVEN_EGG_MARGIN,
+                            visibility: 'hidden' },
+            spacer = <EggView egg={null} key={spacerID} displayStyle={spacerStyle} />;
+      if (index < eggs.length/2)
+        prev.push(spacer);
+      prev.push(eggViewForIndex(egg, index, EVEN_EGG_MARGIN));
+      if (index >= eggs.length/2)
+        prev.push(spacer);
+      return prev;
+    }, []);
+    //orgViews = eggs.map((egg, index) => eggViewForIndex(egg, index, EVEN_EGG_MARGIN));
   }
 
   else {

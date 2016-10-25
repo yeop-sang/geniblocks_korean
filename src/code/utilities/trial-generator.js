@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
-const ALL_COMBINATIONS = "all-combinations";
+const ALL_COMBINATIONS = "all-combinations",
+      RANDOMIZE_ORDER = "randomize-order";
 
 var pastTrialData;
 
@@ -14,6 +15,20 @@ export function generateTrialDrakes(trialDef, trial=0) {
         targetDrake = {alleles: targetDrakeAlleles, sex: 0};
 
     return [initialDrake, targetDrake];
+  }
+  if (trialDef.type === RANDOMIZE_ORDER) {
+    if (trialDef.drakes) {
+      // randomize the order of the drakes
+      return _.shuffle(
+        _.map(trialDef.drakes, (drake) => {
+                // combine drake alleles with base drake alleles
+          const alleles = trialDef.baseDrake + ',' + drake.alleles,
+                // randomize sex if not specified
+                sex = drake.sex != null ? drake.sex : Math.trunc(2 * Math.random());
+          return { alleles, sex };
+        })
+      );
+    }
   }
   return [];
 }
