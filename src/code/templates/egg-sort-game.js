@@ -14,13 +14,13 @@ import { generateTrialDrakes } from '../utilities/trial-generator';
 import urlParams from '../utilities/url-params';
 import t from '../utilities/translate';
 
-const EGG_IMAGE_WIDTH_MEDIUM = EGG_IMAGE_WIDTH * 2 / 3,
+const EGG_IMAGE_WIDTH_MEDIUM = EGG_IMAGE_WIDTH * 4 / 5,
       EGG_IMAGE_WIDTH_SMALL = EGG_IMAGE_WIDTH / 3,
 
-      MEDIUM_EGG_ON_BASKET_X_OFFSET = 42,
-      MEDIUM_EGG_ON_BASKET_Y_OFFSET = -30,
-      MEDIUM_EGG_ABOVE_BASKET_Y_OFFSET = -80,
-      MEDIUM_EGG_BELOW_BASKET_Y_OFFSET = 20,
+      MEDIUM_EGG_ON_BASKET_X_OFFSET = 37,
+      MEDIUM_EGG_ON_BASKET_Y_OFFSET = -60,
+      MEDIUM_EGG_ABOVE_BASKET_Y_OFFSET = -90,
+      MEDIUM_EGG_BELOW_BASKET_Y_OFFSET = 60,
 
       SMALL_EGG_ON_BASKET_X_OFFSET = 52,
       SMALL_EGG_ON_BASKET_Y_OFFSET = 10,
@@ -115,9 +115,9 @@ let animationEvents = {
           <SlowEggHatch
               egg={animatingEgg} organism={animatingDrake} glow={true}
               initial={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset: initialTop }}
-              initialStyle={{ size: EGG_IMAGE_WIDTH_MEDIUM, opacity: 1, hatchProgress: 1 }}
+              initialStyle={{ marginLeft: 0, size: EGG_IMAGE_WIDTH_MEDIUM, opacity: 1, hatchProgress: 1 }}
               target={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset: targetTop }}
-              targetStyle={{ opacity: 0 }}
+              targetStyle={{ marginLeft: 20, size: EGG_IMAGE_WIDTH_SMALL, opacity: 0 }}
               onClick={handleClick}
               onRest={function() { animationFinish(animationEvents.fadeDrakeAway.id); }}
           />);
@@ -231,11 +231,12 @@ export default class EggSortGame extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { case: prevCase, challenge: prevChallenge, trial: prevTrial,
+    const { case: prevCase, challenge: prevChallenge,
             correct: prevCorrect, errors: prevErrors } = this.props,
-          { case: nextCase, challenge: nextChallenge, trial: nextTrial,
+          { case: nextCase, challenge: nextChallenge,
             correct: nextCorrect, errors: nextErrors } = nextProps;
-    if ((prevCase !== nextCase) || (prevChallenge !== nextChallenge) || (prevTrial !== nextTrial)) {
+    if ((prevCase !== nextCase) || (prevChallenge !== nextChallenge) ||
+        (prevErrors && !nextErrors) || (prevCorrect && !nextCorrect)) {
       resetAnimationEvents(true);
       this.createEggsFromDrakes(nextProps);
       this.clearSelection();
@@ -255,8 +256,15 @@ export default class EggSortGame extends Component {
 
   createEggsFromDrakes(props) {
     const { drakes } = props,
-          eggs = drakes.map((child) =>
-                    new BioLogica.Organism(BioLogica.Species.Drake, child.alleleString, child.sex));
+          eggs = drakes.map((child) => {
+                    let drake = new BioLogica.Organism(BioLogica.Species.Drake, child.alleleString, child.sex);
+                    if (drake.getCharacteristic('liveliness') === "Dead") {
+                      drake.species.makeAlive(drake);
+                      // regenerate the drake with the new "alive" alleles as makeAlive() doesn't update everything
+                      drake = new BioLogica.Organism(BioLogica.Species.Drake, drake.getAlleleString(), drake.sex);
+                    }
+                    return drake;
+                  });
     this.setState({ eggs });
   }
 
