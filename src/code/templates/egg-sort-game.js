@@ -1,6 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
-import AnimatedComponentView from '../components/animated-component';
+import compose from 'recompose/compose';
+import renameProp from 'recompose/renameProp';
+import animateSpring from '../hoc/animate-spring';
+import initialElementId from '../hoc/initial-element-id';
+import targetElementId from '../hoc/target-element-id';
+import updateOnResizeScroll from '../hoc/update-on-resize-scroll';
 import BasketSetView from '../components/basket-set';
 import EggClutchView, { EGG_IMAGE_WIDTH } from '../components/egg-clutch';
 import EggHatchView from '../components/egg-hatch';
@@ -13,123 +18,90 @@ const EGG_IMAGE_WIDTH_MEDIUM = EGG_IMAGE_WIDTH * 2 / 3,
 
       DRAKE_INDEX_OF_FIRST_EGG = 3,
 
-      modeHatchInPlace = urlParams.hatchInPlace > 0,
-      modeHatchInBasket = !modeHatchInPlace,
+      MEDIUM_EGG_ON_BASKET_X_OFFSET = 42,
+      MEDIUM_EGG_ON_BASKET_Y_OFFSET = -30,
+      MEDIUM_EGG_ABOVE_BASKET_Y_OFFSET = -80,
+      MEDIUM_EGG_BELOW_BASKET_Y_OFFSET = 20,
+
+      SMALL_EGG_ON_BASKET_X_OFFSET = 52,
+      SMALL_EGG_ON_BASKET_Y_OFFSET = 10,
+
       modeCollectInBasket = urlParams.collectInBasket > 0,
       modeFadeAway = !modeCollectInBasket;
 
-let basketsBounds = [],
-    eggsBounds = [];
-
 let _this,
-    animatedComponents = [],
-    animatedComponentToRender,
     lastAnimatedComponentId = 0,
-    animationTimeline = {},
 
     isSubmittedEggCorrect,
     animatingEgg, animatingEggIndex,
-    animatingDrake, targetBasketIndex,
-    startBounds, targetBounds, finalBounds,
-    startSize, targetSize, finalSize,
-    layout;
+    animatingDrake, targetBasketIndex;
 
-function animationLayout(eggIndex, basketIndex) {
-  startBounds = Object.assign({}, eggsBounds[eggIndex]);
-  startSize = EGG_IMAGE_WIDTH;
-
-  if (modeHatchInPlace && modeCollectInBasket) {
-    targetBounds = Object.assign({}, startBounds);
-    targetSize = startSize;
-    finalBounds = Object.assign({}, basketsBounds[basketIndex]);
-    if (isSubmittedEggCorrect) {
-      finalBounds.left += 52;
-      finalBounds.top += 10;
-      finalSize = EGG_IMAGE_WIDTH_SMALL;
-    }
-    else {
-      finalSize = targetSize;
-    }
-  }
-  else if (modeHatchInBasket && modeCollectInBasket) {
-    targetBounds = Object.assign({}, basketsBounds[basketIndex]);
-    targetBounds.left += 42;
-    targetBounds.top -= 80;
-    targetSize = EGG_IMAGE_WIDTH_MEDIUM,
-    finalBounds = Object.assign({}, targetBounds);
-    if (isSubmittedEggCorrect) {
-      finalBounds.left += 10;
-      finalBounds.top += 90;
-      finalSize = EGG_IMAGE_WIDTH_SMALL;
-    }
-    else {
-      finalSize = targetSize;
-    }
-  }
-  else if (modeHatchInPlace && modeFadeAway) {
-    targetBounds = Object.assign({}, startBounds);
-    targetSize = startSize;
-    finalBounds = Object.assign({}, basketsBounds[basketIndex]);
-    if (isSubmittedEggCorrect) {
-      finalBounds.left += 52;
-      finalBounds.top += 10;
-      finalSize = EGG_IMAGE_WIDTH_SMALL;
-    }
-    else {
-      finalSize = targetSize;
-    }
-  }
-  else /* (modeHatchInBasket && modeFadeAway) */ {
-    targetBounds = Object.assign({}, basketsBounds[basketIndex]);
-    targetBounds.left += 42;
-    targetBounds.top -= 30;
-    targetSize = EGG_IMAGE_WIDTH_MEDIUM,
-    finalBounds = Object.assign({}, targetBounds);
-    if (isSubmittedEggCorrect) {
-      finalBounds.top += 40;
-    }
-    else {
-      finalBounds.top -= 40;
-    }
-    finalSize = targetSize;
-  }
-
-  return { startBounds, startSize, targetBounds, targetSize, finalBounds, finalSize };
-}
+const FastEggHatch = compose(
+                        updateOnResizeScroll,
+                        initialElementId(),
+                        targetElementId(),
+                        animateSpring(),
+                        // animateSpring() generates 'style', but EggHatchView expects 'displayStyle'
+                        renameProp('style', 'displayStyle'))(EggHatchView),
+      SlowEggHatch = compose(
+                        updateOnResizeScroll,
+                        initialElementId(),
+                        targetElementId(),
+                        animateSpring(60),
+                        // animateSpring() generates 'style', but EggHatchView expects 'displayStyle'
+                        renameProp('style', 'displayStyle'))(EggHatchView);
 
 let animationEvents = {
       moveEggToBasket: { id: 0, complete: false, animate: function(egg, eggIndex, basketIndex) {
         // kill any earlier animations still running
         resetAnimationEvents(true);
 
-        layout = animationLayout(eggIndex, basketIndex);
-
-        if (layout.startBounds && layout.targetBounds) {
+        if (eggIndex >= 0) {
           animatingEgg = egg;
           animatingEggIndex = eggIndex;
           animatingDrake = new BioLogica.Organism(BioLogica.Species.Drake, egg.alleles, egg.sex);
           targetBasketIndex = basketIndex;
 
-          animatedComponentToRender = <EggHatchView egg={animatingEgg} organism={animatingDrake} />;
-          runAnimation(animationEvents.moveEggToBasket.id,
-                        { bounds: layout.startBounds, size: layout.startSize, hatchProgress: 0 },
-                        { bounds: layout.targetBounds, size: layout.targetSize, hatchProgress: 0 });
+          const leftOffset = MEDIUM_EGG_ON_BASKET_X_OFFSET,
+                topOffset = modeCollectInBasket
+                              ? MEDIUM_EGG_ABOVE_BASKET_Y_OFFSET
+                              : MEDIUM_EGG_ON_BASKET_Y_OFFSET;
+          appendAnimation('moveEggToBasket',
+            <FastEggHatch
+                egg={animatingEgg} organism={animatingDrake}
+                initial={{ id: `egg-${animatingEggIndex}` }}
+                initialStyle={{ size: EGG_IMAGE_WIDTH, hatchProgress: 0 }}
+                target={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset }}
+                targetStyle={{ size: EGG_IMAGE_WIDTH_MEDIUM }}
+                onRest={function() { animationFinish(animationEvents.moveEggToBasket.id); }}
+            />);
         }
-
-        _this.setState({animation:"moveEggToBasket"});
       }},
       hatchDrakeInBasket: { id: 1, complete: false, animate: function() {
-        animatedComponentToRender = <EggHatchView egg={animatingEgg} organism={animatingDrake} glow={true}/>;
-        runAnimation(animationEvents.hatchDrakeInBasket.id,
-                        { bounds: layout.targetBounds, size: layout.targetSize, hatchProgress: 0 },
-                        { bounds: layout.targetBounds, size: layout.targetSize, hatchProgress: 1 });
-        _this.setState({animation:"hatchDrakeInBasket"});
+        const leftOffset = MEDIUM_EGG_ON_BASKET_X_OFFSET,
+              topOffset = modeCollectInBasket
+                            ? MEDIUM_EGG_ABOVE_BASKET_Y_OFFSET
+                            : MEDIUM_EGG_ON_BASKET_Y_OFFSET;
+        appendAnimation('hatchDrakeInBasket',
+          <FastEggHatch
+              egg={animatingEgg} organism={animatingDrake} glow={true}
+              initial={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset }}
+              initialStyle={{ size: EGG_IMAGE_WIDTH_MEDIUM, hatchProgress: 0 }}
+              target={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset }}
+              targetStyle={{ hatchProgress: 1 }}
+              onRest={function() { animationFinish(animationEvents.hatchDrakeInBasket.id); }}
+          />);
       }},
       fadeDrakeAway: { id: 2, complete: false, animate: function() {
         const { baskets } = _this.props,
               targetBasket = targetBasketIndex >= 0 ? baskets[targetBasketIndex] : null,
-              startBounds = modeHatchInPlace ? layout.startBounds : layout.targetBounds,
-              startSize = modeHatchInPlace ? layout.startSize : layout.targetSize;
+              leftOffset = MEDIUM_EGG_ON_BASKET_X_OFFSET,
+              initialTop = modeFadeAway
+                            ? MEDIUM_EGG_ON_BASKET_Y_OFFSET
+                            : MEDIUM_EGG_ABOVE_BASKET_Y_OFFSET,
+              targetTop = isSubmittedEggCorrect
+                            ? MEDIUM_EGG_BELOW_BASKET_Y_OFFSET
+                            : MEDIUM_EGG_ABOVE_BASKET_Y_OFFSET;
         _this.clearSelection();
         resetAnimationEvents(false);
 
@@ -140,77 +112,53 @@ let animationEvents = {
           evt.stopPropagation();
         }
         
-        animatedComponentToRender = <EggHatchView egg={animatingEgg} organism={animatingDrake} glow={true}
-                                                  onClick={handleClick}/>;
-        runAnimation(animationEvents.fadeDrakeAway.id,
-                        { bounds: startBounds, size: startSize, opacity: 1, hatchProgress: 1 },
-                        { bounds: layout.finalBounds, size: layout.finalSize, opacity: 0, hatchProgress: 1 },
-                        "slow");
-        _this.setState({animation:"fadeDrakeAway"});
+        appendAnimation('fadeDrakeAway',
+          <SlowEggHatch
+              egg={animatingEgg} organism={animatingDrake} glow={true}
+              initial={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset: initialTop }}
+              initialStyle={{ size: EGG_IMAGE_WIDTH_MEDIUM, opacity: 1, hatchProgress: 1 }}
+              target={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset: targetTop }}
+              targetStyle={{ opacity: 0 }}
+              onClick={handleClick}
+              onRest={function() { animationFinish(animationEvents.fadeDrakeAway.id); }}
+          />);
       }},
       settleEggInBasket: { id: 3, complete: false, animate: function() {
         _this.clearSelection();
         resetAnimationEvents(false);
-        animatedComponentToRender = <EggHatchView egg={animatingEgg} organism={animatingDrake} />;
-        runAnimation(animationEvents.settleEggInBasket.id,
-                        { bounds: layout.targetBounds, size: layout.targetSize, hatchProgress: 1 },
-                        { bounds: layout.finalBounds, size: layout.finalSize, hatchProgress: 0 });
-        _this.setState({animation:"settleEggInBasket"});
-      }},
-      returnEggFromBasket: { id: 4, complete: false, animate: function() {
-        resetAnimationEvents(false);
-        animatedComponentToRender = <EggHatchView egg={animatingEgg} organism={animatingDrake} />;
-        runAnimation(animationEvents.returnEggFromBasket.id,
-                        { bounds: layout.targetBounds, size: layout.targetSize, hatchProgress: 1 },
-                        { bounds: layout.startBounds, size: layout.startSize, hatchProgress: 0 });
-        _this.setState({animation:"returnEggFromBasket"});
-      }},
-      hatchDrakeInEgg: { id: 5, complete: false, animate: function(egg, eggIndex, basketIndex) {
-        layout = animationLayout(eggIndex, basketIndex);
 
-        if (layout.startBounds && layout.targetBounds) {
-          animatingEgg = egg;
-          animatingEggIndex = eggIndex;
-          animatingDrake = new BioLogica.Organism(BioLogica.Species.Drake, egg.alleles, egg.sex);
-          targetBasketIndex = basketIndex;
-
-          animatedComponentToRender = <EggHatchView egg={animatingEgg} organism={animatingDrake} glow={true}/>;
-          runAnimation(animationEvents.hatchDrakeInEgg.id,
-                        { bounds: layout.startBounds, size: layout.startSize, hatchProgress: 0 },
-                        { bounds: layout.startBounds, size: layout.startSize, hatchProgress: 1 });
-        }
-        _this.setState({animation:"hatchDrakeInEgg"});
-      }},
+        const initialLeft = MEDIUM_EGG_ON_BASKET_X_OFFSET,
+              targetLeft = SMALL_EGG_ON_BASKET_X_OFFSET,
+              initialTop = MEDIUM_EGG_ABOVE_BASKET_Y_OFFSET,
+              targetTop = SMALL_EGG_ON_BASKET_Y_OFFSET;
+        appendAnimation('settleEggInBasket',
+          <FastEggHatch
+              egg={animatingEgg} organism={animatingDrake} glow={true}
+              initial={{ id: `basket-${targetBasketIndex}`, leftOffset: initialLeft, topOffset: initialTop }}
+              initialStyle={{ size: EGG_IMAGE_WIDTH_MEDIUM, hatchProgress: 1 }}
+              target={{ id: `basket-${targetBasketIndex}`, leftOffset: targetLeft, topOffset: targetTop }}
+              targetStyle={{ size: EGG_IMAGE_WIDTH_SMALL, hatchProgress: 0 }}
+              onRest={function() { animationFinish(animationEvents.settleEggInBasket.id); }}
+          />);
+      }}
     };
 
 function resetAnimationEvents(clearEggSequence) {
-  animatedComponents = [];
   if (clearEggSequence) {
     animatingEgg = null;
     animatingEggIndex = null;
     animatingDrake = null;
     targetBasketIndex = null;
   }
+  _this.setState({ animation: null, animatedComponents: [] });
 }
 
-function runAnimation(animationEvent, start, target, speed = "fast") {
-  let { bounds: startPositionRect, ...startDisplay } = start,
-      { bounds: targetPositionRect, ...targetDisplay } = target;
-  startDisplay.startPositionRect = startPositionRect;
-  targetDisplay.targetPositionRect = targetPositionRect;
-
-  let animationSpeed = speed;
-  animationTimeline[lastAnimatedComponentId] = animationEvent;
-  animatedComponents.push(
-    <AnimatedComponentView key={lastAnimatedComponentId}
-      animEvent={animationEvent}
-      speed={animationSpeed}
-      viewObject={animatedComponentToRender}
-      startDisplay={startDisplay}
-      targetDisplay={targetDisplay}
-      runAnimation={true}
-      onRest={animationFinish} />);
-  lastAnimatedComponentId++;
+function appendAnimation(animation, component) {
+  const newComponent = React.cloneElement(component, { key: lastAnimatedComponentId++ });
+  _this.setState(function(prevState) {
+    prevState.animation = animation;
+    prevState.animatedComponents.push(newComponent);
+  });
 }
 
 function animationFinish(evt) {
@@ -274,6 +222,7 @@ export default class EggSortGame extends Component {
 
   state = {
     animation: null,
+    animatedComponents: [],
     eggs: []
   }
 
@@ -282,6 +231,7 @@ export default class EggSortGame extends Component {
           eggs = drakes.slice(DRAKE_INDEX_OF_FIRST_EGG).map((child) =>
                     new BioLogica.Organism(BioLogica.Species.Drake, child.alleleString, child.sex));
     this.setState({ eggs });
+    _this = this;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -352,16 +302,6 @@ export default class EggSortGame extends Component {
       onChangeDrakeSelection(selectedIndices);
   }
 
-  handleUpdateBasketBounds = (basket, index, bounds) => {
-    const { left, top, width, height } = bounds;
-    basketsBounds[index] = { left, top, width, height };
-  }
-
-  handleUpdateEggBounds = (egg, index, bounds) => {
-    const { left, top, width, height } = bounds;
-    eggsBounds[index] = { left, top, width, height };
-  }
-
   handleBackgroundClick = () => {
     this.clearSelection();
   }
@@ -374,10 +314,7 @@ export default class EggSortGame extends Component {
           isChallengeComplete = correct + errors + 1 >= eggs.length;
     isSubmittedEggCorrect = selectedEgg && isEggCompatibleWithBasket(selectedEgg, basket);
     if (selectedEgg) {
-      if (modeHatchInPlace)
-        animationEvents.hatchDrakeInEgg.animate(selectedEgg, selectedEggIndex, basketIndex);
-      else
-        animationEvents.moveEggToBasket.animate(selectedEgg, selectedEggIndex, basketIndex);
+      animationEvents.moveEggToBasket.animate(selectedEgg, selectedEggIndex, basketIndex);
       onSubmitEggForBasket(eggDrakeIndex, basketIndex, isSubmittedEggCorrect, isChallengeComplete);
     }
     this.setBasketSelection([basketIndex]);
@@ -390,7 +327,7 @@ export default class EggSortGame extends Component {
 
   render() {
     const { hiddenAlleles, drakes, baskets, correct, errors } = this.props,
-          { animation, eggs } = this.state,
+          { animation, animatedComponents, eggs } = this.state,
           selectedBaskets = this.selectedBaskets(),
           { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),
           animatingEggDrakeIndex = (animatingEggIndex != null)
@@ -401,7 +338,7 @@ export default class EggSortGame extends Component {
           showSelectedEggIndex = isHatchingDrakeInEgg ? -1 : selectedEggIndex,
           basketEggs = modeCollectInBasket ? eggs : null,
           displayEggs = eggs.map((egg, index) => {
-            const isAnimatingEgg = (animatingEggIndex === index) && !modeHatchInPlace,
+            const isAnimatingEgg = (animatingEggIndex === index),
                   drake = drakes[index + DRAKE_INDEX_OF_FIRST_EGG],
                   isEggInBasket = drake && (drake.basket != null);
             return isAnimatingEgg || isEggInBasket ? null : egg;
@@ -435,12 +372,10 @@ export default class EggSortGame extends Component {
             <BasketSetView baskets={baskets} selectedIndices={selectedBaskets}
                             eggs={basketEggs} eggIndexOffset={DRAKE_INDEX_OF_FIRST_EGG}
                             animatingEggIndex={animatingEggDrakeIndex}
-                            onUpdateBounds={this.handleUpdateBasketBounds}
                             onClick={disableSelection ? null : this.handleBasketClick}/>
           </div>
           <div id="eggs">
             <EggClutchView eggs={displayEggs} selectedIndex={showSelectedEggIndex}
-                            onUpdateBounds={this.handleUpdateEggBounds}
                             onClick={disableSelection ? null : this.handleEggClick} />
           </div>
         </div>
