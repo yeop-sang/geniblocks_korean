@@ -27,6 +27,7 @@ export default {
   "~BUTTON.CONTINUE": "Continue",
   "~BUTTON.NEXT_TRIAL": "Next trial",
   "~BUTTON.NEXT_CHALLENGE": "Next challenge",
+  "~BUTTON.END_CASE": "End case",
   "~BUTTON.NEXT_CASE": "Next case",
   "~BUTTON.PLAYGROUND_MOVE_FORWARD": "Bring It On!",
   "~BUTTON.CHECK_DRAKE": "Check Drake",

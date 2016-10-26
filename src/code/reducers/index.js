@@ -2,6 +2,7 @@ import Immutable from 'seamless-immutable';
 import { actionTypes } from '../actions';
 import { loadStateFromAuthoring, loadNextTrial } from './helpers/load-state-from-authoring';
 import { updateProgress, setProgressScore } from './helpers/challenge-progress';
+import urlParams from '../utilities/url-params';
 
 // reducers
 import routing from './routing';
@@ -20,7 +21,8 @@ const initialState = Immutable({
   challenge: 0,
   challenges: 1,
   challengeProgress: {},
-  authoring: window.GV2Authoring
+  authoring: window.GV2Authoring,
+  endCaseUrl: urlParams.start
 });
 
 export default function reducer(state, action) {
@@ -118,6 +120,9 @@ export default function reducer(state, action) {
       });
       return loadStateFromAuthoring(state, state.authoring, state.challengeProgress);
     }
+    case actionTypes.NAVIGATED_PAGE:
+      window.location = action.url;
+      return state;
     case actionTypes.ADVANCED_CHALLENGE: {
       let nextChallenge = state.challenge + 1;
       let progress = updateProgress(state, true);
