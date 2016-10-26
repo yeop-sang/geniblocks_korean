@@ -126,8 +126,10 @@ export function navigateToNextChallenge() {
         nextCase = 0;
       nextChallenge = 0;
 
-      if (endCaseUrl)
+      if (endCaseUrl) {
         dispatch(navigateToStartPage(endCaseUrl));
+        return;
+      }
     }
     dispatch(navigateToChallenge(nextCase, nextChallenge));
   };

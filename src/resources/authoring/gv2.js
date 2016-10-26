@@ -56,7 +56,9 @@ window.GV2Authoring = [
         "sex": 0
       },
       "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh"
-    },
+    }
+  ],
+  [
     {
       "template": "EggGame",
       "challengeType": "match-target",
