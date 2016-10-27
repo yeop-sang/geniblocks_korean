@@ -51,6 +51,7 @@ function mapStateToProps (state) {
     return {
       template: state.template,
       challengeType: state.challengeType,
+      instructions: state.instructions,
       showUserDrake: state.showUserDrake,
       drakes: state.drakes,
       gametes: state.gametes,

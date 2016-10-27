@@ -13,7 +13,8 @@ const userDrakeIndex   = 0,
 export default class GenomeChallengeTemplate extends Component {
 
   render() {
-    const { drakes, onChromosomeAlleleChange, onSexChange, onDrakeSubmission, hiddenAlleles, userDrakeHidden, trial, trials } = this.props,
+    const { drakes, instructions, onChromosomeAlleleChange, onSexChange, onDrakeSubmission,
+            hiddenAlleles, userDrakeHidden, trial, trials } = this.props,
           userDrakeDef = drakes[userDrakeIndex],
           targetDrakeDef = drakes[targetDrakeIndex],
           userDrake   = new BioLogica.Organism(BioLogica.Species.Drake, userDrakeDef.alleleString, userDrakeDef.sex),
@@ -30,10 +31,16 @@ export default class GenomeChallengeTemplate extends Component {
       onDrakeSubmission(targetDrake.phenotype.characteristics, userDrake.phenotype.characteristics, correct);
     };
 
-    const userDrakeStyle = userDrakeHidden ? "hiddenDrake" : "";
+    const instructionsBanner = instructions
+                                ? <div className="instructions-banner">
+                                    <div className="instructions-text">{instructions}</div>
+                                  </div>
+                                : null,
+          userDrakeStyle = userDrakeHidden ? "hiddenDrake" : "";
 
     return (
       <div id="genome-challenge">
+        {instructionsBanner}
         <div className='column'>
           <div id="target-drake-label" className="column-label">Target Drake</div>
           <OrganismGlowView id="target-drake" org={ targetDrake } />
@@ -58,6 +65,7 @@ export default class GenomeChallengeTemplate extends Component {
   }
 
   static propTypes = {
+    instructions: PropTypes.string,
     drakes: PropTypes.array.isRequired,
     hiddenAlleles: PropTypes.array.isRequired,
     trial: PropTypes.number.isRequired,

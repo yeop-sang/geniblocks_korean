@@ -34,8 +34,8 @@ export default {
   "~BUTTON.SAVE_DRAKE": "Save this",
   "~BUTTON.SUBMIT": "Submit",
   "~BUTTON.RESET": "Reset",
-  "~BUTTON.FERTILIZE_DISABLED": "Fertilize",
-  "~BUTTON.FERTILIZE": "Fertilize ❤️",
+  "~BUTTON.FERTILIZE_DISABLED": "Make a baby",
+  "~BUTTON.FERTILIZE": "Make a baby! ❤️",
 
   // Messages from ITS
   "~ITS.GREETING": "Hi there user!"
