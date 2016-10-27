@@ -1,6 +1,7 @@
-window.GV2Authoring = [
+[
   [
     {
+      "comment": "*** Case 1: Challenge 1 - Playground ***",
       "template": "GenomePlayground",
       "initialDrake": {
         "alleles": "a:T,b:T,a:w,b:w,a:h,b:h,a:A1,b:A1,a:C,b:C,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
@@ -9,6 +10,7 @@ window.GV2Authoring = [
       "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh"
     },
     {
+      "comment": "*** Case 1: Challenge 2 - Single Drake (User Drake Visible) ***",
       "template": "GenomeChallenge",
       "instructions": "Match the target drake!",
       "showUserDrake": true,
@@ -23,6 +25,7 @@ window.GV2Authoring = [
       "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh"
     },
     {
+      "comment": "*** Case 1: Challenge 3 - Single Drake (User Drake Hidden) ***",
       "template": "GenomeChallenge",
       "instructions": "Match the target drake!",
       "showUserDrake": false,
@@ -37,6 +40,7 @@ window.GV2Authoring = [
       "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh"
     },
     {
+      "comment": "*** Case 1: Challenge 4 - Three Drakes (User Drake Hidden) ***",
       "template": "GenomeChallenge",
       "instructions": "Match 3 drakes!",
       "trialGenerator": {
@@ -61,6 +65,7 @@ window.GV2Authoring = [
   ],
   [
     {
+      "comment": "*** Case 2: Challenge 1 - Egg Game I (create five unique drakes) ***",
       "template": "EggGame",
       "challengeType": "create-unique",
       "instructions": "Create 5 different baby drakes!",
@@ -78,6 +83,7 @@ window.GV2Authoring = [
   ],
   [
     {
+      "comment": "*** Case 3: Challenge 1 - Egg Game II (match three drakes, user drake visible) ***",
       "template": "EggGame",
       "challengeType": "match-target",
       "instructions": "Match 3 drakes!",
@@ -94,6 +100,7 @@ window.GV2Authoring = [
       "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh"
     },
     {
+      "comment": "*** Case 3: Challenge 2 - Egg Game II (match three drakes, user drake hidden) ***",
       "template": "EggGame",
       "challengeType": "match-target",
       "instructions": "Match 3 drakes!",
@@ -111,24 +118,22 @@ window.GV2Authoring = [
     }
   ],
   [
-    /*
-     *  Case 3: Trial 1 - Egg Game III (wings)
-     */
     {
+      "comment": "*** Case 4: Challenge 1 - Egg Game III (wings) ***",
       "template": "EggSortGame",
       "trialGenerator": {
         "type": "randomize-order",
         "baseDrake": "a:T,b:T,a:a,b:a,a:C,b:C,a:rh,b:rh,a:Bog,b:Bog",
         "drakes": [
-          { alleles: "a:W,b:W", sex: 0 },
-          { alleles: "a:W,b:w", sex: 0 },
-          { alleles: "a:w,b:W", sex: 0 },
-          { alleles: "a:w,b:w", sex: 0 },
-          { alleles: "a:W,b:W", sex: 1 },
-          { alleles: "a:W,b:w", sex: 1 },
-          { alleles: "a:w,b:W", sex: 1 },
-          { alleles: "a:w,b:w", sex: 1 }
-        ],
+          { "alleles": "a:W,b:W", "sex": 0 },
+          { "alleles": "a:W,b:w", "sex": 0 },
+          { "alleles": "a:w,b:W", "sex": 0 },
+          { "alleles": "a:w,b:w", "sex": 0 },
+          { "alleles": "a:W,b:W", "sex": 1 },
+          { "alleles": "a:W,b:w", "sex": 1 },
+          { "alleles": "a:w,b:W", "sex": 1 },
+          { "alleles": "a:w,b:w", "sex": 1 }
+        ]
       },
       "hiddenAlleles": "t,m,h,c,b,fl,hl,a,d,bog,rh",
       "baskets": [
@@ -138,24 +143,22 @@ window.GV2Authoring = [
         { "label": "Females without wings", "alleles": ["a:w,b:w"], "sex": 1 }
       ]
     },
-    /*
-     *  Case 3: Trial 2 - Egg Game III (forelimbs/hindlimbs)
-     */
     {
+      "comment": "*** Case 4: Challenge 2 - Egg Game III (forelimbs/hindlimbs) ***",
       "template": "EggSortGame",
       "trialGenerator": {
         "type": "randomize-order",
         "baseDrake": "a:T,b:T,a:C,b:C,a:rh,b:rh,a:Bog,b:Bog",
         "drakes": [
-          { alleles: "a:Fl,b:fl,a:Hl,b:hl" },
-          { alleles: "a:fl,b:fl,a:Hl,b:hl" },
-          { alleles: "a:Fl,b:fl,a:hl,b:hl" },
-          { alleles: "a:fl,b:Fl,a:Hl,b:Hl" },
-          { alleles: "a:fl,b:fl,a:Hl,b:Hl" },
-          { alleles: "a:fl,b:Fl,a:hl,b:hl" },
-          { alleles: "a:Fl,b:Fl,a:hl,b:hl" },
-          { alleles: "a:Fl,b:Fl,a:Hl,b:Hl" }
-        ],
+          { "alleles": "a:Fl,b:fl,a:Hl,b:hl" },
+          { "alleles": "a:fl,b:fl,a:Hl,b:hl" },
+          { "alleles": "a:Fl,b:fl,a:hl,b:hl" },
+          { "alleles": "a:fl,b:Fl,a:Hl,b:Hl" },
+          { "alleles": "a:fl,b:fl,a:Hl,b:Hl" },
+          { "alleles": "a:fl,b:Fl,a:hl,b:hl" },
+          { "alleles": "a:Fl,b:Fl,a:hl,b:hl" },
+          { "alleles": "a:Fl,b:Fl,a:Hl,b:Hl" }
+        ]
       },
       "hiddenAlleles": "t,m,w,h,c,b,a,d,bog,rh",
       "baskets": [
@@ -166,24 +169,22 @@ window.GV2Authoring = [
     }
   ],
   [
-    /*
-     *  Case 4: Trial 1 - Egg Game III (horns)
-     */
     {
+      "comment": "*** Case 5: Challenge 1 - Egg Game III (horns) ***",
       "template": "EggSortGame",
       "trialGenerator": {
         "type": "randomize-order",
         "baseDrake": "a:T,b:T,a:C,b:C,a:rh,b:rh,a:Bog,b:Bog",
         "drakes": [
-          { alleles: "a:H,b:H", sex: 0 },
-          { alleles: "a:H,b:h", sex: 0 },
-          { alleles: "a:h,b:H", sex: 0 },
-          { alleles: "a:h,b:h", sex: 0 },
-          { alleles: "a:H,b:H", sex: 1 },
-          { alleles: "a:H,b:h", sex: 1 },
-          { alleles: "a:h,b:H", sex: 1 },
-          { alleles: "a:h,b:h", sex: 1 }
-        ],
+          { "alleles": "a:H,b:H", "sex": 0 },
+          { "alleles": "a:H,b:h", "sex": 0 },
+          { "alleles": "a:h,b:H", "sex": 0 },
+          { "alleles": "a:h,b:h", "sex": 0 },
+          { "alleles": "a:H,b:H", "sex": 1 },
+          { "alleles": "a:H,b:h", "sex": 1 },
+          { "alleles": "a:h,b:H", "sex": 1 },
+          { "alleles": "a:h,b:h", "sex": 1 }
+        ]
       },
       "hiddenAlleles": "w,t,m,c,b,fl,hl,a,d,bog,rh",
       "baskets": [
@@ -193,24 +194,22 @@ window.GV2Authoring = [
         { "label": "Females without horns", "alleles": ["a:H","b:H"], "sex": 1 }
       ]
     },
-    /*
-     *  Case 4: Trial 2 - Egg Game III (armor)
-     */
     {
+      "comment": "*** Case 5: Challenge 1 - Egg Game III (armor) ***",
       "template": "EggSortGame",
       "trialGenerator": {
         "type": "randomize-order",
         "baseDrake": "a:T,b:T,a:C,b:C,a:rh,b:rh,a:Bog,b:Bog",
         "drakes": [
-          { alleles: "a:A1,b:A1", sex: 0 },
-          { alleles: "a:A1,b:a", sex: 0 },
-          { alleles: "a:a,b:A1", sex: 0 },
-          { alleles: "a:a,b:a", sex: 0 },
-          { alleles: "a:A1,b:A1", sex: 1 },
-          { alleles: "a:A1,b:a", sex: 1 },
-          { alleles: "a:a,b:A1", sex: 1 },
-          { alleles: "a:a,b:a", sex: 1 }
-        ],
+          { "alleles": "a:A1,b:A1", "sex": 0 },
+          { "alleles": "a:A1,b:a", "sex": 0 },
+          { "alleles": "a:a,b:A1", "sex": 0 },
+          { "alleles": "a:a,b:a", "sex": 0 },
+          { "alleles": "a:A1,b:A1", "sex": 1 },
+          { "alleles": "a:A1,b:a", "sex": 1 },
+          { "alleles": "a:a,b:A1", "sex": 1 },
+          { "alleles": "a:a,b:a", "sex": 1 }
+        ]
       },
       "hiddenAlleles": "t,m,w,h,c,b,fl,hl,d,bog,rh",
       "baskets": [
@@ -219,24 +218,22 @@ window.GV2Authoring = [
         { "label": "Drakes with five armor plates", "alleles": ["a:A1,b:A1"] }
       ]
     },
-    /*
-     *  Case 4: Trial 3 - Egg Game III (horns,wings,armor)
-     */
     {
+      "comment": "*** Case 5: Challenge 1 - Egg Game III (horns,wings,armor) ***",
       "template": "EggSortGame",
       "trialGenerator": {
         "type": "randomize-order",
         "baseDrake": "a:T,b:T,a:C,b:C,a:rh,b:rh,a:Bog,b:Bog",
         "drakes": [
-          { alleles: "a:h,b:h,a:w,b:w,a:a,b:a" },
-          { alleles: "a:h,b:h,a:w,b:w,a:a,b:a" },
-          { alleles: "a:H,b:h,a:W,b:w,a:a,b:a" },
-          { alleles: "a:H,b:H,a:w,b:w,a:A1,b:a" },
-          { alleles: "a:H,b:h,a:w,b:w,a:A1,b:A1" },
-          { alleles: "a:H,b:H,a:W,b:W,a:a,b:a" },
-          { alleles: "a:h,b:H,a:w,b:w,a:A1,b:A1" },
-          { alleles: "a:H,b:H,a:w,b:W,a:a,b:a" }
-        ],
+          { "alleles": "a:h,b:h,a:w,b:w,a:a,b:a" },
+          { "alleles": "a:h,b:h,a:w,b:w,a:a,b:a" },
+          { "alleles": "a:H,b:h,a:W,b:w,a:a,b:a" },
+          { "alleles": "a:H,b:H,a:w,b:w,a:A1,b:a" },
+          { "alleles": "a:H,b:h,a:w,b:w,a:A1,b:A1" },
+          { "alleles": "a:H,b:H,a:W,b:W,a:a,b:a" },
+          { "alleles": "a:h,b:H,a:w,b:w,a:A1,b:A1" },
+          { "alleles": "a:H,b:H,a:w,b:W,a:a,b:a" }
+        ]
       },
       "hiddenAlleles": "t,m,c,b,fl,hl,d,bog,rh",
       "baskets": [
@@ -246,4 +243,4 @@ window.GV2Authoring = [
       ]
     }
   ]
-];
+]

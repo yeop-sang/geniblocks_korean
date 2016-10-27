@@ -23,6 +23,8 @@ import io from 'socket.io-client';
 
 import uuid from 'uuid';
 
+window.GV2Authoring = require('../resources/authoring/gv2.json');
+
 // TODO: session ID and application name could be passed in via a container
 // use placeholder ID for duration of session and hard-coded name for now.
 const loggingMetadata = {
