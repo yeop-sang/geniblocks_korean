@@ -11,7 +11,10 @@ export default {
   "~ALERT.TITLE.INCORRECT_DRAKE": "That's not the drake!",
   "~ALERT.TITLE.EGG_MISMATCH": "That egg doesn't belong!",
   "~ALERT.TITLE.MISTAKE": "Uh oh!",
-  "~ALERT.NEW_PIECE_OF_COIN": "You earned a piece of a coin!",
+  "~ALERT.NEW_PIECE_OF_COIN": "You earned a ${0} piece of the coin!",
+  "~ALERT.AWARD_LEVEL_GOLD": "gold",
+  "~ALERT.AWARD_LEVEL_SILVER": "silver",
+  "~ALERT.AWARD_LEVEL_BRONZE": "bronze",
   "~ALERT.COMPLETE_COIN": "You have found all the pieces of this coin!",
   "~ALERT.CORRECT_DRAKE": "The drake you have created matches the target drake.",
   "~ALERT.INCORRECT_DRAKE": "The drake you have created doesn't match the target drake.\n\

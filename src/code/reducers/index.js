@@ -40,7 +40,7 @@ export default function reducer(state, action) {
 
   switch(action.type) {
     case actionTypes.CHALLENGE_COMPLETE:{
-      let progress = setProgressScore(state, 0);
+      let progress = setProgressScore(state, action.score);
 
       return state.merge({
         challengeProgress: progress
@@ -69,6 +69,14 @@ export default function reducer(state, action) {
       });
     }
 
+    case actionTypes.OFFSPRING_KEPT: {
+      let progress = updateProgress(state, action.success);
+
+      return state.merge({
+        trialSuccess: action.correct,
+        challengeProgress: progress
+      });
+    }
     case actionTypes.DRAKE_SUBMITTED: {
       let progress = updateProgress(state, action.correct);
 

@@ -236,6 +236,29 @@ export function changeDrakeSelection(selectedIndices) {
   };
 }
 
+function getChallengeScore(state) {
+  const { challengeProgress: progress, case: case_, challenge } = state,
+        challengePrefix = `${case_}:${challenge}`;
+  let challengeScore = 0;
+  for (let key in progress) {
+    if (key.startsWith(challengePrefix)) {
+      let trialScore = progress[key];
+      if ((trialScore != null) && (trialScore >= 0))
+        challengeScore += trialScore;
+    }
+  }
+  return challengeScore;
+}
+
+function getEarnedCoinString(state) {
+  const challengeScore = getChallengeScore(state),
+        scoreIndex = challengeScore >= 2 ? 2 : challengeScore,
+        scoreString = ["~ALERT.AWARD_LEVEL_GOLD",
+                        "~ALERT.AWARD_LEVEL_SILVER",
+                        "~ALERT.AWARD_LEVEL_BRONZE"][scoreIndex];
+  return ["~ALERT.NEW_PIECE_OF_COIN", scoreString];
+}
+
 function _submitDrake(correctPhenotype, submittedPhenotype, correct) {
   let incrementMoves = !correct;
   return{
@@ -289,7 +312,7 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct, incor
       } else if (challengeComplete) {
         dialog = {
           message: "~ALERT.TITLE.GOOD_WORK",
-          explanation: "~ALERT.NEW_PIECE_OF_COIN",
+          explanation: getEarnedCoinString(state),
           leftButton: {
             label: "~BUTTON.TRY_AGAIN",
             action: "retryCurrentChallenge"
@@ -440,7 +463,7 @@ export function showCompleteChallengeDialog() {
     else {
       dialog = {
         message: "~ALERT.TITLE.GOOD_WORK",
-        explanation: "~ALERT.NEW_PIECE_OF_COIN",
+        explanation: getEarnedCoinString(state),
         leftButton: {
           label: "~BUTTON.TRY_AGAIN",
           action: "retryCurrentChallenge"
@@ -511,14 +534,15 @@ export function advanceChallenge() {
 }
 
 export function completeChallenge() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch({
       type: actionTypes.CHALLENGE_COMPLETE,
+      score: getChallengeScore(getState()),
       meta: {sound: 'receiveCoin'}
     });
     dispatch(showModalDialog({
       message: "~ALERT.TITLE.GOOD_WORK",
-      explanation: "~ALERT.NEW_PIECE_OF_COIN",
+      explanation: getEarnedCoinString(getState()),
       leftButton:{
         label: "~BUTTON.TRY_AGAIN",
         action: "retryCurrentChallenge"
@@ -558,10 +582,12 @@ export function hatch() {
 
 
 function _keepOffspring(index, success) {
+  let incrementMoves = !success;
   return {
     type: actionTypes.OFFSPRING_KEPT,
     index,
-    success
+    success,
+    incrementMoves
   };
 }
 
