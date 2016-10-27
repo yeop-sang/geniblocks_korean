@@ -11,6 +11,7 @@ window.GV2Authoring = [
     {
       "template": "GenomeChallenge",
       "instructions": "Match the target drake!",
+      "showUserDrake": true,
       "initialDrake": {
         "alleles": "a:T,b:T,a:h,b:h,a:A1,b:A1,a:C,b:C,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
         "sex": 1

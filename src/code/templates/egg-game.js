@@ -574,6 +574,7 @@ export default class EggGame extends Component {
     case: PropTypes.number.isRequired,
     challenge: PropTypes.number.isRequired,
     challengeType: PropTypes.string.isRequired,
+    instructions: PropTypes.string,
     showUserDrake: PropTypes.bool.isRequired,
     trial: PropTypes.number.isRequired,
     drakes: PropTypes.array.isRequired,

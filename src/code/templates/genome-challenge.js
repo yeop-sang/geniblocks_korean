@@ -14,7 +14,7 @@ export default class GenomeChallengeTemplate extends Component {
 
   render() {
     const { drakes, instructions, onChromosomeAlleleChange, onSexChange, onDrakeSubmission,
-            hiddenAlleles, userDrakeHidden, trial, trials } = this.props,
+            hiddenAlleles, showUserDrake, userDrakeHidden, trial, trials } = this.props,
           userDrakeDef = drakes[userDrakeIndex],
           targetDrakeDef = drakes[targetDrakeIndex],
           userDrake   = new BioLogica.Organism(BioLogica.Species.Drake, userDrakeDef.alleleString, userDrakeDef.sex),
@@ -36,7 +36,7 @@ export default class GenomeChallengeTemplate extends Component {
                                     <div className="instructions-text">{instructions}</div>
                                   </div>
                                 : null,
-          userDrakeStyle = userDrakeHidden ? "hiddenDrake" : "";
+          userDrakeStyle = !showUserDrake && userDrakeHidden ? "hiddenDrake" : "";
 
     return (
       <div id="genome-challenge">
@@ -72,6 +72,7 @@ export default class GenomeChallengeTemplate extends Component {
     trials: PropTypes.array.isRequired,
     moves: PropTypes.number.isRequired,
     goalMoves: PropTypes.number.isRequired,
+    showUserDrake: PropTypes.bool,
     userDrakeHidden: PropTypes.bool.isRequired,
     onChromosomeAlleleChange: PropTypes.func.isRequired,
     onSexChange: PropTypes.func.isRequired,
