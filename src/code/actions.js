@@ -157,7 +157,7 @@ export function navigateToNextChallenge() {
  * Skips the route change, so just updates current case and challenge and
  * triggers `loadStateFromAuthoring` in router
  */
-export function navigateToCurrentRoute(_case, challenge) {
+export function _navigateToCurrentRoute(_case, challenge) {
   return {
     type: actionTypes.NAVIGATED,
     case: _case,
@@ -171,6 +171,27 @@ export function navigateToCurrentRoute(_case, challenge) {
         action: ITS_ACTIONS.NAVIGATED,
         target: ITS_TARGETS.CHALLENGE
       }
+    }
+  };
+}
+
+function restrictToIntegerRange(value, minValue, maxValue) {
+  return Math.max(minValue, Math.min(maxValue, Math.trunc(value)));
+}
+
+export function navigateToCurrentRoute(_case, challenge) {
+  return (dispatch, getState) => {
+    const { authoring: cases } = getState(),
+          caseCount = cases.length,
+          nextCase = restrictToIntegerRange(_case, 0, caseCount - 1),
+          challengeCount = cases[nextCase].length,
+          nextChallenge = restrictToIntegerRange(challenge, 0, challengeCount - 1),
+          routeChangeRequired = (_case !== nextCase) || (challenge !== nextChallenge);
+    if (routeChangeRequired) {
+      dispatch(navigateToChallenge(nextCase, nextChallenge));
+    }
+    else {
+      dispatch(_navigateToCurrentRoute(nextCase, nextChallenge));
     }
   };
 }
