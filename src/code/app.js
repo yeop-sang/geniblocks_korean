@@ -8,8 +8,9 @@ import { createHashHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 import reducer from './reducers/';
-import { actionTypes, startSession } from './actions';
+import { actionTypes, startSession, changeAuthoring } from './actions';
 
+import AuthoringUpload from './containers/authoring-upload';
 import ChallengeContainer from "./containers/challenge-container";
 import ModalMessageContainer from "./containers/modal-message-container";
 
@@ -20,7 +21,7 @@ import soundsMiddleware from 'redux-sounds';
 import thunk from 'redux-thunk';
 
 import io from 'socket.io-client';
-
+import urlParams from './utilities/url-params';
 import uuid from 'uuid';
 
 window.GV2Authoring = require('../resources/authoring/gv2.json');
@@ -72,15 +73,30 @@ const history = syncHistoryWithStore(hashHistory, store);
 
 store.dispatch(startSession(uuid.v4()));
 
-render(
-  <Provider store={store}>
-    <div>
-      <Router history={history}>
-        <Route path="/(:case/:challenge)" component={ChallengeContainer} />
-      </Router>
-      <ModalMessageContainer />
-    </div>
-  </Provider>
-, document.getElementById("gv"));
+const isAuthorUploadRequested = (urlParams.author === "upload");
+let isAuthorUploadEnabled = isAuthorUploadRequested;  // e.g. check PRODUCTION flag
 
+function handleCompleteUpload(authoring) {
+  store.dispatch(changeAuthoring(authoring));
+  isAuthorUploadEnabled = false;
+  renderApp();
+}
 
+function renderApp() {
+  const content = isAuthorUploadEnabled
+                    ? <AuthoringUpload isEnabled={isAuthorUploadEnabled}
+                                        onCompleteUpload={handleCompleteUpload} />
+                    : <div>
+                        <Router history={history}>
+                          <Route path="/(:case/:challenge)" component={ChallengeContainer} />
+                        </Router>
+                        <ModalMessageContainer />
+                      </div>;
+  render(
+    <Provider store={store}>
+      {content}
+    </Provider>
+  , document.getElementById("gv"));
+}
+
+renderApp();

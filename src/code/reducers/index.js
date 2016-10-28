@@ -39,6 +39,8 @@ export default function reducer(state, action) {
   });
 
   switch(action.type) {
+    case actionTypes.AUTHORING_CHANGED:
+      return state.set('authoring', action.authoring);
     case actionTypes.CHALLENGE_COMPLETE:{
       let progress = setProgressScore(state, action.score);
 

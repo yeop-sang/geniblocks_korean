@@ -1,5 +1,6 @@
 export const actionTypes = {
   SESSION_STARTED: "Session started",
+  AUTHORING_CHANGED: "Authoring changed",
   LOADED_CHALLENGE_FROM_AUTHORING: "Loaded challenge from authoring",
   NAVIGATED: "Navigated",
   CHALLENGE_COMPLETE: "Challenge completed",
@@ -45,6 +46,7 @@ const ITS_ACTIONS = {
 };
 
 const ITS_TARGETS = {
+  AUTHORING: "AUTHORING",
   SESSION: "SESSION",
   CHALLENGE: "CHALLENGE",
   TRIAL: "TRIAL",
@@ -66,6 +68,20 @@ export function startSession(uuid) {
         actor: ITS_ACTORS.SYSTEM,
         action: ITS_ACTIONS.STARTED,
         target: ITS_TARGETS.SESSION
+      }
+    }
+  };
+}
+
+export function changeAuthoring(authoring) {
+  return {
+    type: actionTypes.AUTHORING_CHANGED,
+    authoring,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.CHANGED,
+        target: ITS_TARGETS.AUTHORING
       }
     }
   };
