@@ -266,8 +266,8 @@ export default class EggGame extends Component {
   }
 
   render() {
-    const { challengeType, showUserDrake, trial, drakes, gametes, hiddenAlleles, userDrakeHidden,
-            onChromosomeAlleleChange, onGameteChromosomeAdded, 
+    const { challengeType, instructions, showUserDrake, trial, drakes, gametes, hiddenAlleles,
+            userDrakeHidden, onChromosomeAlleleChange, onGameteChromosomeAdded, 
             onFertilize, onHatch, onResetGametes, onKeepOffspring, onDrakeSubmission } = this.props,
           firstTargetDrakeIndex = 3, // 0: mother, 1: father, 2: child, 3-5: targets
           targetDrake = drakes[firstTargetDrakeIndex + trial],
@@ -397,7 +397,12 @@ export default class EggGame extends Component {
       gametesClass += " unfertilized";
     }
 
-    const targetDrakeOrg = targetDrake && targetDrake.alleleString
+    const instructionsBanner = instructions
+                                ? <div className="instructions-banner">
+                                    <div className="instructions-text">{instructions}</div>
+                                  </div>
+                                : null,
+          targetDrakeOrg = targetDrake && targetDrake.alleleString
                               ? new BioLogica.Organism(BioLogica.Species.Drake,
                                                         targetDrake.alleleString,
                                                         targetDrake.sex)
@@ -475,6 +480,7 @@ export default class EggGame extends Component {
           childGenomeClass = "child" + (isMatchingChallenge ? " matching" : "");
     return (
       <div id="egg-game">
+        {instructionsBanner}
         <div className="columns">
           <div className='column'>
             <div className="mother">Mother</div>
@@ -568,6 +574,7 @@ export default class EggGame extends Component {
     case: PropTypes.number.isRequired,
     challenge: PropTypes.number.isRequired,
     challengeType: PropTypes.string.isRequired,
+    instructions: PropTypes.string,
     showUserDrake: PropTypes.bool.isRequired,
     trial: PropTypes.number.isRequired,
     drakes: PropTypes.array.isRequired,

@@ -23,7 +23,8 @@ export default function translate(key, lang=defaultLang) {
     let translation = translateString(key[0], lang);
     return translation.replace(varRegExp, (match, id) =>
       key[++id] ? translateString(key[id], lang) : error);
+  } else if (key != null) {
+    console.log("Could not translate: ", key);
   }
-  console.log("Could not translate: ", key);
   return error;
 }

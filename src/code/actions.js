@@ -18,6 +18,7 @@ export const actionTypes = {
   DRAKE_SUBMITTED: "Drake submitted",
   GAMETES_RESET: "Gametes reset",
   NAVIGATED_NEXT_CHALLENGE: "Navigated to next challenge",
+  NAVIGATED_PAGE: "Navigated to another page",
   MODAL_DIALOG_SHOWN: "Modal dialog shown",
   MODAL_DIALOG_DISMISSED: "Modal dialog dismissed",
   ADVANCED_TRIAL: "Advanced to next trial",
@@ -51,7 +52,8 @@ const ITS_TARGETS = {
   SEX: "SEX",
   EGG: "EGG",
   BASKET: "BASKET",
-  DRAKE: "DRAKE"
+  DRAKE: "DRAKE",
+  PAGE: "PAGE"
 };
 
 export function startSession(uuid) {
@@ -93,9 +95,25 @@ export function retryCurrentChallenge() {
   };
 }
 
+function navigateToStartPage(url) {
+  return {
+    type: actionTypes.NAVIGATED_PAGE,
+    url,
+    meta: {
+      logTemplateState: true,
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.NAVIGATED,
+        target: ITS_TARGETS.PAGE
+      }
+    }
+  };
+}
+
 export function navigateToNextChallenge() {
   return (dispatch, getState) => {
-    const { case: currentCase, challenge: currentChallenge, authoring} = getState();
+    const { case: currentCase, challenge: currentChallenge,
+            authoring, endCaseUrl } = getState();
     let nextCase = currentCase,
         nextChallenge = currentChallenge+1,
         challengeCountInCase = authoring[currentCase].length;
@@ -107,6 +125,11 @@ export function navigateToNextChallenge() {
       else
         nextCase = 0;
       nextChallenge = 0;
+
+      if (endCaseUrl) {
+        dispatch(navigateToStartPage(endCaseUrl));
+        return;
+      }
     }
     dispatch(navigateToChallenge(nextCase, nextChallenge));
   };
@@ -213,6 +236,29 @@ export function changeDrakeSelection(selectedIndices) {
   };
 }
 
+function getChallengeScore(state) {
+  const { challengeProgress: progress, case: case_, challenge } = state,
+        challengePrefix = `${case_}:${challenge}`;
+  let challengeScore = 0;
+  for (let key in progress) {
+    if (key.startsWith(challengePrefix)) {
+      let trialScore = progress[key];
+      if ((trialScore != null) && (trialScore >= 0))
+        challengeScore += trialScore;
+    }
+  }
+  return challengeScore;
+}
+
+function getEarnedCoinString(state) {
+  const challengeScore = getChallengeScore(state),
+        scoreIndex = challengeScore >= 2 ? 2 : challengeScore,
+        scoreString = ["~ALERT.AWARD_LEVEL_GOLD",
+                        "~ALERT.AWARD_LEVEL_SILVER",
+                        "~ALERT.AWARD_LEVEL_BRONZE"][scoreIndex];
+  return ["~ALERT.NEW_PIECE_OF_COIN", scoreString];
+}
+
 function _submitDrake(correctPhenotype, submittedPhenotype, correct) {
   let incrementMoves = !correct;
   return{
@@ -266,7 +312,7 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct, incor
       } else if (challengeComplete) {
         dialog = {
           message: "~ALERT.TITLE.GOOD_WORK",
-          explanation: "~ALERT.NEW_PIECE_OF_COIN",
+          explanation: getEarnedCoinString(state),
           leftButton: {
             label: "~BUTTON.TRY_AGAIN",
             action: "retryCurrentChallenge"
@@ -408,7 +454,7 @@ export function showCompleteChallengeDialog() {
           action: "retryCurrentChallenge"
         },
         rightButton: {
-          label: "~BUTTON.NEXT_CASE",
+          label: state.endCaseUrl ? "~BUTTON.END_CASE" : "~BUTTON.NEXT_CASE",
           action: "navigateToNextChallenge"
         },
         showAward: true
@@ -417,7 +463,7 @@ export function showCompleteChallengeDialog() {
     else {
       dialog = {
         message: "~ALERT.TITLE.GOOD_WORK",
-        explanation: "~ALERT.NEW_PIECE_OF_COIN",
+        explanation: getEarnedCoinString(state),
         leftButton: {
           label: "~BUTTON.TRY_AGAIN",
           action: "retryCurrentChallenge"
@@ -488,14 +534,15 @@ export function advanceChallenge() {
 }
 
 export function completeChallenge() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch({
       type: actionTypes.CHALLENGE_COMPLETE,
+      score: getChallengeScore(getState()),
       meta: {sound: 'receiveCoin'}
     });
     dispatch(showModalDialog({
       message: "~ALERT.TITLE.GOOD_WORK",
-      explanation: "~ALERT.NEW_PIECE_OF_COIN",
+      explanation: getEarnedCoinString(getState()),
       leftButton:{
         label: "~BUTTON.TRY_AGAIN",
         action: "retryCurrentChallenge"
@@ -535,10 +582,12 @@ export function hatch() {
 
 
 function _keepOffspring(index, success) {
+  let incrementMoves = !success;
   return {
     type: actionTypes.OFFSPRING_KEPT,
     index,
-    success
+    success,
+    incrementMoves
   };
 }
 
