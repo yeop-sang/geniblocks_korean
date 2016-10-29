@@ -1,10 +1,24 @@
 import templates from '../../templates';
+import GeneticsUtils from '../../utilities/genetics-utils';
 
 function extractHiddenAlleles(state, authoredChallenge) {
   const authoredHiddenAlleles = authoredChallenge.hiddenAlleles;
   return authoredHiddenAlleles
             ? authoredHiddenAlleles.split(',')
             : state.hiddenAlleles;
+}
+
+function processAuthoredBaskets(authoredChallenge, state) {
+  const baskets = authoredChallenge && authoredChallenge.baskets;
+  if (!baskets) return state.baskets;
+
+  return baskets.map((basket) => {
+                  const { alleles: dashAlleleStrings, ...others } = basket,
+                        abAlleleStrings = dashAlleleStrings.map((dashAlleles) =>
+                                            GeneticsUtils.convertDashAllelesToABAlleles(dashAlleles)
+                                          );
+                  return { alleles: abAlleleStrings, ...others };
+                });
 }
 
 export function loadStateFromAuthoring(state, authoring, progress={}) {
@@ -22,7 +36,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
   const challengeType = authoredChallenge.challengeType,
         instructions = authoredChallenge.instructions,
         hiddenAlleles = extractHiddenAlleles(state, authoredChallenge),
-        baskets = authoredChallenge.baskets || state.baskets,
+        baskets = processAuthoredBaskets(authoredChallenge, state),
         showUserDrake = (authoredChallenge.showUserDrake != null) ? authoredChallenge.showUserDrake : false,
         trials = authoredChallenge.targetDrakes,
         authoredDrakesArray = template.authoredDrakesToDrakeArray(authoredChallenge, trial),

@@ -71,11 +71,11 @@
       "instructions": "Create 5 different baby drakes!",
       "showUserDrake": true,
       "mother":{
-        "alleles": "a:w,b:W,a:M,b:m,a:fl,a:hl,a:T,b:T,a:h,b:h,a:C,b:C,a:A1,b:A1,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
+        "alleles": "w-W, M-m, fl-, hl-, T-T, h-h, C-C, A1-A1, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 1
       },
       "father": {
-        "alleles": "a:w,b:W,a:m,b:m,a:T,b:T,a:h,b:h,a:A1,b:A1,a:C,b:C,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
+        "alleles": "w-W, m-m, T-T, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 0
       },
       "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh"
@@ -89,11 +89,11 @@
       "instructions": "Match 3 drakes!",
       "showUserDrake": true,
       "mother":{
-        "alleles": "a:w,b:W,a:M,b:m,a:fl,a:hl,a:T,b:T,a:h,b:h,a:C,b:C,a:A1,b:A1,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
+        "alleles": "w-W, M-m, fl-, hl-, T-T, h-h, C-C, A1-A1, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 1
       },
       "father": {
-        "alleles": "a:w,b:W,a:m,b:m,a:T,b:T,a:h,b:h,a:A1,b:A1,a:C,b:C,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
+        "alleles": "w-W, m-m, T-T, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 0
       },
       "targetDrakes": [{},{},{}],
@@ -106,11 +106,11 @@
       "instructions": "Match 3 drakes!",
       "showUserDrake": false,
       "mother":{
-        "alleles": "a:w,b:W,a:M,b:m,a:fl,a:hl,a:T,b:T,a:h,b:h,a:C,b:C,a:A1,b:A1,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
+        "alleles": "w-W, M-m, fl-, hl-, T-T, h-h, C-C, A1-A1, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 1
       },
       "father": {
-        "alleles": "a:w,b:W,a:m,b:m,a:T,b:T,a:h,b:h,a:A1,b:A1,a:C,b:C,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
+        "alleles": "w-W, m-m, T-T, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 0
       },
       "targetDrakes": [{},{},{}],
@@ -123,24 +123,24 @@
       "template": "EggSortGame",
       "trialGenerator": {
         "type": "randomize-order",
-        "baseDrake": "a:T,b:T,a:a,b:a,a:C,b:C,a:rh,b:rh,a:Bog,b:Bog",
+        "baseDrake": "T-T, a-a, C-C, rh-rh, Bog-Bog",
         "drakes": [
-          { "alleles": "a:W,b:W", "sex": 0 },
-          { "alleles": "a:W,b:w", "sex": 0 },
-          { "alleles": "a:w,b:W", "sex": 0 },
-          { "alleles": "a:w,b:w", "sex": 0 },
-          { "alleles": "a:W,b:W", "sex": 1 },
-          { "alleles": "a:W,b:w", "sex": 1 },
-          { "alleles": "a:w,b:W", "sex": 1 },
-          { "alleles": "a:w,b:w", "sex": 1 }
+          { "alleles": "W-W", "sex": 0 },
+          { "alleles": "W-w", "sex": 0 },
+          { "alleles": "w-W", "sex": 0 },
+          { "alleles": "w-w", "sex": 0 },
+          { "alleles": "W-W", "sex": 1 },
+          { "alleles": "W-w", "sex": 1 },
+          { "alleles": "w-W", "sex": 1 },
+          { "alleles": "w-w", "sex": 1 }
         ]
       },
       "hiddenAlleles": "t,m,h,c,b,fl,hl,a,d,bog,rh",
       "baskets": [
-        { "label": "Males with wings", "alleles": ["a:W","b:W"], "sex": 0 },
-        { "label": "Males without wings", "alleles": ["a:w,b:w"], "sex": 0 },
-        { "label": "Females with wings", "alleles": ["a:W","b:W"], "sex": 1 },
-        { "label": "Females without wings", "alleles": ["a:w,b:w"], "sex": 1 }
+        { "label": "Males with wings", "alleles": ["W-","-W"], "sex": 0 },
+        { "label": "Males without wings", "alleles": ["w-w"], "sex": 0 },
+        { "label": "Females with wings", "alleles": ["W-","-W"], "sex": 1 },
+        { "label": "Females without wings", "alleles": ["w-w"], "sex": 1 }
       ]
     },
     {
@@ -148,23 +148,23 @@
       "template": "EggSortGame",
       "trialGenerator": {
         "type": "randomize-order",
-        "baseDrake": "a:T,b:T,a:C,b:C,a:rh,b:rh,a:Bog,b:Bog",
+        "baseDrake": "T-T, C-C, rh-rh, Bog-Bog",
         "drakes": [
-          { "alleles": "a:Fl,b:fl,a:Hl,b:hl" },
-          { "alleles": "a:fl,b:fl,a:Hl,b:hl" },
-          { "alleles": "a:Fl,b:fl,a:hl,b:hl" },
-          { "alleles": "a:fl,b:Fl,a:Hl,b:Hl" },
-          { "alleles": "a:fl,b:fl,a:Hl,b:Hl" },
-          { "alleles": "a:fl,b:Fl,a:hl,b:hl" },
-          { "alleles": "a:Fl,b:Fl,a:hl,b:hl" },
-          { "alleles": "a:Fl,b:Fl,a:Hl,b:Hl" }
+          { "alleles": "Fl-fl, Hl-hl" },
+          { "alleles": "fl-fl, Hl-hl" },
+          { "alleles": "Fl-fl, hl-hl" },
+          { "alleles": "fl-Fl, Hl-Hl" },
+          { "alleles": "fl-fl, Hl-Hl" },
+          { "alleles": "fl-Fl, hl-hl" },
+          { "alleles": "Fl-Fl, hl-hl" },
+          { "alleles": "Fl-Fl, Hl-Hl" }
         ]
       },
       "hiddenAlleles": "t,m,w,h,c,b,a,d,bog,rh",
       "baskets": [
-        { "label": "Drakes with only forelimbs", "alleles": ["a:Fl,a:hl,b:hl", "b:Fl,a:hl,b:hl"] },
-        { "label": "Drakes with only hindlimbs", "alleles": ["a:fl,b:fl,a:Hl", "a:fl,b:fl,b:Hl"] },
-        { "label": "Drakes with forelimbs and hindlimbs", "alleles": ["a:Fl,a:Hl","a:Fl,b:Hl","b:Fl,a:Hl","b:Fl,b:Hl"] }
+        { "label": "Drakes with only forelimbs", "alleles": ["Fl-,hl-hl", "-Fl,hl-hl"] },
+        { "label": "Drakes with only hindlimbs", "alleles": ["fl-fl,Hl-", "fl-fl,-Hl"] },
+        { "label": "Drakes with forelimbs and hindlimbs", "alleles": ["Fl-,Hl-","Fl-,-Hl","-Fl,Hl-","-Fl,-Hl"] }
       ]
     }
   ],
@@ -174,72 +174,72 @@
       "template": "EggSortGame",
       "trialGenerator": {
         "type": "randomize-order",
-        "baseDrake": "a:T,b:T,a:C,b:C,a:rh,b:rh,a:Bog,b:Bog",
+        "baseDrake": "T-T, C-C, rh-rh, Bog-Bog",
         "drakes": [
-          { "alleles": "a:H,b:H", "sex": 0 },
-          { "alleles": "a:H,b:h", "sex": 0 },
-          { "alleles": "a:h,b:H", "sex": 0 },
-          { "alleles": "a:h,b:h", "sex": 0 },
-          { "alleles": "a:H,b:H", "sex": 1 },
-          { "alleles": "a:H,b:h", "sex": 1 },
-          { "alleles": "a:h,b:H", "sex": 1 },
-          { "alleles": "a:h,b:h", "sex": 1 }
+          { "alleles": "H-H", "sex": 0 },
+          { "alleles": "H-h", "sex": 0 },
+          { "alleles": "h-H", "sex": 0 },
+          { "alleles": "h-h", "sex": 0 },
+          { "alleles": "H-H", "sex": 1 },
+          { "alleles": "H-h", "sex": 1 },
+          { "alleles": "h-H", "sex": 1 },
+          { "alleles": "h-h", "sex": 1 }
         ]
       },
       "hiddenAlleles": "w,t,m,c,b,fl,hl,a,d,bog,rh",
       "baskets": [
-        { "label": "Males with horns", "alleles": ["a:h,b:h"], "sex": 0 },
-        { "label": "Males without horns", "alleles": ["a:H","b:H"], "sex": 0 },
-        { "label": "Females with horns", "alleles": ["a:h,b:h"], "sex": 1 },
-        { "label": "Females without horns", "alleles": ["a:H","b:H"], "sex": 1 }
+        { "label": "Males with horns", "alleles": ["h-h"], "sex": 0 },
+        { "label": "Males without horns", "alleles": ["H-","-H"], "sex": 0 },
+        { "label": "Females with horns", "alleles": ["h-h"], "sex": 1 },
+        { "label": "Females without horns", "alleles": ["H-","-H"], "sex": 1 }
       ]
     },
     {
-      "comment": "*** Case 5: Challenge 1 - Egg Game III (armor) ***",
+      "comment": "*** Case 5: Challenge 2 - Egg Game III (armor) ***",
       "template": "EggSortGame",
       "trialGenerator": {
         "type": "randomize-order",
-        "baseDrake": "a:T,b:T,a:C,b:C,a:rh,b:rh,a:Bog,b:Bog",
+        "baseDrake": "T-T, C-C, rh-rh, Bog-Bog",
         "drakes": [
-          { "alleles": "a:A1,b:A1", "sex": 0 },
-          { "alleles": "a:A1,b:a", "sex": 0 },
-          { "alleles": "a:a,b:A1", "sex": 0 },
-          { "alleles": "a:a,b:a", "sex": 0 },
-          { "alleles": "a:A1,b:A1", "sex": 1 },
-          { "alleles": "a:A1,b:a", "sex": 1 },
-          { "alleles": "a:a,b:A1", "sex": 1 },
-          { "alleles": "a:a,b:a", "sex": 1 }
+          { "alleles": "A1-A1", "sex": 0 },
+          { "alleles": "A1-a", "sex": 0 },
+          { "alleles": "a-A1", "sex": 0 },
+          { "alleles": "a-a", "sex": 0 },
+          { "alleles": "A1-A1", "sex": 1 },
+          { "alleles": "A1-a", "sex": 1 },
+          { "alleles": "a-A1", "sex": 1 },
+          { "alleles": "a-a", "sex": 1 }
         ]
       },
       "hiddenAlleles": "t,m,w,h,c,b,fl,hl,d,bog,rh",
       "baskets": [
-        { "label": "Drakes with no armor plates", "alleles": ["a:a,b:a"] },
-        { "label": "Drakes with three armor plates", "alleles": ["a:A1,b:a", "a:a,b:A1"] },
-        { "label": "Drakes with five armor plates", "alleles": ["a:A1,b:A1"] }
+        { "label": "Drakes with no armor plates", "alleles": ["a-a"] },
+        { "label": "Drakes with three armor plates", "alleles": ["A1-a", "a-A1"] },
+        { "label": "Drakes with five armor plates", "alleles": ["A1-A1"] }
       ]
     },
     {
-      "comment": "*** Case 5: Challenge 1 - Egg Game III (horns,wings,armor) ***",
+      "comment": "*** Case 5: Challenge 3 - Egg Game III (horns,wings,armor) ***",
       "template": "EggSortGame",
       "trialGenerator": {
         "type": "randomize-order",
-        "baseDrake": "a:T,b:T,a:C,b:C,a:rh,b:rh,a:Bog,b:Bog",
+        "baseDrake": "T-T, C-C, rh-rh, Bog-Bog",
         "drakes": [
-          { "alleles": "a:h,b:h,a:w,b:w,a:a,b:a" },
-          { "alleles": "a:h,b:h,a:w,b:w,a:a,b:a" },
-          { "alleles": "a:H,b:h,a:W,b:w,a:a,b:a" },
-          { "alleles": "a:H,b:H,a:w,b:w,a:A1,b:a" },
-          { "alleles": "a:H,b:h,a:w,b:w,a:A1,b:A1" },
-          { "alleles": "a:H,b:H,a:W,b:W,a:a,b:a" },
-          { "alleles": "a:h,b:H,a:w,b:w,a:A1,b:A1" },
-          { "alleles": "a:H,b:H,a:w,b:W,a:a,b:a" }
+          { "alleles": "h-h, w-w, a-a" },
+          { "alleles": "h-h, w-w, a-a" },
+          { "alleles": "H-h, W-w, a-a" },
+          { "alleles": "H-H, w-w, A1-a" },
+          { "alleles": "H-h, w-w, A1-A1" },
+          { "alleles": "H-H, W-W, a-a" },
+          { "alleles": "h-H, w-w, A1-A1" },
+          { "alleles": "H-H, w-W, a-a" }
         ]
       },
       "hiddenAlleles": "t,m,c,b,fl,hl,d,bog,rh",
       "baskets": [
-        { "label": "Drakes with horns", "alleles": ["a:h,b:h"] },
-        { "label": "Drakes with wings", "alleles": ["a:W", "b:W"] },
-        { "label": "Drakes with armor", "alleles": ["a:A1","b:A1"] }
+        { "label": "Drakes with horns", "alleles": ["h-h"] },
+        { "label": "Drakes with wings", "alleles": ["W-", "-W"] },
+        { "label": "Drakes with armor", "alleles": ["A1-","-A1"] }
       ]
     }
   ]

@@ -4,6 +4,16 @@
  */
 export default class GeneticsUtils {
 
+  static convertDashAllelesToABAlleles(dashAlleleString) {
+    const dashAlleles = dashAlleleString.split(',');
+    return dashAlleles.reduce((prev, pair) => {
+                        const alleles = pair.trim().split('-');
+                        if (alleles[0]) prev += `${prev ? ',' : ''}a:${alleles[0].trim()}`;
+                        if (alleles[1]) prev += `${prev ? ',' : ''}b:${alleles[1].trim()}`;
+                        return prev;
+                      }, "");
+  }
+
   static ensureValidOrganism(orgOrDef, species=BioLogica.Species.Drake) {
     if (orgOrDef.getAlleleString) {
       return orgOrDef;
