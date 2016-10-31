@@ -618,12 +618,25 @@ export default class EggGame extends Component {
           motherSpec = { alleles: mother.getAlleleString(), sex: mother.sex },
           fatherSpec = { alleles: father.getAlleleString(), sex: father.sex },
           targetDrakeCount = authoredChallenge.targetDrakes.length;
+
+    function childDrakesContain(alleles) {
+      for (let i = 3; i < authoredDrakes.length; ++i) {
+        if (authoredDrakes[i].alleles === alleles)
+          return true;
+      }
+      return false;
+    }
+
     authoredDrakes = [motherSpec, fatherSpec, null];
     for (let i = 0; i < targetDrakeCount; ++i) {
-      const child = BioLogica.breed(mother, father, false),
-            alleles = child.getAlleleString(),
-            sex = child.sex;
-      authoredDrakes.push({ alleles, sex });
+      let child, childAlleles;
+      do {
+        child = BioLogica.breed(mother, father, false);
+        childAlleles = child.getAlleleString();
+        // don't generate the same set of alleles twice
+      } while (childDrakesContain(childAlleles));
+
+      authoredDrakes.push({ alleles: childAlleles, sex: child.sex });
     }
     return authoredDrakes;
   }
