@@ -21,10 +21,14 @@ import soundsMiddleware from 'redux-sounds';
 import thunk from 'redux-thunk';
 
 import io from 'socket.io-client';
+import GeneticsUtils from './utilities/genetics-utils';
 import urlParams from './utilities/url-params';
 import uuid from 'uuid';
 
-window.GV2Authoring = require('../resources/authoring/gv2.json');
+const authoring = require('../resources/authoring/gv2.json'),
+      converted = GeneticsUtils.convertDashAllelesObjectToABAlleles(authoring,
+                                    ["alleles", "baseDrake","initialDrakeCombos", "targetDrakeCombos"]);
+window.GV2Authoring = converted;
 
 // TODO: session ID and application name could be passed in via a container
 // use placeholder ID for duration of session and hard-coded name for now.

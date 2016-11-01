@@ -1,4 +1,3 @@
-import GeneticsUtils from './genetics-utils';
 import _ from 'lodash';
 
 const ALL_COMBINATIONS = "all-combinations",
@@ -23,8 +22,7 @@ export function generateTrialDrakes(trialDef, trial=0) {
       return _.shuffle(
         _.map(trialDef.drakes, (drake) => {
                 // combine drake alleles with base drake alleles
-          const dashAlleles = trialDef.baseDrake + ',' + drake.alleles,
-                alleles = GeneticsUtils.convertDashAllelesToABAlleles(dashAlleles),
+          const alleles = trialDef.baseDrake + ',' + drake.alleles,
                 // randomize sex if not specified
                 sex = drake.sex != null ? drake.sex : Math.trunc(2 * Math.random());
           return { alleles, sex };

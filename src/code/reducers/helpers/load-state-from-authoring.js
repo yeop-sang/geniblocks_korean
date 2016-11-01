@@ -1,5 +1,4 @@
 import templates from '../../templates';
-import GeneticsUtils from '../../utilities/genetics-utils';
 
 function extractHiddenAlleles(state, authoredChallenge) {
   const authoredHiddenAlleles = authoredChallenge.hiddenAlleles;
@@ -10,15 +9,7 @@ function extractHiddenAlleles(state, authoredChallenge) {
 
 function processAuthoredBaskets(authoredChallenge, state) {
   const baskets = authoredChallenge && authoredChallenge.baskets;
-  if (!baskets) return state.baskets;
-
-  return baskets.map((basket) => {
-                  const { alleles: dashAlleleStrings, ...others } = basket,
-                        abAlleleStrings = dashAlleleStrings.map((dashAlleles) =>
-                                            GeneticsUtils.convertDashAllelesToABAlleles(dashAlleles)
-                                          );
-                  return { alleles: abAlleleStrings, ...others };
-                });
+  return baskets || state.baskets;
 }
 
 export function loadStateFromAuthoring(state, authoring, progress={}) {

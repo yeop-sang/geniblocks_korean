@@ -4,7 +4,16 @@
  */
 export default class GeneticsUtils {
 
+  /**
+   * Converts allele strings in the new dash form (e.g. "W-w, T-, -a") to the original
+   * BioLogica a:b: form (e.g. "a:W,b:w,a:T,b:a")
+   *
+   * @param {string}  dashAlleleString - the allele string to be converted
+   * @returns {string}  the converted allele string
+   */
   static convertDashAllelesToABAlleles(dashAlleleString) {
+    if (!dashAlleleString || (dashAlleleString.indexOf(':') >= 0) || (dashAlleleString.indexOf('-') < 0))
+      return dashAlleleString;
     const dashAlleles = dashAlleleString.split(',');
     return dashAlleles.reduce((prev, pair) => {
                         const alleles = pair.trim().split('-');
@@ -12,6 +21,45 @@ export default class GeneticsUtils {
                         if (alleles[1]) prev += `${prev ? ',' : ''}b:${alleles[1].trim()}`;
                         return prev;
                       }, "");
+  }
+
+  /**
+   * Converts allele strings in the new dash form (e.g. "W-w, T-, -a") to the original
+   * BioLogica a:b: form (e.g. "a:W,b:w,a:T,b:a") within objects and arrays.
+   *
+   * Recurses through nested objects/arrays converting dash allele strings in properties
+   * whose names are white-listed in the propNames argument.
+   *
+   * @param {object}  object - the object to be converted
+   * @returns {object}  the same object is returned with the specified fields modified
+   */
+  static convertDashAllelesObjectToABAlleles(object, propNames) {
+    if (!object || !propNames || (propNames.length == null)) return object;
+
+    function convertValue(key, value) {
+      if (!value) return value;
+      switch (typeof value) {
+        case 'string':
+          return (!key || (propNames.indexOf(key) >= 0))
+                    ? GeneticsUtils.convertDashAllelesToABAlleles(value)
+                    : value;
+        case 'object':
+          if (Array.isArray(value)) {
+            // note that the key for strings in arrays is the key for the array
+            return value.map((item) => convertValue(key, item));
+          }
+          else {
+            for (let objKey in value) {
+              value[objKey] = convertValue(objKey, value[objKey]);
+            }
+          }
+          return value;
+        default:
+          return value;
+      }
+    }
+
+    return convertValue(null, object);
   }
 
   static ensureValidOrganism(orgOrDef, species=BioLogica.Species.Drake) {

@@ -39,6 +39,36 @@ describe("GeneticsUtils.convertDashAllelesToABAlleles()", function() {
   });
 });
 
+describe("GeneticsUtils.convertDashAllelesObjectToABAlleles()", function() {
+
+  it("should return the original object when passed an empty string/object", function() {
+    let input = "",
+        result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, []);
+    assert.equal(result, "", "should handle empty string");
+    input = {};
+    result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, []);
+    assert.deepEqual(result, {}, "should handle empty object");
+    input = "T-T";
+    result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, []);
+    assert.equal(result, "a:T,b:T", "should handle simple string");
+    input = { alleles: "T-T" };
+    result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, []);
+    assert.deepEqual(result, { alleles: "T-T" }, "don't convert strings unless propName specified");
+    input = { alleles: "T-T" };
+    result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, ["alleles"]);
+    assert.deepEqual(result, { alleles: "a:T,b:T" }, "convert strings when propName specified");
+    input = { baskets: ["T-T"] };
+    result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, ["alleles"]);
+    assert.deepEqual(result, { baskets: ["T-T"] }, "don't convert arrays unless propName specified");
+    input = { alleles: ["T-T"] };
+    result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, ["alleles"]);
+    assert.deepEqual(result, { alleles: ["a:T,b:T"] }, "convert arrays when propName specified");
+    input = { objects: [{ alleles: "T-T" }] };
+    result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, ["alleles"]);
+    assert.deepEqual(result, { objects: [{ alleles: "a:T,b:T" }] }, "convert objects within arrays");
+  });
+});
+
 describe("GeneticsUtils.filterAlleles()", function() {
   const initialAlleles = ['T', 't', 'A1', 'a'];
 

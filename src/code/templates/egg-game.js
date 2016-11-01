@@ -7,7 +7,6 @@ import PenView from '../components/pen';
 import GameteImageView from '../components/gamete-image';
 import AnimatedComponentView from '../components/animated-component';
 import ChromosomeImageView from '../components/chromosome-image';
-import GeneticsUtils from '../utilities/genetics-utils';
 import t from '../utilities/translate';
 
 // a "reasonable" lookup function for the two gametes
@@ -592,14 +591,8 @@ export default class EggGame extends Component {
   }
 
   static authoredDrakesToDrakeArray = function(authoredChallenge, trial) {
-    function importAuthoredDrake(drake) {
-      return {
-        alleles: GeneticsUtils.convertDashAllelesToABAlleles(drake.alleles),
-        sex: drake.sex
-      };
-    }
-    const motherDrake = importAuthoredDrake(authoredChallenge.mother),
-          fatherDrake = importAuthoredDrake(authoredChallenge.father);
+    const motherDrake = authoredChallenge.mother,
+          fatherDrake = authoredChallenge.father;
     if (authoredChallenge.challengeType === 'create-unique')
       return [motherDrake, fatherDrake];
 
