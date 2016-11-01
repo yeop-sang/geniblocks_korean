@@ -87,6 +87,72 @@ export default class GeneticsUtils {
   }
 
   /**
+   * Returns true if the specified allele string contains only valid alleles
+   *
+   * @param {string}  alleleString - the allele string (in a:b: form) to be validated
+   * @param {object}  [species] - the species whose genome is used to determine completeness
+   * @returns         true if the allele string is valid, false otherwise
+   */
+  static isValidAlleleString(alleleString, species=BioLogica.Species.Drake) {
+    if (!species || !alleleString) return false;
+    const alleleToGeneMap = Object.keys(species.geneList).reduce((prev, gene) => {
+                              species.geneList[gene].alleles.forEach((allele) => {
+                                prev[allele] = gene;
+                              });
+                              return prev;
+                            }, {});
+    return alleleString.split(',').every((alleleSide) => {
+            const [side, allele] = alleleSide.split(':');
+            return ((side.trim() === 'a') || (side.trim() === 'b')) &&
+                    (alleleToGeneMap[allele.trim()] != null);
+          });
+  }
+
+  /**
+   * Returns true if the specified allele string completely specifies all alleles
+   *
+   * To be complete, every gene must be specified with a valid allele for each
+   * side (except sex-linked genes, which need only be on one side), and no
+   * invalid alleles or genes can be specified.
+   *
+   * @param {string}  alleleString - the allele string (in a:b: form) to be validated
+   * @param {object}  [species] - the species whose genome is used to determine completeness
+   * @returns         true if the allele string is complete, false otherwise
+   */
+  static isCompleteAlleleString(alleleString, species=BioLogica.Species.Drake) {
+    if (!species || !alleleString) return false;
+    const kUnknownGene = "__UNKNOWN__",
+          alleleToGeneMap = Object.keys(species.geneList).reduce((prev, gene) => {
+                              species.geneList[gene].alleles.forEach((allele) => {
+                                prev[allele] = gene;
+                              });
+                              return prev;
+                            }, {}),
+          speciesGeneCount = Object.keys(species.geneList).length,
+          geneSideMap = alleleString.split(',').reduce((prev, alleleSide) => {
+                          const [side, allele] = alleleSide.split(':');
+                          let gene = alleleToGeneMap[allele.trim()];
+                          if (!gene) gene = kUnknownGene;
+                          let geneEntry = prev[gene];
+                          if (!geneEntry) geneEntry = prev[gene] = { a: 0, b: 0 };
+                          ++ geneEntry[side.trim()];
+                          return prev;
+                        }, {}),
+          alleleStringGeneCount = Object.keys(geneSideMap).length,
+          isEveryGeneComplete = Object.keys(geneSideMap).every((gene) => {
+                                  const geneEntry = geneSideMap[gene],
+                                        isXYGene = species.chromosomeGeneMap.XY.some((allele) =>
+                                                    gene === alleleToGeneMap[allele]);
+                                  return geneEntry && ((geneEntry.a === 1) && (geneEntry.b === 1)) ||
+                                          (isXYGene &&
+                                            (geneEntry.a + geneEntry.b >= 1) && (geneEntry.a + geneEntry.b <= 2));
+                                });
+    // must have the correct number of genes, all genes must be complete, and no unknown genes
+    return (speciesGeneCount === alleleStringGeneCount) && isEveryGeneComplete &&
+            (geneSideMap[kUnknownGene] == null);
+  }
+
+  /**
    * Filters out hidden alleles from an original list of alleles
    *
    * @param {string[]} alleles - the set of alleles to be filtered
