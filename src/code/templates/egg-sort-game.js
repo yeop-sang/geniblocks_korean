@@ -11,6 +11,7 @@ import EggClutchView, { EGG_IMAGE_WIDTH } from '../components/egg-clutch';
 import EggHatchView from '../components/egg-hatch';
 import GenomeView from '../components/genome';
 import { generateTrialDrakes } from '../utilities/trial-generator';
+import GeneticsUtils from '../utilities/genetics-utils';
 import urlParams from '../utilities/url-params';
 import t from '../utilities/translate';
 
@@ -194,12 +195,8 @@ function isEggCompatibleWithBasket(egg, basket) {
   if ((basket.sex != null) && (egg.sex !== basket.sex))
     return false;
   // one of the basket's allele strings...
-  return basket.alleles.some((alleleString) => {
-    // ... must match every one of its alleles ...
-    return alleleString.split(',').every((allele) => {
-      // ... to the alleles of the egg
-      return egg.alleles.search(`${allele}(,|$)`) >= 0;
-    });
+  return basket.alleles.some((basketAlleleString) => {
+    return GeneticsUtils.alleleStringContainsAlleles(egg.alleles, basketAlleleString);
   });
 }
 

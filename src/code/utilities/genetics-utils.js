@@ -70,6 +70,23 @@ export default class GeneticsUtils {
   }
 
   /**
+   * Returns true if the specified alleles are present in the allele string.
+   *
+   * @param {string}  alleleString - organism allele string
+   * @param (string)  alleles - alleles to match against the organism alleles
+   * @returns {boolean} true if the alleles are present in the alleleString, false otherwise
+   */
+  static alleleStringContainsAlleles(alleleString, alleles) {
+    // empty strings don't match
+    if (!alleleString || !alleles) return false;
+    // must match every one of the alleles ...
+    return alleles.split(',').every((allele) => {
+      // ... to the alleles of the alleleString
+      return alleleString.search(`${allele}(,|$)`) >= 0;
+    });
+  }
+
+  /**
    * Filters out hidden alleles from an original list of alleles
    *
    * @param {string[]} alleles - the set of alleles to be filtered

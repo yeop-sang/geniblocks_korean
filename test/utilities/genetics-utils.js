@@ -69,6 +69,30 @@ describe("GeneticsUtils.convertDashAllelesObjectToABAlleles()", function() {
   });
 });
 
+describe("GeneticsUtils.alleleStringContainsAlleles()", function() {
+
+  it("should return false for empty strings", function() {
+    let result = GeneticsUtils.alleleStringContainsAlleles("", "");
+    assert.equal(result, false, "result should be false for empty strings");
+    result = GeneticsUtils.alleleStringContainsAlleles("a:b", "");
+    assert.equal(result, false, "result should be false for empty strings");
+    result = GeneticsUtils.alleleStringContainsAlleles("", "a:b");
+    assert.equal(result, false, "result should be false for empty strings");
+  });
+
+  it("should return true if the alleles occur in the alleleString, false otherwise", function() {
+    let result = GeneticsUtils.alleleStringContainsAlleles("a:W,b:w,a:T,b:Tk,a:dl,b:d,a:Hl,b:hl",
+                                                           "a:W,b:w,a:T,b:Tk,a:dl,b:d,a:Hl,b:hl");
+    assert.equal(result, true, "result should be true for matching strings");
+    result = GeneticsUtils.alleleStringContainsAlleles("a:W,b:w,a:T,b:Tk,a:dl,b:d,a:Hl,b:hl", "a:w");
+    assert.equal(result, false, "result should be false for non-matching strings");
+    result = GeneticsUtils.alleleStringContainsAlleles("a:W,b:w,a:T,b:Tk,a:dl,b:d,a:Hl,b:hl", "b:h");
+    assert.equal(result, false, "result should be false for non-matching strings");
+    result = GeneticsUtils.alleleStringContainsAlleles("a:W,b:w,a:T,b:Tk,a:dl,b:d,a:Hl,b:hl", "h");
+    assert.equal(result, false, "result should be false for invalid alleles");
+  });
+});
+
 describe("GeneticsUtils.filterAlleles()", function() {
   const initialAlleles = ['T', 't', 'A1', 'a'];
 
