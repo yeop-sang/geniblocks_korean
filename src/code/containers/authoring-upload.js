@@ -22,8 +22,11 @@ export default class AuthoringUpload extends React.Component {
 
     reader.onload = (evt) => {
       try {
-        onCompleteUpload(JSON.parse(evt.target.result));
+        const authoring = JSON.parse(evt.target.result);
+
         this.setState({ uploadComplete: true });
+
+        onCompleteUpload(authoring);
       }
       catch(e) {
         this.setState({ showErrorMessage: true });

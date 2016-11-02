@@ -25,10 +25,13 @@ import GeneticsUtils from './utilities/genetics-utils';
 import urlParams from './utilities/url-params';
 import uuid from 'uuid';
 
-const authoring = require('../resources/authoring/gv2.json'),
-      converted = GeneticsUtils.convertDashAllelesObjectToABAlleles(authoring,
-                                    ["alleles", "baseDrake","initialDrakeCombos", "targetDrakeCombos"]);
-window.GV2Authoring = converted;
+function convertAuthoring(authoring) {
+  return GeneticsUtils.convertDashAllelesObjectToABAlleles(authoring,
+                          ["alleles", "baseDrake","initialDrakeCombos", "targetDrakeCombos"]);
+}
+
+const authoring = require('../resources/authoring/gv2.json');
+window.GV2Authoring = convertAuthoring(authoring);
 
 // TODO: session ID and application name could be passed in via a container
 // use placeholder ID for duration of session and hard-coded name for now.
@@ -81,7 +84,7 @@ const isAuthorUploadRequested = (urlParams.author === "upload");
 let isAuthorUploadEnabled = isAuthorUploadRequested;  // e.g. check PRODUCTION flag
 
 function handleCompleteUpload(authoring) {
-  store.dispatch(changeAuthoring(authoring));
+  store.dispatch(changeAuthoring(convertAuthoring(authoring)));
   isAuthorUploadEnabled = false;
   renderApp();
 }
