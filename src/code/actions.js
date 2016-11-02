@@ -1,5 +1,6 @@
 export const actionTypes = {
   SESSION_STARTED: "Session started",
+  AUTHORING_CHANGED: "Authoring changed",
   LOADED_CHALLENGE_FROM_AUTHORING: "Loaded challenge from authoring",
   NAVIGATED: "Navigated",
   CHALLENGE_COMPLETE: "Challenge completed",
@@ -45,6 +46,7 @@ const ITS_ACTIONS = {
 };
 
 const ITS_TARGETS = {
+  AUTHORING: "AUTHORING",
   SESSION: "SESSION",
   CHALLENGE: "CHALLENGE",
   TRIAL: "TRIAL",
@@ -66,6 +68,20 @@ export function startSession(uuid) {
         actor: ITS_ACTORS.SYSTEM,
         action: ITS_ACTIONS.STARTED,
         target: ITS_TARGETS.SESSION
+      }
+    }
+  };
+}
+
+export function changeAuthoring(authoring) {
+  return {
+    type: actionTypes.AUTHORING_CHANGED,
+    authoring,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.CHANGED,
+        target: ITS_TARGETS.AUTHORING
       }
     }
   };
@@ -141,7 +157,7 @@ export function navigateToNextChallenge() {
  * Skips the route change, so just updates current case and challenge and
  * triggers `loadStateFromAuthoring` in router
  */
-export function navigateToCurrentRoute(_case, challenge) {
+export function _navigateToCurrentRoute(_case, challenge) {
   return {
     type: actionTypes.NAVIGATED,
     case: _case,
@@ -155,6 +171,27 @@ export function navigateToCurrentRoute(_case, challenge) {
         action: ITS_ACTIONS.NAVIGATED,
         target: ITS_TARGETS.CHALLENGE
       }
+    }
+  };
+}
+
+function restrictToIntegerRange(value, minValue, maxValue) {
+  return Math.max(minValue, Math.min(maxValue, Math.trunc(value)));
+}
+
+export function navigateToCurrentRoute(_case, challenge) {
+  return (dispatch, getState) => {
+    const { authoring: cases } = getState(),
+          caseCount = cases.length,
+          nextCase = restrictToIntegerRange(_case, 0, caseCount - 1),
+          challengeCount = cases[nextCase].length,
+          nextChallenge = restrictToIntegerRange(challenge, 0, challengeCount - 1),
+          routeChangeRequired = (_case !== nextCase) || (challenge !== nextChallenge);
+    if (routeChangeRequired) {
+      dispatch(navigateToChallenge(nextCase, nextChallenge));
+    }
+    else {
+      dispatch(_navigateToCurrentRoute(nextCase, nextChallenge));
     }
   };
 }

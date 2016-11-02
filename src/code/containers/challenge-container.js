@@ -6,20 +6,29 @@ import { changeAllele, changeSex, submitDrake, resetGametes,
         addGameteChromosome, keepOffspring, fertilize, hatch, completeChallenge,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket } from '../actions';
 
+function hasChangedRouteParams(props) {
+  const { case: currCase, challenge: currChallenge, routeParams } = props,
+        currCaseStr = String(currCase + 1),
+        currChallengeStr = String(currChallenge + 1);
+  return (routeParams.case && routeParams.challenge &&
+        ((routeParams.case !== currCaseStr) || (routeParams.challenge !== currChallengeStr)));
+}
+
 class ChallengeContainer extends Component {
+
   componentWillMount() {
-    if (this.props.routeParams.case && this.props.routeParams.challenge) {
-      this.props.navigateToCurrentRoute(this.props.routeParams.case-1, this.props.routeParams.challenge-1);
+    const { routeParams, navigateToCurrentRoute, navigateToChallenge } = this.props;
+    if (hasChangedRouteParams(this.props)) {
+      navigateToCurrentRoute(routeParams.case-1, routeParams.challenge-1);
     } else {
-      this.props.navigateToChallenge(0, 0);
+      navigateToChallenge(0, 0);
     }
   }
+
   componentWillReceiveProps(newProps) {
-    if (newProps.case !== newProps.routeParams.case-1 ||
-      newProps.challenge !== newProps.routeParams.challenge-1) {
-      if (newProps.routeParams.case && newProps.routeParams.challenge) {
-        this.props.navigateToCurrentRoute(newProps.routeParams.case-1, newProps.routeParams.challenge-1);
-      }
+    const { routeParams, navigateToCurrentRoute } = newProps;
+    if (hasChangedRouteParams(newProps)) {
+      navigateToCurrentRoute(routeParams.case-1, routeParams.challenge-1);
     }
   }
 
@@ -38,6 +47,8 @@ class ChallengeContainer extends Component {
 
   static propTypes = {
     template: PropTypes.string,
+    case: PropTypes.number,
+    challenge: PropTypes.number,
     routeParams: PropTypes.shape({
       case: PropTypes.string,
       challenge: PropTypes.string

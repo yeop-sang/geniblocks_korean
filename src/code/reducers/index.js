@@ -13,20 +13,22 @@ import gametes from './gametes';
 import drakes from './drakes';
 import baskets from './baskets';
 
-const initialState = Immutable({
-  template: null,
-  hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
-  trial: 0,
-  case: 0,
-  challenge: 0,
-  challenges: 1,
-  challengeProgress: {},
-  authoring: window.GV2Authoring,
-  endCaseUrl: urlParams.start
-});
+function initialState() {
+  return Immutable({
+            template: null,
+            hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
+            trial: 0,
+            case: 0,
+            challenge: 0,
+            challenges: 1,
+            challengeProgress: {},
+            authoring: window.GV2Authoring,
+            endCaseUrl: urlParams.start
+          });
+}
 
 export default function reducer(state, action) {
-  if (!state) state = initialState;
+  if (!state) state = initialState();
 
   state = state.merge({
     routing: routing(state.routing, action),
@@ -39,6 +41,8 @@ export default function reducer(state, action) {
   });
 
   switch(action.type) {
+    case actionTypes.AUTHORING_CHANGED:
+      return state.set('authoring', action.authoring);
     case actionTypes.CHALLENGE_COMPLETE:{
       let progress = setProgressScore(state, action.score);
 

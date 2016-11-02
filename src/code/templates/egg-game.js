@@ -591,8 +591,10 @@ export default class EggGame extends Component {
   }
 
   static authoredDrakesToDrakeArray = function(authoredChallenge, trial) {
+    const motherDrake = authoredChallenge.mother,
+          fatherDrake = authoredChallenge.father;
     if (authoredChallenge.challengeType === 'create-unique')
-      return [authoredChallenge.mother, authoredChallenge.father];
+      return [motherDrake, fatherDrake];
 
     // already generated drakes
     if (trial > 0)
@@ -600,21 +602,34 @@ export default class EggGame extends Component {
 
     // challengeType === 'match-target'
     const mother = new BioLogica.Organism(BioLogica.Species.Drake,
-                                          authoredChallenge.mother.alleles,
-                                          authoredChallenge.mother.sex),
+                                          motherDrake.alleles,
+                                          motherDrake.sex),
           father = new BioLogica.Organism(BioLogica.Species.Drake,
-                                          authoredChallenge.father.alleles,
-                                          authoredChallenge.father.sex),
+                                          fatherDrake.alleles,
+                                          fatherDrake.sex),
           // authored specs may be incomplete; these are complete specs
           motherSpec = { alleles: mother.getAlleleString(), sex: mother.sex },
           fatherSpec = { alleles: father.getAlleleString(), sex: father.sex },
           targetDrakeCount = authoredChallenge.targetDrakes.length;
+
+    function childDrakesContain(alleles) {
+      for (let i = 3; i < authoredDrakes.length; ++i) {
+        if (authoredDrakes[i].alleles === alleles)
+          return true;
+      }
+      return false;
+    }
+
     authoredDrakes = [motherSpec, fatherSpec, null];
     for (let i = 0; i < targetDrakeCount; ++i) {
-      const child = BioLogica.breed(mother, father, false),
-            alleles = child.getAlleleString(),
-            sex = child.sex;
-      authoredDrakes.push({ alleles, sex });
+      let child, childAlleles;
+      do {
+        child = BioLogica.breed(mother, father, false);
+        childAlleles = child.getAlleleString();
+        // don't generate the same set of alleles twice
+      } while (childDrakesContain(childAlleles));
+
+      authoredDrakes.push({ alleles: childAlleles, sex: child.sex });
     }
     return authoredDrakes;
   }

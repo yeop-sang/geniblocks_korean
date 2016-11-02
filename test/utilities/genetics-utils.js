@@ -1,5 +1,74 @@
 import GeneticsUtils from '../../src/code/utilities/genetics-utils';
 
+describe("GeneticsUtils.convertDashAllelesToABAlleles()", function() {
+
+  it("should return the empty string when passed an empty string", function() {
+    const dashAlleles = "",
+          abAlleles = GeneticsUtils.convertDashAllelesToABAlleles(dashAlleles);
+    assert.equal(abAlleles, "", "should handle empty string");
+  });
+
+  it("should handle a simple allele string", function() {
+    const dashAlleles = "W-w",
+          abAlleles = GeneticsUtils.convertDashAllelesToABAlleles(dashAlleles);
+    assert.equal(abAlleles, "a:W,b:w", "should handle single allele");
+  });
+
+  it("should handle left-only allele string", function() {
+    const dashAlleles = "W-",
+          abAlleles = GeneticsUtils.convertDashAllelesToABAlleles(dashAlleles);
+    assert.equal(abAlleles, "a:W", "should handle left-only allele");
+  });
+
+  it("should handle right-only allele string", function() {
+    const dashAlleles = "-w",
+          abAlleles = GeneticsUtils.convertDashAllelesToABAlleles(dashAlleles);
+    assert.equal(abAlleles, "b:w", "should handle right-only allele");
+  });
+
+  it("should handle multiple alleles", function() {
+    const dashAlleles = "W-w,T-Tk,dl-d,Hl-hl",
+          abAlleles = GeneticsUtils.convertDashAllelesToABAlleles(dashAlleles);
+    assert.equal(abAlleles, "a:W,b:w,a:T,b:Tk,a:dl,b:d,a:Hl,b:hl", "should handle multiple alleles");
+  });
+
+  it("should handle multiple alleles with extraneous spaces", function() {
+    const dashAlleles = " W - w , T - Tk , dl - d , Hl - hl ",
+          abAlleles = GeneticsUtils.convertDashAllelesToABAlleles(dashAlleles);
+    assert.equal(abAlleles, "a:W,b:w,a:T,b:Tk,a:dl,b:d,a:Hl,b:hl", "should handle multiple alleles with spaces");
+  });
+});
+
+describe("GeneticsUtils.convertDashAllelesObjectToABAlleles()", function() {
+
+  it("should return the original object when passed an empty string/object", function() {
+    let input = "",
+        result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, []);
+    assert.equal(result, "", "should handle empty string");
+    input = {};
+    result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, []);
+    assert.deepEqual(result, {}, "should handle empty object");
+    input = "T-T";
+    result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, []);
+    assert.equal(result, "a:T,b:T", "should handle simple string");
+    input = { alleles: "T-T" };
+    result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, []);
+    assert.deepEqual(result, { alleles: "T-T" }, "don't convert strings unless propName specified");
+    input = { alleles: "T-T" };
+    result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, ["alleles"]);
+    assert.deepEqual(result, { alleles: "a:T,b:T" }, "convert strings when propName specified");
+    input = { baskets: ["T-T"] };
+    result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, ["alleles"]);
+    assert.deepEqual(result, { baskets: ["T-T"] }, "don't convert arrays unless propName specified");
+    input = { alleles: ["T-T"] };
+    result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, ["alleles"]);
+    assert.deepEqual(result, { alleles: ["a:T,b:T"] }, "convert arrays when propName specified");
+    input = { objects: [{ alleles: "T-T" }] };
+    result = GeneticsUtils.convertDashAllelesObjectToABAlleles(input, ["alleles"]);
+    assert.deepEqual(result, { objects: [{ alleles: "a:T,b:T" }] }, "convert objects within arrays");
+  });
+});
+
 describe("GeneticsUtils.filterAlleles()", function() {
   const initialAlleles = ['T', 't', 'A1', 'a'];
 
