@@ -22,6 +22,8 @@ function initialState() {
             challenge: 0,
             challenges: 1,
             challengeProgress: {},
+            errors: 0,
+            correct: 0,
             authoring: window.GV2Authoring,
             endCaseUrl: urlParams.start
           });
@@ -89,11 +91,6 @@ export default function reducer(state, action) {
         challengeProgress: progress
       });
     }
-    case actionTypes.EGG_SELECTED: {
-      return state.merge({
-        selectedEggIndex: action.eggIndex
-      });
-    }
     case actionTypes.EGG_SUBMITTED: {
       let progress = updateProgress(state, action.correct);
 
@@ -103,7 +100,6 @@ export default function reducer(state, action) {
       });
     }
     case actionTypes.EGG_REJECTED: {
-
       return state.merge({
         errors: state.errors + 1
       });

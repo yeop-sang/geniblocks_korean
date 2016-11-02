@@ -252,7 +252,7 @@ export function changeBasketSelection(selectedIndices) {
     meta: {
       itsLog: {
         actor: ITS_ACTORS.USER,
-        action: ITS_ACTIONS.CHANGE_SELECTION,
+        action: ITS_ACTIONS.CHANGED_SELECTION,
         target: ITS_TARGETS.BASKET
       }
     }
@@ -266,7 +266,7 @@ export function changeDrakeSelection(selectedIndices) {
     meta: {
       itsLog: {
         actor: ITS_ACTORS.USER,
-        action: ITS_ACTIONS.CHANGE_SELECTION,
+        action: ITS_ACTIONS.CHANGED_SELECTION,
         target: ITS_TARGETS.DRAKE
       }
     }
