@@ -71,8 +71,14 @@ describe("GeneticsUtils.convertDashAllelesObjectToABAlleles()", function() {
 
 describe("GeneticsUtils.alleleStringContainsAlleles()", function() {
 
-  it("should return false for empty strings", function() {
-    let result = GeneticsUtils.alleleStringContainsAlleles("", "");
+  it("should return false for null/empty strings", function() {
+    let result = GeneticsUtils.alleleStringContainsAlleles();
+    assert.equal(result, false, "result should be false for null/undefined arguments");
+    result = GeneticsUtils.alleleStringContainsAlleles("a:b");
+    assert.equal(result, false, "result should be false for null/undefined arguments");
+    result = GeneticsUtils.alleleStringContainsAlleles(null, "a:b");
+    assert.equal(result, false, "result should be false for null/undefined arguments");
+    result = GeneticsUtils.alleleStringContainsAlleles("", "");
     assert.equal(result, false, "result should be false for empty strings");
     result = GeneticsUtils.alleleStringContainsAlleles("a:b", "");
     assert.equal(result, false, "result should be false for empty strings");
