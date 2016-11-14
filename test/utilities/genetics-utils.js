@@ -69,6 +69,73 @@ describe("GeneticsUtils.convertDashAllelesObjectToABAlleles()", function() {
   });
 });
 
+describe("GeneticsUtils.alleleStringContainsAlleles()", function() {
+
+  it("should return false for null/empty strings", function() {
+    let result = GeneticsUtils.alleleStringContainsAlleles();
+    assert.equal(result, false, "result should be false for null/undefined arguments");
+    result = GeneticsUtils.alleleStringContainsAlleles("a:b");
+    assert.equal(result, false, "result should be false for null/undefined arguments");
+    result = GeneticsUtils.alleleStringContainsAlleles(null, "a:b");
+    assert.equal(result, false, "result should be false for null/undefined arguments");
+    result = GeneticsUtils.alleleStringContainsAlleles("", "");
+    assert.equal(result, false, "result should be false for empty strings");
+    result = GeneticsUtils.alleleStringContainsAlleles("a:b", "");
+    assert.equal(result, false, "result should be false for empty strings");
+    result = GeneticsUtils.alleleStringContainsAlleles("", "a:b");
+    assert.equal(result, false, "result should be false for empty strings");
+  });
+
+  it("should return true if the alleles occur in the alleleString, false otherwise", function() {
+    let result = GeneticsUtils.alleleStringContainsAlleles("a:W,b:w,a:T,b:Tk,a:dl,b:d,a:Hl,b:hl",
+                                                           "a:W,b:w,a:T,b:Tk,a:dl,b:d,a:Hl,b:hl");
+    assert.equal(result, true, "result should be true for matching strings");
+    result = GeneticsUtils.alleleStringContainsAlleles("a:W,b:w,a:T,b:Tk,a:dl,b:d,a:Hl,b:hl", "a:w");
+    assert.equal(result, false, "result should be false for non-matching strings");
+    result = GeneticsUtils.alleleStringContainsAlleles("a:W,b:w,a:T,b:Tk,a:dl,b:d,a:Hl,b:hl", "b:h");
+    assert.equal(result, false, "result should be false for non-matching strings");
+    result = GeneticsUtils.alleleStringContainsAlleles("a:W,b:w,a:T,b:Tk,a:dl,b:d,a:Hl,b:hl", "h");
+    assert.equal(result, false, "result should be false for invalid alleles");
+  });
+});
+
+describe("GeneticsUtils.isValidAlleleString()", function() {
+  it("should return true for valid allele strings, false for invalid ones", function() {
+    let result = GeneticsUtils.isValidAlleleString();
+    assert.equal(result, false, "should handle nulls");
+    result = GeneticsUtils.isValidAlleleString("a:ZZZ,b:ZZZ");
+    assert.equal(result, false, "should handle invalid alleles");
+    result = GeneticsUtils.isValidAlleleString("a:T,b:T");
+    assert.equal(result, true, "should handle incomplete allele strings");
+    const incompleteAlleleString = "a:M,b:M,a:W,b:W,a:H,b:H,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:Hl,b:Hl,a:A1,b:A1,a:D,b:D,a:Bog,b:Bog,a:Rh,b:Rh";
+    result = GeneticsUtils.isValidAlleleString(incompleteAlleleString);
+    assert.equal(result, true, "should handle incomplete allele strings");
+    const completeAlleleString = "a:T,b:T,a:M,b:M,a:W,b:W,a:H,b:H,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:Hl,b:Hl,a:A1,b:A1,a:D,b:D,a:Bog,b:Bog,a:Rh,b:Rh";
+    result = GeneticsUtils.isValidAlleleString(completeAlleleString);
+    assert.equal(result, true, "should handle complete allele strings");
+  });
+});
+
+describe("GeneticsUtils.isCompleteAlleleString()", function() {
+  it("should return true for complete allele strings, false for incomplelete ones", function() {
+    let result = GeneticsUtils.isCompleteAlleleString();
+    assert.equal(result, false, "should handle nulls");
+    result = GeneticsUtils.isCompleteAlleleString("a:ZZZ,b:ZZZ");
+    assert.equal(result, false, "should handle invalid alleles");
+    result = GeneticsUtils.isCompleteAlleleString("a:T,b:T");
+    assert.equal(result, false, "should handle incomplete allele strings");
+    const incompleteAlleleString = "a:M,b:M,a:W,b:W,a:H,b:H,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:Hl,b:Hl,a:A1,b:A1,a:D,b:D,a:Bog,b:Bog,a:Rh,b:Rh";
+    result = GeneticsUtils.isCompleteAlleleString(incompleteAlleleString);
+    assert.equal(result, false, "should handle incomplete allele strings");
+    const maleCompleteAlleleString = "a:T,b:T,a:M,b:M,a:W,b:W,a:H,b:H,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:Hl,b:Hl,a:A1,b:A1,a:D,a:Bog,a:Rh";
+    result = GeneticsUtils.isCompleteAlleleString(maleCompleteAlleleString);
+    assert.equal(result, true, "should handle complete male allele strings (missing some X genes)");
+    const completeAlleleString = "a:T,b:T,a:M,b:M,a:W,b:W,a:H,b:H,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:Hl,b:Hl,a:A1,b:A1,a:D,b:D,a:Bog,b:Bog,a:Rh,b:Rh";
+    result = GeneticsUtils.isCompleteAlleleString(completeAlleleString);
+    assert.equal(result, true, "should handle complete allele strings");
+  });
+});
+
 describe("GeneticsUtils.filterAlleles()", function() {
   const initialAlleles = ['T', 't', 'A1', 'a'];
 

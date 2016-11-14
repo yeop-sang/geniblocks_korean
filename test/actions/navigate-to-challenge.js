@@ -45,8 +45,16 @@ describe('navigateToChallenge action', () => {
 
       let nextState = reducer(initialState, navigateToChallenge(1, 2));
 
-      // by starting with nextState and merging in what we expect,
-      // we eliminate all other properties from consideration
+      // By starting with nextState and merging in what we expect, we eliminate
+      // all other properties from consideration. This is particularly an issue
+      // for challenge navigation, which triggers loadStateFromAuthoring(), which
+      // makes a large number of changes to the state that have nothing to do with
+      // the navigation action itself. These loadStateFromAuthoring() changes tend
+      // to change frequently, at least during these early days of new challenge
+      // development. Requiring navigation unit tests to be modified whenever 
+      // loadStateFromAuthoring() changes leads to brittle unit tests. If one
+      // wanted to unit test the loadStateFromAuthoring() changes, it could be
+      // done with a unit test of that function directly.
       expect(nextState).toEqual(nextState.merge({
         case: 1,
         challenge: 2,

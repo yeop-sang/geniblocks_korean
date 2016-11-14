@@ -22,10 +22,11 @@ export function generateTrialDrakes(trialDef, trial=0) {
       return _.shuffle(
         _.map(trialDef.drakes, (drake) => {
                 // combine drake alleles with base drake alleles
-          const alleles = trialDef.baseDrake + ',' + drake.alleles,
+          const { alleles: drakeAlleles, sex: drakeSex, ...others } = drake,
+                alleles = trialDef.baseDrake + ',' + drakeAlleles,
                 // randomize sex if not specified
-                sex = drake.sex != null ? drake.sex : Math.trunc(2 * Math.random());
-          return { alleles, sex };
+                sex = drakeSex != null ? drakeSex : Math.trunc(2 * Math.random());
+          return { alleles, sex, ...others };
         })
       );
     }
