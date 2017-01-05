@@ -15,13 +15,13 @@ can be written as [Stateless functional components](https://facebook.github.io/r
 Many views take a [Biologica.js](https://github.com/concord-consortium/biologica.js)
 organism as a property.
 
-The components are used by Geniverse-2.0, but are also built as their to /dist
-as their own independent React component library. The examples in /public/examples
-all use the GeniBlocks library this way.
+The components are used by Geniverse-2.0, but are also built to /dist as their
+own independent React component library. The examples in /public/examples all
+use the GeniBlocks library this way.
 
 ## Development Setup
 
-    npm install
+    npm install           # or 'yarn'
     bower install
     gulp                  # or its alias 'npm run build:watch'
 
@@ -42,6 +42,9 @@ which will launch a browser tab pointing to the examples page.
 ### Deploy Examples to gh-pages
 
     gulp deploy           # or its alias 'npm run deploy'
+
+For deployment, `yarn` may be preferable to `npm install` for dependency installation
+due to its greater predictability.
 
 ## Structure
 
