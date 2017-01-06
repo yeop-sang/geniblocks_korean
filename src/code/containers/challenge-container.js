@@ -62,6 +62,7 @@ function mapStateToProps (state) {
     return {
       template: state.template,
       challengeType: state.challengeType,
+      interactionType: state.interactionType,
       instructions: state.instructions,
       showUserDrake: state.showUserDrake,
       drakes: state.drakes,

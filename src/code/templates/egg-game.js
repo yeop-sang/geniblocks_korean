@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 import OrdinalOrganismView from '../components/ordinal-organism';
 import OrganismView from '../components/organism';
 import GenomeView from '../components/genome';
@@ -78,7 +79,7 @@ var animationEvents = {
       // hide the static gametes while the animated gametes are visible
       showStaticGametes(false);
       animateMultipleComponents([animatedOvumView, animatedSpermView],  [motherPositions, fatherPositions], opacity, animationEvents.showGametes.id);
-      _this.setState({animation:"showGametes"});
+      if (_this) _this.setState({animation:"showGametes"});
     }
   },
   moveGametes: { id: 1, count: 0, complete: false, animate: function(){
@@ -102,7 +103,7 @@ var animationEvents = {
       };
 
       animateMultipleComponents([animatedOvumView, animatedSpermView], [motherPositions, fatherPositions], opacity, animationEvents.moveGametes.id);
-      _this.setState({animation:"moveGametes"});
+      if (_this) _this.setState({animation:"moveGametes"});
     }
   },
   selectChromosome: { id: 2, complete: false, ready: false, animate: function(positions, targetIsY){
@@ -112,7 +113,7 @@ var animationEvents = {
       };
       animatedComponentToRender = <ChromosomeImageView small={true} empty={false} bold={false} yChromosome={targetIsY}/>;
       animateMultipleComponents([animatedComponentToRender], [positions], opacity, animationEvents.selectChromosome.id);
-      _this.setState({animation:"selectChromosome"});
+      if (_this) _this.setState({animation:"selectChromosome"});
     }
   },
   fertilize: { id: 3, inProgress: false, complete: false, animate: function(){
@@ -128,7 +129,7 @@ var animationEvents = {
       animationEvents.hatch.inProgress = true;
       animationEvents.hatch.complete = false;
       hatchSoundPlayed = false;
-      _this.setState({hatchStarted:"true"});
+      if (_this) _this.setState({hatchStarted:"true"});
       setTimeout( () => {
         animationFinish(animationEvents.hatch.id);
       }, 3000);
@@ -211,7 +212,7 @@ function animationFinish(evt){
     default:
       break;
   }
-  _this.setState({animation:"complete"});
+  if (_this) _this.setState({animation:"complete"});
 }
 
 function animateMultipleComponents(componentsToAnimate, positions, opacity, animationEvent){
@@ -266,13 +267,21 @@ export default class EggGame extends Component {
   }
 
   render() {
-    const { challengeType, instructions, showUserDrake, trial, drakes, gametes, hiddenAlleles,
-            userDrakeHidden, onChromosomeAlleleChange, onGameteChromosomeAdded, 
+    const { challengeType, interactionType, instructions, showUserDrake, trial, drakes, gametes,
+            hiddenAlleles, userDrakeHidden, onChromosomeAlleleChange, onGameteChromosomeAdded, 
             onFertilize, onHatch, onResetGametes, onKeepOffspring, onDrakeSubmission } = this.props,
           firstTargetDrakeIndex = 3, // 0: mother, 1: father, 2: child, 3-5: targets
           targetDrake = drakes[firstTargetDrakeIndex + trial],
           isCreationChallenge = challengeType === 'create-unique',
           isMatchingChallenge = challengeType === 'match-target',
+          isSelectingGametes = interactionType === 'select-gametes',
+          isSelectingChromosomes = !isSelectingGametes,
+          challengeClasses = {
+                                'creation': isCreationChallenge,
+                                'matching': isMatchingChallenge,
+                                'chromosomes': isSelectingChromosomes,
+                                'gametes': isSelectingGametes
+                              },
           mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
           father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex);
 
@@ -383,7 +392,7 @@ export default class EggGame extends Component {
                           : null,
               bgColor = isCompleted ? "#AAAAAA" : null,
               targetID = `target-${trial+1}`,
-              classes = `matched-target` + (isCompleted ? ' complete' : ''),
+              classes = classNames('matched-target', { 'complete': isCompleted }),
               ordOrgView = <OrdinalOrganismView id={targetID} className={classes}
                                                 ordinal={ordinal} organism={organism}
                                                 bgColor={bgColor} key={targetID}/>;
@@ -392,10 +401,7 @@ export default class EggGame extends Component {
       return ordOrgViews;
     }
 
-    let gametesClass = "gametes";
-    if (!drakes[2]) {
-      gametesClass += " unfertilized";
-    }
+    const gametesClass = classNames('gametes', { 'unfertilized': !drakes[2] });
 
     const instructionsBanner = instructions
                                 ? <div className="instructions-banner">
@@ -420,7 +426,7 @@ export default class EggGame extends Component {
                                     </div>
                                   </div>
                                 : null,
-          eggClasses = "egg-image" + (isMatchingChallenge ? " matching" : ""),
+          eggClasses = classNames('egg-image', challengeClasses),
           eggImageView = <img className={eggClasses} src="resources/images/egg_yellow.png" key={1}/>;
     let childView, ovumView, spermView, penView;
     if (drakes[2] && animationEvents.hatch.complete) {
@@ -445,14 +451,12 @@ export default class EggGame extends Component {
         childView = eggImageView;
       } else {
         let text = t("~BUTTON.FERTILIZE"),
-            className = "fertilize-button";
-        if (isMatchingChallenge)
-          className += " matching";
+            buttonClasses = classNames('fertilize-button', challengeClasses);
         if (Object.keys(gametes[0]).length !== 3 || Object.keys(gametes[1]).length !== 3) {
           text = t("~BUTTON.FERTILIZE_DISABLED"),
-          className += " disabled";
+          buttonClasses += " disabled";
         }
-        childView = <ButtonView className={ className } label={ text } onClick={ handleFertilize } />;
+        childView = <ButtonView className={ buttonClasses } label={ text } onClick={ handleFertilize } />;
       }
     }
     let oChroms = femaleGameteChromosomeMap,
@@ -461,8 +465,8 @@ export default class EggGame extends Component {
         spermChromosomes = [sChroms[1] && sChroms[1].b, sChroms[2] && sChroms[2].b, sChroms.XY && sChroms.XY.b],
         ovumSelected = mapChromosomesToSide(gametes[1], 'a'),
         spermSelected = mapChromosomesToSide(gametes[0], 'b'),
-        ovumClasses = "ovum" + (isMatchingChallenge ? " matching" : ""),
-        spermClasses = "sperm" + (isMatchingChallenge ? " matching" : "");
+        ovumClasses = classNames('ovum', challengeClasses),
+        spermClasses = classNames('sperm', challengeClasses);
 
     ovumView  = <GameteImageView className={ovumClasses}  isEgg={true}  chromosomes={ovumChromosomes} displayStyle={gameteDisplayStyle} />;
     spermView = <GameteImageView className={spermClasses} isEgg={false} chromosomes={spermChromosomes} displayStyle={gameteDisplayStyle} />;
@@ -476,8 +480,8 @@ export default class EggGame extends Component {
                 </div>;
     }
 
-    const parentGenomeClass = "parent" + (isMatchingChallenge ? " matching" : ""),
-          childGenomeClass = "child" + (isMatchingChallenge ? " matching" : "");
+    const parentGenomeClass = classNames('parent', challengeClasses),
+          childGenomeClass = classNames('child', challengeClasses);
     return (
       <div id="egg-game">
         {instructionsBanner}
@@ -523,8 +527,6 @@ export default class EggGame extends Component {
 
   updateComponentLayout() {
     // now that the DOM is loaded, get the positions of the elements
-    _this = this;
-
     mother = document.getElementsByClassName("mother")[0].getClientRects()[0];
     father = document.getElementsByClassName("father")[0].getClientRects()[0];
 
@@ -559,6 +561,7 @@ export default class EggGame extends Component {
   }
 
   componentDidMount() {
+    _this = this;
     this.updateComponentLayout();
   }
 
@@ -567,6 +570,7 @@ export default class EggGame extends Component {
   }
 
   componentWillUnmount() {
+    _this = null;
     resetAnimationEvents();
   }
 
@@ -574,6 +578,7 @@ export default class EggGame extends Component {
     case: PropTypes.number.isRequired,
     challenge: PropTypes.number.isRequired,
     challengeType: PropTypes.string.isRequired,
+    interactionType: PropTypes.string,
     instructions: PropTypes.string,
     showUserDrake: PropTypes.bool.isRequired,
     trial: PropTypes.number.isRequired,
