@@ -15,17 +15,18 @@ export default (socket) => store => next => action => {
   }
 
   switch(action.type) {
-    case actionTypes.SOCKET_ERRORED: {
+    case actionTypes.GUIDE_ERRORED: {
       console.log("Error connecting to ITS");
       socket.close();
       break;
     }
-    case actionTypes.SOCKET_CONNECTED: {
+    case actionTypes.GUIDE_CONNECTED: {
       console.log("Connection Success!");
       break;
     }
-    case actionTypes.SOCKET_RECEIVED: {
-      console.log("Message received!", action.state.data);
+    case actionTypes.GUIDE_MESSAGE_RECEIVED:
+    case actionTypes.GUIDE_ALERT_RECEIVED: {
+      console.log("Message received!", action.data);
       break;
     }
     default: {

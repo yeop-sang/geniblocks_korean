@@ -26,12 +26,12 @@ export default function modalDialog(state = initialState, action) {
         showAward: action.showAward,
         top: action.top
       });
-    case actionTypes.SOCKET_RECEIVED:
-      if (action.state.data) {
+    case actionTypes.GUIDE_MESSAGE_RECEIVED:
+      if (action.data) {
         return state.merge({
           show: true,
           message: "Message from ITS",
-          explanation: JSON.parse(action.state.data).text,
+          explanation: action.data.message.asString(),
           rightButton: defaultRightButton
         });
       }

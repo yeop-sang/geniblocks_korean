@@ -23,6 +23,7 @@ import thunk from 'redux-thunk';
 import io from 'socket.io-client';
 import GeneticsUtils from './utilities/genetics-utils';
 import urlParams from './utilities/url-params';
+import GuideProtocol from './utilities/guide-protocol';
 import uuid from 'uuid';
 
 function convertAuthoring(authoring) {
@@ -43,14 +44,17 @@ const guideServer = "wss://guide.intellimedia.ncsu.edu",
       guideProtocol  = "guide-protocol-v2";
 
 const socket = io(`${guideServer}/${guideProtocol}`, {reconnection: false});
-socket.on('connect', state =>
-  store.dispatch({type: actionTypes.SOCKET_CONNECTED, state})
+socket.on('connect', data =>
+  store.dispatch({type: actionTypes.GUIDE_CONNECTED, data})
 );
-socket.on('message', state =>
-  store.dispatch({type: actionTypes.SOCKET_RECEIVED, state})
+socket.on(GuideProtocol.TutorDialog.Channel, data =>
+  store.dispatch({type: actionTypes.GUIDE_MESSAGE_RECEIVED, data: GuideProtocol.TutorDialog.fromJson(data)})
 );
-socket.on('connect_error', state =>
-  store.dispatch({type: actionTypes.SOCKET_ERRORED, state})
+socket.on(GuideProtocol.Alert.Channel, (data) =>
+  store.dispatch({type: actionTypes.GUIDE_ALERT_RECEIVED, data: GuideProtocol.Alert.fromJson(data)})
+);
+socket.on('connect_error', data =>
+  store.dispatch({type: actionTypes.GUIDE_ERRORED, data})
 );
 
 const hashHistory = useRouterHistory(createHashHistory)({ queryKey: false });
