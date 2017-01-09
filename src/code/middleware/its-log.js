@@ -1,9 +1,9 @@
 import { actionTypes } from '../actions';
 import templates from '../templates';
+import GuideProtocol from '../utilities/guide-protocol';
 
 var session = "",
-    sequence = 0,
-    queue = [];
+    sequence = 0;
 
 export default (socket) => store => next => action => {
 
@@ -22,7 +22,6 @@ export default (socket) => store => next => action => {
     }
     case actionTypes.SOCKET_CONNECTED: {
       console.log("Connection Success!");
-      flushQueue(socket);
       break;
     }
     case actionTypes.SOCKET_RECEIVED: {
@@ -32,28 +31,8 @@ export default (socket) => store => next => action => {
     default: {
       // other action types - send to ITS
       if (action.meta && action.meta.itsLog){
-
         let message = createLogEntry(action, nextState);
-
-        switch (socket.readyState) {
-          case WebSocket.CONNECTING:
-            queue.push(message);
-            break;
-          case WebSocket.OPEN:
-            flushQueue(socket);
-            sendMessage(message, socket);
-            break;
-          case WebSocket.CLOSING:
-            // TODO: Are we going to forcibly close the socket at any point?
-            console.log("Data not sent - socket state: CLOSING");
-            break;
-          case WebSocket.CLOSED:
-            // TODO: Control reconnection logic / may change if we go socket.io
-            console.log("Data not sent - socket state: CLOSED");
-            break;
-        }
-
-        sequence++;
+        sendMessage(message, socket);
       }
     }
   }
@@ -61,14 +40,8 @@ export default (socket) => store => next => action => {
   return result;
 };
 
-function flushQueue(socket) {
-  while (queue.length > 0) {
-    sendMessage(queue.shift(), socket);
-  }
-}
-
 function sendMessage(message, socket) {
-  socket.emit("event", message);
+  socket.emit(GuideProtocol.Event.Channel, JSON.stringify(message));
 }
 
 function getValue(obj, path) {
@@ -143,15 +116,14 @@ function createLogEntry(action, nextState){
 
   const message =
     {
-      event:
-        {
-          username: "testuser-"+session.split("-")[0],
-          session: session,
-          time: Date.now(),
-          sequence: sequence,
-          ...event,
-          context: context
-        }
+      username: "testuser-"+session.split("-")[0],
+      session: session,
+      time: Date.now(),
+      sequence: sequence,
+      ...event,
+      context: context
     };
+
+  sequence++;
   return message;
 }

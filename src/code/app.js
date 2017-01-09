@@ -39,16 +39,17 @@ const loggingMetadata = {
   applicationName: "GeniStarDev"
 };
 
-const socketEndpoint = "wss://guide.intellimedia.ncsu.edu";
+const guideServer = "wss://guide.intellimedia.ncsu.edu",
+      guideProtocol  = "guide-protocol-v2";
 
-const socket = io(socketEndpoint, {reconnection: false});
-socket.on('connection', state =>
+const socket = io(`${guideServer}/${guideProtocol}`, {reconnection: false});
+socket.on('connect', state =>
   store.dispatch({type: actionTypes.SOCKET_CONNECTED, state})
 );
 socket.on('message', state =>
   store.dispatch({type: actionTypes.SOCKET_RECEIVED, state})
 );
-socket.on('error', state=>
+socket.on('connect_error', state =>
   store.dispatch({type: actionTypes.SOCKET_ERRORED, state})
 );
 
