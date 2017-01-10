@@ -13,6 +13,7 @@ import { actionTypes, startSession, changeAuthoring } from './actions';
 import AuthoringUpload from './containers/authoring-upload';
 import ChallengeContainer from "./containers/challenge-container";
 import ModalMessageContainer from "./containers/modal-message-container";
+import NotificationContainer from "./containers/notification-container";
 
 import loggerMiddleware from './middleware/gv-log';
 import itsMiddleware from './middleware/its-log';
@@ -103,6 +104,7 @@ function renderApp() {
                           <Route path="/(:case/:challenge)" component={ChallengeContainer} />
                         </Router>
                         <ModalMessageContainer />
+                        <NotificationContainer />
                       </div>;
   render(
     <Provider store={store}>

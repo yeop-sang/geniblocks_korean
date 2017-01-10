@@ -12,6 +12,7 @@ import userDrakeHidden from './user-drake-hidden';
 import gametes from './gametes';
 import drakes from './drakes';
 import baskets from './baskets';
+import notifications from './notifications';
 
 function initialState() {
   return Immutable({
@@ -39,7 +40,8 @@ export default function reducer(state, action) {
     userDrakeHidden: userDrakeHidden(state.userDrakeHidden, action),
     gametes: gametes(state.gametes, action),
     drakes: drakes(state.drakes, action),
-    baskets: baskets(state.baskets, action)
+    baskets: baskets(state.baskets, action),
+    notifications: notifications(state.notifications, action)
   });
 
   switch(action.type) {

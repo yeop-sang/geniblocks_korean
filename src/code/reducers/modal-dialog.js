@@ -1,6 +1,5 @@
 import Immutable from 'seamless-immutable';
 import { actionTypes } from '../actions';
-import urlParams from '../utilities/url-params';
 
 const initialState = Immutable({
   show: false,
@@ -27,23 +26,13 @@ export default function modalDialog(state = initialState, action) {
         showAward: action.showAward,
         top: action.top
       });
-    case actionTypes.GUIDE_MESSAGE_RECEIVED:
-      if (action.data && urlParams.showITS === "true") {
-        return state.merge({
-          show: true,
-          message: "Message from ITS",
-          explanation: action.data.message.asString(),
-          rightButton: defaultRightButton
-        });
-      }
-      else
-        return state;
     case actionTypes.MODAL_DIALOG_DISMISSED:
       return initialState;
     // actions which don't close the dialog, i.e. that can occur
     // while a dialog is being shown
     case actionTypes.BASKET_SELECTION_CHANGED:
     case actionTypes.DRAKE_SELECTION_CHANGED:
+    case actionTypes.GUIDE_MESSAGE_RECEIVED:
       return state;
     // Assume for now that all other actions also close dialog
     default:
