@@ -1,5 +1,6 @@
 import Immutable from 'seamless-immutable';
 import { actionTypes } from '../actions';
+import urlParams from '../utilities/url-params';
 
 const initialState = Immutable({
   show: false,
@@ -27,7 +28,7 @@ export default function modalDialog(state = initialState, action) {
         top: action.top
       });
     case actionTypes.GUIDE_MESSAGE_RECEIVED:
-      if (action.data) {
+      if (action.data && urlParams.showITS === "true") {
         return state.merge({
           show: true,
           message: "Message from ITS",
