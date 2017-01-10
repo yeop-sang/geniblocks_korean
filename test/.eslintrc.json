@@ -8,7 +8,8 @@
   },
   "globals": { "GeniBlocks": false, "BioLogica": false, "React": false,
                 "describe": false, "it": false, "assert": false,
-                "mount": false, "shallow": false },
+                "mount": false, "shallow": false, "before": false, "after": false,
+                "beforeEach": false, "afterEach": false },
   "extends": [ "eslint:recommended", "plugin:react/recommended" ],
   "rules": {
     "semi": [2, "always"],
