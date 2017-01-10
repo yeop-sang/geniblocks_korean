@@ -95,28 +95,23 @@ describe('showModalDialog action', () => {
       }));
     });
 
-    it('should update the modalDialog correctly for an ITS message', () => {
+    it('should leave the current modalDialog alone after an ITS message', () => {
       let defaultState = reducer(undefined, {});
 
-      let nextState = reducer(defaultState, {
-        type: types.SOCKET_RECEIVED,
+      let messageState = reducer(defaultState, {
+        type: types.MODAL_DIALOG_SHOWN,
+        message: "Message",
+        showAward: false
+      });
+
+      let nextState = reducer(messageState, {
+        type: types.GUIDE_MESSAGE_RECEIVED,
         state: {
           data: '{"text": "Hi from ITS"}'
         }
       });
 
-      expect(nextState).toEqual(defaultState.merge({
-        modalDialog: {
-          show: true,
-          message: "Message from ITS",
-          explanation: "Hi from ITS",
-          rightButton: {
-            "action": "dismissModalDialog",
-            "label": "~BUTTON.OK"
-          },
-          leftButton: null
-        }
-      }));
+      expect(nextState).toEqual(messageState);
     });
 
     it('should dismiss the modalDialog on a dismiss event', () => {

@@ -24,9 +24,10 @@ export const actionTypes = {
   MODAL_DIALOG_DISMISSED: "Modal dialog dismissed",
   ADVANCED_TRIAL: "Advanced to next trial",
   ADVANCED_CHALLENGE: "Advanced to next challenge",
-  SOCKET_CONNECTED: "Socket connected",
-  SOCKET_RECEIVED: "Socket received",
-  SOCKET_ERRORED: "Socket errored"
+  GUIDE_CONNECTED: "Guide connected",
+  GUIDE_MESSAGE_RECEIVED: "Guide message received",
+  GUIDE_ALERT_RECEIVED: "Guide alert received",
+  GUIDE_ERRORED: "Guide errored"
 };
 
 const ITS_ACTORS = {
@@ -512,7 +513,7 @@ export function showCompleteChallengeDialog() {
         showAward: true
       };
     }
-    
+
     dispatch(showModalDialog(dialog));
   };
 }

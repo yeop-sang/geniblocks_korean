@@ -13,6 +13,7 @@ import { actionTypes, startSession, changeAuthoring } from './actions';
 import AuthoringUpload from './containers/authoring-upload';
 import ChallengeContainer from "./containers/challenge-container";
 import ModalMessageContainer from "./containers/modal-message-container";
+import NotificationContainer from "./containers/notification-container";
 
 import loggerMiddleware from './middleware/gv-log';
 import itsMiddleware from './middleware/its-log';
@@ -23,6 +24,7 @@ import thunk from 'redux-thunk';
 import io from 'socket.io-client';
 import GeneticsUtils from './utilities/genetics-utils';
 import urlParams from './utilities/url-params';
+import GuideProtocol from './utilities/guide-protocol';
 import uuid from 'uuid';
 
 function convertAuthoring(authoring) {
@@ -39,17 +41,21 @@ const loggingMetadata = {
   applicationName: "GeniStarDev"
 };
 
-const socketEndpoint = "wss://guide.intellimedia.ncsu.edu";
+const guideServer = "wss://guide.intellimedia.ncsu.edu",
+      guideProtocol  = "guide-protocol-v2";
 
-const socket = io(socketEndpoint, {reconnection: false});
-socket.on('connection', state =>
-  store.dispatch({type: actionTypes.SOCKET_CONNECTED, state})
+const socket = io(`${guideServer}/${guideProtocol}`, {reconnection: false});
+socket.on('connect', data =>
+  store.dispatch({type: actionTypes.GUIDE_CONNECTED, data})
 );
-socket.on('message', state =>
-  store.dispatch({type: actionTypes.SOCKET_RECEIVED, state})
+socket.on(GuideProtocol.TutorDialog.Channel, data =>
+  store.dispatch({type: actionTypes.GUIDE_MESSAGE_RECEIVED, data: GuideProtocol.TutorDialog.fromJson(data)})
 );
-socket.on('error', state=>
-  store.dispatch({type: actionTypes.SOCKET_ERRORED, state})
+socket.on(GuideProtocol.Alert.Channel, (data) =>
+  store.dispatch({type: actionTypes.GUIDE_ALERT_RECEIVED, data: GuideProtocol.Alert.fromJson(data)})
+);
+socket.on('connect_error', data =>
+  store.dispatch({type: actionTypes.GUIDE_ERRORED, data})
 );
 
 const hashHistory = useRouterHistory(createHashHistory)({ queryKey: false });
@@ -98,6 +104,7 @@ function renderApp() {
                           <Route path="/(:case/:challenge)" component={ChallengeContainer} />
                         </Router>
                         <ModalMessageContainer />
+                        <NotificationContainer />
                       </div>;
   render(
     <Provider store={store}>
