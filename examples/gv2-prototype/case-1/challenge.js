@@ -10,7 +10,7 @@
  */
 import DrakeGenomeColumn from '../js/drake-genome-column';
 import EVENT from '../event';
-import _ from 'lodash';
+import { cloneDeep } from 'lodash';
 
 /*
  * Left column contains target drake and trial/goal feedback views
@@ -367,8 +367,8 @@ class Case1Challenge extends React.Component {
           isCorrect = (diffCount === 0);
 
     logEvent(EVENT.DRAKE_SUBMITTED, {
-              correctPhenotype: _.cloneDeep(targetDrake.phenotype.characteristics),
-              submittedPhenotype: _.cloneDeep(yourDrake.phenotype.characteristics),
+              correctPhenotype: cloneDeep(targetDrake.phenotype.characteristics),
+              submittedPhenotype: cloneDeep(yourDrake.phenotype.characteristics),
               moveCount,
               requiredMoveCount,
               correct: isCorrect
