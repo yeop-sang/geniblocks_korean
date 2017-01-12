@@ -162,7 +162,9 @@ var animationEvents = {
         // show gamete placeholders
         chromosomeDisplayStyle = {};
 
-        animationEvents.randomizeChromosomes.animate();
+        // show gamete formation animation for gamete selection challenges
+        if (_this && (_this.props.interactionType === 'select-gametes'))
+          animationEvents.randomizeChromosomes.animate();
       }
     }
   },
@@ -609,8 +611,8 @@ export default class EggGame extends Component {
           challengeClasses = {
                                 'creation': isCreationChallenge,
                                 'matching': isMatchingChallenge,
-                                'chromosomes': isSelectingChromosomes,
-                                'gametes': isSelectingGametes
+                                'select-chromosomes': isSelectingChromosomes,
+                                'select-gametes': isSelectingGametes
                               },
           mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
           father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex);
