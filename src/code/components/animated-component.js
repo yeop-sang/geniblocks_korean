@@ -21,6 +21,11 @@ const AnimatedComponentView = ({animEvent, viewObject, speed, bouncy, startDispl
     else if (speed === "superfast"){
       springiness = 150;
     }
+    else if (speed === "noWobble"){
+      // matches "noWobble" preset in react-motion
+      springiness = 170;
+      damping = 26;
+    }
   } else {
     linear = true;
   }

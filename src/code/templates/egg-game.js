@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { assign, clone } from 'lodash';
+import { assign, clone, forOwn } from 'lodash';
 import classNames from 'classnames';
 import OrdinalOrganismView from '../components/ordinal-organism';
 import OrganismView from '../components/organism';
@@ -15,7 +15,7 @@ function animatedChromosomeImageHOC(WrappedComponent) {
   return class extends Component {
     static propTypes = {
       displayStyle: PropTypes.object,
-      yChromosome: PropTypes.boolean
+      yChromosome: PropTypes.bool
     }
 
     render() {
@@ -23,10 +23,12 @@ function animatedChromosomeImageHOC(WrappedComponent) {
             { yChromosome } = this.props,
             defaultWidth = 19,
             defaultHeight = yChromosome ? 62 : 90,
+            defaultSplit = yChromosome ? 32 : 34,
             sizeRatio = displayStyle.size != null ? displayStyle.size : 1,
             width = defaultWidth * sizeRatio,
-            height = defaultHeight * sizeRatio;
-      return <WrappedComponent width={width} height={height} {...otherProps} />;
+            height = defaultHeight * sizeRatio,
+            split = defaultSplit * sizeRatio;
+      return <WrappedComponent width={width} height={height} split={split} {...otherProps} />;
     }
   };
 }
@@ -108,7 +110,8 @@ var animationEvents = {
       showStaticGametes(false);
       animateMultipleComponents([animatedOvumView, animatedSpermView], 
                                 [motherPositions, fatherPositions],
-                                opacity, animationEvents.showGametes.id,
+                                opacity, 'fast',
+                                animationEvents.showGametes.id,
                                 animationEvents.showGametes.onFinish);
       if (_this) _this.setState({animation:"showGametes"});
     },
@@ -144,7 +147,8 @@ var animationEvents = {
 
       animateMultipleComponents([animatedOvumView, animatedSpermView],
                                 [motherPositions, fatherPositions],
-                                opacity, animationEvents.moveGametes.id,
+                                opacity, 'fast',
+                                animationEvents.moveGametes.id,
                                 animationEvents.moveGametes.onFinish);
       if (_this) _this.setState({animation:"moveGametes"});
     },
@@ -166,15 +170,17 @@ var animationEvents = {
     animate: function() {
       let stages = animationEvents.randomizeChromosomes.stages,
           stageIndex = animationEvents.randomizeChromosomes.count,
-          chromosomeIterations = 10,
+          initialIterations = 10,
+          expeditedIterations = 5,
           randomMotherGamete = {},
-          randomFatherGamete = {};
+          randomFatherGamete = {},
+          BOTH_SEXES = -1;
 
-      function addChromAnimStage(sex, chromName, sides) {
+      function addChromAnimStage(sex, iterations, speed, chromName, sides) {
         const motherBaseGamete = clone(randomMotherGamete),
               fatherBaseGamete = clone(randomFatherGamete);
-        let stage = { type: 'chromosome', gametes: [], sex, chromName, side: oneOf(sides) };
-        for (let i = 0; i < chromosomeIterations; ++i) {
+        let stage = { type: 'chromosome', gametes: [], sex, speed, selected: { [chromName]: oneOf(sides) } };
+        for (let i = 0; i < iterations; ++i) {
           const motherAltGamete = sex === BioLogica.FEMALE
                                     ? assign({}, motherBaseGamete, { [chromName]: oneOf(sides) })
                                     : motherBaseGamete,
@@ -185,30 +191,101 @@ var animationEvents = {
           stage.gametes.push([fatherBaseGamete, motherBaseGamete, fatherBaseGamete, motherBaseGamete]);
         }
         if (sex === BioLogica.FEMALE)
-          randomMotherGamete[chromName] = stage.side;
+          randomMotherGamete[chromName] = stage.selected[chromName];
         else
-          randomFatherGamete[chromName] = stage.side;
+          randomFatherGamete[chromName] = stage.selected[chromName];
         stage.gametes.push([clone(randomFatherGamete), clone(randomMotherGamete),
                             clone(randomFatherGamete), clone(randomMotherGamete)]);
         stages.push(stage);
       }
 
-      function addGameteAnimStage(sex) {
-        stages.push({ type: 'gamete', sex });
+      function addGenomeAnimStage(sex, iterations, speed) {
+        const motherBaseGamete = clone(randomMotherGamete),
+              fatherBaseGamete = clone(randomFatherGamete),
+              motherSelectedGamete = (sex === BioLogica.FEMALE) || (sex === BOTH_SEXES)
+                                        ? { '1': oneOf(['a', 'b']),
+                                            '2': oneOf(['a', 'b']),
+                                            'XY': oneOf(['x1', 'x2']) }
+                                        : null,
+              fatherSelectedGamete = (sex === BioLogica.MALE) || (sex === BOTH_SEXES)
+                                        ? { '1': oneOf(['a', 'b']),
+                                            '2': oneOf(['a', 'b']),
+                                            'XY': oneOf(['x', 'y']) }
+                                        : null,
+              selected = sex === BOTH_SEXES
+                            ? [fatherSelectedGamete, motherSelectedGamete]
+                            : (sex === BioLogica.MALE ? fatherSelectedGamete : motherSelectedGamete);
+        let stage = { type: 'chromosome', gametes: [], sex, speed, selected };
+        for (let i = 0; i < iterations; ++i) {
+          const motherAltGamete = (sex === BioLogica.FEMALE) || (sex === BOTH_SEXES)
+                                    ? { '1': oneOf(['a', 'b', undefined]),
+                                        '2': oneOf(['a', 'b', undefined]),
+                                        'XY': oneOf(['x1', 'x2', undefined]) }
+                                    : motherBaseGamete,
+                fatherAltGamete = (sex === BioLogica.MALE) || (sex === BOTH_SEXES)
+                                    ? { '1': oneOf(['a', 'b', undefined]),
+                                        '2': oneOf(['a', 'b', undefined]),
+                                        'XY': oneOf(['x', 'y', undefined]) }
+                                    : fatherBaseGamete;
+          stage.gametes.push([fatherAltGamete, motherAltGamete, fatherBaseGamete, motherBaseGamete]);
+          stage.gametes.push([fatherBaseGamete, motherBaseGamete, fatherBaseGamete, motherBaseGamete]);
+        }
+        if ((sex === BioLogica.FEMALE) || (sex === BOTH_SEXES))
+          randomMotherGamete = clone(motherSelectedGamete);
+        if ((sex === BioLogica.MALE) || (sex === BOTH_SEXES))
+          randomFatherGamete = clone(fatherSelectedGamete);
+        stage.gametes.push([clone(randomFatherGamete), clone(randomMotherGamete),
+                            clone(randomFatherGamete), clone(randomMotherGamete)]);
+        stages.push(stage);
+      }
+
+      function addGameteAnimStage(sex, speed) {
+        stages.push({ type: 'gamete', sex, speed });
       }
 
       if (!stages.length) {
         // random selections for mother's chromosomes
-        addChromAnimStage(BioLogica.FEMALE, '1', ['a', 'b']);
-        addChromAnimStage(BioLogica.FEMALE, '2', ['a', 'b']);
-        addChromAnimStage(BioLogica.FEMALE, 'XY', ['x1', 'x2']);
-        addGameteAnimStage(BioLogica.FEMALE);
+        addChromAnimStage(BioLogica.FEMALE, initialIterations, 'fast', '1', ['a', 'b']);
+        addChromAnimStage(BioLogica.FEMALE, initialIterations, 'fast', '2', ['a', 'b']);
+        addChromAnimStage(BioLogica.FEMALE, initialIterations, 'fast', 'XY', ['x1', 'x2']);
+        addGameteAnimStage(BioLogica.FEMALE, 'fast');
 
         // random selections for father's chromosomes
-        addChromAnimStage(BioLogica.MALE, '1', ['a', 'b']);
-        addChromAnimStage(BioLogica.MALE, '2', ['a', 'b']);
-        addChromAnimStage(BioLogica.MALE, 'XY', ['x', 'y']);
-        addGameteAnimStage(BioLogica.MALE);
+        addChromAnimStage(BioLogica.MALE, initialIterations, 'fast', '1', ['a', 'b']);
+        addChromAnimStage(BioLogica.MALE, initialIterations, 'fast', '2', ['a', 'b']);
+        addChromAnimStage(BioLogica.MALE, initialIterations, 'fast', 'XY', ['x', 'y']);
+        addGameteAnimStage(BioLogica.MALE, 'fast');
+
+        randomMotherGamete = {};
+        addGenomeAnimStage(BioLogica.FEMALE, expeditedIterations, 'noWobble');
+        addGameteAnimStage(BioLogica.FEMALE, 'noWobble');
+        randomFatherGamete = {};
+        addGenomeAnimStage(BioLogica.MALE, expeditedIterations, 'noWobble');
+        addGameteAnimStage(BioLogica.MALE, 'noWobble');
+
+        let fullCycleCount = 6;
+        for (let i = 0; i < fullCycleCount; ++i) {
+          randomMotherGamete = {};
+          randomFatherGamete = {};
+          addGenomeAnimStage(BOTH_SEXES, expeditedIterations, 'noWobble');
+          addGameteAnimStage(BOTH_SEXES, 'noWobble');
+        }
+
+        stages.push({ type: 'complete' });
+      }
+
+      function selectGameteChromosomes(sex, speed, gamete) {
+        forOwn(gamete, (side, name) => {
+          if (side) {
+            const parentId = sex === BioLogica.FEMALE ? 'mother' : 'father',
+                  chromContainerId = `${parentId}${name}${side}`,
+                  elt = document.getElementById(chromContainerId).parentNode;
+            // this will trigger an animation which will call onFinish() when complete,
+            // which will trigger the next stage of the animation.
+            _this.selectChromosomes(sex, speed, [{name, side, elt}],
+                                    animationEvents.randomizeChromosomes.onFinish);
+          }
+        });
       }
 
       function animateStage(stage) {
@@ -218,14 +295,14 @@ var animationEvents = {
           if (++stage.index < stage.gametes.length) {
             setTimeout(() => animateStage(stage), 100);
           }
-          else {
-            const parentId = stage.sex === BioLogica.FEMALE ? 'mother' : 'father',
-                  chromContainerId = `${parentId}${stage.chromName}${stage.side}`,
-                  el = document.getElementById(chromContainerId).parentNode;
-            // this will trigger an animation which will call onFinish() when complete,
-            // which will trigger the next stage of the animation.
-            _this.selectChromosome(stage.sex, stage.chromName, stage.side, el,
-                                  animationEvents.randomizeChromosomes.onFinish);
+          else if (stage.selected) {
+            if (Array.isArray(stage.selected)) {
+              selectGameteChromosomes(BioLogica.MALE, stage.speed, stage.selected[BioLogica.MALE]);
+              selectGameteChromosomes(BioLogica.FEMALE, stage.speed, stage.selected[BioLogica.FEMALE]);
+            }
+            else {
+              selectGameteChromosomes(stage.sex, stage.speed, stage.selected);
+            }
             stage.index = null;
           }
         }
@@ -233,10 +310,25 @@ var animationEvents = {
 
       if (stageIndex < stages.length) {
         let stage = stages[stageIndex];
-        if (stage.type === 'chromosome')
+        if (stage.type === 'chromosome') {
           animateStage(stage);
-        else
-          animationEvents.moveChromosomesToGamete.animate(stage.sex, animationEvents.randomizeChromosomes.onFinish);
+        }
+        else if (stage.type === 'gamete') {
+          if (stage.sex === BOTH_SEXES) {
+            animationEvents.moveChromosomesToGamete.
+              animate(BioLogica.MALE, stage.speed, animationEvents.randomizeChromosomes.onFinish);
+            animationEvents.moveChromosomesToGamete.
+              animate(BioLogica.FEMALE, stage.speed, animationEvents.randomizeChromosomes.onFinish);
+          }
+          else {
+            animationEvents.moveChromosomesToGamete.
+              animate(stage.sex, stage.speed, animationEvents.randomizeChromosomes.onFinish);
+          }
+        }
+        else if (stage.type === 'complete') {
+          if (_this) _this.setState({ animatingGametes: null });
+          resetAnimationEvents();
+        }
       }
       if (_this) _this.setState({ animation: 'randomizeChromosomes' });
     },
@@ -247,8 +339,8 @@ var animationEvents = {
         if (_this) _this.setState({ animation: 'complete' });
     }
   },
-  moveChromosomesToGamete: { id: 3, count: 0, complete: false, ready: false,
-    animate: function(sex, onFinish) {
+  moveChromosomesToGamete: { id: 3, sexes: [], activeCount: 0, complete: false, ready: false,
+    animate: function(sex, speed, onFinish) {
       const parentGameteGenomeId = sex === BioLogica.MALE ? 'father-gamete-genome' : 'mother-gamete-genome',
             parentGameteGenomeEl = document.getElementById(parentGameteGenomeId),
             parentGameteChromEls = parentGameteGenomeEl.getElementsByClassName('chromosome-allele-container'),
@@ -259,7 +351,8 @@ var animationEvents = {
             spermChromOffsets = [{ dx: 20, dy: 12 }, { dx: 30, dy: 12 }, { dx: 40, dy: 12 }],
             ovumChromOffsets = [{ dx: 20, dy: 32 }, { dx: 32, dy: 30 }, { dx: 40, dy: 32 }];
 
-      animationEvents.moveChromosomesToGamete.sex = sex;
+      animationEvents.moveChromosomesToGamete.sexes.push(sex);
+      animationEvents.moveChromosomesToGamete.speed = speed;
       animationEvents.moveChromosomesToGamete.onFinishCaller = onFinish;
 
       function getDstChromBounds(index) {
@@ -279,23 +372,27 @@ var animationEvents = {
         components.push(chromView);
         positions.push({ startPositionRect: srcChromBounds, startSize: 1.0,
                         targetPositionRect: getDstChromBounds(i), endSize: 0.15 });
+        ++animationEvents.moveChromosomesToGamete.activeCount;
       }
-      animateMultipleComponents(components, positions, opacity,
+      animateMultipleComponents(components, positions, opacity, speed,
                                 animationEvents.moveChromosomesToGamete.id,
                                 animationEvents.moveChromosomesToGamete.onFinish);
       if (_this) _this.setState({ animation: 'moveChromosomesToGamete' });
     },
     onFinish: function() {
-      if (++animationEvents.moveChromosomesToGamete.count >= 3) {
-        animationEvents.moveChromosomesToGamete.count = 0;
+      if (--animationEvents.moveChromosomesToGamete.activeCount === 0) {
         animatedComponents = [];
-        animationEvents.moveGameteToPool.animate(animationEvents.moveChromosomesToGamete.sex,
-                                                animationEvents.moveChromosomesToGamete.onFinishCaller);
+        animationEvents.moveChromosomesToGamete.sexes.forEach((sex) => {
+          animationEvents.moveGameteToPool.
+            animate(sex, animationEvents.moveChromosomesToGamete.speed,
+                        animationEvents.moveChromosomesToGamete.onFinishCaller);
+        });
+        animationEvents.moveChromosomesToGamete.sexes = [];
       }
     }
   },
   moveGameteToPool: { id: 4, complete: false, ready: false,
-    animate: function(sex, onFinish) {
+    animate: function(sex, speed, onFinish) {
       const gameteComponent = sex === BioLogica.MALE ? animatedSpermView : animatedOvumView,
             srcGameteBounds = sex === BioLogica.MALE ? spermTarget : ovumTarget,
             dstGameteBounds = { top: 650,
@@ -310,7 +407,8 @@ var animationEvents = {
 
       animateMultipleComponents([gameteComponent],
                                 [positions],
-                                opacity, animationEvents.moveGameteToPool.id,
+                                opacity, speed,
+                                animationEvents.moveGameteToPool.id,
                                 animationEvents.moveGameteToPool.onFinish);
       if (_this) _this.setState({ animation: 'moveGameteToPool' });
     },
@@ -319,16 +417,26 @@ var animationEvents = {
       animationEvents.moveGameteToPool.onFinishCaller(animationEvents.moveGameteToPool.id);
     }
   },
-  selectChromosome: { id: 5, complete: false, ready: false,
-    animate: function(positions, targetIsY, onFinish) {
+  selectChromosome: { id: 5, activeCount: 0, complete: false, ready: false,
+    animate: function(positions, targetIsY, speed, onFinish) {
+      if (++animationEvents.selectChromosome.activeCount === 1)
+        animationEvents.selectChromosome.onFinishCaller = onFinish;
+
       let opacity = {
         start: 1.0,
         end: 0.0
       };
       animatedComponentToRender = <ChromosomeImageView small={true} empty={false} bold={false} yChromosome={targetIsY}/>;
-      animateMultipleComponents([animatedComponentToRender], [positions], opacity,
-                                animationEvents.selectChromosome.id, onFinish);
+      animateMultipleComponents([animatedComponentToRender], [positions], opacity, speed,
+                                animationEvents.selectChromosome.id,
+                                animationEvents.selectChromosome.onFinish);
       if (_this) _this.setState({animation:"selectChromosome"});
+    },
+    onFinish: function() {
+      if ((--animationEvents.selectChromosome.activeCount === 0) &&
+          animationEvents.selectChromosome.onFinishCaller) {
+        animationEvents.selectChromosome.onFinishCaller(animationEvents.selectChromosome.id);
+      }
     }
   },
   fertilize: { id: 6, inProgress: false, complete: false,
@@ -404,10 +512,10 @@ function runAnimation(animationEvent, positions, opacity, speed, onFinish){
   lastAnimatedComponentId++;
 }
 
-function animateMultipleComponents(componentsToAnimate, positions, opacity, animationEvent, onFinish){
+function animateMultipleComponents(componentsToAnimate, positions, opacity, speed, animationEvent, onFinish){
   for (let i = 0; i < componentsToAnimate.length; i++){
     animatedComponentToRender = componentsToAnimate[i];
-    runAnimation(animationEvent, positions[i], opacity, 'fast', onFinish);
+    runAnimation(animationEvent, positions[i], opacity, speed, onFinish);
   }
 }
 
@@ -464,22 +572,26 @@ export default class EggGame extends Component {
     }
   }
 
-  handleChromosomeSelected = (org, name, side, el) => {
-    this.selectChromosome(org.sex, name, side, el);
+  handleChromosomeSelected = (org, name, side, elt) => {
+    this.selectChromosomes(org.sex, 'fast', [{name, side, elt }]);
   }
 
-  selectChromosome(sex, name, side, el, onFinish) {
+  selectChromosomes(sex, speed, chromEntries, onFinish) {
     if (animationEvents.selectChromosome.ready) {
       if (!onFinish) {
         setTimeout(() => {
-          this.props.onGameteChromosomeAdded(sex, name, side);
+          chromEntries.forEach((entry) => {
+            this.props.onGameteChromosomeAdded(sex, entry.name, entry.side);
+          });
         }, 500);
       }
 
-      let positions = findBothElements(sex, name, el);
-      let targetIsY = el.getElementsByClassName("chromosome-allele-container")[0].id.endsWith('XYy');
-      // animate the chromosomes being added
-      animationEvents.selectChromosome.animate(positions, targetIsY, onFinish);
+      chromEntries.forEach((entry) => {
+        let positions = findBothElements(sex, entry.name, entry.elt);
+        let targetIsY = entry.elt.getElementsByClassName("chromosome-allele-container")[0].id.endsWith('XYy');
+        // animate the chromosomes being added
+        animationEvents.selectChromosome.animate(positions, targetIsY, speed, onFinish);
+      });
     }
   }
 
