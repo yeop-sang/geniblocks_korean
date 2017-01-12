@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import OrdinalOrganismView from '../components/ordinal-organism';
 import OrganismView from '../components/organism';
 import GenomeView from '../components/genome';
+import GametePenView from '../components/gamete-pen';
 import ButtonView from '../components/button';
 import PenView from '../components/pen';
 import GameteImageView from '../components/gamete-image';
@@ -163,8 +164,12 @@ var animationEvents = {
         chromosomeDisplayStyle = {};
 
         // show gamete formation animation for gamete selection challenges
-        if (_this && (_this.props.interactionType === 'select-gametes'))
-          animationEvents.randomizeChromosomes.animate();
+        if (_this) {
+          if (_this.props.interactionType === 'select-gametes')
+            animationEvents.randomizeChromosomes.animate();
+          else
+            _this.setState({ animation: "complete", isIntroComplete: true });
+        }
       }
     }
   },
@@ -299,8 +304,10 @@ var animationEvents = {
           }
           else if (stage.selected) {
             if (Array.isArray(stage.selected)) {
-              selectGameteChromosomes(BioLogica.MALE, stage.speed, stage.selected[BioLogica.MALE]);
-              selectGameteChromosomes(BioLogica.FEMALE, stage.speed, stage.selected[BioLogica.FEMALE]);
+              const fatherGamete = stage.selected[BioLogica.MALE],
+                    motherGamete = stage.selected[BioLogica.FEMALE];
+              selectGameteChromosomes(BioLogica.MALE, stage.speed, fatherGamete);
+              selectGameteChromosomes(BioLogica.FEMALE, stage.speed, motherGamete);
             }
             else {
               selectGameteChromosomes(stage.sex, stage.speed, stage.selected);
@@ -328,7 +335,7 @@ var animationEvents = {
           }
         }
         else if (stage.type === 'complete') {
-          if (_this) _this.setState({ animatingGametes: null });
+          if (_this) _this.setState({ isIntroComplete: true, animatingGametes: null });
           resetAnimationEvents();
         }
       }
@@ -393,18 +400,23 @@ var animationEvents = {
       }
     }
   },
-  moveGameteToPool: { id: 4, complete: false, ready: false,
+  moveGameteToPool: { id: 4, sexes: [], complete: false, ready: false,
     animate: function(sex, speed, onFinish) {
       const gameteComponent = sex === BioLogica.MALE ? animatedSpermView : animatedOvumView,
             srcGameteBounds = sex === BioLogica.MALE ? spermTarget : ovumTarget,
-            dstGameteBounds = { top: 650,
-                                left: sex === BioLogica.MALE ? 1100 : 200,
+            gametePoolId = sex === BioLogica.MALE ? 'father-gamete-pen' : 'mother-gamete-pen',
+            gametePoolElt = document.getElementById(gametePoolId),
+            gametePoolBounds = gametePoolElt.getBoundingClientRect(),
+            topOffset = sex === BioLogica.MALE ? 16 : 5,
+            dstGameteBounds = { top: gametePoolBounds.top + topOffset,
+                                left: gametePoolBounds.left + 10,
                                 width: srcGameteBounds.width / 2,
                                 height: srcGameteBounds.height / 2 },
             positions = { startPositionRect: srcGameteBounds, startSize: 1.0,
                           targetPositionRect: dstGameteBounds, endSize: 0.6 },
             opacity = { start: 1.0, end: 0.1 };
 
+      animationEvents.moveGameteToPool.sexes.push(sex);
       animationEvents.moveGameteToPool.onFinishCaller = onFinish;
 
       animateMultipleComponents([gameteComponent],
@@ -412,10 +424,17 @@ var animationEvents = {
                                 opacity, speed,
                                 animationEvents.moveGameteToPool.id,
                                 animationEvents.moveGameteToPool.onFinish);
-      if (_this) _this.setState({ animation: 'moveGameteToPool' });
+      _this.setState({ animation: 'moveGameteToPool' });
     },
     onFinish: function() {
       animatedComponents = [];
+      if (_this && animationEvents.moveGameteToPool.sexes) {
+        animationEvents.moveGameteToPool.sexes.forEach((sex) => {
+          const gamete = _this.props.gametes[sex];
+          _this.props.onAddGametesToPool(sex, [gamete]);
+        });
+      }
+      animationEvents.moveGameteToPool.sexes = [];
       animationEvents.moveGameteToPool.onFinishCaller(animationEvents.moveGameteToPool.id);
     }
   },
@@ -435,9 +454,11 @@ var animationEvents = {
       if (_this) _this.setState({animation:"selectChromosome"});
     },
     onFinish: function() {
-      if ((--animationEvents.selectChromosome.activeCount === 0) &&
-          animationEvents.selectChromosome.onFinishCaller) {
-        animationEvents.selectChromosome.onFinishCaller(animationEvents.selectChromosome.id);
+      if (--animationEvents.selectChromosome.activeCount === 0) {
+        if (animationEvents.selectChromosome.onFinishCaller)
+          animationEvents.selectChromosome.onFinishCaller(animationEvents.selectChromosome.id);
+        else
+          animatedComponents = [];
       }
     }
   },
@@ -546,11 +567,14 @@ function showStaticGametes(show) {
 
 export default class EggGame extends Component {
 
-  state = {}
+  state = {
+    isIntroComplete: false
+  }
 
   componentWillMount() {
     challengeDidChange = true;
     resetAnimationEvents(false, this.props.showUserDrake);
+    animatedComponents = [];
   }
 
   componentWillReceiveProps(nextProps) {
@@ -558,19 +582,23 @@ export default class EggGame extends Component {
             trial: prevTrial, gametes: prevGametes } = this.props,
           { case: nextCase, challenge: nextChallenge,
             trial: nextTrial, gametes: nextGametes,
-            showUserDrake, onResetGametes } = nextProps,
+            showUserDrake, onResetGametes, onResetGametePools } = nextProps,
           newChallenge = (prevCase !== nextCase) || (prevChallenge !== nextChallenge),
           newTrialInChallenge = !newChallenge && (prevTrial !== nextTrial),
           gametesReset = !areGametesEmpty(prevGametes) && areGametesEmpty(nextGametes);
     if (newChallenge || newTrialInChallenge || gametesReset) {
       if (newChallenge) {
         challengeDidChange = true;
+        this.setState({ animatingGametes: null, animation: "complete", isIntroComplete: false });
       }
+      animatedComponents = [];
       resetAnimationEvents(!challengeDidChange, showUserDrake);
       if (newTrialInChallenge && onResetGametes) {
         onResetGametes();
         showStaticGametes(true);
       }
+      if (onResetGametePools)
+        onResetGametePools();
     }
   }
 
@@ -578,14 +606,43 @@ export default class EggGame extends Component {
     this.selectChromosomes(org.sex, 'fast', [{name, side, elt }]);
   }
 
+  activeSelectionAnimations = 0;
+
   selectChromosomes(sex, speed, chromEntries, onFinish) {
     if (animationEvents.selectChromosome.ready) {
       if (!onFinish) {
+        // animating gametes include just-selected chromosomes
+        let   animatingGametes = (this.state.animatingGametes || this.props.gametes.asMutable())
+                                  .map((gamete, index) => {
+                                    let animGamete = assign({}, gamete);
+                                    if (index === sex) {
+                                      chromEntries.forEach(entry => {
+                                        animGamete[entry.name] = entry.side;
+                                      });
+                                    }
+                                    return animGamete;
+                                  });
+        // selected gametes don't include just-selected chromosomes (no labels)
+        // until the animation completes.
+        animatingGametes.push(this.props.gametes[0].asMutable(), clone(this.props.gametes[1].asMutable()));
+        ++this.activeSelectionAnimations;
+        this.setState({ animatingGametes });
+        // delay selection of chromosome until animation arrives
         setTimeout(() => {
           chromEntries.forEach((entry) => {
             this.props.onGameteChromosomeAdded(sex, entry.name, entry.side);
           });
-        }, 500);
+
+          let animatingGametes = this.state.animatingGametes;
+          if (--this.activeSelectionAnimations === 0) {
+            animatingGametes = null;
+          }
+          else {
+            animatingGametes[2] = clone(this.props.gametes[0]);
+            animatingGametes[3] = clone(this.props.gametes[1]);
+          }
+          this.setState({ animatingGametes });
+        }, 1000);
       }
 
       chromEntries.forEach((entry) => {
@@ -598,10 +655,10 @@ export default class EggGame extends Component {
   }
 
   render() {
-    const { challengeType, interactionType, instructions, showUserDrake, trial, drakes, gametes,
+    const { challengeType, interactionType, instructions, showUserDrake, trial, drakes, gametes, gametePools,
             hiddenAlleles, userDrakeHidden, onChromosomeAlleleChange, 
             onFertilize, onHatch, onResetGametes, onKeepOffspring, onDrakeSubmission } = this.props,
-          { animatingGametes } = this.state,
+          { isIntroComplete, animatingGametes } = this.state,
           firstTargetDrakeIndex = 3, // 0: mother, 1: father, 2: child, 3-5: targets
           targetDrake = drakes[firstTargetDrakeIndex + trial],
           isCreationChallenge = challengeType === 'create-unique',
@@ -794,14 +851,28 @@ export default class EggGame extends Component {
     let [,,,...keptDrakes] = drakes;
     keptDrakes = keptDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
 
-    if (isCreationChallenge) {
+    if (isCreationChallenge && isIntroComplete) {
       penView = <div className='columns bottom'>
                   <PenView orgs={ keptDrakes } width={500} columns={5} rows={1} tightenRows={20}/>
                 </div>;
     }
 
     const parentGenomeClass = classNames('parent', challengeClasses),
-          childGenomeClass = classNames('child', challengeClasses);
+          childGenomeClass = classNames('child', challengeClasses),
+          motherGametes = (gametePools && gametePools[1]) || [],
+          fatherGametes = (gametePools && gametePools[0]) || [],
+          motherGametePen = isSelectingGametes
+                              ? <GametePenView
+                                  id='mother-gamete-pen' sex={BioLogica.FEMALE}
+                                  gametes={motherGametes} gameteSize={0.6}
+                                  width='80%' columns={8} rows={1} tightenColumns={60} />
+                              : null,
+          fatherGametePen = isSelectingGametes
+                              ? <GametePenView
+                                  id='father-gamete-pen' sex={BioLogica.MALE}
+                                  gametes={fatherGametes} gameteSize={0.6}
+                                  width='80%' columns={8} rows={1} tightenColumns={60} />
+                              : null;
     return (
       <div id="egg-game">
         {instructionsBanner}
@@ -813,6 +884,7 @@ export default class EggGame extends Component {
                         onAlleleChange={ handleAlleleChange } onChromosomeSelected={this.handleChromosomeSelected}
                         editable={false} hiddenAlleles= { hiddenAlleles } small={ true }
                         selectedChromosomes={ motherSelectedChromosomes } />
+            {motherGametePen}
           </div>
           <div className='egg column'>
             { targetDrakeSection }
@@ -843,6 +915,7 @@ export default class EggGame extends Component {
                         onAlleleChange={ handleAlleleChange } onChromosomeSelected={this.handleChromosomeSelected}
                         editable={false} hiddenAlleles= { hiddenAlleles } small={ true }
                         selectedChromosomes={ fatherSelectedChromosomes } />
+            {fatherGametePen}
           </div>
         </div>
         {penView}
@@ -910,10 +983,12 @@ export default class EggGame extends Component {
     trial: PropTypes.number.isRequired,
     drakes: PropTypes.array.isRequired,
     gametes: PropTypes.array.isRequired,
+    gametePools: PropTypes.array,
     hiddenAlleles: PropTypes.array.isRequired,
     userDrakeHidden: PropTypes.bool,
     onChromosomeAlleleChange: PropTypes.func.isRequired,
     onGameteChromosomeAdded: PropTypes.func.isRequired,
+    onAddGametesToPool: PropTypes.func.isRequired,
     onFertilize: PropTypes.func.isRequired,
     onHatch: PropTypes.func,
     onResetGametes: PropTypes.func,
@@ -922,26 +997,24 @@ export default class EggGame extends Component {
   }
 
   static authoredDrakesToDrakeArray = function(authoredChallenge, trial) {
-    const motherDrake = authoredChallenge.mother,
-          fatherDrake = authoredChallenge.father;
+    const mother = new BioLogica.Organism(BioLogica.Species.Drake,
+                                          authoredChallenge.mother.alleles,
+                                          authoredChallenge.mother.sex),
+          father = new BioLogica.Organism(BioLogica.Species.Drake,
+                                          authoredChallenge.father.alleles,
+                                          authoredChallenge.father.sex),
+          // authored specs may be incomplete; these are complete specs
+          motherSpec = { alleles: mother.getAlleleString(), sex: mother.sex },
+          fatherSpec = { alleles: father.getAlleleString(), sex: father.sex };
     if (authoredChallenge.challengeType === 'create-unique')
-      return [motherDrake, fatherDrake];
+      return [motherSpec, fatherSpec];
 
     // already generated drakes
     if (trial > 0)
       return authoredDrakes;
 
     // challengeType === 'match-target'
-    const mother = new BioLogica.Organism(BioLogica.Species.Drake,
-                                          motherDrake.alleles,
-                                          motherDrake.sex),
-          father = new BioLogica.Organism(BioLogica.Species.Drake,
-                                          fatherDrake.alleles,
-                                          fatherDrake.sex),
-          // authored specs may be incomplete; these are complete specs
-          motherSpec = { alleles: mother.getAlleleString(), sex: mother.sex },
-          fatherSpec = { alleles: father.getAlleleString(), sex: father.sex },
-          targetDrakeCount = authoredChallenge.targetDrakes.length;
+    const targetDrakeCount = authoredChallenge.targetDrakes.length;
 
     function childDrakesContain(alleles) {
       for (let i = 3; i < authoredDrakes.length; ++i) {

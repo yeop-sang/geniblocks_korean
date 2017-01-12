@@ -2,13 +2,16 @@ import React, {PropTypes} from 'react';
 
 import ChromosomeImageView from './chromosome-image';
 
-const GameteImageView = ({isEgg, chromosomes=[], className, displayStyle}) => {
+const GameteImageView = ({isEgg, chromosomes=[], id, className, style, displayStyle}) => {
 
-  //let imageScale = 1.0;
-  let imageWidth = 150;
-  let imageHeight = 90;
+  const defaultImageWidth = 150,
+        defaultImageHeight = 90,
+        scale = displayStyle && (displayStyle.size != null) ? displayStyle.size : 1.0,
+        imageWidth = defaultImageWidth * scale,
+        imageHeight = defaultImageHeight * scale;
 
-  let containerStyle = {
+  const containerStyle = {
+    position: "relative",
     width: imageWidth + "px",
     height: imageHeight + "px"
   };
@@ -16,15 +19,6 @@ const GameteImageView = ({isEgg, chromosomes=[], className, displayStyle}) => {
   if (displayStyle != null){
     containerStyle.display = displayStyle.display;
   }
-
-  if (displayStyle.size != null){
-    // scale the parent div
-    containerStyle.width = (imageWidth * displayStyle.size)  + "px";
-    containerStyle.height = (imageHeight * displayStyle.size) + "px";
-    // for scaling the svg directly:
-    //imageScale = displayStyle.size;
-  }
-  containerStyle.position = "relative";
 
   let currentScale = {
                        //transform: `scale(${imageScale})`,
@@ -57,10 +51,10 @@ const GameteImageView = ({isEgg, chromosomes=[], className, displayStyle}) => {
   };
 
   return (
-    <div className={className}>
+    <div id={id} className={className} style={style}>
       <div style={containerStyle}>
         <div style={chromosomeStyle}>
-        { chromosomeImages }
+          { chromosomeImages }
         </div>
         { gameteImage }
       </div>
@@ -103,8 +97,13 @@ function getSpermImage(scale) {
 GameteImageView.propTypes = {
   isEgg: PropTypes.bool.isRequired,
   chromosomes: PropTypes.array,
+  id: PropTypes.string,
   className: PropTypes.string,
-  displayStyle: PropTypes.object
+  style: PropTypes.object,
+  displayStyle: PropTypes.shape({
+    display: PropTypes.string,
+    size: PropTypes.number
+  })
 };
 
 export default GameteImageView;

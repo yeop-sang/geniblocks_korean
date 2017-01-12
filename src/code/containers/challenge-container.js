@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import templates from '../templates';
-import { changeAllele, changeSex, submitDrake, resetGametes,
+import { changeAllele, changeSex, submitDrake, resetGametes, resetGametePools,
         navigateToCurrentRoute, navigateToChallenge, navigateToNextChallenge,
-        addGameteChromosome, keepOffspring, fertilize, hatch, completeChallenge,
+        addGameteChromosome, addGametesToPool, keepOffspring, fertilize, hatch, completeChallenge,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket } from '../actions';
 
 function hasChangedRouteParams(props) {
@@ -67,6 +67,7 @@ function mapStateToProps (state) {
       showUserDrake: state.showUserDrake,
       drakes: state.drakes,
       gametes: state.gametes,
+      gametePools: state.gametePools,
       hiddenAlleles: state.hiddenAlleles.asMutable(),
       baskets: state.baskets,
       trial: state.trial,
@@ -92,9 +93,11 @@ function mapDispatchToProps(dispatch) {
     navigateToChallenge: (_case, challenge) => dispatch(navigateToChallenge(_case, challenge)),
     navigateToCurrentRoute: (_case, challenge) => dispatch(navigateToCurrentRoute(_case, challenge)),
     onGameteChromosomeAdded: (index, name, side) => dispatch(addGameteChromosome(index, name, side)),
+    onAddGametesToPool: (index, gametes) => dispatch(addGametesToPool(index, gametes)),
     onFertilize: (gamete1, gamete2) => dispatch(fertilize(gamete1, gamete2)),
     onHatch: () => dispatch(hatch()),
     onResetGametes: () => dispatch(resetGametes()),
+    onResetGametePools: () => dispatch(resetGametePools()),
     onKeepOffspring: (index, success, maxDrakes) => dispatch(keepOffspring(index, success, maxDrakes)),
     onChangeBasketSelection: (selectedIndices) => dispatch(changeBasketSelection(selectedIndices)),
     onChangeDrakeSelection: (selectedIndices) => dispatch(changeDrakeSelection(selectedIndices)),

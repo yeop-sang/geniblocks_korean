@@ -1,3 +1,5 @@
+import { cloneDeep } from 'lodash';
+
 export const actionTypes = {
   SESSION_STARTED: "Session started",
   AUTHORING_CHANGED: "Authoring changed",
@@ -8,6 +10,7 @@ export const actionTypes = {
   ALLELE_CHANGED: "Allele changed",
   SEX_CHANGED: "Sex changed",
   GAMETE_CHROMOSOME_ADDED: "Gamete chromosome added",
+  GAMETES_ADDED_TO_POOL: "Gametes added to gamete pool",
   FERTILIZED: "Fertilized",
   HATCHED: "Hatched",
   EGG_SUBMITTED: "Egg submitted",
@@ -18,6 +21,7 @@ export const actionTypes = {
   DRAKE_SELECTION_CHANGED: "Drake selection changed",
   DRAKE_SUBMITTED: "Drake submitted",
   GAMETES_RESET: "Gametes reset",
+  GAMETE_POOLS_RESET: "Gamete pools reset",
   NAVIGATED_NEXT_CHALLENGE: "Navigated to next challenge",
   NAVIGATED_PAGE: "Navigated to another page",
   MODAL_DIALOG_SHOWN: "Modal dialog shown",
@@ -39,6 +43,7 @@ const ITS_ACTIONS = {
   STARTED: "STARTED",
   NAVIGATED: "NAVIGATED",
   ADVANCED: "ADVANCED",
+  ADDED: "ADDED",
   CHANGED: "CHANGED",
   CHANGED_SELECTION: "CHANGED_SELECTION",
   SUBMITTED: "SUBMITTED",
@@ -52,6 +57,7 @@ const ITS_TARGETS = {
   CHALLENGE: "CHALLENGE",
   TRIAL: "TRIAL",
   ALLELE: "ALLELE",
+  GAMETE: "GAMETE",
   SEX: "SEX",
   EGG: "EGG",
   BASKET: "BASKET",
@@ -603,6 +609,22 @@ export function addGameteChromosome(index, name, side) {
   };
 }
 
+export function addGametesToPool(index, gametes) {
+  return {
+    type: actionTypes.GAMETES_ADDED_TO_POOL,
+    index,
+    gametes: cloneDeep(gametes),
+    meta: {
+      logTemplateState: true,
+      itsLog: {
+        actor: ITS_ACTORS.SYSTEM,
+        action: ITS_ACTIONS.ADDED,
+        target: ITS_TARGETS.GAMETE
+      }
+    }
+  };
+}
+
 export function fertilize(gamete1, gamete2) {
   return {
     type: actionTypes.FERTILIZED,
@@ -654,5 +676,11 @@ export function keepOffspring(index, success, maxDrakes) {
 export function resetGametes() {
   return {
     type: actionTypes.GAMETES_RESET
+  };
+}
+
+export function resetGametePools() {
+  return {
+    type: actionTypes.GAMETE_POOLS_RESET
   };
 }
