@@ -13,6 +13,12 @@ import ChromosomeImageView from '../components/chromosome-image';
 import TimerSet from '../utilities/timer-set';
 import t from '../utilities/translate';
 
+// debugging options to shorten animation/randomization for debugging purposes
+// IMPORTANT: remember to set these back to their defaults (e.g. false, false, 0) before committing
+const debugSkipIntroGameteAnimation = false,  // set to true to skip intro gamete animation
+      debugSkipRandomGameteAnimation = false, // set to true to skip randomized gamete animation
+      debugTotalGameteCount = 0;              // non-zero value stops randomization after # gametes
+
 function animatedChromosomeImageHOC(WrappedComponent) {
   return class extends Component {
     static propTypes = {
@@ -110,11 +116,19 @@ var animationEvents = {
 
       // hide the static gametes while the animated gametes are visible
       showStaticGametes(false);
-      animateMultipleComponents([animatedOvumView, animatedSpermView], 
-                                [motherPositions, fatherPositions],
-                                opacity, 'fast',
-                                animationEvents.showGametes.id,
-                                animationEvents.showGametes.onFinish);
+
+      if (!debugSkipIntroGameteAnimation) {
+        animateMultipleComponents([animatedOvumView, animatedSpermView], 
+                                  [motherPositions, fatherPositions],
+                                  opacity, 'fast',
+                                  animationEvents.showGametes.id,
+                                  animationEvents.showGametes.onFinish);
+      }
+      else {
+        animationEvents.showGametes.onFinish(animationEvents.showGametes.id);
+        animationEvents.showGametes.onFinish(animationEvents.showGametes.id);
+      }
+
       if (_this) _this.setState({animation:"showGametes"});
     },
     onFinish: function() {
@@ -147,11 +161,18 @@ var animationEvents = {
         end: 1.0
       };
 
-      animateMultipleComponents([animatedOvumView, animatedSpermView],
-                                [motherPositions, fatherPositions],
-                                opacity, 'fast',
-                                animationEvents.moveGametes.id,
-                                animationEvents.moveGametes.onFinish);
+      if (!debugSkipIntroGameteAnimation) {
+        animateMultipleComponents([animatedOvumView, animatedSpermView],
+                                  [motherPositions, fatherPositions],
+                                  opacity, 'fast',
+                                  animationEvents.moveGametes.id,
+                                  animationEvents.moveGametes.onFinish);
+      }
+      else {
+        animationEvents.moveGametes.onFinish(animationEvents.moveGametes.id);
+        animationEvents.moveGametes.onFinish(animationEvents.moveGametes.id);
+      }
+
       if (_this) _this.setState({animation:"moveGametes"});
     },
     onFinish: function() {
@@ -222,16 +243,19 @@ var animationEvents = {
         addChromAnimStage(BioLogica.MALE, 'fast', 'XY', ['x', 'y']);
         addGameteAnimStage(BioLogica.MALE, 'fast');
 
-        // randomize mother's chromosomes simultaneously
-        addGenomeAnimStage(BioLogica.FEMALE, 'noWobble');
-        addGameteAnimStage(BioLogica.FEMALE, 'noWobble');
+        if (debugTotalGameteCount !== 1) {
+          // randomize mother's chromosomes simultaneously
+          addGenomeAnimStage(BioLogica.FEMALE, 'noWobble');
+          addGameteAnimStage(BioLogica.FEMALE, 'noWobble');
 
-        // randomize father's chromosomes simultaneously
-        addGenomeAnimStage(BioLogica.MALE, 'noWobble');
-        addGameteAnimStage(BioLogica.MALE, 'noWobble');
+          // randomize father's chromosomes simultaneously
+          addGenomeAnimStage(BioLogica.MALE, 'noWobble');
+          addGameteAnimStage(BioLogica.MALE, 'noWobble');
+        }
 
         // randomize the remaining gametes for both parents simultaneously
-        let fullCycleCount = 6;
+        const totalGameteCount = debugTotalGameteCount || 8,
+              fullCycleCount = totalGameteCount - 2;
         for (let i = 0; i < fullCycleCount; ++i) {
           addGenomeAnimStage(BOTH_SEXES, 'noWobble');
           addGameteAnimStage(BOTH_SEXES, 'noWobble');
@@ -370,9 +394,16 @@ var animationEvents = {
                         targetPositionRect: getDstChromBounds(i), endSize: 0.2 });
         ++animationEvents.moveChromosomesToGamete.activeCount;
       }
-      animateMultipleComponents(components, positions, opacity, speed,
-                                animationEvents.moveChromosomesToGamete.id,
-                                animationEvents.moveChromosomesToGamete.onFinish);
+      if (!debugSkipRandomGameteAnimation) {
+        animateMultipleComponents(components, positions, opacity, speed,
+                                  animationEvents.moveChromosomesToGamete.id,
+                                  animationEvents.moveChromosomesToGamete.onFinish);
+      }
+      else {
+        for (let i = animationEvents.moveChromosomesToGamete.activeCount; i >= 0; --i) {
+          animationEvents.moveChromosomesToGamete.onFinish(animationEvents.moveChromosomesToGamete.id);
+        }
+      }
       if (_this) {
         _this.setState({ animation: 'moveChromosomesToGamete',
                           animatingGametes: [{}, {}, {}, {}] });
@@ -409,11 +440,16 @@ var animationEvents = {
       animationEvents.moveGameteToPool.sexes.push(sex);
       animationEvents.moveGameteToPool.onFinishCaller = onFinish;
 
-      animateMultipleComponents([gameteComponent],
-                                [positions],
-                                opacity, speed,
-                                animationEvents.moveGameteToPool.id,
-                                animationEvents.moveGameteToPool.onFinish);
+      if (!debugSkipRandomGameteAnimation) {
+        animateMultipleComponents([gameteComponent],
+                                  [positions],
+                                  opacity, speed,
+                                  animationEvents.moveGameteToPool.id,
+                                  animationEvents.moveGameteToPool.onFinish);
+      }
+      else {
+        animationEvents.moveGameteToPool.onFinish(animationEvents.moveGameteToPool.id);
+      }
       _this.setState({ animation: 'moveGameteToPool' });
     },
     onFinish: function() {
