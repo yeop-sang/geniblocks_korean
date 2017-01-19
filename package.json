@@ -80,7 +80,7 @@
     "build": "gulp clean-and-build",
     "build:watch": "gulp",
     "clean": "gulp clean",
-    "predeploy": "npm run lint && npm test",
+    "predeploy": "npm run test",
     "deploy": "gulp deploy",
     "env": "env",
     "lint": "eslint examples gv2 src test",
