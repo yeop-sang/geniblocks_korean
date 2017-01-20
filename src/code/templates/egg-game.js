@@ -600,6 +600,7 @@ export default class EggGame extends Component {
   }
 
   componentWillMount() {
+    _this = this;
     challengeDidChange = true;
     resetAnimationEvents(false, this.props.showUserDrake);
     animatedComponents = [];
@@ -889,17 +890,39 @@ export default class EggGame extends Component {
     const parentGenomeClass = classNames('parent', challengeClasses),
           childGenomeClass = classNames('child', challengeClasses),
           motherGametes = (gametePools && gametePools[1]) || [],
-          fatherGametes = (gametePools && gametePools[0]) || [],
-          motherGametePen = isSelectingGametes
-                              ? <GametePenView
-                                  id='mother-gamete-pen' sex={BioLogica.FEMALE}
-                                  gametes={motherGametes} gameteSize={0.6} rows={1} columns={8}/>
-                              : null,
-          fatherGametePen = isSelectingGametes
-                              ? <GametePenView
-                                  id='father-gamete-pen' sex={BioLogica.MALE}
-                                  gametes={fatherGametes} gameteSize={0.6} rows={1} columns={8}/>
-                              : null;
+          fatherGametes = (gametePools && gametePools[0]) || [];
+
+    function parentGenomeView(sex) {
+      const uniqueProps = sex === BioLogica.FEMALE
+                              ? { orgName: 'mother', org: mother,
+                                  selectedChromosomes: motherSelectedChromosomes }
+                              : { orgName: 'father', org: father,
+                                  selectedChromosomes: fatherSelectedChromosomes };
+      return <GenomeView className={parentGenomeClass}  {...uniqueProps}
+                        small={ true } editable={false} hiddenAlleles={ hiddenAlleles } 
+                        onAlleleChange={ handleAlleleChange }
+                        onChromosomeSelected={_this.handleChromosomeSelected} />;
+    }
+
+    function parentHalfGenomeView(sex) {
+      const uniqueProps = sex === BioLogica.FEMALE
+                              ? { orgName: 'targetmother', chromosomes: femaleGameteChromosomeMap,
+                                  selectedChromosomes: ovumSelected }
+                              : { orgName: 'targetfather', chromosomes: maleGameteChromosomeMap,
+                                  selectedChromosomes: spermSelected };
+      return <GenomeView className={childGenomeClass} species={mother.species} {...uniqueProps}
+                        editable={false} hiddenAlleles={hiddenAlleles}
+                        small={true} displayStyle={chromosomeDisplayStyle} />;
+    }
+
+    function parentGametePen(sex) {
+      if (!isSelectingGametes) return null;
+      const uniqueProps = sex === BioLogica.FEMALE
+                              ? { id: 'mother-gamete-pen', gametes: motherGametes, sex }
+                              : { id: 'father-gamete-pen', gametes: fatherGametes, sex };
+      return <GametePenView {...uniqueProps} gameteSize={0.6} rows={1} columns={8} />;
+    }
+
     return (
       <div id="egg-game">
         {instructionsBanner}
@@ -907,11 +930,8 @@ export default class EggGame extends Component {
           <div className='column'>
             <div className="mother">Mother</div>
             <OrganismView org={ mother } flipped={ true } />
-            <GenomeView className={parentGenomeClass} orgName="mother" org={ mother }
-                        onAlleleChange={ handleAlleleChange } onChromosomeSelected={this.handleChromosomeSelected}
-                        editable={false} hiddenAlleles= { hiddenAlleles } small={ true }
-                        selectedChromosomes={ motherSelectedChromosomes } />
-            {motherGametePen}
+            { parentGenomeView(BioLogica.FEMALE) }
+            { parentGametePen(BioLogica.FEMALE) }
           </div>
           <div className='egg column'>
             { targetDrakeSection }
@@ -921,28 +941,19 @@ export default class EggGame extends Component {
             <div className={ gametesClass }>
               <div className='half-genome half-genome-left' id="mother-gamete-genome">
                 { ovumView }
-                <GenomeView className={childGenomeClass} orgName="targetmother" species={ mother.species }
-                            chromosomes={ femaleGameteChromosomeMap } selectedChromosomes={ ovumSelected }
-                            editable={false} hiddenAlleles={ hiddenAlleles }
-                            small={ true } displayStyle={chromosomeDisplayStyle} />
+                { parentHalfGenomeView(BioLogica.FEMALE) }
               </div>
               <div className='half-genome half-genome-right' id="father-gamete-genome">
                 { spermView }
-                <GenomeView className={childGenomeClass} orgName="targetfather" species={ mother.species } 
-                            chromosomes={ maleGameteChromosomeMap } selectedChromosomes={ spermSelected }
-                            editable={false} hiddenAlleles={ hiddenAlleles }
-                            small={ true } displayStyle={chromosomeDisplayStyle} />
+                { parentHalfGenomeView(BioLogica.MALE) }
               </div>
             </div>
           </div>
           <div className='column'>
             <div className="father">Father</div>
             <OrganismView org={ father } className="father" />
-            <GenomeView className={parentGenomeClass} orgName="father" org={ father }
-                        onAlleleChange={ handleAlleleChange } onChromosomeSelected={this.handleChromosomeSelected}
-                        editable={false} hiddenAlleles= { hiddenAlleles } small={ true }
-                        selectedChromosomes={ fatherSelectedChromosomes } />
-            {fatherGametePen}
+            { parentGenomeView(BioLogica.MALE) }
+            { parentGametePen(BioLogica.MALE) }
           </div>
         </div>
         {penView}
@@ -987,7 +998,6 @@ export default class EggGame extends Component {
   }
 
   componentDidMount() {
-    _this = this;
     this.updateComponentLayout();
   }
 
