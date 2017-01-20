@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { assign, clone } from 'lodash';
+import { assign, clone, cloneDeep } from 'lodash';
 import classNames from 'classnames';
 import OrdinalOrganismView from '../components/ordinal-organism';
 import OrganismView from '../components/organism';
@@ -19,6 +19,30 @@ const debugSkipIntroGameteAnimation = false,  // set to true to skip intro gamet
       debugSkipRandomGameteAnimation = false, // set to true to skip randomized gamete animation
       debugTotalGameteCount = 0;              // non-zero value stops randomization after # gametes
 
+      // Determines (with some random perturbation) the initial time interval in msec for the
+      // slot machine animation. Acceleration (delta) is then applied to this base interval.
+const slotMachineBaseInterval = 30, // msec
+      // The delta applied to the interval on each iteration
+      slotMachineIntervalAcceleration = 15, // msec
+      // # of high-speed iterations before deceleration begins
+      slotMachineInitialIterations = 8,
+      // total duration of slot machine animation
+      slotMachineAnimationDuration = 2500,  // msec
+      // pause after slot machine selection of chromosome before showing selection in half-genome
+      delayStartAutoSelectChromosome = 500, // msec
+      // pause after user selection of chromosome before showing selection in half-genome
+      delayStartUserSelectChromosome = 1000,  // msec
+      // animation speed used for most animations during early animation stages
+      defaultAnimationSpeed = 'fast',
+      // animation speed used for most animations during later animation stages
+      enhancedAnimationSpeed = 'noWobble',
+      // speed of animation of chromosomes from parent genome to half-genome
+      selectChromosomesAnimationSpeed = 'medium',
+      // wait for animating chromosomes to arrive at half-genome before showing selection and labels
+      delayShowSelectedChromosomeLabels = 2000, // msec
+      // pause after animating chromosomes to half-genome before animating to gamete
+      delayStartMoveChromosomesToGamete = 0;  // msec
+      
 function animatedChromosomeImageHOC(WrappedComponent) {
   return class extends Component {
     static propTypes = {
@@ -120,7 +144,7 @@ var animationEvents = {
       if (!debugSkipIntroGameteAnimation) {
         animateMultipleComponents([animatedOvumView, animatedSpermView], 
                                   [motherPositions, fatherPositions],
-                                  opacity, 'fast',
+                                  opacity, defaultAnimationSpeed,
                                   animationEvents.showGametes.id,
                                   animationEvents.showGametes.onFinish);
       }
@@ -164,7 +188,7 @@ var animationEvents = {
       if (!debugSkipIntroGameteAnimation) {
         animateMultipleComponents([animatedOvumView, animatedSpermView],
                                   [motherPositions, fatherPositions],
-                                  opacity, 'fast',
+                                  opacity, defaultAnimationSpeed,
                                   animationEvents.moveGametes.id,
                                   animationEvents.moveGametes.onFinish);
       }
@@ -200,7 +224,7 @@ var animationEvents = {
       let stages = animationEvents.randomizeChromosomes.stages,
           stageIndex = animationEvents.randomizeChromosomes.count,
           // # of high-speed iterations before deceleration begins
-          initialIterations = 8,
+          initialIterations = slotMachineInitialIterations,
           BOTH_SEXES = -1;
 
       // add a stage which randomizes a single chromosome
@@ -232,33 +256,33 @@ var animationEvents = {
 
       if (!stages.length) {
         // randomize mother's chromosomes one at a time
-        addChromAnimStage(BioLogica.FEMALE, 'fast', '1', ['a', 'b']);
-        addChromAnimStage(BioLogica.FEMALE, 'fast', '2', ['a', 'b']);
-        addChromAnimStage(BioLogica.FEMALE, 'fast', 'XY', ['x1', 'x2']);
-        addGameteAnimStage(BioLogica.FEMALE, 'fast');
+        addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, '1', ['a', 'b']);
+        addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, '2', ['a', 'b']);
+        addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, 'XY', ['x1', 'x2']);
+        addGameteAnimStage(BioLogica.FEMALE, defaultAnimationSpeed);
 
         // randomize father's chromosomes one at a time
-        addChromAnimStage(BioLogica.MALE, 'fast', '1', ['a', 'b']);
-        addChromAnimStage(BioLogica.MALE, 'fast', '2', ['a', 'b']);
-        addChromAnimStage(BioLogica.MALE, 'fast', 'XY', ['x', 'y']);
-        addGameteAnimStage(BioLogica.MALE, 'fast');
+        addChromAnimStage(BioLogica.MALE, defaultAnimationSpeed, '1', ['a', 'b']);
+        addChromAnimStage(BioLogica.MALE, defaultAnimationSpeed, '2', ['a', 'b']);
+        addChromAnimStage(BioLogica.MALE, defaultAnimationSpeed, 'XY', ['x', 'y']);
+        addGameteAnimStage(BioLogica.MALE, defaultAnimationSpeed);
 
         if (debugTotalGameteCount !== 1) {
           // randomize mother's chromosomes simultaneously
-          addGenomeAnimStage(BioLogica.FEMALE, 'noWobble');
-          addGameteAnimStage(BioLogica.FEMALE, 'noWobble');
+          addGenomeAnimStage(BioLogica.FEMALE, enhancedAnimationSpeed);
+          addGameteAnimStage(BioLogica.FEMALE, enhancedAnimationSpeed);
 
           // randomize father's chromosomes simultaneously
-          addGenomeAnimStage(BioLogica.MALE, 'noWobble');
-          addGameteAnimStage(BioLogica.MALE, 'noWobble');
+          addGenomeAnimStage(BioLogica.MALE, enhancedAnimationSpeed);
+          addGameteAnimStage(BioLogica.MALE, enhancedAnimationSpeed);
         }
 
         // randomize the remaining gametes for both parents simultaneously
         const totalGameteCount = debugTotalGameteCount || 8,
               fullCycleCount = totalGameteCount - 2;
         for (let i = 0; i < fullCycleCount; ++i) {
-          addGenomeAnimStage(BOTH_SEXES, 'noWobble');
-          addGameteAnimStage(BOTH_SEXES, 'noWobble');
+          addGenomeAnimStage(BOTH_SEXES, enhancedAnimationSpeed);
+          addGameteAnimStage(BOTH_SEXES, enhancedAnimationSpeed);
         }
 
         stages.push({ type: 'complete' });
@@ -266,7 +290,7 @@ var animationEvents = {
 
       function selectStageChromosomes(speed, chroms) {
         if (!_this) return;
-        let animatingGametes = _this.state.animatingGametes || [{}, {}, {}, {}];
+        let animatingGametes = cloneDeep(_this.state.animatingGametes) || [{}, {}, {}, {}];
         chroms.forEach(({ sex, name }) => {
           let gamete = animatingGametes && animatingGametes[sex],
               side = gamete && gamete[name];
@@ -283,7 +307,7 @@ var animationEvents = {
         animatingGametes[2] = clone(animatingGametes[0]);
         animatingGametes[3] = clone(animatingGametes[1]);
         // delay appearance of labels until the chromosomes arrive
-        setTimeout(() => _this.setState({ animatingGametes }), 1000);
+        setTimeout(() => _this.setState({ animatingGametes }), delayShowSelectedChromosomeLabels);
       }
 
       function toggleAnimatingGameteChromosome(sex, chromName, sides) {
@@ -301,8 +325,8 @@ var animationEvents = {
         const timerSet = new TimerSet({ onComplete: function() {
                                           selectStageChromosomes(stage.speed, stage.chroms);
                                         } }),
-              baseInterval = 30,
-              totalDuration = 2500;
+              baseInterval = slotMachineBaseInterval,
+              totalDuration = slotMachineAnimationDuration;
         stage.chroms.forEach(function({ sex, name, sides }) {
           const halfBaseInterval = baseInterval / 2,
                 // initial interval is randomizes so timers aren't synchronized
@@ -315,9 +339,9 @@ var animationEvents = {
           }, { sex, name, sides, initialInterval, totalDuration,
                 // intervals increase with time/iterations to simulate slowing slot machine
                 interval: function(iteration, options) {
-                  var baseInterval = options.baseInterval || 30,
+                  var baseInterval = options.baseInterval || slotMachineBaseInterval,
                       initialInterval = options.initialInterval || baseInterval,
-                      intervalAccel = options.interval.accel || 15,
+                      intervalAccel = options.interval.accel || slotMachineIntervalAcceleration,
                       interval = iteration >= initialIterations
                                   ? baseInterval + (iteration - initialIterations + 1) * intervalAccel
                                   : initialInterval;
@@ -333,16 +357,18 @@ var animationEvents = {
           animateStage(stage);
         }
         else if (stage.type === 'gamete') {
-          if (stage.sex === BOTH_SEXES) {
-            animationEvents.moveChromosomesToGamete.
-              animate(BioLogica.MALE, stage.speed, animationEvents.randomizeChromosomes.onFinish);
-            animationEvents.moveChromosomesToGamete.
-              animate(BioLogica.FEMALE, stage.speed, animationEvents.randomizeChromosomes.onFinish);
-          }
-          else {
-            animationEvents.moveChromosomesToGamete.
-              animate(stage.sex, stage.speed, animationEvents.randomizeChromosomes.onFinish);
-          }
+          setTimeout(function() {
+            if (stage.sex === BOTH_SEXES) {
+              animationEvents.moveChromosomesToGamete.
+                animate(BioLogica.MALE, stage.speed, animationEvents.randomizeChromosomes.onFinish);
+              animationEvents.moveChromosomesToGamete.
+                animate(BioLogica.FEMALE, stage.speed, animationEvents.randomizeChromosomes.onFinish);
+            }
+            else {
+              animationEvents.moveChromosomesToGamete.
+                animate(stage.sex, stage.speed, animationEvents.randomizeChromosomes.onFinish);
+            }
+          }, delayStartMoveChromosomesToGamete);
         }
         else if (stage.type === 'complete') {
           if (_this) _this.setState({ isIntroComplete: true, animatingGametes: null });
@@ -632,14 +658,28 @@ export default class EggGame extends Component {
   }
 
   handleChromosomeSelected = (org, name, side, elt) => {
-    this.selectChromosomes(org.sex, 'fast', [{name, side, elt }]);
+    this.selectChromosomes(org.sex, defaultAnimationSpeed, [{name, side, elt }]);
   }
 
   activeSelectionAnimations = 0;
 
   selectChromosomes(sex, speed, chromEntries, onFinish) {
+    // onFinish is only used by animated auto-selection
+    const isTriggeredByUser = !onFinish;
+
+    function animateChromosomeSelection() {
+      chromEntries.forEach((entry) => {
+        let positions = findBothElements(sex, entry.name, entry.elt);
+        let targetIsY = entry.elt.getElementsByClassName("chromosome-allele-container")[0].id.endsWith('XYy');
+        // animate the chromosomes being added
+        animationEvents.selectChromosome.animate(positions, targetIsY,
+                                                  selectChromosomesAnimationSpeed,
+                                                  onFinish);
+      });
+    }
+
     if (animationEvents.selectChromosome.ready) {
-      if (!onFinish) {
+      if (isTriggeredByUser) {
         // animating gametes include just-selected chromosomes
         let   animatingGametes = (this.state.animatingGametes || this.props.gametes.asMutable())
                                   .map((gamete, index) => {
@@ -671,15 +711,15 @@ export default class EggGame extends Component {
             animatingGametes[3] = clone(this.props.gametes[1]);
           }
           this.setState({ animatingGametes });
-        }, 1000);
-      }
+        }, delayStartUserSelectChromosome);
 
-      chromEntries.forEach((entry) => {
-        let positions = findBothElements(sex, entry.name, entry.elt);
-        let targetIsY = entry.elt.getElementsByClassName("chromosome-allele-container")[0].id.endsWith('XYy');
-        // animate the chromosomes being added
-        animationEvents.selectChromosome.animate(positions, targetIsY, speed, onFinish);
-      });
+        animateChromosomeSelection();
+      }
+      // auto-selection triggered by animation
+      else {
+        // delay the initial animation to allow user to see selection state for a beat
+        setTimeout(animateChromosomeSelection, delayStartAutoSelectChromosome);
+      }
     }
   }
 
