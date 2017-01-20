@@ -428,9 +428,11 @@ var animationEvents = {
             gametePoolId = sex === BioLogica.MALE ? 'father-gamete-pen' : 'mother-gamete-pen',
             gametePoolElt = document.getElementById(gametePoolId),
             gametePoolBounds = gametePoolElt.getBoundingClientRect(),
-            topOffset = sex === BioLogica.MALE ? 16 : 5,
+            gameteCount = _this.props.gametePools[sex].length,
+            topOffset = sex === BioLogica.MALE ? 15 : 3,
+            leftOffset = 3 + 31.125 * gameteCount,
             dstGameteBounds = { top: gametePoolBounds.top + topOffset,
-                                left: gametePoolBounds.left + 10,
+                                left: gametePoolBounds.left + leftOffset,
                                 width: srcGameteBounds.width / 2,
                                 height: srcGameteBounds.height / 2 },
             positions = { startPositionRect: srcGameteBounds, startSize: 1.0,
@@ -891,14 +893,12 @@ export default class EggGame extends Component {
           motherGametePen = isSelectingGametes
                               ? <GametePenView
                                   id='mother-gamete-pen' sex={BioLogica.FEMALE}
-                                  gametes={motherGametes} gameteSize={0.6}
-                                  width='80%' columns={8} rows={1} tightenColumns={60} />
+                                  gametes={motherGametes} gameteSize={0.6} rows={1} columns={8}/>
                               : null,
           fatherGametePen = isSelectingGametes
                               ? <GametePenView
                                   id='father-gamete-pen' sex={BioLogica.MALE}
-                                  gametes={fatherGametes} gameteSize={0.6}
-                                  width='80%' columns={8} rows={1} tightenColumns={60} />
+                                  gametes={fatherGametes} gameteSize={0.6} rows={1} columns={8}/>
                               : null;
     return (
       <div id="egg-game">
