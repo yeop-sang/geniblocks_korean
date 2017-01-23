@@ -12,6 +12,23 @@ function processAuthoredBaskets(authoredChallenge, state) {
   return baskets || state.baskets;
 }
 
+function processAuthoredDrakes(authoredChallenge, trial, template) {
+  // takes authored list of named drakes ("mother", etc) and returns an
+  // array specific for this template
+  const authoredDrakesArray = template.authoredDrakesToDrakeArray(authoredChallenge, trial);
+
+  // turn authored alleles into completely-specified alleleStrings
+  let drakes = authoredDrakesArray.map(function(drakeDef) {
+    if (!drakeDef) return null;
+    let drake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleles, drakeDef.sex);
+    return {
+      alleleString: drake.getAlleleString(),
+      sex: drake.sex
+    };
+  });
+  return drakes;
+}
+
 export function loadStateFromAuthoring(state, authoring, progress={}) {
   let trial = state.trial ? state.trial : 0;
 
@@ -31,18 +48,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
         baskets = processAuthoredBaskets(authoredChallenge, state),
         showUserDrake = (authoredChallenge.showUserDrake != null) ? authoredChallenge.showUserDrake : false,
         trials = authoredChallenge.targetDrakes,
-        authoredDrakesArray = template.authoredDrakesToDrakeArray(authoredChallenge, trial),
-
-        // turn authored alleles into completely-specified alleleStrings
-        // (once we have nested arrays this will need to be tweaked)
-        drakes = authoredDrakesArray.map(function(drakeDef) {
-          if (!drakeDef) return null;
-          let drake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleles, drakeDef.sex);
-          return {
-            alleleString: drake.getAlleleString(),
-            sex: drake.sex
-          };
-        });
+        drakes = processAuthoredDrakes(authoredChallenge, trial, template);
 
   let goalMoves = null;
   if (template.calculateGoalMoves) {
@@ -89,18 +95,7 @@ export function loadNextTrial(state, authoring, progress) {
       template = templates[templateName],
       hiddenAlleles = extractHiddenAlleles(state, authoredChallenge),
       baskets = authoredChallenge.baskets || state.baskets,
-      authoredDrakesArray = template.authoredDrakesToDrakeArray(authoredChallenge, trial),
-
-      // turn authored alleles into completely-specified alleleStrings
-      // (once we have nested arrays this will need to be tweaked)
-      drakes = authoredDrakesArray.map(function(drakeDef) {
-        if (!drakeDef) return null;
-        let drake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleles, drakeDef.sex);
-        return {
-          alleleString: drake.getAlleleString(),
-          sex: drake.sex
-        };
-      });
+      drakes = processAuthoredDrakes(authoredChallenge, trial, template);
 
   let goalMoves = null;
   if (template.calculateGoalMoves) {
