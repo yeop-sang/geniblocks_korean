@@ -17,6 +17,7 @@ import t from '../utilities/translate';
 // IMPORTANT: remember to set these back to their defaults (e.g. false, false, 0) before committing
 const debugSkipIntroGameteAnimation = false,  // set to true to skip intro gamete animation
       debugSkipRandomGameteAnimation = false, // set to true to skip randomized gamete animation
+      debugSkipFirstGameteStage = false,      // set to true to skip the one-by-one animation stage
       debugTotalGameteCount = 0;              // non-zero value stops randomization after # gametes
 
       // Determines (with some random perturbation) the initial time interval in msec for the
@@ -28,6 +29,8 @@ const slotMachineBaseInterval = 30, // msec
       slotMachineInitialIterations = 8,
       // total duration of slot machine animation
       slotMachineAnimationDuration = 2500,  // msec
+      // time from beginning of challenge to initial animation
+      delayStartShowGametesAnimation = 1000,  // msec
       // pause after slot machine selection of chromosome before showing selection in half-genome
       delayStartAutoSelectChromosome = 500, // msec
       // pause after user selection of chromosome before showing selection in half-genome
@@ -41,7 +44,11 @@ const slotMachineBaseInterval = 30, // msec
       // wait for animating chromosomes to arrive at half-genome before showing selection and labels
       delayShowSelectedChromosomeLabels = 2000, // msec
       // pause after animating chromosomes to half-genome before animating to gamete
-      delayStartMoveChromosomesToGamete = 0;  // msec
+      delayStartMoveChromosomesToGamete = 0,  // msec
+      durationFertilizationAnimation = 3000,  // msec
+      durationHatchAnimation = 3000,  // msec
+      // ultimately should be specifiable in authoring
+      authoredTotalGameteCount = 8;
 
 function animatedChromosomeImageHOC(WrappedComponent) {
   return class extends Component {
@@ -234,6 +241,7 @@ var animationEvents = {
           stageIndex = animationEvents.randomizeChromosomes.count,
           // # of high-speed iterations before deceleration begins
           initialIterations = slotMachineInitialIterations,
+          gametesCompleted = 0,
           BOTH_SEXES = -1;
 
       // add a stage which randomizes a single chromosome
@@ -264,19 +272,22 @@ var animationEvents = {
       }
 
       if (!stages.length) {
-        // randomize mother's chromosomes one at a time
-        addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, '1', ['a', 'b']);
-        addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, '2', ['a', 'b']);
-        addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, 'XY', ['x1', 'x2']);
-        addGameteAnimStage(BioLogica.FEMALE, defaultAnimationSpeed);
+        if (!debugSkipFirstGameteStage) {
+          // randomize mother's chromosomes one at a time
+          addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, '1', ['a', 'b']);
+          addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, '2', ['a', 'b']);
+          addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, 'XY', ['x1', 'x2']);
+          addGameteAnimStage(BioLogica.FEMALE, defaultAnimationSpeed);
 
-        // randomize father's chromosomes one at a time
-        addChromAnimStage(BioLogica.MALE, defaultAnimationSpeed, '1', ['a', 'b']);
-        addChromAnimStage(BioLogica.MALE, defaultAnimationSpeed, '2', ['a', 'b']);
-        addChromAnimStage(BioLogica.MALE, defaultAnimationSpeed, 'XY', ['x', 'y']);
-        addGameteAnimStage(BioLogica.MALE, defaultAnimationSpeed);
+          // randomize father's chromosomes one at a time
+          addChromAnimStage(BioLogica.MALE, defaultAnimationSpeed, '1', ['a', 'b']);
+          addChromAnimStage(BioLogica.MALE, defaultAnimationSpeed, '2', ['a', 'b']);
+          addChromAnimStage(BioLogica.MALE, defaultAnimationSpeed, 'XY', ['x', 'y']);
+          addGameteAnimStage(BioLogica.MALE, defaultAnimationSpeed);
+          ++ gametesCompleted;
+        }
 
-        if (debugTotalGameteCount !== 1) {
+        if (!debugTotalGameteCount || (debugTotalGameteCount > gametesCompleted)) {
           // randomize mother's chromosomes simultaneously
           addGenomeAnimStage(BioLogica.FEMALE, enhancedAnimationSpeed);
           addGameteAnimStage(BioLogica.FEMALE, enhancedAnimationSpeed);
@@ -284,11 +295,12 @@ var animationEvents = {
           // randomize father's chromosomes simultaneously
           addGenomeAnimStage(BioLogica.MALE, enhancedAnimationSpeed);
           addGameteAnimStage(BioLogica.MALE, enhancedAnimationSpeed);
+          ++ gametesCompleted;
         }
 
         // randomize the remaining gametes for both parents simultaneously
-        const totalGameteCount = debugTotalGameteCount || 8,
-              fullCycleCount = totalGameteCount - 2;
+        const totalGameteCount = debugTotalGameteCount || authoredTotalGameteCount,
+              fullCycleCount = totalGameteCount - gametesCompleted;
         for (let i = 0; i < fullCycleCount; ++i) {
           addGenomeAnimStage(BOTH_SEXES, enhancedAnimationSpeed);
           addGameteAnimStage(BOTH_SEXES, enhancedAnimationSpeed);
@@ -298,7 +310,6 @@ var animationEvents = {
       }
 
       function selectStageChromosomes(speed, chroms) {
-        if (!_this) return;
         let animatingGametes = cloneDeep(_this.state.animatingGametes) || [{}, {}, {}, {}];
         chroms.forEach(({ sex, name }) => {
           let gamete = animatingGametes && animatingGametes[sex],
@@ -528,7 +539,7 @@ var animationEvents = {
       animationEvents.selectChromosome.ready = false;
       animationEvents.fertilize.started = true;
 
-      _setTimeout(animationEvents.fertilize.onFinish, 3000);
+      _setTimeout(animationEvents.fertilize.onFinish, durationFertilizationAnimation);
     },
     onFinish: function() {
       animationEvents.fertilize.complete = true;
@@ -547,7 +558,7 @@ var animationEvents = {
       animationEvents.hatch.complete = false;
       hatchSoundPlayed = false;
       _this.setState({hatchStarted:"true"});
-      _setTimeout(animationEvents.hatch.onFinish, 3000);
+      _setTimeout(animationEvents.hatch.onFinish, durationHatchAnimation);
     },
     onFinish: function() {
       animationEvents.hatch.complete = true;
@@ -1041,7 +1052,7 @@ export default class EggGame extends Component {
       _setTimeout( () => {
         // first animation - show gametes
         animationEvents.showGametes.animate();
-      }, 1000);
+      }, delayStartShowGametesAnimation);
       challengeDidChange = false;
     }
   }
