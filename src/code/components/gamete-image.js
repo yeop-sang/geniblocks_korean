@@ -2,7 +2,11 @@ import React, {PropTypes} from 'react';
 
 import ChromosomeImageView from './chromosome-image';
 
-const GameteImageView = ({isEgg, chromosomes=[], id, className, style, displayStyle}) => {
+const GameteImageView = ({isEgg, chromosomes=[], id, className, style, displayStyle, onClick}) => {
+
+  function handleClick(evt) {
+    if (onClick) onClick(evt, evt.currentTarget.id);
+  }
 
   const defaultImageWidth = 150,
         defaultImageHeight = 90,
@@ -51,7 +55,7 @@ const GameteImageView = ({isEgg, chromosomes=[], id, className, style, displaySt
   };
 
   return (
-    <div id={id} className={className} style={style}>
+    <div id={id} className={className} style={style} onClick={handleClick}>
       <div style={containerStyle}>
         <div style={chromosomeStyle}>
           { chromosomeImages }
@@ -103,7 +107,8 @@ GameteImageView.propTypes = {
   displayStyle: PropTypes.shape({
     display: PropTypes.string,
     size: PropTypes.number
-  })
+  }),
+  onClick: PropTypes.func
 };
 
 export default GameteImageView;

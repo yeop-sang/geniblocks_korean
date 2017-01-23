@@ -12,10 +12,10 @@ import GameteImageView from './gamete-image';
  */
 const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, containerWidth, containerHeight, rows, columns, tightenRows=0, tightenColumns=0, selectedIndex, onClick}) => {
 
-  function handleClick(id, org) {
-    const prefixIndex = id.indexOf(idPrefix),
-          index = Number(id.substr(prefixIndex + idPrefix.length));
-    if (onClick) onClick(index, id, org);
+  function handleClick(evt, gameteID) {
+    const prefixIndex = gameteID.indexOf(idPrefix),
+          gameteIndex = Number(gameteID.substr(prefixIndex + idPrefix.length));
+    if (onClick) onClick(id, sex, gameteIndex, gameteID, gametes[gameteIndex]);
   }
 
   const availableWidth = containerWidth - 12,

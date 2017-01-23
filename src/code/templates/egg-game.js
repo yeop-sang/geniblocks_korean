@@ -681,6 +681,10 @@ export default class EggGame extends Component {
     this.selectChromosomes(org.sex, defaultAnimationSpeed, [{name, side, elt }]);
   }
 
+  handleGameteSelected = (poolID, sex, gameteIndex, gameteID, /*gamete*/) => {
+    console.log(`handleGameteSelected: poolID: '${poolID}' sex: '${sex}' gameteIndex: '${gameteIndex}', gameteID: '${gameteID}'`);
+  }
+
   activeSelectionAnimations = 0;
 
   selectChromosomes(sex, speed, chromEntries, onFinish) {
@@ -978,9 +982,12 @@ export default class EggGame extends Component {
     function parentGametePen(sex) {
       if (!isSelectingGametes) return null;
       const uniqueProps = sex === BioLogica.FEMALE
-                              ? { id: 'mother-gamete-pen', gametes: motherGametes, sex }
-                              : { id: 'father-gamete-pen', gametes: fatherGametes, sex };
-      return <GametePenView {...uniqueProps} gameteSize={0.6} rows={1} columns={8} />;
+                              ? { id: 'mother-gamete-pen', idPrefix: 'mother-gamete-',
+                                  gametes: motherGametes, sex }
+                              : { id: 'father-gamete-pen', idPrefix: 'father-gamete-',
+                                  gametes: fatherGametes, sex };
+      return <GametePenView {...uniqueProps} gameteSize={0.6} rows={1} columns={8}
+                            onClick={_this.handleGameteSelected} />;
     }
 
     return (
