@@ -1,4 +1,4 @@
-import { actionTypes } from '../actions';
+import actionTypes from '../action-types';
 import templates from '../templates';
 
 //const logManagerUrl  = '//cc-log-manager.herokuapp.com/api/logs';

@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-import { actionTypes } from '../actions';
+import actionTypes from '../action-types';
 
 // array of two arrays, 0: father's gametes, 1: mother's gametes
 const initialState = Immutable([Immutable([]), Immutable([])]);

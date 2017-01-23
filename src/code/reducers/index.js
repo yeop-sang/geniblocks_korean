@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-import { actionTypes } from '../actions';
+import actionTypes from '../action-types';
 import { loadStateFromAuthoring, loadNextTrial } from './helpers/load-state-from-authoring';
 import { updateProgress, setProgressScore } from './helpers/challenge-progress';
 import urlParams from '../utilities/url-params';
