@@ -25,6 +25,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
   if (!template) return state;
 
   const challengeType = authoredChallenge.challengeType,
+        interactionType = authoredChallenge.interactionType,
         instructions = authoredChallenge.instructions,
         hiddenAlleles = extractHiddenAlleles(state, authoredChallenge),
         baskets = processAuthoredBaskets(authoredChallenge, state),
@@ -56,6 +57,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
   return state.merge({
     template: templateName,
     challengeType,
+    interactionType,
     instructions,
     showUserDrake,
     hiddenAlleles,

@@ -61,8 +61,8 @@ const ChromosomeImageView = ({width, height, split=45, color='#FF9999', small=fa
           <circle r={radius} cy={split-radius} cx={halfImageWidth} strokeWidth={strokeWidth} stroke="#000000" fill={color}/>
           <circle r={radius} cy={split+radius} cx={halfImageWidth} strokeWidth={strokeWidth} stroke="#000000" fill={color}/>
           <circle r={radius} cy={height-radius} cx={halfImageWidth} strokeWidth={strokeWidth} stroke="#000000" fill={color}/>
-          <rect height={(split-radius)-(radius+2)} width={width} y={radius+2} x="2" strokeWidth="0" stroke="#000000" fill={color}/>
-          <rect height={(height-radius)-(split+radius)} width={width} y={split+radius} x="2" strokeWidth="0" stroke="#000000" fill={color}/>
+          <rect height={Math.max(0, (split-radius)-(radius+2))} width={width} y={radius+2} x="2" strokeWidth="0" stroke="#000000" fill={color}/>
+          <rect height={Math.max(0, (height-radius)-(split+radius))} width={width} y={split+radius} x="2" strokeWidth="0" stroke="#000000" fill={color}/>
           <line y1={radius+2}     x1="2"       y2={split-radius+2}  x2="2"       strokeLinecap="null" strokeLinejoin="null" strokeWidth={strokeWidth} stroke="#000000" fill="none"/>
           <line y1={radius+2}     x1={width+2} y2={split-radius+2}  x2={width+2} strokeLinecap="null" strokeLinejoin="null" strokeWidth={strokeWidth} stroke="#000000" fill="none"/>
           <line y1={split+radius} x1="2"       y2={height-radius}   x2="2"       strokeLinecap="null" strokeLinejoin="null" strokeWidth={strokeWidth} stroke="#000000" fill="none"/>

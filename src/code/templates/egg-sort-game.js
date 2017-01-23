@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import _ from 'lodash';
+import { isEqual } from 'lodash';
 import compose from 'recompose/compose';
 import renameProp from 'recompose/renameProp';
 import animateSpring from '../hoc/animate-spring';
@@ -291,7 +291,7 @@ export default class EggSortGame extends Component {
   setBasketSelection(selectedIndices) {
     const { onChangeBasketSelection } = this.props,
           currSelectedIndices = this.selectedBaskets();
-    if (!_.isEqual(selectedIndices, currSelectedIndices))
+    if (!isEqual(selectedIndices, currSelectedIndices))
       onChangeBasketSelection(selectedIndices);
   }
 
@@ -305,7 +305,7 @@ export default class EggSortGame extends Component {
     const { onChangeDrakeSelection } = this.props,
           { index: currSelectedIndex } = this.selectedEgg(),
           currSelectedIndices = currSelectedIndex != null ? [currSelectedIndex] : [];
-    if (!_.isEqual(selectedIndices, currSelectedIndices))
+    if (!isEqual(selectedIndices, currSelectedIndices))
       onChangeDrakeSelection(selectedIndices);
   }
 
