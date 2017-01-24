@@ -106,4 +106,58 @@ describe('loading authored state into template', () => {
       expect(nextState.drakes[1].alleleString.indexOf("a:W,b:W") > -1).toBe(true);
     });
   });
+
+  describe('with linked genes', () => {
+    describe('in the GenomeChallenge template', () => {
+      let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles([
+            [
+              {},
+              {
+                "template": "GenomeChallenge",
+                "initialDrake": {
+                  "alleles": "W-w",
+                  "sex": 1
+                },
+                "targetDrakes": [{
+                  "alleles": "W-W",
+                  "sex": 1
+                },
+                {
+                  "alleles": "w-w",
+                  "sex": 1
+                }],
+                "linkedGenes": {
+                  "drakes": [0, 1],
+                  "genes": "tail, horns"
+                }
+              }
+            ]
+          ], ["alleles"]);
+
+      let defaultState = reducer(undefined, {});
+      let initialState = defaultState.merge({
+        case: 0,
+        challenge: 0,
+        authoring: authoring
+      });
+
+      let nextState = reducer(initialState, navigateToChallenge(0, 1));
+
+      it('should create drakes with linked genes', () => {
+        expect(GeneticsUtils.isValidAlleleString(nextState.drakes[0].alleleString)).toBe(true);
+        expect(nextState.drakes[0].alleleString.indexOf("a:W,b:w") > -1).toBe(true);
+
+        expect(GeneticsUtils.isValidAlleleString(nextState.drakes[1].alleleString)).toBe(true);
+        expect(nextState.drakes[1].alleleString.indexOf("a:W,b:W") > -1).toBe(true);
+
+        let drake0Def = nextState.drakes[0],
+            drake0 = new BioLogica.Organism(BioLogica.Species.Drake, drake0Def.alleleString, drake0Def.sex),
+            tailGenotype = drake0.genetics.genotype.getAlleleString(["tail"], drake0.genetics),
+            hornsGenotype = drake0.genetics.genotype.getAlleleString(["horns"], drake0.genetics);
+
+        expect(nextState.drakes[1].alleleString.indexOf(tailGenotype) > -1).toBe(true);
+        expect(nextState.drakes[1].alleleString.indexOf(hornsGenotype) > -1).toBe(true);
+      });
+    });
+  });
 });

@@ -16,13 +16,30 @@ function processAuthoredDrakes(authoredChallenge, trial, template) {
   // takes authored list of named drakes ("mother", etc) and returns an
   // array specific for this template
   const authoredDrakesArray = template.authoredDrakesToDrakeArray(authoredChallenge, trial);
+  let   alleleString = null,
+        linkedGeneDrake = null;
 
   // turn authored alleles into completely-specified alleleStrings
-  let drakes = authoredDrakesArray.map(function(drakeDef) {
+  let drakes = authoredDrakesArray.map(function(drakeDef, i) {
     if (!drakeDef) return null;
     let drake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleles, drakeDef.sex);
+
+    alleleString = drake.getAlleleString();
+    if (authoredChallenge.linkedGenes) {
+      if (i === authoredChallenge.linkedGenes.drakes[0]) {
+        linkedGeneDrake = drake;
+      } else if (authoredChallenge.linkedGenes.drakes.indexOf(i)) {
+        let linkedGenes = authoredChallenge.linkedGenes.genes.split(",").map((g) => g.trim());
+        for (let gene of linkedGenes) {
+          let copyIntoGenes = drake.genetics.genotype.getAlleleString([gene], drake.genetics);
+          let masterGenes = linkedGeneDrake.genetics.genotype.getAlleleString([gene], drake.genetics);
+          alleleString = alleleString.replace(copyIntoGenes, masterGenes);
+        }
+      }
+    }
+
     return {
-      alleleString: drake.getAlleleString(),
+      alleleString: alleleString,
       sex: drake.sex
     };
   });
@@ -89,7 +106,6 @@ export function loadNextTrial(state, authoring, progress) {
     trial = (state.trial < state.trials.length) ? (trial+1) : 1;
   }
 
-  //let challenges = authoring[state.case].length;
   let authoredChallenge = authoring[state.case][state.challenge],
       templateName = state.template,
       template = templates[templateName],
