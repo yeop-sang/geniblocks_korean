@@ -36,7 +36,7 @@ export default function reducer(state = initialState, action) {
       return initialState;
     case GAMETES_ADDED_TO_POOL:
       pools = state.pools.map((pool, index) => {
-                  return index === action.index
+                  return index === action.sex
                           ? pool.concat(action.gametes)
                           : pool;
                 });
@@ -71,10 +71,10 @@ export const motherSelectedGamete = createSelector(
 /*
  * action creators
  */
-export function addGametesToPool(index, gametes) {
+export function addGametesToPool(sex, gametes) {
   return {
     type: GAMETES_ADDED_TO_POOL,
-    index,
+    sex,
     gametes: cloneDeep(gametes),
     meta: {
       logTemplateState: true,

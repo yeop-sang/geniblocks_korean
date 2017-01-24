@@ -10,7 +10,7 @@ import GameteImageView from './gamete-image';
  * @param {number} tightenRows - If given, will shrink the vertical height of the pen by this amount
  *                        per row, crowding the org images as needed.
  */
-const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, containerWidth, containerHeight, rows, columns, tightenRows=0, tightenColumns=0, selectedIndex, selectedColor='#FF6666', onClick}) => {
+const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, showChromosomes=true, containerWidth, containerHeight, rows, columns, tightenRows=0, tightenColumns=0, selectedIndex, selectedColor='#FF6666', onClick}) => {
 
   function handleClick(evt, gameteID) {
     const prefixIndex = gameteID.indexOf(idPrefix),
@@ -61,7 +61,9 @@ const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, co
   let isEgg = sex === BioLogica.FEMALE,
       gameteDefaultDisplayStyle = { size: gameteSize },
       gameteViews = gametes.map((gamete, index) => {
-        const chromosomes = map(gamete, (side, name) => { return { name, side }; }),
+        const chromosomes = showChromosomes
+                              ? map(gamete, (side, name) => { return { name, side }; })
+                              : [],
               className = index === selectedIndex ? 'selected' : '',
               eltStyle = getGameteStyle(index),
               gameteDisplayStyle = assign({}, gameteDefaultDisplayStyle,
@@ -89,6 +91,7 @@ GametePenView.propTypes = {
   containerWidth: PropTypes.number,
   containerHeight: PropTypes.number,
   gameteSize: PropTypes.number,
+  showChromosomes: PropTypes.bool,
   rows: PropTypes.number,
   columns: PropTypes.number,
   tightenColumns: PropTypes.number,
