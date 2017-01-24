@@ -38,6 +38,7 @@
     "redux": "^3.6.0",
     "redux-sounds": "^1.1.1",
     "redux-thunk": "^2.1.0",
+    "reselect": "^2.5.4",
     "seamless-immutable": "^7.0.1",
     "socket.io-client": "^1.4.6",
     "uuid": "^2.0.2"

@@ -10,7 +10,7 @@ import moves from './moves';
 import modalDialog from './modal-dialog';
 import userDrakeHidden from './user-drake-hidden';
 import gametes from './gametes';
-import gametePools from './gamete-pools';
+import parentGametes from '../modules/parent-gametes';
 import drakes from './drakes';
 import baskets from './baskets';
 import notifications from './notifications';
@@ -42,7 +42,7 @@ export default function reducer(state, action) {
     modalDialog: modalDialog(state.modalDialog, action),
     userDrakeHidden: userDrakeHidden(state.userDrakeHidden, action),
     gametes: gametes(state.gametes, action),
-    gametePools: gametePools(state.gametePools, action),
+    parentGametes: parentGametes(state.parentGametes, action),
     drakes: drakes(state.drakes, action),
     baskets: baskets(state.baskets, action),
     notifications: notifications(state.notifications, action)

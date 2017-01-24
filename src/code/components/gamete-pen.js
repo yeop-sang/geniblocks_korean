@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import { map } from 'lodash';
+import { assign, map } from 'lodash';
 import { toClass } from 'recompose';
 import Dimensions from 'react-dimensions';
 import GameteImageView from './gamete-image';
@@ -10,7 +10,7 @@ import GameteImageView from './gamete-image';
  * @param {number} tightenRows - If given, will shrink the vertical height of the pen by this amount
  *                        per row, crowding the org images as needed.
  */
-const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, containerWidth, containerHeight, rows, columns, tightenRows=0, tightenColumns=0, selectedIndex, onClick}) => {
+const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, containerWidth, containerHeight, rows, columns, tightenRows=0, tightenColumns=0, selectedIndex, selectedColor='#FF6666', onClick}) => {
 
   function handleClick(evt, gameteID) {
     const prefixIndex = gameteID.indexOf(idPrefix),
@@ -59,11 +59,13 @@ const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, co
   }
 
   let isEgg = sex === BioLogica.FEMALE,
-      gameteDisplayStyle = { size: gameteSize },
+      gameteDefaultDisplayStyle = { size: gameteSize },
       gameteViews = gametes.map((gamete, index) => {
         const chromosomes = map(gamete, (side, name) => { return { name, side }; }),
               className = index === selectedIndex ? 'selected' : '',
-              eltStyle = getGameteStyle(index);
+              eltStyle = getGameteStyle(index),
+              gameteDisplayStyle = assign({}, gameteDefaultDisplayStyle,
+                                          index === selectedIndex ? { fillColor: selectedColor } : null);
         return <GameteImageView isEgg={isEgg} chromosomes={chromosomes} key={index}
                                 id={idPrefix + index} className={className}
                                 style={eltStyle} displayStyle={gameteDisplayStyle}
@@ -91,8 +93,8 @@ GametePenView.propTypes = {
   columns: PropTypes.number,
   tightenColumns: PropTypes.number,
   tightenRows: PropTypes.number,
-  // SelectedOrganismView: PropTypes.func,
   selectedIndex: PropTypes.number,
+  selectedColor: PropTypes.string,
   onClick: PropTypes.func
 };
 

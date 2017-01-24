@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import templates from '../templates';
-import { changeAllele, changeSex, submitDrake, resetGametes, resetGametePools,
+import { changeAllele, changeSex, submitDrake, resetGametes,
         navigateToCurrentRoute, navigateToChallenge, navigateToNextChallenge,
-        addGameteChromosome, addGametesToPool, keepOffspring, fertilize, hatch, completeChallenge,
+        addGameteChromosome, keepOffspring, fertilize, hatch, completeChallenge,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket } from '../actions';
+import { addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/parent-gametes';
 
 function hasChangedRouteParams(props) {
   const { case: currCase, challenge: currChallenge, routeParams } = props,
@@ -67,7 +68,7 @@ function mapStateToProps (state) {
       showUserDrake: state.showUserDrake,
       drakes: state.drakes,
       gametes: state.gametes,
-      gametePools: state.gametePools,
+      parentGametes: state.parentGametes,
       userChangeableGenes: state.userChangeableGenes,
       visibleGenes: state.visibleGenes,
       hiddenAlleles: state.hiddenAlleles,
@@ -96,6 +97,7 @@ function mapDispatchToProps(dispatch) {
     navigateToCurrentRoute: (_case, challenge) => dispatch(navigateToCurrentRoute(_case, challenge)),
     onGameteChromosomeAdded: (index, name, side) => dispatch(addGameteChromosome(index, name, side)),
     onAddGametesToPool: (index, gametes) => dispatch(addGametesToPool(index, gametes)),
+    onSelectGameteInPool: (sex, index) => dispatch(selectGameteInPool(sex, index)),
     onFertilize: (gamete1, gamete2) => dispatch(fertilize(gamete1, gamete2)),
     onHatch: () => dispatch(hatch()),
     onResetGametes: () => dispatch(resetGametes()),

@@ -1,38 +1,7 @@
-import { cloneDeep } from 'lodash';
 import actionTypes from './action-types';
+import { ITS_ACTORS, ITS_ACTIONS, ITS_TARGETS } from './its-constants';
 
 export { actionTypes };
-
-const ITS_ACTORS = {
-  SYSTEM: "SYSTEM",
-  USER: "USER"
-};
-
-const ITS_ACTIONS = {
-  STARTED: "STARTED",
-  NAVIGATED: "NAVIGATED",
-  ADVANCED: "ADVANCED",
-  ADDED: "ADDED",
-  CHANGED: "CHANGED",
-  CHANGED_SELECTION: "CHANGED_SELECTION",
-  SUBMITTED: "SUBMITTED",
-  ACCEPTED: "ACCEPTED",
-  REJECTED: "REJECTED"
-};
-
-const ITS_TARGETS = {
-  AUTHORING: "AUTHORING",
-  SESSION: "SESSION",
-  CHALLENGE: "CHALLENGE",
-  TRIAL: "TRIAL",
-  ALLELE: "ALLELE",
-  GAMETE: "GAMETE",
-  SEX: "SEX",
-  EGG: "EGG",
-  BASKET: "BASKET",
-  DRAKE: "DRAKE",
-  PAGE: "PAGE"
-};
 
 export function startSession(uuid) {
   return {
@@ -578,22 +547,6 @@ export function addGameteChromosome(index, name, side) {
   };
 }
 
-export function addGametesToPool(index, gametes) {
-  return {
-    type: actionTypes.GAMETES_ADDED_TO_POOL,
-    index,
-    gametes: cloneDeep(gametes),
-    meta: {
-      logTemplateState: true,
-      itsLog: {
-        actor: ITS_ACTORS.SYSTEM,
-        action: ITS_ACTIONS.ADDED,
-        target: ITS_TARGETS.GAMETE
-      }
-    }
-  };
-}
-
 export function fertilize(gamete1, gamete2) {
   return {
     type: actionTypes.FERTILIZED,
@@ -648,8 +601,3 @@ export function resetGametes() {
   };
 }
 
-export function resetGametePools() {
-  return {
-    type: actionTypes.GAMETE_POOLS_RESET
-  };
-}

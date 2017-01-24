@@ -1,0 +1,33 @@
+const actionTypes = {
+  SESSION_STARTED: "Session started",
+  AUTHORING_CHANGED: "Authoring changed",
+  LOADED_CHALLENGE_FROM_AUTHORING: "Loaded challenge from authoring",
+  NAVIGATED: "Navigated",
+  CHALLENGE_COMPLETE: "Challenge completed",
+  BRED: "Bred",
+  ALLELE_CHANGED: "Allele changed",
+  SEX_CHANGED: "Sex changed",
+  GAMETE_CHROMOSOME_ADDED: "Gamete chromosome added",
+  FERTILIZED: "Fertilized",
+  HATCHED: "Hatched",
+  EGG_SUBMITTED: "Egg submitted",
+  EGG_ACCEPTED: "Egg accepted",
+  EGG_REJECTED: "Egg rejected",
+  OFFSPRING_KEPT: "Offspring kept",
+  BASKET_SELECTION_CHANGED: "Basket selection changed",
+  DRAKE_SELECTION_CHANGED: "Drake selection changed",
+  DRAKE_SUBMITTED: "Drake submitted",
+  GAMETES_RESET: "Gametes reset",
+  NAVIGATED_NEXT_CHALLENGE: "Navigated to next challenge",
+  NAVIGATED_PAGE: "Navigated to another page",
+  MODAL_DIALOG_SHOWN: "Modal dialog shown",
+  MODAL_DIALOG_DISMISSED: "Modal dialog dismissed",
+  ADVANCED_TRIAL: "Advanced to next trial",
+  ADVANCED_CHALLENGE: "Advanced to next challenge",
+  GUIDE_CONNECTED: "Guide connected",
+  GUIDE_MESSAGE_RECEIVED: "Guide message received",
+  GUIDE_ALERT_RECEIVED: "Guide alert received",
+  GUIDE_ERRORED: "Guide errored"
+};
+
+export default actionTypes;

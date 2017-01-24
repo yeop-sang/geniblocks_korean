@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { assign, clone, cloneDeep } from 'lodash';
 import classNames from 'classnames';
+import { motherGametePool, fatherGametePool, gametePoolSelector,
+        motherSelectedGameteIndex, fatherSelectedGameteIndex } from '../modules/parent-gametes';
 import OrdinalOrganismView from '../components/ordinal-organism';
 import OrganismView from '../components/organism';
 import GenomeView from '../components/genome';
@@ -472,7 +474,7 @@ var animationEvents = {
             gametePoolId = sex === BioLogica.MALE ? 'father-gamete-pen' : 'mother-gamete-pen',
             gametePoolElt = document.getElementById(gametePoolId),
             gametePoolBounds = gametePoolElt.getBoundingClientRect(),
-            gameteCount = _this.props.gametePools[sex].length,
+            gameteCount = gametePoolSelector(sex)(_this.props.parentGametes).length,
             topOffset = sex === BioLogica.MALE ? 15 : 3,
             leftOffset = 3 + 31.125 * gameteCount,
             dstGameteBounds = { top: gametePoolBounds.top + topOffset,
@@ -681,8 +683,8 @@ export default class EggGame extends Component {
     this.selectChromosomes(org.sex, defaultAnimationSpeed, [{name, side, elt }]);
   }
 
-  handleGameteSelected = (poolID, sex, gameteIndex, gameteID, /*gamete*/) => {
-    console.log(`handleGameteSelected: poolID: '${poolID}' sex: '${sex}' gameteIndex: '${gameteIndex}', gameteID: '${gameteID}'`);
+  handleGameteSelected = (poolID, sex, gameteIndex, /*gameteID, gamete*/) => {
+    this.props.onSelectGameteInPool(sex, gameteIndex);
   }
 
   activeSelectionAnimations = 0;
@@ -748,7 +750,7 @@ export default class EggGame extends Component {
   }
 
   render() {
-    const { challengeType, interactionType, instructions, showUserDrake, trial, drakes, gametes, gametePools,
+    const { challengeType, interactionType, instructions, showUserDrake, trial, drakes, gametes, parentGametes,
             userChangeableGenes, visibleGenes, userDrakeHidden, onChromosomeAlleleChange,
             onFertilize, onHatch, onResetGametes, onKeepOffspring, onDrakeSubmission } = this.props,
           { isIntroComplete, animatingGametes } = this.state,
@@ -953,8 +955,8 @@ export default class EggGame extends Component {
 
     const parentGenomeClass = classNames('parent', challengeClasses),
           childGenomeClass = classNames('child', challengeClasses),
-          motherGametes = (gametePools && gametePools[1]) || [],
-          fatherGametes = (gametePools && gametePools[0]) || [];
+          motherGametes = motherGametePool(parentGametes) || [],
+          fatherGametes = fatherGametePool(parentGametes) || [];
 
     function parentGenomeView(sex) {
       const uniqueProps = sex === BioLogica.FEMALE
@@ -983,11 +985,13 @@ export default class EggGame extends Component {
       if (!isSelectingGametes) return null;
       const uniqueProps = sex === BioLogica.FEMALE
                               ? { id: 'mother-gamete-pen', idPrefix: 'mother-gamete-',
-                                  gametes: motherGametes, sex }
+                                  gametes: motherGametes,
+                                  selectedIndex: motherSelectedGameteIndex(parentGametes) }
                               : { id: 'father-gamete-pen', idPrefix: 'father-gamete-',
-                                  gametes: fatherGametes, sex };
+                                  gametes: fatherGametes,
+                                  selectedIndex: fatherSelectedGameteIndex(parentGametes) };
       return <GametePenView {...uniqueProps} gameteSize={0.6} rows={1} columns={8}
-                            onClick={_this.handleGameteSelected} />;
+                            sex={sex} onClick={_this.handleGameteSelected} />;
     }
 
     return (
@@ -1087,13 +1091,14 @@ export default class EggGame extends Component {
     trial: PropTypes.number.isRequired,
     drakes: PropTypes.array.isRequired,
     gametes: PropTypes.array.isRequired,
-    gametePools: PropTypes.array,
+    parentGametes: PropTypes.object,
     userChangeableGenes: PropTypes.array.isRequired,
     visibleGenes: PropTypes.array.isRequired,
     userDrakeHidden: PropTypes.bool,
     onChromosomeAlleleChange: PropTypes.func.isRequired,
     onGameteChromosomeAdded: PropTypes.func.isRequired,
     onAddGametesToPool: PropTypes.func.isRequired,
+    onSelectGameteInPool: PropTypes.func.isRequired,
     onFertilize: PropTypes.func.isRequired,
     onHatch: PropTypes.func,
     onResetGametes: PropTypes.func,
