@@ -169,6 +169,30 @@ export default class GeneticsUtils {
   }
 
   /**
+   * Filters out hidden alleles, given a list of changeable and visible genes.
+   * Returns array of objects with the allele and the editability
+   *
+   * @param {string[]} alleles - the set of alleles to be filtered
+   * @param {string[]} userChangeableGenes - genes that the user can edit (if the template allows)
+   * @param {string[]} visibleGenes - genes that the user can view (already includes the above list)
+   * @param {BioLogica.species} species - the species that defines the genotype
+   * @return {obj[]} - the filtered alleles, where each is an object with a name and whether it is editable
+   */
+  static filterVisibleAlleles(alleles, userChangeableGenes, visibleGenes, species) {
+    let showAll = userChangeableGenes.length + visibleGenes.length === 0;
+    return alleles.filter(a => {
+      if (showAll) return true;
+
+      const gene = BioLogica.Genetics.getGeneOfAllele(species, a),
+            geneName = gene ? gene.name : null;
+      return userChangeableGenes.indexOf(geneName) > -1 || visibleGenes.indexOf(geneName) > -1;
+    }).map(a => ({
+      allele: a,
+      editable: userChangeableGenes.indexOf(BioLogica.Genetics.getGeneOfAllele(species, a).name) > -1
+    }));
+  }
+
+  /**
    * Compute a map of traits -> traitValues -> traitCounts.
    *
    * @param {BioLogica.Organism[]} organisms - the set of organisms to compute stats for

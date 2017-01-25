@@ -10,7 +10,7 @@ import GeneticsUtils from '../utilities/genetics-utils';
  * chromosome name and side.
  */
 
-const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles = [], small = false, editable = true, selected = false, onAlleleChange, onChromosomeSelected, showLabels = true, showAlleles = false, labelsOnRight = true, orgName, displayStyle = {}}) => {
+const ChromosomeView = ({chromosome, org, chromosomeName, side, userChangeableGenes = [], visibleGenes = [], small = false, editable = true, selected = false, onAlleleChange, onChromosomeSelected, showLabels = true, showAlleles = false, labelsOnRight = true, orgName, displayStyle = {}}) => {
   var containerClass = "items",
       empty = false,
       yChromosome = false,
@@ -22,14 +22,14 @@ const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles = 
 
   if (chromosome) {
     let alleles = chromosome.alleles,
-        visibleAlleles = GeneticsUtils.filterAlleles(alleles, hiddenAlleles, chromosome.species);
+        visibleAlleles = GeneticsUtils.filterVisibleAlleles(alleles, userChangeableGenes, visibleGenes, chromosome.species);
 
     if (showLabels) {
       let labels = visibleAlleles.map(a => {
         return (
-          <GeneLabelView key={a} species={chromosome.species} allele={a} editable={editable}
+          <GeneLabelView key={a.allele} species={chromosome.species} allele={a.allele} editable={editable && a.editable}
           onAlleleChange={function(event) {
-            onAlleleChange(a, event.target.value);
+            onAlleleChange(a.allele, event.target.value);
           }}/>
         );
       });
@@ -48,7 +48,7 @@ const ChromosomeView = ({chromosome, org, chromosomeName, side, hiddenAlleles = 
     if (showAlleles) {
       let alleleSymbols = visibleAlleles.map(a => {
         return (
-          <AlleleView key={a} allele={a} />
+          <AlleleView key={a.allele} allele={a.allele} />
         );
       });
 
@@ -92,7 +92,8 @@ ChromosomeView.propTypes = {
   chromosomeName: PropTypes.string,
   side: PropTypes.string,
   chromosome: PropTypes.object,
-  hiddenAlleles: PropTypes.array,
+  userChangeableGenes: PropTypes.array,
+  visibleGenes: PropTypes.array,
   small: PropTypes.bool,
   editable: PropTypes.bool,
   selected: PropTypes.bool,
