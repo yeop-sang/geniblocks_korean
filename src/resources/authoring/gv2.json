@@ -15,14 +15,18 @@
       "instructions": "Match the target drake!",
       "showUserDrake": true,
       "initialDrake": {
-        "alleles": "T-T, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
+        "alleles": "Bog-, D-, rh-",
         "sex": 1
       },
       "targetDrakes": [{
-        "alleles": "w-, m-m, fl-, hl-, T-T, h-h, C-C, A1-A1, B-B, D-D, rh-rh, Bog-Bog",
+        "alleles": "w-, m-m, fl-, hl-",
         "sex": 1
       }],
-      "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh"
+      "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh",
+      "linkedGenes": {
+        "drakes": [0, 1],
+        "genes": "tail, horns, color, black, dilute, armor, nose, bogbreath"
+      }
     },
     {
       "comment": "*** Case 1: Challenge 3 - Single Drake (User Drake Hidden) ***",
