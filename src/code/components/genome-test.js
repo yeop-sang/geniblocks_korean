@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import ChromosomeImageView from './chromosome-image';
-import GeneticsUtils from '../utilities/genetics-utils';
 
 let TestPulldownView = ({species, gene, selection, onSelectionChange}) => {
       let alleles = gene.alleles,
@@ -29,13 +28,14 @@ let TestPulldownView = ({species, gene, selection, onSelectionChange}) => {
       );
     };
 
-const GenomeTestView = ({org, hiddenAlleles=[], selection={}, onSelectionChange}) => {
-  let pairWrappers = [];
+const GenomeTestView = ({org, userChangeableGenes=[], selection={}, onSelectionChange}) => {
+  let pairWrappers = [],
+      allVisible = userChangeableGenes.length === 0;
   for (let chromosomeName of org.species.chromosomeNames) {
     let chrom = org.genetics.genotype.chromosomes[chromosomeName],
         alleles = chrom[Object.keys(chrom)[0]].alleles,
-        visibleAlleles = GeneticsUtils.filterAlleles(alleles, hiddenAlleles, org.species),
-        genes = visibleAlleles.map(a => BioLogica.Genetics.getGeneOfAllele(org.species, a)),
+        genes = alleles.map(a => BioLogica.Genetics.getGeneOfAllele(org.species, a))
+                        .filter(g => allVisible || userChangeableGenes.indexOf(g.name) > -1),
         pulldowns = genes.map(g => {
           return (
             <TestPulldownView
@@ -76,7 +76,7 @@ TestPulldownView.propTypes = {
 
 GenomeTestView.propTypes = {
   org: PropTypes.object.isRequired,
-  hiddenAlleles: PropTypes.array,
+  userChangeableGenes: PropTypes.array,
   selection: PropTypes.object,
   onSelectionChange: PropTypes.func.isRequired
 };

@@ -7,7 +7,7 @@ import ChromosomeView from './chromosome';
  * Usually defined by passing in a Biologica Organism, but may also be defined by
  * passing in a map of Biologica Chromosomes and a Biologica Species.
  */
-const GenomeView = ({org, className="", chromosomes, species, hiddenAlleles = [], editable=true, showLabels=true, showAlleles=false, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected}) => {
+const GenomeView = ({org, className="", chromosomes, species, userChangeableGenes=[], visibleGenes=[], editable=true, showLabels=true, showAlleles=false, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected}) => {
   let pairWrappers = [];
   if (org) {
     chromosomes = org.genetics.genotype.chromosomes;
@@ -22,7 +22,8 @@ const GenomeView = ({org, className="", chromosomes, species, hiddenAlleles = []
         <ChromosomeView
           chromosome={chromosome}
           key={pairs.length + 1}
-          hiddenAlleles={hiddenAlleles}
+          userChangeableGenes={userChangeableGenes}
+          visibleGenes={visibleGenes}
           labelsOnRight={pairs.length>0 || side==="b"}
           editable={editable}
           selected={selectedChromosomes[chromosomeName] === side}
@@ -59,7 +60,8 @@ GenomeView.propTypes = {
   className: PropTypes.string,
   chromosomes: PropTypes.object,
   species: PropTypes.object,
-  hiddenAlleles: PropTypes.array,
+  userChangeableGenes: PropTypes.array,
+  visibleGenes: PropTypes.array,
   onAlleleChange: PropTypes.func,
   editable: PropTypes.bool,
   showLabels: PropTypes.bool,
