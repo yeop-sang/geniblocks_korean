@@ -18,7 +18,7 @@ export default class FertilizingGameteView extends React.Component {
     gamete: PropTypes.object.isRequired,
     id: PropTypes.number.isRequired,
     fertilizationState: PropTypes.oneOf(['none', 'fertilizing', 'fertilized', 'complete']).isRequired,
-    hiddenAlleles: PropTypes.arrayOf(PropTypes.string),
+    visibleGenes: PropTypes.arrayOf(PropTypes.string),
     srcRect: PropTypes.shape({
       left: PropTypes.number.isRequired,
       top: PropTypes.number.isRequired,
@@ -36,7 +36,7 @@ export default class FertilizingGameteView extends React.Component {
   }
 
   static defaultProps = {
-    hiddenAlleles: [],
+    visibleGenes: [],
     animStiffness: 100
   }
 
@@ -45,7 +45,7 @@ export default class FertilizingGameteView extends React.Component {
   }
 
   render = () => {
-    let {gamete, id, hiddenAlleles, animStiffness, onRest} = this.props,
+    let {gamete, id, visibleGenes, animStiffness, onRest} = this.props,
         xOffset = this.props.srcRect ? this.props.srcRect.left - this.props.dstRect.left : 0,
         yOffset = this.props.srcRect ? this.props.srcRect.top - this.props.dstRect.top : 0,
         xResting = this.props.type === GAMETE_TYPE.FATHER ? RESTING_FATHER_GAMETE_X
@@ -72,7 +72,7 @@ export default class FertilizingGameteView extends React.Component {
     }
 
     return (
-      <AnimatedGameteView gamete={gamete} id={id} hiddenAlleles={hiddenAlleles}
+      <AnimatedGameteView gamete={gamete} id={id} visibleGenes={visibleGenes}
                           initialDisplay={initial} display={tFinal}
                           animStiffness={animStiffness} onRest={onRest} />
     );

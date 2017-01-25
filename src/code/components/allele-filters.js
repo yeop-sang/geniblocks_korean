@@ -1,17 +1,11 @@
 import React, {PropTypes} from 'react';
 
-const AlleleFiltersView = ({species, hiddenAlleles=[], disabledAlleles = [], onFilterChange}) => {
-  let hiddenGenes = new Set,
-      geneInputs = [];
-
-  for (const allele of hiddenAlleles) {
-    const gene = BioLogica.Genetics.getGeneOfAllele(species, allele);
-    if (gene)
-      hiddenGenes.add(gene.name);
-  }
+const AlleleFiltersView = ({species, visibleGenes=[], disabledAlleles=[], onFilterChange}) => {
+  let geneInputs = [],
+      allVisible = visibleGenes.length === 0;
 
   for (const gene in species.geneList) {
-    if (!hiddenGenes.has(gene)) {
+    if (allVisible || visibleGenes.indexOf(gene) > -1) {
       const alleles = species.geneList[gene].alleles,
             alleleItems = alleles.map(allele => {
               const name = species.alleleLabelMap[allele],
@@ -49,7 +43,7 @@ const AlleleFiltersView = ({species, hiddenAlleles=[], disabledAlleles = [], onF
 
 AlleleFiltersView.propTypes = {
   species: PropTypes.object.isRequired,
-  hiddenAlleles: PropTypes.arrayOf(PropTypes.string),
+  visibleGenes: PropTypes.arrayOf(PropTypes.string),
   disabledAlleles: PropTypes.arrayOf(PropTypes.string),
   onFilterChange: PropTypes.func.isRequired
 };

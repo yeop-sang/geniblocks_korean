@@ -13,7 +13,7 @@ describe("<AlleleFilters />", function(){
         geneCount = Object.keys(geneList).length,
         alleleCount = Object.keys(geneList).reduce((sum, g) => sum += geneList[g].alleles.length, 0);
 
-  it("should create appropriate elements when no alleles are hidden or disabled", function() {
+  it("should create appropriate elements when no visible genes are specified", function() {
     const wrapper = shallow(<AlleleFilters species={BioLogica.Species.Drake}
                                           onFilterChange={function() {}}/>),
           checkboxWrapper = wrapper.find('input[type="checkbox"]'),
@@ -23,17 +23,18 @@ describe("<AlleleFilters />", function(){
     assert.lengthOf(checkedWrapper, alleleCount, "correct number of checked alleles");
   });
 
-  it("should create appropriate elements when alleles are hidden and/or disabled", function() {
+  it("should create appropriate elements when visible genes are specified and alleles are disabled", function() {
     const wrapper = shallow(<AlleleFilters species={BioLogica.Species.Drake}
-                                          hiddenAlleles={['T']} disabledAlleles={['A1', 'A2', 'a']}
+                                          visibleGenes={['tail', 'armor']} disabledAlleles={['A1', 'A2']}
                                           onFilterChange={function() {}}/>),
           checkboxWrapper = wrapper.find('input[type="checkbox"]'),
           checkedWrapper = checkboxWrapper.filterWhere(w => w.prop('defaultChecked'));
-    assert.lengthOf(wrapper.find('div.gene-allele-list'), geneCount - 1, "correct number of 'gene-allele-list' elements");
-                                    // -3 for hidden tail alleles
-    assert.lengthOf(checkboxWrapper, alleleCount - 3, "correct number of allele checkboxes");
-                                    // -3 for hidden tail alleles, -3 for disabled armor alleles
-    assert.lengthOf(checkedWrapper, alleleCount - 6, "correct number of checked alleles");
+                                    // just tail and armor
+    assert.lengthOf(wrapper.find('div.gene-allele-list'), 2, "correct number of 'gene-allele-list' elements");
+                                    // 3 tail 3 armor
+    assert.lengthOf(checkboxWrapper, 6, "correct number of allele checkboxes");
+                                    // -2 disabled armor alleles
+    assert.lengthOf(checkedWrapper, 4, "correct number of checked alleles");
   });
 
   it("onFilterChange() should be called when checkboxes are clicked", function() {

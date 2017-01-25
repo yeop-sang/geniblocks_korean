@@ -7,7 +7,7 @@ import GameteView from './gamete';
  *
  * @param {Object} gamete - Biologica gamete (map of chromosome names to chromosomes)
  * @param {number} id - the unique id of this gamete
- * @param {string[]} hiddenAlleles - individual alleles of genes for which all alleles should be hidden
+ * @param {string[]} visibleGenes - genes which should be visible
  * @param {Object} [initialDisplay] - initial display parameters used to represent the gamete
  * @param {number} [initialDisplay.x] - initial location (left) of the gamete
  * @param {number} [initialDisplay.y] - initial location (top) of the gamete
@@ -67,7 +67,7 @@ const AnimatedGameteView = ({id, initialDisplay, display, animStiffness=100, onR
 AnimatedGameteView.propTypes = {
   gamete: PropTypes.object.isRequired,
   id: PropTypes.number.isRequired,
-  hiddenAlleles: PropTypes.arrayOf(PropTypes.string),
+  visibleGenes: PropTypes.arrayOf(PropTypes.string),
   initialDisplay: PropTypes.shape({ // initial display properties
     x: PropTypes.number.isRequired, // location (left) of gamete image
     y: PropTypes.number.isRequired, // location (top) of gamete image
