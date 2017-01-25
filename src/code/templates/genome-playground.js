@@ -7,7 +7,7 @@ import ChangeSexButtons from '../components/change-sex-buttons';
 export default class GenomeContainer extends Component {
 
   render() {
-    const { drakes, onChromosomeAlleleChange, onSexChange, onCompleteChallenge, hiddenAlleles } = this.props,
+    const { drakes, onChromosomeAlleleChange, onSexChange, onCompleteChallenge, userChangeableGenes, visibleGenes } = this.props,
           drakeDef = drakes[0].alleleString,
           drakeSex = drakes[0].sex,
           drake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef, drakeSex);
@@ -28,7 +28,7 @@ export default class GenomeContainer extends Component {
       <div id="genome-playground">
         <div className='column'>
             <ChangeSexButtons id="change-sex-buttons" sex={ drakeSex } onChange= { handleSexChange } showLabel={true} species="Drake" />
-            <GenomeView className="drake-genome" org={ drake } onAlleleChange={ handleAlleleChange } hiddenAlleles= { hiddenAlleles } />
+            <GenomeView className="drake-genome" org={ drake } onAlleleChange={ handleAlleleChange } userChangeableGenes= { userChangeableGenes } visibleGenes={ visibleGenes }/>
         </div>
         <div className='column'>
             <OrganismGlowView id="drake-image" org={ drake } />
@@ -40,7 +40,8 @@ export default class GenomeContainer extends Component {
 
   static propTypes = {
     drakes: PropTypes.array.isRequired,
-    hiddenAlleles: PropTypes.array.isRequired,
+    userChangeableGenes: PropTypes.array.isRequired,
+    visibleGenes: PropTypes.array.isRequired,
     onChromosomeAlleleChange: PropTypes.func.isRequired,
     onSexChange: PropTypes.func.isRequired,
     onCompleteChallenge: PropTypes.func.isRequired

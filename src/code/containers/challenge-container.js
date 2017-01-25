@@ -68,7 +68,8 @@ function mapStateToProps (state) {
       drakes: state.drakes,
       gametes: state.gametes,
       gametePools: state.gametePools,
-      hiddenAlleles: state.hiddenAlleles.asMutable(),
+      userChangeableGenes: state.userChangeableGenes,
+      visibleGenes: state.visibleGenes,
       baskets: state.baskets,
       trial: state.trial,
       trials: state.trials,
@@ -86,7 +87,7 @@ function mapDispatchToProps(dispatch) {
   return {
     onChromosomeAlleleChange: (index, chrom, side, prevAllele, newAllele) => dispatch(changeAllele(index, chrom, side, prevAllele, newAllele, true)),
     onSexChange: (index, newSex) => dispatch(changeSex(index, newSex, true)),
-    onDrakeSubmission: (targetPhenotype, userPhenotype, correct, incorrectAction) => 
+    onDrakeSubmission: (targetPhenotype, userPhenotype, correct, incorrectAction) =>
       dispatch(submitDrake(targetPhenotype, userPhenotype, correct, incorrectAction)),
     onNavigateNextChallenge: () => dispatch(navigateToNextChallenge()),
     onCompleteChallenge: () => dispatch(completeChallenge()),

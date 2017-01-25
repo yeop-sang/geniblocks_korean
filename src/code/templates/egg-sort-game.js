@@ -111,7 +111,7 @@ let animationEvents = {
           _this.handleBasketClick(targetBasketIndex, targetBasket);
           evt.stopPropagation();
         }
-        
+
         appendAnimation('fadeDrakeAway',
           <SlowEggHatch
               egg={animatingEgg} organism={animatingDrake} glow={true}
@@ -207,7 +207,8 @@ export default class EggSortGame extends Component {
     challenge: PropTypes.number.isRequired,
     trial: PropTypes.number.isRequired,
     drakes: PropTypes.array.isRequired,
-    hiddenAlleles: PropTypes.array.isRequired,
+    userChangeableGenes: PropTypes.array.isRequired,
+    visibleGenes: PropTypes.array.isRequired,
     baskets: PropTypes.array.isRequired,
     correct: PropTypes.number,
     errors: PropTypes.number,
@@ -333,7 +334,7 @@ export default class EggSortGame extends Component {
   }
 
   render() {
-    const { hiddenAlleles, drakes, baskets, correct, errors } = this.props,
+    const { userChangeableGenes, visibleGenes, drakes, baskets, correct, errors } = this.props,
           { animation, animatedComponents, eggs } = this.state,
           selectedBaskets = this.selectedBaskets(),
           { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),
@@ -363,7 +364,7 @@ export default class EggSortGame extends Component {
                                   </div>
                                 : null,
           genomeView = selectedEgg
-                        ? <GenomeView org={selectedEgg} hiddenAlleles={hiddenAlleles} editable={false} />
+                        ? <GenomeView org={selectedEgg} userChangeableGenes={userChangeableGenes} visibleGenes={visibleGenes} editable={false} />
                         : null,
           genomeOrInstructionsView = selectedEgg ? genomeView : instructionsView,
           disableSelection = (['moveEggToBasket', 'hatchDrakeInBasket', 'hatchDrakeInEgg']

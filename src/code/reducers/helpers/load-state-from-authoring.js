@@ -1,10 +1,14 @@
 import templates from '../../templates';
 
-function extractHiddenAlleles(state, authoredChallenge) {
-  const authoredHiddenAlleles = authoredChallenge.hiddenAlleles;
-  return authoredHiddenAlleles
-            ? authoredHiddenAlleles.split(',')
-            : state.hiddenAlleles;
+/**
+ * Tolerant splitter into a list of strings.
+ * @param list - null, "one, two" or ["one", "two"]
+ * returns ["one", "two"]
+ */
+function split(list) {
+  if (list && list.split) return list.split(",").map(item => item.trim());
+  if (list && list.constructor === Array) return list;
+  return [];
 }
 
 function processAuthoredBaskets(authoredChallenge, state) {
@@ -29,7 +33,7 @@ function processAuthoredDrakes(authoredChallenge, trial, template) {
       if (i === authoredChallenge.linkedGenes.drakes[0]) {
         linkedGeneDrake = drake;
       } else if (authoredChallenge.linkedGenes.drakes.indexOf(i)) {
-        let linkedGenes = authoredChallenge.linkedGenes.genes.split(",").map((g) => g.trim());
+        let linkedGenes = split(authoredChallenge.linkedGenes.genes);
         for (let gene of linkedGenes) {
           let copyIntoGenes = drake.genetics.genotype.getAlleleString([gene], drake.genetics);
           let masterGenes = linkedGeneDrake.genetics.genotype.getAlleleString([gene], drake.genetics);
@@ -61,7 +65,8 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
   const challengeType = authoredChallenge.challengeType,
         interactionType = authoredChallenge.interactionType,
         instructions = authoredChallenge.instructions,
-        hiddenAlleles = extractHiddenAlleles(state, authoredChallenge),
+        userChangeableGenes = split(authoredChallenge.userChangeableGenes),
+        visibleGenes = split(authoredChallenge.visibleGenes),
         baskets = processAuthoredBaskets(authoredChallenge, state),
         showUserDrake = (authoredChallenge.showUserDrake != null) ? authoredChallenge.showUserDrake : false,
         trials = authoredChallenge.targetDrakes,
@@ -83,7 +88,8 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     interactionType,
     instructions,
     showUserDrake,
-    hiddenAlleles,
+    userChangeableGenes,
+    visibleGenes,
     baskets,
     drakes,
     gametes,
@@ -109,7 +115,8 @@ export function loadNextTrial(state, authoring, progress) {
   let authoredChallenge = authoring[state.case][state.challenge],
       templateName = state.template,
       template = templates[templateName],
-      hiddenAlleles = extractHiddenAlleles(state, authoredChallenge),
+      userChangeableGenes = split(authoredChallenge.userChangeableGenes),
+      visibleGenes = split(authoredChallenge.visibleGenes),
       baskets = authoredChallenge.baskets || state.baskets,
       drakes = processAuthoredDrakes(authoredChallenge, trial, template);
 
@@ -119,7 +126,8 @@ export function loadNextTrial(state, authoring, progress) {
   }
 
   return state.merge({
-    hiddenAlleles,
+    userChangeableGenes,
+    visibleGenes,
     baskets,
     drakes,
     trial,

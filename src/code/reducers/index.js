@@ -18,7 +18,8 @@ import notifications from './notifications';
 function initialState() {
   return Immutable({
             template: null,
-            hiddenAlleles: ['t','tk','h','c','a','b','d','bog','rh'],
+            userChangeableGenes: [],
+            visibleGenes: [],
             trial: 0,
             case: 0,
             challenge: 0,

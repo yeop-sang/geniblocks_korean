@@ -153,22 +153,6 @@ export default class GeneticsUtils {
   }
 
   /**
-   * Filters out hidden alleles from an original list of alleles
-   *
-   * @param {string[]} alleles - the set of alleles to be filtered
-   * @param {string[]} hiddenAlleles - the alleles identifying the hidden genes
-   * @param {BioLogica.species} species - the species that defines the genotype
-   * @return {string[]} - the filtered alleles
-   */
-  static filterAlleles(alleles, hiddenAlleles, species) {
-    const hiddenGenes = hiddenAlleles.map(a => BioLogica.Genetics.getGeneOfAllele(species, a));
-    return alleles.filter(a => {
-      const gene = BioLogica.Genetics.getGeneOfAllele(species, a);
-      return hiddenGenes.indexOf(gene) === -1;
-    });
-  }
-
-  /**
    * Filters out hidden alleles, given a list of changeable and visible genes.
    * Returns array of objects with the allele and the editability
    *
