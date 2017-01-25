@@ -67,6 +67,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
         instructions = authoredChallenge.instructions,
         userChangeableGenes = split(authoredChallenge.userChangeableGenes),
         visibleGenes = split(authoredChallenge.visibleGenes),
+        hiddenAlleles = split(authoredChallenge.hiddenAlleles),
         baskets = processAuthoredBaskets(authoredChallenge, state),
         showUserDrake = (authoredChallenge.showUserDrake != null) ? authoredChallenge.showUserDrake : false,
         trials = authoredChallenge.targetDrakes,
@@ -90,6 +91,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     showUserDrake,
     userChangeableGenes,
     visibleGenes,
+    hiddenAlleles,
     baskets,
     drakes,
     gametes,
@@ -117,6 +119,7 @@ export function loadNextTrial(state, authoring, progress) {
       template = templates[templateName],
       userChangeableGenes = split(authoredChallenge.userChangeableGenes),
       visibleGenes = split(authoredChallenge.visibleGenes),
+      hiddenAlleles = split(authoredChallenge.hiddenAlleles),
       baskets = authoredChallenge.baskets || state.baskets,
       drakes = processAuthoredDrakes(authoredChallenge, trial, template);
 
@@ -128,6 +131,7 @@ export function loadNextTrial(state, authoring, progress) {
   return state.merge({
     userChangeableGenes,
     visibleGenes,
+    hiddenAlleles,
     baskets,
     drakes,
     trial,
