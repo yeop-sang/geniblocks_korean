@@ -7,7 +7,7 @@ import ChromosomeView from './chromosome';
  * Usually defined by passing in a Biologica Organism, but may also be defined by
  * passing in a map of Biologica Chromosomes and a Biologica Species.
  */
-const GenomeView = ({org, className="", chromosomes, species, userChangeableGenes=[], visibleGenes=[], editable=true, showLabels=true, showAlleles=false, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected}) => {
+const GenomeView = ({org, className="", chromosomes, species, userChangeableGenes=[], visibleGenes=[], hiddenAlleles=[], editable=true, showLabels=true, showAlleles=false, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected}) => {
   let pairWrappers = [];
   if (org) {
     chromosomes = org.genetics.genotype.chromosomes;
@@ -24,6 +24,7 @@ const GenomeView = ({org, className="", chromosomes, species, userChangeableGene
           key={pairs.length + 1}
           userChangeableGenes={userChangeableGenes}
           visibleGenes={visibleGenes}
+          hiddenAlleles={hiddenAlleles}
           labelsOnRight={pairs.length>0 || side==="b"}
           editable={editable}
           selected={selectedChromosomes[chromosomeName] === side}
@@ -62,6 +63,7 @@ GenomeView.propTypes = {
   species: PropTypes.object,
   userChangeableGenes: PropTypes.array,
   visibleGenes: PropTypes.array,
+  hiddenAlleles: PropTypes.array,
   onAlleleChange: PropTypes.func,
   editable: PropTypes.bool,
   showLabels: PropTypes.bool,

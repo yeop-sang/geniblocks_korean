@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-const GeneLabelView = ({species, allele, editable=false, onAlleleChange}) => {
+const GeneLabelView = ({species, allele, editable=false, hiddenAlleles=[], onAlleleChange}) => {
   if (!editable) {
     const alleleName = species.alleleLabelMap[allele];
     return (
@@ -12,9 +12,10 @@ const GeneLabelView = ({species, allele, editable=false, onAlleleChange}) => {
     );
   } else {
     const alleles = BioLogica.Genetics.getGeneOfAllele(species, allele).alleles,
-          alleleNames = alleles.map(a => species.alleleLabelMap[a]),
+          visibleAlleles = alleles.filter(a => hiddenAlleles.indexOf(a) === -1),
+          alleleNames = visibleAlleles.map(a => species.alleleLabelMap[a]),
           alleleOptions = alleleNames.map((name, i) => (
-                            <option key={name} value={alleles[i]}>{name}</option>)
+                            <option key={name} value={visibleAlleles[i]}>{name}</option>)
                           );
     return (
       <div className="geniblocks gene-label allele editable">
@@ -30,6 +31,7 @@ GeneLabelView.propTypes = {
   species: PropTypes.object.isRequired,
   allele: PropTypes.string.isRequired,
   editable: PropTypes.bool,
+  hiddenAlleles: PropTypes.array,
   onAlleleChange: PropTypes.func
 };
 
