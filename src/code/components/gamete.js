@@ -1,11 +1,12 @@
 import React, {PropTypes} from 'react';
+import GeneticsUtils from '../utilities/genetics-utils';
 
 /**
  * Stateless functional React component for displaying a Biologica gamete
  *
  * @param {Object} gamete - Biologica gamete (map of chromosome names to chromosomes)
  * @param {number} id - the unique id of this gamete
- * @param {string[]} hiddenAlleles - individual alleles of genes for which all alleles should be hidden
+ * @param {string[]} visibleGenes - genes which should be visible
  * @param {Object} display - display parameters used to represent the gamete
  * @param {number} display.x - location (left) of the gamete
  * @param {number} display.y - location (top) of the gamete
@@ -20,7 +21,7 @@ import React, {PropTypes} from 'react';
  * by this view. The client can style the representation of the gamete by styling the
  * '.geniblocks.gamete' class in CSS, e.g. by assigning a background-image.
  */
-const GameteView = ({gamete, id, hiddenAlleles=[], display, isSelected=false, isDisabled=false, onClick}) => {
+const GameteView = ({gamete, id, visibleGenes=[], display, isSelected=false, isDisabled=false, onClick}) => {
 
   function handleClick(evt) {
     const elt = evt.target,
@@ -31,27 +32,14 @@ const GameteView = ({gamete, id, hiddenAlleles=[], display, isSelected=false, is
   }
 
   function buildTooltipForGamete(gamete) {
-    let tooltip = "",
-        allHiddenAlleles;
-    // Note: it would be more efficient for the caller to pass in the
-    // allHiddenAlleles array rather than computing it each time here.
-    // But if we moved it out right now we'd have to eliminate the ES6 splat.
-    function concatHiddenAlleles(iSpecies, iHiddenAlleles) {
-      allHiddenAlleles = [];
-      for (const allele of iHiddenAlleles) {
-        const gene = BioLogica.Genetics.getGeneOfAllele(iSpecies, allele);
-        allHiddenAlleles.push(...gene.alleles);
-      }
-    }
+    let tooltip = "";
+
     for (const ch in gamete) {
-      var chromosome = gamete[ch];
-      if (allHiddenAlleles == null)
-        concatHiddenAlleles(chromosome.species, hiddenAlleles);
-      for (const allele of chromosome.alleles) {
-        if (allHiddenAlleles.indexOf(allele) < 0) {
-          const label = chromosome.species.alleleLabelMap[allele];
-          tooltip += (tooltip ? '\n' : '') + ch + ': ' + label;
-        }
+      var chromosome = gamete[ch],
+          visibleAlleles = GeneticsUtils.filterVisibleAlleles(chromosome.alleles, [], visibleGenes, chromosome.species);
+      for (const allele of visibleAlleles) {
+        const label = chromosome.species.alleleLabelMap[allele.allele];
+        tooltip += (tooltip ? '\n' : '') + ch + ': ' + label;
       }
       if (ch === 'XY') {
         const value = chromosome.side === 'y' ? 'y' : 'x';
@@ -86,7 +74,7 @@ const GameteView = ({gamete, id, hiddenAlleles=[], display, isSelected=false, is
 GameteView.propTypes = {
   gamete: PropTypes.object.isRequired,
   id: PropTypes.number.isRequired,
-  hiddenAlleles: PropTypes.arrayOf(PropTypes.string),
+  visibleGenes: PropTypes.arrayOf(PropTypes.string),
   display: PropTypes.shape({        // display properties
     x: PropTypes.number.isRequired, // location (left) of gamete image
     y: PropTypes.number.isRequired, // location (top) of gamete image

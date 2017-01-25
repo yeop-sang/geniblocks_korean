@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import AnimatedGameteView from './animated-gamete';
 
-const GametePoolView = ({gametes, hiddenAlleles=[], width=300, height=200, animStiffness=60, selectedId, isGameteDisabled, onGameteSelected}) => {
+const GametePoolView = ({gametes, visibleGenes=[], width=300, height=200, animStiffness=60, selectedId, isGameteDisabled, onGameteSelected}) => {
   let gameteCount = gametes.length,
       gameteSize = 30,
       margin = 5,
@@ -44,7 +44,7 @@ const GametePoolView = ({gametes, hiddenAlleles=[], width=300, height=200, animS
           x = isDisabled ? col * xDisabledSpacing : col * xSpacing;
     return (
       <AnimatedGameteView gamete={gamete} id={index + 1} key={index}
-                          hiddenAlleles={hiddenAlleles}
+                          visibleGenes={visibleGenes}
                           initialDisplay={{ x: Math.round(width/2), y: -Math.round(ySpacing) }}
                           display={{ x: Math.round(x), y: Math.round(y) }}
                           animStiffness={animStiffness}
@@ -63,7 +63,7 @@ const GametePoolView = ({gametes, hiddenAlleles=[], width=300, height=200, animS
 
 GametePoolView.propTypes = {
   gametes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  hiddenAlleles: PropTypes.arrayOf(PropTypes.string),
+  visibleGenes: PropTypes.arrayOf(PropTypes.string),
   width: PropTypes.number,
   height: PropTypes.number,
   animStiffness: PropTypes.number,

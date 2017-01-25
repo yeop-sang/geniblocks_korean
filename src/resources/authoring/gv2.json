@@ -7,7 +7,8 @@
         "alleles": "T-T, w-w, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 1
       },
-      "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh"
+      "userChangeableGenes": "metallic, wings, forelimbs, hindlimbs",
+      "visibleGenes": "nose",
     },
     {
       "comment": "*** Case 1: Challenge 2 - Single Drake (User Drake Visible) ***",
@@ -22,7 +23,7 @@
         "alleles": "w-, m-m, fl-, hl-",
         "sex": 1
       }],
-      "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh",
+      "userChangeableGenes": "metallic, wings, forelimbs, hindlimbs",
       "linkedGenes": {
         "drakes": [0, 1],
         "genes": "tail, horns, color, black, dilute, armor, nose, bogbreath"
@@ -41,7 +42,7 @@
         "alleles": "w-, m-m, fl-, hl-, T-T, h-h, C-C, A1-A1, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 1
       }],
-      "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh"
+      "userChangeableGenes": "metallic, wings, forelimbs, hindlimbs",
     },
     {
       "comment": "*** Case 1: Challenge 4 - Three Drakes (User Drake Hidden) ***",
@@ -64,7 +65,7 @@
         ]
       },
       "targetDrakes": [{},{},{}],
-      "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh"
+      "userChangeableGenes": "metallic, wings, forelimbs, hindlimbs",
     }
   ],
   [
@@ -100,7 +101,7 @@
         "alleles": "w-W, m-m, T-T, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 0
       },
-      "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh"
+      "visibleGenes": "metallic, wings, forelimbs, hindlimbs",
     }
   ],
   [
@@ -119,7 +120,7 @@
         "sex": 0
       },
       "targetDrakes": [{},{},{}],
-      "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh"
+      "visibleGenes": "metallic, wings, forelimbs, hindlimbs",
     },
     {
       "comment": "*** Case 3: Challenge 2 - Egg Game II (match three drakes, user drake hidden) ***",
@@ -136,7 +137,7 @@
         "sex": 0
       },
       "targetDrakes": [{},{},{}],
-      "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh"
+      "visibleGenes": "metallic, wings, forelimbs, hindlimbs",
     }
   ],
   [
@@ -157,7 +158,7 @@
           { "alleles": "w-w", "sex": 1 }
         ]
       },
-      "hiddenAlleles": "t,m,h,c,b,fl,hl,a,d,bog,rh",
+      "visibleGenes": "wings",
       "baskets": [
         { "label": "Males with wings", "alleles": ["W-","-W"], "sex": 0 },
         { "label": "Males without wings", "alleles": ["w-w"], "sex": 0 },
@@ -182,7 +183,7 @@
           { "alleles": "Fl-Fl, Hl-Hl" }
         ]
       },
-      "hiddenAlleles": "t,m,w,h,c,b,a,d,bog,rh",
+      "visibleGenes": "forelimbs, hindlimbs",
       "baskets": [
         { "label": "Drakes with only forelimbs", "alleles": ["Fl-, hl-hl", "-Fl, hl-hl"] },
         { "label": "Drakes with only hindlimbs", "alleles": ["fl-fl, Hl-", "fl-fl, -Hl"] },
@@ -208,7 +209,7 @@
           { "alleles": "h-h", "sex": 1 }
         ]
       },
-      "hiddenAlleles": "w,t,m,c,b,fl,hl,a,d,bog,rh",
+      "visibleGenes": "horns",
       "baskets": [
         { "label": "Males with horns", "alleles": ["h-h"], "sex": 0 },
         { "label": "Males without horns", "alleles": ["H-","-H"], "sex": 0 },
@@ -233,7 +234,7 @@
           { "alleles": "a-a", "sex": 1 }
         ]
       },
-      "hiddenAlleles": "t,m,w,h,c,b,fl,hl,d,bog,rh",
+      "visibleGenes": "armor",
       "baskets": [
         { "label": "Drakes with no armor plates", "alleles": ["a-a"] },
         { "label": "Drakes with three armor plates", "alleles": ["A1-a", "a-A1"] },
@@ -257,7 +258,7 @@
           { "alleles": "H-H, w-W, a-a" }
         ]
       },
-      "hiddenAlleles": "t,m,c,b,fl,hl,d,bog,rh",
+      "visibleGenes": "horns, wings, armor",
       "baskets": [
         { "label": "Drakes with horns", "alleles": ["h-h"] },
         { "label": "Drakes with wings", "alleles": ["W-", "-W"] },

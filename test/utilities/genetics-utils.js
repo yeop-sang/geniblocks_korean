@@ -136,24 +136,17 @@ describe("GeneticsUtils.isCompleteAlleleString()", function() {
   });
 });
 
-describe("GeneticsUtils.filterAlleles()", function() {
-  const initialAlleles = ['T', 't', 'A1', 'a'];
+describe("GeneticsUtils.filterVisibleAlleles()", function() {
+  const initialAlleles = ['Tk', 'A1', 'w'];
 
-  it("should return the original array when not filtering", function() {
-    const filteredAlleles = GeneticsUtils.filterAlleles(initialAlleles, [], BioLogica.Species.Drake);
-    assert.deepEqual(filteredAlleles, initialAlleles, "result should be the original alleles");
+  it("should return all alleles, each as non-editable, when not filtering", function() {
+    const filteredAlleles = GeneticsUtils.filterVisibleAlleles(initialAlleles, [], [], BioLogica.Species.Drake);
+    assert.deepEqual(filteredAlleles, [{allele: 'Tk', editable: false}, {allele: 'A1', editable: false}, {allele: 'w', editable: false}], "result should be the original alleles");
   });
 
-  it("should return the original array when filtering by alleles not present", function() {
-    const filteredAlleles = GeneticsUtils.filterAlleles(initialAlleles, ['w'], BioLogica.Species.Drake);
-    assert.deepEqual(filteredAlleles, initialAlleles, "result should be the original alleles");
-  });
-
-  it("should remove all alleles of a gene when hiding any allele of that gene", function() {
-    const armorAlleles = GeneticsUtils.filterAlleles(initialAlleles, ['t'], BioLogica.Species.Drake);
-    assert.deepEqual(armorAlleles, ['A1', 'a'], "should remove all tail alleles");
-    const noAlleles = GeneticsUtils.filterAlleles(initialAlleles, ['t', 'a'], BioLogica.Species.Drake);
-    assert.deepEqual(noAlleles, [], "should remove all tail alleles");
+  it("should return correct editable and non-editable alleles when filtering", function() {
+    const filteredAlleles = GeneticsUtils.filterVisibleAlleles(initialAlleles, ['tail'], ['armor'], BioLogica.Species.Drake);
+    assert.deepEqual(filteredAlleles, [{allele: 'Tk', editable: true}, {allele: 'A1', editable: false}], "should remove all tail alleles");
   });
 
 });

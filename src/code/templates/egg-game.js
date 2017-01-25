@@ -745,7 +745,7 @@ export default class EggGame extends Component {
 
   render() {
     const { challengeType, interactionType, instructions, showUserDrake, trial, drakes, gametes, gametePools,
-            hiddenAlleles, userDrakeHidden, onChromosomeAlleleChange,
+            userChangeableGenes, visibleGenes, userDrakeHidden, onChromosomeAlleleChange,
             onFertilize, onHatch, onResetGametes, onKeepOffspring, onDrakeSubmission } = this.props,
           { isIntroComplete, animatingGametes } = this.state,
           firstTargetDrakeIndex = 3, // 0: mother, 1: father, 2: child, 3-5: targets
@@ -959,7 +959,7 @@ export default class EggGame extends Component {
                               : { orgName: 'father', org: father,
                                   selectedChromosomes: fatherSelectedChromosomes };
       return <GenomeView className={parentGenomeClass}  {...uniqueProps}
-                        small={ true } editable={false} hiddenAlleles={ hiddenAlleles }
+                        small={ true } editable={false} userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes }
                         onAlleleChange={ handleAlleleChange }
                         onChromosomeSelected={_this.handleChromosomeSelected} />;
     }
@@ -971,7 +971,7 @@ export default class EggGame extends Component {
                               : { orgName: 'targetfather', chromosomes: maleGameteChromosomeMap,
                                   selectedChromosomes: spermSelected };
       return <GenomeView className={childGenomeClass} species={mother.species} {...uniqueProps}
-                        editable={false} hiddenAlleles={hiddenAlleles}
+                        editable={false} userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes }
                         small={true} displayStyle={chromosomeDisplayStyle} />;
     }
 
@@ -1081,7 +1081,8 @@ export default class EggGame extends Component {
     drakes: PropTypes.array.isRequired,
     gametes: PropTypes.array.isRequired,
     gametePools: PropTypes.array,
-    hiddenAlleles: PropTypes.array.isRequired,
+    userChangeableGenes: PropTypes.array.isRequired,
+    visibleGenes: PropTypes.array.isRequired,
     userDrakeHidden: PropTypes.bool,
     onChromosomeAlleleChange: PropTypes.func.isRequired,
     onGameteChromosomeAdded: PropTypes.func.isRequired,
