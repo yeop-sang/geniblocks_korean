@@ -12,10 +12,16 @@ import GameteImageView from './gamete-image';
  */
 const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, showChromosomes=true, containerWidth, containerHeight, rows, columns, tightenRows=0, tightenColumns=0, selectedIndex, selectedColor='#FF6666', onClick}) => {
 
-  function handleClick(evt, gameteID) {
+  function handleGameteClick(evt, gameteID) {
     const prefixIndex = gameteID.indexOf(idPrefix),
           gameteIndex = Number(gameteID.substr(prefixIndex + idPrefix.length));
     if (onClick) onClick(id, sex, gameteIndex, gameteID, gametes[gameteIndex]);
+    evt.stopPropagation();
+  }
+
+  function handlePenClick(evt) {
+    if (onClick) onClick(id, sex, null);
+    evt.stopPropagation();
   }
 
   const availableWidth = containerWidth - 12,
@@ -71,13 +77,13 @@ const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, sh
         return <GameteImageView isEgg={isEgg} chromosomes={chromosomes} key={index}
                                 id={idPrefix + index} className={className}
                                 style={eltStyle} displayStyle={gameteDisplayStyle}
-                                onClick={handleClick}/>;
+                                onClick={handleGameteClick}/>;
       });
 
   let containerStyle = { position: 'relative' };
 
   return (
-    <div id={id} className="geniblocks gamete-pen" style={containerStyle}>
+    <div id={id} className="geniblocks gamete-pen" style={containerStyle} onClick={handlePenClick}>
       { gameteViews }
     </div>
   );

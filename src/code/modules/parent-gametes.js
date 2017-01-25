@@ -7,7 +7,7 @@
  */
 import Immutable from 'seamless-immutable';
 import { createSelector } from 'reselect';
-import { cloneDeep } from 'lodash';
+import { clone, cloneDeep } from 'lodash';
 import { ITS_ACTORS, ITS_ACTIONS, ITS_TARGETS } from '../its-constants';
 
 /*
@@ -87,11 +87,12 @@ export function addGametesToPool(sex, gametes) {
   };
 }
 
-export function selectGameteInPool(sex, index) {
+function _selectGameteInPool(sex, index, gamete) {
   return {
     type: GAMETE_SELECTED,
     sex,
     index,
+    gamete,
     meta: {
       logTemplateState: true,
       itsLog: {
@@ -100,6 +101,15 @@ export function selectGameteInPool(sex, index) {
         target: ITS_TARGETS.GAMETE
       }
     }
+  };
+}
+
+export function selectGameteInPool(sex, index) {
+  return (dispatch, getState) => {
+    const { parentGametes } = getState(),
+          parentPool = parentGametes.pools[sex],
+          gamete = index != null ? clone(parentPool[index]) : null;
+    dispatch(_selectGameteInPool(sex, index, gamete));
   };
 }
 

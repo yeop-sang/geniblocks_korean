@@ -50,7 +50,8 @@ const slotMachineBaseInterval = 30, // msec
       durationFertilizationAnimation = 3000,  // msec
       durationHatchAnimation = 3000,  // msec
       // ultimately should be specifiable in authoring
-      authoredTotalGameteCount = 8;
+      authoredTotalGameteCount = 8,
+      kShowGametes = true, kHideGametes = false;
 
 function animatedChromosomeImageHOC(WrappedComponent) {
   return class extends Component {
@@ -394,7 +395,7 @@ var animationEvents = {
         }
         else if (stage.type === 'complete') {
           _this.setState({ isIntroComplete: true, animatingGametes: null });
-          resetAnimationEvents();
+          resetAnimationEvents(kShowGametes);
         }
       }
       _this.setState({ animation: 'randomizeChromosomes' });
@@ -593,6 +594,7 @@ function resetAnimationEvents(iShowGametes, iShowHatchAnimation){
   animationEvents.hatch.complete = false;
   showHatchAnimation = !!iShowHatchAnimation;
   showStaticGametes(!!iShowGametes);
+  if (_this) _this.setState({ animation: 'complete', animatingGametes: null });
 }
 
 function runAnimation(animationEvent, positions, opacity, speed, onFinish){
@@ -660,7 +662,7 @@ export default class EggGame extends Component {
   componentWillMount() {
     _this = this;
     challengeDidChange = true;
-    resetAnimationEvents(false, this.props.showUserDrake);
+    resetAnimationEvents(kHideGametes, this.props.showUserDrake);
     animatedComponents = [];
   }
 
@@ -684,7 +686,7 @@ export default class EggGame extends Component {
         onResetGametes();
         showStaticGametes(true);
       }
-      if (onResetGametePools)
+      if ((newChallenge || newTrialInChallenge) && onResetGametePools)
         onResetGametePools();
     }
   }
@@ -723,7 +725,7 @@ export default class EggGame extends Component {
   handleGameteSelected = (poolID, sex, gameteIndex, /*gameteID, gamete*/) => {
     if (!this.state.isIntroComplete) {
       // user selection of a gamete terminates intro animation
-      resetAnimationEvents();
+      resetAnimationEvents(kShowGametes);
       this.fillGametePools();
       this.setState({ isIntroComplete: true });
     }
@@ -860,7 +862,7 @@ export default class EggGame extends Component {
       }
     };
     const handleReset = function() {
-      resetAnimationEvents(true, showUserDrake);
+      resetAnimationEvents(kShowGametes, showUserDrake);
       onResetGametes();
     };
 
