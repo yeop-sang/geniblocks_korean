@@ -271,7 +271,7 @@
       "comment": "*** Case 6: Challenge 1 - Playground, no T ***",
       "template": "GenomePlayground",
       "initialDrake": {
-        "alleles": "T-T, w-w, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
+        "alleles": "Tk/t-Tk/t, w-w, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 1
       },
       "userChangeableGenes": "tail, metallic, wings, armor",
