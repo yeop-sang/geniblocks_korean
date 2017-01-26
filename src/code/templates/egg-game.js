@@ -692,7 +692,8 @@ export default class EggGame extends Component {
   }
 
   handleChromosomeSelected = (org, name, side, elt) => {
-    this.selectChromosomes(org.sex, defaultAnimationSpeed, [{name, side, elt }]);
+    if (this.props.interactionType !== 'select-gametes')
+      this.selectChromosomes(org.sex, defaultAnimationSpeed, [{name, side, elt }]);
   }
 
   fillGametePools() {

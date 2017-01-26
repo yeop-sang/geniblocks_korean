@@ -90,7 +90,7 @@ export function addGametesToPool(sex, gametes) {
     sex,
     gametes: cloneDeep(gametes),
     meta: {
-      logTemplateState: true,
+      logTemplateState: false,
       itsLog: {
         actor: ITS_ACTORS.SYSTEM,
         action: ITS_ACTIONS.ADDED,
@@ -107,7 +107,7 @@ function _selectGameteInPool(sex, index, gamete) {
     index,
     gamete,
     meta: {
-      logTemplateState: true,
+      logTemplateState: false,
       itsLog: {
         actor: ITS_ACTORS.USER,
         action: ITS_ACTIONS.SELECTED,
