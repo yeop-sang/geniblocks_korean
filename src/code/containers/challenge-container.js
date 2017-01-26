@@ -70,6 +70,7 @@ function mapStateToProps (state) {
       gametePools: state.gametePools,
       userChangeableGenes: state.userChangeableGenes,
       visibleGenes: state.visibleGenes,
+      hiddenAlleles: state.hiddenAlleles,
       baskets: state.baskets,
       trial: state.trial,
       trials: state.trials,

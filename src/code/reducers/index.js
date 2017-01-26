@@ -20,6 +20,7 @@ function initialState() {
             template: null,
             userChangeableGenes: [],
             visibleGenes: [],
+            hiddenAlleles: [],
             trial: 0,
             case: 0,
             challenge: 0,

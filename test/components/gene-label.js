@@ -35,4 +35,9 @@ describe("<GeneLabelView />", function(){
     assert.lengthOf(wrapper.find('option'), 3, "Should create three <option> tags");
   });
 
+  it("should create appropriate options we specify hidden alleles", function() {
+    const wrapper = shallow(<GeneLabelView species={drake} allele={tailAllele} editable={true} hiddenAlleles={["Tk"]}/>);
+    assert.lengthOf(wrapper.find('option'), 2, "Should create two <option> tags");
+  });
+
 });

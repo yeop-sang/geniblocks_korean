@@ -10,7 +10,7 @@ import GeneticsUtils from '../utilities/genetics-utils';
  * chromosome name and side.
  */
 
-const ChromosomeView = ({chromosome, org, chromosomeName, side, userChangeableGenes = [], visibleGenes = [], small = false, editable = true, selected = false, onAlleleChange, onChromosomeSelected, showLabels = true, showAlleles = false, labelsOnRight = true, orgName, displayStyle = {}}) => {
+const ChromosomeView = ({chromosome, org, chromosomeName, side, userChangeableGenes = [], visibleGenes = [], hiddenAlleles = [], small = false, editable = true, selected = false, onAlleleChange, onChromosomeSelected, showLabels = true, showAlleles = false, labelsOnRight = true, orgName, displayStyle = {}}) => {
   var containerClass = "items",
       empty = false,
       yChromosome = false,
@@ -28,6 +28,7 @@ const ChromosomeView = ({chromosome, org, chromosomeName, side, userChangeableGe
       let labels = visibleAlleles.map(a => {
         return (
           <GeneLabelView key={a.allele} species={chromosome.species} allele={a.allele} editable={editable && a.editable}
+          hiddenAlleles={ hiddenAlleles }
           onAlleleChange={function(event) {
             onAlleleChange(a.allele, event.target.value);
           }}/>
@@ -94,6 +95,7 @@ ChromosomeView.propTypes = {
   chromosome: PropTypes.object,
   userChangeableGenes: PropTypes.array,
   visibleGenes: PropTypes.array,
+  hiddenAlleles: PropTypes.array,
   small: PropTypes.bool,
   editable: PropTypes.bool,
   selected: PropTypes.bool,
