@@ -417,8 +417,8 @@ var animationEvents = {
             parentGameteImageEl = parentGameteGenomeEl.getElementsByClassName(parentGameteImageClass)[0],
             parentGameteSvgEl = parentGameteImageEl.getElementsByTagName('svg')[3],
             parentGameteBounds = parentGameteSvgEl.getBoundingClientRect(),
-            spermChromOffsets = [{ dx: 19.5, dy: 12 }, { dx: 29.5, dy: 12 }, { dx: 39.5, dy: 12 }],
-            ovumChromOffsets = [{ dx: 20.5, dy: 30 }, { dx: 30.5, dy: 30 }, { dx: 40.5, dy: 30 }];
+            spermChromOffsets = [{ dx: 19.5, dy: 11 }, { dx: 29.5, dy: 11 }, { dx: 39.5, dy: 11 }],
+            ovumChromOffsets = [{ dx: 19.5, dy: 31 }, { dx: 29.5, dy: 31 }, { dx: 39.5, dy: 31 }];
 
       animationEvents.moveChromosomesToGamete.sexes.push(sex);
       animationEvents.moveChromosomesToGamete.speed = speed;
@@ -1036,7 +1036,7 @@ export default class EggGame extends Component {
                                   gametes: fatherGametes,
                                   selectedIndex: fatherSelectedGameteIndex(parentGametes) };
       return <GametePenView {...uniqueProps} gameteSize={0.6} rows={1} columns={8}
-                            sex={sex} showChromosomes={false}
+                            sex={sex} showChromosomes='selected'
                             onClick={_this.handleGameteSelected} />;
     }
 

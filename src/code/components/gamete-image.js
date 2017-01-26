@@ -40,17 +40,17 @@ const GameteImageView = ({isEgg, chromosomes=[], id, className, style, displaySt
       <ChromosomeImageView
         key={i}
         empty={!chromosome}
-        width={6}
-        height={chromosome && chromosome.side === "y" ? 15 : 20}
-        split={8}
+        width={6 * scale}
+        height={(chromosome && chromosome.side === "y" ? 15 : 20) * scale}
+        split={8 * scale}
       />
     );
   }
 
   let chromosomeStyle = {
     position: "absolute",
-    top:  isEgg ? 29 : 11,
-    left: isEgg ? 19 : 18,
+    top:  (isEgg ? 30 : 10) * scale,
+    left: 22 * scale - 4,
     display: "flex",
     opacity: 0.4
   };

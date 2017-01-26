@@ -64,10 +64,16 @@ const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, sh
               top: yMargin + row * effectiveHeight };
   }
 
+  function shouldShowChromosomes(index) {
+    if ((showChromosomes === 'all') || (showChromosomes === true)) return true;
+    if ((showChromosomes === 'selected') && (index === selectedIndex)) return true;
+    return false;
+  }
+
   let isEgg = sex === BioLogica.FEMALE,
       gameteDefaultDisplayStyle = { size: gameteSize },
       gameteViews = gametes.map((gamete, index) => {
-        const chromosomes = showChromosomes
+        const chromosomes = shouldShowChromosomes(index)
                               ? map(gamete, (side, name) => { return { name, side }; })
                               : [],
               className = index === selectedIndex ? 'selected' : '',
