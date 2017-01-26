@@ -8,6 +8,7 @@
 import Immutable from 'seamless-immutable';
 import { createSelector } from 'reselect';
 import { clone, cloneDeep } from 'lodash';
+import actionTypes from '../action-types';
 import { ITS_ACTORS, ITS_ACTIONS, ITS_TARGETS } from '../its-constants';
 
 /*
@@ -46,6 +47,9 @@ export default function reducer(state = initialState, action) {
                                         return (index === action.sex) ? action.index : selectedIndex;
                                       });
       return state.merge({ selectedIndices });
+    case actionTypes.GAMETES_RESET:
+    case actionTypes.OFFSPRING_KEPT:
+      return state.merge({ selectedIndices: Immutable([null, null])});
     default:
       return state;
   }
