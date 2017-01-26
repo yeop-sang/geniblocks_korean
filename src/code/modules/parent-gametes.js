@@ -31,7 +31,7 @@ const initialState = Immutable({ pools: Immutable([Immutable([]), Immutable([])]
  * reducer
  */
 export default function reducer(state = initialState, action) {
-  let pools, selectedIndices;
+  let newState = {}, pools, selectedIndices;
   switch (action.type) {
     case GAMETE_POOLS_RESET:
       return initialState;
@@ -47,9 +47,18 @@ export default function reducer(state = initialState, action) {
                                         return (index === action.sex) ? action.index : selectedIndex;
                                       });
       return state.merge({ selectedIndices });
-    case actionTypes.GAMETES_RESET:
     case actionTypes.OFFSPRING_KEPT:
-      return state.merge({ selectedIndices: Immutable([null, null])});
+      // remove selected gamete from pool after offspring drake is kept
+      newState.pools = state.pools.map((pool, poolIndex) => {
+                          return pool.map((gamete, gameteIndex) => {
+                            return gameteIndex === state.selectedIndices[poolIndex]
+                                    ? null : gamete;
+                          });
+                        });
+      // fallthrough intentional
+    case actionTypes.GAMETES_RESET:
+      newState.selectedIndices = Immutable([null, null]);
+      return state.merge(newState);
     default:
       return state;
   }

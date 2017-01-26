@@ -80,10 +80,12 @@ const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, sh
               eltStyle = getGameteStyle(index),
               gameteDisplayStyle = assign({}, gameteDefaultDisplayStyle,
                                           index === selectedIndex ? { fillColor: selectedColor } : null);
-        return <GameteImageView isEgg={isEgg} chromosomes={chromosomes} key={index}
-                                id={idPrefix + index} className={className}
-                                style={eltStyle} displayStyle={gameteDisplayStyle}
-                                onClick={handleGameteClick}/>;
+        return gamete != null
+                ? <GameteImageView isEgg={isEgg} chromosomes={chromosomes} key={index}
+                                    id={idPrefix + index} className={className}
+                                    style={eltStyle} displayStyle={gameteDisplayStyle}
+                                    onClick={handleGameteClick}/>
+                : null;
       });
 
   let containerStyle = { position: 'relative' };

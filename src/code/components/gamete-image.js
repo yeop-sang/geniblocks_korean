@@ -5,7 +5,11 @@ import ChromosomeImageView from './chromosome-image';
 const GameteImageView = ({isEgg, chromosomes=[], id, className, style, displayStyle, onClick}) => {
 
   function handleClick(evt) {
-    if (onClick) onClick(evt, evt.currentTarget.id);
+    let elt = evt.currentTarget;
+    // find nearest node with a valid id
+    while (elt && !elt.id)
+      elt = elt.parentNode;
+    if (onClick) onClick(evt, elt ? elt.id : null);
   }
 
   const defaultImageWidth = 150,
@@ -31,7 +35,7 @@ const GameteImageView = ({isEgg, chromosomes=[], id, className, style, displaySt
                        left:0, top:0, width:'100%', height:'100%'
                      };
 
-  let gameteImage = isEgg ? getEggImage(currentScale, fillColor) : getSpermImage(currentScale, fillColor),
+  let gameteImage = (isEgg ? getEggImage : getSpermImage)(currentScale, fillColor, handleClick),
       chromosomeImages = [];
 
   for(var i = 0; i < chromosomes.length; i++){
@@ -56,7 +60,7 @@ const GameteImageView = ({isEgg, chromosomes=[], id, className, style, displaySt
   };
 
   return (
-    <div id={id} className={className} style={style} onClick={handleClick}>
+    <div id={id} className={className} style={style}>
       <div style={containerStyle}>
         <div style={chromosomeStyle}>
           { chromosomeImages }
@@ -67,12 +71,12 @@ const GameteImageView = ({isEgg, chromosomes=[], id, className, style, displaySt
   );
 };
 
-function getEggImage(scale, fillColor) {
+function getEggImage(scale, fillColor, onClick) {
   let viewBox = "0 0 154 94";
   return (
     <svg viewBox={viewBox} width={150} height={90} style={scale} xmlns="http://www.w3.org/2000/svg">
       <g>
-        <path
+        <path onClick={onClick}
           d="m 0.987473,40.556786 c 0,-21.857735 14.961774,-39.5625 33.433099,-39.5625 18.471326,0 33.433099,17.704765 33.433099,39.5625 0,21.857735 -14.961773,39.5625 -33.433099,39.5625 -18.471325,0 -33.433099,-17.704765 -33.433099,-39.5625 z"
           fill={fillColor} fillOpacity="0.5" stroke="#222222" strokeWidth="2"
         />
@@ -81,12 +85,12 @@ function getEggImage(scale, fillColor) {
   );
 }
 
-function getSpermImage(scale, fillColor) {
+function getSpermImage(scale, fillColor, onClick) {
   let viewBox = "0 0 154 94";
   return (
     <svg viewBox={viewBox} width={150} height={90} style={scale} xmlns="http://www.w3.org/2000/svg">
       <g>
-        <path
+        <path onClick={onClick}
           d="m 1.009921,20.994286 c 0,-11.049724 14.991709,-20 33.499999,-20 18.50829,0 33.5,8.950276 33.5,20 0,11.049724 -14.99171,20 -33.5,20 -18.50829,0 -33.499999,-8.950276 -33.499999,-20 z"
           fill={fillColor} fillOpacity="0.5" stroke="#222222" strokeWidth="2"
         />
