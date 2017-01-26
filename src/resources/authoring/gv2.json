@@ -277,6 +277,37 @@
       "userChangeableGenes": "tail, metallic, wings, armor",
       "hiddenAlleles": ["T"],
       "visibleGenes": "nose",
+    },
+    {
+      "comment": "*** Case 6: Challenge 2 - Multiple initial drakes ***",
+      "template": "GenomeChallenge",
+      "instructions": "Match the target drake!",
+      "showUserDrake": true,
+      "initialDrake": [
+        {
+          "alleles": "W-W, Bog-, D-, rh-",
+          "sex": 1
+        },
+        {
+          "alleles": "W-w, Bog-, D-, rh-",
+          "sex": 1
+        }
+      ],
+      "targetDrakes": [
+        {
+          "alleles": "w-w",
+          "sex": 1
+        },
+        {
+          "alleles": "w-w",
+          "sex": 1
+        }
+      ],
+      "userChangeableGenes": "metallic, wings, forelimbs, hindlimbs",
+      "linkedGenes": {
+        "drakes": [0, 1],
+        "genes": "tail, horns, color, black, dilute, armor, nose, bogbreath"
+      }
     }
   ]
 ]
