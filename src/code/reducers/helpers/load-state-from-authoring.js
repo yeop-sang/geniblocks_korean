@@ -113,34 +113,9 @@ export function loadNextTrial(state, authoring, progress) {
   if (state.trialSuccess){
     trial = (state.trial < state.trials.length) ? (trial+1) : 1;
   }
-
-  let authoredChallenge = authoring[state.case][state.challenge],
-      templateName = state.template,
-      template = templates[templateName],
-      userChangeableGenes = split(authoredChallenge.userChangeableGenes),
-      visibleGenes = split(authoredChallenge.visibleGenes),
-      hiddenAlleles = split(authoredChallenge.hiddenAlleles),
-      baskets = authoredChallenge.baskets || state.baskets,
-      drakes = processAuthoredDrakes(authoredChallenge, trial, template);
-
-  let goalMoves = null;
-  if (template.calculateGoalMoves) {
-    goalMoves = template.calculateGoalMoves(drakes);
-  }
-
-  return state.merge({
-    userChangeableGenes,
-    visibleGenes,
-    hiddenAlleles,
-    baskets,
-    drakes,
-    trial,
-    correct: 0,
-    errors: 0,
-    moves: 0,
-    goalMoves,
-    userDrakeHidden: true,
-    challengeProgress: progress
+  let nextState = state.merge({
+    trial: trial
   });
 
+  return  loadStateFromAuthoring(nextState, authoring, progress);
 }
