@@ -94,7 +94,8 @@ describe('loading authored state into template', () => {
               "alleles": "a:w,b:w",
               "sex": 1
             }
-          ]
+          ],
+          "trialOrder": [0,1]
         }));
     });
 
@@ -157,6 +158,39 @@ describe('loading authored state into template', () => {
 
         expect(nextState.drakes[1].alleleString.indexOf(tailGenotype) > -1).toBe(true);
         expect(nextState.drakes[1].alleleString.indexOf(hornsGenotype) > -1).toBe(true);
+      });
+    });
+  });
+
+  describe('with randomized trials', () => {
+    describe('in the GenomeChallenge template', () => {
+      let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles([
+            [
+              {},
+              {
+                "template": "GenomeChallenge",
+                "randomizeTrials": true,
+                "initialDrake": {
+                  "alleles": "W-w",
+                  "sex": 1
+                },
+                "targetDrakes": [{}, {}, {}, {}, {}, {}, {}, {}]
+              }
+            ]
+          ], ["alleles"]);
+
+      let defaultState = reducer(undefined, {});
+      let initialState = defaultState.merge({
+        case: 0,
+        challenge: 0,
+        authoring: authoring
+      });
+
+      let nextState = reducer(initialState, navigateToChallenge(0, 1));
+
+      it('should create a random ordering of trials', () => {
+        expect(nextState.trialOrder.length).toBe(8);
+        expect(nextState.trialOrder).toNotEqual([0,1,2,3,4,5,6,7]); // 1/40320 chance that this will fail
       });
     });
   });

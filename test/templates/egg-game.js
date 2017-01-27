@@ -128,7 +128,8 @@ describe('loading authored state into template', () => {
           ],
           "gametes": [ {}, {} ],
           "goalMoves": nextState.goalMoves,
-          "trials": [ {}, {}, {} ]
+          "trials": [ {}, {}, {} ],
+          "trialOrder": [0,1,2]
         }));
     });
 

@@ -50,6 +50,31 @@ function processAuthoredDrakes(authoredChallenge, trial, template) {
   return drakes;
 }
 
+// Returns an array [0...len], optionally shuffled
+function createTrialOrder(trial, trials, currentTrialOrder, shuffle) {
+  if (trial > 0) {
+    return currentTrialOrder;
+  }
+  if (!trials || trials.length === 0) {
+    return [0];
+  }
+
+  let trialOrder = [];
+  for (let i = 0, ii = trials.length; i < ii; i++) {
+    trialOrder[i] = i;
+  }
+  if (shuffle) {
+    var j, x, i;
+    for (i = trialOrder.length; i; i--) {
+        j = Math.floor(Math.random() * i);
+        x = trialOrder[i - 1];
+        trialOrder[i - 1] = trialOrder[j];
+        trialOrder[j] = x;
+    }
+  }
+  return trialOrder;
+}
+
 export function loadStateFromAuthoring(state, authoring, progress={}) {
   let trial = state.trial ? state.trial : 0;
 
@@ -71,7 +96,8 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
         baskets = processAuthoredBaskets(authoredChallenge, state),
         showUserDrake = (authoredChallenge.showUserDrake != null) ? authoredChallenge.showUserDrake : false,
         trials = authoredChallenge.targetDrakes,
-        drakes = processAuthoredDrakes(authoredChallenge, trial, template);
+        trialOrder = createTrialOrder(trial, trials, state.trialOrder, authoredChallenge.randomizeTrials),
+        drakes = processAuthoredDrakes(authoredChallenge, trialOrder[trial], template);
 
   let goalMoves = null;
   if (template.calculateGoalMoves) {
@@ -97,6 +123,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     gametes,
     trial,
     trials,
+    trialOrder,
     challenges,
     correct: 0,
     errors: 0,

@@ -281,6 +281,7 @@
     {
       "comment": "*** Case 6: Challenge 2 - Multiple initial drakes ***",
       "template": "GenomeChallenge",
+      "randomizeTrials": true,
       "instructions": "Match the target drake!",
       "showUserDrake": true,
       "initialDrake": [
