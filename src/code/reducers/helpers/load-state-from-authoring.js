@@ -78,11 +78,6 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     goalMoves = template.calculateGoalMoves(drakes);
   }
 
-  let gametes = [];
-  if (template.initialGametesArray) {
-    gametes = template.initialGametesArray();
-  }
-
   return state.merge({
     template: templateName,
     challengeType,
@@ -94,7 +89,6 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     hiddenAlleles,
     baskets,
     drakes,
-    gametes,
     trial,
     trials,
     challenges,

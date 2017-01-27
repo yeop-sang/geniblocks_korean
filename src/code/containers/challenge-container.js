@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import templates from '../templates';
-import { changeAllele, changeSex, submitDrake, resetGametes,
+import { changeAllele, changeSex, submitDrake,
         navigateToCurrentRoute, navigateToChallenge, navigateToNextChallenge,
-        addGameteChromosome, keepOffspring, fertilize, hatch, completeChallenge,
+        keepOffspring, fertilize, hatch, completeChallenge,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket } from '../actions';
-import { addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/parent-gametes';
+import { addGameteChromosome, resetGametes,
+        addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/parent-gametes';
 
 function hasChangedRouteParams(props) {
   const { case: currCase, challenge: currChallenge, routeParams } = props,
@@ -68,7 +69,6 @@ function mapStateToProps (state) {
       showUserDrake: state.showUserDrake,
       drakes: state.drakes,
       gametes: state.gametes,
-      parentGametes: state.parentGametes,
       userChangeableGenes: state.userChangeableGenes,
       visibleGenes: state.visibleGenes,
       hiddenAlleles: state.hiddenAlleles,

@@ -538,15 +538,6 @@ export function completeChallenge() {
   };
 }
 
-export function addGameteChromosome(index, name, side) {
-  return{
-    type: actionTypes.GAMETE_CHROMOSOME_ADDED,
-    index,
-    name,
-    side
-  };
-}
-
 export function fertilize(gamete1, gamete2) {
   return {
     type: actionTypes.FERTILIZED,
@@ -592,12 +583,6 @@ export function keepOffspring(index, success, maxDrakes) {
         }
       }));
     }
-  };
-}
-
-export function resetGametes() {
-  return {
-    type: actionTypes.GAMETES_RESET
   };
 }
 

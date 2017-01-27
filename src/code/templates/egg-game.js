@@ -482,7 +482,7 @@ var animationEvents = {
             gametePoolId = sex === BioLogica.MALE ? 'father-gamete-pen' : 'mother-gamete-pen',
             gametePoolElt = document.getElementById(gametePoolId),
             gametePoolBounds = gametePoolElt.getBoundingClientRect(),
-            gameteCount = gametePoolSelector(sex)(_this.props.parentGametes).length,
+            gameteCount = gametePoolSelector(sex)(_this.props.gametes).length,
             topOffset = sex === BioLogica.MALE ? 15 : 3,
             leftOffset = 3 + 31.125 * gameteCount,
             dstGameteBounds = { top: gametePoolBounds.top + topOffset,
@@ -697,7 +697,7 @@ export default class EggGame extends Component {
   }
 
   fillGametePools() {
-    const { parentGametes, onAddGametesToPool } = this.props;
+    const { gametes, onAddGametesToPool } = this.props;
     let   createdGametes = this.state.createdGametes || [[], []],
           shouldUpdateCreatedGametes = false;
 
@@ -710,7 +710,7 @@ export default class EggGame extends Component {
     }
 
     for (let sex = 0; sex <= 1; ++sex) {
-      const poolLength = gametePoolSelector(sex)(parentGametes).length;
+      const poolLength = gametePoolSelector(sex)(gametes).length;
       while (poolLength + createdGametes[sex].length < authoredTotalGameteCount)
         createdGametes[sex].push(randomGamete(sex));
       if (createdGametes[sex].length) {
@@ -753,7 +753,8 @@ export default class EggGame extends Component {
     if (animationEvents.selectChromosome.ready) {
       if (isTriggeredByUser) {
         // animating gametes include just-selected chromosomes
-        let   animatingGametes = (this.state.animatingGametes || this.props.gametes.asMutable())
+        let { currentGametes } = this.props.gametes,
+            animatingGametes = (this.state.animatingGametes || currentGametes.asMutable())
                                   .map((gamete, index) => {
                                     let animGamete = assign({}, gamete);
                                     if (index === sex) {
@@ -765,7 +766,7 @@ export default class EggGame extends Component {
                                   });
         // selected gametes don't include just-selected chromosomes (no labels)
         // until the animation completes.
-        animatingGametes.push(this.props.gametes[0].asMutable(), clone(this.props.gametes[1].asMutable()));
+        animatingGametes.push(currentGametes[0].asMutable(), clone(currentGametes[1].asMutable()));
         ++this.activeSelectionAnimations;
         this.setState({ animatingGametes });
         // delay selection of chromosome until animation arrives
@@ -779,8 +780,8 @@ export default class EggGame extends Component {
             animatingGametes = null;
           }
           else {
-            animatingGametes[2] = clone(this.props.gametes[0]);
-            animatingGametes[3] = clone(this.props.gametes[1]);
+            animatingGametes[2] = clone(currentGametes[0]);
+            animatingGametes[3] = clone(currentGametes[1]);
           }
           this.setState({ animatingGametes });
         }, delayStartUserSelectChromosome);
@@ -796,9 +797,10 @@ export default class EggGame extends Component {
   }
 
   render() {
-    const { challengeType, interactionType, instructions, showUserDrake, trial, drakes, gametes, parentGametes,
+    const { challengeType, interactionType, instructions, showUserDrake, trial, drakes, gametes,
             userChangeableGenes, visibleGenes, userDrakeHidden, onChromosomeAlleleChange,
             onFertilize, onHatch, onResetGametes, onKeepOffspring, onDrakeSubmission } = this.props,
+          { currentGametes } = gametes,
           { isIntroComplete, animatingGametes } = this.state,
           firstTargetDrakeIndex = 3, // 0: mother, 1: father, 2: child, 3-5: targets
           targetDrake = drakes[firstTargetDrakeIndex + trial],
@@ -824,7 +826,7 @@ export default class EggGame extends Component {
       onChromosomeAlleleChange(0, chrom, side, prevAllele, newAllele);
     };
     const handleFertilize = function() {
-      if (areGametesComplete(gametes)) {
+      if (areGametesComplete(currentGametes)) {
         animationEvents.selectChromosome.ready = false;
         animatedComponents = [];
         animationEvents.fertilize.animate();
@@ -967,17 +969,17 @@ export default class EggGame extends Component {
       } else {
         let text = t("~BUTTON.FERTILIZE"),
             buttonClasses = classNames('fertilize-button', challengeClasses);
-        if (!areGametesComplete(gametes)) {
+        if (!areGametesComplete(currentGametes)) {
           text = t("~BUTTON.FERTILIZE_DISABLED"),
           buttonClasses += " disabled";
         }
         childView = <ButtonView className={ buttonClasses } label={ text } onClick={ handleFertilize } />;
       }
     }
-    const motherSelectedChromosomes = animatingGametes ? animatingGametes[1] : gametes[1],
-          fatherSelectedChromosomes = animatingGametes ? animatingGametes[0] : gametes[0],
-          motherBaseChromosomes = animatingGametes ? animatingGametes[3] : gametes[1],
-          fatherBaseChromosomes = animatingGametes ? animatingGametes[2] : gametes[0],
+    const motherSelectedChromosomes = animatingGametes ? animatingGametes[1] : currentGametes[1],
+          fatherSelectedChromosomes = animatingGametes ? animatingGametes[0] : currentGametes[0],
+          motherBaseChromosomes = animatingGametes ? animatingGametes[3] : currentGametes[1],
+          fatherBaseChromosomes = animatingGametes ? animatingGametes[2] : currentGametes[0],
           femaleGameteChromosomeMap = getGameteChromosomeMap(mother, motherBaseChromosomes, 'a'),
           maleGameteChromosomeMap = getGameteChromosomeMap(father, fatherBaseChromosomes, 'b'),
           ovumChromosomes = getChromosomesFromMap(femaleGameteChromosomeMap, 'a'),
@@ -1001,8 +1003,8 @@ export default class EggGame extends Component {
 
     const parentGenomeClass = classNames('parent', challengeClasses),
           childGenomeClass = classNames('child', challengeClasses),
-          motherGametes = motherGametePool(parentGametes) || [],
-          fatherGametes = fatherGametePool(parentGametes) || [];
+          motherGametes = motherGametePool(gametes) || [],
+          fatherGametes = fatherGametePool(gametes) || [];
 
     function parentGenomeView(sex) {
       const uniqueProps = sex === BioLogica.FEMALE
@@ -1032,10 +1034,10 @@ export default class EggGame extends Component {
       const uniqueProps = sex === BioLogica.FEMALE
                               ? { id: 'mother-gamete-pen', idPrefix: 'mother-gamete-',
                                   gametes: motherGametes,
-                                  selectedIndex: motherSelectedGameteIndex(parentGametes) }
+                                  selectedIndex: motherSelectedGameteIndex(gametes) }
                               : { id: 'father-gamete-pen', idPrefix: 'father-gamete-',
                                   gametes: fatherGametes,
-                                  selectedIndex: fatherSelectedGameteIndex(parentGametes) };
+                                  selectedIndex: fatherSelectedGameteIndex(gametes) };
       return <GametePenView {...uniqueProps} gameteSize={0.6} rows={1} columns={8}
                             sex={sex} showChromosomes='selected'
                             onClick={_this.handleGameteSelected} />;
@@ -1138,7 +1140,6 @@ export default class EggGame extends Component {
     trial: PropTypes.number.isRequired,
     drakes: PropTypes.array.isRequired,
     gametes: PropTypes.array.isRequired,
-    parentGametes: PropTypes.object,
     userChangeableGenes: PropTypes.array.isRequired,
     visibleGenes: PropTypes.array.isRequired,
     userDrakeHidden: PropTypes.bool,
@@ -1193,10 +1194,6 @@ export default class EggGame extends Component {
       authoredDrakes.push({ alleles: childAlleles, sex: child.sex });
     }
     return authoredDrakes;
-  }
-
-  static initialGametesArray = function() {
-    return [{}, {}];
   }
 
   static calculateGoalMoves = function() {
