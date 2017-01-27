@@ -26,14 +26,14 @@ export const GAMETE_SELECTED = "Gamete selected in pool";
     selectedIndices: array of two indices representing the index of
                       the selected gamete (if any) for each parent
  */
-const initialState = Immutable({
-                        // the current gametes are represented in the central half-genome views
-                        currentGametes: [{}, {}],
-                        // the gamete pools for each parent
-                        parentPools: [[], []],
-                        // the indices of the selected gamete in each pool
-                        selectedIndices: [null, null]
-                      });
+export const initialState = Immutable({
+                              // the current gametes are represented in the central half-genome views
+                              currentGametes: [{}, {}],
+                              // the gamete pools for each parent
+                              parentPools: [[], []],
+                              // the indices of the selected gamete in each pool
+                              selectedIndices: [null, null]
+                            });
 
 /*
  * reducer
@@ -71,9 +71,8 @@ export default function reducer(state = initialState, action) {
       }
       return state.merge(newState);
     case GAMETES_RESET:
-      newState.currentGametes = [{}, {}];
-      newState.selectedIndices = [null, null];
-      return state.merge(newState);
+      return state.merge({ currentGametes: initialState.currentGametes,
+                          selectedIndices: initialState.selectedIndices});
     default:
       return state;
   }
@@ -122,7 +121,6 @@ export function addGametesToPool(sex, gametes) {
     sex,
     gametes: cloneDeep(gametes),
     meta: {
-      logTemplateState: false,
       itsLog: {
         actor: ITS_ACTORS.SYSTEM,
         action: ITS_ACTIONS.ADDED,
@@ -139,7 +137,6 @@ function _selectGameteInPool(sex, index, gamete) {
     index,
     gamete,
     meta: {
-      logTemplateState: false,
       itsLog: {
         actor: ITS_ACTORS.USER,
         action: ITS_ACTIONS.SELECTED,
