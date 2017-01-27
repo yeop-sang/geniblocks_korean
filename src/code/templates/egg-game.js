@@ -726,7 +726,9 @@ export default class EggGame extends Component {
   handleGameteSelected = (poolID, sex, gameteIndex, /*gameteID, gamete*/) => {
     if (!this.state.isIntroComplete) {
       // user selection of a gamete terminates intro animation
+      animatedComponents = [];
       resetAnimationEvents(kShowGametes);
+      chromosomeDisplayStyle = {};
       this.fillGametePools();
       this.setState({ isIntroComplete: true });
     }
