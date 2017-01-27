@@ -554,10 +554,11 @@ export function hatch() {
 }
 
 
-function _keepOffspring(index, success) {
+function _keepOffspring(index, success, interactionType) {
   let incrementMoves = !success;
   return {
     type: actionTypes.OFFSPRING_KEPT,
+    interactionType,
     index,
     success,
     incrementMoves
@@ -565,8 +566,10 @@ function _keepOffspring(index, success) {
 }
 
 export function keepOffspring(index, success, maxDrakes) {
-    return (dispatch, getState) => {
-    dispatch(_keepOffspring(index, success));
+  return (dispatch, getState) => {
+    const { interactionType } = getState();
+
+    dispatch(_keepOffspring(index, success, interactionType));
 
     if (success) {
       const { drakes } = getState();

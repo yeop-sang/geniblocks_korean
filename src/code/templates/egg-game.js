@@ -561,8 +561,7 @@ var animationEvents = {
       if (showHatchAnimation)
         animationEvents.hatch.animate();
       else
-        animationEvents.hatch.complete = true;
-      _this.setState({ animation: 'complete' });
+        animationEvents.hatch.onFinish();
     }
   },
   hatch: { id: 7, inProgress: false, complete: false,
@@ -669,12 +668,14 @@ export default class EggGame extends Component {
   componentWillReceiveProps(nextProps) {
     const { case: prevCase, challenge: prevChallenge,
             trial: prevTrial, gametes: prevGametes } = this.props,
+          { currentGametes: prevCurrentGametes } = prevGametes,
           { case: nextCase, challenge: nextChallenge,
             trial: nextTrial, gametes: nextGametes,
             showUserDrake, onResetGametes, onResetGametePools } = nextProps,
+          { currentGametes: nextCurrentGametes } = nextGametes,
           newChallenge = (prevCase !== nextCase) || (prevChallenge !== nextChallenge),
           newTrialInChallenge = !newChallenge && (prevTrial !== nextTrial),
-          gametesReset = !areGametesEmpty(prevGametes) && areGametesEmpty(nextGametes);
+          gametesReset = !areGametesEmpty(prevCurrentGametes) && areGametesEmpty(nextCurrentGametes);
     if (newChallenge || newTrialInChallenge || gametesReset) {
       if (newChallenge) {
         challengeDidChange = true;
@@ -1141,7 +1142,9 @@ export default class EggGame extends Component {
     showUserDrake: PropTypes.bool.isRequired,
     trial: PropTypes.number.isRequired,
     drakes: PropTypes.array.isRequired,
-    gametes: PropTypes.array.isRequired,
+    gametes: PropTypes.shape({
+              currentGametes: PropTypes.array
+            }).isRequired,
     userChangeableGenes: PropTypes.array.isRequired,
     visibleGenes: PropTypes.array.isRequired,
     userDrakeHidden: PropTypes.bool,

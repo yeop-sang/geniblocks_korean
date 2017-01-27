@@ -57,13 +57,19 @@ export default function reducer(state = initialState, action) {
                   .setIn(['selectedIndices', action.sex], action.index);
     case actionTypes.OFFSPRING_KEPT:
       // remove selected gamete from pool after offspring drake is kept
-      newState.parentPools = state.parentPools.map((pool, poolIndex) => {
-                                return pool.map((gamete, gameteIndex) => {
-                                  return gameteIndex === state.selectedIndices[poolIndex]
-                                          ? null : gamete;
+      if (action.interactionType === 'select-gametes') {
+        newState.parentPools = state.parentPools.map((pool, poolIndex) => {
+                                  return pool.map((gamete, gameteIndex) => {
+                                    return gameteIndex === state.selectedIndices[poolIndex]
+                                            ? null : gamete;
+                                  });
                                 });
-                              });
-      // fallthrough intentional
+      }
+      if (action.success) {
+        newState.currentGametes = initialState.currentGametes;
+        newState.selectedIndices = initialState.selectedIndices;
+      }
+      return state.merge(newState);
     case GAMETES_RESET:
       newState.currentGametes = [{}, {}];
       newState.selectedIndices = [null, null];
