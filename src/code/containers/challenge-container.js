@@ -6,7 +6,7 @@ import { changeAllele, changeSex, submitDrake,
         keepOffspring, fertilize, hatch, completeChallenge,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket } from '../actions';
 import { addGameteChromosome, resetGametes,
-        addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/parent-gametes';
+        addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/gametes';
 
 function hasChangedRouteParams(props) {
   const { case: currCase, challenge: currChallenge, routeParams } = props,

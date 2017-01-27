@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { assign, clone, cloneDeep } from 'lodash';
 import classNames from 'classnames';
 import { motherGametePool, fatherGametePool, gametePoolSelector,
-        motherSelectedGameteIndex, fatherSelectedGameteIndex } from '../modules/parent-gametes';
+        motherSelectedGameteIndex, fatherSelectedGameteIndex } from '../modules/gametes';
 import OrdinalOrganismView from '../components/ordinal-organism';
 import OrganismView from '../components/organism';
 import GenomeView from '../components/genome';

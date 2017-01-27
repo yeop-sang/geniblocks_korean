@@ -9,7 +9,7 @@ import routing from './routing';
 import moves from './moves';
 import modalDialog from './modal-dialog';
 import userDrakeHidden from './user-drake-hidden';
-import gametes, { motherCurrentGamete, fatherCurrentGamete } from '../modules/parent-gametes';
+import gametes, { motherCurrentGamete, fatherCurrentGamete } from '../modules/gametes';
 import drakes from './drakes';
 import baskets from './baskets';
 import notifications from './notifications';
