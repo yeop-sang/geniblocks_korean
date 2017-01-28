@@ -48,7 +48,7 @@ const slotMachineBaseInterval = 30, // msec
       // pause after animating chromosomes to half-genome before animating to gamete
       delayStartMoveChromosomesToGamete = 0,  // msec
       durationFertilizationAnimation = 3000,  // msec
-      durationHatchAnimation = 3000,  // msec
+      durationHatchAnimation = 2000,  // msec
       // ultimately should be specifiable in authoring
       authoredTotalGameteCount = 8,
       kShowGametes = true, kHideGametes = false;
@@ -464,7 +464,8 @@ var animationEvents = {
       _this.setState({ animation: 'moveChromosomesToGamete', animatingGametes, createdGametes });
     },
     onFinish: function() {
-      if (--animationEvents.moveChromosomesToGamete.activeCount === 0) {
+      if (animationEvents.moveChromosomesToGamete.activeCount &&
+          (--animationEvents.moveChromosomesToGamete.activeCount === 0)) {
         animatedComponents = [];
         animationEvents.moveChromosomesToGamete.sexes.forEach((sex) => {
           animationEvents.moveGameteToPool.
@@ -539,7 +540,8 @@ var animationEvents = {
       _this.setState({animation:"selectChromosome"});
     },
     onFinish: function() {
-      if (--animationEvents.selectChromosome.activeCount === 0) {
+      if (animationEvents.selectChromosome.activeCount &&
+          (--animationEvents.selectChromosome.activeCount === 0)) {
         if (animationEvents.selectChromosome.onFinishCaller)
           animationEvents.selectChromosome.onFinishCaller(animationEvents.selectChromosome.id);
         else
@@ -587,6 +589,8 @@ function resetAnimationEvents(iShowGametes, iShowHatchAnimation){
   animationEvents.randomizeChromosomes.count = 0;
   animationEvents.randomizeChromosomes.stages = [];
   animationEvents.selectChromosome.ready = true;
+  animationEvents.selectChromosome.activeCount = 0;
+  animationEvents.moveChromosomesToGamete.activeCount = 0;
   animationEvents.fertilize.started = false;
   animationEvents.fertilize.complete = false;
   animationEvents.hatch.inProgress = false;
