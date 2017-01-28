@@ -84,7 +84,7 @@
         "alleles": "w-W, m-m, T-T, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 0
       },
-      "hiddenAlleles": "t,tk,h,c,a,b,d,bog,rh"
+      "visibleGenes": "metallic, wings, forelimbs, hindlimbs"
     },
     {
       "comment": "*** Case 2: Challenge 2 - Egg Game I(g) (select gametes to create five unique drakes) ***",
@@ -101,7 +101,7 @@
         "alleles": "w-W, m-m, T-T, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 0
       },
-      "visibleGenes": "metallic, wings, forelimbs, hindlimbs",
+      "visibleGenes": "metallic, wings, forelimbs, hindlimbs"
     }
   ],
   [
@@ -120,7 +120,7 @@
         "sex": 0
       },
       "targetDrakes": [{},{},{}],
-      "visibleGenes": "metallic, wings, forelimbs, hindlimbs",
+      "visibleGenes": "metallic, wings, forelimbs, hindlimbs"
     },
     {
       "comment": "*** Case 3: Challenge 2 - Egg Game II (match three drakes, user drake hidden) ***",

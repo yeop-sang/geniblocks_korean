@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import { map } from 'lodash';
+import { assign, map } from 'lodash';
 import { toClass } from 'recompose';
 import Dimensions from 'react-dimensions';
 import GameteImageView from './gamete-image';
@@ -10,12 +10,18 @@ import GameteImageView from './gamete-image';
  * @param {number} tightenRows - If given, will shrink the vertical height of the pen by this amount
  *                        per row, crowding the org images as needed.
  */
-const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, containerWidth, containerHeight, rows, columns, tightenRows=0, tightenColumns=0, selectedIndex, onClick}) => {
+const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, showChromosomes=true, containerWidth, containerHeight, rows, columns, tightenRows=0, tightenColumns=0, selectedIndex, selectedColor='#FF6666', onClick}) => {
 
-  function handleClick(id, org) {
-    const prefixIndex = id.indexOf(idPrefix),
-          index = Number(id.substr(prefixIndex + idPrefix.length));
-    if (onClick) onClick(index, id, org);
+  function handleGameteClick(evt, gameteID) {
+    const prefixIndex = gameteID.indexOf(idPrefix),
+          gameteIndex = Number(gameteID.substr(prefixIndex + idPrefix.length));
+    if (onClick) onClick(id, sex, gameteIndex, gameteID, gametes[gameteIndex]);
+    evt.stopPropagation();
+  }
+
+  function handlePenClick(evt) {
+    if (onClick) onClick(id, sex, null);
+    evt.stopPropagation();
   }
 
   const availableWidth = containerWidth - 12,
@@ -58,22 +64,34 @@ const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, co
               top: yMargin + row * effectiveHeight };
   }
 
+  function shouldShowChromosomes(index) {
+    if ((showChromosomes === 'all') || (showChromosomes === true)) return true;
+    if ((showChromosomes === 'selected') && (index === selectedIndex)) return true;
+    return false;
+  }
+
   let isEgg = sex === BioLogica.FEMALE,
-      gameteDisplayStyle = { size: gameteSize },
+      gameteDefaultDisplayStyle = { size: gameteSize },
       gameteViews = gametes.map((gamete, index) => {
-        const chromosomes = map(gamete, (side, name) => { return { name, side }; }),
+        const chromosomes = shouldShowChromosomes(index)
+                              ? map(gamete, (side, name) => { return { name, side }; })
+                              : [],
               className = index === selectedIndex ? 'selected' : '',
-              eltStyle = getGameteStyle(index);
-        return <GameteImageView isEgg={isEgg} chromosomes={chromosomes} key={index}
-                                id={idPrefix + index} className={className}
-                                style={eltStyle} displayStyle={gameteDisplayStyle}
-                                onClick={handleClick}/>;
+              eltStyle = getGameteStyle(index),
+              gameteDisplayStyle = assign({}, gameteDefaultDisplayStyle,
+                                          index === selectedIndex ? { fillColor: selectedColor } : null);
+        return gamete != null
+                ? <GameteImageView isEgg={isEgg} chromosomes={chromosomes} key={index}
+                                    id={idPrefix + index} className={className}
+                                    style={eltStyle} displayStyle={gameteDisplayStyle}
+                                    onClick={handleGameteClick}/>
+                : null;
       });
 
   let containerStyle = { position: 'relative' };
 
   return (
-    <div id={id} className="geniblocks gamete-pen" style={containerStyle}>
+    <div id={id} className="geniblocks gamete-pen" style={containerStyle} onClick={handlePenClick}>
       { gameteViews }
     </div>
   );
@@ -87,12 +105,13 @@ GametePenView.propTypes = {
   containerWidth: PropTypes.number,
   containerHeight: PropTypes.number,
   gameteSize: PropTypes.number,
+  showChromosomes: PropTypes.bool,
   rows: PropTypes.number,
   columns: PropTypes.number,
   tightenColumns: PropTypes.number,
   tightenRows: PropTypes.number,
-  // SelectedOrganismView: PropTypes.func,
   selectedIndex: PropTypes.number,
+  selectedColor: PropTypes.string,
   onClick: PropTypes.func
 };
 

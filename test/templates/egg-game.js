@@ -126,7 +126,6 @@ describe('loading authored state into template', () => {
               "sex": nextState.drakes[5].sex
             }
           ],
-          "gametes": [ {}, {} ],
           "goalMoves": nextState.goalMoves,
           "trials": [ {}, {}, {} ]
         }));

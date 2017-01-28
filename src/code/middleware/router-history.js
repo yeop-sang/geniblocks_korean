@@ -6,7 +6,7 @@
  * that they may be logged.
  */
 
-import { actionTypes } from '../actions';
+import actionTypes from '../action-types';
 
 export default function routerMiddleware(history) {
   return () => next => action => {

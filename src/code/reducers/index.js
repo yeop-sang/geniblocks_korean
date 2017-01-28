@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-import { actionTypes } from '../actions';
+import actionTypes from '../action-types';
 import { loadStateFromAuthoring, loadNextTrial } from './helpers/load-state-from-authoring';
 import { updateProgress, setProgressScore } from './helpers/challenge-progress';
 import urlParams from '../utilities/url-params';
@@ -9,8 +9,7 @@ import routing from './routing';
 import moves from './moves';
 import modalDialog from './modal-dialog';
 import userDrakeHidden from './user-drake-hidden';
-import gametes from './gametes';
-import gametePools from './gamete-pools';
+import gametes, { motherCurrentGamete, fatherCurrentGamete } from '../modules/gametes';
 import drakes from './drakes';
 import baskets from './baskets';
 import notifications from './notifications';
@@ -42,7 +41,6 @@ export default function reducer(state, action) {
     modalDialog: modalDialog(state.modalDialog, action),
     userDrakeHidden: userDrakeHidden(state.userDrakeHidden, action),
     gametes: gametes(state.gametes, action),
-    gametePools: gametePools(state.gametePools, action),
     drakes: drakes(state.drakes, action),
     baskets: baskets(state.baskets, action),
     notifications: notifications(state.notifications, action)
@@ -64,12 +62,12 @@ export default function reducer(state, action) {
           alleleString = "",
           sex = 1;
       for (let name in chromosomes0) {
-        let side = state.gametes[1][name];
+        let side = motherCurrentGamete(state.gametes)[name];
         let chromosome = chromosomes0[name][side];
         if (chromosome && chromosome.alleles) alleleString += "a:" + chromosome.alleles.join(",a:") + ",";
       }
       for (let name in chromosomes1) {
-        let side = state.gametes[0][name];
+        let side = fatherCurrentGamete(state.gametes)[name];
         if (side === "y") sex = 0;
         let chromosome = chromosomes1[name][side];
         if (chromosome && chromosome.alleles && chromosome.alleles.length) alleleString += "b:" + chromosome.alleles.join(",b:") + ",";

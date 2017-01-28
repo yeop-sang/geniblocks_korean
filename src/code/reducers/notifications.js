@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-import { actionTypes } from '../actions';
+import actionTypes from '../action-types';
 import urlParams from '../utilities/url-params';
 
 const initialState = Immutable([]);

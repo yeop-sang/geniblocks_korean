@@ -1,4 +1,4 @@
-import { actionTypes } from '../actions';
+import actionTypes from '../action-types';
 import templates from '../templates';
 import GuideProtocol from '../utilities/guide-protocol';
 
@@ -52,7 +52,9 @@ function getValue(obj, path) {
   return obj;
 }
 
-function makeMutable(obj) {
+// exported for unit test purposes
+export function makeMutable(obj) {
+  if (!obj) return obj;
   if (obj.asMutable) {
     return obj.asMutable({deep: true});
   } else if (obj.isArray) {
@@ -67,18 +69,20 @@ function makeMutable(obj) {
   return obj;
 }
 
-function changePropertyValues(obj, key, func) {
+// exported for unit test purposes
+export function changePropertyValues(obj, key, func) {
+  if (!obj) return;
   if (obj.isArray) {
     for (let item of obj) {
       changePropertyValues(item, key, func);
     }
   } else for (let prop in obj) {
-    if (prop === key) {
-      obj[prop] = func(obj[prop]);
-    } else if (typeof obj[prop] === "object") {
-      changePropertyValues(obj[prop], key, func);
+      if (prop === key) {
+        obj[prop] = func(obj[prop]);
+      } else if (typeof obj[prop] === "object") {
+        changePropertyValues(obj[prop], key, func);
+      }
     }
-  }
 }
 
 function createLogEntry(action, nextState){

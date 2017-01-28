@@ -1,69 +1,7 @@
-import { cloneDeep } from 'lodash';
+import actionTypes from './action-types';
+import { ITS_ACTORS, ITS_ACTIONS, ITS_TARGETS } from './its-constants';
 
-export const actionTypes = {
-  SESSION_STARTED: "Session started",
-  AUTHORING_CHANGED: "Authoring changed",
-  LOADED_CHALLENGE_FROM_AUTHORING: "Loaded challenge from authoring",
-  NAVIGATED: "Navigated",
-  CHALLENGE_COMPLETE: "Challenge completed",
-  BRED: "Bred",
-  ALLELE_CHANGED: "Allele changed",
-  SEX_CHANGED: "Sex changed",
-  GAMETE_CHROMOSOME_ADDED: "Gamete chromosome added",
-  GAMETES_ADDED_TO_POOL: "Gametes added to gamete pool",
-  FERTILIZED: "Fertilized",
-  HATCHED: "Hatched",
-  EGG_SUBMITTED: "Egg submitted",
-  EGG_ACCEPTED: "Egg accepted",
-  EGG_REJECTED: "Egg rejected",
-  OFFSPRING_KEPT: "Offspring kept",
-  BASKET_SELECTION_CHANGED: "Basket selection changed",
-  DRAKE_SELECTION_CHANGED: "Drake selection changed",
-  DRAKE_SUBMITTED: "Drake submitted",
-  GAMETES_RESET: "Gametes reset",
-  GAMETE_POOLS_RESET: "Gamete pools reset",
-  NAVIGATED_NEXT_CHALLENGE: "Navigated to next challenge",
-  NAVIGATED_PAGE: "Navigated to another page",
-  MODAL_DIALOG_SHOWN: "Modal dialog shown",
-  MODAL_DIALOG_DISMISSED: "Modal dialog dismissed",
-  ADVANCED_TRIAL: "Advanced to next trial",
-  ADVANCED_CHALLENGE: "Advanced to next challenge",
-  GUIDE_CONNECTED: "Guide connected",
-  GUIDE_MESSAGE_RECEIVED: "Guide message received",
-  GUIDE_ALERT_RECEIVED: "Guide alert received",
-  GUIDE_ERRORED: "Guide errored"
-};
-
-const ITS_ACTORS = {
-  SYSTEM: "SYSTEM",
-  USER: "USER"
-};
-
-const ITS_ACTIONS = {
-  STARTED: "STARTED",
-  NAVIGATED: "NAVIGATED",
-  ADVANCED: "ADVANCED",
-  ADDED: "ADDED",
-  CHANGED: "CHANGED",
-  CHANGED_SELECTION: "CHANGED_SELECTION",
-  SUBMITTED: "SUBMITTED",
-  ACCEPTED: "ACCEPTED",
-  REJECTED: "REJECTED"
-};
-
-const ITS_TARGETS = {
-  AUTHORING: "AUTHORING",
-  SESSION: "SESSION",
-  CHALLENGE: "CHALLENGE",
-  TRIAL: "TRIAL",
-  ALLELE: "ALLELE",
-  GAMETE: "GAMETE",
-  SEX: "SEX",
-  EGG: "EGG",
-  BASKET: "BASKET",
-  DRAKE: "DRAKE",
-  PAGE: "PAGE"
-};
+export { actionTypes };
 
 export function startSession(uuid) {
   return {
@@ -600,31 +538,6 @@ export function completeChallenge() {
   };
 }
 
-export function addGameteChromosome(index, name, side) {
-  return{
-    type: actionTypes.GAMETE_CHROMOSOME_ADDED,
-    index,
-    name,
-    side
-  };
-}
-
-export function addGametesToPool(index, gametes) {
-  return {
-    type: actionTypes.GAMETES_ADDED_TO_POOL,
-    index,
-    gametes: cloneDeep(gametes),
-    meta: {
-      logTemplateState: true,
-      itsLog: {
-        actor: ITS_ACTORS.SYSTEM,
-        action: ITS_ACTIONS.ADDED,
-        target: ITS_TARGETS.GAMETE
-      }
-    }
-  };
-}
-
 export function fertilize(gamete1, gamete2) {
   return {
     type: actionTypes.FERTILIZED,
@@ -641,10 +554,11 @@ export function hatch() {
 }
 
 
-function _keepOffspring(index, success) {
+function _keepOffspring(index, success, interactionType) {
   let incrementMoves = !success;
   return {
     type: actionTypes.OFFSPRING_KEPT,
+    interactionType,
     index,
     success,
     incrementMoves
@@ -652,8 +566,10 @@ function _keepOffspring(index, success) {
 }
 
 export function keepOffspring(index, success, maxDrakes) {
-    return (dispatch, getState) => {
-    dispatch(_keepOffspring(index, success));
+  return (dispatch, getState) => {
+    const { interactionType } = getState();
+
+    dispatch(_keepOffspring(index, success, interactionType));
 
     if (success) {
       const { drakes } = getState();
@@ -673,14 +589,3 @@ export function keepOffspring(index, success, maxDrakes) {
   };
 }
 
-export function resetGametes() {
-  return {
-    type: actionTypes.GAMETES_RESET
-  };
-}
-
-export function resetGametePools() {
-  return {
-    type: actionTypes.GAMETE_POOLS_RESET
-  };
-}

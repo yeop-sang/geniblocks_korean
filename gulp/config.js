@@ -14,7 +14,7 @@ module.exports = {
     public: publicGeniverse + '/js/'
   },
   geniblocksJS: {
-    watch: [src + '/code/**/*.*'],
+    watch: [src + '/code/**/*.*', src + '/resources/authoring/*.*'],
     src: src + '/code/geniblocks.js',
     public: publicExamples + '/js/',
     dist: dist

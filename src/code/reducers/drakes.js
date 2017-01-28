@@ -1,5 +1,6 @@
 import Immutable from 'seamless-immutable';
-import { actionTypes } from '../actions';
+import actionTypes from '../action-types';
+import { GAMETES_RESET } from '../modules/gametes';
 
 const initialState = Immutable([]);
 
@@ -20,7 +21,7 @@ export default function drakes(state = initialState, action) {
       return state.map((drake, index) => {
         if (drake == null) return drake;
         const wasSelected = !!drake.isSelected,
-              isSelected = (action.selectedIndices != null) && 
+              isSelected = (action.selectedIndices != null) &&
                             (action.selectedIndices.indexOf(index) >= 0);
         let newDrake = drake;
         if (isSelected !== wasSelected) {
@@ -29,7 +30,7 @@ export default function drakes(state = initialState, action) {
         }
         return newDrake;
       });
-    case actionTypes.GAMETES_RESET:
+    case GAMETES_RESET:
       return state.set(2, null);
     case actionTypes.OFFSPRING_KEPT:
       if (action.success) {
