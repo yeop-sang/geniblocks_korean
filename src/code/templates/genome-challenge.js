@@ -84,7 +84,7 @@ export default class GenomeChallengeTemplate extends Component {
   static authoredDrakesToDrakeArray = function(authoredChallenge, trial) {
     if (authoredChallenge.trialGenerator) {
       return generateTrialDrakes(authoredChallenge.trialGenerator, trial);
-    } else if (authoredChallenge.initialDrake.constructor === Array) {
+    } else if (Array.isArray(authoredChallenge.initialDrake)) {
       return [authoredChallenge.initialDrake[trial], authoredChallenge.targetDrakes[trial]];
     } else {
       return [authoredChallenge.initialDrake, authoredChallenge.targetDrakes[trial]];

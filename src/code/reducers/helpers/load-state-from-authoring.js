@@ -1,4 +1,5 @@
 import templates from '../../templates';
+import { range, shuffle } from 'lodash';
 
 /**
  * Tolerant splitter into a list of strings.
@@ -7,7 +8,7 @@ import templates from '../../templates';
  */
 function split(list) {
   if (list && list.split) return list.split(",").map(item => item.trim());
-  if (list && list.constructor === Array) return list;
+  if (Array.isArray(list)) return list;
   return [];
 }
 
@@ -51,28 +52,14 @@ function processAuthoredDrakes(authoredChallenge, trial, template) {
 }
 
 // Returns an array [0...len], optionally shuffled
-function createTrialOrder(trial, trials, currentTrialOrder, shuffle) {
-  if (trial > 0) {
+function createTrialOrder(trial, trials, currentTrialOrder, doShuffle) {
+  if (trial > 0)
     return currentTrialOrder;
-  }
-  if (!trials || trials.length === 0) {
+  if (!trials)
     return [0];
-  }
-
-  let trialOrder = [];
-  for (let i = 0, ii = trials.length; i < ii; i++) {
-    trialOrder[i] = i;
-  }
-  if (shuffle) {
-    var j, x, i;
-    for (i = trialOrder.length; i; i--) {
-        j = Math.floor(Math.random() * i);
-        x = trialOrder[i - 1];
-        trialOrder[i - 1] = trialOrder[j];
-        trialOrder[j] = x;
-    }
-  }
-  return trialOrder;
+  if (doShuffle)
+    return shuffle( range(trials.length) );
+  return range(trials.length);
 }
 
 export function loadStateFromAuthoring(state, authoring, progress={}) {
@@ -138,7 +125,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
 export function loadNextTrial(state, authoring, progress) {
   let trial = state.trial;
   if (state.trialSuccess){
-    trial = (state.trial < state.trials.length) ? (trial+1) : 1;
+    trial = (state.trial < state.trials.length) ? (trial+1) : 0;
   }
   let nextState = state.merge({
     trial: trial
