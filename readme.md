@@ -1,22 +1,22 @@
 # GeniBlocks
 [![Build Status](https://travis-ci.org/concord-consortium/geniblocks.svg?branch=master)](https://travis-ci.org/concord-consortium/geniblocks)
 
-This repo contains the React-based "Geniverse-2.0" project, as well as an
-independent collection of small, modular React components ("GeniBlocks")
+This repo contains the React-based `Geniverse-2.0` project, as well as an
+independent collection of small, modular React components (`GeniBlocks`)
 that can be used as building blocks for other genetics-based applications.
 
 ### GeniBlocks components
 
-The GeniBlocks components are a collection of "dumb" stateless views
+The `GeniBlocks` components are a collection of "dumb" (mostly) stateless views
 that render entirely based on their properties, and output events that an
-outside container or application can handle. As such, most of the views
+outside container or application can handle. As such, many of the views
 can be written as [Stateless functional components](https://facebook.github.io/react/blog/2015/10/07/react-v0.14.html#stateless-functional-components).
 
 Many views take a [Biologica.js](https://github.com/concord-consortium/biologica.js)
 organism as a property.
 
-The components are used by Geniverse-2.0, but are also built to /dist as their
-own independent React component library. The examples in /public/examples all
+The components are used by `Geniverse-2.0`, but are also built to `/dist` as their
+own independent React component library. The examples in `/public/examples` all
 use the GeniBlocks library this way.
 
 ## Development Setup
@@ -33,7 +33,7 @@ in a separate shell/console:
 
     npm run gv2           # or its alias 'live-server public/gv2'
 
-which will launch a browser tab pointing to the gv2 app at http://localhost:8080/, or
+which will launch a browser tab pointing to the GV2 application at `http://localhost:8080/`, or
 
     npm run examples      # or its alias `live-server public/examples`
 
@@ -49,19 +49,27 @@ due to its greater predictability.
 ## Structure
 
 The code is written in ES2015+ and JSX, which is transformed using Babel. We use
-browserify to build `geniblocks.js` into the global object `GeniBlocks`.
+browserify to build `geniblocks.js` which exposes the global object `GeniBlocks`.
 
 This project aims to be a lightweight library for consumption by other applications.
 Its built products are therefore simply `dist/geniblocks.js` and `dist/geniblocks.css`,
 and we do not bundle React or Biologica.js with the library. The `GV2` sample application
-is currently built along with the `GeniBlocks` lib and is installed into the `/public`
+is currently built along with the `GeniBlocks` library and is installed into the `/public`
 folder along with the other examples as described below. Eventually, it will presumably
 become a separate project in its own right but for now it's convenient to keep them together.
 
 Demos and tests are created in `/examples`, and are built into `/public`, along
 with duplicates of the built scripts, css, and the vendor libraries (React and
 biologica.js), allowing `/public` to be a secondary, stand-alone build product for
-development and deploying demos.
+development and deployment of demos.
+
+## State Management (Redux)
+
+`GV2` uses [Redux](https://github.com/reactjs/redux) for its state management. Initially, actions were defined in `src/code/actions.js`, reducers in `src/code/reducers/`, etc. More recently, related actions and reducers have been combined into modules in `src/code/modules/` loosely following the [Ducks: Redux Reducer Bundles](https://github.com/erikras/ducks-modular-redux) proposal, with some additional ideas gleaned from [The Anatomy Of A React & Redux Module (Applying The Three Rules)](https://jaysoo.ca/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/).
+
+## Logging and Intelligent Tutoring
+
+The `Geniverse-2.0` application is designed to log its state and relevant user actions to the CC Log Manager. Through a partnership with North Carolina State University (supported by the [GeniGUIDE](https://concord.org/projects/geniguide) project) it is also designed to communicate with an Intelligent Tutoring System (ITS) being developed at NCSU.
 
 ## Code Linting
 
@@ -74,7 +82,7 @@ packages, using https://packagecontrol.io/
 
 ## Code Testing
 
-Run `npm test` to run unit tests from the command line.
+Run `npm test` to run unit tests from the command line. Unit test code resides in the `test` directory, which loosely parallels the organization of the `src/code` directory.
 
 ## Using Redux DevTools
 
@@ -94,7 +102,14 @@ Now you can see a list of actions and state changes, a history slider, have the 
 * [Geniverse Lab](https://geniverse-lab.concord.org)
 * [Biologica.js](http://github.com/concord-consortium/biologica.js)
 
+## Support
+
+`Geniverse-2.0` and `GeniBlocks` development is supported in part by
+
+* [GeniConnect](https://concord.org/projects/geniconnect)
+* [GeniGUIDE](https://concord.org/projects/geniguide)
+* [Connected Biology](https://concord.org/projects/connected-biology)
+
 ## License
 
 MIT License. See full text at license.md.
-
