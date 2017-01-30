@@ -1,4 +1,5 @@
 import templates from '../../templates';
+import { range, shuffle } from 'lodash';
 
 /**
  * Tolerant splitter into a list of strings.
@@ -7,7 +8,7 @@ import templates from '../../templates';
  */
 function split(list) {
   if (list && list.split) return list.split(",").map(item => item.trim());
-  if (list && list.constructor === Array) return list;
+  if (Array.isArray(list)) return list;
   return [];
 }
 
@@ -50,6 +51,17 @@ function processAuthoredDrakes(authoredChallenge, trial, template) {
   return drakes;
 }
 
+// Returns an array [0...len], optionally shuffled
+function createTrialOrder(trial, trials, currentTrialOrder, doShuffle) {
+  if (trial > 0)
+    return currentTrialOrder;
+  if (!trials)
+    return [0];
+  if (doShuffle)
+    return shuffle( range(trials.length) );
+  return range(trials.length);
+}
+
 export function loadStateFromAuthoring(state, authoring, progress={}) {
   let trial = state.trial ? state.trial : 0;
 
@@ -71,7 +83,8 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
         baskets = processAuthoredBaskets(authoredChallenge, state),
         showUserDrake = (authoredChallenge.showUserDrake != null) ? authoredChallenge.showUserDrake : false,
         trials = authoredChallenge.targetDrakes,
-        drakes = processAuthoredDrakes(authoredChallenge, trial, template);
+        trialOrder = createTrialOrder(trial, trials, state.trialOrder, authoredChallenge.randomizeTrials),
+        drakes = processAuthoredDrakes(authoredChallenge, trialOrder[trial], template);
 
   let goalMoves = null;
   if (template.calculateGoalMoves) {
@@ -91,6 +104,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     drakes,
     trial,
     trials,
+    trialOrder,
     challenges,
     correct: 0,
     errors: 0,
@@ -105,36 +119,11 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
 export function loadNextTrial(state, authoring, progress) {
   let trial = state.trial;
   if (state.trialSuccess){
-    trial = (state.trial < state.trials.length) ? (trial+1) : 1;
+    trial = (state.trial < state.trials.length) ? (trial+1) : 0;
   }
-
-  let authoredChallenge = authoring[state.case][state.challenge],
-      templateName = state.template,
-      template = templates[templateName],
-      userChangeableGenes = split(authoredChallenge.userChangeableGenes),
-      visibleGenes = split(authoredChallenge.visibleGenes),
-      hiddenAlleles = split(authoredChallenge.hiddenAlleles),
-      baskets = authoredChallenge.baskets || state.baskets,
-      drakes = processAuthoredDrakes(authoredChallenge, trial, template);
-
-  let goalMoves = null;
-  if (template.calculateGoalMoves) {
-    goalMoves = template.calculateGoalMoves(drakes);
-  }
-
-  return state.merge({
-    userChangeableGenes,
-    visibleGenes,
-    hiddenAlleles,
-    baskets,
-    drakes,
-    trial,
-    correct: 0,
-    errors: 0,
-    moves: 0,
-    goalMoves,
-    userDrakeHidden: true,
-    challengeProgress: progress
+  let nextState = state.merge({
+    trial: trial
   });
 
+  return  loadStateFromAuthoring(nextState, authoring, progress);
 }
