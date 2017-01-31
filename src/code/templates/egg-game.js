@@ -587,7 +587,7 @@ var animationEvents = {
   @param {boolean}  options.clearAnimatedComponents - whether to clear the animatedComponents array (default: false)
   @param {Object}   options.reactState - React state to set (default: { animation: 'complete', animatingGametes: null })
  */
-function resetAnimationEvents(options){
+function resetAnimationEvents(options = {}){
   if (timerSet) timerSet.reset();
   clearTimeouts();
   animationEvents.showGametes.count = 0;
@@ -951,12 +951,15 @@ export default class EggGame extends Component {
                                   <OrganismView className="target" org={targetDrakeOrg} width={140} key={0} />
                                 </div>
                               : null,
+          targetCountersView = drakes.length - firstTargetDrakeIndex > 1
+                                ? <div className='target-counters'>
+                                      {mapTargetDrakesToFeedbackViews(drakes, trial)}
+                                  </div>
+                                : null,
           targetDrakeSection = isMatchingChallenge
                                 ? <div className='target-section'>
                                     {targetDrakeView}
-                                    <div className='target-counters'>
-                                      {mapTargetDrakesToFeedbackViews(drakes, trial)}
-                                    </div>
+                                    {targetCountersView}
                                   </div>
                                 : null,
           eggClasses = classNames('egg-image', challengeClasses),
