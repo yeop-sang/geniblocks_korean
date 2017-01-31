@@ -105,7 +105,7 @@ GametePenView.propTypes = {
   containerWidth: PropTypes.number,
   containerHeight: PropTypes.number,
   gameteSize: PropTypes.number,
-  showChromosomes: PropTypes.bool,
+  showChromosomes: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   rows: PropTypes.number,
   columns: PropTypes.number,
   tightenColumns: PropTypes.number,
