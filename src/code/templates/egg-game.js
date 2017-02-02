@@ -6,7 +6,7 @@ import { motherGametePool, fatherGametePool, gametePoolSelector,
 import OrdinalOrganismView from '../components/ordinal-organism';
 import OrganismView from '../components/organism';
 import GenomeView from '../components/genome';
-import GametePenView from '../components/gamete-pen';
+import GametePenView, { getGameteLocation } from '../components/gamete-pen';
 import ButtonView from '../components/button';
 import PenView from '../components/pen';
 import GameteImageView from '../components/gamete-image';
@@ -110,6 +110,7 @@ var _this,
   animationTimeline = {},
   mother, father,
   authoredGameteCounts = [0, 0],
+  gameteLayoutConstants = [{}, {}],
   authoredDrakes = [],
   challengeDidChange = true,
   ovumTarget, spermTarget,
@@ -487,16 +488,21 @@ var animationEvents = {
   },
   moveGameteToPool: { id: 4, sexes: [], complete: false, ready: false,
     animate: function(sex, speed, onFinish) {
+      function getGameteLocationInPen(sex, index) {
+        let loc = gameteLayoutConstants[sex]
+                    ? getGameteLocation(gameteLayoutConstants[sex], index)
+                    : { top: BioLogica.MALE ? 14 : 2, left: 3 + 31.125 * index };
+        return loc;
+      }
       const gameteComponent = sex === BioLogica.MALE ? animatedSpermView : animatedOvumView,
             srcGameteBounds = sex === BioLogica.MALE ? spermTarget : ovumTarget,
             gametePoolId = sex === BioLogica.MALE ? 'father-gamete-pen' : 'mother-gamete-pen',
             gametePoolElt = document.getElementById(gametePoolId),
             gametePoolBounds = gametePoolElt.getBoundingClientRect(),
             gameteCount = gametePoolSelector(sex)(_this.props.gametes).length,
-            topOffset = sex === BioLogica.MALE ? 15 : 3,
-            leftOffset = 3 + 31.125 * gameteCount,
-            dstGameteBounds = { top: gametePoolBounds.top + topOffset,
-                                left: gametePoolBounds.left + leftOffset,
+            loc = getGameteLocationInPen(sex, gameteCount),
+            dstGameteBounds = { top: gametePoolBounds.top + loc.top + 1,
+                                left: gametePoolBounds.left + loc.left + 1,
                                 width: srcGameteBounds.width / 2,
                                 height: srcGameteBounds.height / 2 },
             positions = { startPositionRect: srcGameteBounds, startSize: 1.0,
@@ -1080,7 +1086,10 @@ export default class EggGame extends Component {
       return <GametePenView {...uniqueProps} gameteSize={0.6} rows={1} sex={sex}
                             columns={authoredGameteCounts[sex]}
                             showChromosomes='selected'
-                            onClick={_this.handleGameteSelected} />;
+                            onClick={_this.handleGameteSelected}
+                            onReportLayoutConstants={function(layout) {
+                                                        gameteLayoutConstants[sex] = clone(layout);
+                                                      }}  />;
     }
 
     return (
