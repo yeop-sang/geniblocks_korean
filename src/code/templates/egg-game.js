@@ -695,17 +695,21 @@ export default class EggGame extends Component {
     this.updateAuthoredGametes(this.props.gametes);
   }
 
+  // flag so we know when to refill the gamete pools between trials
+  shouldRefillGametePools = false;
+
   componentWillReceiveProps(nextProps) {
     const { case: prevCase, challenge: prevChallenge,
             trial: prevTrial, gametes: prevGametes } = this.props,
           { currentGametes: prevCurrentGametes } = prevGametes,
           { case: nextCase, challenge: nextChallenge,
-            trial: nextTrial, gametes: nextGametes,
+            trial: nextTrial, gametes: nextGametes, interactionType,
             showUserDrake, onResetGametes, onResetGametePools } = nextProps,
           { currentGametes: nextCurrentGametes } = nextGametes,
           newChallenge = (prevCase !== nextCase) || (prevChallenge !== nextChallenge),
           newTrialInChallenge = !newChallenge && (prevTrial !== nextTrial),
           gametesReset = !areGametesEmpty(prevCurrentGametes) && areGametesEmpty(nextCurrentGametes);
+
     if (newChallenge || newTrialInChallenge || gametesReset) {
       if (newChallenge) {
         challengeDidChange = true;
@@ -719,8 +723,11 @@ export default class EggGame extends Component {
         showStaticGametes(true);
       }
       if (newChallenge || newTrialInChallenge) {
-        if (onResetGametePools)
+        if (onResetGametePools) {
           onResetGametePools();
+          if (newTrialInChallenge && (interactionType === 'select-gametes'))
+            this.shouldRefillGametePools = true;
+        }
         this.updateAuthoredGametes(nextGametes);
       }
     }
@@ -1172,6 +1179,13 @@ export default class EggGame extends Component {
 
   componentDidUpdate() {
     this.updateComponentLayout();
+
+    if (this.shouldRefillGametePools &&
+        !fatherGametePool(this.props.gametes).length &&
+        !motherGametePool(this.props.gametes).length) {
+      this.fillGametePools();
+      this.shouldRefillGametePools = false;
+    }
   }
 
   componentWillUnmount() {

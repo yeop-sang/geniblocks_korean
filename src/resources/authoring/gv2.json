@@ -319,7 +319,7 @@
         "sex": 0
       },
       "gametes": [[{}, {}, {}, {}], [{}, {}, {}, {}]],
-      "targetDrakes": [{}],
+      "targetDrakes": [{}, {}, {}],
       "visibleGenes": "metallic, wings, forelimbs, hindlimbs"
     }
   ],
