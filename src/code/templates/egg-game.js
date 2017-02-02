@@ -48,9 +48,7 @@ const slotMachineBaseInterval = 30, // msec
       // pause after animating chromosomes to half-genome before animating to gamete
       delayStartMoveChromosomesToGamete = 0,  // msec
       durationFertilizationAnimation = 3000,  // msec
-      durationHatchAnimation = 2000,  // msec
-      // ultimately should be specifiable in authoring
-      authoredTotalGameteCount = 8;
+      durationHatchAnimation = 2000;  // msec
 
 function animatedChromosomeImageHOC(WrappedComponent) {
   return class extends Component {
@@ -111,6 +109,7 @@ var _this,
   lastAnimatedComponentId = 0,
   animationTimeline = {},
   mother, father,
+  authoredGameteCounts = [0, 0],
   authoredDrakes = [],
   challengeDidChange = true,
   ovumTarget, spermTarget,
@@ -275,37 +274,49 @@ var animationEvents = {
 
       if (!stages.length) {
         if (!debugSkipFirstGameteStage) {
-          // randomize mother's chromosomes one at a time
-          addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, '1', ['a', 'b']);
-          addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, '2', ['a', 'b']);
-          addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, 'XY', ['x1', 'x2']);
-          addGameteAnimStage(BioLogica.FEMALE, defaultAnimationSpeed);
+          if (gametesCompleted < authoredGameteCounts[BioLogica.FEMALE]) {
+            // randomize mother's chromosomes one at a time
+            addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, '1', ['a', 'b']);
+            addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, '2', ['a', 'b']);
+            addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, 'XY', ['x1', 'x2']);
+            addGameteAnimStage(BioLogica.FEMALE, defaultAnimationSpeed);
+          }
 
-          // randomize father's chromosomes one at a time
-          addChromAnimStage(BioLogica.MALE, defaultAnimationSpeed, '1', ['a', 'b']);
-          addChromAnimStage(BioLogica.MALE, defaultAnimationSpeed, '2', ['a', 'b']);
-          addChromAnimStage(BioLogica.MALE, defaultAnimationSpeed, 'XY', ['x', 'y']);
-          addGameteAnimStage(BioLogica.MALE, defaultAnimationSpeed);
+          if (gametesCompleted < authoredGameteCounts[BioLogica.MALE]) {
+            // randomize father's chromosomes one at a time
+            addChromAnimStage(BioLogica.MALE, defaultAnimationSpeed, '1', ['a', 'b']);
+            addChromAnimStage(BioLogica.MALE, defaultAnimationSpeed, '2', ['a', 'b']);
+            addChromAnimStage(BioLogica.MALE, defaultAnimationSpeed, 'XY', ['x', 'y']);
+            addGameteAnimStage(BioLogica.MALE, defaultAnimationSpeed);
+          }
           ++ gametesCompleted;
         }
 
         if (!debugTotalGameteCount || (debugTotalGameteCount > gametesCompleted)) {
-          // randomize mother's chromosomes simultaneously
-          addGenomeAnimStage(BioLogica.FEMALE, enhancedAnimationSpeed);
-          addGameteAnimStage(BioLogica.FEMALE, enhancedAnimationSpeed);
+          if (gametesCompleted < authoredGameteCounts[BioLogica.FEMALE]) {
+            // randomize mother's chromosomes simultaneously
+            addGenomeAnimStage(BioLogica.FEMALE, enhancedAnimationSpeed);
+            addGameteAnimStage(BioLogica.FEMALE, enhancedAnimationSpeed);
+          }
 
-          // randomize father's chromosomes simultaneously
-          addGenomeAnimStage(BioLogica.MALE, enhancedAnimationSpeed);
-          addGameteAnimStage(BioLogica.MALE, enhancedAnimationSpeed);
+          if (gametesCompleted < authoredGameteCounts[BioLogica.MALE]) {
+            // randomize father's chromosomes simultaneously
+            addGenomeAnimStage(BioLogica.MALE, enhancedAnimationSpeed);
+            addGameteAnimStage(BioLogica.MALE, enhancedAnimationSpeed);
+          }
           ++ gametesCompleted;
         }
 
         // randomize the remaining gametes for both parents simultaneously
-        const totalGameteCount = debugTotalGameteCount || authoredTotalGameteCount,
-              fullCycleCount = totalGameteCount - gametesCompleted;
-        for (let i = 0; i < fullCycleCount; ++i) {
-          addGenomeAnimStage(BOTH_SEXES, enhancedAnimationSpeed);
-          addGameteAnimStage(BOTH_SEXES, enhancedAnimationSpeed);
+        const totalGameteCount = debugTotalGameteCount || Math.max.apply(Math, authoredGameteCounts);
+        for (gametesCompleted; gametesCompleted < totalGameteCount; ++gametesCompleted) {
+          let sexes = BOTH_SEXES;
+          if (gametesCompleted >= authoredGameteCounts[BioLogica.MALE])
+            sexes = BioLogica.FEMALE;
+          else if (gametesCompleted >= authoredGameteCounts[BioLogica.FEMALE])
+            sexes = BioLogica.MALE;
+          addGenomeAnimStage(sexes, enhancedAnimationSpeed);
+          addGameteAnimStage(sexes, enhancedAnimationSpeed);
         }
 
         stages.push({ type: 'complete' });
@@ -675,6 +686,7 @@ export default class EggGame extends Component {
     resetAnimationEvents({ showStaticGametes: false,
                           showHatchAnimation: this.props.showUserDrake,
                           clearAnimatedComponents: true });
+    this.updateAuthoredGametes(this.props.gametes);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -700,9 +712,17 @@ export default class EggGame extends Component {
         onResetGametes();
         showStaticGametes(true);
       }
-      if ((newChallenge || newTrialInChallenge) && onResetGametePools)
-        onResetGametePools();
+      if (newChallenge || newTrialInChallenge) {
+        if (onResetGametePools)
+          onResetGametePools();
+        this.updateAuthoredGametes(nextGametes);
+      }
     }
+  }
+
+  updateAuthoredGametes(gametes) {
+    if (gametes.authored)
+      authoredGameteCounts = gametes.authored.map(gameteArray => gameteArray.length);
   }
 
   handleChromosomeSelected = (org, name, side, elt) => {
@@ -725,7 +745,7 @@ export default class EggGame extends Component {
 
     for (let sex = 0; sex <= 1; ++sex) {
       const poolLength = gametePoolSelector(sex)(gametes).length;
-      while (poolLength + createdGametes[sex].length < authoredTotalGameteCount)
+      while (poolLength + createdGametes[sex].length < authoredGameteCounts[sex])
         createdGametes[sex].push(randomGamete(sex));
       if (createdGametes[sex].length) {
         onAddGametesToPool(sex, createdGametes[sex]);
@@ -1057,8 +1077,9 @@ export default class EggGame extends Component {
                               : { id: 'father-gamete-pen', idPrefix: 'father-gamete-',
                                   gametes: fatherGametes,
                                   selectedIndex: fatherSelectedGameteIndex(gametes) };
-      return <GametePenView {...uniqueProps} gameteSize={0.6} rows={1} columns={8}
-                            sex={sex} showChromosomes='selected'
+      return <GametePenView {...uniqueProps} gameteSize={0.6} rows={1} sex={sex}
+                            columns={authoredGameteCounts[sex]}
+                            showChromosomes='selected'
                             onClick={_this.handleGameteSelected} />;
     }
 

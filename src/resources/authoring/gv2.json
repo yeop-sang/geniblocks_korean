@@ -300,6 +300,7 @@
         "alleles": "w-W, m-m, T-T, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 0
       },
+      "gametes": [[{}, {}, {}, {}, {}, {}, {}, {}], [{}, {}, {}, {}, {}, {}, {}, {}]],
       "visibleGenes": "metallic, wings, forelimbs, hindlimbs"
     },
     {
@@ -317,6 +318,7 @@
         "alleles": "w-W, m-m, T-T, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 0
       },
+      "gametes": [[{}, {}, {}, {}], [{}, {}, {}, {}]],
       "targetDrakes": [{}],
       "visibleGenes": "metallic, wings, forelimbs, hindlimbs"
     }

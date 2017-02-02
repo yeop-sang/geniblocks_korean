@@ -17,6 +17,14 @@ function processAuthoredBaskets(authoredChallenge, state) {
   return baskets || state.baskets;
 }
 
+function processAuthoredGametes(authoredChallenge, state) {
+  const authoredGametes = authoredChallenge && authoredChallenge.gametes;
+  // for now we just stash it in an 'authored' property so the template has access to it
+  return authoredGametes
+            ? state.gametes.merge({ authored: authoredGametes })
+            : state.gametes;
+}
+
 function processAuthoredDrakes(authoredChallenge, trial, template) {
   // takes authored list of named drakes ("mother", etc) and returns an
   // array specific for this template
@@ -81,6 +89,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
         visibleGenes = split(authoredChallenge.visibleGenes),
         hiddenAlleles = split(authoredChallenge.hiddenAlleles),
         baskets = processAuthoredBaskets(authoredChallenge, state),
+        gametes = processAuthoredGametes(authoredChallenge, state),
         showUserDrake = (authoredChallenge.showUserDrake != null) ? authoredChallenge.showUserDrake : false,
         trials = authoredChallenge.targetDrakes,
         trialOrder = createTrialOrder(trial, trials, state.trialOrder, authoredChallenge.randomizeTrials),
@@ -101,6 +110,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     visibleGenes,
     hiddenAlleles,
     baskets,
+    gametes,
     drakes,
     trial,
     trials,
