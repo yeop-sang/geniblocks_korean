@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { assign, clone, cloneDeep } from 'lodash';
+import { assign, clone, cloneDeep, shuffle } from 'lodash';
 import classNames from 'classnames';
 import { motherGametePool, fatherGametePool, gametePoolSelector,
         motherSelectedGameteIndex, fatherSelectedGameteIndex } from '../modules/gametes';
@@ -680,6 +680,67 @@ function showStaticGametes(show) {
   gameteDisplayStyle = show ? {} : { display: "none" };
 }
 
+function randomGamete(sex) {
+  return {
+    '1': oneOf(['a', 'b']),
+    '2': oneOf(['a', 'b']),
+    'XY': sex ? oneOf(['x1', 'x2']) : oneOf(['x', 'y'])
+  };
+}
+
+function findCompatibleGametes(mother, father, child) {
+  const childDrake = new BioLogica.Organism(BioLogica.Species.Drake, child.alleleString, child.sex),
+        motherDrake = new BioLogica.Organism(BioLogica.Species.Drake, mother.alleleString, mother.sex),
+        fatherDrake = new BioLogica.Organism(BioLogica.Species.Drake, father.alleleString, father.sex),
+        motherChromosomes = motherDrake.getGenotype().chromosomes,
+        fatherChromosomes = fatherDrake.getGenotype().chromosomes;
+
+  function isMatchForChild(fatherGamete, motherGamete) {
+    let   alleleString = "";
+    for (let name in motherChromosomes) {
+      let side = motherGamete[name];
+      let chromosome = motherChromosomes[name][side];
+      if (chromosome && chromosome.alleles && chromosome.alleles.length)
+        alleleString += "a:" + chromosome.alleles.join(",a:") + ",";
+    }
+    for (let name in fatherChromosomes) {
+      let side = fatherGamete[name];
+      let chromosome = fatherChromosomes[name][side];
+      if (chromosome && chromosome.alleles && chromosome.alleles.length)
+        alleleString += "b:" + chromosome.alleles.join(",b:") + ",";
+    }
+    const candidate = new BioLogica.Organism(BioLogica.Species.Drake, alleleString, child.sex);
+    return candidate.getImageName() === childDrake.getImageName();
+  }
+
+  // shuffle so we don't preferentially choose one side over the other (e.g. 'a' over 'b')
+  const fatherc1Alleles = shuffle(['a', 'b']),
+        fatherc2Alleles = shuffle(['a', 'b']),
+        fatherXYAllele = child.sex ? 'x' : 'y',
+        motherc1Alleles = shuffle(['a', 'b']),
+        motherc2Alleles = shuffle(['a', 'b']),
+        motherXYAlleles = shuffle(['x1', 'x2']);
+
+  // loop through possible allele combinations until we find a match
+  // max to consider is 32 combinations (2^5) because we know the sex
+  for (let fc1 of fatherc1Alleles) {
+    for (let fc2 of fatherc2Alleles) {
+      const fatherGamete = { '1': fc1, '2': fc2, 'XY': fatherXYAllele };
+      for (let mc1 of motherc1Alleles) {
+        for (let mc2 of motherc2Alleles) {
+          for (let mxy of motherXYAlleles) {
+            const motherGamete = { '1': mc1, '2': mc2, 'XY': mxy };
+            if (isMatchForChild(fatherGamete, motherGamete))
+              return [fatherGamete, motherGamete];
+          }
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
 export default class EggGame extends Component {
 
   state = {
@@ -747,14 +808,6 @@ export default class EggGame extends Component {
     const { gametes, onAddGametesToPool } = this.props;
     let   createdGametes = this.state.createdGametes || [[], []],
           shouldUpdateCreatedGametes = false;
-
-    function randomGamete(sex) {
-      return {
-        '1': oneOf(['a', 'b']),
-        '2': oneOf(['a', 'b']),
-        'XY': sex ? oneOf(['x1', 'x2']) : oneOf(['x', 'y'])
-      };
-    }
 
     for (let sex = 0; sex <= 1; ++sex) {
       const poolLength = gametePoolSelector(sex)(gametes).length;
@@ -1217,6 +1270,31 @@ export default class EggGame extends Component {
     onResetGametes: PropTypes.func,
     onKeepOffspring: PropTypes.func,
     onDrakeSubmission: PropTypes.func
+  }
+
+  static authoredGametesToGametePools = function(authoredChallenge, drakes, /*trial*/) {
+    const mother = drakes && drakes[0],
+          father = drakes && drakes[1],
+          target = drakes && drakes[3],
+          matchingGametes = target && findCompatibleGametes(mother, father, target),
+          fatherPool = [],
+          motherPool = [],
+          authoredGametes = authoredChallenge && authoredChallenge.gametes,
+          motherGameteCount = authoredGametes && authoredGametes[1] && authoredGametes[1].length,
+          fatherGameteCount = authoredGametes && authoredGametes[0] && authoredGametes[0].length;
+
+    for (let i = 0; i < motherGameteCount; ++i) {
+      motherPool.push((i === 0) && matchingGametes
+                        ? matchingGametes[1]
+                        : randomGamete(BioLogica.FEMALE));
+    }
+    for (let i = 0; i < fatherGameteCount; ++i) {
+      fatherPool.push((i === 0) && matchingGametes
+                        ? matchingGametes[0]
+                        : randomGamete(BioLogica.MALE));
+    }
+
+    return [shuffle(fatherPool), shuffle(motherPool)];
   }
 
   static authoredDrakesToDrakeArray = function(authoredChallenge, trial) {

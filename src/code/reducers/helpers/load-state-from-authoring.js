@@ -12,16 +12,28 @@ function split(list) {
   return [];
 }
 
+function templateFromAuthoredChallenge(authoredChallenge) {
+  const templateName = authoredChallenge.template,
+        template = templateName && templates[templateName];
+  return template;
+}
+
+function trialFromState(state) {
+  return state.trial || 0;
+}
+
 function processAuthoredBaskets(authoredChallenge, state) {
   const baskets = authoredChallenge && authoredChallenge.baskets;
   return baskets || state.baskets;
 }
 
-function processAuthoredGametes(authoredChallenge, state) {
-  const authoredGametes = authoredChallenge && authoredChallenge.gametes;
-  // for now we just stash it in an 'authored' property so the template has access to it
-  return authoredGametes
-            ? state.gametes.merge({ authored: authoredGametes })
+function processAuthoredGametes(authoredChallenge, drakes, state) {
+  const template = templateFromAuthoredChallenge(authoredChallenge),
+        trial = trialFromState(state),
+        parentPools = template.authoredGametesToGametePools &&
+                        template.authoredGametesToGametePools(authoredChallenge, drakes, trial);
+  return parentPools
+            ? state.gametes.merge({ parentPools })
             : state.gametes;
 }
 
@@ -89,11 +101,11 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
         visibleGenes = split(authoredChallenge.visibleGenes),
         hiddenAlleles = split(authoredChallenge.hiddenAlleles),
         baskets = processAuthoredBaskets(authoredChallenge, state),
-        gametes = processAuthoredGametes(authoredChallenge, state),
         showUserDrake = (authoredChallenge.showUserDrake != null) ? authoredChallenge.showUserDrake : false,
         trials = authoredChallenge.targetDrakes,
         trialOrder = createTrialOrder(trial, trials, state.trialOrder, authoredChallenge.randomizeTrials),
-        drakes = processAuthoredDrakes(authoredChallenge, trialOrder[trial], template);
+        drakes = processAuthoredDrakes(authoredChallenge, trialOrder[trial], template),
+        gametes = processAuthoredGametes(authoredChallenge, drakes, state);
 
   let goalMoves = null;
   if (template.calculateGoalMoves) {
