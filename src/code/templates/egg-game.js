@@ -132,6 +132,12 @@ function oneOf(array) {
   return array[Math.floor(array.length * Math.random())];
 }
 
+function initialAnimGametes() {
+  // gametes [0,1] represent the highlighted chromosomes in the parent genomes
+  // gametes [2,3] represent the highlighted chromosomes in the half-genomes (proto-child)
+  return [{}, {}, {}, {}];
+}
+
 var animationEvents = {
   showGametes: { id: 0, count: 0, complete: false,
     animate: function() {
@@ -324,7 +330,7 @@ var animationEvents = {
       }
 
       function selectStageChromosomes(speed, chroms) {
-        let animatingGametes = cloneDeep(_this.state.animatingGametes) || [{}, {}, {}, {}];
+        let animatingGametes = cloneDeep(_this.state.animatingGametes) || initialAnimGametes();
         chroms.forEach(({ sex, name }) => {
           let gamete = animatingGametes[sex],
               side = gamete[name];
@@ -345,7 +351,7 @@ var animationEvents = {
       }
 
       function toggleAnimatingGameteChromosome(sex, chromName, sides) {
-        let animatingGametes = _this.state.animatingGametes || [{}, {}, {}, {}],
+        let animatingGametes = _this.state.animatingGametes || initialAnimGametes(),
             gamete = animatingGametes[sex],
             currSide = gamete[chromName],
             newSide = currSide != null
@@ -463,13 +469,13 @@ var animationEvents = {
           animationEvents.moveChromosomesToGamete.onFinish(animationEvents.moveChromosomesToGamete.id);
         }
       }
-      let animatingGametes = _this.state.animatingGametes || [{}, {}, {}, {}],
+      let animatingGametes = _this.state.animatingGametes || initialAnimGametes(),
           createdGametes = _this.state.createdGametes || [[], []];
       if (Object.keys(animatingGametes[2]).length)
         createdGametes[0].push(animatingGametes[2]);
       if (Object.keys(animatingGametes[3]).length)
         createdGametes[1].push(animatingGametes[3]);
-      animatingGametes = [{}, {}, {}, {}];
+      animatingGametes = initialAnimGametes();
 
       _this.setState({ animation: 'moveChromosomesToGamete', animatingGametes, createdGametes });
     },
@@ -868,7 +874,7 @@ export default class EggGame extends Component {
                                   });
         // selected gametes don't include just-selected chromosomes (no labels)
         // until the animation completes.
-        animatingGametes.push(currentGametes[0].asMutable(), clone(currentGametes[1].asMutable()));
+        animatingGametes.push(currentGametes[0].asMutable(), currentGametes[1].asMutable());
         ++this.activeSelectionAnimations;
         this.setState({ animatingGametes });
         // delay selection of chromosome until animation arrives
