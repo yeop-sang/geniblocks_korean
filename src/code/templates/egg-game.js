@@ -470,11 +470,11 @@ var animationEvents = {
         }
       }
       let animatingGametes = _this.state.animatingGametes || initialAnimGametes(),
-          createdGametes = _this.state.createdGametes || [[], []];
+          createdGametes = _this.state.createdGametes || [0, 0];
       if (Object.keys(animatingGametes[2]).length)
-        createdGametes[0].push(animatingGametes[2]);
+        ++ createdGametes[0];
       if (Object.keys(animatingGametes[3]).length)
-        createdGametes[1].push(animatingGametes[3]);
+        ++ createdGametes[1];
       animatingGametes = initialAnimGametes();
 
       _this.setState({ animation: 'moveChromosomesToGamete', animatingGametes, createdGametes });
@@ -534,10 +534,10 @@ var animationEvents = {
     onFinish: function() {
       animatedComponents = [];
       if (animationEvents.moveGameteToPool.sexes) {
-        let createdGametes = _this.state.createdGametes || [[], []],
+        let createdGametes = _this.state.createdGametes || [0, 0],
             animatingGametesInPools = _this.state.animatingGametesInPools || [0, 0];
         animationEvents.moveGameteToPool.sexes.forEach((sex) => {
-          animatingGametesInPools[sex] += createdGametes[sex] ? createdGametes[sex].length : 0;
+          animatingGametesInPools[sex] += createdGametes[sex];
           createdGametes[sex] = [];
         });
         if ((animatingGametesInPools[0] >= fatherGametePool(_this.props.gametes).length) &&
@@ -803,34 +803,15 @@ export default class EggGame extends Component {
       this.selectChromosomes(org.sex, defaultAnimationSpeed, [{name, side, elt }]);
   }
 
-  fillGametePools() {
-    const { gametes, onAddGametesToPool } = this.props;
-    let   createdGametes = this.state.createdGametes || [[], []],
-          shouldUpdateCreatedGametes = false;
-
-    for (let sex = 0; sex <= 1; ++sex) {
-      const poolLength = gametePoolSelector(sex)(gametes).length;
-      while (poolLength + createdGametes[sex].length < authoredGameteCounts[sex])
-        createdGametes[sex].push(randomGamete(sex));
-      if (createdGametes[sex].length) {
-        onAddGametesToPool(sex, createdGametes[sex]);
-        createdGametes[sex] = [];
-        shouldUpdateCreatedGametes = true;
-      }
-    }
-    if (shouldUpdateCreatedGametes)
-      this.setState({ createdGametes });
-  }
-
   handleGameteSelected = (poolID, sex, gameteIndex, /*gameteID, gamete*/) => {
     if (!this.state.isIntroComplete) {
       // user selection of a gamete terminates intro animation
       resetAnimationEvents({ showStaticGametes: true,
                             clearAnimatedComponents: true,
                             reactState: { animatingGametesInPools: null,
+                                          createdGametes: null,
                                           isIntroComplete: true } });
       chromosomeDisplayStyle = {};
-      this.fillGametePools();
     }
     this.props.onSelectGameteInPool(sex, gameteIndex);
   }
@@ -1267,7 +1248,6 @@ export default class EggGame extends Component {
     userDrakeHidden: PropTypes.bool,
     onChromosomeAlleleChange: PropTypes.func.isRequired,
     onGameteChromosomeAdded: PropTypes.func.isRequired,
-    onAddGametesToPool: PropTypes.func.isRequired,
     onSelectGameteInPool: PropTypes.func.isRequired,
     onFertilize: PropTypes.func.isRequired,
     onHatch: PropTypes.func,
