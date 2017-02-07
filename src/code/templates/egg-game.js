@@ -505,7 +505,8 @@ var animationEvents = {
             gametePoolId = sex === BioLogica.MALE ? 'father-gamete-pen' : 'mother-gamete-pen',
             gametePoolElt = document.getElementById(gametePoolId),
             gametePoolBounds = gametePoolElt.getBoundingClientRect(),
-            gameteCount = gametePoolSelector(sex)(_this.props.gametes).length,
+            animatingGametesInPools = _this.state.animatingGametesInPools,
+            gameteCount = animatingGametesInPools ? animatingGametesInPools[sex] : 0,
             loc = getGameteLocationInPen(sex, gameteCount),
             dstGameteBounds = { top: gametePoolBounds.top + loc.top + 1,
                                 left: gametePoolBounds.left + loc.left + 1,
@@ -533,13 +534,18 @@ var animationEvents = {
     onFinish: function() {
       animatedComponents = [];
       if (animationEvents.moveGameteToPool.sexes) {
+        let createdGametes = _this.state.createdGametes || [[], []],
+            animatingGametesInPools = _this.state.animatingGametesInPools || [0, 0];
         animationEvents.moveGameteToPool.sexes.forEach((sex) => {
-          let createdGametes = _this.state.createdGametes || [[], []];
-          if (createdGametes[sex].length)
-            _this.props.onAddGametesToPool(sex, createdGametes[sex]);
+          animatingGametesInPools[sex] += createdGametes[sex] ? createdGametes[sex].length : 0;
           createdGametes[sex] = [];
-          _this.setState({ createdGametes });
         });
+        if ((animatingGametesInPools[0] >= fatherGametePool(_this.props.gametes).length) &&
+            (animatingGametesInPools[1] >= motherGametePool(_this.props.gametes).length)) {
+          // all gametes have been animated to their respective pools
+          animatingGametesInPools = null;
+        }
+        _this.setState({ createdGametes, animatingGametesInPools });
       }
       animationEvents.moveGameteToPool.sexes = [];
       animationEvents.moveGameteToPool.onFinishCaller(animationEvents.moveGameteToPool.id);
@@ -758,20 +764,19 @@ export default class EggGame extends Component {
     challengeDidChange = true;
     resetAnimationEvents({ showStaticGametes: false,
                           showHatchAnimation: this.props.showUserDrake,
-                          clearAnimatedComponents: true });
-    this.updateAuthoredGametes(this.props.gametes);
+                          clearAnimatedComponents: true,
+                          reactState: {
+                            animatingGametes: null, animatingGametesInPools: [0, 0],
+                            animation: "complete", isIntroComplete: false
+                          } });
   }
-
-  // flag so we know when to refill the gamete pools between trials
-  shouldRefillGametePools = false;
 
   componentWillReceiveProps(nextProps) {
     const { case: prevCase, challenge: prevChallenge,
             trial: prevTrial, gametes: prevGametes } = this.props,
           { currentGametes: prevCurrentGametes } = prevGametes,
           { case: nextCase, challenge: nextChallenge,
-            trial: nextTrial, gametes: nextGametes, interactionType,
-            showUserDrake, onResetGametes, onResetGametePools } = nextProps,
+            trial: nextTrial, gametes: nextGametes, showUserDrake, onResetGametes } = nextProps,
           { currentGametes: nextCurrentGametes } = nextGametes,
           newChallenge = (prevCase !== nextCase) || (prevChallenge !== nextChallenge),
           newTrialInChallenge = !newChallenge && (prevTrial !== nextTrial),
@@ -780,7 +785,8 @@ export default class EggGame extends Component {
     if (newChallenge || newTrialInChallenge || gametesReset) {
       if (newChallenge) {
         challengeDidChange = true;
-        this.setState({ animatingGametes: null, animation: "complete", isIntroComplete: false });
+        this.setState({ animatingGametes: null, animatingGametesInPools: [0, 0],
+                        animation: "complete", isIntroComplete: false });
       }
       resetAnimationEvents({ showStaticGametes: !challengeDidChange,
                             showHatchAnimation: showUserDrake,
@@ -789,20 +795,7 @@ export default class EggGame extends Component {
         onResetGametes();
         showStaticGametes(true);
       }
-      if (newChallenge || newTrialInChallenge) {
-        if (onResetGametePools) {
-          onResetGametePools();
-          if (newTrialInChallenge && (interactionType === 'select-gametes'))
-            this.shouldRefillGametePools = true;
-        }
-        this.updateAuthoredGametes(nextGametes);
-      }
     }
-  }
-
-  updateAuthoredGametes(gametes) {
-    if (gametes.authored)
-      authoredGameteCounts = gametes.authored.map(gameteArray => gameteArray.length);
   }
 
   handleChromosomeSelected = (org, name, side, elt) => {
@@ -834,7 +827,8 @@ export default class EggGame extends Component {
       // user selection of a gamete terminates intro animation
       resetAnimationEvents({ showStaticGametes: true,
                             clearAnimatedComponents: true,
-                            reactState: { isIntroComplete: true } });
+                            reactState: { animatingGametesInPools: null,
+                                          isIntroComplete: true } });
       chromosomeDisplayStyle = {};
       this.fillGametePools();
     }
@@ -1112,10 +1106,21 @@ export default class EggGame extends Component {
                 </div>;
     }
 
+    function gametesToShowInPool(sex) {
+      const parentGametes = gametePoolSelector(sex)(_this.props.gametes);
+      if (_this.state.animatingGametesInPools) {
+        // if we're animating gametes into the pool, just show the number
+        // that have been animated so far.
+        const gameteCount = _this.state.animatingGametesInPools[sex];
+        return parentGametes.slice(0, gameteCount);
+      }
+      return parentGametes;
+    }
+
     const parentGenomeClass = classNames('parent', challengeClasses),
           childGenomeClass = classNames('child', challengeClasses),
-          motherGametes = motherGametePool(gametes) || [],
-          fatherGametes = fatherGametePool(gametes) || [];
+          motherGametes = gametesToShowInPool(BioLogica.FEMALE),
+          fatherGametes = gametesToShowInPool(BioLogica.MALE);
 
     function parentGenomeView(sex) {
       const uniqueProps = sex === BioLogica.FEMALE
@@ -1238,13 +1243,6 @@ export default class EggGame extends Component {
 
   componentDidUpdate() {
     this.updateComponentLayout();
-
-    if (this.shouldRefillGametePools &&
-        !fatherGametePool(this.props.gametes).length &&
-        !motherGametePool(this.props.gametes).length) {
-      this.fillGametePools();
-      this.shouldRefillGametePools = false;
-    }
   }
 
   componentWillUnmount() {
@@ -1278,16 +1276,18 @@ export default class EggGame extends Component {
     onDrakeSubmission: PropTypes.func
   }
 
-  static authoredGametesToGametePools = function(authoredChallenge, drakes, /*trial*/) {
+  static authoredGametesToGametePools = function(authoredChallenge, drakes, trial) {
     const mother = drakes && drakes[0],
           father = drakes && drakes[1],
-          target = drakes && drakes[3],
+          target = drakes && drakes[3 + trial],
           matchingGametes = target && findCompatibleGametes(mother, father, target),
           fatherPool = [],
           motherPool = [],
           authoredGametes = authoredChallenge && authoredChallenge.gametes,
           motherGameteCount = authoredGametes && authoredGametes[1] && authoredGametes[1].length,
           fatherGameteCount = authoredGametes && authoredGametes[0] && authoredGametes[0].length;
+
+    authoredGameteCounts = [fatherGameteCount, motherGameteCount];
 
     for (let i = 0; i < motherGameteCount; ++i) {
       motherPool.push((i === 0) && matchingGametes
