@@ -412,6 +412,7 @@ var animationEvents = {
         }
         else if (stage.type === 'complete') {
           resetAnimationEvents({ showStaticGametes: true, reactState: { isIntroComplete: true } });
+          _this.autoSelectSingletonGametes();
         }
       }
       _this.setState({ animation: 'randomizeChromosomes' });
@@ -791,11 +792,23 @@ export default class EggGame extends Component {
       resetAnimationEvents({ showStaticGametes: !challengeDidChange,
                             showHatchAnimation: showUserDrake,
                             clearAnimatedComponents: true });
+      this.autoSelectSingletonGametes(nextGametes);
       if (newTrialInChallenge && onResetGametes) {
         onResetGametes();
         showStaticGametes(true);
       }
     }
+  }
+
+  // if there's only one gamete for a parent, select it automatically
+  autoSelectSingletonGametes(nextGametes) {
+    const gametes = nextGametes || this.props.gametes,
+          { onSelectGameteInPool } = this.props;
+    [BioLogica.MALE, BioLogica.FEMALE].forEach((sex) => {
+      const gameteCount = gametePoolSelector(sex)(gametes).length;
+      if ((gameteCount === 1) && (gametes.selectedIndices[sex] !== 0))
+        onSelectGameteInPool(sex, 0);
+    });
   }
 
   handleChromosomeSelected = (org, name, side, elt) => {
@@ -813,6 +826,9 @@ export default class EggGame extends Component {
                                           isIntroComplete: true } });
       chromosomeDisplayStyle = {};
     }
+    this.autoSelectSingletonGametes();
+    if (gametePoolSelector(sex)(this.props.gametes).length === 1)
+      gameteIndex = 0;
     this.props.onSelectGameteInPool(sex, gameteIndex);
   }
 
@@ -1263,9 +1279,15 @@ export default class EggGame extends Component {
           matchingGametes = target && findCompatibleGametes(mother, father, target),
           fatherPool = [],
           motherPool = [],
-          authoredGametes = authoredChallenge && authoredChallenge.gametes,
-          motherGameteCount = authoredGametes && authoredGametes[1] && authoredGametes[1].length,
-          fatherGameteCount = authoredGametes && authoredGametes[0] && authoredGametes[0].length;
+          gameteCounts = authoredChallenge && authoredChallenge.gameteCounts,
+          motherGameteCount = gameteCountForTrial(BioLogica.FEMALE, trial),
+          fatherGameteCount = gameteCountForTrial(BioLogica.MALE, trial);
+
+    function gameteCountForTrial(sex, trial) {
+      if (!gameteCounts) return 0;
+      const hasPerTrialGameteCounts = Array.isArray(gameteCounts) && Array.isArray(gameteCounts[0]);
+      return hasPerTrialGameteCounts ? gameteCounts[trial][sex] : gameteCounts[sex];
+    }
 
     authoredGameteCounts = [fatherGameteCount, motherGameteCount];
 
