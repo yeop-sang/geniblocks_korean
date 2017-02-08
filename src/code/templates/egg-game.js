@@ -254,13 +254,14 @@ var animationEvents = {
 
       // add a stage which randomizes a single chromosome
       function addChromAnimStage(sex, speed, chromName, sides) {
-        let stage = { type: 'chromosome', speed, chroms: [{ sex, name: chromName, sides }] };
+        let stage = { type: 'chromosome', speed, gameteIndex: gametesCompleted,
+                      chroms: [{ sex, name: chromName, sides }] };
         stages.push(stage);
       }
 
       // add a stage which randomizes one or two entire gametes
       function addGenomeAnimStage(sex, speed) {
-        let stage = { type: 'chromosome', speed, chroms: [] };
+        let stage = { type: 'chromosome', speed, chroms: [], gameteIndex: gametesCompleted };
         if ((sex === BioLogica.FEMALE) || (sex === BOTH_SEXES)) {
           stage.chroms.push({ sex: BioLogica.FEMALE, name: '1', sides: ['a', 'b'] });
           stage.chroms.push({ sex: BioLogica.FEMALE, name: '2', sides: ['a', 'b'] });
@@ -361,10 +362,20 @@ var animationEvents = {
          _this.setState({ animatingGametes });
       }
 
+      function setFinalAnimatingGameteChromosome(sex, chromName, gameteIndex) {
+        let animatingGametes = _this.state.animatingGametes || initialAnimGametes(),
+            gametePool = gametePoolSelector(sex)(_this.props.gametes),
+            srcGamete = gametePool && gametePool[gameteIndex],
+            side = srcGamete && srcGamete[chromName],
+            dstGamete = animatingGametes[sex];
+        animatingGametes[sex] = assign({}, dstGamete, { [chromName]: side });
+         _this.setState({ animatingGametes });
+      }
+
       function animateStage(stage) {
         timerSet = new TimerSet({ onComplete: function() {
-                                          selectStageChromosomes(stage.speed, stage.chroms);
-                                        } });
+                                    selectStageChromosomes(stage.speed, stage.chroms);
+                                  } });
         const baseInterval = slotMachineBaseInterval,
               totalDuration = slotMachineAnimationDuration;
         stage.chroms.forEach(function({ sex, name, sides }) {
@@ -372,11 +383,15 @@ var animationEvents = {
                 // initial interval is randomizes so timers aren't synchronized
                 initialInterval = Math.round(halfBaseInterval + halfBaseInterval * Math.random());
           timerSet.add(function(iteration, options) {
-            if ((iteration < initialIterations) || (this.totalInterval < options.totalDuration))
+            if ((iteration < initialIterations) || (this.totalInterval < options.totalDuration)) {
               toggleAnimatingGameteChromosome(options.sex, options.name, options.sides);
-            else
+            }
+            else {
+              setFinalAnimatingGameteChromosome(options.sex, options.name, options.gameteIndex);
               return false;
-          }, { sex, name, sides, initialInterval, totalDuration,
+            }
+          }, { sex, name, sides, gameteIndex: stage.gameteIndex,
+                initialInterval, totalDuration,
                 // intervals increase with time/iterations to simulate slowing slot machine
                 interval: function(iteration, options) {
                   var baseInterval = options.baseInterval || slotMachineBaseInterval,
