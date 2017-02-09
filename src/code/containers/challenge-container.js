@@ -102,7 +102,7 @@ function mapDispatchToProps(dispatch) {
     onHatch: () => dispatch(hatch()),
     onResetGametes: () => dispatch(resetGametes()),
     onResetGametePools: () => dispatch(resetGametePools()),
-    onKeepOffspring: (index, success, maxDrakes) => dispatch(keepOffspring(index, success, maxDrakes)),
+    onKeepOffspring: (index, success, maxDrakes, keepDisplayBaby) => dispatch(keepOffspring(index, success, maxDrakes, keepDisplayBaby)),
     onChangeBasketSelection: (selectedIndices) => dispatch(changeBasketSelection(selectedIndices)),
     onChangeDrakeSelection: (selectedIndices) => dispatch(changeDrakeSelection(selectedIndices)),
     onSubmitEggForBasket: (...args) => dispatch(submitEggForBasket(...args))

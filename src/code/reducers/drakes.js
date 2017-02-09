@@ -38,7 +38,9 @@ export default function drakes(state = initialState, action) {
           alleleString: state[action.index].alleleString,
           sex: state[action.index].sex
         });
-        state = state.set(action.index, null);
+        if (!action.keepDisplayBaby) {
+          state = state.set(action.index, null);
+        }
       }
       return state;
     case actionTypes.EGG_ACCEPTED:
