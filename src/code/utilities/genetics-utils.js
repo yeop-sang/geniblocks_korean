@@ -394,6 +394,22 @@ export default class GeneticsUtils {
   }
 
   /**
+   * Returns a string containing the alleles present in the fully specified organism, but not in
+   * the partially specified organism. For example, if a female and male organism are given, the returned string
+   * will represent the sex-linked chromosomes that the male organism lacks.
+   *
+   * @param {object} fullySpecifiedOrganism - the organism containing the extra alleles
+   * @param {object} partiallySpecifiedOrganism - the organism lacking the extra alleles
+   * @return {string} - a comma-separated string representing the extra alleles, e.g. "b:D,b:Bog,b:rh"
+   */
+  static computeExtraAlleles(fullySpecifiedOrganism, partiallySpecifiedOrganism) {
+    let fullAlleles = fullySpecifiedOrganism.getAlleleString().split(",");
+    let partialAlleles = partiallySpecifiedOrganism.getAlleleString().split(",");
+    let extraAlleles = fullAlleles.filter(function(allele) { return partialAlleles.indexOf(allele) === -1; });
+    return extraAlleles.join(",");
+  }
+
+  /**
    * Goes through the traitRules to find out what unique alleles are associated with each trait
    * e.g. For "tail" it will return ["T", "Tk", "t"]. Adapted from:
    * @see https://github.com/concord-consortium/Geniverse-SproutCore/blob/master/frameworks/geniverse/controllers/match.js

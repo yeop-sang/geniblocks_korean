@@ -1,4 +1,5 @@
 import templates from '../../templates';
+import GeneticsUtils from '../../utilities/genetics-utils';
 import { range, shuffle } from 'lodash';
 
 /**
@@ -27,25 +28,35 @@ function processAuthoredDrakes(authoredChallenge, trial, template) {
   // turn authored alleles into completely-specified alleleStrings
   let drakes = authoredDrakesArray.map(function(drakeDef, i) {
     if (!drakeDef) return null;
-    let drake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleles, drakeDef.sex);
+    // Keep the drake as female until the end, so no sex-linked information is lost for linked drakes
+    let femaleDrake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleles, BioLogica.FEMALE);
 
-    alleleString = drake.getAlleleString();
+    alleleString = femaleDrake.getAlleleString();
     if (authoredChallenge.linkedGenes) {
       if (i === authoredChallenge.linkedGenes.drakes[0]) {
-        linkedGeneDrake = drake;
+        linkedGeneDrake = femaleDrake;
       } else if (authoredChallenge.linkedGenes.drakes.indexOf(i)) {
         let linkedGenes = split(authoredChallenge.linkedGenes.genes);
         for (let gene of linkedGenes) {
-          let copyIntoGenes = drake.genetics.genotype.getAlleleString([gene], drake.genetics);
-          let masterGenes = linkedGeneDrake.genetics.genotype.getAlleleString([gene], drake.genetics);
+          let copyIntoGenes = femaleDrake.genetics.genotype.getAlleleString([gene], femaleDrake.genetics);
+          let masterGenes = linkedGeneDrake.genetics.genotype.getAlleleString([gene], femaleDrake.genetics);
           alleleString = alleleString.replace(copyIntoGenes, masterGenes);
         }
       }
     }
+    let fixedDrake = new BioLogica.Organism(BioLogica.Species.Drake, alleleString, drakeDef.sex);
+
+    let secondXAlleles = null;
+    if (drakeDef.sex === BioLogica.MALE) {
+      // Store any sex-linked alleles from the authoring document which would be lost because the drake is male
+      let fixedFemaleDrake = new BioLogica.Organism(BioLogica.Species.Drake, alleleString, BioLogica.FEMALE);
+      secondXAlleles = GeneticsUtils.computeExtraAlleles(fixedFemaleDrake, fixedDrake);
+    }
 
     return {
-      alleleString: alleleString,
-      sex: drake.sex
+      alleleString: fixedDrake.getAlleleString(),
+      sex: fixedDrake.sex,
+      secondXAlleles: secondXAlleles
     };
   });
   return drakes;

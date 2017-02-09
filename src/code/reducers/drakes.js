@@ -1,6 +1,8 @@
 import Immutable from 'seamless-immutable';
 import actionTypes from '../action-types';
+import GeneticsUtils from '../utilities/genetics-utils';
 import { GAMETES_RESET } from '../modules/gametes';
+import { assign } from 'lodash';
 
 const initialState = Immutable([]);
 
@@ -10,13 +12,29 @@ export default function drakes(state = initialState, action) {
       return state.update(action.index, function(drakeDef) {
         let organism = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleleString, drakeDef.sex);
         organism.genetics.genotype.replaceAlleleChromName(action.chromosome, action.side, action.previousAllele, action.newAllele);
-        return {
-          alleleString: organism.getAlleleString(),
-          sex: organism.sex
-        };
+        return assign({}, drakeDef, {alleleString: organism.getAlleleString()});
       });
     case actionTypes.SEX_CHANGED:
-      return state.setIn([action.index, "sex"], action.newSex);
+      return state.update(action.index, function(drakeDef) {
+        let oldOrg = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleleString, drakeDef.sex);
+        let newOrg = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleleString, action.newSex);
+        let secondXAlleles, alleleString;
+        if (drakeDef.sex === BioLogica.FEMALE && action.newSex === BioLogica.MALE) {
+          // Store the female's extra alleles so we can later return to the same female
+          secondXAlleles = GeneticsUtils.computeExtraAlleles(oldOrg, newOrg);
+          alleleString = newOrg.getAlleleString();
+        }
+        else if (drakeDef.sex === BioLogica.MALE && action.newSex === BioLogica.FEMALE) {
+          // Restore the fully specified female's alleles
+          alleleString = oldOrg.getAlleleString() + "," + drakeDef.secondXAlleles;
+          secondXAlleles = null;
+        }
+        return {
+          sex: action.newSex,
+          alleleString: alleleString,
+          secondXAlleles: secondXAlleles
+        };
+      });
     case actionTypes.DRAKE_SELECTION_CHANGED:
       return state.map((drake, index) => {
         if (drake == null) return drake;
