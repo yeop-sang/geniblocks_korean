@@ -83,7 +83,7 @@ describe('loading authored state into template', () => {
                 "alleles": "w-w, T-T",
                 "sex": 1
               },
-              "targetDrakes": [{"sex": 0},{"sex": 0},{"sex": 0}]
+              "targetDrakes": [{},{},{}]
             }
           ]
         ], ["alleles"]);
@@ -106,33 +106,28 @@ describe('loading authored state into template', () => {
           "drakes": [
             {
               "alleleString": nextState.drakes[0].alleleString, // we check valid alleles below
-              "secondXAlleles": null,
               "sex": 1
             },
             {
               "alleleString": nextState.drakes[1].alleleString,
-              "secondXAlleles": null,
               "sex": 1
             },
             null,
             {
               "alleleString": nextState.drakes[3].alleleString,
-              "secondXAlleles": null,
               "sex": nextState.drakes[3].sex
             },
             {
               "alleleString": nextState.drakes[4].alleleString,
-              "secondXAlleles": null,
               "sex": nextState.drakes[4].sex
             },
             {
               "alleleString": nextState.drakes[5].alleleString,
-              "secondXAlleles": null,
               "sex": nextState.drakes[5].sex
             }
           ],
           "goalMoves": nextState.goalMoves,
-          "trials": [ {"sex": 0}, {"sex": 0}, {"sex": 0} ],
+          "trials": [ {}, {}, {} ],
           "trialOrder": [0,1,2]
         }));
     });

@@ -77,12 +77,10 @@ describe('loading authored state into template', () => {
           "drakes": [
             {
               "alleleString": nextState.drakes[0].alleleString, // we check valid alleles below
-              "secondXAlleles": null,
               "sex": 1
             },
             {
               "alleleString": nextState.drakes[1].alleleString,
-              "secondXAlleles": null,
               "sex": 1
             }
           ],

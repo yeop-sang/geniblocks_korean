@@ -47,7 +47,6 @@ describe('changeSex action', () => {
       expect(nextState).toEqual(initialState.setIn(["drakes", 0], {
         alleleString: 'a:T,b:T,a:m,b:M,a:w,b:w,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:Hl,b:hl,a:A1,b:A1,a:D,a:Bog,a:rh,b:bog,a:Rh',
         sex: 1,
-        secondXAlleles: null
       }));
     });
   });
@@ -59,7 +58,6 @@ describe('changeSex action', () => {
         [{
           alleleString: "a:T,b:T,a:m,b:M,a:w,b:w,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:Hl,b:hl,a:A1,b:A1,a:D,b:D,a:Bog,a:rh,b:bog,b:Rh",
           sex: 1,
-          secondXAlleles: null
         }]);
 
       let nextState = reducer(initialState, {

@@ -24,16 +24,15 @@ export default function drakes(state = initialState, action) {
           secondXAlleles = GeneticsUtils.computeExtraAlleles(oldOrg, newOrg);
           alleleString = newOrg.getAlleleString();
         }
-        else if (drakeDef.sex === BioLogica.MALE && action.newSex === BioLogica.FEMALE) {
+        else if (drakeDef.sex === BioLogica.MALE && action.newSex === BioLogica.FEMALE && drakeDef.secondXAlleles) {
           // Restore the fully specified female's alleles
           alleleString = oldOrg.getAlleleString() + "," + drakeDef.secondXAlleles;
           secondXAlleles = null;
         }
-        return {
+        return assign({}, secondXAlleles ? {secondXAlleles: secondXAlleles} : null, {
           sex: action.newSex,
           alleleString: alleleString,
-          secondXAlleles: secondXAlleles
-        };
+        });
       });
     case actionTypes.DRAKE_SELECTION_CHANGED:
       return state.map((drake, index) => {
@@ -56,7 +55,7 @@ export default function drakes(state = initialState, action) {
           alleleString: state[action.index].alleleString,
           sex: state[action.index].sex
         });
-        if (!action.keepDisplayBaby) {
+        if (!action.shouldKeepSourceDrake) {
           state = state.set(action.index, null);
         }
       }

@@ -1,6 +1,6 @@
 import templates from '../../templates';
 import GeneticsUtils from '../../utilities/genetics-utils';
-import { range, shuffle } from 'lodash';
+import { range, shuffle, assign } from 'lodash';
 
 /**
  * Tolerant splitter into a list of strings.
@@ -53,11 +53,11 @@ function processAuthoredDrakes(authoredChallenge, trial, template) {
       secondXAlleles = GeneticsUtils.computeExtraAlleles(fixedFemaleDrake, fixedDrake);
     }
 
-    return {
+    return assign({}, secondXAlleles ? {secondXAlleles: secondXAlleles} : null, {
       alleleString: fixedDrake.getAlleleString(),
       sex: fixedDrake.sex,
-      secondXAlleles: secondXAlleles
-    };
+    });
+
   });
   return drakes;
 }

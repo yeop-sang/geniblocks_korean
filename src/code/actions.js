@@ -554,7 +554,7 @@ export function hatch() {
 }
 
 
-function _keepOffspring(index, success, interactionType, keepDisplayBaby) {
+function _keepOffspring(index, success, interactionType, shouldKeepSourceDrake) {
   let incrementMoves = !success;
   return {
     type: actionTypes.OFFSPRING_KEPT,
@@ -562,15 +562,15 @@ function _keepOffspring(index, success, interactionType, keepDisplayBaby) {
     index,
     success,
     incrementMoves,
-    keepDisplayBaby
+    shouldKeepSourceDrake
   };
 }
 
-export function keepOffspring(index, success, maxDrakes, keepDisplayBaby) {
+export function keepOffspring(index, success, maxDrakes, shouldKeepSourceDrake) {
   return (dispatch, getState) => {
     const { interactionType } = getState();
 
-    dispatch(_keepOffspring(index, success, interactionType, keepDisplayBaby));
+    dispatch(_keepOffspring(index, success, interactionType, shouldKeepSourceDrake));
 
     if (success) {
       const { drakes } = getState();
@@ -583,7 +583,7 @@ export function keepOffspring(index, success, maxDrakes, keepDisplayBaby) {
         explanation: "~ALERT.DUPLICATE_DRAKE",
         rightButton: {
           label: "~BUTTON.TRY_AGAIN",
-          action: keepDisplayBaby ? "dismissModalDialog" : "resetGametes"
+          action: shouldKeepSourceDrake ? "dismissModalDialog" : "resetGametes"
         }
       }));
     }

@@ -11,7 +11,7 @@ export default class GenomeContainer extends Component {
     const { drakes, onChromosomeAlleleChange, onSexChange, userChangeableGenes, visibleGenes, hiddenAlleles, onKeepOffspring } = this.props,
           drakeDef = drakes[0].alleleString,
           drakeSex = drakes[0].sex,
-          drake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef, drakeSex);
+          userDrake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef, drakeSex);
     let [,...keptDrakes] = drakes;
     keptDrakes = keptDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
     let penView = <div className='columns bottom'>
@@ -27,8 +27,7 @@ export default class GenomeContainer extends Component {
     };
 
     const handleSubmit = function() {
-      let child = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
-          childImage = child.getImageName(),
+      let childImage = userDrake.getImageName(),
           [,...keptDrakes] = drakes,
           success = true;
       for (let drake of keptDrakes) {
@@ -45,10 +44,10 @@ export default class GenomeContainer extends Component {
       <div id="genome-playground">
         <div className='column'>
             <ChangeSexButtons id="change-sex-buttons" sex={ drakeSex } onChange= { handleSexChange } showLabel={true} species="Drake" />
-            <GenomeView className="drake-genome" org={ drake } onAlleleChange={ handleAlleleChange } userChangeableGenes= { userChangeableGenes } visibleGenes={ visibleGenes } hiddenAlleles={ hiddenAlleles }/>
+            <GenomeView className="drake-genome" org={ userDrake } onAlleleChange={ handleAlleleChange } userChangeableGenes= { userChangeableGenes } visibleGenes={ visibleGenes } hiddenAlleles={ hiddenAlleles }/>
         </div>
         <div className='column'>
-            <OrganismGlowView id="drake-image" org={ drake } />
+            <OrganismGlowView id="drake-image" org={ userDrake } />
             <ButtonView label="~BUTTON.SAVE_DRAKE" id="save-button" onClick={ handleSubmit } />
             {penView} 
         </div>
