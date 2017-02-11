@@ -10,7 +10,15 @@ import GameteImageView from './gamete-image';
  * @param {number} tightenRows - If given, will shrink the vertical height of the pen by this amount
  *                        per row, crowding the org images as needed.
  */
-const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, showChromosomes=true, containerWidth, containerHeight, rows, columns, tightenRows=0, tightenColumns=0, selectedIndex, selectedColor='#FF6666', onClick}) => {
+
+export function getGameteLocation(layout, index) {
+  const row = Math.floor(index / layout.columns),
+        indexInRow = index - (row * layout.columns);
+  return { left: layout.xMargin + indexInRow * layout.effectiveWidth,
+            top: layout.yMargin + row * layout.effectiveHeight };
+}
+
+const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, showChromosomes=true, containerWidth, containerHeight, rows, columns, tightenRows=0, tightenColumns=0, selectedIndex, selectedColor='#FF6666', onClick, onReportLayoutConstants}) => {
 
   function handleGameteClick(evt, gameteID) {
     const prefixIndex = gameteID.indexOf(idPrefix),
@@ -27,7 +35,9 @@ const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, sh
   const availableWidth = containerWidth - 12,
         availableHeight = containerHeight - 4,
         gameteImageWidth = Math.ceil((sex === BioLogica.FEMALE ? 68 : 145) * gameteSize),
-        gameteImageHeight = Math.ceil((sex === BioLogica.FEMALE ? 78 : 40) * gameteSize);
+        gameteImageHeight = Math.ceil((sex === BioLogica.FEMALE ? 78 : 40) * gameteSize),
+        xMargin = 2,
+        yMargin = sex === BioLogica.MALE ? 14 : 2;
   let   effectiveWidth = gameteImageWidth * (1 - tightenColumns),
         effectiveHeight = gameteImageHeight * (1 - tightenRows),
         gametesPerRow = Math.floor(availableWidth / effectiveWidth);
@@ -54,14 +64,14 @@ const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, sh
     effectiveHeight = gameteImageHeight * (1 - tightenRows);
   }
 
+  const layoutConstants = { rows, columns, xMargin, yMargin, effectiveWidth, effectiveHeight };
+
+  if (onReportLayoutConstants) {
+    onReportLayoutConstants(layoutConstants);
+  }
+
   function getGameteStyle(index) {
-    const row = Math.floor(index / columns),
-          indexInRow = index - (row * columns),
-          xMargin = 2,
-          yMargin = sex === BioLogica.MALE ? 14 : 2;
-    return { position: 'absolute',
-              left: xMargin + indexInRow * effectiveWidth,
-              top: yMargin + row * effectiveHeight };
+    return assign(getGameteLocation(layoutConstants, index), { position: 'absolute' });
   }
 
   function shouldShowChromosomes(index) {
@@ -105,14 +115,15 @@ GametePenView.propTypes = {
   containerWidth: PropTypes.number,
   containerHeight: PropTypes.number,
   gameteSize: PropTypes.number,
-  showChromosomes: PropTypes.bool,
+  showChromosomes: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   rows: PropTypes.number,
   columns: PropTypes.number,
   tightenColumns: PropTypes.number,
   tightenRows: PropTypes.number,
   selectedIndex: PropTypes.number,
   selectedColor: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  onReportLayoutConstants: PropTypes.func
 };
 
 const containerStyle = { height: 48, padding: 0, border: 0 };
