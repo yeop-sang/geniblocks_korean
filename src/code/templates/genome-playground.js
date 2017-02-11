@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import OrganismGlowView from '../components/organism-glow';
+import { range } from 'lodash';
 import GenomeView from '../components/genome';
 import ButtonView from '../components/button';
 import PenView from '../components/pen';
@@ -27,17 +28,8 @@ export default class GenomeContainer extends Component {
     };
 
     const handleSubmit = function() {
-      let childImage = userDrake.getImageName(),
-          [,...keptDrakes] = drakes,
-          success = true;
-      for (let drake of keptDrakes) {
-        let org = new BioLogica.Organism(BioLogica.Species.Drake, drake.alleleString, drake.sex);
-        if (org.getImageName() === childImage) {
-          success = false;
-          break;
-        }
-      }
-      onKeepOffspring(0, success, 6, true);
+      let offspringIndices = range(1, drakes.length);
+      onKeepOffspring(0, offspringIndices, 6, true);
     };
 
     return (

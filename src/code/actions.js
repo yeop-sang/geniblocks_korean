@@ -566,15 +566,28 @@ function _keepOffspring(index, success, interactionType, shouldKeepSourceDrake) 
   };
 }
 
-export function keepOffspring(index, success, maxDrakes, shouldKeepSourceDrake) {
+export function keepOffspring(index, keptDrakesIndices, maxDrakes, shouldKeepSourceDrake) {
   return (dispatch, getState) => {
-    const { interactionType } = getState();
+    const { interactionType, drakes } = getState();
+
+    let offspringOrg = new BioLogica.Organism(BioLogica.Species.Drake, drakes[index].alleleString, drakes[index].sex),
+        success = true;
+    // Don't keep any drakes with the same phenotypes
+    keptDrakesIndices.forEach(function(keptDrakeIndex) {
+      let keptDrake = drakes[keptDrakeIndex],
+          keptImage = new BioLogica.Organism(BioLogica.Species.Drake, keptDrake.alleleString, keptDrake.sex).getImageName();
+
+      if (keptImage === offspringOrg.getImageName()) {
+        success = false;
+      }
+    });
 
     dispatch(_keepOffspring(index, success, interactionType, shouldKeepSourceDrake));
 
     if (success) {
-      const { drakes } = getState();
-      if (drakes.length === maxDrakes) {
+      // The size of the drakes array has changed since dispatching _keepOffspring
+      const { drakes: updatedDrakes } = getState();
+      if (updatedDrakes.length === maxDrakes) {
         dispatch(completeChallenge());
       }
     } else {
