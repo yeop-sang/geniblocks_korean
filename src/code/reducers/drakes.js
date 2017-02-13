@@ -24,9 +24,16 @@ export default function drakes(state = initialState, action) {
           secondXAlleles = GeneticsUtils.computeExtraAlleles(oldOrg, newOrg);
           alleleString = newOrg.getAlleleString();
         }
-        else if (drakeDef.sex === BioLogica.MALE && action.newSex === BioLogica.FEMALE && drakeDef.secondXAlleles) {
-          // Restore the fully specified female's alleles
-          alleleString = oldOrg.getAlleleString() + "," + drakeDef.secondXAlleles;
+        else if (drakeDef.sex === BioLogica.MALE && action.newSex === BioLogica.FEMALE) {
+          if (drakeDef.secondXAlleles) {
+            // Restore the fully specified female's alleles
+            alleleString = oldOrg.getAlleleString() + "," + drakeDef.secondXAlleles;
+          }
+          else {
+            // Use the male's partial allele string; the remainder will be randomized
+            alleleString = oldOrg.getAlleleString();
+          }
+
           secondXAlleles = null;
         }
         return assign({}, secondXAlleles ? {secondXAlleles: secondXAlleles} : null, {

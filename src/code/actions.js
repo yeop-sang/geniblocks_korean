@@ -570,16 +570,14 @@ export function keepOffspring(index, keptDrakesIndices, maxDrakes, shouldKeepSou
   return (dispatch, getState) => {
     const { interactionType, drakes } = getState();
 
-    let offspringOrg = new BioLogica.Organism(BioLogica.Species.Drake, drakes[index].alleleString, drakes[index].sex),
-        success = true;
-    // Don't keep any drakes with the same phenotypes
-    keptDrakesIndices.forEach(function(keptDrakeIndex) {
+    let offspringOrg = new BioLogica.Organism(BioLogica.Species.Drake, drakes[index].alleleString, drakes[index].sex);
+
+    // Succeed if every kept drake has a different phenotype than the submitted drake
+    let success = keptDrakesIndices.every(keptDrakeIndex => {
       let keptDrake = drakes[keptDrakeIndex],
           keptImage = new BioLogica.Organism(BioLogica.Species.Drake, keptDrake.alleleString, keptDrake.sex).getImageName();
 
-      if (keptImage === offspringOrg.getImageName()) {
-        success = false;
-      }
+      return keptImage !== offspringOrg.getImageName();
     });
 
     dispatch(_keepOffspring(index, success, interactionType, shouldKeepSourceDrake));
