@@ -13,9 +13,29 @@ function split(list) {
   return [];
 }
 
+function templateFromAuthoredChallenge(authoredChallenge) {
+  const templateName = authoredChallenge.template,
+        template = templateName && templates[templateName];
+  return template;
+}
+
+function trialFromState(state) {
+  return state.trial || 0;
+}
+
 function processAuthoredBaskets(authoredChallenge, state) {
   const baskets = authoredChallenge && authoredChallenge.baskets;
   return baskets || state.baskets;
+}
+
+function processAuthoredGametes(authoredChallenge, drakes, state) {
+  const template = templateFromAuthoredChallenge(authoredChallenge),
+        trial = trialFromState(state),
+        parentPools = template.authoredGametesToGametePools &&
+                        template.authoredGametesToGametePools(authoredChallenge, drakes, trial);
+  return parentPools
+            ? state.gametes.merge({ parentPools })
+            : state.gametes;
 }
 
 function processAuthoredDrakes(authoredChallenge, trial, template) {
@@ -95,7 +115,8 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
         showUserDrake = (authoredChallenge.showUserDrake != null) ? authoredChallenge.showUserDrake : false,
         trials = authoredChallenge.targetDrakes,
         trialOrder = createTrialOrder(trial, trials, state.trialOrder, authoredChallenge.randomizeTrials),
-        drakes = processAuthoredDrakes(authoredChallenge, trialOrder[trial], template);
+        drakes = processAuthoredDrakes(authoredChallenge, trialOrder[trial], template),
+        gametes = processAuthoredGametes(authoredChallenge, drakes, state);
 
   let goalMoves = null;
   if (template.calculateGoalMoves) {
@@ -112,6 +133,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     visibleGenes,
     hiddenAlleles,
     baskets,
+    gametes,
     drakes,
     trial,
     trials,

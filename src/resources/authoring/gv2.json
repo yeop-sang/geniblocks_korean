@@ -284,6 +284,43 @@
         "sex": 0
       },
       "visibleGenes": "metallic, wings, forelimbs, hindlimbs"
+    },
+    {
+      "comment": "*** Dragon 3.1: Draco (piece 2): #5/2 - Egg Game I(g) (select gametes to create five unique drakes) ***",
+      "template": "EggGame",
+      "challengeType": "create-unique",
+      "interactionType": "select-gametes",
+      "instructions": "Create 5 different baby drakes!",
+      "showUserDrake": true,
+      "mother":{
+        "alleles": "w-W, M-m, fl-, hl-, T-T, h-h, C-C, A1-A1, B-B, D-D, rh-rh, Bog-Bog",
+        "sex": 1
+      },
+      "father": {
+        "alleles": "w-W, m-m, T-T, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
+        "sex": 0
+      },
+      "gameteCounts": [8, 8],
+      "visibleGenes": "metallic, wings, forelimbs, hindlimbs"
+    },
+    {
+      "comment": "*** Dragon 3.1: Draco (piece 3): #5/3 - Egg Game II(g) (select gametes for breeding to match drakes) ***",
+      "template": "EggGame",
+      "challengeType": "match-target",
+      "interactionType": "select-gametes",
+      "instructions": "Match the target drakes!",
+      "showUserDrake": true,
+      "mother":{
+        "alleles": "w-W, M-m, fl-, hl-, T-T, h-h, C-C, A1-A1, B-B, D-D, rh-rh, Bog-Bog",
+        "sex": 1
+      },
+      "father": {
+        "alleles": "w-W, m-m, T-T, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
+        "sex": 0
+      },
+      "gameteCounts": [[2, 1], [1, 3], [4, 4]],
+      "targetDrakes": [{}, {}, {}],
+      "visibleGenes": "metallic, wings, forelimbs, hindlimbs"
     }
   ],
   [
