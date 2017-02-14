@@ -46,8 +46,8 @@ describe('loading authored state into template', () => {
             {
               "template": "GenomeChallenge",
               "initialDrake":{
-                "alleles": "W-w",
-                "sex": 1
+                "alleles": "W-w, D-D, Bog-Bog, rh-rh",
+                "sex": 0
               },
               "targetDrakes": [{
                 "alleles": "W-W",
@@ -77,7 +77,8 @@ describe('loading authored state into template', () => {
           "drakes": [
             {
               "alleleString": nextState.drakes[0].alleleString, // we check valid alleles below
-              "sex": 1
+              "secondXAlleles": "b:D,b:Bog,b:rh",
+              "sex": 0
             },
             {
               "alleleString": nextState.drakes[1].alleleString,

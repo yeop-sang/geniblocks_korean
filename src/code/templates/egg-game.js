@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { assign, clone, cloneDeep, shuffle } from 'lodash';
+import { assign, clone, cloneDeep, shuffle, range } from 'lodash';
 import classNames from 'classnames';
 import { motherGametePool, fatherGametePool, gametePoolSelector,
         motherSelectedGameteIndex, fatherSelectedGameteIndex } from '../modules/gametes';
@@ -957,18 +957,10 @@ export default class EggGame extends Component {
 
     const handleSubmit = function () {
       let childImage = child.getImageName(),
-          [,,,...keptDrakes] = drakes,
           success = false;
       if (challengeType === 'create-unique') {
-        success = true;
-        for (let drake of keptDrakes) {
-          let org = new BioLogica.Organism(BioLogica.Species.Drake, drake.alleleString, drake.sex);
-          if (org.getImageName() === childImage) {
-            success = false;
-            break;
-          }
-        }
-        onKeepOffspring(2, success, 8);
+        let offspringIndices = range(3, drakes.length);
+        onKeepOffspring(2, offspringIndices, 8);
       }
       else if (challengeType === 'match-target') {
         const targetDrakeOrg = new BioLogica.Organism(BioLogica.Species.Drake,

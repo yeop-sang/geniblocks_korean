@@ -554,26 +554,38 @@ export function hatch() {
 }
 
 
-function _keepOffspring(index, success, interactionType) {
+function _keepOffspring(index, success, interactionType, shouldKeepSourceDrake) {
   let incrementMoves = !success;
   return {
     type: actionTypes.OFFSPRING_KEPT,
     interactionType,
     index,
     success,
-    incrementMoves
+    incrementMoves,
+    shouldKeepSourceDrake
   };
 }
 
-export function keepOffspring(index, success, maxDrakes) {
+export function keepOffspring(index, keptDrakesIndices, maxDrakes, shouldKeepSourceDrake) {
   return (dispatch, getState) => {
-    const { interactionType } = getState();
+    const { interactionType, drakes } = getState();
 
-    dispatch(_keepOffspring(index, success, interactionType));
+    let offspringOrg = new BioLogica.Organism(BioLogica.Species.Drake, drakes[index].alleleString, drakes[index].sex);
+
+    // Succeed if every kept drake has a different phenotype than the submitted drake
+    let success = keptDrakesIndices.every(keptDrakeIndex => {
+      let keptDrake = drakes[keptDrakeIndex],
+          keptImage = new BioLogica.Organism(BioLogica.Species.Drake, keptDrake.alleleString, keptDrake.sex).getImageName();
+
+      return keptImage !== offspringOrg.getImageName();
+    });
+
+    dispatch(_keepOffspring(index, success, interactionType, shouldKeepSourceDrake));
 
     if (success) {
-      const { drakes } = getState();
-      if (drakes.length === maxDrakes) {
+      // The size of the drakes array has changed since dispatching _keepOffspring
+      const { drakes: updatedDrakes } = getState();
+      if (updatedDrakes.length === maxDrakes) {
         dispatch(completeChallenge());
       }
     } else {
@@ -582,7 +594,7 @@ export function keepOffspring(index, success, maxDrakes) {
         explanation: "~ALERT.DUPLICATE_DRAKE",
         rightButton: {
           label: "~BUTTON.TRY_AGAIN",
-          action: "resetGametes"
+          action: shouldKeepSourceDrake ? "dismissModalDialog" : "resetGametes"
         }
       }));
     }

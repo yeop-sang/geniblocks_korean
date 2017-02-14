@@ -81,7 +81,7 @@ describe('loading authored state into template', () => {
               },
               "father": {
                 "alleles": "w-w, T-T",
-                "sex": 0
+                "sex": 1
               },
               "targetDrakes": [{},{},{}]
             }
@@ -110,7 +110,7 @@ describe('loading authored state into template', () => {
             },
             {
               "alleleString": nextState.drakes[1].alleleString,
-              "sex": 0
+              "sex": 1
             },
             null,
             {
