@@ -1,0 +1,27 @@
+.geniblocks.breed-button
+  background: url('../resources/fablevision/layout-c/breed_surround.png')
+  width: 370px
+  height: 369px
+  display: flex
+  justify-content: center
+  align-items: center
+
+  .clickable-button
+    width: 139px
+    height: 138px
+    display: flex
+    justify-content: center
+    align-items: center
+    background: url('../resources/fablevision/layout-c/breed_button_UNCLICKED.png')
+    cursor: pointer
+
+    &:active
+    &.disabled
+      cursor: default
+      background: url('../resources/fablevision/layout-c/breed_button_CLICKED.png')
+
+    .text
+      font-size: 54px
+      font-family: 'Yanone Kaffeesatz'
+      color: white
+      pointer-events: none
