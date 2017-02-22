@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import Dimensions from 'react-dimensions';
+import classNames from 'classnames';
 import templates from '../templates';
 import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
         keepOffspring, fertilize, hatch, completeChallenge,
@@ -7,23 +9,67 @@ import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
 import { addGameteChromosome, resetGametes,
         addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/gametes';
 
-class ChallengeContainer extends Component {
+const bgImageWidth = 1920,
+      bgImageHeight = 1080,
+      minContainerWidth = 1200,
+      minContainerHeight = 700,
+      topHudHeight = 152,
+      bottomHudHeight = 145;
+
+function calcScaleFactor(containerWidth, containerHeight) {
+  // if there's enough room, then no scaling required (we don't scale up)
+  if ((containerWidth >= bgImageWidth) &&
+      (containerHeight >= bgImageHeight)) {
+    return 1.0;
+  }
+  // if scaling is required, figure out the controlling dimension
+  const effectiveContainerWidth = Math.max(containerWidth, minContainerWidth),
+        effectiveContainerHeight = Math.max(containerHeight, minContainerHeight),
+        containerAspect = effectiveContainerWidth / effectiveContainerHeight,
+        bgImageAspect = bgImageWidth / bgImageHeight;
+
+  // width is the constraining dimension
+  return containerAspect <= bgImageAspect
+            ? effectiveContainerWidth / bgImageWidth     // width is constraining dimension
+            : effectiveContainerHeight / bgImageHeight;  // height is constraining dimension
+}
+
+class FVChallengeContainer extends Component {
 
   render() {
-    if (!this.props.template) return null;
+    const { template, containerWidth, containerHeight, ...otherProps } = this.props;
 
-    const Template = templates[this.props.template];
+    if (!template) return null;
+
+    const Template = templates[this.props.template],
+          bgClasses = Template.backgroundClasses,
+          scaleFactor = calcScaleFactor(containerWidth, containerHeight),
+          scaledTopHudHeight = scaleFactor * topHudHeight,
+          scaledImageWidth = scaleFactor * bgImageWidth,
+          scaledImageHeight = scaleFactor * bgImageHeight,
+          scaledBottomHudHeight = scaleFactor * bottomHudHeight,
+          challengeHeight = scaledImageHeight - (scaledTopHudHeight + scaledBottomHudHeight),
+          style = scaledImageHeight ? { height: scaledImageHeight } : {};
     return (
-      <div id="challenges" className="case-backdrop">
-        <div id="case-wrapper">
-          <Template {...this.props} />
+      <div id="challenges" className={classNames('case-backdrop', bgClasses)}
+            style={style} >
+        <div id='fv-top-hud' className='fv-hud'
+              style={{height: scaledTopHudHeight,
+                      backgroundSize: `${scaledImageWidth}px ${scaledTopHudHeight}px`}}></div>
+        <div id="case-wrapper" style={{height: challengeHeight}}>
+          <Template {...otherProps} />
         </div>
+        <div id='fv-bottom-hud' className='fv-hud'
+              style={{height: scaledBottomHudHeight,
+                      backgroundSize: `${scaledImageWidth}px ${scaledBottomHudHeight}px`}}></div>
       </div>
     );
   }
 
   static propTypes = {
     template: PropTypes.string,
+    containerWidth: PropTypes.number,
+    containerHeight: PropTypes.number,
     case: PropTypes.number,
     challenge: PropTypes.number
   }
@@ -76,6 +122,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const Challenge = connect(mapStateToProps, mapDispatchToProps)(ChallengeContainer);
+const FVChallenge = connect(mapStateToProps, mapDispatchToProps)(FVChallengeContainer);
 
-export default Challenge;
+const containerStyle = { width: '100vw', height: '100vh' };
+export default Dimensions({ className: 'challenge-container', containerStyle })(FVChallenge);

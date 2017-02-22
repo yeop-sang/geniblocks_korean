@@ -11,7 +11,7 @@ import reducer from './reducers/';
 import { actionTypes, startSession, changeAuthoring } from './actions';
 
 import AuthoringUpload from './containers/authoring-upload';
-import ChallengeContainer from "./containers/challenge-container";
+import ChallengeContainerSelector from "./containers/challenge-container-selector";
 import ModalMessageContainer from "./containers/modal-message-container";
 import NotificationContainer from "./containers/notification-container";
 
@@ -101,7 +101,7 @@ function renderApp() {
                                         onCompleteUpload={handleCompleteUpload} />
                     : <div>
                         <Router history={history}>
-                          <Route path="/(:case/:challenge)" component={ChallengeContainer} />
+                          <Route path="/(:case/:challenge)" component={ChallengeContainerSelector} />
                         </Router>
                         <ModalMessageContainer />
                         <NotificationContainer />
