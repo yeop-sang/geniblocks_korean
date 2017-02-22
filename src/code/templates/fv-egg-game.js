@@ -14,6 +14,7 @@ import { motherGametePool, fatherGametePool, gametePoolSelector,
         motherSelectedGameteIndex, fatherSelectedGameteIndex } from '../modules/gametes';
 import OrdinalOrganismView from '../components/ordinal-organism';
 import OrganismView from '../components/organism';
+import ParentDrakeView from '../fv-components/parent-drake';
 import GenomeView from '../components/genome';
 import GametePenView, { getGameteLocation } from '../components/gamete-pen';
 import ButtonView from '../components/button';
@@ -1177,8 +1178,7 @@ export default class FVEggGame extends Component {
       <div id="egg-game">
         <div className="columns">
           <div className='column'>
-            <div className="mother">Mother</div>
-            <OrganismView org={ mother } flipped={ true } />
+            <ParentDrakeView className="mother" org={ mother } />
             { parentGenomeView(BioLogica.FEMALE) }
             { parentGametePen(BioLogica.FEMALE) }
           </div>
@@ -1199,8 +1199,7 @@ export default class FVEggGame extends Component {
             </div>
           </div>
           <div className='column'>
-            <div className="father">Father</div>
-            <OrganismView org={ father } className="father" />
+            <ParentDrakeView className="father" org={ father } />
             { parentGenomeView(BioLogica.MALE) }
             { parentGametePen(BioLogica.MALE) }
           </div>
