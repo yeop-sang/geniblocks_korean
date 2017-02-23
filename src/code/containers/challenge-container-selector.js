@@ -24,7 +24,7 @@ function mapContainerNameToContainer(containerName) {
 class ChallengeContainerSelector extends Component {
 
   static propTypes = {
-    authoring: PropTypes.object.isRequired,
+    authoring: PropTypes.array.isRequired,
     case: PropTypes.number.isRequired,
     challenge: PropTypes.number.isRequired,
     routeParams: PropTypes.shape({

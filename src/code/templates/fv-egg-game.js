@@ -18,6 +18,7 @@ import ParentDrakeView from '../fv-components/parent-drake';
 import GenomeView from '../components/genome';
 import GametePenView, { getGameteLocation } from '../components/gamete-pen';
 import ButtonView from '../components/button';
+import BreedButtonView from '../fv-components/breed-button';
 import PenView from '../components/pen';
 import GameteImageView from '../components/gamete-image';
 import AnimatedComponentView from '../components/animated-component';
@@ -1083,13 +1084,7 @@ export default class FVEggGame extends Component {
       if (animationEvents.hatch.inProgress) {
         childView = eggImageView;
       } else {
-        let text = t("~BUTTON.FERTILIZE"),
-            buttonClasses = classNames('fertilize-button', challengeClasses);
-        if (!areGametesComplete(currentGametes)) {
-          text = t("~BUTTON.FERTILIZE_DISABLED"),
-          buttonClasses += " disabled";
-        }
-        childView = <ButtonView className={ buttonClasses } label={ text } onClick={ handleFertilize } />;
+        childView = <BreedButtonView disabled={ !areGametesComplete(currentGametes) } onClick={ handleFertilize } />;
       }
     }
     const motherSelectedChromosomes = animatingGametes ? animatingGametes[1] : currentGametes[1],
