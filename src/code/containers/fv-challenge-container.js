@@ -51,7 +51,7 @@ class FVChallengeContainer extends Component {
           scaledImageHeight = scaleFactor * bgImageHeight,
           scaledBottomHudHeight = scaleFactor * bottomHudHeight,
           challengeHeight = scaledImageHeight - (scaledTopHudHeight + scaledBottomHudHeight),
-          style = scaledImageHeight
+          style = scaleFactor !== 1.0
                     ? { height: scaledImageHeight,
                         backgroundSize: `auto ${scaledLinesHeight}px, auto ${scaledLinesHeight}px, contain` }
                     : {};
