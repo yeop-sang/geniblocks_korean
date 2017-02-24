@@ -1,0 +1,25 @@
+.geniblocks.breed-button-surround
+  background: url('../resources/fablevision/layout-c/breed_surround.png')
+  width: 370px
+  height: 369px
+  display: flex
+  justify-content: center
+  align-items: center
+
+  .breed-button
+    width: 139px
+    height: 138px
+    display: flex
+    justify-content: center
+    align-items: center
+    background: url('../resources/fablevision/layout-c/breed_button_UNCLICKED.png')
+    cursor: pointer
+
+    &:active
+    &.disabled
+      cursor: default
+      background: url('../resources/fablevision/layout-c/breed_button_CLICKED.png')
+
+    .breed-button-label
+      font-size: 54px
+      color: white
