@@ -1,6 +1,6 @@
 export default {
   // Challenge instructions
-  "~FV_EGG_GAME.BREED_BUTTON": "Breed",
+  "~FV_EGG_GAME.BREED_BUTTON": "BREED",
 
   // Challenge instructions
   "~EGG_GAME_3.CHROMOSOMES_TITLE": "Chromosomes",
