@@ -3,12 +3,12 @@ import reducer from '../../src/code/reducers/';
 import { navigateToCurrentRoute, actionTypes as types } from '../../src/code/actions';
 
 describe('navigateToCurrentRoute action', () => {
-  const validLevel = 0, validCase = 1, validChallenge = 2,
-        invalidLevel = 3, invalidCase = 3, invalidChallenge = 3,
+  const validLevel = 0, validMission = 1, validChallenge = 2,
+        invalidLevel = 3, invalidMission = 3, invalidChallenge = 3,
         currentRouteAction = {
           type: types.NAVIGATED,
           level: validLevel,
-          case: validCase,
+          mission: validMission,
           challenge: validChallenge,
           skipRouteChange: true,
           meta: {
@@ -24,7 +24,7 @@ describe('navigateToCurrentRoute action', () => {
         challengeAction = {
           type: types.NAVIGATED,
           level: validLevel,
-          case: validCase,
+          mission: validMission,
           challenge: validChallenge,
           route: "/1/2/3",
           meta: {
@@ -38,16 +38,16 @@ describe('navigateToCurrentRoute action', () => {
         };
 
   const dispatch = expect.createSpy();
-  const getState = () => ({level: 0, case: 0, challenge: 0, authoring: [[[{}],[{},{},{}]]] });
+  const getState = () => ({level: 0, mission: 0, challenge: 0, authoring: [[[{}],[{},{},{}]]] });
 
   it("should dispatch a navigateToCurrentRoute action when a valid challenge is specified", () => {
-    navigateToCurrentRoute(validLevel, validCase, validChallenge)(dispatch, getState);
+    navigateToCurrentRoute({level: validLevel, mission: validMission, challenge: validChallenge})(dispatch, getState);
     expect(dispatch.calls[0].arguments).toEqual([currentRouteAction]);
   });
 
   it("should dispatch a navigateToChallenge action to the nearest valid challenge" +
       " when an invalid challenge is specified", () => {
-    navigateToCurrentRoute(invalidLevel, invalidCase, invalidChallenge)(dispatch, getState);
+    navigateToCurrentRoute({level: invalidLevel, mission: invalidMission, challenge: invalidChallenge})(dispatch, getState);
     expect(dispatch.calls[1].arguments).toEqual([challengeAction]);
   });
 
@@ -55,7 +55,7 @@ describe('navigateToCurrentRoute action', () => {
     it('should update the state to match the expected state when we navigate to a valid challenge', () => {
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
-        case: 0,
+        mission: 0,
         challenge: 0,
         authoring: 
         [
@@ -85,7 +85,7 @@ describe('navigateToCurrentRoute action', () => {
       // wanted to unit test the loadStateFromAuthoring() changes, it could be
       // done with a unit test of that function directly.
       expect(nextState).toEqual(nextState.merge({
-        case: 1,
+        mission: 1,
         challenge: 2,
         template: "GenomePlayground",
         challenges: 3,

@@ -22,7 +22,7 @@ describe('submitEggForBasket action', () => {
                             };
 
     const dispatch = expect.createSpy();
-    const getState = () => ({case: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]]});
+    const getState = () => ({mission: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]]});
 
     actions.submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect)(dispatch, getState);
 
@@ -50,7 +50,7 @@ describe('submitEggForBasket action', () => {
                             };
 
     const dispatch = expect.createSpy();
-    const getState = () => ({case: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]]});
+    const getState = () => ({mission: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]]});
 
     actions.submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect)(dispatch, getState);
 

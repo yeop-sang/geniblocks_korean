@@ -10,7 +10,7 @@ class ChallengeAwardView extends React.Component {
   };
 
   static defaultProps = {
-     challengeAwards: {"caseId":0, "challengeId":0, "challengeCount":0, "progress":[]},
+     challengeAwards: {"missionId":0, "challengeId":0, "challengeCount":0, "progress":[]},
      size: 256,
      coinParts: 3
   };
@@ -32,10 +32,10 @@ class ChallengeAwardView extends React.Component {
   };
 
   render() {
-    let caseId = 0, challengeId = 0, challengeCount = 0, progress = [], challengeBackgroundImage, progressImages = [];
+    let missionId = 0, challengeId = 0, challengeCount = 0, progress = [], challengeBackgroundImage, progressImages = [];
 
     if (this.props.challengeAwards.challengeId != null) {
-      caseId = this.props.challengeAwards.caseId,
+      missionId = this.props.challengeAwards.missionId,
       challengeId = this.props.challengeAwards.challengeId,
       challengeCount = this.props.challengeAwards.challengeCount;
       progress = this.props.challengeAwards.progress;
@@ -51,7 +51,7 @@ class ChallengeAwardView extends React.Component {
       height: size + "px"
     };
 
-    let pieceKey = caseId + ":";
+    let pieceKey = missionId + ":";
     let challengeScore = {};
 
     for (let i = 0; i < challengeCount; i++){

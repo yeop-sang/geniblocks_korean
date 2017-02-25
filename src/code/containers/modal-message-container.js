@@ -9,7 +9,7 @@ function mapStateToProps (state) {
   if (props.showAward) {
     props = props.merge({
       challengeAwards: {
-        caseId: state.case,
+        missionId: state.mission,
         challengeId: state.challenge,
         challengeCount: state.challenges,
         progress: state.challengeProgress

@@ -31,7 +31,7 @@ describe('rejectEggFromBasket action', () => {
                                             action: "retryCurrentChallenge"
                                           },
                                           rightButton: {
-                                            label: "~BUTTON.NEXT_CASE",
+                                            label: "~BUTTON.NEXT_MISSION",
                                             action: "navigateToNextChallenge"
                                           },
                                           top: undefined,
@@ -39,7 +39,7 @@ describe('rejectEggFromBasket action', () => {
                                         };
 
     const dispatch = expect.createSpy();
-    const getState = () => ({case: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]] });
+    const getState = () => ({mission: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]] });
 
     actions.rejectEggFromBasket(rejectEggArgs)(dispatch, getState);
     expect(dispatch.calls[0].arguments).toEqual([rejectEggAction]);

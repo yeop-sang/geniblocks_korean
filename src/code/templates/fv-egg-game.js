@@ -801,13 +801,13 @@ export default class FVEggGame extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { case: prevCase, challenge: prevChallenge,
+    const { mission: prevMission, challenge: prevChallenge,
             trial: prevTrial, gametes: prevGametes } = this.props,
           { currentGametes: prevCurrentGametes } = prevGametes,
-          { case: nextCase, challenge: nextChallenge,
+          { mission: nextMission, challenge: nextChallenge,
             trial: nextTrial, gametes: nextGametes, showUserDrake, onResetGametes } = nextProps,
           { currentGametes: nextCurrentGametes } = nextGametes,
-          newChallenge = (prevCase !== nextCase) || (prevChallenge !== nextChallenge),
+          newChallenge = (prevMission !== nextMission) || (prevChallenge !== nextChallenge),
           newTrialInChallenge = !newChallenge && (prevTrial !== nextTrial),
           gametesReset = !areGametesEmpty(prevCurrentGametes) && areGametesEmpty(nextCurrentGametes);
 
@@ -1254,7 +1254,7 @@ export default class FVEggGame extends Component {
   }
 
   static propTypes = {
-    case: PropTypes.number.isRequired,
+    mission: PropTypes.number.isRequired,
     challenge: PropTypes.number.isRequired,
     challengeType: PropTypes.string.isRequired,
     interactionType: PropTypes.string,

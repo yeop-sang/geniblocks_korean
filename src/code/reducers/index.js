@@ -22,14 +22,14 @@ function initialState() {
             hiddenAlleles: [],
             trial: 0,
             level: 0,
-            case: 0,
+            mission: 0,
             challenge: 0,
             challenges: 1,
             challengeProgress: {},
             errors: 0,
             correct: 0,
             authoring: window.GV2Authoring,
-            endCaseUrl: urlParams.start
+            endMissionUrl: urlParams.start
           });
 }
 
@@ -128,7 +128,7 @@ export default function reducer(state, action) {
     case actionTypes.NAVIGATED: {
       state = state.merge({
         level: action.level,
-        case: action.case,
+        mission: action.mission,
         challenge: action.challenge,
         trial: 0
       });

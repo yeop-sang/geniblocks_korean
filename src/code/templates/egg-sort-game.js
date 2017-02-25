@@ -203,7 +203,7 @@ function isEggCompatibleWithBasket(egg, basket) {
 export default class EggSortGame extends Component {
 
   static propTypes = {
-    case: PropTypes.number.isRequired,
+    mission: PropTypes.number.isRequired,
     challenge: PropTypes.number.isRequired,
     trial: PropTypes.number.isRequired,
     drakes: PropTypes.array.isRequired,
@@ -229,11 +229,11 @@ export default class EggSortGame extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { case: prevCase, challenge: prevChallenge,
+    const { mission: prevMission, challenge: prevChallenge,
             correct: prevCorrect, errors: prevErrors } = this.props,
-          { case: nextCase, challenge: nextChallenge,
+          { mission: nextMission, challenge: nextChallenge,
             correct: nextCorrect, errors: nextErrors } = nextProps;
-    if ((prevCase !== nextCase) || (prevChallenge !== nextChallenge) ||
+    if ((prevMission !== nextMission) || (prevChallenge !== nextChallenge) ||
         (prevErrors && !nextErrors) || (prevCorrect && !nextCorrect)) {
       resetAnimationEvents(true);
       this.createEggsFromDrakes(nextProps);

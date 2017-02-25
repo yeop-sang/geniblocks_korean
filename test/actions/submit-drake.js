@@ -11,7 +11,7 @@ describe('submitDrake action', () => {
           correct = true;
 
     const dispatch = expect.createSpy();
-    const getState = () => ({case: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]]});
+    const getState = () => ({mission: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]]});
 
     actions.submitDrake(correctPhenotype, submittedPhenotype, correct)(dispatch, getState);
 
@@ -42,7 +42,7 @@ describe('submitDrake action', () => {
           action: "retryCurrentChallenge"
         },
         rightButton: {
-          label: "~BUTTON.NEXT_CASE",
+          label: "~BUTTON.NEXT_MISSION",
           action: "navigateToNextChallenge"
         },
         showAward: true,
@@ -58,7 +58,7 @@ describe('submitDrake action', () => {
             correct = false;
 
     const dispatch = expect.createSpy();
-    const getState = () => ({case: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]]});
+    const getState = () => ({mission: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]]});
 
     actions.submitDrake(correctPhenotype, submittedPhenotype, correct)(dispatch, getState);
 

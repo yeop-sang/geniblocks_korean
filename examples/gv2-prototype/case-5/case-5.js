@@ -235,7 +235,7 @@ class Case5 extends React.Component {
         break;
     }
     return (
-      <div id='case-backdrop'>
+      <div id='mission-backdrop'>
         <div id='case-5'>
           <div className='column-wrapper'>
             <DrakeGenomeColumn

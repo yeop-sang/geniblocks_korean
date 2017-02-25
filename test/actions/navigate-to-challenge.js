@@ -5,14 +5,14 @@ import { navigateToChallenge, actionTypes as types } from '../../src/code/action
 describe('navigateToChallenge action', () => {
   it('should create the correct action when we navigate to a challenge', () => {
     const level = 4,
-          _case = 2,
+          mission = 2,
           challenge = 3;
 
-    let actionObject = navigateToChallenge(level, _case, challenge);
+    let actionObject = navigateToChallenge({level, mission, challenge});
 
     expect(actionObject).toEqual({
       type: types.NAVIGATED,
-      case: _case,
+      mission: mission,
       level: level,
       challenge,
       route: "/5/3/4",
@@ -32,7 +32,7 @@ describe('navigateToChallenge action', () => {
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
         level: 0,
-        case: 0,
+        mission: 0,
         challenge: 0,
         authoring: 
         [
@@ -49,7 +49,7 @@ describe('navigateToChallenge action', () => {
         ]
       });
 
-      let nextState = reducer(initialState, navigateToChallenge(0, 1, 2));
+      let nextState = reducer(initialState, navigateToChallenge({level: 0, mission: 1, challenge: 2}));
 
       // By starting with nextState and merging in what we expect, we eliminate
       // all other properties from consideration. This is particularly an issue
@@ -63,7 +63,7 @@ describe('navigateToChallenge action', () => {
       // done with a unit test of that function directly.
       expect(nextState).toEqual(nextState.merge({
         level: 0,
-        case: 1,
+        mission: 1,
         challenge: 2,
         template: "GenomePlayground",
         challenges: 3,

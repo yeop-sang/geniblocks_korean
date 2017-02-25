@@ -4,9 +4,9 @@ import reducer from '../../src/code/reducers/';
 import { navigateToChallenge } from '../../src/code/actions';
 import expect from 'expect';
 
-const basicUnderdefinedInitialState = (template, _case, challenge, challenges) => ({
+const basicUnderdefinedInitialState = (template, mission, challenge, challenges) => ({
   template,
-  case: _case,
+  mission,
   challenge,
   challenges,
   challengeType: undefined,
@@ -94,12 +94,12 @@ describe('loading authored state into template', () => {
     let defaultState = reducer(undefined, {});
     let initialState = defaultState.merge({
       level: 0,
-      case: 0,
+      mission: 0,
       challenge: 0,
       authoring: authoring
     });
 
-    let nextState = reducer(initialState, navigateToChallenge(0, 0, 1));
+    let nextState = reducer(initialState, navigateToChallenge({level: 0, mission: 0, challenge: 1}));
 
     it('should create the correct drake and trial state on initial load', () => {
 

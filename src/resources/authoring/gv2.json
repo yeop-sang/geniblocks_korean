@@ -2,7 +2,7 @@
   [
     [
       {
-        "comment": "*** Case 0: Playground ***",
+        "comment": "*** Mission 0: Playground ***",
         "template": "GenomePlayground",
         "initialDrake": {
           "alleles": "T-T, w-w, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",

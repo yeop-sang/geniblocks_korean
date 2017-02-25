@@ -5,12 +5,12 @@ import ChallengeContainer from './challenge-container';
 import FVChallengeContainer from './fv-challenge-container';
 
 function hasChangedRouteParams(props) {
-  const { level: currLevel, case: currCase, challenge: currChallenge, routeParams } = props,
+  const { level: currLevel, mission: currMission, challenge: currChallenge, routeParams } = props,
         currLevelStr = String(currLevel + 1),
-        currCaseStr = String(currCase + 1),
+        currMissionStr = String(currMission + 1),
         currChallengeStr = String(currChallenge + 1);
-  return (routeParams.case && routeParams.challenge && routeParams.level &&
-        ((routeParams.case !== currCaseStr) || (routeParams.challenge !== currChallengeStr) || (routeParams.level !== currLevelStr)));
+  return (routeParams.mission && routeParams.challenge && routeParams.level &&
+        ((routeParams.mission !== currMissionStr) || (routeParams.challenge !== currChallengeStr) || (routeParams.level !== currLevelStr)));
 }
 
 function mapContainerNameToContainer(containerName) {
@@ -27,11 +27,11 @@ class ChallengeContainerSelector extends Component {
   static propTypes = {
     authoring: PropTypes.array.isRequired,
     level: PropTypes.number.isRequired,
-    case: PropTypes.number.isRequired,
+    mission: PropTypes.number.isRequired,
     challenge: PropTypes.number.isRequired,
     routeParams: PropTypes.shape({
       level: PropTypes.string,
-      case: PropTypes.string,
+      mission: PropTypes.string,
       challenge: PropTypes.string
     }),
     navigateToChallenge: PropTypes.func,
@@ -41,24 +41,24 @@ class ChallengeContainerSelector extends Component {
   componentWillMount() {
     const { routeParams, navigateToCurrentRoute, navigateToChallenge } = this.props;
     if (hasChangedRouteParams(this.props)) {
-      navigateToCurrentRoute(routeParams.level-1, routeParams.case-1, routeParams.challenge-1);
+      navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});
     } else {
-      navigateToChallenge(0, 0, 0);
+      navigateToChallenge({level: 0, mission: 0, challenge: 0});
     }
   }
 
   componentWillReceiveProps(newProps) {
     const { routeParams, navigateToCurrentRoute } = newProps;
     if (hasChangedRouteParams(newProps)) {
-      navigateToCurrentRoute(routeParams.level-1, routeParams.case-1, routeParams.challenge-1);
+      navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});
     }
   }
 
   render() {
-    const { authoring, level: currLevel, case: currCase, challenge: currChallenge, ...otherProps } = this.props,
-          casesInLevel = authoring[currLevel],
-          challengesInCase = casesInLevel[currCase],
-          authoredChallenge = challengesInCase[currChallenge],
+    const { authoring, level: currLevel, mission: currMission, challenge: currChallenge, ...otherProps } = this.props,
+          missionsInLevel = authoring[currLevel],
+          challengesInMission = missionsInLevel[currMission],
+          authoredChallenge = challengesInMission[currChallenge],
           containerName = authoredChallenge.container,
           ContainerClass = mapContainerNameToContainer(containerName);
     return (
@@ -71,15 +71,15 @@ function mapStateToProps (state) {
   return {
     authoring: state.authoring,
     level: state.level,
-    case: state.case,
+    mission: state.mission,
     challenge: state.challenge
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    navigateToChallenge: (level, _case, challenge) => dispatch(navigateToChallenge(level, _case, challenge)),
-    navigateToCurrentRoute: (level, _case, challenge) => dispatch(navigateToCurrentRoute(level, _case, challenge))
+    navigateToChallenge: (routeSpec) => dispatch(navigateToChallenge(routeSpec)),
+    navigateToCurrentRoute: (routeSpec) => dispatch(navigateToCurrentRoute(routeSpec))
   };
 }
 

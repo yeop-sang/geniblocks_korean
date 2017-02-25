@@ -96,8 +96,8 @@ function createTrialOrder(trial, trials, currentTrialOrder, doShuffle) {
 export function loadStateFromAuthoring(state, authoring, progress={}) {
   let trial = state.trial ? state.trial : 0;
 
-  const caseArray = authoring[state.level],
-        challengeArray = caseArray[state.case],
+  const missionArray = authoring[state.level],
+        challengeArray = missionArray[state.mission],
         challenges = challengeArray && challengeArray.length,
         authoredChallenge = challengeArray && challengeArray[state.challenge];
   if (!authoredChallenge) return state;
