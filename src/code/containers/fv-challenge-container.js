@@ -11,6 +11,7 @@ import { addGameteChromosome, resetGametes,
 
 const bgImageWidth = 1920,
       bgImageHeight = 1080,
+      bgLinesHeight = 79,
       minContainerWidth = 1200,
       minContainerHeight = 700,
       topHudHeight = 152,
@@ -44,15 +45,18 @@ class FVChallengeContainer extends Component {
     const Template = templates[this.props.template],
           bgClasses = Template.backgroundClasses,
           scaleFactor = calcScaleFactor(containerWidth, containerHeight),
+          scaledLinesHeight = scaleFactor * bgLinesHeight,
           scaledTopHudHeight = scaleFactor * topHudHeight,
           scaledImageWidth = scaleFactor * bgImageWidth,
           scaledImageHeight = scaleFactor * bgImageHeight,
           scaledBottomHudHeight = scaleFactor * bottomHudHeight,
           challengeHeight = scaledImageHeight - (scaledTopHudHeight + scaledBottomHudHeight),
-          style = scaledImageHeight ? { height: scaledImageHeight } : {};
+          style = scaleFactor !== 1.0
+                    ? { height: scaledImageHeight,
+                        backgroundSize: `auto ${scaledLinesHeight}px, auto ${scaledLinesHeight}px, contain` }
+                    : {};
     return (
-      <div id="challenges" className={classNames('case-backdrop', bgClasses)}
-            style={style} >
+      <div id="challenges" className={classNames('case-backdrop', bgClasses)} style={style} >
         <div id='fv-top-hud' className='fv-hud'
               style={{height: scaledTopHudHeight,
                       backgroundSize: `${scaledImageWidth}px ${scaledTopHudHeight}px`}}></div>
