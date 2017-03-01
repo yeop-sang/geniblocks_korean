@@ -53,8 +53,7 @@ export function navigateToChallenge(routeSpec) {
 
 export function retryCurrentChallenge() {
   return (dispatch, getState) => {
-    const { level, mission, challenge } = getState();
-    dispatch(navigateToChallenge({level, mission, challenge}));
+    dispatch(navigateToChallenge(getState().routeSpec));
   };
 }
 
@@ -75,10 +74,10 @@ function navigateToStartPage(url) {
 
 export function navigateToNextChallenge() {
   return (dispatch, getState) => {
-    const { level: currentLevel, mission: currentMission, challenge: currentChallenge,
-            authoring, endMissionUrl } = getState();
-    let nextLevel = currentLevel,
-        nextMission = currentMission,
+    const { routeSpec, authoring, endMissionUrl } = getState();
+    let { level: currentLevel, mission: currentMission, challenge: currentChallenge } = routeSpec,
+        nextLevel = routeSpec.level,
+        nextMission = routeSpec.mission,
         nextChallenge = currentChallenge+1,
         challengeCountInMission = authoring[currentLevel][currentMission].length;
     if (challengeCountInMission <= nextChallenge) {
@@ -147,6 +146,7 @@ export function navigateToCurrentRoute(routeSpec) {
           challengeCount = levels[nextLevel][nextMission].length,
           nextChallenge = restrictToIntegerRange(challenge, 0, challengeCount - 1),
           routeChangeRequired = (level !== nextLevel) || (mission !== nextMission) || (challenge !== nextChallenge);
+    // TODO: Ideally, route changes would be handled in their own module (see routing.js)
     if (routeChangeRequired) {
       dispatch(navigateToChallenge({level: nextLevel, mission: nextMission, challenge: nextChallenge}));
     }
@@ -234,8 +234,9 @@ export function changeDrakeSelection(selectedIndices) {
 }
 
 function getChallengeScore(state) {
-  const { challengeProgress: progress, mission, challenge } = state,
-        challengePrefix = `${mission}:${challenge}`;
+  const { challengeProgress: progress, routeSpec } = state,
+        { level, mission, challenge } = routeSpec,
+        challengePrefix = `${level}:${mission}:${challenge}`;
   let challengeScore = 0;
   for (let key in progress) {
     if (key.startsWith(challengePrefix)) {
@@ -284,7 +285,7 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct, incor
 
     if (correct && state.trial === state.trials.length-1) {
       challengeComplete = true;
-      if (state.authoring[state.mission].length <= state.challenge+1) {
+      if (state.authoring[state.routeSpec.level][state.routeSpec.mission].length <= state.routeSpec.challenge+1) {
         missionComplete = true;
       }
     }
@@ -438,7 +439,7 @@ export function showCompleteChallengeDialog() {
   return (dispatch, getState) => {
     const state = getState();
 
-    const missionComplete = (state.authoring[state.mission].length <= state.challenge + 1);
+    const missionComplete = (state.authoring[state.routeSpec.level][state.routeSpec.mission].length <= state.routeSpec.challenge + 1);
 
     let dialog = {};
 

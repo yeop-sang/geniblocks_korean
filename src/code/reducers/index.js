@@ -21,9 +21,7 @@ function initialState() {
             visibleGenes: [],
             hiddenAlleles: [],
             trial: 0,
-            level: 0,
-            mission: 0,
-            challenge: 0,
+            routeSpec: {level: 0, mission: 0, challenge: 0},
             challenges: 1,
             challengeProgress: {},
             errors: 0,
@@ -126,11 +124,11 @@ export default function reducer(state, action) {
       } else return state;
     }
     case actionTypes.NAVIGATED: {
+      //TODO: it would be nice to merge this with the "routing" reducer into a module which controls the state's routeSpec
+      const { level, mission, challenge } = action;
       state = state.merge({
-        level: action.level,
-        mission: action.mission,
-        challenge: action.challenge,
-        trial: 0
+        routeSpec: {level, mission, challenge},
+        trial: 0  
       });
       return loadStateFromAuthoring(state, state.authoring, state.challengeProgress);
     }
@@ -138,7 +136,7 @@ export default function reducer(state, action) {
       window.location = action.url;
       return state;
     case actionTypes.ADVANCED_CHALLENGE: {
-      let nextChallenge = state.challenge + 1;
+      let nextChallenge = state.routeSpec.challenge + 1;
       let progress = updateProgress(state, true);
       return loadStateFromAuthoring(state, action.authoring, nextChallenge, progress);
     }

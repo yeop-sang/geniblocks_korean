@@ -801,13 +801,13 @@ export default class FVEggGame extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { mission: prevMission, challenge: prevChallenge,
-            trial: prevTrial, gametes: prevGametes } = this.props,
+    const { routeSpec: prevRouteSpec, trial: prevTrial, gametes: prevGametes } = this.props,
+          { level: prevLevel, mission: prevMission, challenge: prevChallenge } = prevRouteSpec,
           { currentGametes: prevCurrentGametes } = prevGametes,
-          { mission: nextMission, challenge: nextChallenge,
-            trial: nextTrial, gametes: nextGametes, showUserDrake, onResetGametes } = nextProps,
+          { routeSpec: nextRouteSpec, trial: nextTrial, gametes: nextGametes, showUserDrake, onResetGametes } = nextProps,
+          { level: nextLevel, mission: nextMission, challenge: nextChallenge } = nextRouteSpec,
           { currentGametes: nextCurrentGametes } = nextGametes,
-          newChallenge = (prevMission !== nextMission) || (prevChallenge !== nextChallenge),
+          newChallenge = (prevLevel !== nextLevel) || (prevMission !== nextMission) || (prevChallenge !== nextChallenge),
           newTrialInChallenge = !newChallenge && (prevTrial !== nextTrial),
           gametesReset = !areGametesEmpty(prevCurrentGametes) && areGametesEmpty(nextCurrentGametes);
 
@@ -1254,8 +1254,7 @@ export default class FVEggGame extends Component {
   }
 
   static propTypes = {
-    mission: PropTypes.number.isRequired,
-    challenge: PropTypes.number.isRequired,
+    routeSpec: PropTypes.object.isRequired,
     challengeType: PropTypes.string.isRequired,
     interactionType: PropTypes.string,
     showUserDrake: PropTypes.bool.isRequired,

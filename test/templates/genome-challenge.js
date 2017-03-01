@@ -4,10 +4,9 @@ import GeneticsUtils from '../../src/code/utilities/genetics-utils';
 import reducer from '../../src/code/reducers/';
 import { navigateToChallenge } from '../../src/code/actions';
 
-const basicUnderdefinedInitialState = (template, mission, challenge, challenges) => ({
+const basicUnderdefinedInitialState = (template, routeSpec, challenges) => ({
   template,
-  mission,
-  challenge,
+  routeSpec,
   challenges,
   challengeType: undefined,
   interactionType: undefined,
@@ -66,9 +65,7 @@ describe('loading authored state into template', () => {
 
     let defaultState = reducer(undefined, {});
     let initialState = defaultState.merge({
-      level: 0,
-      mission: 0,
-      challenge: 0,
+      routeSpec: {level: 0, mission: 0, challenge: 0},
       authoring: authoring
     });
 
@@ -76,7 +73,7 @@ describe('loading authored state into template', () => {
 
     it('should create the correct drake and trial state on initial load', () => {
       expect(nextState).toEqual(initialState
-        .merge(basicUnderdefinedInitialState("GenomeChallenge", 0,1,2))
+        .merge(basicUnderdefinedInitialState("GenomeChallenge", {level: 0, mission: 0, challenge: 1},2))
         .merge({
           "drakes": [
             {
@@ -145,8 +142,7 @@ describe('loading authored state into template', () => {
 
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
-        mission: 0,
-        challenge: 0,
+        routeSpec: {mission: 0, challenge: 0},
         authoring: authoring
       });
 
@@ -192,8 +188,7 @@ describe('loading authored state into template', () => {
 
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
-        mission: 0,
-        challenge: 0,
+        routeSpec: {mission: 0, challenge: 0},
         authoring: authoring
       });
 

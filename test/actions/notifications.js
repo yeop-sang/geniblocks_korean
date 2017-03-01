@@ -23,6 +23,7 @@ describe('Notification actions', () => {
             id: 'ITS.CHALLENGE.INTRO.2',
             text: 'Ok! Let\'s get to work on Mission {{mission}} Challenge {{challenge}}.',
             args: {
+              level: 0,
               mission: 0,
               challenge: 2
             }

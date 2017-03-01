@@ -31,9 +31,7 @@ describe('navigateToChallenge action', () => {
     it('should update the state to match the authored state when we navigate', () => {
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
-        level: 0,
-        mission: 0,
-        challenge: 0,
+        routeSpec: {level: 0, mission: 0, challenge: 0},
         authoring: 
         [
           [
@@ -62,9 +60,7 @@ describe('navigateToChallenge action', () => {
       // wanted to unit test the loadStateFromAuthoring() changes, it could be
       // done with a unit test of that function directly.
       expect(nextState).toEqual(nextState.merge({
-        level: 0,
-        mission: 1,
-        challenge: 2,
+        routeSpec: {level: 0, mission: 1, challenge: 2},
         template: "GenomePlayground",
         challenges: 3,
         trialSuccess: false,

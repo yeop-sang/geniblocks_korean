@@ -75,8 +75,7 @@ class FVChallengeContainer extends Component {
     template: PropTypes.string,
     containerWidth: PropTypes.number,
     containerHeight: PropTypes.number,
-    mission: PropTypes.number,
-    challenge: PropTypes.number
+    routeSpec: PropTypes.object
   }
 }
 
@@ -95,8 +94,7 @@ function mapStateToProps (state) {
       baskets: state.baskets,
       trial: state.trial,
       trials: state.trials,
-      mission: state.mission,
-      challenge: state.challenge,
+      routeSpec: state.routeSpec,
       correct: state.correct,
       errors: state.errors,
       moves: state.moves,

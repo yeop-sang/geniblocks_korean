@@ -5,7 +5,8 @@ import ChallengeContainer from './challenge-container';
 import FVChallengeContainer from './fv-challenge-container';
 
 function hasChangedRouteParams(props) {
-  const { level: currLevel, mission: currMission, challenge: currChallenge, routeParams } = props,
+  const { currentRouteSpec, routeParams } = props,
+        { level: currLevel, mission: currMission, challenge: currChallenge } = currentRouteSpec,
         currLevelStr = String(currLevel + 1),
         currMissionStr = String(currMission + 1),
         currChallengeStr = String(currChallenge + 1);
@@ -26,9 +27,12 @@ class ChallengeContainerSelector extends Component {
 
   static propTypes = {
     authoring: PropTypes.array.isRequired,
-    level: PropTypes.number.isRequired,
-    mission: PropTypes.number.isRequired,
-    challenge: PropTypes.number.isRequired,
+    currentRouteSpec: PropTypes.shape({
+      level: PropTypes.number,
+      mission: PropTypes.number,
+      challenge: PropTypes.number
+    }).isRequired,
+    // Potentially updated, incoming route parameters
     routeParams: PropTypes.shape({
       level: PropTypes.string,
       mission: PropTypes.string,
@@ -55,7 +59,8 @@ class ChallengeContainerSelector extends Component {
   }
 
   render() {
-    const { authoring, level: currLevel, mission: currMission, challenge: currChallenge, ...otherProps } = this.props,
+    const { authoring, currentRouteSpec, ...otherProps } = this.props,
+          { level: currLevel, mission: currMission, challenge: currChallenge } = currentRouteSpec,
           missionsInLevel = authoring[currLevel],
           challengesInMission = missionsInLevel[currMission],
           authoredChallenge = challengesInMission[currChallenge],
@@ -70,9 +75,7 @@ class ChallengeContainerSelector extends Component {
 function mapStateToProps (state) {
   return {
     authoring: state.authoring,
-    level: state.level,
-    mission: state.mission,
-    challenge: state.challenge
+    currentRouteSpec: state.routeSpec
   };
 }
 

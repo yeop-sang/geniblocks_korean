@@ -38,7 +38,7 @@ describe('navigateToCurrentRoute action', () => {
         };
 
   const dispatch = expect.createSpy();
-  const getState = () => ({level: 0, mission: 0, challenge: 0, authoring: [[[{}],[{},{},{}]]] });
+  const getState = () => ({routeSpec: {level: 0, mission: 0, challenge: 0}, authoring: [[[{}],[{},{},{}]]] });
 
   it("should dispatch a navigateToCurrentRoute action when a valid challenge is specified", () => {
     navigateToCurrentRoute({level: validLevel, mission: validMission, challenge: validChallenge})(dispatch, getState);
@@ -55,8 +55,7 @@ describe('navigateToCurrentRoute action', () => {
     it('should update the state to match the expected state when we navigate to a valid challenge', () => {
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
-        mission: 0,
-        challenge: 0,
+        routeSpec: {level: 0, mission: 0, challenge: 0},
         authoring: 
         [
           [
@@ -85,8 +84,7 @@ describe('navigateToCurrentRoute action', () => {
       // wanted to unit test the loadStateFromAuthoring() changes, it could be
       // done with a unit test of that function directly.
       expect(nextState).toEqual(nextState.merge({
-        mission: 1,
-        challenge: 2,
+        routeSpec: {level: 0, mission: 1, challenge: 2},
         template: "GenomePlayground",
         challenges: 3,
         trialSuccess: false,

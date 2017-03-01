@@ -24,8 +24,7 @@ class ChallengeContainer extends Component {
 
   static propTypes = {
     template: PropTypes.string,
-    mission: PropTypes.number,
-    challenge: PropTypes.number
+    routeSpec: PropTypes.object
   }
 }
 
@@ -44,8 +43,7 @@ function mapStateToProps (state) {
       baskets: state.baskets,
       trial: state.trial,
       trials: state.trials,
-      mission: state.mission,
-      challenge: state.challenge,
+      routeSpec: state.routeSpec,
       correct: state.correct,
       errors: state.errors,
       moves: state.moves,

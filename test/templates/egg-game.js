@@ -4,10 +4,9 @@ import reducer from '../../src/code/reducers/';
 import { navigateToChallenge } from '../../src/code/actions';
 import expect from 'expect';
 
-const basicUnderdefinedInitialState = (template, mission, challenge, challenges) => ({
+const basicUnderdefinedInitialState = (template, routeSpec, challenges) => ({
   template,
-  mission,
-  challenge,
+  routeSpec,
   challenges,
   challengeType: undefined,
   interactionType: undefined,
@@ -93,9 +92,7 @@ describe('loading authored state into template', () => {
 
     let defaultState = reducer(undefined, {});
     let initialState = defaultState.merge({
-      level: 0,
-      mission: 0,
-      challenge: 0,
+      routeSpec: {level: 0,mission: 0, challenge: 0},
       authoring: authoring
     });
 
@@ -104,7 +101,7 @@ describe('loading authored state into template', () => {
     it('should create the correct drake and trial state on initial load', () => {
 
       expect(nextState).toEqual(initialState
-        .merge(basicUnderdefinedInitialState("EggGame", 0,1,2))
+        .merge(basicUnderdefinedInitialState("EggGame", {level: 0, mission: 0, challenge: 1},2))
         .merge({
           "challengeType": "match-target",
           "drakes": [
