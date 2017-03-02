@@ -19,7 +19,7 @@ import GenomeView from '../components/genome';
 import GametePenView, { getGameteLocation } from '../components/gamete-pen';
 import ButtonView from '../components/button';
 import BreedButtonView from '../fv-components/breed-button';
-import PenView from '../components/pen';
+import FVStableView from '../fv-components/fv-stable';
 import GameteImageView from '../components/gamete-image';
 import AnimatedComponentView from '../components/animated-component';
 import ChromosomeImageView from '../components/chromosome-image';
@@ -1108,7 +1108,7 @@ export default class FVEggGame extends Component {
 
     if (isCreationChallenge && isIntroComplete) {
       penView = <div className='columns bottom'>
-                  <PenView orgs={ keptDrakes } width={500} columns={5} rows={1} tightenRows={20}/>
+                  <FVStableView orgs={ keptDrakes } width={500} columns={5} rows={1} tightenRows={20}/>
                 </div>;
     }
 
@@ -1171,7 +1171,7 @@ export default class FVEggGame extends Component {
 
     return (
       <div id="egg-game">
-        <div className="columns">
+        <div className="columns centered">
           <div className='column'>
             <ParentDrakeView className="mother" org={ mother } />
             { parentGenomeView(BioLogica.FEMALE) }

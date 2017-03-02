@@ -172,7 +172,6 @@ body
 
 .fv-layout
   #mission-wrapper
-    margin-top: -50px
     flex-grow: 1
 
 .mission-backdrop.fv-layout-c
@@ -199,11 +198,13 @@ body
 
 #fv-top-hud
   top: 0
+  margin-bottom: -60px
   background-image: url('../resources/fablevision/huds/HUD_top.png')
   background-position: 50% 0
 
 #fv-bottom-hud
   bottom: 0
+  margin-top: -30px
   background-image: url('../resources/fablevision/huds/HUD_bottom.png')
   background-position: 50% 100%
 
@@ -213,6 +214,10 @@ body
   height: 880px;
   display: flex;
   justify-content: center;
+}
+
+.fv-layout-c #mission-wrapper {
+  margin: auto
 }
 
 .challenge-award {
@@ -245,9 +250,13 @@ body
   display:none;
 }
 
-.columns{
+.columns
   display:flex;
-}
+
+  &.centered
+    flex-direction: row
+    justify-content: center
+
 
 .fade-in-on-render
   opacity: 0
@@ -292,6 +301,9 @@ body
 
 .fv-layout-c
   #egg-game
+    display: flex
+    flex-direction: column
+
     .geniblocks.genome
       top: 0px
 
@@ -408,7 +420,7 @@ body
 
 .fv-layout-c
   #egg-game .bottom
-    margin-top 0px
+    margin-top auto
 
 #egg-sort-game
   position: relative
