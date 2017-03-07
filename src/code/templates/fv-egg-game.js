@@ -15,14 +15,14 @@ import { motherGametePool, fatherGametePool, gametePoolSelector,
 import OrdinalOrganismView from '../components/ordinal-organism';
 import OrganismView from '../components/organism';
 import ParentDrakeView from '../fv-components/parent-drake';
-import GenomeView from '../components/genome';
+import FVGenomeView from '../fv-components/fv-genome';
 import GametePenView, { getGameteLocation } from '../components/gamete-pen';
 import ButtonView from '../components/button';
 import BreedButtonView from '../fv-components/breed-button';
 import FVStableView from '../fv-components/fv-stable';
 import GameteImageView from '../components/gamete-image';
 import AnimatedComponentView from '../components/animated-component';
-import ChromosomeImageView from '../components/chromosome-image';
+import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
 import TimerSet from '../utilities/timer-set';
 import t from '../utilities/translate';
 
@@ -82,7 +82,7 @@ function animatedChromosomeImageHOC(WrappedComponent) {
     }
   };
 }
-const AnimatedChromosomeImageView = animatedChromosomeImageHOC(ChromosomeImageView);
+const AnimatedChromosomeImageView = animatedChromosomeImageHOC(FVChromosomeImageView);
 
 // a "reasonable" lookup function for the two gametes
 function lookupGameteChromosomeDOMElement(sex, chromosomeName) {
@@ -90,7 +90,7 @@ function lookupGameteChromosomeDOMElement(sex, chromosomeName) {
       wrapper = document.getElementById(wrapperId),
       chromosomePositions = {"1": 0, "2": 1, "XY": 2};
   let genomeWrapper = wrapper.getElementsByClassName("genome")[0];
-  return genomeWrapper.querySelectorAll(".chromosome-image")[chromosomePositions[chromosomeName]];
+  return genomeWrapper.querySelectorAll(".fv-chromosome-image")[chromosomePositions[chromosomeName]];
 }
 
 function findBothElements(sex, name, el){
@@ -587,7 +587,7 @@ var animationEvents = {
         start: 1.0,
         end: 1.0
       };
-      animatedComponentToRender = <ChromosomeImageView small={true} empty={false} bold={true} yChromosome={targetIsY}/>;
+      animatedComponentToRender = <FVChromosomeImageView small={true} empty={false} bold={true} yChromosome={targetIsY}/>;
       animateMultipleComponents([animatedComponentToRender], [positions], opacity, speed,
                                 animationEvents.selectChromosome.id,
                                 animationEvents.selectChromosome.onFinish);
@@ -1134,7 +1134,7 @@ export default class FVEggGame extends Component {
                                   selectedChromosomes: motherSelectedChromosomes }
                               : { orgName: 'father', org: father,
                                   selectedChromosomes: fatherSelectedChromosomes };
-      return <GenomeView className={parentGenomeClass}  {...uniqueProps}
+      return <FVGenomeView className={parentGenomeClass}  {...uniqueProps}
                         small={ true } editable={false} userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes }
                         onAlleleChange={ handleAlleleChange }
                         onChromosomeSelected={_this.handleChromosomeSelected} />;
@@ -1146,7 +1146,7 @@ export default class FVEggGame extends Component {
                                   selectedChromosomes: ovumSelected }
                               : { orgName: 'targetfather', chromosomes: maleGameteChromosomeMap,
                                   selectedChromosomes: spermSelected };
-      return <GenomeView className={childGenomeClass} species={mother.species} {...uniqueProps}
+      return <FVGenomeView className={childGenomeClass} species={mother.species} {...uniqueProps}
                         editable={false} userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes }
                         small={true} displayStyle={chromosomeDisplayStyle} />;
     }
