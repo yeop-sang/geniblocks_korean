@@ -271,6 +271,7 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state) {
     species: BioLogica.Species.Drake.name,
     correctPhenotype: targetDrakeOrg.phenotype.characteristics,
     submittedPhenotype: userDrakeOrg.phenotype.characteristics,
+    submittedSex: userDrakeOrg.sex,
     initialAlleles: initialDrakeOrg.alleles,
     selectedAlleles: userDrakeOrg.alleles,
     // Target alleles contains the alleles of the target drake- there may be multiple correct allele strings

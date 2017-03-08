@@ -99,34 +99,35 @@ describe('loading authored state into template', () => {
     let nextState = reducer(initialState, navigateToChallenge({level: 0, mission: 0, challenge: 1}));
 
     it('should create the correct drake and trial state on initial load', () => {
-
+      const drakes = [
+        {
+          "alleleString": nextState.drakes[0].alleleString, // we check valid alleles below
+          "sex": 1
+        },
+        {
+          "alleleString": nextState.drakes[1].alleleString,
+          "sex": 1
+        },
+        null,
+        {
+          "alleleString": nextState.drakes[3].alleleString,
+          "sex": nextState.drakes[3].sex
+        },
+        {
+          "alleleString": nextState.drakes[4].alleleString,
+          "sex": nextState.drakes[4].sex
+        },
+        {
+          "alleleString": nextState.drakes[5].alleleString,
+          "sex": nextState.drakes[5].sex
+        }
+      ];
       expect(nextState).toEqual(initialState
         .merge(basicUnderdefinedInitialState("EggGame", {level: 0, mission: 0, challenge: 1},2))
         .merge({
           "challengeType": "match-target",
-          "drakes": [
-            {
-              "alleleString": nextState.drakes[0].alleleString, // we check valid alleles below
-              "sex": 1
-            },
-            {
-              "alleleString": nextState.drakes[1].alleleString,
-              "sex": 1
-            },
-            null,
-            {
-              "alleleString": nextState.drakes[3].alleleString,
-              "sex": nextState.drakes[3].sex
-            },
-            {
-              "alleleString": nextState.drakes[4].alleleString,
-              "sex": nextState.drakes[4].sex
-            },
-            {
-              "alleleString": nextState.drakes[5].alleleString,
-              "sex": nextState.drakes[5].sex
-            }
-          ],
+          drakes,
+          initialDrakes: drakes, 
           "goalMoves": nextState.goalMoves,
           "trials": [ {}, {}, {} ],
           "trialOrder": [0,1,2]

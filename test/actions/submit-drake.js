@@ -4,23 +4,85 @@ import * as actions from '../../src/code/actions';
 
 const types = actions.actionTypes;
 
+function assertMatchingPhenotype(actionPhenotype, targetCharacteristics) {
+  Object.keys(actionPhenotype).forEach((trait) => {
+    expect(actionPhenotype[trait]).toEqual(targetCharacteristics[trait]);
+  });
+}
+
+const correctCharacteristics = {
+        armor: "Five armor",
+        color:"Steel",
+        forelimbs:"Forelimbs",
+        health: "Healthy",
+        hindlimbs: "No hindlimbs",
+        horns: "Horns",
+        liveliness: "Alive",
+        "nose spike": "No nose spike",
+        tail: "Long tail",
+        wings: "No wings"
+      },
+      correctAlleles = "a:T,b:T,a:M,b:M,a:w,b:w,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:hl,b:hl,a:A1,b:A1,a:D,a:Bog,a:rh",
+      userCharacteristics = {
+        armor: "Five armor",
+        color:"Steel",
+        forelimbs:"Forelimbs",
+        health: "Healthy",
+        hindlimbs: "No hindlimbs",
+        horns: "Horns",
+        liveliness: "Alive",
+        "nose spike": "No nose spike",
+        tail: "Long tail",
+        wings: "Wings"
+      },
+      userAlleles = "a:T,b:T,a:M,b:M,a:W,b:W,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:hl,b:hl,a:A1,b:A1,a:D,a:Bog,a:rh",
+      initialAlleles = "a:T,b:T,a:M,b:M,a:W,b:w,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:hl,b:hl,a:A1,b:A1,a:D,a:Bog,a:rh",
+      getState = () => ({
+        routeSpec: {level: 0,mission: 0, challenge: 0}, 
+        drakes: [
+          {
+            phenotype: {characteristics: correctCharacteristics},
+            alleleString: correctAlleles,
+            sex: 0
+          },
+          {
+            phenotype: {characteristics: userCharacteristics},
+            alleleString: userAlleles,
+            sex: 0
+          }
+        ],
+        initialDrakes: [
+          {},
+          {
+            alleleString: initialAlleles
+          }
+        ],
+        trial: 0, trials: [{}], 
+        authoring: [[[{userChangeableGenes: "changeableGenes"}]]]
+      });
+
+
 describe('submitDrake action', () => {
   describe('when the drake is submitted correctly', () => {
-    const correctPhenotype = [{armor: "Five armor"}],
-          submittedPhenotype = [{armor: "Five armor"}],
-          correct = true;
+    const correct = true,
+          dispatch = expect.createSpy();
 
-    const dispatch = expect.createSpy();
-    const getState = () => ({routeSpec: {level: 0,mission: 0, challenge: 0}, trial: 0, trials: [{}], authoring: [[[{}]]]});
-
-    actions.submitDrake(correctPhenotype, submittedPhenotype, correct)(dispatch, getState);
+    actions.submitDrake(0, 1, correct)(dispatch, getState);
 
     it('should call dispatch with the correct _submitDrake action', () => {
-      expect(dispatch).toHaveBeenCalledWith({
+      var submitDrakeAction = dispatch.calls[0].arguments[0];
+      expect(submitDrakeAction).toEqual({
         type: types.DRAKE_SUBMITTED,
-        correctPhenotype,
-        submittedPhenotype,
-        correct,
+        species: "Drake",
+        correctPhenotype: submitDrakeAction.correctPhenotype,  // we check valid phenotype below
+        submittedPhenotype: submitDrakeAction.submittedPhenotype,
+        initialAlleles: initialAlleles,
+        selectedAlleles: userAlleles,
+        targetAlleles: correctAlleles,
+        targetSex: 0,
+        submittedSex: 0,
+        editableGenes: "changeableGenes",
+        correct: true,
         incrementMoves: false,
         meta: {
           "itsLog": {
@@ -30,6 +92,8 @@ describe('submitDrake action', () => {
           }
         }
       });
+      assertMatchingPhenotype(submitDrakeAction.correctPhenotype, correctCharacteristics);
+      assertMatchingPhenotype(submitDrakeAction.submittedPhenotype, userCharacteristics);
     });
 
     it('should call dispatch with the correct message action', () => {
@@ -53,21 +117,25 @@ describe('submitDrake action', () => {
   });
 
   describe('when the drake is submitted incorrectly', () => {
-    const correctPhenotype = [{armor: "Five armor"}],
-            submittedPhenotype = [{armor: "Three armor"}],
-            correct = false;
+    const correct = false,
+          dispatch = expect.createSpy();
 
-    const dispatch = expect.createSpy();
-    const getState = () => ({routeSpec: {level: 0,mission: 0, challenge: 0}, trial: 0, trials: [{}], authoring: [[{}]]});
-
-    actions.submitDrake(correctPhenotype, submittedPhenotype, correct)(dispatch, getState);
+    actions.submitDrake(0, 1, correct)(dispatch, getState);
 
     it('should call dispatch with the correct _submitDrake action', () => {
-      expect(dispatch).toHaveBeenCalledWith({
+      var submitDrakeAction = dispatch.calls[0].arguments[0];
+      expect(submitDrakeAction).toEqual({
         type: types.DRAKE_SUBMITTED,
-        correctPhenotype,
-        submittedPhenotype,
-        correct,
+        species: "Drake",
+        correctPhenotype: submitDrakeAction.correctPhenotype,  // we check valid phenotype below
+        submittedPhenotype: submitDrakeAction.submittedPhenotype,
+        initialAlleles: initialAlleles,
+        selectedAlleles: userAlleles,
+        targetAlleles: correctAlleles,
+        targetSex: 0,
+        submittedSex: 0,
+        editableGenes: "changeableGenes",
+        correct: false,
         incrementMoves: true,
         meta: {
           "itsLog": {
@@ -77,6 +145,8 @@ describe('submitDrake action', () => {
           }
         }
       });
+      assertMatchingPhenotype(submitDrakeAction.correctPhenotype, correctCharacteristics);
+      assertMatchingPhenotype(submitDrakeAction.submittedPhenotype, userCharacteristics);
     });
 
     it('should call dispatch with the correct message action', () => {
