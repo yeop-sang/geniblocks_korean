@@ -28,7 +28,7 @@ export default class GenomeChallengeTemplate extends Component {
     };
     const handleSubmit = function() {
       let correct = targetDrake.getImageName() === userDrake.getImageName();
-      onDrakeSubmission(targetDrake.phenotype.characteristics, userDrake.phenotype.characteristics, correct);
+      onDrakeSubmission(targetDrakeIndex, userDrakeIndex, correct);
     };
 
     const instructionsBanner = instructions

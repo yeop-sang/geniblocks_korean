@@ -146,7 +146,8 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     goalMoves,
     userDrakeHidden: true,
     trialSuccess: false,
-    challengeProgress: progress
+    challengeProgress: progress,
+    initialDrakes: [...drakes]
   });
 }
 

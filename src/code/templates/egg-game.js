@@ -967,7 +967,7 @@ export default class EggGame extends Component {
                                                       targetDrake.alleleString,
                                                       targetDrake.sex);
         success = (childImage === targetDrakeOrg.getImageName());
-        onDrakeSubmission(targetDrakeOrg.phenotype, child.phenotype, success, "resetGametes");
+        onDrakeSubmission(firstTargetDrakeIndex + trial, 2, success, "resetGametes");
       }
     };
     const handleReset = function() {

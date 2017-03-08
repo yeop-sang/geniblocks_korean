@@ -443,4 +443,14 @@ export default class GeneticsUtils {
     GeneticsUtils._possibleAllelesForTrait[trait] = alleles;  // store so we don't need to recalculate it
     return alleles;
   }
+
+  /**
+   * Converts a Drake object into a Biologica organism.
+   *
+   * @param {object} drake - the drake to convert
+   * @param {BioLogica.Organism} the drake as an Organism
+   */
+  static convertDrakeToOrg(drake) {
+    return new BioLogica.Organism(BioLogica.Species.Drake, drake.alleleString, drake.sex);
+  }
 }
