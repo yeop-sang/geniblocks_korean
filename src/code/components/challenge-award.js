@@ -10,7 +10,7 @@ class ChallengeAwardView extends React.Component {
   };
 
   static defaultProps = {
-     challengeAwards: {"caseId":0, "challengeId":0, "challengeCount":0, "progress":[]},
+     challengeAwards: {routeSpec: {"level": 0, "mission":0, "challenge":0}, "challengeCount":0, "progress":[]},
      size: 256,
      coinParts: 3
   };
@@ -32,11 +32,12 @@ class ChallengeAwardView extends React.Component {
   };
 
   render() {
-    let caseId = 0, challengeId = 0, challengeCount = 0, progress = [], challengeBackgroundImage, progressImages = [];
+    let level = 0, mission = 0, challenge = 0, challengeCount = 0, progress = [], challengeBackgroundImage, progressImages = [];
 
-    if (this.props.challengeAwards.challengeId != null) {
-      caseId = this.props.challengeAwards.caseId,
-      challengeId = this.props.challengeAwards.challengeId,
+    if (this.props.challengeAwards.routeSpec != null) {
+      level = this.props.challengeAwards.routeSpec.level,
+      mission = this.props.challengeAwards.routeSpec.mission,
+      challenge = this.props.challengeAwards.routeSpec.challenge,
       challengeCount = this.props.challengeAwards.challengeCount;
       progress = this.props.challengeAwards.progress;
       challengeBackgroundImage = <div className="coin background" />;
@@ -51,7 +52,7 @@ class ChallengeAwardView extends React.Component {
       height: size + "px"
     };
 
-    let pieceKey = caseId + ":";
+    let pieceKey = level + ":" + mission + ":";
     let challengeScore = {};
 
     for (let i = 0; i < challengeCount; i++){
@@ -66,12 +67,12 @@ class ChallengeAwardView extends React.Component {
         }
       }
     }
-    let pieceNum = challengeId + 1;
-    let currentPieceStyle = `coin piece pieces${challengeCount} piece${pieceNum} single ${this.getAwardStyle(challengeScore[challengeId])}`;
+    let pieceNum = challenge + 1;
+    let currentPieceStyle = `coin piece pieces${challengeCount} piece${pieceNum} single ${this.getAwardStyle(challengeScore[challenge])}`;
 
-    for (var challenge in challengeScore){
-      pieceNum = parseInt(challenge) + 1;
-      progressImages = this.addAwardImage(progressImages, challengeCount, pieceNum, challengeScore[challenge], "whole");
+    for (var challengeNum in challengeScore){
+      pieceNum = parseInt(challengeNum) + 1;
+      progressImages = this.addAwardImage(progressImages, challengeCount, pieceNum, challengeScore[challengeNum], "whole");
     }
 
     let singlePieceOpacityStart = 1, singlePieceOpacityEnd = 0, style = {}, onRest;

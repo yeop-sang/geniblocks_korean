@@ -14,8 +14,8 @@ class ChallengeContainer extends Component {
 
     const Template = templates[this.props.template];
     return (
-      <div id="challenges" className="case-backdrop">
-        <div id="case-wrapper">
+      <div id="challenges" className="mission-backdrop">
+        <div id="mission-wrapper">
           <Template {...this.props} />
         </div>
       </div>
@@ -24,8 +24,7 @@ class ChallengeContainer extends Component {
 
   static propTypes = {
     template: PropTypes.string,
-    case: PropTypes.number,
-    challenge: PropTypes.number
+    routeSpec: PropTypes.object
   }
 }
 
@@ -44,8 +43,7 @@ function mapStateToProps (state) {
       baskets: state.baskets,
       trial: state.trial,
       trials: state.trials,
-      case: state.case,
-      challenge: state.challenge,
+      routeSpec: state.routeSpec,
       correct: state.correct,
       errors: state.errors,
       moves: state.moves,

@@ -7,7 +7,7 @@ export const scoreValues = {
 
 export function setProgressScore(state, score){
   let currentProgress = state.challengeProgress.asMutable();
-  let level = getChallengeName(state.case, state.challenge,state.trial);
+  let level = getChallengeName(state.routeSpec,state.trial);
   currentProgress[level] = getScoreValue(score);
   return currentProgress;
 }
@@ -16,13 +16,14 @@ export function updateProgress(state) {
   let currentProgress = state.challengeProgress.asMutable();
   let score = state.moves - state.goalMoves;
 
-  let level = getChallengeName(state.case,state.challenge,state.trial);
+  let level = getChallengeName(state.routeSpec,state.trial);
   currentProgress[level] = getScoreValue(score);
 
   return currentProgress;
 }
-export function getChallengeName(case_, challenge, trial){
-  let challengeName = `${case_}:${challenge}:${trial}`;
+export function getChallengeName(routeSpec, trial){
+  let {level, mission, challenge} = routeSpec,
+      challengeName = `${level}:${mission}:${challenge}:${trial}`;
   return challengeName;
 }
 

@@ -3,11 +3,12 @@ import reducer from '../../src/code/reducers/';
 import { navigateToCurrentRoute, actionTypes as types } from '../../src/code/actions';
 
 describe('navigateToCurrentRoute action', () => {
-  const validCase = 1, validChallenge = 2,
-        invalidCase = 3, invalidChallenge = 3,
+  const validLevel = 0, validMission = 1, validChallenge = 2,
+        invalidLevel = 3, invalidMission = 3, invalidChallenge = 3,
         currentRouteAction = {
           type: types.NAVIGATED,
-          case: validCase,
+          level: validLevel,
+          mission: validMission,
           challenge: validChallenge,
           skipRouteChange: true,
           meta: {
@@ -22,9 +23,10 @@ describe('navigateToCurrentRoute action', () => {
         },
         challengeAction = {
           type: types.NAVIGATED,
-          case: validCase,
+          level: validLevel,
+          mission: validMission,
           challenge: validChallenge,
-          route: "/2/3",
+          route: "/1/2/3",
           meta: {
             "itsLog": {
               "actor": "USER",
@@ -36,16 +38,16 @@ describe('navigateToCurrentRoute action', () => {
         };
 
   const dispatch = expect.createSpy();
-  const getState = () => ({case: 0, challenge: 0, authoring: [[{}],[{},{},{}]] });
+  const getState = () => ({routeSpec: {level: 0, mission: 0, challenge: 0}, authoring: [[[{}],[{},{},{}]]] });
 
   it("should dispatch a navigateToCurrentRoute action when a valid challenge is specified", () => {
-    navigateToCurrentRoute(validCase, validChallenge)(dispatch, getState);
+    navigateToCurrentRoute({level: validLevel, mission: validMission, challenge: validChallenge})(dispatch, getState);
     expect(dispatch.calls[0].arguments).toEqual([currentRouteAction]);
   });
 
   it("should dispatch a navigateToChallenge action to the nearest valid challenge" +
       " when an invalid challenge is specified", () => {
-    navigateToCurrentRoute(invalidCase, invalidChallenge)(dispatch, getState);
+    navigateToCurrentRoute({level: invalidLevel, mission: invalidMission, challenge: invalidChallenge})(dispatch, getState);
     expect(dispatch.calls[1].arguments).toEqual([challengeAction]);
   });
 
@@ -53,17 +55,19 @@ describe('navigateToCurrentRoute action', () => {
     it('should update the state to match the expected state when we navigate to a valid challenge', () => {
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
-        case: 0,
-        challenge: 0,
-        authoring: [
-          [],
-          [{}, {}, {
-            template: "GenomePlayground",
-            "initialDrake": {
-              "alleles": "a:T,b:T",
-              "sex": 1
-            }
-          }]
+        routeSpec: {level: 0, mission: 0, challenge: 0},
+        authoring: 
+        [
+          [
+            [],
+            [{}, {}, {
+              template: "GenomePlayground",
+              "initialDrake": {
+                "alleles": "a:T,b:T",
+                "sex": 1
+              }
+            }]
+          ]
         ]
       });
 
@@ -80,8 +84,7 @@ describe('navigateToCurrentRoute action', () => {
       // wanted to unit test the loadStateFromAuthoring() changes, it could be
       // done with a unit test of that function directly.
       expect(nextState).toEqual(nextState.merge({
-        case: 1,
-        challenge: 2,
+        routeSpec: {level: 0, mission: 1, challenge: 2},
         template: "GenomePlayground",
         challenges: 3,
         trialSuccess: false,

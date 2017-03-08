@@ -52,7 +52,7 @@ export default class AuthoringUpload extends React.Component {
                                     </div>
                                   : null;
     return (
-      <div id='upload-button-backdrop' className='case-backdrop'>
+      <div id='upload-button-backdrop' className='mission-backdrop'>
         <div id='upload-button-container'>
           <div id='upload-button-wrapper' className='upload-button-wrapper'>
             <label id='upload-button-label'>

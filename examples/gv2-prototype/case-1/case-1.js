@@ -62,7 +62,7 @@ class Case1 extends React.Component {
           { currChallenge } = this.state,
           lastChallenge = this.getLastChallengeIndex();
     return (
-      <div id='case-backdrop'>
+      <div id='mission-backdrop'>
         <div id='case-1'>
           {(() => {
             if (challengeSpec.Component === Case1Playground) {

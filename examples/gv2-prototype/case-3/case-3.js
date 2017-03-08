@@ -57,7 +57,7 @@ class Case3 extends React.Component {
           challengeSpec = challengeSpecs[currChallenge],
           maxChallenge = challengeSpecs.length - 1;
     return (
-      <div id='case-backdrop'>
+      <div id='mission-backdrop'>
         <div id='case-3'>
           <Case3Challenge currChallenge={currChallenge} maxChallenge={maxChallenge}
                           challengeSpec={challengeSpec}

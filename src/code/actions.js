@@ -32,12 +32,14 @@ export function changeAuthoring(authoring) {
   };
 }
 
-export function navigateToChallenge(_case, challenge) {
+export function navigateToChallenge(routeSpec) {
+  const {level, mission, challenge} = routeSpec;
   return {
     type: actionTypes.NAVIGATED,
-    case: _case,
+    level,
+    mission,
     challenge,
-    route: `/${_case+1}/${challenge+1}`,
+    route: `/${level+1}/${mission+1}/${challenge+1}`,
     meta: {
       logTemplateState: true,
       itsLog: {
@@ -51,8 +53,7 @@ export function navigateToChallenge(_case, challenge) {
 
 export function retryCurrentChallenge() {
   return (dispatch, getState) => {
-    const { case: currentCase, challenge: currentChallenge } = getState();
-    dispatch(navigateToChallenge(currentCase, currentChallenge));
+    dispatch(navigateToChallenge(getState().routeSpec));
   };
 }
 
@@ -73,39 +74,49 @@ function navigateToStartPage(url) {
 
 export function navigateToNextChallenge() {
   return (dispatch, getState) => {
-    const { case: currentCase, challenge: currentChallenge,
-            authoring, endCaseUrl } = getState();
-    let nextCase = currentCase,
+    const { routeSpec, authoring, endMissionUrl } = getState();
+    let { level: currentLevel, mission: currentMission, challenge: currentChallenge } = routeSpec,
+        nextLevel = routeSpec.level,
+        nextMission = routeSpec.mission,
         nextChallenge = currentChallenge+1,
-        challengeCountInCase = authoring[currentCase].length;
-    if (challengeCountInCase <= nextChallenge) {
-      // if the next case exists, navigate to it
-      if (authoring[currentCase+1])
-        nextCase++;
-      // otherwise, circle back to the beginning
-      else
-        nextCase = 0;
+        challengeCountInMission = authoring[currentLevel][currentMission].length;
+    if (challengeCountInMission <= nextChallenge) {
+      // there are not enough challenges...if the next mission exists, navigate to it
+      if (authoring[currentLevel][currentMission+1]) {
+        nextMission++;
+      } else {   
+        // otherwise, check if the next level exists
+        if (authoring[currentLevel+1]) {
+          nextLevel++;
+        } else {
+          // if no next level exists, loop around
+          nextLevel = 0;
+        }
+        nextMission = 0;
+      }
       nextChallenge = 0;
 
-      if (endCaseUrl) {
-        dispatch(navigateToStartPage(endCaseUrl));
+      if (endMissionUrl) {
+        dispatch(navigateToStartPage(endMissionUrl));
         return;
       }
     }
-    dispatch(navigateToChallenge(nextCase, nextChallenge));
+    dispatch(navigateToChallenge({level: nextLevel, mission: nextMission, challenge: nextChallenge}));
   };
 }
 
 /*
- * Called when route params are different from current case and challenge,
+ * Called when route params are different from current mission and challenge,
  * so user must have changed them in the address bar.
- * Skips the route change, so just updates current case and challenge and
+ * Skips the route change, so just updates current mission and challenge and
  * triggers `loadStateFromAuthoring` in router
  */
-export function _navigateToCurrentRoute(_case, challenge) {
+export function _navigateToCurrentRoute(routeSpec) {
+  const {level, mission, challenge} = routeSpec;
   return {
     type: actionTypes.NAVIGATED,
-    case: _case,
+    level,
+    mission,
     challenge,
     skipRouteChange: true,
     meta: {
@@ -124,19 +135,23 @@ function restrictToIntegerRange(value, minValue, maxValue) {
   return Math.max(minValue, Math.min(maxValue, Math.trunc(value)));
 }
 
-export function navigateToCurrentRoute(_case, challenge) {
+export function navigateToCurrentRoute(routeSpec) {
+  const {level, mission, challenge} = routeSpec;
   return (dispatch, getState) => {
-    const { authoring: cases } = getState(),
-          caseCount = cases.length,
-          nextCase = restrictToIntegerRange(_case, 0, caseCount - 1),
-          challengeCount = cases[nextCase].length,
+    const { authoring: levels } = getState(),
+          levelCount = levels.length,
+          nextLevel = restrictToIntegerRange(level, 0, levelCount - 1),
+          missionCount = levels[nextLevel].length,
+          nextMission = restrictToIntegerRange(mission, 0, missionCount - 1),
+          challengeCount = levels[nextLevel][nextMission].length,
           nextChallenge = restrictToIntegerRange(challenge, 0, challengeCount - 1),
-          routeChangeRequired = (_case !== nextCase) || (challenge !== nextChallenge);
+          routeChangeRequired = (level !== nextLevel) || (mission !== nextMission) || (challenge !== nextChallenge);
+    // TODO: Ideally, route changes would be handled in their own module (see routing.js)
     if (routeChangeRequired) {
-      dispatch(navigateToChallenge(nextCase, nextChallenge));
+      dispatch(navigateToChallenge({level: nextLevel, mission: nextMission, challenge: nextChallenge}));
     }
     else {
-      dispatch(_navigateToCurrentRoute(nextCase, nextChallenge));
+      dispatch(_navigateToCurrentRoute({level: nextLevel, mission: nextMission, challenge: nextChallenge}));
     }
   };
 }
@@ -219,8 +234,9 @@ export function changeDrakeSelection(selectedIndices) {
 }
 
 function getChallengeScore(state) {
-  const { challengeProgress: progress, case: case_, challenge } = state,
-        challengePrefix = `${case_}:${challenge}`;
+  const { challengeProgress: progress, routeSpec } = state,
+        { level, mission, challenge } = routeSpec,
+        challengePrefix = `${level}:${mission}:${challenge}`;
   let challengeScore = 0;
   for (let key in progress) {
     if (key.startsWith(challengePrefix)) {
@@ -265,19 +281,19 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct, incor
 
     const state = getState();
     let challengeComplete = false,
-        caseComplete = false;
+        missionComplete = false;
 
     if (correct && state.trial === state.trials.length-1) {
       challengeComplete = true;
-      if (state.authoring[state.case].length <= state.challenge+1) {
-        caseComplete = true;
+      if (state.authoring[state.routeSpec.level][state.routeSpec.mission].length <= state.routeSpec.challenge+1) {
+        missionComplete = true;
       }
     }
 
     let dialog = {};
 
     if (correct) {
-      if (caseComplete) {
+      if (missionComplete) {
         dialog = {
           message: "~ALERT.TITLE.GOOD_WORK",
           explanation: "~ALERT.COMPLETE_COIN",
@@ -286,7 +302,7 @@ export function submitDrake(correctPhenotype, submittedPhenotype, correct, incor
             action: "retryCurrentChallenge"
           },
           rightButton: {
-            label: "~BUTTON.NEXT_CASE",
+            label: "~BUTTON.NEXT_MISSION",
             action: "navigateToNextChallenge"
           },
           showAward: true
@@ -423,11 +439,11 @@ export function showCompleteChallengeDialog() {
   return (dispatch, getState) => {
     const state = getState();
 
-    const caseComplete = (state.authoring[state.case].length <= state.challenge + 1);
+    const missionComplete = (state.authoring[state.routeSpec.level][state.routeSpec.mission].length <= state.routeSpec.challenge + 1);
 
     let dialog = {};
 
-    if (caseComplete) {
+    if (missionComplete) {
       dialog = {
         message: "~ALERT.TITLE.GOOD_WORK",
         explanation: "~ALERT.COMPLETE_COIN",
@@ -436,7 +452,7 @@ export function showCompleteChallengeDialog() {
           action: "retryCurrentChallenge"
         },
         rightButton: {
-          label: state.endCaseUrl ? "~BUTTON.END_CASE" : "~BUTTON.NEXT_CASE",
+          label: state.endMissionUrl ? "~BUTTON.END_MISSION" : "~BUTTON.NEXT_MISSION",
           action: "navigateToNextChallenge"
         },
         showAward: true

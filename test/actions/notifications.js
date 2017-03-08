@@ -21,9 +21,10 @@ describe('Notification actions', () => {
         {
           message: {
             id: 'ITS.CHALLENGE.INTRO.2',
-            text: 'Ok! Let\'s get to work on Case {{case}} Challenge {{challenge}}.',
+            text: 'Ok! Let\'s get to work on Mission {{mission}} Challenge {{challenge}}.',
             args: {
-              'case': 0,
+              level: 0,
+              mission: 0,
               challenge: 2
             }
           },
@@ -41,7 +42,7 @@ describe('Notification actions', () => {
         });
 
         expect(nextState).toEqual(defaultState.merge({
-          notifications: ["Ok! Let's get to work on Case 0 Challenge 2."]
+          notifications: ["Ok! Let's get to work on Mission 0 Challenge 2."]
         }));
       });
 
@@ -64,7 +65,7 @@ describe('Notification actions', () => {
         });
 
         expect(lastState).toEqual(defaultState.merge({
-          notifications: ["Ok! Let's get to work on Case 0 Challenge 2.", "Second message."]
+          notifications: ["Ok! Let's get to work on Mission 0 Challenge 2.", "Second message."]
         }));
       });
     });

@@ -4,10 +4,9 @@ import reducer from '../../src/code/reducers/';
 import { navigateToChallenge } from '../../src/code/actions';
 import expect from 'expect';
 
-const basicUnderdefinedInitialState = (template, _case, challenge, challenges) => ({
+const basicUnderdefinedInitialState = (template, routeSpec, challenges) => ({
   template,
-  case: _case,
-  challenge,
+  routeSpec,
   challenges,
   challengeType: undefined,
   interactionType: undefined,
@@ -69,7 +68,9 @@ describe('authoredDrakesToDrakeArray()', () => {
 
 describe('loading authored state into template', () => {
   describe('in the EggGame II template', () => {
-    let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles([
+    let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles(
+      [
+        [
           [
             {},
             {
@@ -86,21 +87,21 @@ describe('loading authored state into template', () => {
               "targetDrakes": [{},{},{}]
             }
           ]
-        ], ["alleles"]);
+        ]
+      ], ["alleles"]);
 
     let defaultState = reducer(undefined, {});
     let initialState = defaultState.merge({
-      case: 0,
-      challenge: 0,
+      routeSpec: {level: 0,mission: 0, challenge: 0},
       authoring: authoring
     });
 
-    let nextState = reducer(initialState, navigateToChallenge(0, 1));
+    let nextState = reducer(initialState, navigateToChallenge({level: 0, mission: 0, challenge: 1}));
 
     it('should create the correct drake and trial state on initial load', () => {
 
       expect(nextState).toEqual(initialState
-        .merge(basicUnderdefinedInitialState("EggGame", 0,1,2))
+        .merge(basicUnderdefinedInitialState("EggGame", {level: 0, mission: 0, challenge: 1},2))
         .merge({
           "challengeType": "match-target",
           "drakes": [

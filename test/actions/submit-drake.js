@@ -11,7 +11,7 @@ describe('submitDrake action', () => {
           correct = true;
 
     const dispatch = expect.createSpy();
-    const getState = () => ({case: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]]});
+    const getState = () => ({routeSpec: {level: 0,mission: 0, challenge: 0}, trial: 0, trials: [{}], authoring: [[[{}]]]});
 
     actions.submitDrake(correctPhenotype, submittedPhenotype, correct)(dispatch, getState);
 
@@ -42,7 +42,7 @@ describe('submitDrake action', () => {
           action: "retryCurrentChallenge"
         },
         rightButton: {
-          label: "~BUTTON.NEXT_CASE",
+          label: "~BUTTON.NEXT_MISSION",
           action: "navigateToNextChallenge"
         },
         showAward: true,
@@ -58,7 +58,7 @@ describe('submitDrake action', () => {
             correct = false;
 
     const dispatch = expect.createSpy();
-    const getState = () => ({case: 0, challenge: 0, trial: 0, trials: [{}], authoring: [[{}]]});
+    const getState = () => ({routeSpec: {level: 0,mission: 0, challenge: 0}, trial: 0, trials: [{}], authoring: [[{}]]});
 
     actions.submitDrake(correctPhenotype, submittedPhenotype, correct)(dispatch, getState);
 
@@ -103,7 +103,7 @@ describe('submitDrake action', () => {
         trial: 1,
         trials: [{}, {}],
         challengeProgress: {
-          "0:0:0" : 2
+          "0:0:0:0" : 2
         }
       });
 
@@ -118,8 +118,8 @@ describe('submitDrake action', () => {
       expect(nextState).toEqual(initialState.merge({
         trialSuccess: false,
         challengeProgress: {
-          "0:0:0" : 2,
-          "0:0:1" : -1
+          "0:0:0:0" : 2,
+          "0:0:0:1" : -1
         }
       }));
     });
@@ -148,7 +148,7 @@ describe('submitDrake action', () => {
         expect(nextState).toEqual(initialState.merge({
           trialSuccess: true,
           challengeProgress: {
-            "0:0:0" : 0
+            "0:0:0:0" : 0
           }
         }));
       });
@@ -157,15 +157,15 @@ describe('submitDrake action', () => {
         initialState = initialState.set("trial", 1);
         initialState = initialState.set("goalMoves", 4);
         initialState = initialState.set("moves", 5);
-        initialState = initialState.set( "challengeProgress", {"0:0:0" : 0} );
+        initialState = initialState.set( "challengeProgress", {"0:0:0:0" : 0} );
 
         let nextState = reducer(initialState, submitAction);
 
         expect(nextState).toEqual(initialState.merge({
           trialSuccess: true,
           challengeProgress: {
-            "0:0:0" : 0,
-            "0:0:1" : 1
+            "0:0:0:0" : 0,
+            "0:0:0:1" : 1
           }
         }));
       });

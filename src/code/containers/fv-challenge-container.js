@@ -56,11 +56,12 @@ class FVChallengeContainer extends Component {
                         backgroundSize: `auto ${scaledLinesHeight}px, auto ${scaledLinesHeight}px, contain` }
                     : {};
     return (
-      <div id="challenges" className={classNames('case-backdrop', bgClasses)} style={style} >
+      <div id="challenges" className={classNames('mission-backdrop', bgClasses)}
+            style={style} >
         <div id='fv-top-hud' className='fv-hud'
               style={{height: scaledTopHudHeight,
                       backgroundSize: `${scaledImageWidth}px ${scaledTopHudHeight}px`}}></div>
-        <div id="case-wrapper" style={{height: challengeHeight}}>
+        <div id="mission-wrapper" style={{height: challengeHeight}}>
           <Template {...otherProps} />
         </div>
         <div id='fv-bottom-hud' className='fv-hud'
@@ -74,8 +75,7 @@ class FVChallengeContainer extends Component {
     template: PropTypes.string,
     containerWidth: PropTypes.number,
     containerHeight: PropTypes.number,
-    case: PropTypes.number,
-    challenge: PropTypes.number
+    routeSpec: PropTypes.object
   }
 }
 
@@ -94,8 +94,7 @@ function mapStateToProps (state) {
       baskets: state.baskets,
       trial: state.trial,
       trials: state.trials,
-      case: state.case,
-      challenge: state.challenge,
+      routeSpec: state.routeSpec,
       correct: state.correct,
       errors: state.errors,
       moves: state.moves,
