@@ -89,6 +89,9 @@ function createLogEntry(action, nextState){
   let event = { ...action.meta.itsLog },
       context = { ...action };
 
+  // TODO: use a unique identifier here so we can move challenges without confusing ITS
+  context["routeSpec"] = nextState.routeSpec;
+
   if (action.meta.logNextState) {
     for (let prop in action.meta.logNextState) {
       context[prop] = getValue(nextState, action.meta.logNextState[prop]);

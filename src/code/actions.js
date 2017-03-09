@@ -1,5 +1,6 @@
 import actionTypes from './action-types';
 import { ITS_ACTORS, ITS_ACTIONS, ITS_TARGETS } from './its-constants';
+import GeneticsUtils from './utilities/genetics-utils';
 
 export { actionTypes };
 
@@ -257,12 +258,26 @@ function getEarnedCoinString(state) {
   return ["~ALERT.NEW_PIECE_OF_COIN", scoreString];
 }
 
-function _submitDrake(correctPhenotype, submittedPhenotype, correct) {
-  let incrementMoves = !correct;
-  return{
+function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state) {
+  const incrementMoves = !correct,
+        targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[targetDrakeIndex]),
+        userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]),
+        initialDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.initialDrakes[userDrakeIndex]),
+        routeSpec = state.routeSpec,
+        editableGenes = state.authoring[routeSpec.level][routeSpec.mission][routeSpec.challenge].userChangeableGenes;
+
+  return {
     type: actionTypes.DRAKE_SUBMITTED,
-    correctPhenotype,
-    submittedPhenotype,
+    species: BioLogica.Species.Drake.name,
+    correctPhenotype: targetDrakeOrg.phenotype.characteristics,
+    submittedPhenotype: userDrakeOrg.phenotype.characteristics,
+    submittedSex: userDrakeOrg.sex,
+    initialAlleles: initialDrakeOrg.alleles,
+    selectedAlleles: userDrakeOrg.alleles,
+    // Target alleles contains the alleles of the target drake- there may be multiple correct allele strings
+    targetAlleles: targetDrakeOrg.alleles,
+    targetSex: targetDrakeOrg.sex,
+    editableGenes,
     correct,
     incrementMoves,
     meta: {
@@ -275,11 +290,13 @@ function _submitDrake(correctPhenotype, submittedPhenotype, correct) {
   };
 }
 
-export function submitDrake(correctPhenotype, submittedPhenotype, correct, incorrectAction) {
+export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrectAction) {
   return (dispatch, getState) => {
-    dispatch(_submitDrake(correctPhenotype, submittedPhenotype, correct));
+    
 
     const state = getState();
+    dispatch(_submitDrake(targetDrakeIndex, userDrakeIndex, correct, state));
+
     let challengeComplete = false,
         missionComplete = false;
 

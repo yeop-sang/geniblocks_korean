@@ -72,20 +72,22 @@ describe('loading authored state into template', () => {
     let nextState = reducer(initialState, navigateToChallenge({level: 0, mission: 0, challenge: 1}));
 
     it('should create the correct drake and trial state on initial load', () => {
+      const drakes = [
+        {
+          "alleleString": nextState.drakes[0].alleleString, // we check valid alleles below
+          "secondXAlleles": "b:D,b:Bog,b:rh",
+          "sex": 0
+        },
+        {
+          "alleleString": nextState.drakes[1].alleleString,
+          "sex": 1
+        }
+      ];
       expect(nextState).toEqual(initialState
         .merge(basicUnderdefinedInitialState("GenomeChallenge", {level: 0, mission: 0, challenge: 1},2))
         .merge({
-          "drakes": [
-            {
-              "alleleString": nextState.drakes[0].alleleString, // we check valid alleles below
-              "secondXAlleles": "b:D,b:Bog,b:rh",
-              "sex": 0
-            },
-            {
-              "alleleString": nextState.drakes[1].alleleString,
-              "sex": 1
-            }
-          ],
+          drakes,
+          initialDrakes: drakes,
           "goalMoves": nextState.goalMoves,
           "trials": [
             {
