@@ -34,7 +34,7 @@ body
     align-items: center;
     flex-direction: column;
     float: left;
-    margin-top: 25px;
+    margin-top: 40px;
   }
   .column-label {
     margin-top: 125px;
@@ -255,7 +255,7 @@ body
 
   &.centered
     flex-direction: row
-    justify-content: center
+    justify-content: space-around
 
 
 .fade-in-on-render
@@ -292,7 +292,7 @@ body
     &.target
       height: 102px
   .geniblocks.breed-button-surround
-    margin-top: -50px
+    margin-top: -65px
 
   .gamete-pen-wrapper
     margin-left: -15px
@@ -330,6 +330,7 @@ body
 
   .fertilization
     display: flex
+    flex-direction: row
     align-items: flex-start
     height: 218px
 
@@ -354,6 +355,7 @@ body
         width: 76px
 
   .gametes
+    margin-top: -35px
     display: flex
     justify-content: space-between
     >div
@@ -375,23 +377,23 @@ body
     .ovum
       position: absolute
       transition: left 2s
-      top: -135px
+      top: -140px
       left: 110px
       &.matching
         top: -160px
     .sperm
       position: absolute
       transition: left 2s
-      top: -117px
+      top: -141px
       left: -12px
       &.matching
         top: -142px
 
     &.unfertilized
       .ovum
-        left: 75px
+        left: 20px
       .sperm
-        left: 65px
+        left: 110px
 
   .fertilize-button
     margin-top: 45px

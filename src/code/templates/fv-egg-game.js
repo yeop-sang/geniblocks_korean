@@ -20,7 +20,7 @@ import GametePenView, { getGameteLocation } from '../components/gamete-pen';
 import ButtonView from '../components/button';
 import BreedButtonView from '../fv-components/breed-button';
 import FVStableView from '../fv-components/fv-stable';
-import GameteImageView from '../components/gamete-image';
+import FVGameteImageView from '../fv-components/fv-gamete-image';
 import AnimatedComponentView from '../components/animated-component';
 import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
 import TimerSet from '../utilities/timer-set';
@@ -28,7 +28,7 @@ import t from '../utilities/translate';
 
 // debugging options to shorten animation/randomization for debugging purposes
 // IMPORTANT: remember to set these back to their defaults (e.g. false, false, 0) before committing
-const debugSkipIntroGameteAnimation = false,  // set to true to skip intro gamete animation
+const debugSkipIntroGameteAnimation = true,  // set to true to skip intro gamete animation
       debugSkipRandomGameteAnimation = false, // set to true to skip randomized gamete animation
       debugSkipFirstGameteStage = false,      // set to true to skip the one-by-one animation stage
       debugTotalGameteCount = 0;              // non-zero value stops randomization after # gametes
@@ -167,8 +167,8 @@ var animationEvents = {
       };
 
       let displayStyleContainer = {animated: true, size: 0.3};
-      animatedOvumView  = <GameteImageView isEgg={true} displayStyle={displayStyleContainer} />;
-      animatedSpermView = <GameteImageView isEgg={false} displayStyle={displayStyleContainer} />;
+      animatedOvumView  = <FVGameteImageView className="ovum" isEgg={true} displayStyle={displayStyleContainer} />;
+      animatedSpermView = <FVGameteImageView className="sperm" isEgg={false} displayStyle={displayStyleContainer} />;
 
       let opacity = {
         start: 1.0,
@@ -1100,8 +1100,8 @@ export default class FVEggGame extends Component {
           ovumClasses = classNames('ovum', challengeClasses),
           spermClasses = classNames('sperm', challengeClasses);
 
-    ovumView  = <GameteImageView className={ovumClasses}  isEgg={true}  chromosomes={ovumChromosomes} displayStyle={gameteDisplayStyle} />;
-    spermView = <GameteImageView className={spermClasses} isEgg={false} chromosomes={spermChromosomes} displayStyle={gameteDisplayStyle} />;
+    ovumView  = <FVGameteImageView className={ovumClasses}  isEgg={true}  chromosomes={ovumChromosomes} displayStyle={gameteDisplayStyle} />;
+    spermView = <FVGameteImageView className={spermClasses} isEgg={false} chromosomes={spermChromosomes} displayStyle={gameteDisplayStyle} />;
 
     let [,,,...keptDrakes] = drakes;
     keptDrakes = keptDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
