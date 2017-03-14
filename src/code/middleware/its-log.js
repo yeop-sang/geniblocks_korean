@@ -87,10 +87,12 @@ export function changePropertyValues(obj, key, func) {
 
 function createLogEntry(action, nextState){
   let event = { ...action.meta.itsLog },
-      context = { ...action };
+      context = { ...action },
+      routeSpec = nextState.routeSpec;
 
-  // TODO: use a unique identifier here so we can move challenges without confusing ITS
-  context["routeSpec"] = nextState.routeSpec;
+  context["routeSpec"] = routeSpec;
+  context["groupId"] = "verticalBite";
+  context["challengeId"] = nextState.authoring[routeSpec.level][routeSpec.mission][routeSpec.challenge].challengeId;
 
   if (action.meta.logNextState) {
     for (let prop in action.meta.logNextState) {

@@ -262,9 +262,9 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state) {
   const incrementMoves = !correct,
         targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[targetDrakeIndex]),
         userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]),
-        initialDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.initialDrakes[userDrakeIndex]),
+        initialDrakeOrg = state.initialDrakes[userDrakeIndex] ? GeneticsUtils.convertDrakeToOrg(state.initialDrakes[userDrakeIndex]) : null,
         routeSpec = state.routeSpec,
-        editableGenes = state.authoring[routeSpec.level][routeSpec.mission][routeSpec.challenge].userChangeableGenes;
+        editableGenes = state.authoring[routeSpec.level][routeSpec.mission][routeSpec.challenge].visibleGenes.split(", ");
 
   return {
     type: actionTypes.DRAKE_SUBMITTED,
@@ -272,10 +272,8 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state) {
     correctPhenotype: targetDrakeOrg.phenotype.characteristics,
     submittedPhenotype: userDrakeOrg.phenotype.characteristics,
     submittedSex: userDrakeOrg.sex,
-    initialAlleles: initialDrakeOrg.alleles,
+    initialAlleles: initialDrakeOrg ? initialDrakeOrg.alleles : null,
     selectedAlleles: userDrakeOrg.alleles,
-    // Target alleles contains the alleles of the target drake- there may be multiple correct allele strings
-    targetAlleles: targetDrakeOrg.alleles,
     targetSex: targetDrakeOrg.sex,
     editableGenes,
     correct,
@@ -284,7 +282,7 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state) {
       itsLog: {
         actor: ITS_ACTORS.USER,
         action: ITS_ACTIONS.SUBMITTED,
-        target: ITS_TARGETS.DRAKE
+        target: ITS_TARGETS.ORGANISM
       }
     }
   };
