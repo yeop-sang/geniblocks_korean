@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
-import StableDrakeView from './stable-drake';
+import FVStableCounter from './stable-counter';
+import OrganismView from '../components/organism';
 
 /**
  * @param {number} rows - Option number of rows. If defined, it will be fixed at that. Otherwise, it
@@ -7,7 +8,7 @@ import StableDrakeView from './stable-drake';
  * @param {number} tightenRows - If given, will shrink the vertical height of the stable by this amount
  *                        per row, crowding the org images as needed.
  */
-const FVStableView = ({orgs, idPrefix='organism-', height=218, tightenRows=0, tightenColumns=0, onClick}) => {
+const FVStableView = ({orgs, idPrefix='organism-', height=218, onClick}) => {
 
   function handleClick(id, org) {
     const prefixIndex = id.indexOf(idPrefix),
@@ -15,15 +16,18 @@ const FVStableView = ({orgs, idPrefix='organism-', height=218, tightenRows=0, ti
     if (onClick) onClick(index, id, org);
   }
 
-  let stableDrakeHeight = height * (5/8),
+  let stableDrakeWidth = height * (5/8),
       stableDrakeViews = orgs.map((org, index) => {
-        return <StableDrakeView org={org} id={idPrefix + index} index={index} key={index}
-                                height={stableDrakeHeight} onClick={handleClick} />;
+        return (
+          <div className="stable-drake-overlay">
+            <OrganismView org = {org} id = {idPrefix + index} width = {stableDrakeWidth} onClick = {handleClick} />
+          </div>
+        );
       });
 
   return (
     <div className="geniblocks fv-stable">
-      <div className="stable-text">{"Stable Count:" + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + orgs.length + " / 5"}</div>
+      <FVStableCounter count={orgs.length} maxCount={5}/>
       <div className="stable-drakes">
         { stableDrakeViews }
       </div>

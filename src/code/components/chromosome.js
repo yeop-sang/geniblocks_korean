@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import ChromosomeImageView from './chromosome-image';
+import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
 import GeneLabelView from './gene-label';
 import AlleleView from './allele';
 import GeneticsUtils from '../utilities/genetics-utils';
@@ -10,7 +11,12 @@ import GeneticsUtils from '../utilities/genetics-utils';
  * chromosome name and side.
  */
 
-const ChromosomeView = ({chromosome, org, chromosomeName, side, userChangeableGenes = [], visibleGenes = [], hiddenAlleles = [], small = false, editable = true, selected = false, onAlleleChange, onChromosomeSelected, showLabels = true, showAlleles = false, labelsOnRight = true, orgName, displayStyle = {}}) => {
+const ChromosomeView = ({chromosome, org, chromosomeImageClass="ChromosomeImageView", chromosomeName, side, userChangeableGenes = [], visibleGenes = [], hiddenAlleles = [], small = false, editable = true, selected = false, onAlleleChange, onChromosomeSelected, showLabels = true, showAlleles = false, labelsOnRight = true, orgName, displayStyle = {}}) => {
+  const components = {
+    ChromosomeImageView: ChromosomeImageView,
+    FVChromosomeImageView: FVChromosomeImageView
+  };
+
   var containerClass = "items",
       empty = false,
       yChromosome = false,
@@ -75,11 +81,12 @@ const ChromosomeView = ({chromosome, org, chromosomeName, side, userChangeableGe
     }
   };
 
+  const SpecificImageClass = components[chromosomeImageClass];
   return (
     <div className="geniblocks chromosome-container" onClick={ handleSelect } >
       <div className={ containerClass }>
         <div className="chromosome-allele-container" id={chromId} style={displayStyle}>
-          <ChromosomeImageView small={small} empty={empty} bold={selected} yChromosome={yChromosome}/>
+          <SpecificImageClass small={small} empty={empty} bold={selected} yChromosome={yChromosome}/>
           { allelesContainer }
         </div>
         { labelsContainer }
@@ -89,6 +96,7 @@ const ChromosomeView = ({chromosome, org, chromosomeName, side, userChangeableGe
 };
 
 ChromosomeView.propTypes = {
+  chromosomeImageClass: PropTypes.string,
   org: PropTypes.object,
   chromosomeName: PropTypes.string,
   side: PropTypes.string,

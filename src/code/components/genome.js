@@ -7,7 +7,7 @@ import ChromosomeView from './chromosome';
  * Usually defined by passing in a Biologica Organism, but may also be defined by
  * passing in a map of Biologica Chromosomes and a Biologica Species.
  */
-const GenomeView = ({org, className="", chromosomes, species, userChangeableGenes=[], visibleGenes=[], hiddenAlleles=[], editable=true, showLabels=true, showAlleles=false, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected}) => {
+const GenomeView = ({org, className="", chromosomeImageClass, chromosomes, species, userChangeableGenes=[], visibleGenes=[], hiddenAlleles=[], editable=true, showLabels=true, showAlleles=false, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected}) => {
   let pairWrappers = [];
   if (org) {
     chromosomes = org.genetics.genotype.chromosomes;
@@ -20,6 +20,7 @@ const GenomeView = ({org, className="", chromosomes, species, userChangeableGene
       let chromosome = chrom[side];
       pairs.push(
         <ChromosomeView
+          chromosomeImageClass={chromosomeImageClass}
           chromosome={chromosome}
           key={pairs.length + 1}
           userChangeableGenes={userChangeableGenes}
@@ -59,6 +60,7 @@ const GenomeView = ({org, className="", chromosomes, species, userChangeableGene
 GenomeView.propTypes = {
   org: PropTypes.object,
   className: PropTypes.string,
+  chromosomeImageClass: PropTypes.string,
   chromosomes: PropTypes.object,
   species: PropTypes.object,
   userChangeableGenes: PropTypes.array,

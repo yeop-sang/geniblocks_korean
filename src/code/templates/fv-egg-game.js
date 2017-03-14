@@ -15,7 +15,7 @@ import { motherGametePool, fatherGametePool, gametePoolSelector,
 import OrdinalOrganismView from '../components/ordinal-organism';
 import OrganismView from '../components/organism';
 import ParentDrakeView from '../fv-components/parent-drake';
-import FVGenomeView from '../fv-components/fv-genome';
+import GenomeView from '../components/genome';
 import GametePenView, { getGameteLocation } from '../components/gamete-pen';
 import ButtonView from '../components/button';
 import BreedButtonView from '../fv-components/breed-button';
@@ -1134,7 +1134,7 @@ export default class FVEggGame extends Component {
                                   selectedChromosomes: motherSelectedChromosomes }
                               : { orgName: 'father', org: father,
                                   selectedChromosomes: fatherSelectedChromosomes };
-      return <FVGenomeView className={parentGenomeClass}  {...uniqueProps}
+      return <GenomeView className={parentGenomeClass}  {...uniqueProps} chromosomeImageClass="FVChromosomeImageView"
                         small={ true } editable={false} userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes }
                         onAlleleChange={ handleAlleleChange }
                         onChromosomeSelected={_this.handleChromosomeSelected} />;
@@ -1146,7 +1146,7 @@ export default class FVEggGame extends Component {
                                   selectedChromosomes: ovumSelected }
                               : { orgName: 'targetfather', chromosomes: maleGameteChromosomeMap,
                                   selectedChromosomes: spermSelected };
-      return <FVGenomeView className={childGenomeClass} species={mother.species} {...uniqueProps}
+      return <GenomeView className={childGenomeClass} species={mother.species} {...uniqueProps} chromosomeImageClass="FVChromosomeImageView"
                         editable={false} userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes }
                         small={true} displayStyle={chromosomeDisplayStyle} />;
     }
