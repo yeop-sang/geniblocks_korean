@@ -4,7 +4,8 @@ import ChromosomeImageView from '../components/chromosome-image';
 
 const FVGameteImageView = ({chromosomes=[], id, className, style, displayStyle}) => {
 
-  const defaultImageWidth = 150,
+  const isOvum = className.indexOf('ovum') >= 0,
+        defaultImageWidth = 150,
         defaultImageHeight = 90,
         scale = displayStyle && (displayStyle.size != null) ? displayStyle.size : 1.0,
         imageWidth = defaultImageWidth * scale,
@@ -15,7 +16,7 @@ const FVGameteImageView = ({chromosomes=[], id, className, style, displayStyle})
     width: imageWidth + "px",
     height: imageHeight + "px"
   };
-  
+
   if (displayStyle != null){
     containerStyle.display = displayStyle.display;
   }
@@ -37,8 +38,8 @@ const FVGameteImageView = ({chromosomes=[], id, className, style, displayStyle})
 
   let chromosomeStyle = {
     position: "absolute",
-    top:  30 * scale,
-    left: 22 * scale + 15,
+    top:  34 * scale,
+    left: (isOvum ? 22 : 16) * scale + 15,
     display: "flex",
     opacity: 0.4
   };
