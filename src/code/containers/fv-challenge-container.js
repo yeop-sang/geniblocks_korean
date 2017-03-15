@@ -11,11 +11,8 @@ import { addGameteChromosome, resetGametes,
 
 const bgImageWidth = 1920,
       bgImageHeight = 1080,
-      bgLinesHeight = 79,
       minContainerWidth = 1200,
-      minContainerHeight = 700,
-      topHudHeight = 152,
-      bottomHudHeight = 145;
+      minContainerHeight = 700;
 
 function calcScaleFactor(containerWidth, containerHeight) {
   // if there's enough room, then no scaling required (we don't scale up)
@@ -38,41 +35,32 @@ function calcScaleFactor(containerWidth, containerHeight) {
 class FVChallengeContainer extends Component {
 
   render() {
-    const { template, containerWidth, containerHeight, ...otherProps } = this.props;
+    const { template, containerWidth, containerHeight, ...otherProps } = this.props,
+          { challengeType, interactionType } = this.props;
 
     if (!template) return null;
 
     const Template = templates[this.props.template],
-          bgClasses = Template.backgroundClasses,
+          bgClasses = classNames('mission-backdrop', Template.backgroundClasses,
+                                  challengeType, interactionType),
           scaleFactor = calcScaleFactor(containerWidth, containerHeight),
-          scaledLinesHeight = scaleFactor * bgLinesHeight,
-          scaledTopHudHeight = scaleFactor * topHudHeight,
-          scaledImageWidth = scaleFactor * bgImageWidth,
-          scaledImageHeight = scaleFactor * bgImageHeight,
-          scaledBottomHudHeight = scaleFactor * bottomHudHeight,
-          challengeHeight = scaledImageHeight - (scaledTopHudHeight + scaledBottomHudHeight),
-          style = scaleFactor !== 1.0
-                    ? { height: scaledImageHeight,
-                        backgroundSize: `auto ${scaledLinesHeight}px, auto ${scaledLinesHeight}px, contain` }
-                    : {};
+          scaleFactorStyle = { transform: `scale(${scaleFactor})`};
+
     return (
-      <div id="challenges" className={classNames('mission-backdrop', bgClasses)}
-            style={style} >
-        <div id='fv-top-hud' className='fv-hud'
-              style={{height: scaledTopHudHeight,
-                      backgroundSize: `${scaledImageWidth}px ${scaledTopHudHeight}px`}}></div>
-        <div id="mission-wrapper" style={{height: challengeHeight}}>
-          <Template {...otherProps} />
+      <div id="challenges" className={bgClasses} style={scaleFactorStyle}>
+        <div id='fv-top-hud' className='fv-hud'></div>
+        <div id="mission-wrapper">
+          <Template scale={scaleFactor} {...otherProps} />
         </div>
-        <div id='fv-bottom-hud' className='fv-hud'
-              style={{height: scaledBottomHudHeight,
-                      backgroundSize: `${scaledImageWidth}px ${scaledBottomHudHeight}px`}}></div>
+        <div id='fv-bottom-hud' className='fv-hud'></div>
       </div>
     );
   }
 
   static propTypes = {
     template: PropTypes.string,
+    challengeType: PropTypes.string,
+    interactionType: PropTypes.string,
     containerWidth: PropTypes.number,
     containerHeight: PropTypes.number,
     routeSpec: PropTypes.object

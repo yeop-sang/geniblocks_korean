@@ -8,7 +8,7 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import { assign, clone, cloneDeep, shuffle, range } from 'lodash';
+import { assign, clone, cloneDeep, forIn, shuffle, range } from 'lodash';
 import classNames from 'classnames';
 import { motherGametePool, fatherGametePool, gametePoolSelector,
         motherSelectedGameteIndex, fatherSelectedGameteIndex } from '../modules/gametes';
@@ -93,12 +93,21 @@ function lookupGameteChromosomeDOMElement(sex, chromosomeName) {
   return genomeWrapper.querySelectorAll(".fv-chromosome-image")[chromosomePositions[chromosomeName]];
 }
 
-function findBothElements(sex, name, el){
+function unscaleProperties(obj, scale=1) {
+  let scaledObj = {};
+  forIn(obj, function(value, key) {
+    if (typeof value === 'number')
+      scaledObj[key] = value / scale;
+  });
+  return scaledObj;
+}
+
+function findBothElements(sex, name, el, scale=1){
   let t = lookupGameteChromosomeDOMElement(sex, name);
   let s = el.getElementsByClassName("chromosome-allele-container")[0]; // the image of the alleles inside the chromosome container
   let positions = {
-    startPositionRect : s.getClientRects()[0],
-    targetPositionRect: t.getClientRects()[0]
+    startPositionRect : unscaleProperties(s.getClientRects()[0], scale),
+    targetPositionRect: unscaleProperties(t.getClientRects()[0], scale)
   };
   return positions;
 }
@@ -864,11 +873,12 @@ export default class FVEggGame extends Component {
 
   selectChromosomes(sex, speed, chromEntries, onFinish) {
     // onFinish is only used by animated auto-selection
-    const isTriggeredByUser = !onFinish;
+    const isTriggeredByUser = !onFinish,
+          { scale } = this.props;
 
     function animateChromosomeSelection() {
       chromEntries.forEach((entry) => {
-        let positions = findBothElements(sex, entry.name, entry.elt);
+        let positions = findBothElements(sex, entry.name, entry.elt, scale);
         let targetIsY = entry.elt.getElementsByClassName("chromosome-allele-container")[0].id.endsWith('XYy');
         // animate the chromosomes being added
         animationEvents.selectChromosome.animate(positions, targetIsY,
@@ -1206,12 +1216,14 @@ export default class FVEggGame extends Component {
   }
 
   updateComponentLayout() {
-    // now that the DOM is loaded, get the positions of the elements
-    mother = document.getElementsByClassName("mother")[0].getClientRects()[0];
-    father = document.getElementsByClassName("father")[0].getClientRects()[0];
+    const { scale } = this.props;
 
-    ovumTarget = document.getElementsByClassName("ovum")[0].getClientRects()[0];
-    spermTarget = document.getElementsByClassName("sperm")[0].getClientRects()[0];
+    // now that the DOM is loaded, get the positions of the elements
+    mother = unscaleProperties(document.getElementsByClassName("mother")[0].getClientRects()[0], scale);
+    father = unscaleProperties(document.getElementsByClassName("father")[0].getClientRects()[0], scale);
+
+    ovumTarget = unscaleProperties(document.getElementsByClassName("ovum")[0].getClientRects()[0], scale);
+    spermTarget = unscaleProperties(document.getElementsByClassName("sperm")[0].getClientRects()[0], scale);
 
     motherDrakeStart = {
       top: mother.top + offsetTopDrake,
@@ -1257,6 +1269,7 @@ export default class FVEggGame extends Component {
     routeSpec: PropTypes.object.isRequired,
     challengeType: PropTypes.string.isRequired,
     interactionType: PropTypes.string,
+    scale: PropTypes.number,
     showUserDrake: PropTypes.bool.isRequired,
     trial: PropTypes.number.isRequired,
     drakes: PropTypes.array.isRequired,

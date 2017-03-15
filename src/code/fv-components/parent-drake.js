@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 const ParentDrakeView = ({org, className}) => {
   let sexName = org.sex ? "FEMALE" : "MALE",
-      drakeView = <OrganismView org={org} flipped={org.sex} width={150}/>,
+      drakeView = <OrganismView org={org} flipped={org.sex} width={200}/>,
       textView = <div className={"parentTitle"}> {sexName} </div>;
 
   return (
