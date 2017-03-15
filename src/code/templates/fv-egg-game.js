@@ -1134,7 +1134,7 @@ export default class FVEggGame extends Component {
                                   selectedChromosomes: motherSelectedChromosomes }
                               : { orgName: 'father', org: father,
                                   selectedChromosomes: fatherSelectedChromosomes };
-      return <GenomeView className={parentGenomeClass}  {...uniqueProps} chromosomeImageClass="FVChromosomeImageView"
+      return <GenomeView className={parentGenomeClass}  {...uniqueProps} ChromosomeImageClass={FVChromosomeImageView}
                         small={ true } editable={false} userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes }
                         onAlleleChange={ handleAlleleChange }
                         onChromosomeSelected={_this.handleChromosomeSelected} />;
@@ -1146,7 +1146,7 @@ export default class FVEggGame extends Component {
                                   selectedChromosomes: ovumSelected }
                               : { orgName: 'targetfather', chromosomes: maleGameteChromosomeMap,
                                   selectedChromosomes: spermSelected };
-      return <GenomeView className={childGenomeClass} species={mother.species} {...uniqueProps} chromosomeImageClass="FVChromosomeImageView"
+      return <GenomeView className={childGenomeClass} species={mother.species} {...uniqueProps} ChromosomeImageClass={FVChromosomeImageView}
                         editable={false} userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes }
                         small={true} displayStyle={chromosomeDisplayStyle} />;
     }
