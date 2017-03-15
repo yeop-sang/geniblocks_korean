@@ -19,16 +19,16 @@ import GenomeView from '../components/genome';
 import GametePenView, { getGameteLocation } from '../components/gamete-pen';
 import ButtonView from '../components/button';
 import BreedButtonView from '../fv-components/breed-button';
-import PenView from '../components/pen';
-import GameteImageView from '../components/gamete-image';
+import FVStableView from '../fv-components/fv-stable';
+import FVGameteImageView from '../fv-components/fv-gamete-image';
 import AnimatedComponentView from '../components/animated-component';
-import ChromosomeImageView from '../components/chromosome-image';
+import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
 import TimerSet from '../utilities/timer-set';
 import t from '../utilities/translate';
 
 // debugging options to shorten animation/randomization for debugging purposes
 // IMPORTANT: remember to set these back to their defaults (e.g. false, false, 0) before committing
-const debugSkipIntroGameteAnimation = false,  // set to true to skip intro gamete animation
+const debugSkipIntroGameteAnimation = true,  // set to true to skip intro gamete animation
       debugSkipRandomGameteAnimation = false, // set to true to skip randomized gamete animation
       debugSkipFirstGameteStage = false,      // set to true to skip the one-by-one animation stage
       debugTotalGameteCount = 0;              // non-zero value stops randomization after # gametes
@@ -82,7 +82,7 @@ function animatedChromosomeImageHOC(WrappedComponent) {
     }
   };
 }
-const AnimatedChromosomeImageView = animatedChromosomeImageHOC(ChromosomeImageView);
+const AnimatedChromosomeImageView = animatedChromosomeImageHOC(FVChromosomeImageView);
 
 // a "reasonable" lookup function for the two gametes
 function lookupGameteChromosomeDOMElement(sex, chromosomeName) {
@@ -90,7 +90,7 @@ function lookupGameteChromosomeDOMElement(sex, chromosomeName) {
       wrapper = document.getElementById(wrapperId),
       chromosomePositions = {"1": 0, "2": 1, "XY": 2};
   let genomeWrapper = wrapper.getElementsByClassName("genome")[0];
-  return genomeWrapper.querySelectorAll(".chromosome-image")[chromosomePositions[chromosomeName]];
+  return genomeWrapper.querySelectorAll(".fv-chromosome-image")[chromosomePositions[chromosomeName]];
 }
 
 function findBothElements(sex, name, el){
@@ -167,8 +167,8 @@ var animationEvents = {
       };
 
       let displayStyleContainer = {animated: true, size: 0.3};
-      animatedOvumView  = <GameteImageView isEgg={true} displayStyle={displayStyleContainer} />;
-      animatedSpermView = <GameteImageView isEgg={false} displayStyle={displayStyleContainer} />;
+      animatedOvumView  = <FVGameteImageView className="ovum" isEgg={true} displayStyle={displayStyleContainer} />;
+      animatedSpermView = <FVGameteImageView className="sperm" isEgg={false} displayStyle={displayStyleContainer} />;
 
       let opacity = {
         start: 1.0,
@@ -587,7 +587,7 @@ var animationEvents = {
         start: 1.0,
         end: 1.0
       };
-      animatedComponentToRender = <ChromosomeImageView small={true} empty={false} bold={true} yChromosome={targetIsY}/>;
+      animatedComponentToRender = <FVChromosomeImageView small={true} empty={false} bold={true} yChromosome={targetIsY}/>;
       animateMultipleComponents([animatedComponentToRender], [positions], opacity, speed,
                                 animationEvents.selectChromosome.id,
                                 animationEvents.selectChromosome.onFinish);
@@ -1100,15 +1100,15 @@ export default class FVEggGame extends Component {
           ovumClasses = classNames('ovum', challengeClasses),
           spermClasses = classNames('sperm', challengeClasses);
 
-    ovumView  = <GameteImageView className={ovumClasses}  isEgg={true}  chromosomes={ovumChromosomes} displayStyle={gameteDisplayStyle} />;
-    spermView = <GameteImageView className={spermClasses} isEgg={false} chromosomes={spermChromosomes} displayStyle={gameteDisplayStyle} />;
+    ovumView  = <FVGameteImageView className={ovumClasses}  isEgg={true}  chromosomes={ovumChromosomes} displayStyle={gameteDisplayStyle} />;
+    spermView = <FVGameteImageView className={spermClasses} isEgg={false} chromosomes={spermChromosomes} displayStyle={gameteDisplayStyle} />;
 
     let [,,,...keptDrakes] = drakes;
     keptDrakes = keptDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
 
     if (isCreationChallenge && isIntroComplete) {
       penView = <div className='columns bottom'>
-                  <PenView orgs={ keptDrakes } width={500} columns={5} rows={1} tightenRows={20}/>
+                  <FVStableView orgs={ keptDrakes } width={500} columns={5} rows={1} tightenRows={20}/>
                 </div>;
     }
 
@@ -1134,7 +1134,7 @@ export default class FVEggGame extends Component {
                                   selectedChromosomes: motherSelectedChromosomes }
                               : { orgName: 'father', org: father,
                                   selectedChromosomes: fatherSelectedChromosomes };
-      return <GenomeView className={parentGenomeClass}  {...uniqueProps}
+      return <GenomeView className={parentGenomeClass}  {...uniqueProps} ChromosomeImageClass={FVChromosomeImageView}
                         small={ true } editable={false} userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes }
                         onAlleleChange={ handleAlleleChange }
                         onChromosomeSelected={_this.handleChromosomeSelected} />;
@@ -1146,7 +1146,7 @@ export default class FVEggGame extends Component {
                                   selectedChromosomes: ovumSelected }
                               : { orgName: 'targetfather', chromosomes: maleGameteChromosomeMap,
                                   selectedChromosomes: spermSelected };
-      return <GenomeView className={childGenomeClass} species={mother.species} {...uniqueProps}
+      return <GenomeView className={childGenomeClass} species={mother.species} {...uniqueProps} ChromosomeImageClass={FVChromosomeImageView}
                         editable={false} userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes }
                         small={true} displayStyle={chromosomeDisplayStyle} />;
     }
@@ -1171,7 +1171,7 @@ export default class FVEggGame extends Component {
 
     return (
       <div id="egg-game">
-        <div className="columns">
+        <div className="columns centered">
           <div className='column'>
             <ParentDrakeView className="mother" org={ mother } />
             { parentGenomeView(BioLogica.FEMALE) }

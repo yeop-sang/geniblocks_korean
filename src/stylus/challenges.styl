@@ -34,7 +34,6 @@ body
     align-items: center;
     flex-direction: column;
     float: left;
-    margin-top: 25px;
   }
   .column-label {
     margin-top: 125px;
@@ -172,7 +171,6 @@ body
 
 .fv-layout
   #mission-wrapper
-    margin-top: -50px
     flex-grow: 1
 
 .mission-backdrop.fv-layout-c
@@ -199,11 +197,13 @@ body
 
 #fv-top-hud
   top: 0
+  margin-bottom: -60px
   background-image: url('../resources/fablevision/huds/HUD_top.png')
   background-position: 50% 0
 
 #fv-bottom-hud
   bottom: 0
+  margin-top: -30px
   background-image: url('../resources/fablevision/huds/HUD_bottom.png')
   background-position: 50% 100%
 
@@ -213,6 +213,10 @@ body
   height: 880px;
   display: flex;
   justify-content: center;
+}
+
+.fv-layout-c #mission-wrapper {
+  margin: auto
 }
 
 .challenge-award {
@@ -245,9 +249,13 @@ body
   display:none;
 }
 
-.columns{
+.columns
   display:flex;
-}
+
+  &.centered
+    flex-direction: row
+    justify-content: space-around
+
 
 .fade-in-on-render
   opacity: 0
@@ -283,7 +291,7 @@ body
     &.target
       height: 102px
   .geniblocks.breed-button-surround
-    margin-top: -50px
+    margin-top: -65px
 
   .gamete-pen-wrapper
     margin-left: -15px
@@ -292,6 +300,9 @@ body
 
 .fv-layout-c
   #egg-game
+    display: flex
+    flex-direction: column
+
     .geniblocks.genome
       top: 0px
 
@@ -318,6 +329,7 @@ body
 
   .fertilization
     display: flex
+    flex-direction: row
     align-items: flex-start
     height: 218px
 
@@ -342,6 +354,7 @@ body
         width: 76px
 
   .gametes
+    margin-top: -35px
     display: flex
     justify-content: space-between
     >div
@@ -363,23 +376,23 @@ body
     .ovum
       position: absolute
       transition: left 2s
-      top: -135px
+      top: -140px
       left: 110px
       &.matching
         top: -160px
     .sperm
       position: absolute
       transition: left 2s
-      top: -117px
+      top: -141px
       left: -12px
       &.matching
         top: -142px
 
     &.unfertilized
       .ovum
-        left: 75px
+        left: 20px
       .sperm
-        left: 65px
+        left: 110px
 
   .fertilize-button
     margin-top: 45px
@@ -408,7 +421,9 @@ body
 
 .fv-layout-c
   #egg-game .bottom
-    margin-top 0px
+    margin-top auto
+  #egg-game .column
+    margin-top: 40px;
 
 #egg-sort-game
   position: relative

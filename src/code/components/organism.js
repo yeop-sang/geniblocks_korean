@@ -39,6 +39,7 @@ OrganismView.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
   width: PropTypes.number,
+  height: PropTypes.number,
   style: PropTypes.object,
   onClick: PropTypes.func,
   wrapper: PropTypes.func
