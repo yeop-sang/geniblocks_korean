@@ -22,6 +22,7 @@ import BreedButtonView from '../fv-components/breed-button';
 import FVStableView from '../fv-components/fv-stable';
 import FVGameteImageView from '../fv-components/fv-gamete-image';
 import AnimatedComponentView from '../components/animated-component';
+import TargetDrakeView from '../fv-components/target-drake';
 import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
 import TimerSet from '../utilities/timer-set';
 import t from '../utilities/translate';
@@ -1054,21 +1055,8 @@ export default class FVEggGame extends Component {
                                                         targetDrake.alleleString,
                                                         targetDrake.sex)
                               : null,
-          targetDrakeView = isMatchingChallenge && targetDrakeOrg
-                              ? <div className='target-drake'>
-                                  <OrganismView className="target" org={targetDrakeOrg} width={140} key={0} />
-                                </div>
-                              : null,
-          targetCountersView = drakes.length - firstTargetDrakeIndex > 1
-                                ? <div className='target-counters'>
-                                      {mapTargetDrakesToFeedbackViews(drakes, trial)}
-                                  </div>
-                                : null,
-          targetDrakeSection = isMatchingChallenge
-                                ? <div className='target-section'>
-                                    {targetDrakeView}
-                                    {targetCountersView}
-                                  </div>
+          targetDrakeSection = isMatchingChallenge && targetDrakeOrg
+                                ? <TargetDrakeView org={targetDrakeOrg} />
                                 : null,
           eggClasses = classNames('egg-image', challengeClasses),
           eggImageView = <img className={eggClasses} src="resources/images/egg_yellow.png" key={1}/>;
@@ -1180,7 +1168,7 @@ export default class FVEggGame extends Component {
     }
 
     return (
-      <div id="egg-game">
+      <div className={classNames("", {matching: isMatchingChallenge})} id="egg-game">
         <div className="columns centered">
           <div className='column'>
             <ParentDrakeView className="mother" org={ mother } />
@@ -1188,7 +1176,6 @@ export default class FVEggGame extends Component {
             { parentGametePen(BioLogica.FEMALE) }
           </div>
           <div className='egg column'>
-            { targetDrakeSection }
             <div className='fertilization'>
               { childView }
             </div>
@@ -1210,6 +1197,7 @@ export default class FVEggGame extends Component {
           </div>
         </div>
         {penView}
+        {targetDrakeSection}
         {animatedComponents}
       </div>
     );
