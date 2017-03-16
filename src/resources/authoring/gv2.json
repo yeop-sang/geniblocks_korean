@@ -408,7 +408,7 @@
       },
       {
         "comment": "*** FV Test Level 2 ***",
-        "challengeId": "gamete-1target-simple",
+        "challengeId": "egg-breeding-basic-match-visible",
         "container": "FVContainer",
         "template": "FVEggGame",
         "challengeType": "match-target",
