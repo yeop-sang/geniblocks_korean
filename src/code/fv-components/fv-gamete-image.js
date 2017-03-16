@@ -5,16 +5,16 @@ import ChromosomeImageView from '../components/chromosome-image';
 const FVGameteImageView = ({chromosomes=[], id, className, style, displayStyle}) => {
 
   const isOvum = className.indexOf('ovum') >= 0,
-        defaultImageWidth = 150,
-        defaultImageHeight = 90,
-        scale = displayStyle && (displayStyle.size != null) ? displayStyle.size : 1.0,
-        imageWidth = defaultImageWidth * scale,
-        imageHeight = defaultImageHeight * scale;
+        // defaultImageWidth = 150,
+        // defaultImageHeight = 90,
+        scale = displayStyle && (displayStyle.size != null) ? displayStyle.size : 1.0;
+        // imageWidth = defaultImageWidth * scale,
+        // imageHeight = defaultImageHeight * scale;
 
   const containerStyle = {
     position: "relative",
-    width: imageWidth + "px",
-    height: imageHeight + "px"
+    // width: imageWidth + "px",
+    // height: imageHeight + "px"
   };
 
   if (displayStyle != null){
@@ -29,17 +29,17 @@ const FVGameteImageView = ({chromosomes=[], id, className, style, displayStyle})
       <ChromosomeImageView
         key={i}
         empty={!chromosome}
-        width={6 * scale}
-        height={(chromosome && chromosome.side === "y" ? 15 : 20) * scale}
-        split={8 * scale}
+        width={10 * scale}
+        height={(chromosome && chromosome.side === "y" ? 30 : 40) * scale}
+        split={12 * scale}
       />
     );
   }
 
   let chromosomeStyle = {
     position: "absolute",
-    top:  34 * scale,
-    left: (isOvum ? 22 : 16) * scale + 15,
+    top:  55 * scale,
+    left: (isOvum ? 50 : 40) * scale + 15,
     display: "flex",
     opacity: 0.4
   };

@@ -1,14 +1,15 @@
 .geniblocks.breed-button-surround
   background: url('../resources/fablevision/layout-c/breed_surround.png')
-  width: 315px
-  height: 369px
+  width: 236px
+  height: 236px
+  margin-top: -45px
   display: flex
   justify-content: center
-  background-size: contain
+  // adjust for empty space around image in asset we received from FableVision
+  background-position: -69px -68px
+  background-size: 370px 369px
   background-repeat: no-repeat
   align-items: center
-  margin-left: -100px
-  margin-right: -100px
 
   .breed-button
     width: 139px
@@ -16,8 +17,8 @@
     display: flex
     justify-content: center
     align-items: center
-    margin-top: -55px
-    margin-right: -8px
+    margin-top: -8px
+    margin-left: 2px
     background: url('../resources/fablevision/layout-c/unclicked_breed_button.png')
     cursor: pointer
     color: #1C3CDB

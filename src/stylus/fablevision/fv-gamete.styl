@@ -1,5 +1,5 @@
 .ovum .gamete-container
-  background: url('../resources/fablevision/layout-c/egg.png')
+  background-image: url('../resources/fablevision/layout-c/egg.png')
   background-size: contain
   background-repeat: no-repeat
   width: 178px
@@ -8,10 +8,13 @@
   align-items: center
 
 .sperm .gamete-container
-  background: url('../resources/fablevision/layout-c/sperm_head.png')
-  background-size: contain
+  background-image: url('../resources/fablevision/layout-c/sperm_head.png'),
+                    url('../resources/fablevision/layout-c/sperm_tail.png')
+  // pin the tail on the sperm
+  background-position: 0% 50%, 100% 53%
+  background-size: 65% auto, 36% auto
   background-repeat: no-repeat
-  width: 148px
+  width: 229px
   height: 150px
   display: flex
   align-items: center
