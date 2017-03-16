@@ -408,6 +408,7 @@
       },
       {
         "comment": "*** FV Test Level 2 ***",
+        "challengeId": "gamete-1target-simple",
         "container": "FVContainer",
         "template": "FVEggGame",
         "challengeType": "match-target",

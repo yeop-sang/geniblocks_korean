@@ -12,7 +12,6 @@ import { assign, clone, cloneDeep, forIn, shuffle, range } from 'lodash';
 import classNames from 'classnames';
 import { motherGametePool, fatherGametePool, gametePoolSelector,
         motherSelectedGameteIndex, fatherSelectedGameteIndex } from '../modules/gametes';
-import OrdinalOrganismView from '../components/ordinal-organism';
 import OrganismView from '../components/organism';
 import ParentDrakeView from '../fv-components/parent-drake';
 import GenomeView from '../components/genome';
@@ -1022,30 +1021,6 @@ export default class FVEggGame extends Component {
         mappedGamete[chromName] = side;
       }
       return mappedGamete;
-    }
-
-    // create the trial feedback views
-    function mapTargetDrakesToFeedbackViews(drakes, currentTrial) {
-      let ordOrgViews = [];
-      for (let i = firstTargetDrakeIndex; i < drakes.length; ++i) {
-        const trial = i - firstTargetDrakeIndex,
-              isCompleted = currentTrial >= trial,
-              ordinal = trial + 1,
-              drake = drakes[i],
-              organism = currentTrial > trial
-                          ? new BioLogica.Organism(BioLogica.Species.Drake,
-                                                    drake.alleleString,
-                                                    drake.sex)
-                          : null,
-              bgColor = isCompleted ? "#AAAAAA" : null,
-              targetID = `target-${trial+1}`,
-              classes = classNames('matched-target', { 'complete': isCompleted }),
-              ordOrgView = <OrdinalOrganismView id={targetID} className={classes}
-                                                ordinal={ordinal} organism={organism}
-                                                bgColor={bgColor} key={targetID}/>;
-        ordOrgViews.push(ordOrgView);
-      }
-      return ordOrgViews;
     }
 
     const gametesClass = classNames('gametes', { 'unfertilized': !drakes[2] });
