@@ -3,7 +3,9 @@ import templates from '../templates';
 import GuideProtocol from '../utilities/guide-protocol';
 
 var session = "",
-    sequence = 0;
+    sequence = 0,
+    isConnectonEstablished = false,
+    msgQueue = [];
 
 export default (socket) => store => next => action => {
 
@@ -16,24 +18,42 @@ export default (socket) => store => next => action => {
 
   switch(action.type) {
     case actionTypes.GUIDE_ERRORED: {
-      console.log("Error connecting to ITS");
+      console.log("Error connecting to ITS!");
       socket.close();
       break;
     }
     case actionTypes.GUIDE_CONNECTED: {
       console.log("Connection Success!");
+      if (msgQueue.length) {
+        msgQueue.forEach((msg, index) => {
+          // use setTimeout to stagger messages sent to ITS
+          setTimeout(() => {
+            console.log("Sending queued message to ITS:", msg);
+            sendMessage(msg, socket);
+          }, 10 * index);
+        });
+        msgQueue = [];
+      }
+      isConnectonEstablished = true;
       break;
     }
     case actionTypes.GUIDE_MESSAGE_RECEIVED:
     case actionTypes.GUIDE_ALERT_RECEIVED: {
-      console.log("Message received!", action.data);
+      console.log("Message received from ITS:", action.data);
       break;
     }
     default: {
       // other action types - send to ITS
       if (action.meta && action.meta.itsLog){
         let message = createLogEntry(action, nextState);
-        sendMessage(message, socket);
+        if (!isConnectonEstablished) {
+          console.log("Queuing message for ITS:", message);
+          msgQueue.push(message);
+        }
+        else {
+          console.log("Sending message to ITS:", message);
+          sendMessage(message, socket);
+        }
       }
     }
   }

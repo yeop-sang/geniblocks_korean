@@ -82,9 +82,10 @@ export default function configureStore(initialState) {
 
 const store = configureStore();
 
-const history = syncHistoryWithStore(hashHistory, store);
-
+// start the session before syncing history, which triggers navigation
 store.dispatch(startSession(uuid.v4()));
+
+const history = syncHistoryWithStore(hashHistory, store);
 
 const isAuthorUploadRequested = (urlParams.author === "upload");
 let isAuthorUploadEnabled = isAuthorUploadRequested;  // e.g. check PRODUCTION flag
