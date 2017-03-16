@@ -58,7 +58,7 @@ const correctCharacteristics = {
           }
         ],
         trial: 0, trials: [{}], 
-        authoring: [[[{userChangeableGenes: "changeableGenes"}]]]
+        authoring: [[[{visibleGenes: "wings, arms"}]]]
       });
 
 
@@ -78,17 +78,16 @@ describe('submitDrake action', () => {
         submittedPhenotype: submitDrakeAction.submittedPhenotype,
         initialAlleles: initialAlleles,
         selectedAlleles: userAlleles,
-        targetAlleles: correctAlleles,
         targetSex: 0,
         submittedSex: 0,
-        editableGenes: "changeableGenes",
+        editableGenes: ["wings", "arms"],
         correct: true,
         incrementMoves: false,
         meta: {
           "itsLog": {
             "actor": "USER",
             "action": "SUBMITTED",
-            "target": "DRAKE"
+            "target": "ORGANISM"
           }
         }
       });
@@ -131,17 +130,16 @@ describe('submitDrake action', () => {
         submittedPhenotype: submitDrakeAction.submittedPhenotype,
         initialAlleles: initialAlleles,
         selectedAlleles: userAlleles,
-        targetAlleles: correctAlleles,
         targetSex: 0,
         submittedSex: 0,
-        editableGenes: "changeableGenes",
+        editableGenes: ["wings", "arms"],
         correct: false,
         incrementMoves: true,
         meta: {
           "itsLog": {
             "actor": "USER",
             "action": "SUBMITTED",
-            "target": "DRAKE"
+            "target": "ORGANISM"
           }
         }
       });

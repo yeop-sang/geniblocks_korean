@@ -26,6 +26,7 @@ const ITS_TARGETS = {
   EGG: "EGG",
   BASKET: "BASKET",
   DRAKE: "DRAKE",
+  ORGANISM: "ORGANISM",
   PAGE: "PAGE"
 };
 
