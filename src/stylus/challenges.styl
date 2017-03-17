@@ -191,13 +191,13 @@ body
   &.create-unique
     background-image: url('../resources/fablevision/layout-c/screen_top_lines.png'),
                       url('../resources/fablevision/layout-c/background.png')
-    background-position: 50% 5.5%, 50% 50%
+    background-position: 50% 7.25%, 50% 50%
 
   &.match-target
     background-image: url('../resources/fablevision/layout-c/screen_bottom_lines.png'),
                       url('../resources/fablevision/layout-c/screen_top_lines.png'),
                       url('../resources/fablevision/layout-c/background.png')
-    background-position: 50% 91.5%, 50% 5.5%, 50% 50%
+    background-position: 50% 91.5%, 50% 7.25%, 50% 50%
 
 .fv-hud
   left: 0
@@ -308,8 +308,6 @@ body
     height: 202px
     &.target
       height: 102px
-  .geniblocks.breed-button-surround
-    margin-top: -65px
 
   .gamete-pen-wrapper
     margin-left: -15px
@@ -448,13 +446,27 @@ body
     margin-top: 40px
     .egg .gametes
       margin-top: 20px
+  .egg .gametes
+    margin-top: 50px
+    &.unfertilized
+      // resting position (start of breeding animation)
+      .ovum
+        left: -90px
+      .sperm
+        left: 150px
+    // fertilized position (end of breeding animation (top is unchanged by fertilization))
+    .ovum
+      left: 50px
+      top: -195px
+    .sperm
+      left: -50px
+      top: -195px
 
-  #egg-game 
-    .ovum.matching
-      top: -140px
-
-  #egg-game .geniblocks.child.matching
-    top: -5px
+  #egg-game .geniblocks.child
+    &.creation
+      top: 0px
+    &.matching
+      top: -5px
 
 #egg-sort-game
   position: relative

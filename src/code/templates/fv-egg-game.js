@@ -12,19 +12,17 @@ import { assign, clone, cloneDeep, forIn, shuffle, range } from 'lodash';
 import classNames from 'classnames';
 import { motherGametePool, fatherGametePool, gametePoolSelector,
         motherSelectedGameteIndex, fatherSelectedGameteIndex } from '../modules/gametes';
-import OrganismView from '../components/organism';
 import ParentDrakeView from '../fv-components/parent-drake';
 import GenomeView from '../components/genome';
 import GametePenView, { getGameteLocation } from '../components/gamete-pen';
-import ButtonView from '../components/button';
-import BreedButtonView from '../fv-components/breed-button';
+import BreedButtonAreaView from '../fv-components/breed-button-area';
 import FVStableView from '../fv-components/fv-stable';
 import FVGameteImageView from '../fv-components/fv-gamete-image';
 import AnimatedComponentView from '../components/animated-component';
 import TargetDrakeView from '../fv-components/target-drake';
 import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
 import TimerSet from '../utilities/timer-set';
-import t from '../utilities/translate';
+//import t from '../utilities/translate';
 
 // debugging options to shorten animation/randomization for debugging purposes
 // IMPORTANT: remember to set these back to their defaults (e.g. false, false, 0) before committing
@@ -1034,33 +1032,11 @@ export default class FVEggGame extends Component {
                               : null,
           targetDrakeSection = isMatchingChallenge && targetDrakeOrg
                                 ? <TargetDrakeView org={targetDrakeOrg} />
-                                : null,
-          eggClasses = classNames('egg-image', challengeClasses),
-          eggImageView = <img className={eggClasses} src="resources/images/egg_yellow.png" key={1}/>;
-    let childView, ovumView, spermView, penView;
-    if (drakes[2] && animationEvents.hatch.complete) {
+                                : null;
+    let ovumView, spermView, penView;
+    if (child && animationEvents.hatch.complete) {
       if (showUserDrake)
         handleHatch();
-      const child = new BioLogica.Organism(BioLogica.Species.Drake, drakes[2].alleleString, drakes[2].sex),
-            drakeImageView = <OrganismView className="matching" org={ child } width={140} key={1} />,
-            eggOrDrakeView = showUserDrake || !userDrakeHidden ? drakeImageView : eggImageView,
-            saveOrSubmitTitle = isCreationChallenge ? t("~BUTTON.SAVE_DRAKE") : t("~BUTTON.SUBMIT"),
-            tryAgainOrResetTitle = isCreationChallenge ? t("~BUTTON.TRY_AGAIN") : t("~BUTTON.RESET");
-      childView = (
-        [
-          eggOrDrakeView,
-          <div className="offspring-buttons" key={2}>
-            <ButtonView label={ saveOrSubmitTitle } onClick={ handleSubmit } key={3} />
-            <ButtonView label={ tryAgainOrResetTitle } onClick={ handleReset } key={4} />
-          </div>
-        ]
-      );
-    } else {
-      if (animationEvents.hatch.inProgress) {
-        childView = eggImageView;
-      } else {
-        childView = <BreedButtonView disabled={ !areGametesComplete(currentGametes) } onClick={ handleFertilize } />;
-      }
     }
     const motherSelectedChromosomes = animatingGametes ? animatingGametes[1] : currentGametes[1],
           fatherSelectedChromosomes = animatingGametes ? animatingGametes[0] : currentGametes[0],
@@ -1153,9 +1129,12 @@ export default class FVEggGame extends Component {
             { parentGametePen(BioLogica.FEMALE) }
           </div>
           <div className='egg column'>
-            <div className='fertilization'>
-              { childView }
-            </div>
+            <BreedButtonAreaView isCreationChallenge={isCreationChallenge} challengeClasses={challengeClasses}
+                                  ovumChromosomes={ovumChromosomes} spermChromosomes={spermChromosomes}
+                                  userDrake={child} showUserDrake={showUserDrake} userDrakeHidden={userDrakeHidden}
+                                  isHatchingInProgress={animationEvents.hatch.inProgress}
+                                  isHatchingComplete={animationEvents.hatch.complete}
+                                  onBreed={handleFertilize} onReset={handleReset} onSubmit={handleSubmit} />
             <div className={ gametesClass }>
               <div className='half-genome half-genome-left' id="mother-gamete-genome">
                 { ovumView }
