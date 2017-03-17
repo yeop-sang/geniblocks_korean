@@ -22,7 +22,7 @@ import AnimatedComponentView from '../components/animated-component';
 import TargetDrakeView from '../fv-components/target-drake';
 import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
 import TimerSet from '../utilities/timer-set';
-//import t from '../utilities/translate';
+import t from '../utilities/translate';
 
 // debugging options to shorten animation/randomization for debugging purposes
 // IMPORTANT: remember to set these back to their defaults (e.g. false, false, 0) before committing
@@ -1033,11 +1033,26 @@ export default class FVEggGame extends Component {
           targetDrakeSection = isMatchingChallenge && targetDrakeOrg
                                 ? <TargetDrakeView org={targetDrakeOrg} />
                                 : null;
-    let ovumView, spermView, penView;
+    let offspringButtons, offspringButtonsVisible = false,
+        ovumView, spermView, penView;
     if (child && animationEvents.hatch.complete) {
       if (showUserDrake)
         handleHatch();
+      offspringButtonsVisible = true;
     }
+    const saveOrSubmitTitle = isCreationChallenge ? t("~BUTTON.SAVE_DRAKE") : t("~BUTTON.SUBMIT"),
+          tryAgainOrResetTitle = isCreationChallenge ? t("~BUTTON.TRY_AGAIN") : t("~BUTTON.RESET");
+    function disableDrag() { return false; }
+    offspringButtons = (
+      <div className={classNames('offspring-buttons', {hidden: !offspringButtonsVisible})} key={2}>
+        <a className='submit-button gb-img-button' onDragStart={disableDrag} onClick={ handleSubmit } key={3}>
+          <div>{ saveOrSubmitTitle }</div>
+        </a>
+        <a className='reset-button gb-img-button' onDragStart={disableDrag} onClick={ handleReset } key={4}>
+          <div>{ tryAgainOrResetTitle }</div>
+        </a>
+      </div>
+    );
     const motherSelectedChromosomes = animatingGametes ? animatingGametes[1] : currentGametes[1],
           fatherSelectedChromosomes = animatingGametes ? animatingGametes[0] : currentGametes[0],
           motherBaseChromosomes = animatingGametes ? animatingGametes[3] : currentGametes[1],
@@ -1129,12 +1144,13 @@ export default class FVEggGame extends Component {
             { parentGametePen(BioLogica.FEMALE) }
           </div>
           <div className='egg column'>
-            <BreedButtonAreaView isCreationChallenge={isCreationChallenge} challengeClasses={challengeClasses}
+            {offspringButtons}
+            <BreedButtonAreaView challengeClasses={classNames(challengeClasses)}
                                   ovumChromosomes={ovumChromosomes} spermChromosomes={spermChromosomes}
                                   userDrake={child} showUserDrake={showUserDrake} userDrakeHidden={userDrakeHidden}
                                   isHatchingInProgress={animationEvents.hatch.inProgress}
                                   isHatchingComplete={animationEvents.hatch.complete}
-                                  onBreed={handleFertilize} onReset={handleReset} onSubmit={handleSubmit} />
+                                  onBreed={handleFertilize} />
             <div className={ gametesClass }>
               <div className='half-genome half-genome-left' id="mother-gamete-genome">
                 { ovumView }
