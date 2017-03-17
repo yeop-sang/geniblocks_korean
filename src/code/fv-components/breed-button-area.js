@@ -36,7 +36,7 @@ class BreedButtonAreaView extends React.Component {
           isBreedButtonEnabled = isCompleteChromosomeSet(ovumChromosomes) &&
                                   isCompleteChromosomeSet(spermChromosomes),
           eggClasses = classNames('egg-image', challengeClasses),
-          eggImageView = <img className={eggClasses} src="resources/images/egg_yellow.png" key={1}/>;
+          eggImageView = <div className={eggClasses} key={1}/>;
     let userDrakeView = null;
 
     if (userDrake && isHatchingComplete) {
