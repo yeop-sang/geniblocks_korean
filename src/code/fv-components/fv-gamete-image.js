@@ -28,7 +28,8 @@ const FVGameteImageView = ({chromosomes=[], id, className, style, displayStyle})
     chromosomeImages.push(
       <ChromosomeImageView
         key={i}
-        empty={!chromosome}
+        empty={false}
+        color={chromosome ? '#2CEBFE' : '#0B44DA'}
         width={10 * scale}
         height={(chromosome && chromosome.side === "y" ? 30 : 40) * scale}
         split={12 * scale}
