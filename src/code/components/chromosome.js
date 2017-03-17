@@ -27,13 +27,16 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
 
     if (showLabels) {
       let labels = visibleAlleles.map(a => {
-        return (
+        if (ChromosomeImageClass === ChromosomeImageView) {
+          return (
           <GeneLabelView key={a.allele} species={chromosome.species} allele={a.allele} editable={editable && a.editable}
           hiddenAlleles={ hiddenAlleles }
           onAlleleChange={function(event) {
             onAlleleChange(a.allele, event.target.value);
-          }}/>
-        );
+          }}/>);
+        } else {
+          return <div className="geniblocks fv-gene-label allele noneditable">{chromosome.species.alleleLabelMap[a.allele]}</div>;
+        }
       });
 
       labelsContainer = (
