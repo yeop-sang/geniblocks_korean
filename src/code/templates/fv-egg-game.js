@@ -607,8 +607,10 @@ var animationEvents = {
           (--animationEvents.selectChromosome.activeCount === 0)) {
         if (animationEvents.selectChromosome.onFinishCaller)
           animationEvents.selectChromosome.onFinishCaller(animationEvents.selectChromosome.id);
-        else
+        else {
           animatedComponents = [];
+          _this.setState({animation:"complete"});
+        }
       }
     }
   },

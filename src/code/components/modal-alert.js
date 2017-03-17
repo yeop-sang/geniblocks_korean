@@ -33,7 +33,8 @@ const dialogStyle = function(top="50%") {
     backgroundRepeat: 'no-repeat',
     backgroundOrigin: 'border-box',
     boxShadow: '0 10px 5px rgba(0,0,0,.5)',
-    padding: 20,
+    paddingBottom: '15px',
+    paddingLeft: '15px',
     outline: 'none'
   };
 };
