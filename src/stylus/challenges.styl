@@ -485,6 +485,32 @@ body
       left: -50px
       top: -195px
 
+  .offspring-buttons
+    margin-top: -40px
+    display: flex
+    .gb-img-button
+      display: flex
+      justify-content: center
+      align-items: center
+      width: 120px
+      height: 50px
+      margin: 0px 10px
+      background-image: url('../resources/fablevision/layout-c/Reset_Unclicked.png')
+      background-size: 100% 100%
+      color: #ADD8E6
+      cursor: pointer
+      &:active
+        background-image: url('../resources/fablevision/layout-c/Reset_Clicked.png')
+      div
+        margin-left: -2px
+        margin-top: -2px
+        font-family: 'Yanone Kaffeesatz'
+        font-size: 1.5rem
+        cursor: pointer
+        user-select: none
+    &.hidden
+      visibility: hidden
+
   #egg-game .geniblocks.child
     &.creation
       top: 0px
