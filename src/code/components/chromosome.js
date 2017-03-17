@@ -35,7 +35,11 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
             onAlleleChange(a.allele, event.target.value);
           }}/>);
         } else {
-          return <div className="geniblocks fv-gene-label allele noneditable">{chromosome.species.alleleLabelMap[a.allele]}</div>;
+          return (
+            <div className="geniblocks fv-gene-label allele noneditable" key={a.allele}>
+              {chromosome.species.alleleLabelMap[a.allele]}
+            </div>
+          );
         }
       });
 
