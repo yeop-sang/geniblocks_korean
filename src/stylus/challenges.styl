@@ -190,14 +190,16 @@ body
 
   &.create-unique
     background-image: url('../resources/fablevision/layout-c/screen_top_lines.png'),
+                      url('../resources/fablevision/layout-c/screen_center_box.png'),
                       url('../resources/fablevision/layout-c/background.png')
-    background-position: 50% 7.25%, 50% 50%
+    background-position: 50% 7.25%, 50% 48%, 50% 50%
 
   &.match-target
     background-image: url('../resources/fablevision/layout-c/screen_bottom_lines.png'),
                       url('../resources/fablevision/layout-c/screen_top_lines.png'),
+                      url('../resources/fablevision/layout-c/screen_center_box.png'),
                       url('../resources/fablevision/layout-c/background.png')
-    background-position: 50% 91.5%, 50% 7.25%, 50% 50%
+    background-position: 50% 91.5%, 50% 7.25%, 50% 48%, 50% 50%
 
 .fv-hud
   left: 0
@@ -323,6 +325,8 @@ body
       top: 50px
 
     .mother + .genome
+      margin-top: -34px
+      margin-left: -109px
       width: 485px
       height: 437px
       padding-top: 20px
@@ -333,6 +337,8 @@ body
       align-items: flex-end
 
     .father + .genome
+      margin-top: -34px
+      margin-right: -109px
       width: 485px
       height: 437px
       padding-top: 20px
