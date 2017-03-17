@@ -4,6 +4,9 @@
  * for description of some of the details involved in mixing ES6 export with require().
  */
 
+// Polyfill, modifying the global Object
+require('es6-object-assign').polyfill();
+
 // components
 export { default as AlleleFiltersView } from './components/allele-filters';
 export { default as AlleleView } from './components/allele';

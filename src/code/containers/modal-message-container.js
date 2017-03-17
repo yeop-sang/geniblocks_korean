@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import ModalAlert from '../components/modal-alert';
 import * as actions from '../actions';
 import { resetGametes } from '../modules/gametes';
-Object.assign(actions, { resetGametes });
+// merge with the other actions
+actions.resetGametes = resetGametes;
 
 function mapStateToProps (state) {
   let props = state.modalDialog;
