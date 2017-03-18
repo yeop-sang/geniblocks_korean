@@ -31,6 +31,10 @@ import urlParams from './utilities/url-params';
 import GuideProtocol from './utilities/guide-protocol';
 import uuid from 'uuid';
 
+// trivial check for Windows as part of user agent string
+if (navigator.userAgent.indexOf('Windows') >= 0)
+  document.body.className += ' os-windows';
+
 function convertAuthoring(authoring) {
   return GeneticsUtils.convertDashAllelesObjectToABAlleles(authoring,
                           ["alleles", "baseDrake","initialDrakeCombos", "targetDrakeCombos"]);
