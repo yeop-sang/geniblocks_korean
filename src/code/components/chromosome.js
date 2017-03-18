@@ -15,6 +15,7 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
   var containerClass = "items",
       empty = false,
       yChromosome = false,
+      xChromosome = false,
       labelsContainer, allelesContainer, chromId;
 
   if (org && chromosomeName && side) {
@@ -70,6 +71,8 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
 
     if (chromosome.side === "y") {
       yChromosome = true;
+    } else if (chromosome.side.indexOf("x") > -1) {
+      xChromosome = true;
     }
 
     chromId = orgName + chromosome.chromosome + chromosome.side;
@@ -87,7 +90,7 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
     <div className="geniblocks chromosome-container" onClick={ handleSelect } >
       <div className={ containerClass }>
         <div className="chromosome-allele-container" id={chromId} style={displayStyle}>
-          <ChromosomeImageClass small={small} empty={empty} bold={selected} yChromosome={yChromosome}/>
+          <ChromosomeImageClass small={small} empty={empty} bold={selected} yChromosome={yChromosome} xChromosome={xChromosome}/>
           { allelesContainer }
         </div>
         { labelsContainer }
