@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import BreedButtonView from './breed-button';
 import OrganismView from '../components/organism';
 import classNames from 'classnames';
+import unscaleProperties from '../utilities/unscale-properties';
 
 function isCompleteChromosomeSet(chromosomes) {
   return chromosomes && (chromosomes.length >= 3) &&
@@ -12,6 +13,7 @@ class BreedButtonAreaView extends React.Component {
 
   static propTypes = {
     challengeClasses: PropTypes.string,
+    scale: PropTypes.number,
     ovumChromosomes: PropTypes.array,
     spermChromosomes: PropTypes.array,
     userDrake: PropTypes.object,
@@ -51,6 +53,34 @@ class BreedButtonAreaView extends React.Component {
         { userDrakeView }
       </div>
     );
+  }
+
+  updateNotificationLocation() {
+    const breedButtonAreaNodes = document.getElementsByClassName('geniblocks breed-button-area'),
+          breedButtonAreaNode = breedButtonAreaNodes && breedButtonAreaNodes[0],
+          drakeImageNodes = breedButtonAreaNode &&
+                              breedButtonAreaNode.getElementsByClassName('geniblocks organism'),
+          drakeImageNode = drakeImageNodes && drakeImageNodes[0],
+          drakeImageBounds = drakeImageNode && drakeImageNode.getBoundingClientRect(),
+          unscaledDrakeImageBounds = drakeImageBounds && unscaleProperties(drakeImageBounds);
+    if (unscaledDrakeImageBounds) {
+      // TODO: For the purposes of the upcoming classroom test we simply stash the location
+      // in a global. Beyond the classroom test, the ITS feedback will presumably end up in
+      // the HUD or some other such location so that this mechanism can be eliminated.
+      // If it weren't temporary, a better long-term solution would be to put the location
+      // in the state and have it handled via normal redux mechanisms, but that effort
+      // doesn't seem worth it given the temporary nature of the need.
+      window.gNotificationLocation = { top: unscaledDrakeImageBounds.top - 12,
+                                      left: unscaledDrakeImageBounds.right + 2 };
+    }
+  }
+
+  componentDidMount() {
+    this.updateNotificationLocation();
+  }
+
+  componentDidUpdate() {
+    this.updateNotificationLocation();
   }
 
 }
