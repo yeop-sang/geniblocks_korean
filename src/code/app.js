@@ -1,3 +1,7 @@
+// Polyfill, modifying the global Object
+require('es6-object-assign').polyfill();
+import 'babel-polyfill';
+
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -26,6 +30,10 @@ import GeneticsUtils from './utilities/genetics-utils';
 import urlParams from './utilities/url-params';
 import GuideProtocol from './utilities/guide-protocol';
 import uuid from 'uuid';
+
+// trivial check for Windows as part of user agent string
+if (navigator.userAgent.indexOf('Windows') >= 0)
+  document.body.className += ' os-windows';
 
 function convertAuthoring(authoring) {
   return GeneticsUtils.convertDashAllelesObjectToABAlleles(authoring,
