@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Dimensions from 'react-dimensions';
 import classNames from 'classnames';
 import templates from '../templates';
+import BottomHUDView from '../fv-components/bottom-hud';
 import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
         keepOffspring, fertilize, hatch, completeChallenge,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket } from '../actions';
@@ -36,7 +37,7 @@ class FVChallengeContainer extends Component {
 
   render() {
     const { template, containerWidth, containerHeight, ...otherProps } = this.props,
-          { challengeType, interactionType } = this.props;
+          { challengeType, interactionType, trial, trials } = this.props;
 
     if (!template) return null;
 
@@ -52,7 +53,8 @@ class FVChallengeContainer extends Component {
         <div id="mission-wrapper">
           <Template scale={scaleFactor} {...otherProps} />
         </div>
-        <div id='fv-bottom-hud' className='fv-hud'></div>
+        <BottomHUDView id='fv-bottom-hud' className='fv-hud fv-bottom-hud'
+                        trial={trial + 1} trialCount={trials ? trials.length : 1}/>
       </div>
     );
   }
@@ -61,6 +63,8 @@ class FVChallengeContainer extends Component {
     template: PropTypes.string,
     challengeType: PropTypes.string,
     interactionType: PropTypes.string,
+    trial: PropTypes.number,
+    trials: PropTypes.array,
     containerWidth: PropTypes.number,
     containerHeight: PropTypes.number,
     routeSpec: PropTypes.object
