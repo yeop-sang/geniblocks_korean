@@ -6,7 +6,7 @@ const TrialCountView = ({trial, trialCount}) => {
         trialCountText = `${trial} of ${trialCount}`;
   return (
     <div className='geniblocks trial-count'>
-      <div className='text-area'>
+      <div className='hud-text-area'>
         <div className='trial-count-label'>{trialCountLabel}</div>
         <div className='trial-count-text'>{trialCountText}</div>
       </div>

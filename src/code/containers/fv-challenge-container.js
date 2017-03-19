@@ -4,6 +4,7 @@ import Dimensions from 'react-dimensions';
 import classNames from 'classnames';
 import templates from '../templates';
 import BottomHUDView from '../fv-components/bottom-hud';
+import TopHUDView from '../fv-components/top-hud';
 import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
         keepOffspring, fertilize, hatch, completeChallenge,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket } from '../actions';
@@ -49,12 +50,12 @@ class FVChallengeContainer extends Component {
 
     return (
       <div id="challenges" className={bgClasses} style={scaleFactorStyle}>
-        <div id='fv-top-hud' className='fv-hud'></div>
+        // TODO: put location names in the authoring document
+        <TopHUDView location={"Hatchery"} />
         <div id="mission-wrapper">
           <Template scale={scaleFactor} {...otherProps} />
         </div>
-        <BottomHUDView id='fv-bottom-hud' className='fv-hud fv-bottom-hud'
-                        trial={trial + 1} trialCount={trials ? trials.length : 1}/>
+        <BottomHUDView trial={trial + 1} trialCount={trials ? trials.length : 1}/>
       </div>
     );
   }
