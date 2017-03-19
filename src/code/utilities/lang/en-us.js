@@ -11,6 +11,7 @@ export default {
 
   // Challenge popup alerts
   "~ALERT.TITLE.GOOD_WORK": "Good work!",
+  "~ALERT.TITLE.MISSION_ACCOMPLISHED": "Mission Accomplished!",
   "~ALERT.TITLE.INCORRECT_DRAKE": "That's not the drake!",
   "~ALERT.TITLE.EGG_MISMATCH": "That egg doesn't belong!",
   "~ALERT.TITLE.MISTAKE": "Uh oh!",
@@ -19,6 +20,7 @@ export default {
   "~ALERT.AWARD_LEVEL_SILVER": "silver",
   "~ALERT.AWARD_LEVEL_BRONZE": "bronze",
   "~ALERT.COMPLETE_COIN": "You have earned all the pieces of this coin!",
+  "~ALERT.COMPLETE_LAST_MISSION": "You have completed the last mission!",
   "~ALERT.CORRECT_DRAKE": "The drake you have created matches the target drake.",
   "~ALERT.INCORRECT_DRAKE": "The drake you have created doesn't match the target drake.\n\
                             Please try again.",
@@ -30,6 +32,8 @@ export default {
   "~BUTTON.OK": "OK",
   "~BUTTON.TRY_AGAIN": "Try again",
   "~BUTTON.TRY_ANOTHER_EGG": "Try another egg!",
+  "~BUTTON.RETRY_CHALLENGE": "Retry challenge",
+  "~BUTTON.RETRY_MISSION": "Retry mission",
   "~BUTTON.CONTINUE": "Continue",
   "~BUTTON.NEXT_TRIAL": "Next trial",
   "~BUTTON.NEXT_CHALLENGE": "Next challenge",

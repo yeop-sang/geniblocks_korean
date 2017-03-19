@@ -58,6 +58,13 @@ export function retryCurrentChallenge() {
   };
 }
 
+export function retryCurrentMission() {
+  return (dispatch, getState) => {
+    const { level, mission } = getState().routeSpec;
+    dispatch(navigateToChallenge({ level, mission, challenge: 0 }));
+  };
+}
+
 function navigateToStartPage(url) {
   return {
     type: actionTypes.NAVIGATED_PAGE,
@@ -85,7 +92,7 @@ export function navigateToNextChallenge() {
       // there are not enough challenges...if the next mission exists, navigate to it
       if (authoring[currentLevel][currentMission+1]) {
         nextMission++;
-      } else {   
+      } else {
         // otherwise, check if the next level exists
         if (authoring[currentLevel+1]) {
           nextLevel++;
@@ -290,25 +297,55 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state) {
 
 export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrectAction) {
   return (dispatch, getState) => {
-    
+
 
     const state = getState();
     dispatch(_submitDrake(targetDrakeIndex, userDrakeIndex, correct, state));
 
+    const levels = state.authoring,
+          levelCount = levels.length,
+          missions = levels[state.routeSpec.level],
+          missionCount = missions.length,
+          challenges = missions[state.routeSpec.mission],
+          challengeCount = challenges.length,
+          trials = state.trials,
+          trialCount = trials.length;
     let challengeComplete = false,
-        missionComplete = false;
+        missionComplete = false,
+        // levelComplete = false,
+        allLevelsComplete = false;
 
-    if (correct && state.trial === state.trials.length-1) {
+    if (correct && state.trial === trialCount - 1) {
       challengeComplete = true;
-      if (state.authoring[state.routeSpec.level][state.routeSpec.mission].length <= state.routeSpec.challenge+1) {
+      if (state.routeSpec.challenge >= challengeCount - 1) {
         missionComplete = true;
+        if (state.routeSpec.mission >= missionCount - 1) {
+          // levelComplete = true;
+          if (state.routeSpec.level >= levelCount - 1)
+            allLevelsComplete = true;
+        }
       }
     }
 
     let dialog = {};
 
     if (correct) {
-      if (missionComplete) {
+      if (allLevelsComplete) {
+        dialog = {
+          message: "~ALERT.TITLE.MISSION_ACCOMPLISHED",
+          explanation: "~ALERT.COMPLETE_LAST_MISSION",
+          leftButton: {
+            label: "~BUTTON.RETRY_CHALLENGE",
+            action: "retryCurrentChallenge"
+          },
+          rightButton: {
+            label: "~BUTTON.RETRY_MISSION",
+            action: "retryCurrentMission"
+          },
+          showAward: true
+        };
+      }
+      else if (missionComplete) {
         dialog = {
           message: "~ALERT.TITLE.GOOD_WORK",
           explanation: "~ALERT.COMPLETE_COIN",
