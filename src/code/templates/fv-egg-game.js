@@ -8,7 +8,7 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import { assign, clone, cloneDeep, forIn, shuffle, range } from 'lodash';
+import { assign, clone, cloneDeep, shuffle, range } from 'lodash';
 import classNames from 'classnames';
 import { motherGametePool, fatherGametePool, gametePoolSelector,
         motherSelectedGameteIndex, fatherSelectedGameteIndex } from '../modules/gametes';
@@ -22,6 +22,7 @@ import AnimatedComponentView from '../components/animated-component';
 import TargetDrakeView from '../fv-components/target-drake';
 import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
 import TimerSet from '../utilities/timer-set';
+import unscaleProperties from '../utilities/unscale-properties';
 import t from '../utilities/translate';
 
 // debugging options to shorten animation/randomization for debugging purposes
@@ -89,15 +90,6 @@ function lookupGameteChromosomeDOMElement(sex, chromosomeName) {
       chromosomePositions = {"1": 0, "2": 1, "XY": 2};
   let genomeWrapper = wrapper.getElementsByClassName("genome")[0];
   return genomeWrapper.querySelectorAll(".fv-chromosome-image")[chromosomePositions[chromosomeName]];
-}
-
-function unscaleProperties(obj, scale=1) {
-  let scaledObj = {};
-  forIn(obj, function(value, key) {
-    if (typeof value === 'number')
-      scaledObj[key] = value / scale;
-  });
-  return scaledObj;
 }
 
 function findBothElements(sex, name, el, scale=1){
@@ -934,7 +926,7 @@ export default class FVEggGame extends Component {
   }
 
   render() {
-    const { challengeType, interactionType, showUserDrake, trial, drakes, gametes,
+    const { challengeType, interactionType, scale, showUserDrake, trial, drakes, gametes,
             userChangeableGenes, visibleGenes, userDrakeHidden, onChromosomeAlleleChange,
             onFertilize, onHatch, onResetGametes, onKeepOffspring, onDrakeSubmission } = this.props,
           { currentGametes } = gametes,
@@ -1145,7 +1137,7 @@ export default class FVEggGame extends Component {
           </div>
           <div className='egg column'>
             {offspringButtons}
-            <BreedButtonAreaView challengeClasses={classNames(challengeClasses)}
+            <BreedButtonAreaView challengeClasses={classNames(challengeClasses)} scale={scale}
                                   ovumChromosomes={ovumChromosomes} spermChromosomes={spermChromosomes}
                                   userDrake={child} showUserDrake={showUserDrake} userDrakeHidden={userDrakeHidden}
                                   isHatchingInProgress={animationEvents.hatch.inProgress}

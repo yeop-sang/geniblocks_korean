@@ -7,6 +7,7 @@ import t from '../utilities/translate';
 class Notifications extends React.Component {
 
   static propTypes = {
+    location: PropTypes.object,
     notifications: PropTypes.array
   }
 
@@ -15,12 +16,14 @@ class Notifications extends React.Component {
   }
 
   render() {
-    const messages = this.props.notifications.map((message, i) =>
-        <div key={i} className="notification">{ t(message) }</div>
-      );
+    const { location } = this.props,
+          style = location ? { left: location.left, top: location.top, right: 'auto' } : null,
+          messages = this.props.notifications.map((message, i) =>
+                        <div key={i} className="notification">{ t(message) }</div>);
+
 
     return (
-      <div className="geniblocks notification-container">
+      <div className="geniblocks notification-container" style={style}>
         { messages }
       </div>
     );
