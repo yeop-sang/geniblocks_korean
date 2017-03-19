@@ -12,7 +12,7 @@ import userDrakeHidden from './user-drake-hidden';
 import gametes, { motherCurrentGamete, fatherCurrentGamete } from '../modules/gametes';
 import drakes from './drakes';
 import baskets from './baskets';
-import notifications from './notifications';
+import notifications from '../modules/notifications';
 
 function initialState() {
   return Immutable({
@@ -128,7 +128,7 @@ export default function reducer(state, action) {
       const { level, mission, challenge } = action;
       state = state.merge({
         routeSpec: {level, mission, challenge},
-        trial: 0  
+        trial: 0
       });
       return loadStateFromAuthoring(state, state.authoring, state.challengeProgress);
     }

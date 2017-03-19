@@ -1,13 +1,35 @@
 import actionTypes from '../action-types';
 import templates from '../templates';
 import GuideProtocol from '../utilities/guide-protocol';
+import { GUIDE_CONNECTED, GUIDE_ERRORED,
+          GUIDE_MESSAGE_RECEIVED, GUIDE_ALERT_RECEIVED } from '../modules/notifications';
+import io from 'socket.io-client';
 
-var session = "",
+var socket = null,
+    session = "",
     sequence = 0,
     isConnectonEstablished = false,
     msgQueue = [];
 
-export default (socket) => store => next => action => {
+export function initializeITSSocket(guideServer, guideProtocol, store) {
+  socket = io(`${guideServer}/${guideProtocol}`, {reconnection: false});
+  socket.on('connect', data =>
+    store.dispatch({type: GUIDE_CONNECTED, data})
+  );
+  socket.on(GuideProtocol.TutorDialog.Channel, data =>
+    store.dispatch({type: GUIDE_MESSAGE_RECEIVED, data: GuideProtocol.TutorDialog.fromJson(data)})
+  );
+  socket.on(GuideProtocol.Alert.Channel, (data) =>
+    store.dispatch({type: GUIDE_ALERT_RECEIVED, data: GuideProtocol.Alert.fromJson(data)})
+  );
+  socket.on('connect_error', data =>
+    store.dispatch({type: GUIDE_ERRORED, data})
+  );
+
+  return socket;
+}
+
+export default () => store => next => action => {
 
   let result = next(action),
       nextState = store.getState();
@@ -17,12 +39,12 @@ export default (socket) => store => next => action => {
   }
 
   switch(action.type) {
-    case actionTypes.GUIDE_ERRORED: {
+    case GUIDE_ERRORED: {
       console.log("Error connecting to ITS!");
       socket.close();
       break;
     }
-    case actionTypes.GUIDE_CONNECTED: {
+    case GUIDE_CONNECTED: {
       console.log("Connection Success!");
       if (msgQueue.length) {
         msgQueue.forEach((msg, index) => {
@@ -37,8 +59,8 @@ export default (socket) => store => next => action => {
       isConnectonEstablished = true;
       break;
     }
-    case actionTypes.GUIDE_MESSAGE_RECEIVED:
-    case actionTypes.GUIDE_ALERT_RECEIVED: {
+    case GUIDE_MESSAGE_RECEIVED:
+    case GUIDE_ALERT_RECEIVED: {
       console.log("Message received from ITS:", action.data);
       break;
     }
