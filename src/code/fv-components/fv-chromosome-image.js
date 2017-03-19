@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 
-const FVChromosomeImageView = ({small=false, bold=false, empty=false, yChromosome=false, xChromosome=false, animationStyling}) => {
+const FVChromosomeImageView = ({small=false, bold=false, empty=false, yChromosome=false, animationStyling}) => {
   let positionStyling = {};
   if (animationStyling){
     positionStyling = {
@@ -9,7 +9,7 @@ const FVChromosomeImageView = ({small=false, bold=false, empty=false, yChromosom
     };
   }
   return (
-    <div className={classNames('fv-chromosome-image', { 'empty': empty, 'bold': bold, 'yChromosome': yChromosome, 'xChromosome': xChromosome, 'small': small})} style={positionStyling}>
+    <div className={classNames('fv-chromosome-image', { 'empty': empty, 'bold': bold, 'yChromosome': yChromosome, 'small': small})} style={positionStyling}>
     </div>
   );
 };
@@ -22,7 +22,6 @@ FVChromosomeImageView.propTypes = {
   small: PropTypes.bool,
   bold: PropTypes.bool,
   empty: PropTypes.bool,
-  xChromosome: PropTypes.bool,
   yChromosome: PropTypes.bool,
   animationStyling: PropTypes.shape({
                       x: PropTypes.number,

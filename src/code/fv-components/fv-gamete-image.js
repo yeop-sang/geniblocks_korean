@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-import FVChromosomeImageView from './fv-chromosome-image';
+import ChromosomeImageView from '../components/chromosome-image';
 
 const FVGameteImageView = ({chromosomes=[], id, className, style, displayStyle}) => {
 
@@ -24,17 +24,15 @@ const FVGameteImageView = ({chromosomes=[], id, className, style, displayStyle})
   let chromosomeImages = [];
 
   for(var i = 0; i < chromosomes.length; i++){
-    let chromosome = chromosomes[i],
-        yChromosome = chromosome && chromosome.side === "y";
+    let chromosome = chromosomes[i];
     chromosomeImages.push(
-      <FVChromosomeImageView
+      <ChromosomeImageView
         key={i}
-        empty={!chromosome}
+        empty={false}
         color={chromosome ? '#2CEBFE' : '#0B44DA'}
         width={10 * scale}
-        height={(yChromosome ? 30 : 40) * scale}
+        height={(chromosome && chromosome.side === "y" ? 30 : 40) * scale}
         split={12 * scale}
-        yChromosome={yChromosome}
       />
     );
   }
@@ -50,7 +48,7 @@ const FVGameteImageView = ({chromosomes=[], id, className, style, displayStyle})
   return (
     <div id={id} className={className} style={style}>
       <div className="gamete-container" style={containerStyle}>
-        <div className="gamete-chromosomes" style={chromosomeStyle}>
+        <div style={chromosomeStyle}>
           { chromosomeImages }
         </div>
       </div>
