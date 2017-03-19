@@ -38,7 +38,7 @@ const correctCharacteristics = {
       userAlleles = "a:T,b:T,a:M,b:M,a:W,b:W,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:hl,b:hl,a:A1,b:A1,a:D,a:Bog,a:rh",
       initialAlleles = "a:T,b:T,a:M,b:M,a:W,b:w,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:hl,b:hl,a:A1,b:A1,a:D,a:Bog,a:rh",
       getState = () => ({
-        routeSpec: {level: 0,mission: 0, challenge: 0}, 
+        routeSpec: {level: 0,mission: 0, challenge: 0},
         drakes: [
           {
             phenotype: {characteristics: correctCharacteristics},
@@ -57,7 +57,7 @@ const correctCharacteristics = {
             alleleString: initialAlleles
           }
         ],
-        trial: 0, trials: [{}], 
+        trial: 0, trials: [{}],
         authoring: [[[{visibleGenes: "wings, arms"}]]]
       });
 
@@ -98,15 +98,15 @@ describe('submitDrake action', () => {
     it('should call dispatch with the correct message action', () => {
       expect(dispatch).toHaveBeenCalledWith({
         type: types.MODAL_DIALOG_SHOWN,
-        message: "~ALERT.TITLE.GOOD_WORK",
-        explanation: "~ALERT.COMPLETE_COIN",
+        message: "~ALERT.TITLE.MISSION_ACCOMPLISHED",
+        explanation: "~ALERT.COMPLETE_LAST_MISSION",
         leftButton: {
-          label: "~BUTTON.TRY_AGAIN",
+          label: "~BUTTON.RETRY_CHALLENGE",
           action: "retryCurrentChallenge"
         },
         rightButton: {
-          label: "~BUTTON.NEXT_MISSION",
-          action: "navigateToNextChallenge"
+          label: "~BUTTON.RETRY_MISSION",
+          action: "retryCurrentMission"
         },
         showAward: true,
         top: undefined
