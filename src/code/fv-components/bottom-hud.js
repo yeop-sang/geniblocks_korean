@@ -1,18 +1,16 @@
 import React, {PropTypes} from 'react';
 import TrialCountView from './trial-count';
 
-const BottomHUDView = ({id, className, trial, trialCount}) => {
+const BottomHUDView = ({trial, trialCount}) => {
 
   return (
-    <div id={id} className={className} >
+    <div id='fv-bottom-hud' className='fv-hud fv-bottom-hud' >
       <TrialCountView trial={trial} trialCount={trialCount} />
     </div>
   );
 };
 
 BottomHUDView.propTypes = {
-  id: PropTypes.string,
-  className: PropTypes.string,
   trial: PropTypes.number,
   trialCount: PropTypes.number
 };
