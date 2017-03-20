@@ -1,7 +1,15 @@
 import actionTypes from '../action-types';
 import templates from '../templates';
+import urlParams from '../utilities/url-params';
 
-//const logManagerUrl  = '//cc-log-manager.herokuapp.com/api/logs';
+function isLocalHostUrl() {
+  const host = window.location.hostname;
+  return (host.indexOf('localhost') >= 0) || (host.indexOf('127.0.0.1') >= 0);
+}
+
+const logManagerUrl  = '//cc-log-manager.herokuapp.com/api/logs',
+      // disable logging during development unless explicitly enabled
+      isLoggingEnabled = !isLocalHostUrl() || (urlParams.log === "true");
 
 const actionsToExclude = [
   actionTypes.SOCKET_CONNECTED,
@@ -21,7 +29,8 @@ export default loggingMetadata => store => next => action => {
 
   if (!actionsToExclude.indexOf(action.type) > -1 && session !== null){
     const message = createLogEntry(loggingMetadata, action, nextState);
-    // postToLogManager(message);
+    if (isLoggingEnabled)
+      postToLogManager(message);
     console.log(`%c action`, `color: #03A9F4`, message);
   }
   return result;
@@ -35,8 +44,10 @@ function getValue(obj, path) {
 }
 
 function createLogEntry(loggingMetadata, action, nextState){
-  let eventName = action.type,
-      parameters = { ...action };
+  const eventName = action.type,
+        routeSpec = nextState.routeSpec,
+        activity  = nextState.authoring[routeSpec.level][routeSpec.mission][routeSpec.challenge].challengeId;
+  let parameters = { ...action };
 
   if (action.meta && action.meta.logNextState) {
     for (let prop in action.meta.logNextState) {
@@ -68,17 +79,16 @@ function createLogEntry(loggingMetadata, action, nextState){
       username: "testuser-"+session.split("-")[0],
       session: session,
       time: Date.now(),
+      activity: activity,
       event: eventName,
       parameters: parameters
     };
   return message;
 }
 
-/*
 function postToLogManager(data) {
   let request = new XMLHttpRequest();
   request.open('POST', logManagerUrl, true);
   request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
   request.send(JSON.stringify(data));
 }
-*/
