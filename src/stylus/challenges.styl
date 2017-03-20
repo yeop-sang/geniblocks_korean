@@ -175,16 +175,13 @@ body
   .button-label
     font-family: 'Yanone Kaffeesatz'
 
-.fv-layout
-  #mission-wrapper
-    flex-grow: 1
-
 .mission-backdrop.fv-layout-c
+  display: block
+  position: relative
   width: $layoutWidth
   height: $layoutHeight
   transform: scale(0.75)
   transform-origin: 0 0
-  flex-direction: column
   min-width: $layoutMinWidth;
   min-height: $layoutMinHeight;
 
@@ -199,14 +196,13 @@ body
                       url('../resources/fablevision/layout-c/screen_top_lines.png'),
                       url('../resources/fablevision/layout-c/screen_center_box.png'),
                       url('../resources/fablevision/layout-c/background.png')
-    background-position: 50% 91.5%, 50% 7.25%, 50% 48%, 50% 50%
+    background-position: 50% 91%, 50% 7.25%, 50% 48%, 50% 50%
 
 .fv-hud
   left: 0
   right: 0
   width: 100%
   display: flex
-  flex-grow: 0
   align-items: center
   justify-content: center
   color: #eee
@@ -230,12 +226,14 @@ body
 #mission-wrapper {
   width: 1400px;
   margin: 90px auto;
-  height: 900px;
+  height: 890px;
   display: flex;
   justify-content: center;
 }
 
 .fv-layout-c #mission-wrapper {
+  position: absolute
+  top: 85px
   margin: auto
 }
 

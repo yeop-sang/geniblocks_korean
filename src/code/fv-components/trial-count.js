@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 const TrialCountView = ({trial, trialCount}) => {
 
   const trialCountLabel = 'TRIAL',
-        trialCountText = `${trial} of ${trialCount}`;
+        trialCountText = `${trial}\xA0\xA0of\xA0\xA0${trialCount}`;
   return (
     <div className='geniblocks trial-count'>
       <div className='hud-text-area'>
