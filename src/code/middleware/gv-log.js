@@ -44,8 +44,10 @@ function getValue(obj, path) {
 }
 
 function createLogEntry(loggingMetadata, action, nextState){
-  let eventName = action.type,
-      parameters = { ...action };
+  const eventName = action.type,
+        routeSpec = nextState.routeSpec,
+        activity  = nextState.authoring[routeSpec.level][routeSpec.mission][routeSpec.challenge].challengeId;
+  let parameters = { ...action };
 
   if (action.meta && action.meta.logNextState) {
     for (let prop in action.meta.logNextState) {
@@ -77,6 +79,7 @@ function createLogEntry(loggingMetadata, action, nextState){
       username: "testuser-"+session.split("-")[0],
       session: session,
       time: Date.now(),
+      activity: activity,
       event: eventName,
       parameters: parameters
     };
