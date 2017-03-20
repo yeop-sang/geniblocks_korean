@@ -822,7 +822,7 @@ export default class FVEggGame extends Component {
                             showHatchAnimation: showUserDrake,
                             clearAnimatedComponents: true });
       this.autoSelectSingletonGametes(nextGametes);
-      if (newTrialInChallenge && onResetGametes) {
+      if ((newChallenge || newTrialInChallenge) && onResetGametes) {
         onResetGametes();
         showStaticGametes(true);
       }
