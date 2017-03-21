@@ -1,6 +1,7 @@
 import actionTypes from '../action-types';
 import templates from '../templates';
 import urlParams from '../utilities/url-params';
+import AuthoringUtils from '../utilities/authoring-utils';
 
 function isLocalHostUrl() {
   const host = window.location.hostname;
@@ -46,7 +47,7 @@ function getValue(obj, path) {
 function createLogEntry(loggingMetadata, action, nextState){
   const eventName = action.type,
         routeSpec = nextState.routeSpec,
-        activity  = nextState.authoring[routeSpec.level][routeSpec.mission][routeSpec.challenge].challengeId;
+        activity  = AuthoringUtils.getChallengeId(nextState.authoring, routeSpec);
   let parameters = { ...action };
 
   if (action.meta && action.meta.logNextState) {

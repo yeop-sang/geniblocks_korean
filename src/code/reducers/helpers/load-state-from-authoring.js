@@ -96,10 +96,10 @@ function createTrialOrder(trial, trials, currentTrialOrder, doShuffle) {
 export function loadStateFromAuthoring(state, authoring, progress={}) {
   let trial = state.trial ? state.trial : 0;
 
-  const missionArray = authoring[state.routeSpec.level],
+  const missionArray = authoring.levelHierarchy[state.routeSpec.level],
         challengeArray = missionArray[state.routeSpec.mission],
         challenges = challengeArray && challengeArray.length,
-        authoredChallenge = challengeArray && challengeArray[state.routeSpec.challenge];
+        authoredChallenge = challengeArray && authoring.definitions[challengeArray[state.routeSpec.challenge]];
   if (!authoredChallenge) return state;
 
   const templateName = authoredChallenge.template,

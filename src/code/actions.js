@@ -1,6 +1,7 @@
 import actionTypes from './action-types';
 import { ITS_ACTORS, ITS_ACTIONS, ITS_TARGETS } from './its-constants';
 import GeneticsUtils from './utilities/genetics-utils';
+import AuthoringUtils from './utilities/authoring-utils';
 
 export { actionTypes };
 
@@ -87,14 +88,14 @@ export function navigateToNextChallenge() {
         nextLevel = routeSpec.level,
         nextMission = routeSpec.mission,
         nextChallenge = currentChallenge+1,
-        challengeCountInMission = authoring[currentLevel][currentMission].length;
+        challengeCountInMission = authoring.levelHierarchy[currentLevel][currentMission].length;
     if (challengeCountInMission <= nextChallenge) {
       // there are not enough challenges...if the next mission exists, navigate to it
-      if (authoring[currentLevel][currentMission+1]) {
+      if (authoring.levelHierarchy[currentLevel][currentMission+1]) {
         nextMission++;
       } else {
         // otherwise, check if the next level exists
-        if (authoring[currentLevel+1]) {
+        if (authoring.levelHierarchy[currentLevel+1]) {
           nextLevel++;
         } else {
           // if no next level exists, loop around
@@ -146,7 +147,7 @@ function restrictToIntegerRange(value, minValue, maxValue) {
 export function navigateToCurrentRoute(routeSpec) {
   const {level, mission, challenge} = routeSpec;
   return (dispatch, getState) => {
-    const { authoring: levels } = getState(),
+    const levels = getState().authoring.levelHierarchy,
           levelCount = levels.length,
           nextLevel = restrictToIntegerRange(level, 0, levelCount - 1),
           missionCount = levels[nextLevel].length,
@@ -271,7 +272,7 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state) {
         userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]),
         initialDrakeOrg = state.initialDrakes[userDrakeIndex] ? GeneticsUtils.convertDrakeToOrg(state.initialDrakes[userDrakeIndex]) : null,
         routeSpec = state.routeSpec,
-        visibleGenes = state.authoring[routeSpec.level][routeSpec.mission][routeSpec.challenge].visibleGenes,
+        visibleGenes = AuthoringUtils.getChallengeDefinition(state.authoring, routeSpec).visibleGenes,
         // TODO: figure out whether ITS really wants "editableGenes" or "visibleGenes"
         // because it doesn't make sense to log the latter as the former
         editableGenes = visibleGenes && visibleGenes.split(", ");
@@ -305,7 +306,7 @@ export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrect
     const state = getState();
     dispatch(_submitDrake(targetDrakeIndex, userDrakeIndex, correct, state));
 
-    const levels = state.authoring,
+    const levels = state.authoring.levelHierarchy,
           levelCount = levels.length,
           missions = levels[state.routeSpec.level],
           missionCount = missions.length,
@@ -494,7 +495,7 @@ export function showCompleteChallengeDialog() {
   return (dispatch, getState) => {
     const state = getState();
 
-    const missionComplete = (state.authoring[state.routeSpec.level][state.routeSpec.mission].length <= state.routeSpec.challenge + 1);
+    const missionComplete = (state.authoring.levelHierarchy[state.routeSpec.level][state.routeSpec.mission].length <= state.routeSpec.challenge + 1);
 
     let dialog = {};
 

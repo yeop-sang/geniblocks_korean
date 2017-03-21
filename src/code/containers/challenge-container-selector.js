@@ -26,7 +26,7 @@ function mapContainerNameToContainer(containerName) {
 class ChallengeContainerSelector extends Component {
 
   static propTypes = {
-    authoring: PropTypes.array.isRequired,
+    authoring: PropTypes.object.isRequired,
     currentRouteSpec: PropTypes.shape({
       level: PropTypes.number,
       mission: PropTypes.number,
@@ -61,9 +61,9 @@ class ChallengeContainerSelector extends Component {
   render() {
     const { authoring, currentRouteSpec, ...otherProps } = this.props,
           { level: currLevel, mission: currMission, challenge: currChallenge } = currentRouteSpec,
-          missionsInLevel = authoring[currLevel],
+          missionsInLevel = authoring.levelHierarchy[currLevel],
           challengesInMission = missionsInLevel[currMission],
-          authoredChallenge = challengesInMission[currChallenge],
+          authoredChallenge = authoring.definitions[challengesInMission[currChallenge]],
           containerName = authoredChallenge.container,
           ContainerClass = mapContainerNameToContainer(containerName);
     return (

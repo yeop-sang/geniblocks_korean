@@ -58,7 +58,7 @@ const correctCharacteristics = {
           }
         ],
         trial: 0, trials: [{}],
-        authoring: [[[{visibleGenes: "wings, arms"}]]]
+        authoring: {definitions: {"test": {visibleGenes: "wings, arms"}}, "levelHierarchy": [[["test"]]]}
       });
 
 

@@ -38,7 +38,13 @@ describe('navigateToCurrentRoute action', () => {
         };
 
   const dispatch = expect.createSpy();
-  const getState = () => ({routeSpec: {level: 0, mission: 0, challenge: 0}, authoring: [[[{}],[{},{},{}]]] });
+  const getState = () => ({
+    routeSpec: {level: 0, mission: 0, challenge: 0}, 
+    authoring: {
+      "definitions": {"empty": {}}, 
+      "levelHierarchy": [[["empty"],["empty", "empty", "empty"]]] 
+    }
+  });
 
   it("should dispatch a navigateToCurrentRoute action when a valid challenge is specified", () => {
     navigateToCurrentRoute({level: validLevel, mission: validMission, challenge: validChallenge})(dispatch, getState);
@@ -56,19 +62,23 @@ describe('navigateToCurrentRoute action', () => {
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
         routeSpec: {level: 0, mission: 0, challenge: 0},
-        authoring: 
-        [
-          [
-            [],
-            [{}, {}, {
+        authoring: {
+          "definitions": {
+            "test": {
               template: "GenomePlayground",
               "initialDrake": {
                 "alleles": "a:T,b:T",
                 "sex": 1
               }
-            }]
-          ]
-        ]
+            }, "empty": {}},
+          "levelHierarchy": 
+            [
+              [
+                [],
+                ["empty", "empty", "test"]
+              ]
+            ]
+        }
       });
 
       let nextState = reducer(initialState, currentRouteAction);

@@ -2,8 +2,9 @@ import actionTypes from '../action-types';
 import templates from '../templates';
 import GuideProtocol from '../utilities/guide-protocol';
 import { GUIDE_CONNECTED, GUIDE_ERRORED,
-          GUIDE_MESSAGE_RECEIVED, GUIDE_ALERT_RECEIVED } from '../modules/notifications';
+         GUIDE_MESSAGE_RECEIVED, GUIDE_ALERT_RECEIVED } from '../modules/notifications';
 import io from 'socket.io-client';
+import AuthoringUtils from '../utilities/authoring-utils';
 
 var socket = null,
     session = "",
@@ -134,7 +135,7 @@ function createLogEntry(loggingMetadata, action, nextState){
 
   context["routeSpec"] = routeSpec;
   context["groupId"] = "verticalBite";
-  context["challengeId"] = nextState.authoring[routeSpec.level][routeSpec.mission][routeSpec.challenge].challengeId;
+  context["challengeId"] = AuthoringUtils.getChallengeId(nextState.authoring, routeSpec);
 
   if (action.meta.logNextState) {
     for (let prop in action.meta.logNextState) {

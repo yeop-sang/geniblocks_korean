@@ -32,19 +32,23 @@ describe('navigateToChallenge action', () => {
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
         routeSpec: {level: 0, mission: 0, challenge: 0},
-        authoring: 
-        [
-          [
-            [],
-            [{}, {}, {
+        authoring: {
+          "definitions": {
+            "test": {
               template: "GenomePlayground",
               "initialDrake": {
                 "alleles": "a:T,b:T",
                 "sex": 1
               }
-            }]
-          ]
-        ]
+            }, "empty": {}},
+          "levelHierarchy": 
+            [
+              [
+                [],
+                ["empty", "empty", "test"]
+              ]
+            ]
+        }
       });
 
       let nextState = reducer(initialState, navigateToChallenge({level: 0, mission: 1, challenge: 2}));
