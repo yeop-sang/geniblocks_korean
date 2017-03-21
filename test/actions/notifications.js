@@ -1,10 +1,9 @@
 import expect from 'expect';
 import reducer from '../../src/code/reducers/';
-import * as actions from '../../src/code/actions';
+import { startSession } from '../../src/code/actions';
+import { GUIDE_MESSAGE_RECEIVED } from '../../src/code/modules/notifications';
 import urlParams from '../../src/code/utilities/url-params';
 import GuideProtocol from '../../src/code/utilities/guide-protocol';
-
-const types = actions.actionTypes;
 
 describe('Notification actions', () => {
 
@@ -37,7 +36,7 @@ describe('Notification actions', () => {
       it('should add to the notifications', () => {
 
         nextState = reducer(defaultState, {
-          type: types.GUIDE_MESSAGE_RECEIVED,
+          type: GUIDE_MESSAGE_RECEIVED,
           data: GuideProtocol.TutorDialog.fromJson(messageData)
         });
 
@@ -60,7 +59,7 @@ describe('Notification actions', () => {
         );
 
         let lastState = reducer(nextState, {
-          type: types.GUIDE_MESSAGE_RECEIVED,
+          type: GUIDE_MESSAGE_RECEIVED,
           data: GuideProtocol.TutorDialog.fromJson(secondMessageData)
         });
 
@@ -73,12 +72,12 @@ describe('Notification actions', () => {
     describe('on receiving other actions', () => {
 
       nextState = reducer(defaultState, {
-        type: types.GUIDE_MESSAGE_RECEIVED,
+        type: GUIDE_MESSAGE_RECEIVED,
         data: GuideProtocol.TutorDialog.fromJson(messageData)
       });
 
       it('should clear the notifications', () => {
-        let lastState = reducer(nextState, actions.startSession("123"));
+        let lastState = reducer(nextState, startSession("123"));
 
         expect(lastState).toEqual(defaultState.merge({
           notifications: []

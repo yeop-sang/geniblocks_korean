@@ -1,6 +1,7 @@
 import expect from 'expect';
 import reducer from '../../src/code/reducers/';
 import * as actions from '../../src/code/actions';
+import { GUIDE_MESSAGE_RECEIVED } from '../../src/code/modules/notifications';
 
 const types = actions.actionTypes;
 
@@ -105,7 +106,7 @@ describe('showModalDialog action', () => {
       });
 
       let nextState = reducer(messageState, {
-        type: types.GUIDE_MESSAGE_RECEIVED,
+        type: GUIDE_MESSAGE_RECEIVED,
         state: {
           data: '{"text": "Hi from ITS"}'
         }
