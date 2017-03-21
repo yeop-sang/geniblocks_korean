@@ -37,7 +37,7 @@ class BreedButtonAreaView extends React.Component {
     let userDrakeView = null;
 
     if (userDrake && isHatchingComplete) {
-      const drakeImageView = <OrganismView className="matching" org={userDrake} width={180} key={1} />,
+      const drakeImageView = <OrganismView className="matching" org={userDrake} width={200} key={1} />,
             eggOrDrakeView = showUserDrake || !userDrakeHidden ? drakeImageView : eggImageView;
       userDrakeView = eggOrDrakeView;
     } else {
@@ -50,7 +50,9 @@ class BreedButtonAreaView extends React.Component {
 
     return (
       <div className="geniblocks breed-button-area">
-        { userDrakeView }
+        <div className='geniblocks breed-button-surround'>
+          { userDrakeView }
+        </div>
       </div>
     );
   }
