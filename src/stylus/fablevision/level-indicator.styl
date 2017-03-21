@@ -1,0 +1,37 @@
+.geniblocks.level-indicator
+  width: 207px
+  height: 82px
+  background-image: url('../resources/fablevision/huds/Levels_screen.png')
+  background-size: 100% 100%
+
+  .level-text-area
+    position: relative
+
+    .level-indicator-label
+      position: absolute
+      left: 51px
+      top: 22px
+      width: 56px
+      height: 34px
+
+    .level-indicator-text
+      position: absolute
+      left: 120px
+      top: 22px
+      width: 30px
+      height: 34px
+
+    .hud-text
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+      font-family: 'Yanone Kaffeesatz'
+      font-weight: bold
+      font-size: 1.4rem
+      color: #555555
+
+.os-windows
+  .geniblocks.level-indicator
+    .hud-text-area
+      margin-top: 0.1rem
