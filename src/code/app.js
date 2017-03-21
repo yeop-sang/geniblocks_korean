@@ -12,7 +12,7 @@ import { createHashHistory } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 import reducer from './reducers/';
-import { actionTypes, startSession, changeAuthoring } from './actions';
+import { startSession, changeAuthoring } from './actions';
 
 import AuthoringUpload from './containers/authoring-upload';
 import ChallengeContainerSelector from "./containers/challenge-container-selector";
@@ -20,15 +20,13 @@ import ModalMessageContainer from "./containers/modal-message-container";
 import NotificationContainer from "./containers/notification-container";
 
 import loggerMiddleware from './middleware/gv-log';
-import itsMiddleware from './middleware/its-log';
+import itsMiddleware, { initializeITSSocket } from './middleware/its-log';
 import routerMiddleware from './middleware/router-history';
 import soundsMiddleware from 'redux-sounds';
 import thunk from 'redux-thunk';
 
-import io from 'socket.io-client';
 import GeneticsUtils from './utilities/genetics-utils';
 import urlParams from './utilities/url-params';
-import GuideProtocol from './utilities/guide-protocol';
 import uuid from 'uuid';
 
 // trivial check for Windows as part of user agent string
@@ -49,23 +47,6 @@ const loggingMetadata = {
   applicationName: "GeniStarDev"
 };
 
-const guideServer = "wss://guide.intellimedia.ncsu.edu",
-      guideProtocol  = "guide-protocol-v2";
-
-const socket = io(`${guideServer}/${guideProtocol}`, {reconnection: false});
-socket.on('connect', data =>
-  store.dispatch({type: actionTypes.GUIDE_CONNECTED, data})
-);
-socket.on(GuideProtocol.TutorDialog.Channel, data =>
-  store.dispatch({type: actionTypes.GUIDE_MESSAGE_RECEIVED, data: GuideProtocol.TutorDialog.fromJson(data)})
-);
-socket.on(GuideProtocol.Alert.Channel, (data) =>
-  store.dispatch({type: actionTypes.GUIDE_ALERT_RECEIVED, data: GuideProtocol.Alert.fromJson(data)})
-);
-socket.on('connect_error', data =>
-  store.dispatch({type: actionTypes.GUIDE_ERRORED, data})
-);
-
 const hashHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 
 const soundsData = {
@@ -79,7 +60,7 @@ const createStoreWithMiddleware =
   applyMiddleware(
     thunk,
     loggerMiddleware(loggingMetadata),
-    itsMiddleware(socket, loggingMetadata),
+    itsMiddleware(loggingMetadata),
     routerMiddleware(hashHistory),
     loadedSoundsMiddleware
   )(createStore);
@@ -89,6 +70,10 @@ export default function configureStore(initialState) {
 }
 
 const store = configureStore();
+
+const guideServer = "wss://guide.intellimedia.ncsu.edu",
+      guideProtocol  = "guide-protocol-v2";
+initializeITSSocket(guideServer, guideProtocol, store);
 
 // start the session before syncing history, which triggers navigation
 store.dispatch(startSession(uuid.v4()));

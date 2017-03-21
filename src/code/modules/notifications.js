@@ -1,13 +1,17 @@
 import Immutable from 'seamless-immutable';
-import actionTypes from '../action-types';
 import { GAMETES_RESET } from '../modules/gametes';
 import urlParams from '../utilities/url-params';
+
+export const GUIDE_CONNECTED = "Guide connected";
+export const GUIDE_MESSAGE_RECEIVED = "Guide message received";
+export const GUIDE_ALERT_RECEIVED = "Guide alert received";
+export const GUIDE_ERRORED = "Guide errored";
 
 const initialState = Immutable([]);
 
 export default function notifications(state = initialState, action) {
   switch (action.type) {
-    case actionTypes.GUIDE_MESSAGE_RECEIVED:
+    case GUIDE_MESSAGE_RECEIVED:
       if (action.data && urlParams.showITS === "true") {
         return state.concat(action.data.message.asString());
       }

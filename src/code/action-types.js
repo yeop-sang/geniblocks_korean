@@ -21,11 +21,7 @@ const actionTypes = {
   MODAL_DIALOG_SHOWN: "Modal dialog shown",
   MODAL_DIALOG_DISMISSED: "Modal dialog dismissed",
   ADVANCED_TRIAL: "Advanced to next trial",
-  ADVANCED_CHALLENGE: "Advanced to next challenge",
-  GUIDE_CONNECTED: "Guide connected",
-  GUIDE_MESSAGE_RECEIVED: "Guide message received",
-  GUIDE_ALERT_RECEIVED: "Guide alert received",
-  GUIDE_ERRORED: "Guide errored"
+  ADVANCED_CHALLENGE: "Advanced to next challenge"
 };
 
 export default actionTypes;
