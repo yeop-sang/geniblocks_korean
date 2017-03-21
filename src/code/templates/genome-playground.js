@@ -18,13 +18,15 @@ export default class GenomeContainer extends Component {
     let penView = <div className='columns bottom'>
                     <PenView orgs={ keptDrakes } width={500} columns={5} rows={1} tightenRows={20}/>
                   </div>;
-    
+
+    // we don't increment the score, so users always get top mark from playground
+    const kNoScoreIncrement = false;
     const handleAlleleChange = function(chrom, side, prevAllele, newAllele) {
-      onChromosomeAlleleChange(0, chrom, side, prevAllele, newAllele);
+      onChromosomeAlleleChange(0, chrom, side, prevAllele, newAllele, kNoScoreIncrement);
     };
 
     const handleSexChange = function(newSex) {
-      onSexChange(0, newSex);
+      onSexChange(0, newSex, kNoScoreIncrement);
     };
 
     const handleSubmit = function() {
@@ -41,7 +43,7 @@ export default class GenomeContainer extends Component {
         <div className='column'>
             <OrganismGlowView id="drake-image" org={ userDrake } />
             <ButtonView label="~BUTTON.SAVE_DRAKE" id="save-button" onClick={ handleSubmit } />
-            {penView} 
+            {penView}
         </div>
       </div>
     );
