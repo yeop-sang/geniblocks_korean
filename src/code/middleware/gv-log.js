@@ -76,7 +76,7 @@ function createLogEntry(loggingMetadata, action, nextState){
   const message =
     {
       application: loggingMetadata.applicationName,
-      username: "testuser-"+session.split("-")[0],
+      username: loggingMetadata.userName,
       session: session,
       time: Date.now(),
       activity: activity,
