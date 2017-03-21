@@ -56,7 +56,7 @@ describe('loading authored state into template', () => {
             "sex": 1
           }]
         }, "empty": {}},
-      "levelHierarchy": [[["empty", "test"]]]
+      "levelHierarchy": [[[{"challengeId": "empty"}, {"challengeId": "test"}]]]
     }, ["alleles"]);
 
     let defaultState = reducer(undefined, {});
@@ -131,7 +131,7 @@ describe('loading authored state into template', () => {
             "genes": "tail, horns"
           }
         }, "empty": {}},
-      "levelHierarchy": [[["empty", "test"]]]
+      "levelHierarchy": [[[{"challengeId": "empty"}, {"challengeId": "test"}]]]
     }, ["alleles"]);
 
       let defaultState = reducer(undefined, {});
@@ -173,7 +173,7 @@ describe('loading authored state into template', () => {
           },
           "targetDrakes": [{}, {}, {}, {}, {}, {}, {}, {}]
         }, "empty": {}},
-      "levelHierarchy": [[["empty", "test"]]]
+      "levelHierarchy": [[[{"challengeId": "empty"}, {"challengeId": "test"}]]]
     }, ["alleles"]);
 
       let defaultState = reducer(undefined, {});

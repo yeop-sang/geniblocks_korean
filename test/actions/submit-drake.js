@@ -58,7 +58,7 @@ const correctCharacteristics = {
           }
         ],
         trial: 0, trials: [{}],
-        authoring: {definitions: {"test": {visibleGenes: "wings, arms"}}, "levelHierarchy": [[["test"]]]}
+        authoring: {definitions: {"test": {visibleGenes: "wings, arms"}}, "levelHierarchy": [[[{"challengeId": "test"}]]]}
       });
 
 

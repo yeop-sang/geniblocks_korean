@@ -5,6 +5,6 @@ export default class AuthoringUtils {
   }
 
   static getChallengeId(authoring, routeSpec) {
-    return authoring.levelHierarchy[routeSpec.level][routeSpec.mission][routeSpec.challenge];
+    return authoring.levelHierarchy[routeSpec.level][routeSpec.mission][routeSpec.challenge].challengeId;
   }
 }

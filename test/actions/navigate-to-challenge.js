@@ -45,7 +45,7 @@ describe('navigateToChallenge action', () => {
             [
               [
                 [],
-                ["empty", "empty", "test"]
+                [{"challengeId": "empty"}, {"challengeId": "empty"}, {"challengeId": "test"}]
               ]
             ]
         }

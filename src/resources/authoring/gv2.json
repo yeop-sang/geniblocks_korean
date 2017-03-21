@@ -329,7 +329,6 @@
       },
       "eggBreedingProtoVisible": {
         "comment": "*** Demo: Egg Breeding (match three drakes, user drake visible) ***",
-        "challengeId": "egg-breeding-basic-match-visible",
         "template": "EggGame",
         "challengeType": "match-target",
         "instructions": "Match 3 drakes!",
@@ -347,7 +346,6 @@
       },
       "eggBreedingProtoHidden": {
         "comment": "*** Demo: Egg Breeding (match three drakes, user drake hidden) ***",
-        "challengeId": "egg-breeding-basic-match-hidden",
         "template": "EggGame",
         "challengeType": "match-target",
         "instructions": "Match 3 drakes!",
@@ -383,7 +381,6 @@
       },
       "gamete-1target-simple": {
         "comment": "*** FV Test Level 2 ***",
-        "challengeId": "gamete-1target-simple", //TODO: delete this
         "container": "FVContainer",
         "template": "FVEggGame",
         "challengeType": "match-target",
@@ -408,48 +405,48 @@
     // Level 1
     [
       [
-        "playground"
+        {"challengeId": "playground"}
       ]
     ],
 
     // Level 2
     [
       [
-        "basicsIntroVisible", "basicsIntroHidden"
+        {"challengeId": "basicsIntroVisible"}, {"challengeId": "basicsIntroHidden"}
       ],
       [
-        "eggSortingWings", "eggSortingLimbs"
+        {"challengeId": "eggSortingWings"}, {"challengeId": "eggSortingLimbs"}
       ],
       [
-        "genomeChallengeArmorVisible", "genomeChallengeArmorHidden", "eggSortingHorns", "eggSortingArmor", "eggSortingHornsWingsArmor"
+        {"challengeId": "genomeChallengeArmorVisible"}, {"challengeId": "genomeChallengeArmorHidden"}, {"challengeId": "eggSortingHorns"}, {"challengeId": "eggSortingArmor"}, {"challengeId": "eggSortingHornsWingsArmor"}
       ]
     ],
 
     // Level 3
     [
       [
-        "incompleteLevel"
+        {"challengeId": "incompleteLevel"}
       ]
     ],
 
     // Level 4
     [
       [
-        "eggBreedingBasicChromosomesUnique", "eggBreedingBasicGametesUnique", "eggBreedingBasicGametesTarget"
+        {"challengeId": "eggBreedingBasicChromosomesUnique"}, {"challengeId": "eggBreedingBasicGametesUnique"}, {"challengeId": "eggBreedingBasicGametesTarget"}
       ]
     ],
 
     // Level 5 (testing)
     [
       [
-        "eggBreedingProtoVisible", "eggBreedingProtoHidden"
+        {"challengeId": "eggBreedingProtoVisible"}, {"challengeId": "eggBreedingProtoHidden"}
       ]
     ],
 
     // Level 6 (FV testing)
     [
       [
-        "gamete-5unique-simple", "gamete-1target-simple"
+        {"challengeId": "gamete-5unique-simple"}, {"challengeId": "gamete-1target-simple"}
       ]
     ]
 

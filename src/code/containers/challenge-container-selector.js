@@ -63,7 +63,7 @@ class ChallengeContainerSelector extends Component {
           { level: currLevel, mission: currMission, challenge: currChallenge } = currentRouteSpec,
           missionsInLevel = authoring.levelHierarchy[currLevel],
           challengesInMission = missionsInLevel[currMission],
-          authoredChallenge = authoring.definitions[challengesInMission[currChallenge]],
+          authoredChallenge = authoring.definitions[challengesInMission[currChallenge].challengeId],
           containerName = authoredChallenge.container,
           ContainerClass = mapContainerNameToContainer(containerName);
     return (

@@ -42,7 +42,7 @@ describe('navigateToCurrentRoute action', () => {
     routeSpec: {level: 0, mission: 0, challenge: 0}, 
     authoring: {
       "definitions": {"empty": {}}, 
-      "levelHierarchy": [[["empty"],["empty", "empty", "empty"]]] 
+      "levelHierarchy": [[[{"challengeId": "empty"}],[{"challengeId": "empty"}, {"challengeId": "empty"}, {"challengeId": "empty"}]]] 
     }
   });
 
@@ -75,7 +75,7 @@ describe('navigateToCurrentRoute action', () => {
             [
               [
                 [],
-                ["empty", "empty", "test"]
+                [{"challengeId": "empty"}, {"challengeId": "empty"}, {"challengeId": "test"}]
               ]
             ]
         }

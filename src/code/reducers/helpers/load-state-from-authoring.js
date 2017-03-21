@@ -99,7 +99,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
   const missionArray = authoring.levelHierarchy[state.routeSpec.level],
         challengeArray = missionArray[state.routeSpec.mission],
         challenges = challengeArray && challengeArray.length,
-        authoredChallenge = challengeArray && authoring.definitions[challengeArray[state.routeSpec.challenge]];
+        authoredChallenge = challengeArray && authoring.definitions[challengeArray[state.routeSpec.challenge].challengeId];
   if (!authoredChallenge) return state;
 
   const templateName = authoredChallenge.template,
