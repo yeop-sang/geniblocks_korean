@@ -1,5 +1,5 @@
 {
-  "definitions": {
+  "challenges": {
     "playground": {
       "comment": "*** Level 1, Mission 1.1: Playground ***",
       "template": "GenomePlayground",
@@ -402,14 +402,13 @@
 
 
   "levelHierarchy": [
-    // Level 1
     [
       [
         {"challengeId": "playground"}
       ]
     ],
 
-    // Level 2
+
     [
       [
         {"challengeId": "basicsIntroVisible"}, {"challengeId": "basicsIntroHidden"}
@@ -422,28 +421,27 @@
       ]
     ],
 
-    // Level 3
+
     [
       [
         {"challengeId": "incompleteLevel"}
       ]
     ],
 
-    // Level 4
     [
       [
         {"challengeId": "eggBreedingBasicChromosomesUnique"}, {"challengeId": "eggBreedingBasicGametesUnique"}, {"challengeId": "eggBreedingBasicGametesTarget"}
       ]
     ],
 
-    // Level 5 (testing)
+
     [
       [
         {"challengeId": "eggBreedingProtoVisible"}, {"challengeId": "eggBreedingProtoHidden"}
       ]
     ],
 
-    // Level 6 (FV testing)
+
     [
       [
         {"challengeId": "gamete-5unique-simple"}, {"challengeId": "gamete-1target-simple"}

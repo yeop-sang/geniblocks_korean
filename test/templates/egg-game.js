@@ -69,7 +69,7 @@ describe('authoredDrakesToDrakeArray()', () => {
 describe('loading authored state into template', () => {
   describe('in the EggGame II template', () => {
     let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles({
-      definitions: {
+      challenges: {
         "test": {
           "template": "EggGame",
           "challengeType": "match-target",

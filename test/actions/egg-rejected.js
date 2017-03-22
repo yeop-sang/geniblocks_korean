@@ -39,7 +39,7 @@ describe('rejectEggFromBasket action', () => {
                                         };
 
     const dispatch = expect.createSpy();
-  const getState = () => ({routeSpec: {level: 0, mission: 0, challenge: 0}, trial: 0, trials: [{}], authoring: {definitions: {}, "levelHierarchy": [[[]]]} });
+  const getState = () => ({routeSpec: {level: 0, mission: 0, challenge: 0}, trial: 0, trials: [{}], authoring: {challenges: {}, "levelHierarchy": [[[]]]} });
 
     actions.rejectEggFromBasket(rejectEggArgs)(dispatch, getState);
     expect(dispatch.calls[0].arguments).toEqual([rejectEggAction]);

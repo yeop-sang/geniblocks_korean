@@ -41,7 +41,7 @@ describe('navigateToCurrentRoute action', () => {
   const getState = () => ({
     routeSpec: {level: 0, mission: 0, challenge: 0}, 
     authoring: {
-      "definitions": {"empty": {}}, 
+      "challenges": {"empty": {}}, 
       "levelHierarchy": [[[{"challengeId": "empty"}],[{"challengeId": "empty"}, {"challengeId": "empty"}, {"challengeId": "empty"}]]] 
     }
   });
@@ -63,7 +63,7 @@ describe('navigateToCurrentRoute action', () => {
       let initialState = defaultState.merge({
         routeSpec: {level: 0, mission: 0, challenge: 0},
         authoring: {
-          "definitions": {
+          "challenges": {
             "test": {
               template: "GenomePlayground",
               "initialDrake": {

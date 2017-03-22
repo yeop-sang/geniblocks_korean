@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { navigateToCurrentRoute, navigateToChallenge } from '../actions';
 import ChallengeContainer from './challenge-container';
 import FVChallengeContainer from './fv-challenge-container';
+import AuthoringUtils from '../utilities/authoring-utils';
+import urlParams from '../utilities/url-params';
 
-function hasChangedRouteParams(props) {
-  const { currentRouteSpec, routeParams } = props,
-        { level: currLevel, mission: currMission, challenge: currChallenge } = currentRouteSpec,
+function hasChangedRouteParams(currentRouteSpec, routeParams) {
+  const { level: currLevel, mission: currMission, challenge: currChallenge } = currentRouteSpec,
         currLevelStr = String(currLevel + 1),
         currMissionStr = String(currMission + 1),
         currChallengeStr = String(currChallenge + 1);
@@ -43,8 +44,13 @@ class ChallengeContainerSelector extends Component {
   }
 
   componentWillMount() {
-    const { routeParams, navigateToCurrentRoute, navigateToChallenge } = this.props;
-    if (hasChangedRouteParams(this.props)) {
+    const { navigateToCurrentRoute, navigateToChallenge, authoring } = this.props;
+    // the URL's challengeId is only used for initial routing, so prioritize the numeric route params
+    let routeParams = this.props.routeParams;
+    if (!routeParams.challenge && urlParams.challengeId) {
+      routeParams = AuthoringUtils.challengeIdToRouteParams(authoring, urlParams.challengeId);
+    }
+    if (hasChangedRouteParams(this.props.currentRouteSpec, routeParams)) {
       navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});
     } else {
       navigateToChallenge({level: 0, mission: 0, challenge: 0});
@@ -52,18 +58,19 @@ class ChallengeContainerSelector extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const { routeParams, navigateToCurrentRoute } = newProps;
-    if (hasChangedRouteParams(newProps)) {
+    const { navigateToCurrentRoute, authoring } = newProps;
+    let routeParams = this.props.routeParams;
+    if (!routeParams.challenge && urlParams.challengeId) {
+      routeParams = AuthoringUtils.challengeIdToRouteParams(authoring, urlParams.challengeId);
+    }
+    if (hasChangedRouteParams(newProps.currentRouteSpec, routeParams)) {
       navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});
     }
   }
 
   render() {
     const { authoring, currentRouteSpec, ...otherProps } = this.props,
-          { level: currLevel, mission: currMission, challenge: currChallenge } = currentRouteSpec,
-          missionsInLevel = authoring.levelHierarchy[currLevel],
-          challengesInMission = missionsInLevel[currMission],
-          authoredChallenge = authoring.definitions[challengesInMission[currChallenge].challengeId],
+          authoredChallenge = AuthoringUtils.getChallengeDefinition(authoring, currentRouteSpec),
           containerName = authoredChallenge.container,
           ContainerClass = mapContainerNameToContainer(containerName);
     return (

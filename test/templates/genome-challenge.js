@@ -40,7 +40,7 @@ describe('authoredDrakesToDrakeArray()', () => {
 describe('loading authored state into template', () => {
   describe('in the GenomeChallenge template', () => {
     let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles({
-      "definitions": {
+      "challenges": {
         "test": {
           "template": "GenomeChallenge",
           "initialDrake":{
@@ -111,7 +111,7 @@ describe('loading authored state into template', () => {
   describe('with linked genes', () => {
     describe('in the GenomeChallenge template', () => {
       let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles({
-      "definitions": {
+      "challenges": {
         "test": {
           "template": "GenomeChallenge",
           "initialDrake": {
@@ -163,7 +163,7 @@ describe('loading authored state into template', () => {
   describe('with randomized trials', () => {
     describe('in the GenomeChallenge template', () => {
       let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles({
-      "definitions": {
+      "challenges": {
         "test": {
           "template": "GenomeChallenge",
           "randomizeTrials": true,

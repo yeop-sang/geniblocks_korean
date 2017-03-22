@@ -33,7 +33,7 @@ describe('navigateToChallenge action', () => {
       let initialState = defaultState.merge({
         routeSpec: {level: 0, mission: 0, challenge: 0},
         authoring: {
-          "definitions": {
+          "challenges": {
             "test": {
               template: "GenomePlayground",
               "initialDrake": {
