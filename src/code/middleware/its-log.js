@@ -29,7 +29,7 @@ export function initializeITSSocket(guideServer, guideProtocol, store) {
   return socket;
 }
 
-export default () => store => next => action => {
+export default loggingMetadata => store => next => action => {
 
   let result = next(action),
       nextState = store.getState();
@@ -67,7 +67,7 @@ export default () => store => next => action => {
     default: {
       // other action types - send to ITS
       if (action.meta && action.meta.itsLog){
-        let message = createLogEntry(action, nextState);
+        let message = createLogEntry(loggingMetadata, action, nextState);
         if (!isConnectonEstablished) {
           console.log("Queuing message for ITS:", message);
           msgQueue.push(message);
@@ -127,7 +127,7 @@ export function changePropertyValues(obj, key, func) {
     }
 }
 
-function createLogEntry(action, nextState){
+function createLogEntry(loggingMetadata, action, nextState){
   let event = { ...action.meta.itsLog },
       context = { ...action },
       routeSpec = nextState.routeSpec;
@@ -168,7 +168,7 @@ function createLogEntry(action, nextState){
 
   const message =
     {
-      username: "testuser-"+session.split("-")[0],
+      username: loggingMetadata.userName,
       session: session,
       time: Date.now(),
       sequence: sequence,

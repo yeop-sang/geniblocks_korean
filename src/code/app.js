@@ -43,7 +43,7 @@ window.GV2Authoring = convertAuthoring(authoring);
 
 // TODO: session ID and application name could be passed in via a container
 // use placeholder ID for duration of session and hard-coded name for now.
-const loggingMetadata = {
+let loggingMetadata = {
   applicationName: "GeniStarDev"
 };
 
@@ -75,8 +75,12 @@ const guideServer = "wss://guide.intellimedia.ncsu.edu",
       guideProtocol  = "guide-protocol-v2";
 initializeITSSocket(guideServer, guideProtocol, store);
 
+// generate pseudo-random sessionID and username
+const sessionID = uuid.v4(),
+      userNameBase = urlParams.baseUser || "gv2-user";
+loggingMetadata.userName = `${userNameBase}-${sessionID.split("-")[0]}`;
 // start the session before syncing history, which triggers navigation
-store.dispatch(startSession(uuid.v4()));
+store.dispatch(startSession(sessionID));
 
 const history = syncHistoryWithStore(hashHistory, store);
 
