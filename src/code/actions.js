@@ -569,23 +569,6 @@ export function advanceTrial() {
 }
 
 
-export function advanceChallenge() {
-  let authoring = window.GV2Authoring;
-  return{
-    type: actionTypes.ADVANCED_CHALLENGE,
-    authoring,
-    meta: {
-      logTemplateState: true,
-      dontLog: ["authoring"],
-      itsLog: {
-        actor: ITS_ACTORS.USER,
-        action: ITS_ACTIONS.ADVANCED,
-        target: ITS_TARGETS.CHALLENGE
-      }
-    }
-  };
-}
-
 export function completeChallenge() {
   return (dispatch, getState) => {
     dispatch({

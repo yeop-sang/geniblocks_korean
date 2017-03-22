@@ -20,8 +20,7 @@ const actionTypes = {
   NAVIGATED_PAGE: "Navigated to another page",
   MODAL_DIALOG_SHOWN: "Modal dialog shown",
   MODAL_DIALOG_DISMISSED: "Modal dialog dismissed",
-  ADVANCED_TRIAL: "Advanced to next trial",
-  ADVANCED_CHALLENGE: "Advanced to next challenge"
+  ADVANCED_TRIAL: "Advanced to next trial"
 };
 
 export default actionTypes;
