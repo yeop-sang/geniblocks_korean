@@ -38,7 +38,7 @@ class FVChallengeContainer extends Component {
 
   render() {
     const { template, containerWidth, containerHeight, ...otherProps } = this.props,
-          { challengeType, interactionType, trial, trials } = this.props;
+          { challengeType, interactionType, routeSpec, trial, trials } = this.props;
 
     if (!template) return null;
 
@@ -55,7 +55,7 @@ class FVChallengeContainer extends Component {
         <div id="mission-wrapper">
           <Template scale={scaleFactor} {...otherProps} />
         </div>
-        <BottomHUDView trial={trial + 1} trialCount={trials ? trials.length : 1}/>
+        <BottomHUDView level={routeSpec.level + 1} trial={trial + 1} trialCount={trials ? trials.length : 1}/>
       </div>
     );
   }

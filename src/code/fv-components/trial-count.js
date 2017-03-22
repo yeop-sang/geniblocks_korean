@@ -1,9 +1,10 @@
 import React, {PropTypes} from 'react';
+import t from '../utilities/translate';
 
 const TrialCountView = ({trial, trialCount}) => {
 
-  const trialCountLabel = 'TRIAL',
-        trialCountText = `${trial}\xA0\xA0of\xA0\xA0${trialCount}`;
+  const trialCountLabel = t('~TRIAL_COUNTER.TRIAL_LABEL'),
+        trialCountText = t(['~TRIAL_COUNTER.TRIAL_n_OF_N', trial, trialCount]);
   return (
     <div className='geniblocks trial-count'>
       <div className='hud-text-area'>

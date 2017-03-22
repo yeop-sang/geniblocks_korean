@@ -9,10 +9,8 @@ const BreedButtonView = ({onClick, disabled}) => {
   }
 
   return (
-    <div className='geniblocks breed-button-surround'>
-      <div className={classNames('breed-button', { 'disabled': disabled})} onClick={handleClick}>
-        <div className="button-label breed-button-label unselectable">{ t("~FV_EGG_GAME.BREED_BUTTON") }</div>
-      </div>
+    <div className={classNames('breed-button', { 'disabled': disabled})} onClick={handleClick}>
+      <div className="button-label breed-button-label unselectable">{ t("~FV_EGG_GAME.BREED_BUTTON") }</div>
     </div>
   );
 };
