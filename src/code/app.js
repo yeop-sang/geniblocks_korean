@@ -1,5 +1,3 @@
-// Polyfill, modifying the global Object
-require('es6-object-assign').polyfill();
 import 'babel-polyfill';
 
 import React from 'react';
