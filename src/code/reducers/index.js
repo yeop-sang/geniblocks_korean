@@ -135,11 +135,6 @@ export default function reducer(state, action) {
     case actionTypes.NAVIGATED_PAGE:
       window.location = action.url;
       return state;
-    case actionTypes.ADVANCED_CHALLENGE: {
-      let nextChallenge = state.routeSpec.challenge + 1;
-      let progress = updateProgress(state, true);
-      return loadStateFromAuthoring(state, action.authoring, nextChallenge, progress);
-    }
 
     default:
       return state;
