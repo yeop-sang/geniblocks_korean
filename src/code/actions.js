@@ -271,7 +271,10 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state) {
         userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]),
         initialDrakeOrg = state.initialDrakes[userDrakeIndex] ? GeneticsUtils.convertDrakeToOrg(state.initialDrakes[userDrakeIndex]) : null,
         routeSpec = state.routeSpec,
-        editableGenes = state.authoring[routeSpec.level][routeSpec.mission][routeSpec.challenge].visibleGenes.split(", ");
+        visibleGenes = state.authoring[routeSpec.level][routeSpec.mission][routeSpec.challenge].visibleGenes,
+        // TODO: figure out whether ITS really wants "editableGenes" or "visibleGenes"
+        // because it doesn't make sense to log the latter as the former
+        editableGenes = visibleGenes && visibleGenes.split(", ");
 
   return {
     type: actionTypes.DRAKE_SUBMITTED,

@@ -40,7 +40,11 @@ body
     align-items: center;
     flex-direction: column;
     float: left;
+    margin-top: 25px;
   }
+  &.fv-layout-c
+    .column
+      margin-top: 40px
   .column-label {
     margin-top: 125px;
     margin-bottom: 25px;
@@ -272,6 +276,10 @@ body
 
   &.centered
     flex-direction: row
+    justify-content: center
+
+.fv-layout-c
+  .columns.centered
     justify-content: space-around
 
 
@@ -366,7 +374,6 @@ body
 
   .fertilization
     display: flex
-    flex-direction: row
     align-items: flex-start
     height: 218px
 
@@ -391,7 +398,6 @@ body
         width: 76px
 
   .gametes
-    margin-top: -35px
     display: flex
     justify-content: space-between
     >div
@@ -413,23 +419,23 @@ body
     .ovum
       position: absolute
       transition: left 2s
-      top: -140px
+      top: -135px
       left: 110px
       &.matching
         top: -160px
     .sperm
       position: absolute
       transition: left 2s
-      top: -141px
+      top: -117px
       left: -12px
       &.matching
         top: -142px
 
     &.unfertilized
       .ovum
-        left: 20px
+        left: 75px
       .sperm
-        left: 110px
+        left: 65px
 
   .fertilize-button
     margin-top: 45px
@@ -467,6 +473,9 @@ body
     margin-top: 40px
     .egg .gametes
       margin-top: 20px
+  .egg
+    .fertilization
+      flex-direction: row
   .egg .gametes
     margin-top: 50px
     &.unfertilized
