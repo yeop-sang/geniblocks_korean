@@ -73,7 +73,7 @@ class BreedButtonAreaView extends React.Component {
       // in the state and have it handled via normal redux mechanisms, but that effort
       // doesn't seem worth it given the temporary nature of the need.
       window.gNotificationLocation = { top: unscaledDrakeImageBounds.top - 12,
-                                      left: unscaledDrakeImageBounds.right + 2 };
+                                      left: unscaledDrakeImageBounds.right + 15 };
     }
   }
 
