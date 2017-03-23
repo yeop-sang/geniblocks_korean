@@ -4,7 +4,6 @@ import { navigateToCurrentRoute, navigateToChallenge } from '../actions';
 import ChallengeContainer from './challenge-container';
 import FVChallengeContainer from './fv-challenge-container';
 import AuthoringUtils from '../utilities/authoring-utils';
-import urlParams from '../utilities/url-params';
 
 function hasChangedRouteParams(currentRouteSpec, routeParams) {
   const { level: currLevel, mission: currMission, challenge: currChallenge } = currentRouteSpec,
@@ -47,8 +46,8 @@ class ChallengeContainerSelector extends Component {
     const { navigateToCurrentRoute, navigateToChallenge, authoring } = this.props;
     // the URL's challengeId is only used for initial routing, so prioritize the numeric route params
     let routeParams = this.props.routeParams;
-    if (!routeParams.challenge && urlParams.challengeId) {
-      routeParams = AuthoringUtils.challengeIdToRouteParams(authoring, urlParams.challengeId);
+    if (routeParams.challengeId) {
+      routeParams = AuthoringUtils.challengeIdToRouteParams(authoring, routeParams.challengeId);
     }
     if (hasChangedRouteParams(this.props.currentRouteSpec, routeParams)) {
       navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});
@@ -60,8 +59,8 @@ class ChallengeContainerSelector extends Component {
   componentWillReceiveProps(newProps) {
     const { navigateToCurrentRoute, authoring } = newProps;
     let routeParams = this.props.routeParams;
-    if (!routeParams.challenge && urlParams.challengeId) {
-      routeParams = AuthoringUtils.challengeIdToRouteParams(authoring, urlParams.challengeId);
+    if (routeParams.challengeId) {
+      routeParams = AuthoringUtils.challengeIdToRouteParams(authoring, routeParams.challengeId);
     }
     if (hasChangedRouteParams(newProps.currentRouteSpec, routeParams)) {
       navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});

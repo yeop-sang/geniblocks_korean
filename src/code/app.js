@@ -100,6 +100,7 @@ function renderApp() {
                     : <div>
                         <Router history={history}>
                           <Route path="/(:level/:mission/:challenge)" component={ChallengeContainerSelector} />
+                          <Route path="/(:challengeId)" component={ChallengeContainerSelector} />
                         </Router>
                         <ModalMessageContainer />
                         <NotificationContainer />
