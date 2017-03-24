@@ -39,29 +39,25 @@ describe('authoredDrakesToDrakeArray()', () => {
 
 describe('loading authored state into template', () => {
   describe('in the GenomeChallenge template', () => {
-    let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles(
-      [
-        [
-          [
-            {},
-            {
-              "template": "GenomeChallenge",
-              "initialDrake":{
-                "alleles": "W-w, D-D, Bog-Bog, rh-rh",
-                "sex": 0
-              },
-              "targetDrakes": [{
-                "alleles": "W-W",
-                "sex": 1
-              },
-              {
-                "alleles": "w-w",
-                "sex": 1
-              }]
-            }
-          ]
-        ]
-      ], ["alleles"]);
+    let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles({
+      "challenges": {
+        "test": {
+          "template": "GenomeChallenge",
+          "initialDrake":{
+            "alleles": "W-w, D-D, Bog-Bog, rh-rh",
+            "sex": 0
+          },
+          "targetDrakes": [{
+            "alleles": "W-W",
+            "sex": 1
+          },
+          {
+            "alleles": "w-w",
+            "sex": 1
+          }]
+        }, "empty": {}},
+      "application": {"levels": [{"missions": [{"challenges": [{"id": "empty"}, {"id": "test"}]}]}]}
+    }, ["alleles"]);
 
     let defaultState = reducer(undefined, {});
     let initialState = defaultState.merge({
@@ -114,33 +110,29 @@ describe('loading authored state into template', () => {
 
   describe('with linked genes', () => {
     describe('in the GenomeChallenge template', () => {
-      let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles(
-        [
-          [
-            [
-              {},
-              {
-                "template": "GenomeChallenge",
-                "initialDrake": {
-                  "alleles": "W-w",
-                  "sex": 1
-                },
-                "targetDrakes": [{
-                  "alleles": "W-W",
-                  "sex": 1
-                },
-                {
-                  "alleles": "w-w",
-                  "sex": 1
-                }],
-                "linkedGenes": {
-                  "drakes": [0, 1],
-                  "genes": "tail, horns"
-                }
-              }
-            ]
-          ]
-        ], ["alleles"]);
+      let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles({
+      "challenges": {
+        "test": {
+          "template": "GenomeChallenge",
+          "initialDrake": {
+            "alleles": "W-w",
+            "sex": 1
+          },
+          "targetDrakes": [{
+            "alleles": "W-W",
+            "sex": 1
+          },
+          {
+            "alleles": "w-w",
+            "sex": 1
+          }],
+          "linkedGenes": {
+            "drakes": [0, 1],
+            "genes": "tail, horns"
+          }
+        }, "empty": {}},
+      "application": {"levels": [{"missions": [{"challenges": [{"id": "empty"}, {"id": "test"}]}]}]}
+    }, ["alleles"]);
 
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
@@ -170,23 +162,19 @@ describe('loading authored state into template', () => {
 
   describe('with randomized trials', () => {
     describe('in the GenomeChallenge template', () => {
-      let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles(
-        [
-          [
-            [
-              {},
-              {
-                "template": "GenomeChallenge",
-                "randomizeTrials": true,
-                "initialDrake": {
-                  "alleles": "W-w",
-                  "sex": 1
-                },
-                "targetDrakes": [{}, {}, {}, {}, {}, {}, {}, {}]
-              }
-            ]
-          ]
-        ], ["alleles"]);
+      let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles({
+      "challenges": {
+        "test": {
+          "template": "GenomeChallenge",
+          "randomizeTrials": true,
+          "initialDrake": {
+            "alleles": "W-w",
+            "sex": 1
+          },
+          "targetDrakes": [{}, {}, {}, {}, {}, {}, {}, {}]
+        }, "empty": {}},
+      "application": {"levels": [{"missions": [{"challenges": [{"id": "empty"}, {"id": "test"}]}]}]}
+    }, ["alleles"]);
 
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({

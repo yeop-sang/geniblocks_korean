@@ -1,6 +1,7 @@
 import templates from '../../templates';
 import GeneticsUtils from '../../utilities/genetics-utils';
 import { range, shuffle, assign } from 'lodash';
+import AuthoringUtils from '../../utilities/authoring-utils';
 
 /**
  * Tolerant splitter into a list of strings.
@@ -96,10 +97,8 @@ function createTrialOrder(trial, trials, currentTrialOrder, doShuffle) {
 export function loadStateFromAuthoring(state, authoring, progress={}) {
   let trial = state.trial ? state.trial : 0;
 
-  const missionArray = authoring[state.routeSpec.level],
-        challengeArray = missionArray[state.routeSpec.mission],
-        challenges = challengeArray && challengeArray.length,
-        authoredChallenge = challengeArray && challengeArray[state.routeSpec.challenge];
+  const challenges = AuthoringUtils.getChallengeCount(authoring, state.routeSpec.level, state.routeSpec.mission),
+        authoredChallenge = AuthoringUtils.getChallengeDefinition(authoring, state.routeSpec);
   if (!authoredChallenge) return state;
 
   const templateName = authoredChallenge.template,

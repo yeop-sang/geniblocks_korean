@@ -68,27 +68,24 @@ describe('authoredDrakesToDrakeArray()', () => {
 
 describe('loading authored state into template', () => {
   describe('in the EggGame II template', () => {
-    let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles(
-      [
-        [
-          [
-            {},
-            {
-              "template": "EggGame",
-              "challengeType": "match-target",
-              "mother":{
-                "alleles": "W-W, T-T",
-                "sex": 1
-              },
-              "father": {
-                "alleles": "w-w, T-T",
-                "sex": 1
-              },
-              "targetDrakes": [{},{},{}]
-            }
-          ]
-        ]
-      ], ["alleles"]);
+    let authoring = GeneticsUtils.convertDashAllelesObjectToABAlleles({
+      challenges: {
+        "test": {
+          "template": "EggGame",
+          "challengeType": "match-target",
+          "mother":{
+            "alleles": "W-W, T-T",
+            "sex": 1
+          },
+          "father": {
+            "alleles": "w-w, T-T",
+            "sex": 1
+          },
+          "targetDrakes": [{},{},{}]
+        },
+        "empty": {}},
+        "application": {"levels": [{"missions": [{"challenges": [{"id": "empty"}, {"id": "test"}]}]}]}
+      }, ["alleles"]);
 
     let defaultState = reducer(undefined, {});
     let initialState = defaultState.merge({

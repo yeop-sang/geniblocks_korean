@@ -38,7 +38,26 @@ describe('navigateToCurrentRoute action', () => {
         };
 
   const dispatch = expect.createSpy();
-  const getState = () => ({routeSpec: {level: 0, mission: 0, challenge: 0}, authoring: [[[{}],[{},{},{}]]] });
+  const getState = () => ({
+    routeSpec: {level: 0, mission: 0, challenge: 0}, 
+    authoring: {
+      "challenges": {"empty": {}}, 
+      "application": {
+        "levels": [
+          {
+            "missions": [
+              {
+                "challenges": []
+              },
+              {
+                "challenges": [{"id": "empty"}, {"id": "empty"}, {"id": "empty"}]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  });
 
   it("should dispatch a navigateToCurrentRoute action when a valid challenge is specified", () => {
     navigateToCurrentRoute({level: validLevel, mission: validMission, challenge: validChallenge})(dispatch, getState);
@@ -56,19 +75,30 @@ describe('navigateToCurrentRoute action', () => {
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
         routeSpec: {level: 0, mission: 0, challenge: 0},
-        authoring: 
-        [
-          [
-            [],
-            [{}, {}, {
+        authoring: {
+          "challenges": {
+            "test": {
               template: "GenomePlayground",
               "initialDrake": {
                 "alleles": "a:T,b:T",
                 "sex": 1
               }
-            }]
-          ]
-        ]
+            }, "empty": {}},
+          "application": {
+            "levels": [
+              {
+                "missions": [
+                  {
+                    "challenges": []
+                  },
+                  {
+                    "challenges": [{"id": "empty"}, {"id": "empty"}, {"id": "test"}]
+                  }
+                ]
+              }
+            ]
+          }
+        }
       });
 
       let nextState = reducer(initialState, currentRouteAction);

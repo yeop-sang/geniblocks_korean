@@ -58,7 +58,7 @@ const correctCharacteristics = {
           }
         ],
         trial: 0, trials: [{}],
-        authoring: [[[{visibleGenes: "wings, arms"}]]]
+        authoring: {challenges: {"test": {visibleGenes: "wings, arms"}}, "application": {"levels": [{"missions": [{"challenges": [{"id": "test"}]}]}]}}
       });
 
 

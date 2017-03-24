@@ -1,6 +1,7 @@
 import actionTypes from './action-types';
 import { ITS_ACTORS, ITS_ACTIONS, ITS_TARGETS } from './its-constants';
 import GeneticsUtils from './utilities/genetics-utils';
+import AuthoringUtils from './utilities/authoring-utils';
 
 export { actionTypes };
 
@@ -87,14 +88,16 @@ export function navigateToNextChallenge() {
         nextLevel = routeSpec.level,
         nextMission = routeSpec.mission,
         nextChallenge = currentChallenge+1,
-        challengeCountInMission = authoring[currentLevel][currentMission].length;
+        challengeCountInMission = AuthoringUtils.getChallengeCount(authoring, currentLevel, currentMission);
     if (challengeCountInMission <= nextChallenge) {
+      let missionCountInLevel = AuthoringUtils.getMissionCount(authoring, currentLevel);
       // there are not enough challenges...if the next mission exists, navigate to it
-      if (authoring[currentLevel][currentMission+1]) {
+      if (currentMission + 1 < missionCountInLevel) {
         nextMission++;
       } else {
+        let levelCount = AuthoringUtils.getLevelCount(authoring);
         // otherwise, check if the next level exists
-        if (authoring[currentLevel+1]) {
+        if (currentLevel + 1 < levelCount) {
           nextLevel++;
         } else {
           // if no next level exists, loop around
@@ -146,12 +149,12 @@ function restrictToIntegerRange(value, minValue, maxValue) {
 export function navigateToCurrentRoute(routeSpec) {
   const {level, mission, challenge} = routeSpec;
   return (dispatch, getState) => {
-    const { authoring: levels } = getState(),
-          levelCount = levels.length,
+    const authoring = getState().authoring,
+          levelCount = AuthoringUtils.getLevelCount(authoring),
           nextLevel = restrictToIntegerRange(level, 0, levelCount - 1),
-          missionCount = levels[nextLevel].length,
+          missionCount = AuthoringUtils.getMissionCount(authoring, nextLevel),
           nextMission = restrictToIntegerRange(mission, 0, missionCount - 1),
-          challengeCount = levels[nextLevel][nextMission].length,
+          challengeCount = AuthoringUtils.getChallengeCount(authoring, nextLevel, nextMission),
           nextChallenge = restrictToIntegerRange(challenge, 0, challengeCount - 1),
           routeChangeRequired = (level !== nextLevel) || (mission !== nextMission) || (challenge !== nextChallenge);
     // TODO: Ideally, route changes would be handled in their own module (see routing.js)
@@ -271,7 +274,7 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state) {
         userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]),
         initialDrakeOrg = state.initialDrakes[userDrakeIndex] ? GeneticsUtils.convertDrakeToOrg(state.initialDrakes[userDrakeIndex]) : null,
         routeSpec = state.routeSpec,
-        visibleGenes = state.authoring[routeSpec.level][routeSpec.mission][routeSpec.challenge].visibleGenes,
+        visibleGenes = AuthoringUtils.getChallengeDefinition(state.authoring, routeSpec).visibleGenes,
         // TODO: figure out whether ITS really wants "editableGenes" or "visibleGenes"
         // because it doesn't make sense to log the latter as the former
         editableGenes = visibleGenes && visibleGenes.split(", ");
@@ -305,12 +308,10 @@ export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrect
     const state = getState();
     dispatch(_submitDrake(targetDrakeIndex, userDrakeIndex, correct, state));
 
-    const levels = state.authoring,
-          levelCount = levels.length,
-          missions = levels[state.routeSpec.level],
-          missionCount = missions.length,
-          challenges = missions[state.routeSpec.mission],
-          challengeCount = challenges.length,
+    const authoring = state.authoring,
+          levelCount = AuthoringUtils.getLevelCount(authoring),
+          missionCount = AuthoringUtils.getMissionCount(authoring, state.routeSpec.level),
+          challengeCount = AuthoringUtils.getChallengeCount(authoring, state.routeSpec.level, state.routeSpec.mission),
           trials = state.trials,
           trialCount = trials.length;
     let challengeComplete = false,
@@ -494,7 +495,7 @@ export function showCompleteChallengeDialog() {
   return (dispatch, getState) => {
     const state = getState();
 
-    const missionComplete = (state.authoring[state.routeSpec.level][state.routeSpec.mission].length <= state.routeSpec.challenge + 1);
+    const missionComplete = (AuthoringUtils.getChallengeCount(state.authoring, state.routeSpec.level, state.routeSpec.mission) <= state.routeSpec.challenge + 1);
 
     let dialog = {};
 
