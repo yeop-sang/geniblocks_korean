@@ -41,13 +41,20 @@ describe('navigateToChallenge action', () => {
                 "sex": 1
               }
             }, "empty": {}},
-          "levelHierarchy": 
-            [
-              [
-                [],
-                [{"challengeId": "empty"}, {"challengeId": "empty"}, {"challengeId": "test"}]
-              ]
+          "application": {
+            "levels": [
+              {
+                "missions": [
+                  {
+                    "challenges": []
+                  },
+                  {
+                    "challenges": [{"id": "empty"}, {"id": "empty"}, {"id": "test"}]
+                  }
+                ]
+              }
             ]
+          }
         }
       });
 

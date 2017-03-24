@@ -84,7 +84,7 @@ describe('loading authored state into template', () => {
           "targetDrakes": [{},{},{}]
         },
         "empty": {}},
-        "levelHierarchy": [[[{"challengeId": "empty"}, {"challengeId": "test"}]]]
+        "application": {"levels": [{"missions": [{"challenges": [{"id": "empty"}, {"id": "test"}]}]}]}
       }, ["alleles"]);
 
     let defaultState = reducer(undefined, {});

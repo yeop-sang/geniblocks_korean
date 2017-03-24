@@ -42,7 +42,20 @@ describe('navigateToCurrentRoute action', () => {
     routeSpec: {level: 0, mission: 0, challenge: 0}, 
     authoring: {
       "challenges": {"empty": {}}, 
-      "levelHierarchy": [[[{"challengeId": "empty"}],[{"challengeId": "empty"}, {"challengeId": "empty"}, {"challengeId": "empty"}]]] 
+      "application": {
+        "levels": [
+          {
+            "missions": [
+              {
+                "challenges": []
+              },
+              {
+                "challenges": [{"id": "empty"}, {"id": "empty"}, {"id": "empty"}]
+              }
+            ]
+          }
+        ]
+      }
     }
   });
 
@@ -71,13 +84,20 @@ describe('navigateToCurrentRoute action', () => {
                 "sex": 1
               }
             }, "empty": {}},
-          "levelHierarchy": 
-            [
-              [
-                [],
-                [{"challengeId": "empty"}, {"challengeId": "empty"}, {"challengeId": "test"}]
-              ]
+          "application": {
+            "levels": [
+              {
+                "missions": [
+                  {
+                    "challenges": []
+                  },
+                  {
+                    "challenges": [{"id": "empty"}, {"id": "empty"}, {"id": "test"}]
+                  }
+                ]
+              }
             ]
+          }
         }
       });
 

@@ -6,28 +6,28 @@ export default class AuthoringUtils {
   }
 
   static getChallengeId(authoring, routeSpec) {
-    const levels = authoring.levelHierarchy,
-          missions = levels ? levels[routeSpec.level] : null,
-          challenges = missions ? missions[routeSpec.mission] : null,
+    const levels = authoring.application.levels,
+          missions = levels ? levels[routeSpec.level].missions : null,
+          challenges = missions ? missions[routeSpec.mission].challenges : null,
           challenge = challenges ? challenges[routeSpec.challenge] : null;
-    return challenge ? challenge.challengeId : null;
+    return challenge ? challenge.id : null;
   }
 
   static getLevelCount(authoring) {
-    const levels = authoring.levelHierarchy;
+    const levels = authoring.application.levels;
     return levels ? levels.length : null;
   }
 
   static getMissionCount(authoring, level) {
-    const levels = authoring.levelHierarchy,
-          missions = levels ? levels[level] : null;
+    const levels = authoring.application.levels,
+          missions = levels ? levels[level].missions : null;
     return missions ? missions.length : null;
   }
 
   static getChallengeCount(authoring, level, mission) {
-    const levels = authoring.levelHierarchy,
-          missions = levels ? levels[level] : null,
-          challenges = missions ? missions[mission] : null;
+    const levels = authoring.application.levels,
+          missions = levels ? levels[level].missions : null,
+          challenges = missions ? missions[mission].challenges : null;
     return challenges.length;
   }
 
@@ -37,10 +37,10 @@ export default class AuthoringUtils {
     }
 
     let routeSpec = null;
-    authoring.levelHierarchy.forEach((level, levelIndex) => {
+    authoring.application.levels.forEach((level, levelIndex) => {
       level.forEach((mission, missionIndex) => {
         mission.forEach((challenge, challengeIndex) => {
-          if (challenge.challengeId === targetChallengeId) {
+          if (challenge.id === targetChallengeId) {
             routeSpec = {level: String(levelIndex + 1), mission: String(missionIndex + 1), challenge: String(challengeIndex + 1)};
           }
         });
