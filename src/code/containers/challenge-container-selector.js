@@ -36,7 +36,8 @@ class ChallengeContainerSelector extends Component {
     routeParams: PropTypes.shape({
       level: PropTypes.string,
       mission: PropTypes.string,
-      challenge: PropTypes.string
+      challenge: PropTypes.string,
+      challengeId: PropTypes.string
     }),
     navigateToChallenge: PropTypes.func,
     navigateToCurrentRoute: PropTypes.func
@@ -57,12 +58,12 @@ class ChallengeContainerSelector extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const { navigateToCurrentRoute, authoring } = newProps;
-    let routeParams = this.props.routeParams;
+    const { currentRouteSpec, navigateToCurrentRoute, authoring } = newProps;
+    let { routeParams } = newProps;
     if (routeParams.challengeId) {
       routeParams = AuthoringUtils.challengeIdToRouteParams(authoring, routeParams.challengeId);
     }
-    if (hasChangedRouteParams(newProps.currentRouteSpec, routeParams)) {
+    if (hasChangedRouteParams(currentRouteSpec, routeParams)) {
       navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});
     }
   }
