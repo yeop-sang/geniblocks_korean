@@ -932,7 +932,7 @@ export default class FVEggGame extends Component {
             userChangeableGenes, visibleGenes, userDrakeHidden, onChromosomeAlleleChange,
             onFertilize, onHatch, onResetGametes, onKeepOffspring, onDrakeSubmission } = this.props,
           { currentGametes } = gametes,
-          { isIntroComplete, animatingGametes } = this.state,
+          { animatingGametes } = this.state,
           firstTargetDrakeIndex = 3, // 0: mother, 1: father, 2: child, 3-5: targets
           targetDrake = drakes[firstTargetDrakeIndex + trial],
           isCreationChallenge = challengeType === 'create-unique',
@@ -1066,7 +1066,7 @@ export default class FVEggGame extends Component {
     let [,,,...keptDrakes] = drakes;
     keptDrakes = keptDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
 
-    if (isCreationChallenge && isIntroComplete) {
+    if (isCreationChallenge) {
       penView = <div className='columns bottom'>
                   <FVStableView orgs={ keptDrakes } width={500} columns={5} rows={1} tightenRows={20}/>
                 </div>;
