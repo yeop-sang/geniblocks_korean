@@ -58,7 +58,7 @@ const slotMachineBaseInterval = 30, // msec
       // pause after animating chromosomes to half-genome before animating to gamete
       delayStartMoveChromosomesToGamete = 0,  // msec
       durationFertilizationAnimation = 3000,  // msec
-      durationHatchAnimation = 2000;  // msec
+      durationHatchAnimation = 1333;  // msec
 
 function animatedChromosomeImageHOC(WrappedComponent) {
   return class extends Component {
@@ -627,7 +627,6 @@ var animationEvents = {
       animationEvents.hatch.complete = false;
       hatchSoundPlayed = false;
       _this.setState({hatchStarted:"true"});
-      _setTimeout(animationEvents.hatch.onFinish, durationHatchAnimation);
     },
     onFinish: function() {
       animationEvents.hatch.complete = true;
@@ -1143,6 +1142,8 @@ export default class FVEggGame extends Component {
                                   ovumChromosomes={ovumChromosomes} spermChromosomes={spermChromosomes}
                                   userDrake={child} showUserDrake={showUserDrake} userDrakeHidden={userDrakeHidden}
                                   isHatchingInProgress={animationEvents.hatch.inProgress}
+                                  hatchAnimationDuration={durationHatchAnimation}
+                                  handleHatchingComplete={animationEvents.hatch.onFinish}
                                   isHatchingComplete={animationEvents.hatch.complete}
                                   onBreed={handleFertilize} />
             <div className={ gametesClass }>
