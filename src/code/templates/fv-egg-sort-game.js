@@ -19,6 +19,7 @@ import BasketSetView from '../components/basket-set';
 import EggClutchView, { EGG_IMAGE_WIDTH } from '../components/egg-clutch';
 import EggHatchView from '../components/egg-hatch';
 import GenomeView from '../components/genome';
+import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
 import { generateTrialDrakes } from '../utilities/trial-generator';
 import GeneticsUtils from '../utilities/genetics-utils';
 import urlParams from '../utilities/url-params';
@@ -374,7 +375,7 @@ export default class FVEggSortGame extends Component {
                                   </div>
                                 : null,
           genomeView = selectedEgg
-                        ? <GenomeView org={selectedEgg} userChangeableGenes={userChangeableGenes} visibleGenes={visibleGenes} editable={false} />
+                        ? <GenomeView org={selectedEgg} small={true} ChromosomeImageClass={FVChromosomeImageView} userChangeableGenes={userChangeableGenes} visibleGenes={visibleGenes} editable={false} />
                         : null,
           genomeOrInstructionsView = selectedEgg ? genomeView : instructionsView,
           disableSelection = (['moveEggToBasket', 'hatchDrakeInBasket', 'hatchDrakeInEgg']
@@ -394,11 +395,13 @@ export default class FVEggSortGame extends Component {
                             onClick={disableSelection ? null : this.handleEggClick} />
           </div>
         </div>
-        <div id="right-section">
-          <div id="container">
-            <div id="background"></div>
-            <div className={sectionTitleClasses}>{sectionTitle}</div>
-            {genomeOrInstructionsView}
+        <div className="chromomatic">
+          <div id="right-section">
+            <div id="container">
+              <div id="background"></div>
+              <div className={sectionTitleClasses}>{sectionTitle}</div>
+              {genomeOrInstructionsView}
+            </div>
           </div>
         </div>
         {animatedComponents}
