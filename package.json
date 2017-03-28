@@ -34,6 +34,7 @@
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.7",
     "react-simpletabs": "^0.7.0",
+    "react-tween-state": "^0.1.5",
     "recompose": "^0.21.2",
     "redux": "^3.6.0",
     "redux-sounds": "^1.1.1",
