@@ -48,7 +48,7 @@ const FVEggClutchView = ({eggs, idPrefix='egg-', selectedIndex, onClick}) => {
   function eggViewForIndex(egg, index, margin) {
     const id = `${idPrefix}${index}`,
           visibilityStyle = egg && (egg.basket == null) ? {} : { visibility: 'hidden' },
-          eggStyle = Object.assign({ marginLeft: margin, marginRight: margin }, visibilityStyle);
+          eggStyle = Object.assign({ }, visibilityStyle);
     return <EggView egg={egg} id={id} key={id} index={index} displayStyle={eggStyle}
                     isSelected={index === selectedIndex} onClick={onClick} />;
   }

@@ -16,11 +16,19 @@
         background: url('../resources/fablevision/layout-d/egg_unclicked.png')
         background-position: 50% 50%
         background-repeat: no-repeat
-        width: 213px
-        height: 256px
+        width: 115px
+        height: 158px
         opacity: 1
         position: absolute
+        margin-left: 49px
+        margin-top: 49px
+        z-index: 1
         &.selected
+          z-index: 0
+          margin-left: 0
+          margin-top: 0
+          width: 213px
+          height: 256px
           background: url('../resources/fablevision/layout-d/egg_clicked.png')
 
       #baskets
