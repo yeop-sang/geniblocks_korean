@@ -48,8 +48,10 @@ export default {
   "~BUTTON.FERTILIZE": "Make a baby! ❤️",
 
   "~LEVEL_INDICATOR.LEVEL_LABEL": "LEVEL",
-  "~TRIAL_COUNTER.TRIAL_LABEL": "TRIAL",
-  "~TRIAL_COUNTER.TRIAL_n_OF_N": "${0}\xA0\xA0of\xA0\xA0${1}",
+  
+  "~COUNTER.TRIAL_LABEL": "TRIAL",
+  "~COUNTER.SCORE_LABEL": "SCORE",
+  "~COUNTER.n_OF_N": "${0}\xA0\xA0of\xA0\xA0${1}",
 
   // Messages from ITS
   "~ITS.GREETING": "Hi there user!"
