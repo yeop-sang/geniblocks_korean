@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import { EggView, EGG_IMAGE_WIDTH } from './egg-clutch';
+import EggView, { EGG_IMAGE_WIDTH } from './egg';
 
 const EGG_IMAGE_WIDTH_SMALL = EGG_IMAGE_WIDTH / 3;
 
