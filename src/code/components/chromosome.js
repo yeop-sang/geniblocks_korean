@@ -34,14 +34,16 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
       let labels = visibleAlleles.map(a => {
         if (ChromosomeImageClass === ChromosomeImageView) {
           return (
-          <GeneLabelView key={a.allele} species={chromosome.species} allele={a.allele} editable={editable && a.editable}
-          hiddenAlleles={ hiddenAlleles }
-          onAlleleChange={function(event) {
-            onAlleleChange(a.allele, event.target.value);
-          }}/>);
+            <GeneLabelView key={a.allele} species={chromosome.species} allele={a.allele} editable={editable && a.editable}
+            hiddenAlleles={ hiddenAlleles }
+            onAlleleChange={function(event) {
+              onAlleleChange(a.allele, event.target.value);
+            }}/>
+          );
         } else {
           return (
-            <div className="geniblocks fv-gene-label allele noneditable" key={a.allele}>
+            <div className={"geniblocks fv-gene-label allele noneditable " + a.allele.toLowerCase()} key={a.allele}>
+              <div className="line"></div>
               {chromosome.species.alleleLabelMap[a.allele]}
             </div>
           );
@@ -56,6 +58,8 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
 
       if (!labelsOnRight) {
         containerClass += " rtl";
+      } else {
+        containerClass += " ltl";
       }
     }
 
