@@ -7,7 +7,7 @@ import ChromosomeView from './chromosome';
  * Usually defined by passing in a Biologica Organism, but may also be defined by
  * passing in a map of Biologica Chromosomes and a Biologica Species.
  */
-const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, species, userChangeableGenes=[], visibleGenes=[], hiddenAlleles=[], editable=true, showLabels=true, showAlleles=false, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected}) => {
+const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, species, userChangeableGenes=[], visibleGenes=[], hiddenAlleles=[], editable=true, showLabels=true, showAlleles=false, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected, chromosomeHeight, parentGenome=false}) => {
   let pairWrappers = [];
   if (org) {
     chromosomes = org.genetics.genotype.chromosomes;
@@ -22,6 +22,7 @@ const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, speci
         <ChromosomeView
           ChromosomeImageClass={ChromosomeImageClass}
           chromosome={chromosome}
+          chromosomeName={chromosomeName}
           key={pairs.length + 1}
           userChangeableGenes={userChangeableGenes}
           visibleGenes={visibleGenes}
@@ -34,6 +35,8 @@ const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, speci
           small={small}
           orgName={orgName}
           displayStyle={displayStyle}
+          parentGenome={parentGenome}
+          height={chromosomeHeight}
           onAlleleChange={function(prevAllele, newAllele) {
             onAlleleChange(chromosomeName, side, prevAllele, newAllele);
           }}
@@ -72,9 +75,11 @@ GenomeView.propTypes = {
   showAlleles: PropTypes.bool,
   selectedChromosomes: PropTypes.object,
   small: PropTypes.bool,
+  chromosomeHeight: PropTypes.number,
   displayStyle: PropTypes.object,
   onChromosomeSelected: PropTypes.func,
-  orgName: PropTypes.string
+  orgName: PropTypes.string,
+  parentGenome: PropTypes.bool
 };
 
 export default GenomeView;

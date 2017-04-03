@@ -12,7 +12,7 @@ import {getChromosomeName} from '../fv-components/fv-chromosome-image';
  * chromosome name and side.
  */
 
-const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageView, chromosomeName, side, userChangeableGenes = [], visibleGenes = [], hiddenAlleles = [], small = false, editable = true, selected = false, onAlleleChange, onChromosomeSelected, showLabels = true, showAlleles = false, labelsOnRight = true, orgName, displayStyle = {}}) => {
+const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageView, chromosomeName, side, userChangeableGenes = [], visibleGenes = [], hiddenAlleles = [], small = false, editable = true, selected = false, onAlleleChange, onChromosomeSelected, showLabels = true, showAlleles = false, labelsOnRight = true, orgName, parentGenome, height, displayStyle = {}}) => {
 
   var containerClass = "items",
       empty = false,
@@ -43,10 +43,18 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
           );
         } else {
           return (
-            <FVGeneLabelView allele={a.allele} species={chromosome.species} />
+            selected && parentGenome ? null : <FVGeneLabelView chromosomeName={chromosomeName} chromosomeHeight={height} allele={a.allele} species={chromosome.species} />
           );
         }
       });
+      let stripes = alleles.map(a => {
+        if (ChromosomeImageClass !== ChromosomeImageView) {
+          return (
+            selected && parentGenome ? null : <FVGeneLabelView stripe={true} chromosomeName={chromosomeName} chromosomeHeight={height} allele={a} species={chromosome.species} />
+          );
+        }
+      });
+      labels = labels.concat(stripes);
 
       labelsContainer = (
         <div className="labels">
@@ -114,7 +122,9 @@ ChromosomeView.propTypes = {
   displayStyle: PropTypes.object,
   onAlleleChange: PropTypes.func,
   onChromosomeSelected: PropTypes.func,
-  orgName: PropTypes.string
+  parentGenome: PropTypes.bool,
+  orgName: PropTypes.string,
+  height: PropTypes.number
 };
 
 export default ChromosomeView;
