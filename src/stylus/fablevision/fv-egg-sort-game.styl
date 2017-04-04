@@ -8,11 +8,28 @@
       display: flex
       flex-direction: row
 
+      #eggs
+        width: 100%
+        height: 100%
+
       .clutch-egg
         background: url('../resources/fablevision/layout-d/egg_unclicked.png')
+        background-position: 50% 50%
+        background-repeat: no-repeat
         width: 115px
         height: 158px
-        background-size: contain
+        opacity: 1
+        position: absolute
+        margin-left: 49px
+        margin-top: 49px
+        z-index: 1
+        &.selected
+          z-index: 0
+          margin-left: 0
+          margin-top: 0
+          width: 213px
+          height: 256px
+          background: url('../resources/fablevision/layout-d/egg_clicked.png')
 
       #baskets
         width: inherit
@@ -61,3 +78,5 @@
         display: flex
         justify-content: center
         align-items: center
+        z-index: 2
+        margin-left: 10px

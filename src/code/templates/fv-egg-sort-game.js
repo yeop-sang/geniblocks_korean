@@ -16,7 +16,8 @@ import initialElementId from '../hoc/initial-element-id';
 import targetElementId from '../hoc/target-element-id';
 import updateOnResizeScroll from '../hoc/update-on-resize-scroll';
 import BasketSetView from '../components/basket-set';
-import EggClutchView, { EGG_IMAGE_WIDTH } from '../components/egg-clutch';
+import FVEggClutchView from '../fv-components/fv-egg-clutch';
+import { EGG_IMAGE_WIDTH } from '../components/egg';
 import EggHatchView from '../components/egg-hatch';
 import GenomeView from '../components/genome';
 import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
@@ -390,10 +391,6 @@ export default class FVEggSortGame extends Component {
                             eggs={basketEggs} animatingEggIndex={animatingEggDrakeIndex}
                             onClick={disableSelection ? null : this.handleBasketClick}/>
           </div>
-          <div id="eggs">
-            <EggClutchView eggs={displayEggs} selectedIndex={showSelectedEggIndex}
-                            onClick={disableSelection ? null : this.handleEggClick} />
-          </div>
         </div>
         <div className="chromomatic">
           <div id="right-section">
@@ -404,6 +401,10 @@ export default class FVEggSortGame extends Component {
             </div>
           </div>
         </div>
+        <div id="eggs">
+            <FVEggClutchView eggs={displayEggs} selectedIndex={showSelectedEggIndex}
+                            onClick={disableSelection ? null : this.handleEggClick} />
+          </div>
         {animatedComponents}
       </div>
     );

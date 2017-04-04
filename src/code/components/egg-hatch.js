@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import { EggView } from './egg-clutch';
+import EggView from './egg';
 import OrganismView from './organism';
 import OrganismGlowView from './organism-glow';
 
