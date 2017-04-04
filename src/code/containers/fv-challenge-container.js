@@ -38,7 +38,7 @@ class FVChallengeContainer extends Component {
 
   render() {
     const { template, containerWidth, containerHeight, ...otherProps } = this.props,
-          { challengeType, interactionType, routeSpec, trial, trials } = this.props;
+          { challengeType, interactionType, routeSpec, trial, trials, correct } = this.props;
 
     if (!template) return null;
 
@@ -46,7 +46,8 @@ class FVChallengeContainer extends Component {
           bgClasses = classNames('mission-backdrop', Template.backgroundClasses,
                                   challengeType, interactionType),
           scaleFactor = calcScaleFactor(containerWidth, containerHeight),
-          scaleFactorStyle = { transform: `scale(${scaleFactor})`};
+          scaleFactorStyle = { transform: `scale(${scaleFactor})`},
+          maxScore = Template.maxScore;
 
     return (
       <div id="challenges" className={bgClasses} style={scaleFactorStyle}>
@@ -55,7 +56,8 @@ class FVChallengeContainer extends Component {
         <div id="mission-wrapper">
           <Template scale={scaleFactor} {...otherProps} />
         </div>
-        <BottomHUDView level={routeSpec.level + 1} trial={trial + 1} trialCount={trials ? trials.length : 1}/>
+        <BottomHUDView level={routeSpec.level + 1} trial={trial + 1} trialCount={trials ? trials.length : 1} 
+                       currScore={correct} maxScore={maxScore}/>
       </div>
     );
   }
@@ -68,7 +70,8 @@ class FVChallengeContainer extends Component {
     trials: PropTypes.array,
     containerWidth: PropTypes.number,
     containerHeight: PropTypes.number,
-    routeSpec: PropTypes.object
+    routeSpec: PropTypes.object,
+    correct: PropTypes.number
   }
 }
 

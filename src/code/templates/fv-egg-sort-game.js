@@ -231,13 +231,15 @@ export default class FVEggSortGame extends Component {
     animation: null,
     animatedComponents: [],
     eggs: []
-  }
+  };
 
-  static backgroundClasses = 'fv-layout fv-layout-d'
+  static backgroundClasses = 'fv-layout fv-layout-d';
+  static maxScore = null;
 
   componentWillMount() {
     _this = this;
     this.createEggsFromDrakes(this.props);
+    FVEggSortGame.maxScore = this.props.drakes.length;
   }
 
   componentWillReceiveProps(nextProps) {
