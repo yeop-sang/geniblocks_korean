@@ -459,22 +459,13 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
   return (dispatch) => {
     dispatch(_submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect));
 
-    let dialog = {};
-
     if (isCorrect) {
-      dialog = {
-        message: "~ALERT.TITLE.GOOD_WORK",
-        explanation: "~ALERT.EGG_BASKET_MATCH",
-        rightButton:{
-          label: "~BUTTON.CONTINUE",
-          action: "acceptEggInBasket",
-          args: { eggDrakeIndex, basketIndex, isChallengeComplete }
-        },
-        top: "475px"
-      };
+      setTimeout(function() {
+        dispatch(acceptEggInBasket({eggDrakeIndex, basketIndex, isChallengeComplete}));
+      }, 4000);
     }
     else {
-      dialog = {
+      let dialog = {
         message: "~ALERT.TITLE.EGG_MISMATCH",
         explanation: "~ALERT.EGG_BASKET_MISMATCH",
         rightButton: {
@@ -484,10 +475,10 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
         },
         top: "475px"
       };
+      setTimeout(function() {
+        dispatch(showModalDialog(dialog));
+      }, 4000);
     }
-    setTimeout(function() {
-      dispatch(showModalDialog(dialog));
-    }, 4000);
   };
 }
 
