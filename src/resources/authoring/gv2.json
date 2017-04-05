@@ -424,7 +424,7 @@
         { "label": "Females without wings", "alleles": ["w-w"], "sex": 1 }
       ]
     },
-    "fvGenomeChallengeTest": {
+    "fvGenomeChallengeTestVisible": {
       "comment": "*** Level 2, Mission 1.1: Genome Challenge (basics intro, user drake visible) ***",
       "container": "FVContainer",
       "template": "FVGenomeChallenge",
@@ -448,7 +448,29 @@
         "drakes": [0, 1],
         "genes": "metallic, tail, horns, color, black, dilute, armor, nose, bogbreath"
       }
-    }
+    },
+    "fvGenomeChallengeTestHidden": {
+      "comment": "*** Level 2, Mission 1.2: Genome Challenge (basics intro, user drake hidden) ***",
+      "container": "FVContainer",
+      "template": "FVGenomeChallenge",
+      "instructions": "Match 2 drakes!",
+      "trialGenerator": {
+        "type": "all-combinations",
+        "baseDrake": "M-M, T-T, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
+        "initialDrakeCombos": [
+          ["W-W",   "W-w",   "w-W",   "w-w"],
+          ["Fl-Fl", "Fl-fl", "fl-Fl", "fl-fl"],
+          ["Hl-Hl", "Hl-hl", "hl-Hl", "hl-hl"]
+        ],
+        "targetDrakeCombos": [
+          ["W-W",   "w-w"],
+          ["Fl-Fl", "fl-fl"],
+          ["Hl-Hl", "hl-hl"]
+        ]
+      },
+      "targetDrakes": [{},{}],
+      "userChangeableGenes": "wings, forelimbs, hindlimbs"
+    },
   },
 
 
@@ -604,7 +626,11 @@
               },
               {
                 "name": "Challenge 6.1.4",
-                "id": "fvGenomeChallengeTest"
+                "id": "fvGenomeChallengeTestVisible"
+              },
+              {
+                "name": "Challenge 6.1.5",
+                "id": "fvGenomeChallengeTestHidden"
               }
             ]
           }

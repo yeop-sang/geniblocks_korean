@@ -1,5 +1,6 @@
 export default {
   // Challenge instructions
+  "~FV_GENOME_CHALLENGE.CHECK_DRAKE_BUTTON_LABEL": "Check Drake",
   "~FV_GENOME_CHALLENGE.HATCH_DRAKE_BUTTON_LABEL": "Hatch Drake",
   "~FV_EGG_GAME.BREED_BUTTON": "BREED",
 

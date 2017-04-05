@@ -13,23 +13,23 @@ const userDrakeIndex   = 0,
 /*
  * HatchDrakeButton
  */
-const HatchDrakeButton = ({onClick, disabled}) => {
+const HatchDrakeButton = ({label, onClick, disabled}) => {
 
   function handleClick() {
     onClick();
   }
 
-  const hatchDrakeLabel = t('~FV_GENOME_CHALLENGE.HATCH_DRAKE_BUTTON_LABEL');
   return (
     <div className={classNames('hatch-drake-button', {disabled})} onClick={handleClick}>
       <div className="button-label hatch-drake-button-label unselectable">
-        {hatchDrakeLabel}
+        {label}
       </div>
     </div>
   );
 };
 
 HatchDrakeButton.propTypes = {
+  label: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool
 };
@@ -85,6 +85,9 @@ export default class FVGenomeChallenge extends React.Component {
     const { drakes, onChromosomeAlleleChange, onSexChange, onDrakeSubmission,
             userChangeableGenes, visibleGenes, hiddenAlleles, showUserDrake, userDrakeHidden } = this.props,
           userDrakeDef = drakes[userDrakeIndex],
+          checkHatchButtonLabel = showUserDrake
+                                    ? t('~FV_GENOME_CHALLENGE.CHECK_DRAKE_BUTTON_LABEL')
+                                    : t('~FV_GENOME_CHALLENGE.HATCH_DRAKE_BUTTON_LABEL'),
           targetDrakeDef = drakes[targetDrakeIndex],
           userDrake   = new BioLogica.Organism(BioLogica.Species.Drake, userDrakeDef.alleleString, userDrakeDef.sex),
           targetDrake = new BioLogica.Organism(BioLogica.Species.Drake, targetDrakeDef.alleleString, targetDrakeDef.sex);
@@ -113,7 +116,7 @@ export default class FVGenomeChallenge extends React.Component {
             <div id="your-drake-label" className="column-label">Your Drake</div>
           </div>
           <YourDrakeView org={ userDrake } className={userDrakeStyle} />
-          <HatchDrakeButton onClick={ handleSubmit } />
+          <HatchDrakeButton label={checkHatchButtonLabel} onClick={ handleSubmit } />
         </div>
         <div id='right-column' className='column'>
           <TargetDrakeView org={ targetDrake } />
