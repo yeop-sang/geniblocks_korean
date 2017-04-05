@@ -15,7 +15,7 @@ export default class FVGenomeChallenge extends React.Component {
   static backgroundClasses = 'fv-layout fv-layout-a'
 
   render() {
-    const { drakes, instructions, onChromosomeAlleleChange, onSexChange, onDrakeSubmission,
+    const { drakes, onChromosomeAlleleChange, onSexChange, onDrakeSubmission,
             userChangeableGenes, visibleGenes, hiddenAlleles, showUserDrake, userDrakeHidden, trial, trials } = this.props,
           userDrakeDef = drakes[userDrakeIndex],
           targetDrakeDef = drakes[targetDrakeIndex],
@@ -33,17 +33,22 @@ export default class FVGenomeChallenge extends React.Component {
       onDrakeSubmission(targetDrakeIndex, userDrakeIndex, correct);
     };
 
-    const instructionsBanner = instructions
-                                ? <div className="instructions-banner">
-                                    <div className="instructions-text">{instructions}</div>
-                                  </div>
-                                : null,
-          userDrakeStyle = !showUserDrake && userDrakeHidden ? "hiddenDrake" : "";
+    const userDrakeStyle = !showUserDrake && userDrakeHidden ? "hiddenDrake" : "";
 
     return (
       <div id="genome-challenge">
-        {instructionsBanner}
-        <div className='column'>
+        <div id='left-column' className='column'>
+          <GenomeView org={ userDrake } onAlleleChange={ handleAlleleChange } userChangeableGenes= { userChangeableGenes } visibleGenes={ visibleGenes } hiddenAlleles={ hiddenAlleles }/>
+          <ChangeSexButtons id="change-sex-buttons" sex={ userDrake.sex } onChange= { handleSexChange } showLabel={false} species="Drake"/>
+        </div>
+        <div id="center-column" className='column'>
+          <div className='label-container'>
+            <div id="your-drake-label" className="column-label">Your Drake</div>
+          </div>
+          <OrganismGlowView org={ userDrake } id="your-drake" className={userDrakeStyle} />
+          <ButtonView label="~BUTTON.CHECK_DRAKE" onClick={ handleSubmit } />
+        </div>
+        <div id='right-column' className='column'>
           <div id="target-drake-label" className="column-label">Target Drake</div>
           <OrganismGlowView id="target-drake" org={ targetDrake } />
           <FeedbackView id='trial-feedback' className='feedback-view'
@@ -51,16 +56,6 @@ export default class FVGenomeChallenge extends React.Component {
           <FeedbackView id='goal-feedback' className='feedback-view'
                                 text={[`GOAL is ${this.props.goalMoves} MOVES`,
                                         `Your moves: ${this.props.moves}`]}/>
-        </div>
-        <div id="center-column" className='column'>
-          <div id="your-drake-label" className="column-label">Your Drake</div>
-          <OrganismGlowView org={ userDrake } id="your-drake" className={userDrakeStyle} />
-          <ChangeSexButtons id="change-sex-buttons" sex={ userDrake.sex } onChange= { handleSexChange } showLabel={false} species="Drake"/>
-        </div>
-        <div className='column'>
-          <div id="your-drake-label" className="column-label">Chromosome Control</div>
-          <GenomeView org={ userDrake } onAlleleChange={ handleAlleleChange } userChangeableGenes= { userChangeableGenes } visibleGenes={ visibleGenes } hiddenAlleles={ hiddenAlleles }/>
-          <ButtonView label="~BUTTON.CHECK_DRAKE" onClick={ handleSubmit } />
         </div>
       </div>
     );
