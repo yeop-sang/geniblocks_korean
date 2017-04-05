@@ -6,6 +6,7 @@ const FVAnimatedSprite = React.createClass({
   mixins: [tweenState.Mixin],
 
   propTypes: {
+    waitForTrigger: PropTypes.bool,
     frames: PropTypes.number.isRequired,
     frameWidth: PropTypes.number.isRequired,
     duration: PropTypes.number,
@@ -22,17 +23,31 @@ const FVAnimatedSprite = React.createClass({
     return {"backgroundPositionX": 0};
   },
 
-  componentWillMount() {
+  animate() {
     this.tweenState("backgroundPositionX", {
       easing: tweenState.easingTypes.linear,
       duration: this.props.duration,
       endValue: this.props.frames,
       onEnd: this.props.onEnd
     });
+    this.setState({ started: true });
+  },
+
+  componentDidMount() {
+    if (!this.props.waitForTrigger)
+      this.animate();
+  },
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.state.started && !nextProps.waitForTrigger)
+      this.animate();
   },
 
   render() {
-    let style = {"backgroundPositionX": Math.floor(this.getTweeningValue("backgroundPositionX")) * -this.props.frameWidth + "px"};
+    const tweenValue = this.state.started
+                        ? Math.floor(this.getTweeningValue("backgroundPositionX"))
+                        : 0,
+          style = {"backgroundPositionX": tweenValue * -this.props.frameWidth + "px"};
     return (
       <div className={this.props.classNames} style={style}/>
     );

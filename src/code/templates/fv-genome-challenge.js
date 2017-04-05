@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import OrganismGlowView from '../components/organism-glow';
+import EggHatchDrakeView from '../fv-components/egg-hatch-drake';
+import OrganismView from '../components/organism';
 import GenomeView from '../components/genome';
 import ChangeSexButtons from '../components/change-sex-buttons';
 import GeneticsUtils from '../utilities/genetics-utils';
@@ -41,14 +42,20 @@ class YourDrakeView extends React.Component {
 
   static propTypes = {
     org: PropTypes.object,
-    className: PropTypes.string
+    className: PropTypes.string,
+    hatchStarted: PropTypes.bool,
+    hatchComplete: PropTypes.bool,
+    onHatchComplete: PropTypes.func
   }
 
   render() {
-    const { org, className } = this.props;
+    const { org, className, hatchStarted, hatchComplete, onHatchComplete } = this.props;
     return (
       <div className='your-drake-surround'>
-        <OrganismGlowView org={org} id="your-drake" className={className} />
+        <EggHatchDrakeView drake={org} id="your-drake" className={className}
+                            hatchStarted={hatchStarted} hatchComplete={hatchComplete}
+                            onHatchComplete={onHatchComplete}
+                            width={300} />
       </div>
     );
   }
@@ -68,7 +75,7 @@ class TargetDrakeView extends React.Component {
     return (
       <div className='target-drake-gizmo'>
         <div id="target-drake-label">Target Drake</div>
-        <OrganismGlowView id="target-drake" org={org} />
+        <OrganismView id="target-drake" org={org} width={300} />
       </div>
     );
   }
@@ -81,16 +88,26 @@ export default class FVGenomeChallenge extends React.Component {
 
   static backgroundClasses = 'fv-layout fv-layout-a'
 
+  state = {
+    hatchStarted: false
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.showUserDrake && !this.props.userDrakeHidden && nextProps.userDrakeHidden)
+      this.setState({ hatchStarted: false });
+  }
+
   render() {
     const { drakes, onChromosomeAlleleChange, onSexChange, onDrakeSubmission,
-            userChangeableGenes, visibleGenes, hiddenAlleles, showUserDrake, userDrakeHidden } = this.props,
+            userChangeableGenes, visibleGenes, hiddenAlleles, showUserDrake } = this.props,
           userDrakeDef = drakes[userDrakeIndex],
           checkHatchButtonLabel = showUserDrake
                                     ? t('~FV_GENOME_CHALLENGE.CHECK_DRAKE_BUTTON_LABEL')
                                     : t('~FV_GENOME_CHALLENGE.HATCH_DRAKE_BUTTON_LABEL'),
           targetDrakeDef = drakes[targetDrakeIndex],
           userDrake   = new BioLogica.Organism(BioLogica.Species.Drake, userDrakeDef.alleleString, userDrakeDef.sex),
-          targetDrake = new BioLogica.Organism(BioLogica.Species.Drake, targetDrakeDef.alleleString, targetDrakeDef.sex);
+          targetDrake = new BioLogica.Organism(BioLogica.Species.Drake, targetDrakeDef.alleleString, targetDrakeDef.sex),
+          this_ = this;
 
     const handleAlleleChange = function(chrom, side, prevAllele, newAllele) {
       onChromosomeAlleleChange(userDrakeIndex, chrom, side, prevAllele, newAllele);
@@ -102,8 +119,12 @@ export default class FVGenomeChallenge extends React.Component {
       let correct = targetDrake.getImageName() === userDrake.getImageName();
       onDrakeSubmission(targetDrakeIndex, userDrakeIndex, correct);
     };
-
-    const userDrakeStyle = !showUserDrake && userDrakeHidden ? "hiddenDrake" : "";
+    const handleCheckHatchButton = function() {
+      if (showUserDrake)
+        handleSubmit();
+      else
+        this_.setState({ hatchStarted: true });
+    };
 
     return (
       <div id="genome-challenge">
@@ -115,8 +136,11 @@ export default class FVGenomeChallenge extends React.Component {
           <div className='label-container'>
             <div id="your-drake-label" className="column-label">Your Drake</div>
           </div>
-          <YourDrakeView org={ userDrake } className={userDrakeStyle} />
-          <HatchDrakeButton label={checkHatchButtonLabel} onClick={ handleSubmit } />
+          <YourDrakeView org={ userDrake }
+                          hatchStarted={this.state.hatchStarted || showUserDrake}
+                          hatchComplete={showUserDrake}
+                          onHatchComplete={handleSubmit} />
+          <HatchDrakeButton label={checkHatchButtonLabel} onClick={ handleCheckHatchButton } />
         </div>
         <div id='right-column' className='column'>
           <TargetDrakeView org={ targetDrake } />
