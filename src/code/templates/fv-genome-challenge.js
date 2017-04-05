@@ -10,6 +10,23 @@ import { generateTrialDrakes } from '../utilities/trial-generator';
 const userDrakeIndex   = 0,
       targetDrakeIndex = 1;
 
+class YourDrakeView extends React.Component {
+
+  static propTypes = {
+    org: PropTypes.object,
+    className: PropTypes.string
+  }
+
+  render() {
+    const { org, className } = this.props;
+    return (
+      <div className='your-drake-surround'>
+        <OrganismGlowView org={org} id="your-drake" className={className} />
+      </div>
+    );
+  }
+}
+
 export default class FVGenomeChallenge extends React.Component {
 
   static backgroundClasses = 'fv-layout fv-layout-a'
@@ -45,7 +62,7 @@ export default class FVGenomeChallenge extends React.Component {
           <div className='label-container'>
             <div id="your-drake-label" className="column-label">Your Drake</div>
           </div>
-          <OrganismGlowView org={ userDrake } id="your-drake" className={userDrakeStyle} />
+          <YourDrakeView org={ userDrake } className={userDrakeStyle} />
           <ButtonView label="~BUTTON.CHECK_DRAKE" onClick={ handleSubmit } />
         </div>
         <div id='right-column' className='column'>
