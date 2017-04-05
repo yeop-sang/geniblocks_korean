@@ -179,7 +179,7 @@ body
   .button-label
     font-family: 'Yanone Kaffeesatz'
 
-.mission-backdrop.fv-layout-c
+.mission-backdrop.fv-layout
   display: block
   position: relative
   width: $layoutWidth
@@ -188,6 +188,8 @@ body
   transform-origin: 0 0
   min-width: $layoutMinWidth;
   min-height: $layoutMinHeight;
+
+.mission-backdrop.fv-layout-c
 
   &.create-unique
     background-image: url('../resources/fablevision/layout-c/screen_top_lines.png'),
@@ -203,14 +205,6 @@ body
     background-position: 50% 91%, 50% 7.25%, 50% 48%, 50% 50%
 
 .mission-backdrop.fv-layout-d
-  display: block
-  position: relative
-  width: $layoutWidth
-  height: $layoutHeight
-  transform: scale(0.75)
-  transform-origin: 0 0
-  min-width: $layoutMinWidth;
-  min-height: $layoutMinHeight;
   background-size: cover
 
   background-image: url('../resources/fablevision/layout-d/background.png')

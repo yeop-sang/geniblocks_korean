@@ -423,6 +423,31 @@
         { "label": "Females with wings", "alleles": ["W-","-W"], "sex": 1 },
         { "label": "Females without wings", "alleles": ["w-w"], "sex": 1 }
       ]
+    },
+    "fvGenomeChallengeTest": {
+      "comment": "*** Level 2, Mission 1.1: Genome Challenge (basics intro, user drake visible) ***",
+      "container": "FVContainer",
+      "template": "FVGenomeChallenge",
+      "instructions": "Match the target drake!",
+      "showUserDrake": true,
+      "randomizeTrials": true,
+      "initialDrake": {
+        "alleles": "Bog-, D-, rh-rh",
+        "sex": 1
+      },
+      "targetDrakes": [{
+        "alleles": "",
+        "sex": 0
+      },
+      {
+        "alleles": "",
+        "sex": 1
+      }],
+      "userChangeableGenes": "wings, forelimbs, hindlimbs",
+      "linkedGenes": {
+        "drakes": [0, 1],
+        "genes": "metallic, tail, horns, color, black, dilute, armor, nose, bogbreath"
+      }
     }
   },
 
@@ -576,6 +601,10 @@
               {
                 "name": "Challenge 6.1.3",
                 "id": "eggSortTest"
+              },
+              {
+                "name": "Challenge 6.1.4",
+                "id": "fvGenomeChallengeTest"
               }
             ]
           }
