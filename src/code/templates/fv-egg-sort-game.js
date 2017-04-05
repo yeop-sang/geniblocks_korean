@@ -21,6 +21,7 @@ import { EGG_IMAGE_WIDTH } from '../components/egg';
 import EggHatchView from '../components/egg-hatch';
 import GenomeView from '../components/genome';
 import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
+import FVEggHatchView from './fv-egg-hatch';
 import { generateTrialDrakes } from '../utilities/trial-generator';
 import GeneticsUtils from '../utilities/genetics-utils';
 import urlParams from '../utilities/url-params';
@@ -60,7 +61,11 @@ const FastEggHatch = compose(
                         targetElementId(),
                         animateSpring(60),
                         // animateSpring() generates 'style', but EggHatchView expects 'displayStyle'
-                        renameProp('style', 'displayStyle'))(EggHatchView);
+                        renameProp('style', 'displayStyle'))(EggHatchView),
+      NewEggHatch = compose(
+                        updateOnResizeScroll,
+                        initialElementId(),
+                        renameProp('initialStyle', 'displayStyle'))(FVEggHatchView);
 
 let animationEvents = {
       moveEggToBasket: { id: 0, complete: false, animate: function(egg, eggIndex, basketIndex) {
@@ -73,10 +78,8 @@ let animationEvents = {
           animatingDrake = new BioLogica.Organism(BioLogica.Species.Drake, egg.alleles, egg.sex);
           targetBasketIndex = basketIndex;
 
-          const leftOffset = MEDIUM_EGG_ON_BASKET_X_OFFSET,
-                topOffset = modeCollectInBasket
-                              ? MEDIUM_EGG_ABOVE_BASKET_Y_OFFSET
-                              : MEDIUM_EGG_ON_BASKET_Y_OFFSET;
+          const leftOffset = 400,
+                topOffset = 200;
           appendAnimation('moveEggToBasket',
             <FastEggHatch
                 egg={animatingEgg} organism={animatingDrake}
@@ -89,18 +92,15 @@ let animationEvents = {
         }
       }},
       hatchDrakeInBasket: { id: 1, complete: false, animate: function() {
-        const leftOffset = MEDIUM_EGG_ON_BASKET_X_OFFSET,
-              topOffset = modeCollectInBasket
-                            ? MEDIUM_EGG_ABOVE_BASKET_Y_OFFSET
-                            : MEDIUM_EGG_ON_BASKET_Y_OFFSET;
+        const { scale } = _this.props,
+              leftOffset = -250,
+              topOffset = -40;
         appendAnimation('hatchDrakeInBasket',
-          <FastEggHatch
-              egg={animatingEgg} organism={animatingDrake} glow={true}
+          <NewEggHatch
+              organism={animatingDrake} glow={false} scale={scale}
               initial={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset }}
-              initialStyle={{ size: EGG_IMAGE_WIDTH_MEDIUM, hatchProgress: 0 }}
-              target={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset }}
-              targetStyle={{ hatchProgress: 1 }}
-              onRest={function() { animationFinish(animationEvents.hatchDrakeInBasket.id); }}
+              initialStyle={{ position: "fixed", size: EGG_IMAGE_WIDTH_MEDIUM }}
+              onEnd={function() { animationFinish(animationEvents.hatchDrakeInBasket.id); }}
           />);
       }},
       fadeDrakeAway: { id: 2, complete: false, animate: function() {
