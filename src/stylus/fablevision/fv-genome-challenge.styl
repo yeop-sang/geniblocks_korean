@@ -7,7 +7,7 @@
                       url('../resources/fablevision/layout-a/screen_top_lines.png'),
                       url('../resources/fablevision/layout-a/screen_target_yourdrake.png'),
                       url('../resources/fablevision/layout-a/screen.png')
-    background-position: 50% 50%, 50% 6%, 100% 35%, 0% 35%, 50% 9.5%, 50% 00%, 50% 50%
+    background-position: 50% 50%, 50% 6%, 100% 35%, 0% 35%, 50% 9.5%, 50% -2%, 50% 50%
     background-size: auto, auto, auto, auto, auto, 250px auto, auto
 
   #mission-wrapper
@@ -26,7 +26,7 @@
       width: 450px
 
   .label-container
-    margin-top: -50px
+    margin-top: -70px
     width: 250px
     height: 100px
     display: flex
@@ -46,6 +46,27 @@
   &#challenges
     #mission-wrapper
       #your-drake-label
-        margin: -10px 0 0 0
+        margin: -5px 0 0 0
         font-family: 'Yanone Kaffeesatz';
         font-size: 2.5rem
+
+  .hatch-drake-button
+    width: 315px
+    height: 120px
+    display: flex
+    justify-content: center
+    align-items: center
+    background-image: url('../resources/fablevision/layout-a/hatch_ON.png')
+    cursor: pointer
+    color: white
+
+    &:active
+      cursor: default
+      background-image: url('../resources/fablevision/layout-a/hatch_OFF.png')
+      background-position: 17px 17px
+      background-size: auto
+      background-repeat: no-repeat
+
+    .hatch-drake-button-label
+      font-size: 2.5rem
+

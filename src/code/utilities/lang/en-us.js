@@ -1,5 +1,6 @@
 export default {
   // Challenge instructions
+  "~FV_GENOME_CHALLENGE.HATCH_DRAKE_BUTTON_LABEL": "Hatch Drake",
   "~FV_EGG_GAME.BREED_BUTTON": "BREED",
 
   // Challenge instructions
@@ -48,7 +49,7 @@ export default {
   "~BUTTON.FERTILIZE": "Make a baby! ❤️",
 
   "~LEVEL_INDICATOR.LEVEL_LABEL": "LEVEL",
-  
+
   "~COUNTER.TRIAL_LABEL": "TRIAL",
   "~COUNTER.SCORE_LABEL": "SCORE",
   "~COUNTER.n_OF_N": "${0}\xA0\xA0of\xA0\xA0${1}",

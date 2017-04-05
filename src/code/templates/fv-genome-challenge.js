@@ -3,12 +3,34 @@ import OrganismGlowView from '../components/organism-glow';
 import GenomeView from '../components/genome';
 import ChangeSexButtons from '../components/change-sex-buttons';
 import FeedbackView from '../components/feedback';
-import ButtonView from '../components/button';
 import GeneticsUtils from '../utilities/genetics-utils';
 import { generateTrialDrakes } from '../utilities/trial-generator';
+import classNames from 'classnames';
+import t from '../utilities/translate';
 
 const userDrakeIndex   = 0,
       targetDrakeIndex = 1;
+
+const HatchDrakeButton = ({onClick, disabled}) => {
+
+  function handleClick() {
+    onClick();
+  }
+
+  const hatchDrakeLabel = t('~FV_GENOME_CHALLENGE.HATCH_DRAKE_BUTTON_LABEL');
+  return (
+    <div className={classNames('hatch-drake-button', {disabled})} onClick={handleClick}>
+      <div className="button-label hatch-drake-button-label unselectable">
+        {hatchDrakeLabel}
+      </div>
+    </div>
+  );
+};
+
+HatchDrakeButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
+};
 
 class YourDrakeView extends React.Component {
 
@@ -63,7 +85,7 @@ export default class FVGenomeChallenge extends React.Component {
             <div id="your-drake-label" className="column-label">Your Drake</div>
           </div>
           <YourDrakeView org={ userDrake } className={userDrakeStyle} />
-          <ButtonView label="~BUTTON.CHECK_DRAKE" onClick={ handleSubmit } />
+          <HatchDrakeButton onClick={ handleSubmit } />
         </div>
         <div id='right-column' className='column'>
           <div id="target-drake-label" className="column-label">Target Drake</div>
