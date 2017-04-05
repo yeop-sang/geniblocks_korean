@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import OrganismGlowView from '../components/organism-glow';
 import GenomeView from '../components/genome';
 import ChangeSexButtons from '../components/change-sex-buttons';
-import FeedbackView from '../components/feedback';
 import GeneticsUtils from '../utilities/genetics-utils';
 import { generateTrialDrakes } from '../utilities/trial-generator';
 import classNames from 'classnames';
@@ -11,6 +10,9 @@ import t from '../utilities/translate';
 const userDrakeIndex   = 0,
       targetDrakeIndex = 1;
 
+/*
+ * HatchDrakeButton
+ */
 const HatchDrakeButton = ({onClick, disabled}) => {
 
   function handleClick() {
@@ -32,6 +34,9 @@ HatchDrakeButton.propTypes = {
   disabled: PropTypes.bool
 };
 
+/*
+ * YourDrakeView
+ */
 class YourDrakeView extends React.Component {
 
   static propTypes = {
@@ -49,13 +54,36 @@ class YourDrakeView extends React.Component {
   }
 }
 
+/*
+ * TargetDrakeView
+ */
+class TargetDrakeView extends React.Component {
+
+  static propTypes = {
+    org: PropTypes.object
+  }
+
+  render() {
+    const { org } = this.props;
+    return (
+      <div className='target-drake-gizmo'>
+        <div id="target-drake-label">Target Drake</div>
+        <OrganismGlowView id="target-drake" org={org} />
+      </div>
+    );
+  }
+}
+
+/*
+ * FVGenomeChallenge
+ */
 export default class FVGenomeChallenge extends React.Component {
 
   static backgroundClasses = 'fv-layout fv-layout-a'
 
   render() {
     const { drakes, onChromosomeAlleleChange, onSexChange, onDrakeSubmission,
-            userChangeableGenes, visibleGenes, hiddenAlleles, showUserDrake, userDrakeHidden, trial, trials } = this.props,
+            userChangeableGenes, visibleGenes, hiddenAlleles, showUserDrake, userDrakeHidden } = this.props,
           userDrakeDef = drakes[userDrakeIndex],
           targetDrakeDef = drakes[targetDrakeIndex],
           userDrake   = new BioLogica.Organism(BioLogica.Species.Drake, userDrakeDef.alleleString, userDrakeDef.sex),
@@ -88,13 +116,7 @@ export default class FVGenomeChallenge extends React.Component {
           <HatchDrakeButton onClick={ handleSubmit } />
         </div>
         <div id='right-column' className='column'>
-          <div id="target-drake-label" className="column-label">Target Drake</div>
-          <OrganismGlowView id="target-drake" org={ targetDrake } />
-          <FeedbackView id='trial-feedback' className='feedback-view'
-                                text={["TRIAL", `${trial+1} of ${trials.length}`]}/>
-          <FeedbackView id='goal-feedback' className='feedback-view'
-                                text={[`GOAL is ${this.props.goalMoves} MOVES`,
-                                        `Your moves: ${this.props.moves}`]}/>
+          <TargetDrakeView org={ targetDrake } />
         </div>
       </div>
     );
