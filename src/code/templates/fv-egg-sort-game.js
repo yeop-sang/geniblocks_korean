@@ -14,12 +14,14 @@ import renameProp from 'recompose/renameProp';
 import animateSpring from '../hoc/animate-spring';
 import initialElementId from '../hoc/initial-element-id';
 import targetElementId from '../hoc/target-element-id';
+import tweenOpacity from '../hoc/tween-opacity';
 import updateOnResizeScroll from '../hoc/update-on-resize-scroll';
 import BasketSetView from '../components/basket-set';
 import FVEggClutchView from '../fv-components/fv-egg-clutch';
 import { EGG_IMAGE_WIDTH } from '../components/egg';
 import EggHatchView from '../components/egg-hatch';
 import GenomeView from '../components/genome';
+import OrganismView from '../components/organism';
 import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
 import FVEggHatchView from './fv-egg-hatch';
 import { generateTrialDrakes } from '../utilities/trial-generator';
@@ -65,7 +67,12 @@ const FastEggHatch = compose(
       NewEggHatch = compose(
                         updateOnResizeScroll,
                         initialElementId(),
-                        renameProp('initialStyle', 'displayStyle'))(FVEggHatchView);
+                        renameProp('initialStyle', 'displayStyle'))(FVEggHatchView),
+      EggFade = compose(
+                        updateOnResizeScroll,
+                        initialElementId(),
+                        renameProp('initialStyle', 'displayStyle'),
+                        tweenOpacity())(OrganismView);
 
 let animationEvents = {
       moveEggToBasket: { id: 0, complete: false, animate: function(egg, eggIndex, basketIndex) {
@@ -97,22 +104,17 @@ let animationEvents = {
               topOffset = -40;
         appendAnimation('hatchDrakeInBasket',
           <NewEggHatch
-              organism={animatingDrake} glow={false} scale={scale}
+              organism={animatingDrake} glow={true} scale={scale}
               initial={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset }}
               initialStyle={{ position: "fixed", size: EGG_IMAGE_WIDTH_MEDIUM }}
               onEnd={function() { animationFinish(animationEvents.hatchDrakeInBasket.id); }}
           />);
       }},
       fadeDrakeAway: { id: 2, complete: false, animate: function() {
-        const { baskets } = _this.props,
+        const { baskets, scale } = _this.props,
               targetBasket = targetBasketIndex >= 0 ? baskets[targetBasketIndex] : null,
-              leftOffset = MEDIUM_EGG_ON_BASKET_X_OFFSET,
-              initialTop = modeFadeAway
-                            ? MEDIUM_EGG_ON_BASKET_Y_OFFSET
-                            : MEDIUM_EGG_ABOVE_BASKET_Y_OFFSET,
-              targetTop = isSubmittedEggCorrect
-                            ? MEDIUM_EGG_BELOW_BASKET_Y_OFFSET
-                            : MEDIUM_EGG_ABOVE_BASKET_Y_OFFSET;
+              leftOffset = 122,
+              topOffset = 204.5;
         _this.clearSelection();
         resetAnimationEvents(false);
 
@@ -124,14 +126,15 @@ let animationEvents = {
         }
 
         appendAnimation('fadeDrakeAway',
-          <SlowEggHatch
-              egg={animatingEgg} organism={animatingDrake} glow={true}
-              initial={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset: initialTop }}
-              initialStyle={{ marginLeft: 0, size: EGG_IMAGE_WIDTH_MEDIUM, opacity: 1, hatchProgress: 1 }}
-              target={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset: targetTop }}
-              targetStyle={{ marginLeft: 20, size: EGG_IMAGE_WIDTH_SMALL, opacity: 0 }}
+          <EggFade 
+              org={animatingDrake} scale={scale}
+              initial={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset }}
+              initialStyle={{ position: "fixed", marginLeft: 0, size: EGG_IMAGE_WIDTH_MEDIUM }}
+              targetOpacity={0}
+              duration={1000}
+              width={EGG_IMAGE_WIDTH_MEDIUM*2.5}
               onClick={handleClick}
-              onRest={function() { animationFinish(animationEvents.fadeDrakeAway.id); }}
+              onEnd={function() { animationFinish(animationEvents.fadeDrakeAway.id); }}
           />);
       }},
       settleEggInBasket: { id: 3, complete: false, animate: function() {
