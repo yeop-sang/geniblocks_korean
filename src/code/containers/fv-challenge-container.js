@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import scaleToFit from '../hoc/scale-to-fit';
 import { connect } from 'react-redux';
-import Dimensions from 'react-dimensions';
 import classNames from 'classnames';
 import templates from '../templates';
 import BottomHUDView from '../fv-components/bottom-hud';
@@ -11,33 +11,10 @@ import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
 import { addGameteChromosome, resetGametes,
         addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/gametes';
 
-const bgImageWidth = 1920,
-      bgImageHeight = 1080,
-      minContainerWidth = 1200,
-      minContainerHeight = 700;
-
-function calcScaleFactor(containerWidth, containerHeight) {
-  // if there's enough room, then no scaling required (we don't scale up)
-  if ((containerWidth >= bgImageWidth) &&
-      (containerHeight >= bgImageHeight)) {
-    return 1.0;
-  }
-  // if scaling is required, figure out the controlling dimension
-  const effectiveContainerWidth = Math.max(containerWidth, minContainerWidth),
-        effectiveContainerHeight = Math.max(containerHeight, minContainerHeight),
-        containerAspect = effectiveContainerWidth / effectiveContainerHeight,
-        bgImageAspect = bgImageWidth / bgImageHeight;
-
-  // width is the constraining dimension
-  return containerAspect <= bgImageAspect
-            ? effectiveContainerWidth / bgImageWidth     // width is constraining dimension
-            : effectiveContainerHeight / bgImageHeight;  // height is constraining dimension
-}
-
 class FVChallengeContainer extends Component {
 
   render() {
-    const { template, containerWidth, containerHeight, ...otherProps } = this.props,
+    const { template, style, ...otherProps } = this.props,
           { challengeType, interactionType, routeSpec, trial, trials, correct } = this.props;
 
     if (!template) return null;
@@ -45,24 +22,23 @@ class FVChallengeContainer extends Component {
     const Template = templates[this.props.template],
           bgClasses = classNames('mission-backdrop', Template.backgroundClasses,
                                   challengeType, interactionType),
-          scaleFactor = calcScaleFactor(containerWidth, containerHeight),
-          scaleFactorStyle = { transform: `scale(${scaleFactor})`},
           maxScore = Template.maxScore;
 
     return (
-      <div id="challenges" className={bgClasses} style={scaleFactorStyle}>
+      <div id="challenges" className={bgClasses} style={style}>
         // TODO: put location names in the authoring document
         <TopHUDView location={"Hatchery"} />
         <div id="mission-wrapper">
-          <Template scale={scaleFactor} {...otherProps} />
+          <Template {...otherProps} />
         </div>
-        <BottomHUDView level={routeSpec.level + 1} trial={trial + 1} trialCount={trials ? trials.length : 1} 
+        <BottomHUDView level={routeSpec.level + 1} trial={trial + 1} trialCount={trials ? trials.length : 1}
                        currScore={correct} maxScore={maxScore}/>
       </div>
     );
   }
 
   static propTypes = {
+    style: PropTypes.object,
     template: PropTypes.string,
     challengeType: PropTypes.string,
     interactionType: PropTypes.string,
@@ -123,7 +99,13 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const FVChallenge = connect(mapStateToProps, mapDispatchToProps)(FVChallengeContainer);
+const containerStyle = { width: '100vw', height: '100vh' },
+      dimensionsOptions = { className: 'challenge-container', containerStyle },
+      // for Geniventure, content size is determined by the static size of the background image
+      // minWidth/minHeight determine the limits below which we stop scaling and allow scrolling
+      contentFn = function() { return { width: 1920, height: 1080,
+                                        minWidth: 1200, minHeight: 600 }; },
+      FVScaledContainer = scaleToFit(dimensionsOptions, contentFn)(FVChallengeContainer),
+      FVConnectedContainer = connect(mapStateToProps, mapDispatchToProps)(FVScaledContainer);
 
-const containerStyle = { width: '100vw', height: '100vh' };
-export default Dimensions({ className: 'challenge-container', containerStyle })(FVChallenge);
+export default FVConnectedContainer;
