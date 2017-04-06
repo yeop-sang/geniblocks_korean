@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import FVStableCounter from './stable-counter';
 import OrganismView from '../components/organism';
+import classNames from 'classnames';
 
 /**
  * @param {number} rows - Option number of rows. If defined, it will be fixed at that. Otherwise, it
@@ -8,7 +9,7 @@ import OrganismView from '../components/organism';
  * @param {number} tightenRows - If given, will shrink the vertical height of the stable by this amount
  *                        per row, crowding the org images as needed.
  */
-const FVStableView = ({orgs, idPrefix='organism-', height=218, onClick}) => {
+const FVStableView = ({className, orgs, idPrefix='organism-', height=218, onClick}) => {
 
   function handleClick(id, org) {
     const prefixIndex = id.indexOf(idPrefix),
@@ -24,9 +25,10 @@ const FVStableView = ({orgs, idPrefix='organism-', height=218, onClick}) => {
           </div>
         );
       });
+  const classes = classNames('geniblocks fv-stable', className);
 
   return (
-    <div className="geniblocks fv-stable">
+    <div className={classes}>
       <FVStableCounter count={orgs.length} maxCount={5}/>
       <div className="stable-drakes">
         { stableDrakeViews }
@@ -36,6 +38,7 @@ const FVStableView = ({orgs, idPrefix='organism-', height=218, onClick}) => {
 };
 
 FVStableView.propTypes = {
+  className: PropTypes.string,
   orgs: PropTypes.arrayOf(PropTypes.object).isRequired,
   idPrefix: PropTypes.string,
   height: PropTypes.number,

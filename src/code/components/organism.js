@@ -1,8 +1,12 @@
 import React, {PropTypes} from 'react';
 
+export function getDrakeImageUrl(org) {
+  const baseUrl = "https://geniverse-resources.concord.org/resources/drakes/images/";
+  return org ? baseUrl + org.getImageName() : null;
+}
+
 const OrganismView = ({org, id, className="", width=200, flipped=false, style={}, onClick, wrapper }) => {
-  const baseUrl = "https://geniverse-resources.concord.org/resources/drakes/images/",
-        url     = org ? baseUrl + org.getImageName() : null,
+  const url = getDrakeImageUrl(org),
         // The goal here was to have the onMouseDown handler select the organism,
         // so that mousedown-drag will both select the organism and begin the
         // drag. This works on Chrome and Safari, but on Firefox it disables

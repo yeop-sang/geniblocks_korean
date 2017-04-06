@@ -1,0 +1,12 @@
+/*
+ * Example demonstration of drag feedback.
+ * - yellow border while drag is in progress, indicating potential drop target
+ * - green border while drag is over stable, indicating active drop target
+ * A better UI would potentially use separate background images or otherwise
+ * show the drop target state in a more pleasing manner.
+ */
+.fv-stable.drag-droppable
+  border: 10px solid yellow
+
+  &.drag-over
+    border-color: #0F0

@@ -71,7 +71,10 @@ function mapStateToProps (state) {
       errors: state.errors,
       moves: state.moves,
       goalMoves: state.goalMoves,
-      userDrakeHidden: state.userDrakeHidden
+      userDrakeHidden: state.userDrakeHidden,
+      // drag/drop experiment option for enabling custom drag layer rather
+      // than HTML5 drag/drop dragImage
+      useCustomDragLayer: true
     };
   }
 
