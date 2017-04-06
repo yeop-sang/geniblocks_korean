@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import EggHatchDrakeView from '../fv-components/egg-hatch-drake';
+import AnimatedSprite from '../components/animated-sprite';
 import OrganismView from '../components/organism';
 import GenomeView from '../components/genome';
 import ChangeSexButtons from '../components/change-sex-buttons';
@@ -67,15 +68,35 @@ class YourDrakeView extends React.Component {
 class TargetDrakeView extends React.Component {
 
   static propTypes = {
+    showIntro: PropTypes.bool,
     org: PropTypes.object
   }
 
+  state = {
+    introComplete: false
+  }
+
+  handleIntroComplete = () => {
+    this.setState({ introComplete: true });
+  }
+
   render() {
-    const { org } = this.props;
+    const { showIntro, org } = this.props,
+          { introComplete } = this.state,
+          completeDisplayStyle = { display: showIntro && !introComplete ? 'none' : 'flex' },
+          introAnimation = <AnimatedSprite
+                              classNames='target-gizmo-animation'
+                              frames={5} frameWidth={915} duration={1600}
+                              onEnd={this.handleIntroComplete} />,
+          // instantiating with {display:none} allows images to preload during animation
+          completeView = <div className='target-drake-gizmo' style={completeDisplayStyle}>
+                            <div id="target-drake-label">Target Drake</div>
+                            <OrganismView id="target-drake" org={org} width={300} />
+                          </div>;
     return (
-      <div className='target-drake-gizmo'>
-        <div id="target-drake-label">Target Drake</div>
-        <OrganismView id="target-drake" org={org} width={300} />
+      <div className='target-drake-view'>
+        { showIntro && !introComplete ? introAnimation : null }
+        { completeView }
       </div>
     );
   }
@@ -143,7 +164,7 @@ export default class FVGenomeChallenge extends React.Component {
           <HatchDrakeButton label={checkHatchButtonLabel} onClick={ handleCheckHatchButton } />
         </div>
         <div id='right-column' className='column'>
-          <TargetDrakeView org={ targetDrake } />
+          <TargetDrakeView showIntro={true} org={ targetDrake } />
         </div>
       </div>
     );
