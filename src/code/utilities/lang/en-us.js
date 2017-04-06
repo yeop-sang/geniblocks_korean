@@ -1,7 +1,5 @@
 export default {
   // Challenge instructions
-  "~FV_GENOME_CHALLENGE.CHECK_DRAKE_BUTTON_LABEL": "Check Drake",
-  "~FV_GENOME_CHALLENGE.HATCH_DRAKE_BUTTON_LABEL": "Hatch Drake",
   "~FV_EGG_GAME.BREED_BUTTON": "BREED",
 
   // Challenge instructions
@@ -43,11 +41,17 @@ export default {
   "~BUTTON.NEXT_MISSION": "Next mission",
   "~BUTTON.PLAYGROUND_MOVE_FORWARD": "Bring It On!",
   "~BUTTON.CHECK_DRAKE": "Check Drake",
+  "~BUTTON.HATCH_DRAKE": "Hatch Drake",
   "~BUTTON.SAVE_DRAKE": "Save this",
   "~BUTTON.SUBMIT": "Submit",
   "~BUTTON.RESET": "Reset",
   "~BUTTON.FERTILIZE_DISABLED": "Make a baby",
   "~BUTTON.FERTILIZE": "Make a baby! ❤️",
+  "~BUTTON.MALE": "Male",
+  "~BUTTON.FEMALE": "Female",
+
+  "~LABEL.YOUR_DRAKE": "Your Drake",
+  "~LABEL.TARGET_DRAKE": "Target Drake",
 
   "~LEVEL_INDICATOR.LEVEL_LABEL": "LEVEL",
 

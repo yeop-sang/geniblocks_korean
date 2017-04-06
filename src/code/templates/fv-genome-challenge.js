@@ -3,7 +3,7 @@ import EggHatchDrakeView from '../fv-components/egg-hatch-drake';
 import AnimatedSprite from '../components/animated-sprite';
 import OrganismView from '../components/organism';
 import GenomeView from '../components/genome';
-import ChangeSexButtons from '../components/change-sex-buttons';
+import FVChangeSexToggle from '../fv-components/fv-change-sex-toggle';
 import GeneticsUtils from '../utilities/genetics-utils';
 import { generateTrialDrakes } from '../utilities/trial-generator';
 import classNames from 'classnames';
@@ -90,7 +90,9 @@ class TargetDrakeView extends React.Component {
                               onEnd={this.handleIntroComplete} />,
           // instantiating with {display:none} allows images to preload during animation
           completeView = <div className='target-drake-gizmo' style={completeDisplayStyle}>
-                            <div id="target-drake-label">Target Drake</div>
+                            <div id="target-drake-label">
+                              {t('~LABEL.TARGET_DRAKE')}
+                            </div>
                             <OrganismView id="target-drake" org={org} width={300} />
                           </div>;
     return (
@@ -123,8 +125,8 @@ export default class FVGenomeChallenge extends React.Component {
             userChangeableGenes, visibleGenes, hiddenAlleles, showUserDrake } = this.props,
           userDrakeDef = drakes[userDrakeIndex],
           checkHatchButtonLabel = showUserDrake
-                                    ? t('~FV_GENOME_CHALLENGE.CHECK_DRAKE_BUTTON_LABEL')
-                                    : t('~FV_GENOME_CHALLENGE.HATCH_DRAKE_BUTTON_LABEL'),
+                                    ? t('~BUTTON.CHECK_DRAKE')
+                                    : t('~BUTTON.HATCH_DRAKE'),
           targetDrakeDef = drakes[targetDrakeIndex],
           userDrake   = new BioLogica.Organism(BioLogica.Species.Drake, userDrakeDef.alleleString, userDrakeDef.sex),
           targetDrake = new BioLogica.Organism(BioLogica.Species.Drake, targetDrakeDef.alleleString, targetDrakeDef.sex),
@@ -151,11 +153,13 @@ export default class FVGenomeChallenge extends React.Component {
       <div id="genome-challenge">
         <div id='left-column' className='column'>
           <GenomeView org={ userDrake } onAlleleChange={ handleAlleleChange } userChangeableGenes= { userChangeableGenes } visibleGenes={ visibleGenes } hiddenAlleles={ hiddenAlleles }/>
-          <ChangeSexButtons id="change-sex-buttons" sex={ userDrake.sex } onChange= { handleSexChange } showLabel={false} species="Drake"/>
+          <FVChangeSexToggle id="change-sex-buttons" sex={ userDrake.sex } onChange= { handleSexChange } />
         </div>
         <div id="center-column" className='column'>
           <div className='label-container'>
-            <div id="your-drake-label" className="column-label">Your Drake</div>
+            <div id="your-drake-label" className="column-label">
+              {t('~LABEL.YOUR_DRAKE')}
+            </div>
           </div>
           <YourDrakeView org={ userDrake }
                           hatchStarted={this.state.hatchStarted || showUserDrake}
