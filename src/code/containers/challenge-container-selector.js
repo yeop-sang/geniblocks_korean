@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
 import { navigateToCurrentRoute, navigateToChallenge } from '../actions';
 import ChallengeContainer from './challenge-container';
@@ -93,5 +95,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const ConnectedChallengeContainerSelector = connect(mapStateToProps, mapDispatchToProps)(ChallengeContainerSelector);
+const DragDropChallengeContainerSelector = DragDropContext(HTML5Backend)(ChallengeContainerSelector),
+      ConnectedChallengeContainerSelector = connect(mapStateToProps, mapDispatchToProps)(DragDropChallengeContainerSelector);
 export default ConnectedChallengeContainerSelector;
