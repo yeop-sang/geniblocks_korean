@@ -385,7 +385,7 @@ export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrect
             label: "~BUTTON.NEXT_TRIAL",
             action: "advanceTrial"
           },
-          top: "475px"
+          top: "600px"
         };
       }
     } else {
@@ -396,7 +396,7 @@ export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrect
           label: "~BUTTON.TRY_AGAIN",
           action: incorrectAction || "dismissModalDialog"
         },
-        top: "475px"
+        top: "600px"
       };
     }
     dispatch(showModalDialog(dialog));

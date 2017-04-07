@@ -41,14 +41,20 @@ export default {
   "~BUTTON.NEXT_MISSION": "Next mission",
   "~BUTTON.PLAYGROUND_MOVE_FORWARD": "Bring It On!",
   "~BUTTON.CHECK_DRAKE": "Check Drake",
+  "~BUTTON.HATCH_DRAKE": "Hatch Drake",
   "~BUTTON.SAVE_DRAKE": "Save this",
   "~BUTTON.SUBMIT": "Submit",
   "~BUTTON.RESET": "Reset",
   "~BUTTON.FERTILIZE_DISABLED": "Make a baby",
   "~BUTTON.FERTILIZE": "Make a baby! ❤️",
+  "~BUTTON.MALE": "Male",
+  "~BUTTON.FEMALE": "Female",
+
+  "~LABEL.YOUR_DRAKE": "Your Drake",
+  "~LABEL.TARGET_DRAKE": "Target Drake",
 
   "~LEVEL_INDICATOR.LEVEL_LABEL": "LEVEL",
-  
+
   "~COUNTER.TRIAL_LABEL": "TRIAL",
   "~COUNTER.SCORE_LABEL": "SCORE",
   "~COUNTER.n_OF_N": "${0}\xA0\xA0of\xA0\xA0${1}",

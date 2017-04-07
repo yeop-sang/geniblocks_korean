@@ -1,0 +1,36 @@
+.geniblocks.change-sex-toggle-group
+  display: flex
+  justify-content: space-between
+  align-items: center
+  width: 220px
+  margin-top: 30px
+  margin-left: -30px
+
+  .sex-label
+    font-family: 'Yanone Kaffeesatz';
+    font-size: 1.8rem
+    color: #CCC
+
+    &.selected
+      color: white
+      font-weight: bold
+
+  .change-sex-toggle
+    width: 92px
+    height: 41px
+    background-image: url('../resources/fablevision/layout-a/Toggle_base.png')
+
+    .toggle-button
+      display: inline-block
+      width: 50%
+      height: 100%
+
+      &.selected
+        background-image: url('../resources/fablevision/layout-a/toggle_button.png')
+        background-repeat: no-repeat
+
+        &.female-button
+          background-position: 4px 4px
+
+        &.male-button
+          background-position: 0px 4px

@@ -626,7 +626,7 @@ var animationEvents = {
       animationEvents.hatch.inProgress = true;
       animationEvents.hatch.complete = false;
       hatchSoundPlayed = false;
-      _this.setState({hatchStarted:"true"});
+      _this.setState({hatchStarted:true});
     },
     onFinish: function() {
       animationEvents.hatch.complete = true;

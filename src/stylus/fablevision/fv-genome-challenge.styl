@@ -1,0 +1,121 @@
+.fv-layout-a
+  &.mission-backdrop
+    background-image: url('../resources/fablevision/layout-a/screen_border.png'),
+                      url('../resources/fablevision/layout-a/screen_center_box.png'),
+                      url('../resources/fablevision/layout-a/screen_R_chromosome_box.png'),
+                      url('../resources/fablevision/layout-a/screen_L_chromosome_box.png'),
+                      url('../resources/fablevision/layout-a/screen_top_lines.png'),
+                      url('../resources/fablevision/layout-a/screen_target_yourdrake.png'),
+                      url('../resources/fablevision/layout-a/screen.png')
+    background-position: 50% 50%, 50% 6%, 100% 35%, 0% 35%, 50% 9.5%, 50% -2%, 50% 50%
+    background-size: auto, auto, auto, auto, auto, 250px auto, auto
+    overflow: hidden
+
+  #mission-wrapper
+    margin: 150px auto
+    height: 750px
+
+  #genome-challenge
+    width: 100%
+
+  &#challenges
+    #left-column
+      width: 450px
+    #center-column
+      width: 500px
+    #right-column
+      width: 450px
+
+  .geniblocks.chromosome-container
+    .items
+      .labels
+        select
+          font-family: 'Yanone Kaffeesatz';
+          font-size: 1.5rem
+          height: 36px
+
+  .label-container
+    margin-top: -70px
+    width: 250px
+    height: 100px
+    display: flex
+    justify-content: center
+    align-items: center
+
+  .your-drake-surround
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 400px
+    height: 402px
+    margin-top: 10px
+    background-image: url('../resources/fablevision/layout-a/screen_target_egg.png')
+    background-position: 52% 47%
+
+    #your-drake
+      margin-left: -40px
+
+  &#challenges
+    #mission-wrapper
+      #your-drake-label
+        margin: -5px 0 0 0
+        font-family: 'Yanone Kaffeesatz';
+        font-size: 2.5rem
+
+  .hatch-drake-button
+    width: 315px
+    height: 120px
+    display: flex
+    justify-content: center
+    align-items: center
+    background-image: url('../resources/fablevision/layout-a/hatch_ON.png')
+    cursor: pointer
+    color: white
+
+    &:active
+      cursor: default
+      background-image: url('../resources/fablevision/layout-a/hatch_OFF.png')
+      background-position: 17px 17px
+      background-size: auto
+      background-repeat: no-repeat
+
+    .hatch-drake-button-label
+      font-size: 2.5rem
+
+  .target-drake-view
+    pointer-events: none
+
+  .target-gizmo-animation
+    background-image: url('../resources/fablevision/layout-a/Interface_A_V5_TargetDrake-anim.png')
+    width: 915px
+    height: 738px
+    margin-left: 442px
+    margin-top: -80px
+    pointer-events: none
+
+  .target-drake-gizmo
+    position: relative
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    text-align: center
+    width: 705px
+    height: 673px
+    margin-left: 263px
+    margin-top: -41px
+    background-image: url('../resources/fablevision/layout-a/target_gizmo.png')
+
+    #target-drake-label
+      position: absolute
+      display: inline-block
+      margin-left: -20px
+      top: 140px
+      font-family: 'Yanone Kaffeesatz';
+      font-size: 2.5rem
+      font-weight: bold
+      color: white
+
+    #target-drake
+      margin-left: -80px
+
