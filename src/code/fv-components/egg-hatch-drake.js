@@ -11,15 +11,15 @@ export default class EggHatchDrakeView extends React.Component {
     drakeClasses: PropTypes.string,
     drake: PropTypes.object,
     hatchStarted: PropTypes.bool,
-    hatchComplete: PropTypes.bool,
+    skipHatchAnimation: PropTypes.bool,
     onHatchComplete: PropTypes.func
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      hatchStarted: props.hatchStarted || props.hatchComplete,
-      hatchComplete: props.hatchComplete
+      hatchStarted: props.hatchStarted || props.skipHatchAnimation,
+      hatchComplete: props.skipHatchAnimation
     };
   }
 

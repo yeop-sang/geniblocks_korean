@@ -45,16 +45,16 @@ class YourDrakeView extends React.Component {
     org: PropTypes.object,
     className: PropTypes.string,
     hatchStarted: PropTypes.bool,
-    hatchComplete: PropTypes.bool,
+    skipHatchAnimation: PropTypes.bool,
     onHatchComplete: PropTypes.func
   }
 
   render() {
-    const { org, className, hatchStarted, hatchComplete, onHatchComplete } = this.props;
+    const { org, className, hatchStarted, skipHatchAnimation, onHatchComplete } = this.props;
     return (
       <div className='your-drake-surround'>
         <EggHatchDrakeView drake={org} id="your-drake" className={className}
-                            hatchStarted={hatchStarted} hatchComplete={hatchComplete}
+                            hatchStarted={hatchStarted} skipHatchAnimation={skipHatchAnimation}
                             onHatchComplete={onHatchComplete}
                             width={300} />
       </div>
@@ -163,7 +163,7 @@ export default class FVGenomeChallenge extends React.Component {
           </div>
           <YourDrakeView org={ userDrake }
                           hatchStarted={this.state.hatchStarted || showUserDrake}
-                          hatchComplete={showUserDrake}
+                          skipHatchAnimation={showUserDrake}
                           onHatchComplete={handleSubmit} />
           <HatchDrakeButton label={checkHatchButtonLabel} onClick={ handleCheckHatchButton } />
         </div>
