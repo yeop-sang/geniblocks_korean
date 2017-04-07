@@ -23,7 +23,7 @@ import EggHatchView from '../components/egg-hatch';
 import GenomeView from '../components/genome';
 import OrganismView from '../components/organism';
 import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
-import FVEggHatchView from './fv-egg-hatch';
+import FVEggHatchView from '../fv-components/fv-egg-hatch';
 import { generateTrialDrakes } from '../utilities/trial-generator';
 import GeneticsUtils from '../utilities/genetics-utils';
 import urlParams from '../utilities/url-params';
@@ -33,9 +33,7 @@ const EGG_IMAGE_WIDTH_MEDIUM = EGG_IMAGE_WIDTH * 4 / 5,
       EGG_IMAGE_WIDTH_SMALL = EGG_IMAGE_WIDTH / 3,
 
       MEDIUM_EGG_ON_BASKET_X_OFFSET = 37,
-      MEDIUM_EGG_ON_BASKET_Y_OFFSET = -60,
       MEDIUM_EGG_ABOVE_BASKET_Y_OFFSET = -90,
-      MEDIUM_EGG_BELOW_BASKET_Y_OFFSET = 60,
 
       SMALL_EGG_ON_BASKET_X_OFFSET = 52,
       SMALL_EGG_ON_BASKET_Y_OFFSET = 10,
@@ -55,13 +53,6 @@ const FastEggHatch = compose(
                         initialElementId(),
                         targetElementId(),
                         animateSpring(),
-                        // animateSpring() generates 'style', but EggHatchView expects 'displayStyle'
-                        renameProp('style', 'displayStyle'))(EggHatchView),
-      SlowEggHatch = compose(
-                        updateOnResizeScroll,
-                        initialElementId(),
-                        targetElementId(),
-                        animateSpring(60),
                         // animateSpring() generates 'style', but EggHatchView expects 'displayStyle'
                         renameProp('style', 'displayStyle'))(EggHatchView),
       NewEggHatch = compose(
@@ -104,7 +95,7 @@ let animationEvents = {
               topOffset = -40;
         appendAnimation('hatchDrakeInBasket',
           <NewEggHatch
-              organism={animatingDrake} glow={true} scale={scale}
+              organism={animatingDrake} scale={scale}
               initial={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset }}
               initialStyle={{ position: "fixed", size: EGG_IMAGE_WIDTH_MEDIUM }}
               onEnd={function() { animationFinish(animationEvents.hatchDrakeInBasket.id); }}

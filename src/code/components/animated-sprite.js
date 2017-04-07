@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 const tweenState = require('react-tween-state');
 
-const FVAnimatedSprite = React.createClass({
+const AnimatedSprite = React.createClass({
 
   mixins: [tweenState.Mixin],
 
@@ -59,4 +59,4 @@ const FVAnimatedSprite = React.createClass({
   }
 });
 
-export default FVAnimatedSprite;
+export default AnimatedSprite;
