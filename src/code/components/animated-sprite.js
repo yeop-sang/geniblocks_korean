@@ -14,19 +14,22 @@ const FVAnimatedSprite = React.createClass({
     onEnd: PropTypes.func
   },
 
-  defaultProps: {
-    duration: 2000,
-    classNames: ""
+  getDefaultProps() {
+    return ({
+      duration: 2000,
+      classNames: ""
+    });
   },
 
   getInitialState() {
-    return {"backgroundPositionX": 0};
+    return { backgroundPositionX : 0 };
   },
 
   animate() {
     this.tweenState("backgroundPositionX", {
       easing: tweenState.easingTypes.linear,
       duration: this.props.duration,
+      beginValue: 0,  // always animate from beginning
       endValue: this.props.frames,
       onEnd: this.props.onEnd
     });
@@ -39,14 +42,14 @@ const FVAnimatedSprite = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    if (!this.state.started && !nextProps.waitForTrigger)
+    if (this.props.waitForTrigger && !nextProps.waitForTrigger)
       this.animate();
   },
 
   render() {
     const tweenValue = this.state.started
                         ? Math.floor(this.getTweeningValue("backgroundPositionX"))
-                        : 0,
+                        : this.state.backgroundPositionX,
           style = {"backgroundPositionX": tweenValue * -this.props.frameWidth + "px"};
     return (
       <div className={this.props.classNames} style={style}/>
