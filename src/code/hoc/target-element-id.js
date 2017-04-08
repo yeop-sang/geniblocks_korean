@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import unscaleProperties from '../utilities/unscale-properties';
 
 /*
   Higher-order component (HOC) that uses the PropsProxy pattern
@@ -23,14 +24,14 @@ import React, {PropTypes} from 'react';
 export default function targetElementId() {
 
   function getTargetLocation(props) {
-    const { target } = props,
+    const { target, scale } = props,
           elt = target && document.getElementById(target.id),
           eltBounds = elt && elt.getBoundingClientRect();
     if (!eltBounds) return null;
-    return {
+    return unscaleProperties({
       left: eltBounds.left + (target.leftOffset != null ? target.leftOffset : 0),
       top: eltBounds.top + (target.topOffset != null ? target.topOffset : 0)
-    };
+    }, scale);
   }
 
   return function(WrappedComponent) {

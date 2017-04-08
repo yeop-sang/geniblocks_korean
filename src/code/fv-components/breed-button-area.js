@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import BreedButtonView from './breed-button';
 import OrganismView from '../components/organism';
-import FVAnimatedSprite from '../components/animated-sprite';
+import AnimatedSprite from '../components/animated-sprite';
 import classNames from 'classnames';
 import unscaleProperties from '../utilities/unscale-properties';
 
@@ -37,7 +37,7 @@ class BreedButtonAreaView extends React.Component {
                                   isCompleteChromosomeSet(spermChromosomes),
           eggClasses = classNames('egg-image', challengeClasses),
           eggImageView = <div className={classNames('egg-wrapper', challengeClasses)}> 
-                           <FVAnimatedSprite frames={16} frameWidth={1052} onEnd={this.props.handleHatchingComplete} 
+                           <AnimatedSprite frames={16} frameWidth={1052} onEnd={this.props.handleHatchingComplete} 
                                              classNames={eggClasses} duration={this.props.hatchAnimationDuration} /> 
                          </div>;
     let userDrakeView = null;

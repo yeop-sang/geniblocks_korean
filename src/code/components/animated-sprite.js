@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 const tweenState = require('react-tween-state');
 
-const FVAnimatedSprite = React.createClass({
+const AnimatedSprite = React.createClass({
 
   mixins: [tweenState.Mixin],
 
@@ -11,13 +11,15 @@ const FVAnimatedSprite = React.createClass({
     frameWidth: PropTypes.number.isRequired,
     duration: PropTypes.number,
     classNames: PropTypes.string,
-    onEnd: PropTypes.func
+    onEnd: PropTypes.func,
+    style: PropTypes.object
   },
 
   getDefaultProps() {
     return ({
       duration: 2000,
-      classNames: ""
+      classNames: "",
+      style: {}
     });
   },
 
@@ -50,11 +52,11 @@ const FVAnimatedSprite = React.createClass({
     const tweenValue = this.state.started
                         ? Math.floor(this.getTweeningValue("backgroundPositionX"))
                         : this.state.backgroundPositionX,
-          style = {"backgroundPositionX": tweenValue * -this.props.frameWidth + "px"};
+          newStyle = Object.assign({}, this.props.style, {"backgroundPositionX": tweenValue * -this.props.frameWidth + "px"});
     return (
-      <div className={this.props.classNames} style={style}/>
+      <div className={this.props.classNames} style={newStyle}/>
     );
   }
 });
 
-export default FVAnimatedSprite;
+export default AnimatedSprite;
