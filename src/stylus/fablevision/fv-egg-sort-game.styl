@@ -49,11 +49,14 @@
             bottom: 300px
             right: 250px
             .basket-image
-              background: url('../resources/fablevision/layout-d/basket.png')
+              background: url('../resources/fablevision/layout-d/basket_inactive.png')
               width: 505px
               height: 503px
               background-size: contain
               position: absolute
+            &.selected .basket-image
+              background: url('../resources/fablevision/layout-d/basket.png')
+              cursor: pointer
             .basket-label
               width: 80px
               left: 230px
