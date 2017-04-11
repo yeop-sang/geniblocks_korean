@@ -268,16 +268,20 @@ function getEarnedCoinString(state) {
   return ["~ALERT.NEW_PIECE_OF_COIN", scoreString];
 }
 
+function getVisibleGenes(state, routeSpec) {
+  const visibleGenes = AuthoringUtils.getChallengeDefinition(state.authoring, routeSpec).visibleGenes;
+  return visibleGenes && visibleGenes.split(", ");
+}
+
 function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state) {
   const incrementMoves = !correct,
         targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[targetDrakeIndex]),
         userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]),
         initialDrakeOrg = state.initialDrakes[userDrakeIndex] ? GeneticsUtils.convertDrakeToOrg(state.initialDrakes[userDrakeIndex]) : null,
         routeSpec = state.routeSpec,
-        visibleGenes = AuthoringUtils.getChallengeDefinition(state.authoring, routeSpec).visibleGenes,
         // TODO: figure out whether ITS really wants "editableGenes" or "visibleGenes"
         // because it doesn't make sense to log the latter as the former
-        editableGenes = visibleGenes && visibleGenes.split(", ");
+        editableGenes = getVisibleGenes(state, routeSpec);
 
   return {
     type: actionTypes.DRAKE_SUBMITTED,
@@ -437,12 +441,21 @@ export function acceptEggInBasket(args) {
   };
 }
 
-function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect) {
-  let incrementMoves = !isCorrect;
-  return{
+function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, state) {
+  const incrementMoves = !isCorrect,
+        submittedDrake = GeneticsUtils.convertDrakeToOrg(state.drakes[eggDrakeIndex]),
+        submittedBasket = state.baskets[basketIndex],
+        visibleGenes = getVisibleGenes(state, state.routeSpec);
+  return {
     type: actionTypes.EGG_SUBMITTED,
-    eggDrakeIndex,
-    basketIndex,
+    species: BioLogica.Species.Drake.name,
+    submittedPhenotype: submittedDrake.phenotype.characteristics,
+    submittedGenotype: submittedDrake.alleles,
+    submittedSex: submittedDrake.sex,
+    acceptedGenotypes: submittedBasket.alleles,
+    acceptedSexes: submittedBasket.sex === undefined ? [BioLogica.FEMALE, BioLogica.MALE] : [submittedBasket.sex],
+    basketLabel: submittedBasket.label,
+    visibleGenes,
     isCorrect,
     incrementMoves,
     meta: {
@@ -456,8 +469,8 @@ function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect) {
 }
 
 export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChallengeComplete) {
-  return (dispatch) => {
-    dispatch(_submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect));
+  return (dispatch, getState) => {
+    dispatch(_submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, getState()));
 
     if (isCorrect) {
       setTimeout(function() {
