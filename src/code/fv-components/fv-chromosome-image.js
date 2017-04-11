@@ -1,7 +1,23 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 
-const FVChromosomeImageView = ({small=false, bold=false, empty=false, yChromosome=false, xChromosome=false, animationStyling}) => {
+const FVChromosomeImageView = ({small=false, bold=false, empty=false, chromosomeId, animationStyling}) => {
+  function chromosomeIdToClass(chromosomeId) {
+    if (!chromosomeId) {
+      return null;
+    } else if (chromosomeId.endsWith('XYy')) {
+      return 'yChromosome';
+    } else if (chromosomeId.indexOf('x') > -1) {
+      return 'xChromosome';
+    } else if (chromosomeId.indexOf('1') > -1) {
+      return 'one';
+    } else if (chromosomeId.indexOf('2') > -1) {
+      return 'two';
+    }
+    // Default case, may be no ID for empty chromosomes
+    return null;
+  }
+
   let positionStyling = {};
   if (animationStyling){
     positionStyling = {
@@ -9,21 +25,18 @@ const FVChromosomeImageView = ({small=false, bold=false, empty=false, yChromosom
     };
   }
   return (
-    <div className={classNames('fv-chromosome-image', { 'empty': empty, 'bold': bold, 'yChromosome': yChromosome, 'xChromosome': xChromosome, 'small': small})} style={positionStyling}>
+    <div className={classNames('fv-chromosome-image', chromosomeIdToClass(chromosomeId), { 'empty': empty, 'bold': bold,'small': small})} style={positionStyling}>
     </div>
   );
 };
 
 FVChromosomeImageView.propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number,
+  chromosomeId: PropTypes.string,
   split: PropTypes.number,
   color: PropTypes.string,
   small: PropTypes.bool,
   bold: PropTypes.bool,
   empty: PropTypes.bool,
-  xChromosome: PropTypes.bool,
-  yChromosome: PropTypes.bool,
   animationStyling: PropTypes.shape({
                       x: PropTypes.number,
                       y: PropTypes.number,
