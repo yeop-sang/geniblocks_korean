@@ -77,6 +77,9 @@ initializeITSSocket(guideServer, guideProtocol, store);
 const sessionID = uuid.v4(),
       userNameBase = urlParams.baseUser || "gv2-user";
 loggingMetadata.userName = `${userNameBase}-${sessionID.split("-")[0]}`;
+loggingMetadata.classInfo = urlParams.class_info_url;
+loggingMetadata.studentId = urlParams.domain_uid;
+loggingMetadata.externalId = urlParams.externalId;
 // start the session before syncing history, which triggers navigation
 store.dispatch(startSession(sessionID));
 

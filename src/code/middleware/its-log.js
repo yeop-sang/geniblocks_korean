@@ -170,6 +170,9 @@ function createLogEntry(loggingMetadata, action, nextState){
   const message =
     {
       username: loggingMetadata.userName,
+      classInfo: loggingMetadata.classInfo,
+      studentId: loggingMetadata.studentId,
+      externalId: loggingMetadata.externalId,
       session: session,
       time: Date.now(),
       sequence: sequence,
