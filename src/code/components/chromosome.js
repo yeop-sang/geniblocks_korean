@@ -3,6 +3,7 @@ import ChromosomeImageView from './chromosome-image';
 import GeneLabelView from './gene-label';
 import AlleleView from './allele';
 import GeneticsUtils from '../utilities/genetics-utils';
+import {getChromosomeName} from '../fv-components/fv-chromosome-image';
 /**
  * View of a single chromosome, with optional labels, pulldowns, and embedded alleles.
  *
@@ -14,10 +15,15 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
 
   var containerClass = "items",
       empty = false,
-      labelsContainer, allelesContainer, chromId;
+      labelsContainer, allelesContainer;
 
   if (org && chromosomeName && side) {
     chromosome = org.getGenotype().chromosomes[chromosomeName][side];
+  }
+
+  let chromId = null;
+  if (orgName && chromosome) {
+    chromId = orgName + getChromosomeName(chromosome);
   }
 
   if (chromosome) {
@@ -66,10 +72,7 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
         </div>
       );
     }
-
-    chromId = orgName + chromosome.chromosome + chromosome.side;
   } else {
-    chromId = orgName;
     empty = true;
   }
   const handleSelect = function(evt) {
@@ -82,7 +85,7 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
     <div className="geniblocks chromosome-container" onClick={ handleSelect } >
       <div className={ containerClass }>
         <div className="chromosome-allele-container" id={chromId} style={displayStyle}>
-          <ChromosomeImageClass small={small} empty={empty} bold={selected} chromosomeId={chromosome && chromosome.chromosome + chromosome.side}/>
+          <ChromosomeImageClass small={small} empty={empty} bold={selected} chromosomeName={getChromosomeName(chromosome)}/>
           { allelesContainer }
         </div>
         { labelsContainer }

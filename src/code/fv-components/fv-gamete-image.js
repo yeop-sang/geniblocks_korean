@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-import FVChromosomeImageView from './fv-chromosome-image';
+import FVChromosomeImageView, {getChromosomeName} from './fv-chromosome-image';
 
 const FVGameteImageView = ({chromosomes=[], id, className, style, displayStyle}) => {
 
@@ -25,14 +25,12 @@ const FVGameteImageView = ({chromosomes=[], id, className, style, displayStyle})
 
   for(var i = 0; i < chromosomes.length; i++){
     let chromosome = chromosomes[i],
-        chromosomeId = chromosome && chromosome.chromosome + chromosome.side;
+        chromosomeName = getChromosomeName(chromosome);
     chromosomeImages.push(
       <FVChromosomeImageView
         key={i}
         empty={!chromosome}
-        color={chromosome ? '#2CEBFE' : '#0B44DA'}
-        split={12 * scale}
-        chromosomeId={chromosomeId}
+        chromosomeName={chromosomeName}
       />
     );
   }

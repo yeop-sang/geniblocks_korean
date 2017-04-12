@@ -72,12 +72,10 @@ function animatedChromosomeImageHOC(WrappedComponent) {
             { yChromosome } = this.props,
             defaultWidth = 19,
             defaultHeight = yChromosome ? 62 : 90,
-            defaultSplit = yChromosome ? 32 : 34,
             sizeRatio = displayStyle.size != null ? displayStyle.size : 1,
             width = defaultWidth * sizeRatio,
-            height = defaultHeight * sizeRatio,
-            split = defaultSplit * sizeRatio;
-      return <WrappedComponent width={width} height={height} split={split} {...otherProps} />;
+            height = defaultHeight * sizeRatio;
+      return <WrappedComponent width={width} height={height} {...otherProps} />;
     }
   };
 }
@@ -478,7 +476,7 @@ var animationEvents = {
       for (let i = 0; i < parentGameteChromEls.length; ++i) {
         const parentGameteChromEl = parentGameteChromEls[i],
               srcChromBounds = parentGameteChromEl.getBoundingClientRect(),
-              chromView = <AnimatedChromosomeImageView small={true} empty={false} bold={false} chromosomeId={parentGameteChromEl.id}/>;
+              chromView = <AnimatedChromosomeImageView small={true} empty={false} bold={false} chromosomeName={parentGameteChromEl.id}/>;
         components.push(chromView);
         positions.push({ startPositionRect: srcChromBounds, startSize: 1.0,
                         targetPositionRect: getDstChromBounds(i), endSize: 0.2 });
@@ -585,7 +583,7 @@ var animationEvents = {
         start: 1.0,
         end: 1.0
       };
-      animatedComponentToRender = <FVChromosomeImageView small={true} empty={false} bold={true} chromosomeId={chromosomeId}/>;
+      animatedComponentToRender = <FVChromosomeImageView small={true} empty={false} bold={true} chromosomeName={chromosomeId}/>;
       animateMultipleComponents([animatedComponentToRender], [positions], opacity, speed,
                                 animationEvents.selectChromosome.id,
                                 animationEvents.selectChromosome.onFinish);
