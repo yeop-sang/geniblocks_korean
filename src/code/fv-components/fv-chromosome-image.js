@@ -11,7 +11,7 @@ export function getChromosomeDescriptor(chromosome) {
   return chromosome ? {name: chromosome.chromosome, side: chromosome.side} : null;
 }
 
-const FVChromosomeImageView = ({small=false, bold=false, empty=false, chromosomeDescriptor, animationStyling}) => {
+const FVChromosomeImageView = ({small=false, bold=false, empty=false, isSelectedEmpty, chromosomeDescriptor, animationStyling}) => {
   function chromosomeDescriptorToClass(chromosomeDescriptor) {
     if (!chromosomeDescriptor) {
       return null;
@@ -30,7 +30,7 @@ const FVChromosomeImageView = ({small=false, bold=false, empty=false, chromosome
 
   let stripes = null;
 
-  if (chromosomeDescriptor) {
+  if (chromosomeDescriptor && !empty && !(bold && isSelectedEmpty)) {
     const alleles = BioLogica.Species.Drake.chromosomeGeneMap[chromosomeDescriptor.name];
     stripes = alleles.map(a => {
                 return <FVGeneLabelView stripe={true} chromosomeDescriptor={chromosomeDescriptor} allele={a} />;
@@ -55,6 +55,7 @@ FVChromosomeImageView.propTypes = {
   small: PropTypes.bool,
   bold: PropTypes.bool,
   empty: PropTypes.bool,
+  isSelectedEmpty: PropTypes.bool,
   animationStyling: PropTypes.shape({
                       x: PropTypes.number,
                       y: PropTypes.number,

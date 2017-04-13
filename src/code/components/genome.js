@@ -7,7 +7,7 @@ import ChromosomeView from './chromosome';
  * Usually defined by passing in a Biologica Organism, but may also be defined by
  * passing in a map of Biologica Chromosomes and a Biologica Species.
  */
-const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, species, userChangeableGenes=[], visibleGenes=[], hiddenAlleles=[], editable=true, showLabels=true, showAlleles=false, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected, chromosomeHeight, parentGenome=false}) => {
+const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, species, userChangeableGenes=[], visibleGenes=[], hiddenAlleles=[], editable=true, showLabels=true, showAlleles=false, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected, chromosomeHeight, isSelectedEmpty=false}) => {
   let pairWrappers = [];
   if (org) {
     chromosomes = org.genetics.genotype.chromosomes;
@@ -35,7 +35,7 @@ const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, speci
           small={small}
           orgName={orgName}
           displayStyle={displayStyle}
-          parentGenome={parentGenome}
+          isSelectedEmpty={isSelectedEmpty}
           height={chromosomeHeight}
           onAlleleChange={function(prevAllele, newAllele) {
             onAlleleChange(chromosomeName, side, prevAllele, newAllele);
@@ -79,7 +79,7 @@ GenomeView.propTypes = {
   displayStyle: PropTypes.object,
   onChromosomeSelected: PropTypes.func,
   orgName: PropTypes.string,
-  parentGenome: PropTypes.bool
+  isSelectedEmpty: PropTypes.bool
 };
 
 export default GenomeView;

@@ -1094,7 +1094,7 @@ export default class FVEggGame extends Component {
                                   selectedChromosomes: fatherSelectedChromosomes };
       return <GenomeView className={parentGenomeClass}  {...uniqueProps} ChromosomeImageClass={FVChromosomeImageView}
                         small={ true } editable={false} userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes }
-                        onAlleleChange={ handleAlleleChange } parentGenome={true} chromosomeHeight={122}
+                        onAlleleChange={ handleAlleleChange } isSelectedEmpty={true} chromosomeHeight={122}
                         onChromosomeSelected={_this.handleChromosomeSelected} />;
     }
 

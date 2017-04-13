@@ -12,7 +12,7 @@ import {getChromosomeDescriptor} from '../fv-components/fv-chromosome-image';
  * chromosome name and side.
  */
 
-const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageView, chromosomeName, side, userChangeableGenes = [], visibleGenes = [], hiddenAlleles = [], small = false, editable = true, selected = false, onAlleleChange, onChromosomeSelected, showLabels = true, showAlleles = false, labelsOnRight = true, orgName, parentGenome, height, displayStyle = {}}) => {
+const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageView, chromosomeName, side, userChangeableGenes = [], visibleGenes = [], hiddenAlleles = [], small = false, editable = true, selected = false, onAlleleChange, onChromosomeSelected, showLabels = true, showAlleles = false, labelsOnRight = true, orgName, isSelectedEmpty, height, displayStyle = {}}) => {
 
   var containerClass = "items",
       empty = false,
@@ -43,7 +43,7 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
           );
         } else {
           return (
-            selected && parentGenome ? null : <FVGeneLabelView chromosomeDescriptor={getChromosomeDescriptor(chromosome)} chromosomeHeight={height} allele={a.allele} species={chromosome.species} />
+            selected && isSelectedEmpty ? null : <FVGeneLabelView chromosomeDescriptor={getChromosomeDescriptor(chromosome)} chromosomeHeight={height} allele={a.allele} species={chromosome.species} />
           );
         }
       });
@@ -87,7 +87,7 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
     <div className="geniblocks chromosome-container" onClick={ handleSelect } >
       <div className={ containerClass }>
         <div className="chromosome-allele-container" id={chromId} style={displayStyle}>
-          <ChromosomeImageClass small={small} empty={empty} bold={selected} chromosomeDescriptor={getChromosomeDescriptor(chromosome)}/>
+          <ChromosomeImageClass isSelectedEmpty={isSelectedEmpty} small={small} empty={empty} bold={selected} chromosomeDescriptor={getChromosomeDescriptor(chromosome)}/>
           { allelesContainer }
         </div>
         { labelsContainer }
@@ -114,7 +114,7 @@ ChromosomeView.propTypes = {
   displayStyle: PropTypes.object,
   onAlleleChange: PropTypes.func,
   onChromosomeSelected: PropTypes.func,
-  parentGenome: PropTypes.bool,
+  isSelectedEmpty: PropTypes.bool,
   orgName: PropTypes.string,
   height: PropTypes.number
 };
