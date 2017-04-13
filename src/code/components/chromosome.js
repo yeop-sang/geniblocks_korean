@@ -4,7 +4,7 @@ import GeneLabelView from './gene-label';
 import FVGeneLabelView from '../fv-components/fv-gene-label';
 import AlleleView from './allele';
 import GeneticsUtils from '../utilities/genetics-utils';
-import {getChromosomeName} from '../fv-components/fv-chromosome-image';
+import {getChromosomeDescriptor} from '../fv-components/fv-chromosome-image';
 /**
  * View of a single chromosome, with optional labels, pulldowns, and embedded alleles.
  *
@@ -24,7 +24,7 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
 
   let chromId = null;
   if (orgName && chromosome) {
-    chromId = orgName + getChromosomeName(chromosome);
+    chromId = orgName + "-" + chromosome.chromosome + "-" + chromosome.side;
   }
 
   if (chromosome) {
@@ -43,18 +43,10 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
           );
         } else {
           return (
-            selected && parentGenome ? null : <FVGeneLabelView chromosomeName={chromosomeName} chromosomeHeight={height} allele={a.allele} species={chromosome.species} />
+            selected && parentGenome ? null : <FVGeneLabelView chromosomeDescriptor={getChromosomeDescriptor(chromosome)} chromosomeHeight={height} allele={a.allele} species={chromosome.species} />
           );
         }
       });
-      let stripes = alleles.map(a => {
-        if (ChromosomeImageClass !== ChromosomeImageView) {
-          return (
-            selected && parentGenome ? null : <FVGeneLabelView stripe={true} chromosomeName={chromosomeName} chromosomeHeight={height} allele={a} species={chromosome.species} />
-          );
-        }
-      });
-      labels = labels.concat(stripes);
 
       labelsContainer = (
         <div className="labels">
@@ -95,7 +87,7 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
     <div className="geniblocks chromosome-container" onClick={ handleSelect } >
       <div className={ containerClass }>
         <div className="chromosome-allele-container" id={chromId} style={displayStyle}>
-          <ChromosomeImageClass small={small} empty={empty} bold={selected} chromosomeName={getChromosomeName(chromosome)}/>
+          <ChromosomeImageClass small={small} empty={empty} bold={selected} chromosomeDescriptor={getChromosomeDescriptor(chromosome)}/>
           { allelesContainer }
         </div>
         { labelsContainer }

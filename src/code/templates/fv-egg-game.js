@@ -476,7 +476,9 @@ var animationEvents = {
       for (let i = 0; i < parentGameteChromEls.length; ++i) {
         const parentGameteChromEl = parentGameteChromEls[i],
               srcChromBounds = parentGameteChromEl.getBoundingClientRect(),
-              chromView = <AnimatedChromosomeImageView small={true} empty={false} bold={false} chromosomeName={parentGameteChromEl.id}/>;
+              descriptorComponents = parentGameteChromEl.id.split("-"),
+              chromosomeDescriptor = {name: descriptorComponents[1], side: descriptorComponents[2]},
+              chromView = <AnimatedChromosomeImageView small={true} empty={false} bold={false} chromosomeDescriptor={chromosomeDescriptor}/>;
         components.push(chromView);
         positions.push({ startPositionRect: srcChromBounds, startSize: 1.0,
                         targetPositionRect: getDstChromBounds(i), endSize: 0.2 });
@@ -583,7 +585,9 @@ var animationEvents = {
         start: 1.0,
         end: 1.0
       };
-      animatedComponentToRender = <FVChromosomeImageView small={true} empty={false} bold={true} chromosomeName={chromosomeId}/>;
+      let descriptorComponents = chromosomeId.split("-"),
+          chromosomeDescriptor = {name: descriptorComponents[1], side: descriptorComponents[2]};
+      animatedComponentToRender = <FVChromosomeImageView small={true} empty={false} bold={true} chromosomeDescriptor={chromosomeDescriptor}/>;
       animateMultipleComponents([animatedComponentToRender], [positions], opacity, speed,
                                 animationEvents.selectChromosome.id,
                                 animationEvents.selectChromosome.onFinish);

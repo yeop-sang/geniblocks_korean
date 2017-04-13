@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import FVGeneLabelView from './fv-gene-label';
 import classNames from 'classnames';
 
 /**
@@ -6,25 +7,34 @@ import classNames from 'classnames';
  * null if no chromosome is given.
  * @param {object} chromosome - The chromosome which the returned name will describe
  */
-export function getChromosomeName(chromosome) {
-  return chromosome ? chromosome.chromosome + chromosome.side : null;
+export function getChromosomeDescriptor(chromosome) {
+  return chromosome ? {name: chromosome.chromosome, side: chromosome.side} : null;
 }
 
-const FVChromosomeImageView = ({small=false, bold=false, empty=false, chromosomeName, animationStyling}) => {
-  function chromosomeNameToClass(chromosomeName) {
-    if (!chromosomeName) {
+const FVChromosomeImageView = ({small=false, bold=false, empty=false, chromosomeDescriptor, animationStyling}) => {
+  function chromosomeDescriptorToClass(chromosomeDescriptor) {
+    if (!chromosomeDescriptor) {
       return null;
-    } else if (chromosomeName.endsWith('XYy')) {
+    } else if (chromosomeDescriptor.side === 'y') {
       return 'chromosome-y';
-    } else if (chromosomeName.indexOf('x') > -1) {
+    } else if (chromosomeDescriptor.side === 'x') {
       return 'chromosome-x';
-    } else if (chromosomeName.indexOf('1') > -1) {
+    } else if (chromosomeDescriptor.name === '1') {
       return 'chromosome-1';
-    } else if (chromosomeName.indexOf('2') > -1) {
+    } else if (chromosomeDescriptor.name === '2') {
       return 'chromosome-2';
     }
     // Default case, no name for empty chromosomes
     return null;
+  }
+
+  let stripes = null;
+
+  if (chromosomeDescriptor) {
+    const alleles = BioLogica.Species.Drake.chromosomeGeneMap[chromosomeDescriptor.name];
+    stripes = alleles.map(a => {
+                return <FVGeneLabelView stripe={true} chromosomeDescriptor={chromosomeDescriptor} allele={a} />;
+              });
   }
 
   let positionStyling = {};
@@ -34,13 +44,14 @@ const FVChromosomeImageView = ({small=false, bold=false, empty=false, chromosome
     };
   }
   return (
-    <div className={classNames('fv-chromosome-image', chromosomeNameToClass(chromosomeName), { 'empty': empty, 'bold': bold,'small': small})} style={positionStyling}>
+    <div className={classNames('fv-chromosome-image', chromosomeDescriptorToClass(chromosomeDescriptor), { 'empty': empty, 'bold': bold,'small': small})} style={positionStyling}>
+      {stripes}
     </div>
   );
 };
 
 FVChromosomeImageView.propTypes = {
-  chromosomeName: PropTypes.string,
+  chromosomeDescriptor: PropTypes.object,
   small: PropTypes.bool,
   bold: PropTypes.bool,
   empty: PropTypes.bool,
