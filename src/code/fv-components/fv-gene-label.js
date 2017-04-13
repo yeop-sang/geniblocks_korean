@@ -8,15 +8,23 @@ const FVGeneLabelView = ({allele, chromosomeDescriptor, chromosomeHeight=122, st
         chromStart = gene.start;
       }
     });
-    const bioChromHeight = BioLogica.Species.Drake.chromosomesLength[chromosomeDescriptor.name],
-          stripeHeight = chromosomeHeight * .04,
-          percentHeight = chromStart/bioChromHeight,
-          style = {marginTop: percentHeight * chromosomeHeight - stripeHeight * 3 + "px"},
+    let bioChromHeight = BioLogica.Species.Drake.chromosomesLength[chromosomeDescriptor.name],
+        stripeHeight = chromosomeHeight * .04,
+        percentHeight = chromStart/bioChromHeight;
+
+    // Manually adjust certain labels and stripes up for the time being
+    let normalizedAllele = allele.toLowerCase();
+    if (normalizedAllele === "fl" || normalizedAllele === "hl" || normalizedAllele.indexOf('a') === 0) {
+      percentHeight -= .1;
+    }
+
+    const style = {marginTop: percentHeight * chromosomeHeight - stripeHeight * 3 + "px"},
           stripeStyle = {height: stripeHeight + "px"};
 
     let labelStyle = {marginTop: -stripeHeight * .6},
         lineStyle = Object.assign({}, labelStyle);
-    if (allele.toLowerCase() === "fl") {
+    
+    if (normalizedAllele === "fl") {
       labelStyle.marginTop -= stripeHeight * 5;
       lineStyle.marginTop -= stripeHeight;
     }
