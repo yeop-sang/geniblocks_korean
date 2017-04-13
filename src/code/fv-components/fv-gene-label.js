@@ -9,7 +9,7 @@ const FVGeneLabelView = ({allele, chromosomeDescriptor, chromosomeHeight=122, st
       }
     });
     let bioChromHeight = BioLogica.Species.Drake.chromosomesLength[chromosomeDescriptor.name],
-        stripeHeight = chromosomeHeight * .04,
+        stripeHeight = chromosomeHeight * .03,
         percentHeight = chromStart/bioChromHeight;
 
     // Manually adjust certain labels and stripes up for the time being
@@ -21,7 +21,7 @@ const FVGeneLabelView = ({allele, chromosomeDescriptor, chromosomeHeight=122, st
     const style = {marginTop: percentHeight * chromosomeHeight - stripeHeight * 3 + "px"},
           stripeStyle = {height: stripeHeight + "px"};
 
-    let labelStyle = {marginTop: -stripeHeight * .6},
+    let labelStyle = {marginTop: -stripeHeight * .8},
         lineStyle = Object.assign({}, labelStyle);
     
     if (normalizedAllele === "fl") {
