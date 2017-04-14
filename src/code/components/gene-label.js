@@ -1,4 +1,18 @@
 import React, {PropTypes} from 'react';
+const SimpleSelect = require("react-selectize").SimpleSelect;
+
+const Form = React.createClass({
+    propTypes: {
+      defaultOption: PropTypes.object,
+      options: PropTypes.array,
+      handleChange: PropTypes.func
+    },
+
+    // render :: a -> ReactElement
+    render: function(){
+        return <SimpleSelect defaultValue={this.props.defaultOption} onValueChange={this.props.handleChange} options = {this.props.options} hideResetButton={true} editable={false} disabled={false}></SimpleSelect>;
+    }
+});
 
 const GeneLabelView = ({species, allele, editable=false, hiddenAlleles=[], onAlleleChange}) => {
   if (!editable) {
@@ -12,16 +26,16 @@ const GeneLabelView = ({species, allele, editable=false, hiddenAlleles=[], onAll
     );
   } else {
     const alleles = BioLogica.Genetics.getGeneOfAllele(species, allele).alleles,
+          alleleName = species.alleleLabelMap[allele],
           visibleAlleles = alleles.filter(a => hiddenAlleles.indexOf(a) === -1),
           alleleNames = visibleAlleles.map(a => species.alleleLabelMap[a]),
           alleleOptions = alleleNames.map((name, i) => (
-                            <option key={name} value={visibleAlleles[i]}>{name}</option>)
-                          );
+                            {label:name, value:visibleAlleles[i]}
+                          ));
+
     return (
-      <div className="geniblocks gene-label allele editable">
-        <select value={ allele } onChange={ onAlleleChange }>
-          { alleleOptions }
-        </select>
+      <div id='mountNode'>
+          <Form defaultOption={{label: alleleName, value: allele}} options={alleleOptions} handleChange={onAlleleChange}/> 
       </div>
     );
   }
