@@ -76,8 +76,8 @@ let animationEvents = {
           animatingDrake = new BioLogica.Organism(BioLogica.Species.Drake, egg.alleles, egg.sex);
           targetBasketIndex = basketIndex;
 
-          const leftOffset = 400,
-                topOffset = 200;
+          const leftOffset = 375,
+                topOffset = 100;
           appendAnimation('moveEggToBasket',
             <FastEggHatch
                 egg={animatingEgg} organism={animatingDrake}
@@ -91,8 +91,8 @@ let animationEvents = {
       }},
       hatchDrakeInBasket: { id: 1, complete: false, animate: function() {
         const { scale } = _this.props,
-              leftOffset = -250,
-              topOffset = -40;
+              leftOffset = -255,
+              topOffset = -140;
         appendAnimation('hatchDrakeInBasket',
           <NewEggHatch
               organism={animatingDrake} scale={scale}
@@ -104,8 +104,8 @@ let animationEvents = {
       fadeDrakeAway: { id: 2, complete: false, animate: function() {
         const { baskets, scale } = _this.props,
               targetBasket = targetBasketIndex >= 0 ? baskets[targetBasketIndex] : null,
-              leftOffset = 122,
-              topOffset = 204.5;
+              leftOffset = 113.5,
+              topOffset = 105.5;
         _this.clearSelection();
         resetAnimationEvents(false);
 
