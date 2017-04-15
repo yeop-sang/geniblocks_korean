@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
 import EggHatchDrakeView from '../fv-components/egg-hatch-drake';
 import AnimatedSprite from '../components/animated-sprite';
 import OrganismView from '../components/organism';
@@ -152,7 +153,7 @@ export default class FVGenomeChallenge extends React.Component {
     return (
       <div id="genome-challenge">
         <div id='left-column' className='column'>
-          <GenomeView org={ userDrake } onAlleleChange={ handleAlleleChange } userChangeableGenes= { userChangeableGenes } visibleGenes={ visibleGenes } hiddenAlleles={ hiddenAlleles }/>
+          <GenomeView small={true} ChromosomeImageClass={FVChromosomeImageView} org={ userDrake } onAlleleChange={ handleAlleleChange } userChangeableGenes= { userChangeableGenes } visibleGenes={ visibleGenes } hiddenAlleles={ hiddenAlleles }/>
           <FVChangeSexToggle id="change-sex-buttons" sex={ userDrake.sex } onChange= { handleSexChange } />
         </div>
         <div id="center-column" className='column'>

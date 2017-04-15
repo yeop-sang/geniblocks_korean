@@ -59,7 +59,12 @@ const ChromosomeView = ({chromosome, chromosomeDescriptor, ChromosomeImageClass=
           );
         } else {
           return (
-            <FVGeneLabelView chromosomeDescriptor={chromosomeDescriptor} chromosomeHeight={height} allele={a.allele} species={chromosome.species} />
+            <FVGeneLabelView editable={editable && a.editable} chromosomeDescriptor={chromosomeDescriptor} 
+                             chromosomeHeight={height} allele={a.allele} species={chromosome.species} 
+                             onAlleleChange={function(event) {
+                               onAlleleChange(a.allele, event.value);
+                             }
+            }/>
           );
         }
       });

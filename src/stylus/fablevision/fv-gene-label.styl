@@ -1,3 +1,39 @@
+.geniblocks.genome #mountNode .react-selectize-control
+  display: flex
+  flex-direction: row
+  height: 40px
+  input
+    font-family: "Yanone Kaffeesatz";
+    font-size: 1.5rem;
+
+.geniblocks.genome 
+    #mountNode
+      position: relative
+      z-index: 1
+      margin-left: -10px
+      .react-selectize-search-field-and-selected-values
+        height: 10px
+        display: flex
+        flex-direction: row
+    .rtl #mountNode
+      margin-right: -10px
+
+.geniblocks.genome .fl #mountNode
+  margin-top: -47px
+
+.geniblocks.genome #mountNode .react-selectize-search-field-and-selected-values
+  height: 40px
+  display: flex
+  flex-direction: row
+
+.geniblocks.fv-gene-label.allele.noneditable
+  &.w
+    z-index: 4
+  &.fl
+    z-index: 3
+  &.hl
+    z-index: 2
+
 .fv-layout
 
   .geniblocks.fv-gene-label
