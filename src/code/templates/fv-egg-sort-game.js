@@ -104,8 +104,8 @@ let animationEvents = {
       fadeDrakeAway: { id: 2, complete: false, animate: function() {
         const { baskets, scale } = _this.props,
               targetBasket = targetBasketIndex >= 0 ? baskets[targetBasketIndex] : null,
-              leftOffset = 113.5,
-              topOffset = 105.5;
+              leftOffset = 70.5,
+              topOffset = 77.5;
         _this.clearSelection();
         resetAnimationEvents(false);
 
@@ -123,7 +123,7 @@ let animationEvents = {
               initialStyle={{ position: "fixed", marginLeft: 0, size: EGG_IMAGE_WIDTH_MEDIUM }}
               targetOpacity={0}
               duration={1000}
-              width={EGG_IMAGE_WIDTH_MEDIUM*2.5}
+              width={EGG_IMAGE_WIDTH_MEDIUM*3.5}
               onClick={handleClick}
               onEnd={function() { animationFinish(animationEvents.fadeDrakeAway.id); }}
           />);
