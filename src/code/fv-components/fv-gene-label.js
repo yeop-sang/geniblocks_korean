@@ -30,12 +30,15 @@ const FVGeneLabelView = ({species, editable, allele, hiddenAlleles=[], onAlleleC
     const style = {marginTop: percentHeight * chromosomeHeight - stripeHeight * 3 + "px"},
           stripeStyle = {height: stripeHeight + "px"};
 
-    let labelStyle = {marginTop: -stripeHeight * .8},
-        lineStyle = Object.assign({}, labelStyle);
+    let labelStyle = {marginTop: -stripeHeight * .8, marginLeft: -2, marginRight: -2},
+        lineStyle = {marginTop: -stripeHeight * .8};
     
     if (normalizedAllele === "fl") {
       labelStyle.marginTop -= stripeHeight * 5;
       lineStyle.marginTop -= stripeHeight;
+    } else if (normalizedAllele === "h") {
+      labelStyle.marginTop = 6;
+      lineStyle.marginTop += stripeHeight;
     }
 
     const line = stripe ? null : <div className="line" style={lineStyle}></div>,
