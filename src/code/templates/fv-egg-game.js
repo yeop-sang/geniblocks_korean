@@ -929,7 +929,7 @@ export default class FVEggGame extends Component {
   render() {
     const { challengeType, interactionType, scale, showUserDrake, trial, drakes, gametes,
             userChangeableGenes, visibleGenes, userDrakeHidden, onChromosomeAlleleChange,
-            onFertilize, onHatch, onResetGametes, onKeepOffspring, onDrakeSubmission } = this.props,
+            onFertilize, onHatch, onResetGametes, onKeepOffspring, onDrakeSubmission, moves } = this.props,
           { currentGametes } = gametes,
           { animatingGametes } = this.state,
           firstTargetDrakeIndex = 3, // 0: mother, 1: father, 2: child, 3-5: targets
@@ -987,8 +987,13 @@ export default class FVEggGame extends Component {
       }
     };
     const handleReset = function() {
+      if (moves >= 1) {
+        // Treat reset and submit the same after a mistake has been made
+        handleSubmit();
+        return;
+      }
       resetAnimationEvents({ showStaticGametes: true, showHatchAnimation: showUserDrake });
-      onResetGametes();
+      onResetGametes(true);
     };
 
     function getGameteChromosomeMap(parent, gamete, side) {
@@ -1241,7 +1246,8 @@ export default class FVEggGame extends Component {
     onHatch: PropTypes.func,
     onResetGametes: PropTypes.func,
     onKeepOffspring: PropTypes.func,
-    onDrakeSubmission: PropTypes.func
+    onDrakeSubmission: PropTypes.func,
+    moves: PropTypes.number
   }
 
   static authoredGametesToGametePools = function(authoredChallenge, drakes, trial) {
