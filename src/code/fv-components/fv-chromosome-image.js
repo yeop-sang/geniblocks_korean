@@ -3,9 +3,8 @@ import FVGeneLabelView from './fv-gene-label';
 import classNames from 'classnames';
 
 /**
- * Returns a descriptive, but not necessarily unique, name of a given chromosome. Returns
- * null if no chromosome is given.
- * @param {object} chromosome - The chromosome which the returned name will describe
+ * Returns an object of the form {name, side} which describes the given chromosome.
+ * @param {object} chromosome - The chromosome which the returned object describes
  */
 export function getChromosomeDescriptor(chromosome) {
   return chromosome ? {name: chromosome.chromosome, side: chromosome.side} : null;

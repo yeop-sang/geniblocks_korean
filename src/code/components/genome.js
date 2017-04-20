@@ -22,7 +22,6 @@ const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, speci
         <ChromosomeView
           ChromosomeImageClass={ChromosomeImageClass}
           chromosome={chromosome}
-          chromosomeName={chromosomeName}
           key={pairs.length + 1}
           userChangeableGenes={userChangeableGenes}
           visibleGenes={visibleGenes}

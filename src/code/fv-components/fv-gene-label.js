@@ -29,7 +29,7 @@ const FVGeneLabelView = ({allele, chromosomeDescriptor, chromosomeHeight=122, st
       lineStyle.marginTop -= stripeHeight;
     }
 
-    const line = stripe ? null : <div className="line" foo={chromosomeDescriptor.side} style={lineStyle}></div>,
+    const line = stripe ? null : <div className="line" style={lineStyle}></div>,
           label = stripe ? null : <div style={labelStyle}>{BioLogica.Species.Drake.alleleLabelMap[allele]}</div>,
           stripeDiv = stripe && chromosomeDescriptor.side !== 'y' ? <div className="stripe" style={stripeStyle}></div> : null;
           
