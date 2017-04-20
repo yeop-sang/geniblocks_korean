@@ -12,15 +12,11 @@ import {getChromosomeDescriptor} from '../fv-components/fv-chromosome-image';
  * chromosome name and side.
  */
 
-const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageView, side, userChangeableGenes = [], visibleGenes = [], hiddenAlleles = [], small = false, editable = true, selected = false, onAlleleChange, onChromosomeSelected, showLabels = true, showAlleles = false, labelsOnRight = true, orgName, isSelectedEmpty, height, displayStyle = {}}) => {
+const ChromosomeView = ({chromosome, ChromosomeImageClass=ChromosomeImageView, userChangeableGenes = [], visibleGenes = [], hiddenAlleles = [], small = false, editable = true, selected = false, onAlleleChange, onChromosomeSelected, showLabels = true, showAlleles = false, labelsOnRight = true, orgName, isSelectedEmpty, height, displayStyle = {}}) => {
 
   var containerClass = "items",
       empty = false,
       labelsContainer, allelesContainer;
-
-  if (org && chromosome && side) {
-    chromosome = org.getGenotype().chromosomes[chromosome.chromosome][side];
-  }
 
   let chromId = null;
   if (orgName && chromosome) {
@@ -98,8 +94,6 @@ const ChromosomeView = ({chromosome, org, ChromosomeImageClass=ChromosomeImageVi
 
 ChromosomeView.propTypes = {
   ChromosomeImageClass: PropTypes.func,
-  org: PropTypes.object,
-  side: PropTypes.string,
   chromosome: PropTypes.object,
   userChangeableGenes: PropTypes.array,
   visibleGenes: PropTypes.array,
