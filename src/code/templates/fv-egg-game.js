@@ -841,7 +841,7 @@ export default class FVEggGame extends Component {
   }
 
   handleChromosomeSelected = (org, name, side, elt) => {
-    if (this.props.interactionType !== 'select-gametes')
+    if (this.props.interactionType !== 'select-gametes' && !elt.querySelector(".empty"))
       this.selectChromosomes(org.sex, defaultAnimationSpeed, [{name, side, elt }]);
   }
 
@@ -1087,15 +1087,19 @@ export default class FVEggGame extends Component {
           fatherGametes = gametesToShowInPool(BioLogica.MALE);
 
     function parentGenomeView(sex) {
-      const uniqueProps = sex === BioLogica.FEMALE
-                              ? { orgName: 'mother', org: mother,
-                                  selectedChromosomes: motherSelectedChromosomes }
-                              : { orgName: 'father', org: father,
-                                  selectedChromosomes: fatherSelectedChromosomes };
-      return <GenomeView className={parentGenomeClass}  {...uniqueProps} ChromosomeImageClass={FVChromosomeImageView}
-                        small={ true } editable={false} userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes }
-                        onAlleleChange={ handleAlleleChange } isSelectedEmpty={true} chromosomeHeight={122}
-                        onChromosomeSelected={_this.handleChromosomeSelected} />;
+      const org = sex === BioLogica.FEMALE ? mother : father,
+            chromosomes = org.genetics.genotype.chromosomes,
+            uniqueProps = sex === BioLogica.FEMALE
+                              ? { orgName: 'mother', selectedChromosomes: motherSelectedChromosomes }
+                              : { orgName: 'father', selectedChromosomes: fatherSelectedChromosomes };
+      Object.keys(uniqueProps.selectedChromosomes).forEach(chromosomeName => {
+        const chromosomeSide = uniqueProps.selectedChromosomes[chromosomeName];
+        chromosomes[chromosomeName][chromosomeSide] = null;
+      });
+      return <GenomeView className={parentGenomeClass}  species={org.species} chromosomes={chromosomes} org={org} 
+                         {...uniqueProps} ChromosomeImageClass={FVChromosomeImageView} small={ true } editable={false} 
+                         userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange } 
+                         chromosomeHeight={122} onChromosomeSelected={_this.handleChromosomeSelected} />;
     }
 
     function parentHalfGenomeView(sex) {

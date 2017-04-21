@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import ChromosomeView from './chromosome';
+import {getChromosomeDescriptor} from '../fv-components/fv-chromosome-image';
 
 /**
  * View of the set of chromosomes of an organism, ordered as matched pairs.
@@ -7,12 +8,12 @@ import ChromosomeView from './chromosome';
  * Usually defined by passing in a Biologica Organism, but may also be defined by
  * passing in a map of Biologica Chromosomes and a Biologica Species.
  */
-const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, species, userChangeableGenes=[], visibleGenes=[], hiddenAlleles=[], editable=true, showLabels=true, showAlleles=false, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected, chromosomeHeight, isSelectedEmpty=false}) => {
+const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, species, userChangeableGenes=[], visibleGenes=[], hiddenAlleles=[], editable=true, showLabels=true, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected, chromosomeHeight}) => {
+  // Prefer explicitly passed variables to those extracted from the passed organism
+  chromosomes = chromosomes || org.genetics.genotype.chromosomes;
+  species = species || org.species;
+
   let pairWrappers = [];
-  if (org) {
-    chromosomes = org.genetics.genotype.chromosomes;
-    species = org.species;
-  }
   for (let chromosomeName of species.chromosomeNames) {
     let chrom = chromosomes[chromosomeName],
         pairs = [];
@@ -22,6 +23,8 @@ const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, speci
         <ChromosomeView
           ChromosomeImageClass={ChromosomeImageClass}
           chromosome={chromosome}
+          chromosomeDescriptor={getChromosomeDescriptor(chromosome) || {name: chromosomeName, side: side}}
+          chromosomeName={chromosomeName}
           key={pairs.length + 1}
           userChangeableGenes={userChangeableGenes}
           visibleGenes={visibleGenes}
@@ -30,11 +33,9 @@ const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, speci
           editable={editable}
           selected={selectedChromosomes[chromosomeName] === side}
           showLabels={showLabels}
-          showAlleles={showAlleles}
           small={small}
           orgName={orgName}
           displayStyle={displayStyle}
-          isSelectedEmpty={isSelectedEmpty}
           height={chromosomeHeight}
           onAlleleChange={function(prevAllele, newAllele) {
             onAlleleChange(chromosomeName, side, prevAllele, newAllele);
@@ -71,14 +72,12 @@ GenomeView.propTypes = {
   onAlleleChange: PropTypes.func,
   editable: PropTypes.bool,
   showLabels: PropTypes.bool,
-  showAlleles: PropTypes.bool,
   selectedChromosomes: PropTypes.object,
   small: PropTypes.bool,
   chromosomeHeight: PropTypes.number,
   displayStyle: PropTypes.object,
   onChromosomeSelected: PropTypes.func,
-  orgName: PropTypes.string,
-  isSelectedEmpty: PropTypes.bool
+  orgName: PropTypes.string
 };
 
 export default GenomeView;

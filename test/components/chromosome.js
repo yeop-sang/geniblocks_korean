@@ -30,57 +30,9 @@ describe("<ChromosomeView />", function(){
 
   it("should create no labels if showLabels is false", function() {
     const wrapper = shallow(<ChromosomeView chromosome={chromosome} showLabels={false}/>),
-          labelsWrapper = wrapper.find('div.labels');
-    assert.lengthOf(labelsWrapper, 0, "should create no <div> with 'labels' class");
-  });
-
-  it("should create alleles if showAlleles is true", function() {
-    const wrapper = shallow(<ChromosomeView chromosome={chromosome} showAlleles={true}/>),
-          allelesWrapper = wrapper.find('div.alleles');
-    assert.lengthOf(allelesWrapper, 1, "should create 1 <div> with 'alleles' class");
-  });
-
-  it("should create appropriate labels and alleles when we don't specify changeable or visible genes", function() {
-    const wrapper = shallow(<ChromosomeView chromosome={chromosome} showAlleles={true}/>),
-          labels = wrapper.find('GeneLabelView'),
-          alleles = wrapper.find('AlleleView');
-    assert.lengthOf(labels, 4, "should create 4 GeneLabelViews");
-    assert.lengthOf(alleles, 4, "should create 4 AlleleViews");
-    for (let label of labels) {
-      assert.isFalse(label.props.editable);
-    }
-  });
-
-  it("should create appropriate labels and alleles when we only specify changeable genes", function() {
-    const wrapper = shallow(<ChromosomeView chromosome={chromosome} userChangeableGenes={["wings", "tail"]} showAlleles={true}/>),
-          labels = wrapper.find('GeneLabelView'),
-          alleles = wrapper.find('AlleleView');
-    assert.lengthOf(labels, 2, "should create 2 GeneLabelViews");
-    assert.lengthOf(alleles, 2, "should create 2 AlleleViews");
-    for (let label of labels) {
-      assert.isTrue(label.props.editable);
-    }
-  });
-
-  it("should create appropriate labels and alleles when we only specify visible genes", function() {
-    const wrapper = shallow(<ChromosomeView chromosome={chromosome} visibleGenes={["wings", "tail"]} showAlleles={true}/>),
-          labels = wrapper.find('GeneLabelView'),
-          alleles = wrapper.find('AlleleView');
-    assert.lengthOf(labels, 2, "should create 2 GeneLabelViews");
-    assert.lengthOf(alleles, 2, "should create 2 AlleleViews");
-    for (let label of labels) {
-      assert.isFalse(label.props.editable);
-    }
-  });
-
-  it("should create appropriate labels and alleles when we specify changeable and visible genes", function() {
-    const wrapper = shallow(<ChromosomeView chromosome={chromosome} userChangeableGenes={["wings", "tail"]} visibleGenes={["horns"]} showAlleles={true}/>),
-          labels = wrapper.find('GeneLabelView'),
-          alleles = wrapper.find('AlleleView'),
-          editableLabels = wrapper.find('GeneLabelView[editable=true]');
-    assert.lengthOf(labels, 3, "should create 3 GeneLabelViews");
-    assert.lengthOf(alleles, 3, "should create 3 AlleleViews");
-    assert.lengthOf(editableLabels, 2, "should create 2 editable GeneLabelViews");
+          labelsWrapper = wrapper.find('div.labels'),
+          labels = labelsWrapper.find('div.gene-label');
+    assert.lengthOf(labels, 0, "should create an empty 'labels' div");
   });
 
   it("should create a <ChromosomeImageView> tag", function() {
@@ -91,8 +43,9 @@ describe("<ChromosomeView />", function(){
   it("should create an empty chromosome if there is no organism", function() {
     const wrapper = shallow(<ChromosomeView />),
           labelsWrapper = wrapper.find('div.labels'),
+          labels = labelsWrapper.find('div.gene-label'),
           allelesWrapper = wrapper.find('div.alleles');
-    assert.lengthOf(labelsWrapper, 0, "Should create no labels");
+    assert.lengthOf(labels, 0, "Should create no labels");
     assert.lengthOf(allelesWrapper, 0, "Should create no alleles");
     assert.lengthOf(wrapper.find('ChromosomeImageView'), 1, "Should still create a <ChromosomeImageView>");
   });
