@@ -16,7 +16,7 @@ const FVChromosomeImageView = ({small=false, empty=false, chromosomeDescriptor, 
       return null;
     } else if (chromosomeDescriptor.side === 'y') {
       return 'chromosome-y';
-    } else if (chromosomeDescriptor.side === 'x') {
+    } else if (chromosomeDescriptor.side.startsWith('x')) {
       return 'chromosome-x';
     } else if (chromosomeDescriptor.name === '1') {
       return 'chromosome-1';
