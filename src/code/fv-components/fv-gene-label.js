@@ -1,16 +1,10 @@
 import React, {PropTypes} from 'react';
+import GeneticsUtils from '../utilities/genetics-utils';
 
 const FVGeneLabelView = ({allele, chromosomeDescriptor, chromosomeHeight=122, stripe}) => {
-    var chromStart;
-    Object.keys(BioLogica.Species.Drake.geneList).forEach((geneName) => {
-      const gene = BioLogica.Species.Drake.geneList[geneName];
-      if (gene.alleles.indexOf(allele) > -1) {
-        chromStart = gene.start;
-      }
-    });
-    let bioChromHeight = BioLogica.Species.Drake.chromosomesLength[chromosomeDescriptor.name],
-        stripeHeight = chromosomeHeight * .03,
-        percentHeight = chromStart/bioChromHeight;
+    const geneStripeInfo = GeneticsUtils.getGeneStripeInfoForAllele(BioLogica.Species.Drake, chromosomeDescriptor.name, allele);
+    let stripeHeight = chromosomeHeight * .03,
+        percentHeight = geneStripeInfo.geneStart / geneStripeInfo.chromosomeHeight;
 
     // Manually adjust certain labels and stripes up for the time being
     let normalizedAllele = allele.toLowerCase();

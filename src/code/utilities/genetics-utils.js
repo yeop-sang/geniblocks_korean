@@ -453,4 +453,22 @@ export default class GeneticsUtils {
   static convertDrakeToOrg(drake) {
     return new BioLogica.Organism(BioLogica.Species.Drake, drake.alleleString, drake.sex);
   }
+
+  /**
+   * Returns an object of the form {geneStart, chromosomeHeight} describing where the gene associated with
+   * the given allele is located.
+   * @param {Object} species - the BioLogica species of the organism containing the given allele
+   * @param {string} chromosomeName - the name of the chromosome containing the given allele
+   * @param {string} allele - the name of the allele whose location is described by the returned object
+   */
+  static getGeneStripeInfoForAllele(species, chromosomeName, allele) {
+    var geneStart;
+    Object.keys(species.geneList).forEach((geneName) => {
+      const gene = species.geneList[geneName];
+      if (gene.alleles.indexOf(allele) > -1) {
+        geneStart = gene.start;
+      }
+    });
+    return {geneStart, chromosomeHeight: species.chromosomesLength[chromosomeName]};
+  }
 }
