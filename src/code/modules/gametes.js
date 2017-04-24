@@ -109,9 +109,10 @@ export function addGameteChromosome(index, name, side) {
   };
 }
 
-export function resetGametes() {
+export function resetGametes(incrementMoves=false) {
   return {
-    type: GAMETES_RESET
+    type: GAMETES_RESET,
+    incrementMoves
   };
 }
 

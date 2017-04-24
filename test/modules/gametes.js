@@ -98,7 +98,8 @@ describe("gametes module", () => {
   describe("resetGametes action", () => {
     it("should create an action to reset the gametes", () => {
       expect(resetGametes()).toEqual({
-        type: GAMETES_RESET
+        type: GAMETES_RESET,
+        incrementMoves: false
       });
     });
   });
