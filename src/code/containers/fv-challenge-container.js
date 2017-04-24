@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import templates from '../templates';
 import BottomHUDView from '../fv-components/bottom-hud';
 import TopHUDView from '../fv-components/top-hud';
-import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
+import { changeAllele, changeSex, submitDrake, navigateToNextChallenge, navigateToChallenge,
         keepOffspring, fertilize, hatch, completeChallenge,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket } from '../actions';
 import { addGameteChromosome, resetGametes,
@@ -87,6 +87,7 @@ function mapDispatchToProps(dispatch) {
     onDrakeSubmission: (targetDrakeIndex, userDrakeIndex, correct, incorrectAction) =>
       dispatch(submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrectAction)),
     onNavigateNextChallenge: () => dispatch(navigateToNextChallenge()),
+    onNavigateToChallenge: (routeSpec) => dispatch(navigateToChallenge(routeSpec)),
     onCompleteChallenge: () => dispatch(completeChallenge()),
     onGameteChromosomeAdded: (index, name, side) => dispatch(addGameteChromosome(index, name, side)),
     onAddGametesToPool: (index, gametes) => dispatch(addGametesToPool(index, gametes)),

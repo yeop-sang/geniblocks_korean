@@ -1,0 +1,31 @@
+#navigation
+  display: flex
+  flex-direction: column
+  flex-wrap: wrap
+  width: 100%
+  align-content: space-around
+  max-height: 600px
+
+.navigate-button
+  width: 315px
+  height: 120px
+  display: flex
+  justify-content: center
+  align-items: center
+  background-image: url('../resources/fablevision/layout-a/Hatch_ON.png')
+  cursor: pointer
+  color: white
+
+  &:active
+    cursor: default
+    background-image: url('../resources/fablevision/layout-a/Hatch_OFF.png')
+    background-position: 17px 17px
+    background-size: auto
+    background-repeat: no-repeat
+
+  .navigate-button-label
+    font-size: 2rem
+
+.mission-backdrop.navigation-layout
+  background-image: url('../resources/fablevision/layout-c/background.png')
+  background-position: 50% 50%
