@@ -22,6 +22,7 @@ module.exports = {
   geniblocksCSS: {
     watch: src + '/stylus/**/*.styl',
     src: [node + '/react-simpletabs/lib/react-simpletabs.css',
+          node + '/react-selectize/themes/index.css',
           src + '/stylus/**/*.styl'],
     public: publicExamples + '/css/',
     publicGV: publicGeniverse + '/css/',

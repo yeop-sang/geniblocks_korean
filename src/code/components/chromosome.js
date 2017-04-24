@@ -54,12 +54,17 @@ const ChromosomeView = ({chromosome, chromosomeDescriptor, ChromosomeImageClass=
             <GeneLabelView key={a.allele} species={chromosome.species} allele={a.allele} editable={editable && a.editable}
             hiddenAlleles={ hiddenAlleles }
             onAlleleChange={function(event) {
-              onAlleleChange(a.allele, event.target.value);
+              onAlleleChange(a.allele, event.value);
             }}/>
           );
         } else {
           return (
-            <FVGeneLabelView chromosomeDescriptor={chromosomeDescriptor} chromosomeHeight={height} allele={a.allele} species={chromosome.species} />
+            <FVGeneLabelView editable={editable && a.editable} chromosomeDescriptor={chromosomeDescriptor} 
+                             chromosomeHeight={height} allele={a.allele} species={chromosome.species} 
+                             onAlleleChange={function(event) {
+                               onAlleleChange(a.allele, event.value);
+                             }
+            }/>
           );
         }
       });

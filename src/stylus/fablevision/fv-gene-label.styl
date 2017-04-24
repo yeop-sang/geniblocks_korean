@@ -1,3 +1,46 @@
+.geniblocks.genome #mountNode .react-selectize-control
+  display: flex
+  flex-direction: row
+  height: 40px
+  input
+    font-family: "Yanone Kaffeesatz";
+    font-size: 1.5rem;
+
+.react-selectize.root-node
+    position: relative;
+    width: 158px;
+    input
+      color: transparent
+      text-shadow: 0 0 0 black;
+
+.geniblocks.genome 
+    #mountNode
+      position: relative
+      z-index: 1
+      margin-left: -10px
+      .react-selectize-search-field-and-selected-values
+        height: 10px
+        display: flex
+        flex-direction: row
+    .rtl #mountNode
+      margin-right: -10px
+
+.geniblocks.genome .fl #mountNode
+  margin-top: -47px
+
+.geniblocks.genome #mountNode .react-selectize-search-field-and-selected-values
+  height: 40px
+  display: flex
+  flex-direction: row
+
+.geniblocks.fv-gene-label.allele.noneditable
+  &.w
+    z-index: 4
+  &.fl
+    z-index: 3
+  &.hl
+    z-index: 2
+
 .fv-layout
 
   .geniblocks.fv-gene-label
@@ -12,11 +55,11 @@
 
   .geniblocks.chromosome-container .items.ltl .labels
     justify-content: flex-start
-    padding-left: 25px
+    padding-left: 30px
 
   .geniblocks.chromosome-container .items.rtl .labels
     justify-content: flex-start
-    padding-right: 25px
+    padding-right: 30px
 
   .line
     position: absolute
@@ -45,14 +88,25 @@
     right: -19px
 
   .fl .line
-    width: 30px
+    width: 25px
+
+  .h .line
+    width: 21px
 
   .ltl .fl .line
     transform: rotate(-35deg)
     left: -30px
-    top: 10px
+    top: 12px
 
   .rtl .fl .line
     transform: rotate(35deg)
     right: -29px
-    top: 10px
+    top: 12px
+
+  .ltl .h .line
+    transform: rotate(15deg)
+    top: 15px
+
+  .rtl .h .line
+    transform: rotate(-15deg)
+    top: 15px
