@@ -72,12 +72,10 @@ function animatedChromosomeImageHOC(WrappedComponent) {
             { yChromosome } = this.props,
             defaultWidth = 19,
             defaultHeight = yChromosome ? 62 : 90,
-            defaultSplit = yChromosome ? 32 : 34,
             sizeRatio = displayStyle.size != null ? displayStyle.size : 1,
             width = defaultWidth * sizeRatio,
-            height = defaultHeight * sizeRatio,
-            split = defaultSplit * sizeRatio;
-      return <WrappedComponent width={width} height={height} split={split} {...otherProps} />;
+            height = defaultHeight * sizeRatio;
+      return <WrappedComponent width={width} height={height} {...otherProps} />;
     }
   };
 }
@@ -478,8 +476,9 @@ var animationEvents = {
       for (let i = 0; i < parentGameteChromEls.length; ++i) {
         const parentGameteChromEl = parentGameteChromEls[i],
               srcChromBounds = parentGameteChromEl.getBoundingClientRect(),
-              targetIsY = parentGameteChromEl.id.indexOf('XYy') > 0,
-              chromView = <AnimatedChromosomeImageView small={true} empty={false} bold={false} yChromosome={targetIsY}/>;
+              descriptorComponents = parentGameteChromEl.id.split("-"),
+              chromosomeDescriptor = {name: descriptorComponents[1], side: descriptorComponents[2]},
+              chromView = <AnimatedChromosomeImageView small={true} empty={false} bold={false} chromosomeDescriptor={chromosomeDescriptor}/>;
         components.push(chromView);
         positions.push({ startPositionRect: srcChromBounds, startSize: 1.0,
                         targetPositionRect: getDstChromBounds(i), endSize: 0.2 });
@@ -578,7 +577,7 @@ var animationEvents = {
     }
   },
   selectChromosome: { id: 5, activeCount: 0, complete: false, ready: false,
-    animate: function(positions, targetIsY, targetIsX, speed, onFinish) {
+    animate: function(positions, chromosomeId, speed, onFinish) {
       if (++animationEvents.selectChromosome.activeCount === 1)
         animationEvents.selectChromosome.onFinishCaller = onFinish;
 
@@ -586,7 +585,9 @@ var animationEvents = {
         start: 1.0,
         end: 1.0
       };
-      animatedComponentToRender = <FVChromosomeImageView small={true} empty={false} bold={true} xChromosome={targetIsX} yChromosome={targetIsY}/>;
+      let descriptorComponents = chromosomeId.split("-"),
+          chromosomeDescriptor = {name: descriptorComponents[1], side: descriptorComponents[2]};
+      animatedComponentToRender = <FVChromosomeImageView small={true} empty={false} bold={true} chromosomeDescriptor={chromosomeDescriptor}/>;
       animateMultipleComponents([animatedComponentToRender], [positions], opacity, speed,
                                 animationEvents.selectChromosome.id,
                                 animationEvents.selectChromosome.onFinish);
@@ -840,7 +841,9 @@ export default class FVEggGame extends Component {
   }
 
   handleChromosomeSelected = (org, name, side, elt) => {
-    if (this.props.interactionType !== 'select-gametes')
+    // Normally we would avoid querying elements in React- it would be better to determine emptiness from state
+    // However, since this element was just clicked on, we can rely on it existing for this call
+    if (this.props.interactionType !== 'select-gametes' && !elt.querySelector(".empty"))
       this.selectChromosomes(org.sex, defaultAnimationSpeed, [{name, side, elt }]);
   }
 
@@ -870,11 +873,9 @@ export default class FVEggGame extends Component {
     function animateChromosomeSelection() {
       chromEntries.forEach((entry) => {
         let positions = findBothElements(sex, entry.name, entry.elt, scale),
-            chromosomeId = entry.elt.getElementsByClassName("chromosome-allele-container")[0].id,
-            targetIsY = chromosomeId.endsWith('XYy'),
-            targetIsX = chromosomeId.indexOf('x') > -1;
+            chromosomeId = entry.elt.getElementsByClassName("chromosome-allele-container")[0].id;
         // animate the chromosomes being added
-        animationEvents.selectChromosome.animate(positions, targetIsY, targetIsX,
+        animationEvents.selectChromosome.animate(positions, chromosomeId,
                                                   selectChromosomesAnimationSpeed,
                                                   onFinish);
       });
@@ -991,6 +992,28 @@ export default class FVEggGame extends Component {
       onResetGametes();
     };
 
+    function getUnselectedChromosomesMap(chromosomes, selectedChromosomes) {
+      let unselectedChromosomes = {};
+      Object.keys(chromosomes).forEach(chromosomeName => {
+        let chromosomePair = chromosomes[chromosomeName];
+        if (!unselectedChromosomes[chromosomeName]) {
+          // Initialize the chromosome pair if it does not exist
+          unselectedChromosomes[chromosomeName] = {};
+        }
+        Object.keys(chromosomePair).forEach(chromosomeSide => {
+          let chromosome = chromosomePair[chromosomeSide];
+          if (selectedChromosomes[chromosomeName] === chromosomeSide) {
+            // Set selected chromosomes to null
+            unselectedChromosomes[chromosomeName][chromosomeSide] = null;
+          } else {
+            // Copy over unselected chromosomes
+            unselectedChromosomes[chromosomeName][chromosomeSide] = chromosome;
+          }
+        });
+      });
+      return unselectedChromosomes;
+    }
+
     function getGameteChromosomeMap(parent, gamete, side) {
       var parentChromosomes = parent && parent.getGenotype().chromosomes;
       let chromName, chromMap = {};
@@ -1005,15 +1028,6 @@ export default class FVEggGame extends Component {
       return [chromosomeMap[1] && chromosomeMap[1][side],
               chromosomeMap[2] && chromosomeMap[2][side],
               chromosomeMap.XY && chromosomeMap.XY[side]];
-    }
-
-    // map all chromosomes in a gamete to a single side for selection purposes
-    function mapChromosomesToSide(gamete, side) {
-      let chromName, mappedGamete = {};
-      for (chromName in gamete) {
-        mappedGamete[chromName] = side;
-      }
-      return mappedGamete;
     }
 
     const gametesClass = classNames('gametes', { 'unfertilized': !drakes[2] });
@@ -1048,14 +1062,14 @@ export default class FVEggGame extends Component {
     );
     const motherSelectedChromosomes = animatingGametes ? animatingGametes[1] : currentGametes[1],
           fatherSelectedChromosomes = animatingGametes ? animatingGametes[0] : currentGametes[0],
+          motherUnselectedChromosomesMap = getUnselectedChromosomesMap(mother.genetics.genotype.chromosomes, motherSelectedChromosomes),
+          fatherUnselectedChromosomesMap = getUnselectedChromosomesMap(father.genetics.genotype.chromosomes, fatherSelectedChromosomes),
           motherBaseChromosomes = animatingGametes ? animatingGametes[3] : currentGametes[1],
           fatherBaseChromosomes = animatingGametes ? animatingGametes[2] : currentGametes[0],
           femaleGameteChromosomeMap = getGameteChromosomeMap(mother, motherBaseChromosomes, 'a'),
           maleGameteChromosomeMap = getGameteChromosomeMap(father, fatherBaseChromosomes, 'b'),
           ovumChromosomes = getChromosomesFromMap(femaleGameteChromosomeMap, 'a'),
           spermChromosomes = getChromosomesFromMap(maleGameteChromosomeMap, 'b'),
-          ovumSelected = mapChromosomesToSide(motherSelectedChromosomes, 'a'),
-          spermSelected = mapChromosomesToSide(fatherSelectedChromosomes, 'b'),
           ovumClasses = classNames('ovum', challengeClasses),
           spermClasses = classNames('sperm', challengeClasses);
 
@@ -1088,25 +1102,22 @@ export default class FVEggGame extends Component {
           fatherGametes = gametesToShowInPool(BioLogica.MALE);
 
     function parentGenomeView(sex) {
-      const uniqueProps = sex === BioLogica.FEMALE
-                              ? { orgName: 'mother', org: mother,
-                                  selectedChromosomes: motherSelectedChromosomes }
-                              : { orgName: 'father', org: father,
-                                  selectedChromosomes: fatherSelectedChromosomes };
-      return <GenomeView className={parentGenomeClass}  {...uniqueProps} ChromosomeImageClass={FVChromosomeImageView}
-                        small={ true } editable={false} userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes }
-                        onAlleleChange={ handleAlleleChange }
-                        onChromosomeSelected={_this.handleChromosomeSelected} />;
+      const org = sex === BioLogica.FEMALE ? mother : father,
+            uniqueProps = sex === BioLogica.FEMALE
+                              ? {orgName: 'mother', chromosomes: motherUnselectedChromosomesMap}
+                              : {orgName: 'father', chromosomes: fatherUnselectedChromosomesMap};
+      return <GenomeView className={parentGenomeClass}  species={org.species} org={org} {...uniqueProps}
+                         ChromosomeImageClass={FVChromosomeImageView} small={ true } editable={false} 
+                         userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange } 
+                         chromosomeHeight={122} onChromosomeSelected={_this.handleChromosomeSelected} />;
     }
 
     function parentHalfGenomeView(sex) {
       const uniqueProps = sex === BioLogica.FEMALE
-                              ? { orgName: 'targetmother', chromosomes: femaleGameteChromosomeMap,
-                                  selectedChromosomes: ovumSelected }
-                              : { orgName: 'targetfather', chromosomes: maleGameteChromosomeMap,
-                                  selectedChromosomes: spermSelected };
+                              ? { orgName: 'targetmother', chromosomes: femaleGameteChromosomeMap }
+                              : { orgName: 'targetfather', chromosomes: maleGameteChromosomeMap };
       return <GenomeView className={childGenomeClass} species={mother.species} {...uniqueProps} ChromosomeImageClass={FVChromosomeImageView}
-                        editable={false} userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes }
+                        editable={false} userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes } chromosomeHeight={122}
                         small={true} displayStyle={chromosomeDisplayStyle} />;
     }
 

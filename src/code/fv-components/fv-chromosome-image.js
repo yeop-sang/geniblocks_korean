@@ -1,7 +1,41 @@
 import React, {PropTypes} from 'react';
+import FVGeneLabelView from './fv-gene-label';
 import classNames from 'classnames';
 
-const FVChromosomeImageView = ({small=false, bold=false, empty=false, yChromosome=false, xChromosome=false, animationStyling}) => {
+/**
+ * Returns an object of the form {name, side} which describes the given chromosome.
+ * @param {object} chromosome - The chromosome which the returned object describes
+ */
+export function getChromosomeDescriptor(chromosome) {
+  return chromosome ? {name: chromosome.chromosome, side: chromosome.side} : null;
+}
+
+const FVChromosomeImageView = ({small=false, empty=false, chromosomeDescriptor, animationStyling}) => {
+  function chromosomeDescriptorToClass(chromosomeDescriptor) {
+    if (!chromosomeDescriptor) {
+      return null;
+    } else if (chromosomeDescriptor.side === 'y') {
+      return 'chromosome-y';
+    } else if (chromosomeDescriptor.side.startsWith('x')) {
+      return 'chromosome-x';
+    } else if (chromosomeDescriptor.name === '1') {
+      return 'chromosome-1';
+    } else if (chromosomeDescriptor.name === '2') {
+      return 'chromosome-2';
+    }
+    // Default case, no name for empty chromosomes
+    return null;
+  }
+
+  let stripes = null;
+
+  if (chromosomeDescriptor && !empty) {
+    const alleles = BioLogica.Species.Drake.chromosomeGeneMap[chromosomeDescriptor.name];
+    stripes = alleles.map(a => {
+                return <FVGeneLabelView stripe={true} chromosomeDescriptor={chromosomeDescriptor} allele={a} />;
+              });
+  }
+
   let positionStyling = {};
   if (animationStyling){
     positionStyling = {
@@ -9,21 +43,16 @@ const FVChromosomeImageView = ({small=false, bold=false, empty=false, yChromosom
     };
   }
   return (
-    <div className={classNames('fv-chromosome-image', { 'empty': empty, 'bold': bold, 'yChromosome': yChromosome, 'xChromosome': xChromosome, 'small': small})} style={positionStyling}>
+    <div className={classNames('fv-chromosome-image', chromosomeDescriptorToClass(chromosomeDescriptor), { 'empty': empty, 'small': small})} style={positionStyling}>
+      {stripes}
     </div>
   );
 };
 
 FVChromosomeImageView.propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number,
-  split: PropTypes.number,
-  color: PropTypes.string,
+  chromosomeDescriptor: PropTypes.object,
   small: PropTypes.bool,
-  bold: PropTypes.bool,
   empty: PropTypes.bool,
-  xChromosome: PropTypes.bool,
-  yChromosome: PropTypes.bool,
   animationStyling: PropTypes.shape({
                       x: PropTypes.number,
                       y: PropTypes.number,

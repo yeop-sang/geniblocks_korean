@@ -1,0 +1,58 @@
+.fv-layout
+
+  .geniblocks.fv-gene-label
+    font-family: 'Yanone Kaffeesatz'
+    font-size: 1.5rem
+    color: white
+    position: absolute
+    display: flex
+    flex-direction: row
+    justify-content: flex-end
+    z-index: 2
+
+  .geniblocks.chromosome-container .items.ltl .labels
+    justify-content: flex-start
+    padding-left: 25px
+
+  .geniblocks.chromosome-container .items.rtl .labels
+    justify-content: flex-start
+    padding-right: 25px
+
+  .line
+    position: absolute
+    background-color: #fff
+    width: 20px
+    height: 2px
+    top: 15px
+    left: -27px
+
+  .items.rtl .line
+    margin-left: auto
+    left: 0px
+    right: -27px
+
+  .small .stripe
+    position: absolute
+    background-color: #fff
+    width: 19px
+    height: 10px
+    top: 11px
+    left: 0px
+
+  .items.rtl .small .stripe
+    margin-left: auto
+    left: 0px
+    right: -19px
+
+  .fl .line
+    width: 30px
+
+  .ltl .fl .line
+    transform: rotate(-35deg)
+    left: -30px
+    top: 10px
+
+  .rtl .fl .line
+    transform: rotate(35deg)
+    right: -29px
+    top: 10px
