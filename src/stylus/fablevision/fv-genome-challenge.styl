@@ -17,6 +17,14 @@
 
   #genome-challenge
     width: 100%
+    display: flex
+    flex-direction: column
+    .columns
+      justify-content: center
+      &.bottom
+        margin-bottom: -11px
+    .fv-stable
+      background-image: url('../resources/fablevision/layout-a/stable.png')
 
   &#challenges
     #left-column
@@ -105,6 +113,8 @@
     margin-left: 263px
     margin-top: -41px
     background-image: url('../resources/fablevision/layout-a/target_gizmo.png')
+    &.decorative
+      background-image: url('../resources/fablevision/layout-a/target_gizmo_decorative.png')
 
     #target-drake-label
       position: absolute

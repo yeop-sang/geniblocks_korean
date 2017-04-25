@@ -428,6 +428,7 @@
       "comment": "*** Level 2, Mission 1.1: Genome Challenge (basics intro, user drake visible) ***",
       "container": "FVContainer",
       "template": "FVGenomeChallenge",
+      "challengeType": "match-target",
       "instructions": "Match the target drake!",
       "showUserDrake": true,
       "randomizeTrials": true,
@@ -453,6 +454,7 @@
       "comment": "*** Level 2, Mission 1.2: Genome Challenge (basics intro, user drake hidden) ***",
       "container": "FVContainer",
       "template": "FVGenomeChallenge",
+      "challengeType": "match-target",
       "instructions": "Match 2 drakes!",
       "trialGenerator": {
         "type": "all-combinations",
@@ -469,6 +471,18 @@
         ]
       },
       "targetDrakes": [{},{}],
+      "userChangeableGenes": "wings, forelimbs, hindlimbs"
+    },
+    "fvGenomeChallengeTestStable": {
+      "container": "FVContainer",
+      "template": "FVGenomeChallenge",
+      "challengeType": "create-unique",
+      "instructions": "Create 5 unique drakes!",
+      "showUserDrake": true,
+      "initialDrake": {
+        "alleles": "M-M, T-T, w-w, C-C, B-B, D-D, rh-rh, Bog-Bog",
+        "sex": 1
+      },
       "userChangeableGenes": "wings, forelimbs, hindlimbs"
     },
   },
@@ -631,7 +645,11 @@
               {
                 "name": "Challenge 6.1.5",
                 "id": "fvGenomeChallengeTestHidden"
-              }
+              },
+              {
+                "name": "Challenge 6.1.6",
+                "id": "fvGenomeChallengeTestStable"
+              },
             ]
           }
         ]
