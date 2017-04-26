@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 
 // image specified as CSS background-image, but size constants required in JavaScript
-export const  EGG_IMAGE_WIDTH = 75,
-              EGG_IMAGE_HEIGHT = 109;
+export const  EGG_IMAGE_WIDTH = 213,
+              EGG_IMAGE_HEIGHT = 256;
 
 class EggView extends React.Component {
 
