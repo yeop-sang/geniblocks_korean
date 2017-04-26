@@ -28,10 +28,14 @@ export default function targetElementId() {
           elt = target && document.getElementById(target.id),
           eltBounds = elt && elt.getBoundingClientRect();
     if (!eltBounds) return null;
-    return unscaleProperties({
-      left: eltBounds.left + (target.leftOffset != null ? target.leftOffset : 0),
-      top: eltBounds.top + (target.topOffset != null ? target.topOffset : 0)
+    const unscaledBounds = unscaleProperties({
+      left: eltBounds.left,
+      top: eltBounds.top
     }, scale);
+    return ({
+      left: unscaledBounds.left + (target.leftOffset != null ? target.leftOffset : 0),
+      top: unscaledBounds.top + (target.topOffset != null ? target.topOffset : 0)
+    });
   }
 
   return function(WrappedComponent) {

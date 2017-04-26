@@ -1,6 +1,6 @@
 .fv-layout-d
   .animated-egg-image
-    background: url('../resources/fablevision/layout-c/egg_animation.png')
+    background-image: url('../resources/fablevision/layout-c/egg_animation.png')
     background-position-y: 50%
     background-position-x: 0%
     width: 1052px
@@ -22,7 +22,7 @@
         height: 100%
 
       .clutch-egg
-        background: url('../resources/fablevision/layout-d/egg_unclicked.png')
+        background-image: url('../resources/fablevision/layout-d/egg_unclicked.png')
         background-position: 50% 50%
         background-repeat: no-repeat
         width: 115px
@@ -38,7 +38,7 @@
           margin-top: 0
           width: 213px
           height: 256px
-          background: url('../resources/fablevision/layout-d/egg_clicked.png')
+          background-image: url('../resources/fablevision/layout-d/egg_clicked.png')
 
       #baskets
         width: inherit
@@ -46,21 +46,28 @@
           width:inherit
           align-items: flex-start
           .basket
-            bottom: 300px
+            bottom: 235px
             right: 250px
             .basket-image
-              background: url('../resources/fablevision/layout-d/basket.png')
+              background-image: url('../resources/fablevision/layout-d/basket_inactive.png')
               width: 505px
               height: 503px
               background-size: contain
               position: absolute
+            &.selected .basket-image
+              background-image: url('../resources/fablevision/layout-d/basket.png')
+              cursor: pointer
             .basket-label
-              width: 80px
-              left: 230px
-              top: 375px
+              width: 133px
+              height: 135px
+              left: 203px
+              top: 352px
               font-family: 'Yanone Kaffeesatz'
               position: absolute
               text-align: center
+              display: flex
+              flex-direction: column
+              justify-content: center
 
       #left-section
         width: 1156px
@@ -83,7 +90,7 @@
       .chromomatic
         height: 871px
         width: 764px
-        background: url('../resources/fablevision/layout-d/chromomatic.png')
+        background-image: url('../resources/fablevision/layout-d/chromomatic.png')
         display: flex
         justify-content: center
         align-items: center

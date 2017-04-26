@@ -34,8 +34,8 @@ class FVEggHatchView extends React.Component {
           newID = 'egg-hatch' + (id ? '-' + id : ''),
           eggStyle = { transform: "scale(.6)", position: 'absolute', size: width, ...displayStyle, top: displayStyle.top - width },
           drakeStyle = { position: 'absolute',
-                          marginLeft: width*7.6, marginTop: width*5, ...displayStyle },
-          orgView = <OrganismView id='egg-hatch-org' org={organism} width={2.5 * width} style={drakeStyle} />,
+                          marginLeft: "400px", marginTop: "125px", ...displayStyle },
+          orgView = <OrganismView id='egg-hatch-org' org={organism} width={width} style={drakeStyle} />,
           displayedView = this.state.finished ? orgView : <AnimatedSprite onEnd={this.handleEnd} classNames={"animated-egg-image"} frames={16} frameWidth={1052} duration={1333} style={eggStyle} />;
 
     return (

@@ -29,7 +29,7 @@ import GeneticsUtils from '../utilities/genetics-utils';
 import urlParams from '../utilities/url-params';
 import t from '../utilities/translate';
 
-const EGG_IMAGE_WIDTH_MEDIUM = EGG_IMAGE_WIDTH * 4 / 5,
+const EGG_IMAGE_WIDTH_MEDIUM = EGG_IMAGE_WIDTH,
       EGG_IMAGE_WIDTH_SMALL = EGG_IMAGE_WIDTH / 3,
 
       MEDIUM_EGG_ON_BASKET_X_OFFSET = 37,
@@ -76,11 +76,12 @@ let animationEvents = {
           animatingDrake = new BioLogica.Organism(BioLogica.Species.Drake, egg.alleles, egg.sex);
           targetBasketIndex = basketIndex;
 
-          const leftOffset = 400,
-                topOffset = 200;
+          const { scale } = _this.props,
+                leftOffset = 110,
+                topOffset = 75;
           appendAnimation('moveEggToBasket',
             <FastEggHatch
-                egg={animatingEgg} organism={animatingDrake}
+                egg={animatingEgg} organism={animatingDrake} scale={scale}
                 initial={{ id: `egg-${animatingEggIndex}` }}
                 initialStyle={{ size: EGG_IMAGE_WIDTH, hatchProgress: 0 }}
                 target={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset }}
@@ -91,8 +92,8 @@ let animationEvents = {
       }},
       hatchDrakeInBasket: { id: 1, complete: false, animate: function() {
         const { scale } = _this.props,
-              leftOffset = -250,
-              topOffset = -40;
+              leftOffset = -313,
+              topOffset = -28;
         appendAnimation('hatchDrakeInBasket',
           <NewEggHatch
               organism={animatingDrake} scale={scale}
@@ -104,8 +105,8 @@ let animationEvents = {
       fadeDrakeAway: { id: 2, complete: false, animate: function() {
         const { baskets, scale } = _this.props,
               targetBasket = targetBasketIndex >= 0 ? baskets[targetBasketIndex] : null,
-              leftOffset = 122,
-              topOffset = 204.5;
+              leftOffset = 100,
+              topOffset = 100;
         _this.clearSelection();
         resetAnimationEvents(false);
 
@@ -123,7 +124,7 @@ let animationEvents = {
               initialStyle={{ position: "fixed", marginLeft: 0, size: EGG_IMAGE_WIDTH_MEDIUM }}
               targetOpacity={0}
               duration={1000}
-              width={EGG_IMAGE_WIDTH_MEDIUM*2.5}
+              width={(EGG_IMAGE_WIDTH_MEDIUM)}
               onClick={handleClick}
               onEnd={function() { animationFinish(animationEvents.fadeDrakeAway.id); }}
           />);
