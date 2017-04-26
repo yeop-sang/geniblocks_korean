@@ -38,8 +38,8 @@ export default class AuthoringUtils {
 
     let routeSpec = null;
     authoring.application.levels.forEach((level, levelIndex) => {
-      level.forEach((mission, missionIndex) => {
-        mission.forEach((challenge, challengeIndex) => {
+      level.missions.forEach((mission, missionIndex) => {
+        mission.challenges.forEach((challenge, challengeIndex) => {
           if (challenge.id === targetChallengeId) {
             routeSpec = {level: String(levelIndex + 1), mission: String(missionIndex + 1), challenge: String(challengeIndex + 1)};
           }

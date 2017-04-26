@@ -754,7 +754,23 @@
             ]
           }
         ]
+      },
+
+      {
+        "name": "Navigation level",
+        "missions": [
+          {
+            "name": "Navigation mission",
+            "challenges": [
+              {
+                "name": "Navigation menu",
+                "id": "navigation"
+              }
+            ]
+          }
+        ]
       }
+
     ]
   }
 }
