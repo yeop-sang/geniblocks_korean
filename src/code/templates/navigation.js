@@ -41,6 +41,9 @@ export default class Navigation extends Component {
 
     return (
       <div id="navigation">
+        {navigateButton(1, 1, 1)}
+        {navigateButton(2, 1, 1)}
+        {navigateButton(2, 1, 2)}
         {navigateButton(2, 2, 1)}
         {navigateButton(2, 2, 2)}
         {navigateButton(2, 3, 3)}
@@ -48,8 +51,6 @@ export default class Navigation extends Component {
         {navigateButton(2, 3, 5)}
         {navigateButton(6, 1, 1)}
         {navigateButton(6, 1, 2)}
-        {navigateButton(6, 1, 4)}
-        {navigateButton(6, 1, 5)}
       </div>
     );
   }
