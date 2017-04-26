@@ -9,6 +9,8 @@ export default {
   "~EGG_GAME_3.INSTR_ITEM1": "Scope an egg to see a baby's chromosomes.",
   "~EGG_GAME_3.INSTR_ITEM2": "Click the correct basket for the egg.",
 
+  "~GENOME_CHALLENGE.BUTTON.SAVE_DRAKE": "Save Drake",
+
   // Challenge popup alerts
   "~ALERT.TITLE.GOOD_WORK": "Good work!",
   "~ALERT.TITLE.MISSION_ACCOMPLISHED": "Mission Accomplished!",
