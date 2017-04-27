@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import templates from '../templates';
-import classNames from 'classnames';
 import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
         keepOffspring, fertilize, hatch, completeChallenge,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket } from '../actions';
@@ -13,10 +12,9 @@ class ChallengeContainer extends Component {
   render() {
     if (!this.props.template) return null;
 
-    const Template  = templates[this.props.template],
-          bgClasses = classNames('mission-backdrop', Template.backgroundClasses);
+    const Template = templates[this.props.template];
     return (
-      <div id="challenges" className={bgClasses}>
+      <div id="challenges" className="mission-backdrop">
         <div id="mission-wrapper">
           <Template {...this.props} />
         </div>

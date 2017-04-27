@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { navigateToChallenge,} from '../actions';
 
 const NavigateButton = ({routeSpec, label, onClick}) => {
 
@@ -21,7 +23,7 @@ NavigateButton.propTypes = {
   routeSpec: PropTypes.object.isRequired
 };
 
-export default class Navigation extends Component {
+class Navigation extends Component {
 
   static backgroundClasses = 'navigation-layout'
 
@@ -40,17 +42,19 @@ export default class Navigation extends Component {
     };
 
     return (
-      <div id="navigation">
-        {navigateButton(1, 1, 1)}
-        {navigateButton(2, 1, 1)}
-        {navigateButton(2, 1, 2)}
-        {navigateButton(2, 2, 1)}
-        {navigateButton(2, 2, 2)}
-        {navigateButton(2, 3, 3)}
-        {navigateButton(2, 3, 4)}
-        {navigateButton(2, 3, 5)}
-        {navigateButton(6, 1, 1)}
-        {navigateButton(6, 1, 2)}
+      <div className="mission-backdrop navigation-layout">
+        <div id="navigation">
+          {navigateButton(1, 1, 1)}
+          {navigateButton(2, 1, 1)}
+          {navigateButton(2, 1, 2)}
+          {navigateButton(2, 2, 1)}
+          {navigateButton(2, 2, 2)}
+          {navigateButton(2, 3, 3)}
+          {navigateButton(2, 3, 4)}
+          {navigateButton(2, 3, 5)}
+          {navigateButton(6, 1, 1)}
+          {navigateButton(6, 1, 2)}
+        </div>
       </div>
     );
   }
@@ -62,5 +66,13 @@ export default class Navigation extends Component {
   static authoredDrakesToDrakeArray = function() {
     return [];
   }
-
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    navigateToChallenge: (routeSpec) => dispatch(navigateToChallenge(routeSpec))
+  };
+}
+
+const ConnectedNavigation = connect(() => {return {};}, mapDispatchToProps)(Navigation);
+export default ConnectedNavigation;
