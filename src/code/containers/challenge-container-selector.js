@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
-import { navigateToCurrentRoute, navigateToChallenge } from '../actions';
+import { navigateToCurrentRoute } from '../actions';
 import ChallengeContainer from './challenge-container';
 import FVChallengeContainer from './fv-challenge-container';
 import AuthoringUtils from '../utilities/authoring-utils';
@@ -41,22 +41,17 @@ class ChallengeContainerSelector extends Component {
       challenge: PropTypes.string,
       challengeId: PropTypes.string
     }),
-    navigateToChallenge: PropTypes.func,
     navigateToCurrentRoute: PropTypes.func
   }
 
   componentWillMount() {
-    const { navigateToCurrentRoute, navigateToChallenge, authoring } = this.props;
+    const { navigateToCurrentRoute, authoring } = this.props;
     // the URL's challengeId is only used for initial routing, so prioritize the numeric route params
     let routeParams = this.props.routeParams;
     if (routeParams.challengeId) {
       routeParams = AuthoringUtils.challengeIdToRouteParams(authoring, routeParams.challengeId);
     }
-    if (hasChangedRouteParams(this.props.currentRouteSpec, routeParams)) {
-      navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});
-    } else {
-      navigateToChallenge({level: 0, mission: 0, challenge: 0});
-    }
+    navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});
   }
 
   componentWillReceiveProps(newProps) {
@@ -90,7 +85,6 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    navigateToChallenge: (routeSpec) => dispatch(navigateToChallenge(routeSpec)),
     navigateToCurrentRoute: (routeSpec) => dispatch(navigateToCurrentRoute(routeSpec))
   };
 }

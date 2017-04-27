@@ -30,13 +30,14 @@ class Navigation extends Component {
   render() {
     const { navigateToChallenge } = this.props;
 
+    let missionNum = 1;
+
     const handleNavigateButton = function(routeSpec) {
       navigateToChallenge(routeSpec);
     };
 
     const navigateButton = function(level, mission, challenge) {
-      const label = "Level " + level + ", Mission " + mission + "." + challenge;
-      return <NavigateButton label={label} 
+      return <NavigateButton label={"Mission " + missionNum++} 
                              routeSpec={{level: level - 1, mission: mission - 1, challenge: challenge - 1}} 
                              onClick={handleNavigateButton} />;
     };
