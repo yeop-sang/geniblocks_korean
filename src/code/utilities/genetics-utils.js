@@ -471,4 +471,46 @@ export default class GeneticsUtils {
     });
     return {geneStart, chromosomeHeight: species.chromosomesLength[chromosomeName]};
   }
+
+  static convertGenesToPhenotype(genes) {
+    const species = BioLogica.Species.Drake,
+          geneDrake = new BioLogica.Organism(species, genes[0], BioLogica.FEMALE),
+          phenotype = geneDrake.phenotype.allCharacteristics;
+
+    // First, get a list of all alleles in the given gene string
+    let relevantAlleles = [];
+    Object.keys(species.alleleLabelMap).forEach((alleleName) => {
+      if (alleleName !== "" && (genes[0].indexOf("a:" + alleleName) > -1 || genes.indexOf("b:" + alleleName) > -1)) {
+        relevantAlleles.push(alleleName);
+      }
+    });
+
+    // Then, get every trait which contains at least one of those alleles
+    let relevantTraitNames = {};
+    Object.keys(species.traitRules).forEach((traitCategory) => {
+      Object.keys(species.traitRules[traitCategory]).forEach((trait) => {
+        let alleleCombinations = species.traitRules[traitCategory][trait];
+        alleleCombinations.forEach((combination) => {
+          relevantAlleles.forEach((relevantAllele) => {
+            if (combination.indexOf(relevantAllele) > -1) {
+              relevantTraitNames[traitCategory] = trait;
+            }
+          });
+        });
+      });
+    });
+
+    // Finally, look up which of the relevant traits are present in the phenotype of the generated drake
+    let relevantPhenotypeFromGenes = {};
+    phenotype.forEach((actualTrait) => {
+      Object.keys(relevantTraitNames).forEach((traitCategory) => {
+        if (relevantTraitNames[traitCategory].indexOf(actualTrait) > -1) {
+          relevantPhenotypeFromGenes[traitCategory] = actualTrait;
+        }
+      });
+    });
+
+    return relevantPhenotypeFromGenes;
+  }
+
 }

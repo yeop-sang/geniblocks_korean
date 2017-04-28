@@ -443,6 +443,7 @@ function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, state) {
   const incrementMoves = !isCorrect,
         submittedDrake = GeneticsUtils.convertDrakeToOrg(state.drakes[eggDrakeIndex]),
         submittedBasket = state.baskets[basketIndex],
+        submittedBasketPhenotypes = GeneticsUtils.convertGenesToPhenotype(submittedBasket.alleles),
         visibleGenes = getVisibleGenes(state, state.routeSpec);
   return {
     type: actionTypes.EGG_SUBMITTED,
@@ -462,6 +463,14 @@ function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, state) {
         action: ITS_ACTIONS.SUBMITTED,
         target: ITS_TARGETS.EGG
       }
+    },
+    challengeCriteria: {
+      sex: submittedDrake.sex,
+      alleles: submittedDrake.alleles,
+    },
+    userSelections: {
+      sex: submittedBasket.sex,
+      phenotype: submittedBasketPhenotypes
     }
   };
 }
