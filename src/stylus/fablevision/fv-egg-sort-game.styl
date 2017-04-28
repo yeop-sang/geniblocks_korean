@@ -54,20 +54,27 @@
               height: 503px
               background-size: contain
               position: absolute
+              .basket-label
+                width: 133px
+                height: 135px
+                left: 203px
+                top: 352px
+                font-family: 'Yanone Kaffeesatz'
+                position: absolute
+                text-align: center
+                display: flex
+                flex-direction: column
+                justify-content: center
             &.selected .basket-image
               background-image: url('../resources/fablevision/layout-d/basket.png')
-              cursor: pointer
-            .basket-label
-              width: 133px
-              height: 135px
-              left: 203px
-              top: 352px
-              font-family: 'Yanone Kaffeesatz'
-              position: absolute
-              text-align: center
-              display: flex
-              flex-direction: column
-              justify-content: center
+              .basket-hover
+                width: 250px
+                height: 200px
+                position: absolute
+                left: 130px
+                top: 300px
+                cursor: pointer
+                z-index: 3
 
       #left-section
         width: 1156px
