@@ -443,10 +443,22 @@ function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, state) {
   const incrementMoves = !isCorrect,
         submittedDrake = GeneticsUtils.convertDrakeToOrg(state.drakes[eggDrakeIndex]),
         submittedBasket = state.baskets[basketIndex],
-        submittedBasketPhenotypes = GeneticsUtils.convertGenesToPhenotype(submittedBasket.alleles);
+        submittedBasketPhenotypes = GeneticsUtils.convertGenesToPhenotype(submittedBasket.alleles),
+        drakeCriteria = {
+          sex: submittedDrake.sex,
+          alleles: submittedDrake.alleles
+        },
+        basketCriteria = {
+          phenotype: submittedBasketPhenotypes
+        };
+  if (submittedBasket.sex != null) {
+    basketCriteria.sex = submittedBasket.sex;
+  }
   return {
     type: actionTypes.EGG_SUBMITTED,
     species: BioLogica.Species.Drake.name,
+    challengeCriteria: drakeCriteria,
+    userSelections: basketCriteria,
     isCorrect,
     incrementMoves,
     meta: {
@@ -455,28 +467,16 @@ function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, state) {
         action: ITS_ACTIONS.SUBMITTED,
         target: ITS_TARGETS.EGG
       }
-    },
-    challengeCriteria: {
-      sex: submittedDrake.sex,
-      alleles: submittedDrake.alleles,
-    },
-    userSelections: {
-      sex: submittedBasket.sex,
-      phenotype: submittedBasketPhenotypes
     }
   };
 }
 
 export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChallengeComplete) {
   return (dispatch, getState) => {
-    setTimeout(function() {
-        dispatch(_submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, getState()));
-      }, 4000);
+    dispatch(_submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, getState()));
 
     if (isCorrect) {
-      setTimeout(function() {
-        dispatch(acceptEggInBasket({eggDrakeIndex, basketIndex, isChallengeComplete}));
-      }, 4000);
+      dispatch(acceptEggInBasket({eggDrakeIndex, basketIndex, isChallengeComplete}));
     }
     else {
       let dialog = {
@@ -488,9 +488,7 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
           args: { eggDrakeIndex, basketIndex, isChallengeComplete }
         },
       };
-      setTimeout(function() {
-        dispatch(showModalDialog(dialog));
-      }, 4000);
+      dispatch(showModalDialog(dialog));
     }
   };
 }
