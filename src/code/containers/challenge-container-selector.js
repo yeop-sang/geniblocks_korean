@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
-import { navigateToCurrentRoute } from '../actions';
+import { navigateToCurrentRoute, navigateToChallenge } from '../actions';
 import ChallengeContainer from './challenge-container';
 import FVChallengeContainer from './fv-challenge-container';
 import AuthoringUtils from '../utilities/authoring-utils';
@@ -12,8 +12,12 @@ function hasChangedRouteParams(currentRouteSpec, routeParams) {
         currLevelStr = String(currLevel + 1),
         currMissionStr = String(currMission + 1),
         currChallengeStr = String(currChallenge + 1);
-  return (routeParams.mission && routeParams.challenge && routeParams.level &&
+  return (isValidRouteParams(routeParams) &&
         ((routeParams.mission !== currMissionStr) || (routeParams.challenge !== currChallengeStr) || (routeParams.level !== currLevelStr)));
+}
+
+function isValidRouteParams(routeParams) {
+  return routeParams.mission && routeParams.challenge && routeParams.level;
 }
 
 function mapContainerNameToContainer(containerName) {
@@ -41,17 +45,24 @@ class ChallengeContainerSelector extends Component {
       challenge: PropTypes.string,
       challengeId: PropTypes.string
     }),
+    navigateToChallenge: PropTypes.func,
     navigateToCurrentRoute: PropTypes.func
   }
 
   componentWillMount() {
-    const { navigateToCurrentRoute, authoring } = this.props;
+    const { navigateToCurrentRoute, navigateToChallenge, authoring } = this.props;
     // the URL's challengeId is only used for initial routing, so prioritize the numeric route params
     let routeParams = this.props.routeParams;
     if (routeParams.challengeId) {
       routeParams = AuthoringUtils.challengeIdToRouteParams(authoring, routeParams.challengeId);
     }
-    navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});
+    if (isValidRouteParams) {
+      if (hasChangedRouteParams(this.props.currentRouteSpec, routeParams)) {
+        navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});
+      }
+    } else {
+      navigateToChallenge({level: 0, mission: 0, challenge: 0});
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -85,6 +96,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    navigateToChallenge: (routeSpec) => dispatch(navigateToChallenge(routeSpec)),
     navigateToCurrentRoute: (routeSpec) => dispatch(navigateToCurrentRoute(routeSpec))
   };
 }
