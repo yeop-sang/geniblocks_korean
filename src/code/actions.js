@@ -443,18 +443,10 @@ function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, state) {
   const incrementMoves = !isCorrect,
         submittedDrake = GeneticsUtils.convertDrakeToOrg(state.drakes[eggDrakeIndex]),
         submittedBasket = state.baskets[basketIndex],
-        submittedBasketPhenotypes = GeneticsUtils.convertGenesToPhenotype(submittedBasket.alleles),
-        visibleGenes = getVisibleGenes(state, state.routeSpec);
+        submittedBasketPhenotypes = GeneticsUtils.convertGenesToPhenotype(submittedBasket.alleles);
   return {
     type: actionTypes.EGG_SUBMITTED,
     species: BioLogica.Species.Drake.name,
-    submittedPhenotype: submittedDrake.phenotype.characteristics,
-    submittedGenotype: submittedDrake.alleles,
-    submittedSex: submittedDrake.sex,
-    acceptedGenotypes: submittedBasket.alleles,
-    acceptedSexes: submittedBasket.sex === undefined ? [BioLogica.FEMALE, BioLogica.MALE] : [submittedBasket.sex],
-    basketLabel: submittedBasket.label,
-    visibleGenes,
     isCorrect,
     incrementMoves,
     meta: {
@@ -477,7 +469,9 @@ function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, state) {
 
 export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChallengeComplete) {
   return (dispatch, getState) => {
-    dispatch(_submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, getState()));
+    setTimeout(function() {
+        dispatch(_submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, getState()));
+      }, 4000);
 
     if (isCorrect) {
       setTimeout(function() {
