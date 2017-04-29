@@ -268,31 +268,22 @@ function getEarnedCoinString(state) {
   return ["~ALERT.NEW_PIECE_OF_COIN", scoreString];
 }
 
-function getVisibleGenes(state, routeSpec) {
-  const visibleGenes = AuthoringUtils.getChallengeDefinition(state.authoring, routeSpec).visibleGenes;
-  return visibleGenes && visibleGenes.split(", ");
-}
-
 function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state) {
   const incrementMoves = !correct,
         targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[targetDrakeIndex]),
-        userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]),
-        initialDrakeOrg = state.initialDrakes[userDrakeIndex] ? GeneticsUtils.convertDrakeToOrg(state.initialDrakes[userDrakeIndex]) : null,
-        routeSpec = state.routeSpec,
-        // TODO: figure out whether ITS really wants "editableGenes" or "visibleGenes"
-        // because it doesn't make sense to log the latter as the former
-        editableGenes = getVisibleGenes(state, routeSpec);
+        userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]);
 
   return {
     type: actionTypes.DRAKE_SUBMITTED,
     species: BioLogica.Species.Drake.name,
-    correctPhenotype: targetDrakeOrg.phenotype.characteristics,
-    submittedPhenotype: userDrakeOrg.phenotype.characteristics,
-    submittedSex: userDrakeOrg.sex,
-    initialAlleles: initialDrakeOrg ? initialDrakeOrg.alleles : null,
-    selectedAlleles: userDrakeOrg.alleles,
-    targetSex: targetDrakeOrg.sex,
-    editableGenes,
+    challengeCriteria: {
+      sex: targetDrakeOrg.sex,
+      phenotype: targetDrakeOrg.phenotype.characteristics
+    },
+    userSelections: {
+      alleles: userDrakeOrg.alleles,
+      sex: userDrakeOrg.sex
+    },
     correct,
     incrementMoves,
     meta: {
