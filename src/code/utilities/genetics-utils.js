@@ -472,12 +472,18 @@ export default class GeneticsUtils {
     return {geneStart, chromosomeHeight: species.chromosomesLength[chromosomeName]};
   }
 
-  static convertGenesToPhenotype(genes) {
+  /**
+   * Given a gene string, returns an object representing the phenotypes expressed by that gene string. For example,
+   * 'a:w,b:w' is converted to {'wings': 'No wings'}.
+   */
+  static convertGeneStringToPhenotype(genes) {
+    // First, create a drake from the given gene string. This drake has the correct phenotype, but we only want the
+    // part of the phenotype specifically referenced in the gene string
     const species = BioLogica.Species.Drake,
           geneDrake = new BioLogica.Organism(species, genes[0], BioLogica.FEMALE),
           phenotype = geneDrake.phenotype.allCharacteristics;
 
-    // First, get a list of all alleles in the given gene string
+    // To get the phenotype, we first go through all possible alleles, and pull out the ones used in the genome string
     let relevantAlleles = [];
     Object.keys(species.alleleLabelMap).forEach((alleleName) => {
       if (alleleName !== "" && (genes[0].indexOf("a:" + alleleName) > -1 || genes.indexOf("b:" + alleleName) > -1)) {
@@ -485,7 +491,9 @@ export default class GeneticsUtils {
       }
     });
 
-    // Then, get every trait which contains at least one of those alleles
+    // Now we determine all possible traits that could be created using at least one of the alleles in the gene string
+    // We store these in an object mapping trait category to possible trait names. For example, a gene string of the form
+    // 'a:w,b:W' would become {'wings': ['Wings', 'No wings']}
     let relevantTraitNames = {};
     Object.keys(species.traitRules).forEach((traitCategory) => {
       Object.keys(species.traitRules[traitCategory]).forEach((trait) => {
@@ -500,7 +508,9 @@ export default class GeneticsUtils {
       });
     });
 
-    // Finally, look up which of the relevant traits are present in the phenotype of the generated drake
+    // We now create a new object that maps from each trait category to the trait we actually see in the phenotype of
+    // the drake created from the gene string. For example, if the previous step created an object {'wings': ['Wings', 'No wings']}
+    // from the string 'a:w,b:W', we would create the final result {'wings': 'Wings'} here.
     let relevantPhenotypeFromGenes = {};
     phenotype.forEach((actualTrait) => {
       Object.keys(relevantTraitNames).forEach((traitCategory) => {

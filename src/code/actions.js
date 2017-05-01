@@ -434,7 +434,7 @@ function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, state) {
   const incrementMoves = !isCorrect,
         submittedDrake = GeneticsUtils.convertDrakeToOrg(state.drakes[eggDrakeIndex]),
         submittedBasket = state.baskets[basketIndex],
-        submittedBasketPhenotypes = GeneticsUtils.convertGenesToPhenotype(submittedBasket.alleles),
+        submittedBasketPhenotypes = GeneticsUtils.convertGeneStringToPhenotype(submittedBasket.alleles),
         drakeCriteria = {
           sex: submittedDrake.sex,
           alleles: submittedDrake.alleles
