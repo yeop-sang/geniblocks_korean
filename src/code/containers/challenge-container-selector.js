@@ -56,7 +56,7 @@ class ChallengeContainerSelector extends Component {
     if (routeParams.challengeId) {
       routeParams = AuthoringUtils.challengeIdToRouteParams(authoring, routeParams.challengeId);
     }
-    if (isValidRouteParams) {
+    if (isValidRouteParams(routeParams)) {
       if (hasChangedRouteParams(this.props.currentRouteSpec, routeParams)) {
         navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});
       }
