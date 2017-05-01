@@ -480,13 +480,13 @@ export default class GeneticsUtils {
     // First, create a drake from the given gene string. This drake has the correct phenotype, but we only want the
     // part of the phenotype specifically referenced in the gene string
     const species = BioLogica.Species.Drake,
-          geneDrake = new BioLogica.Organism(species, genes[0], BioLogica.FEMALE),
+          geneDrake = new BioLogica.Organism(species, genes, BioLogica.FEMALE),
           phenotype = geneDrake.phenotype.allCharacteristics;
 
     // To get the phenotype, we first go through all possible alleles, and pull out the ones used in the genome string
     let relevantAlleles = [];
     Object.keys(species.alleleLabelMap).forEach((alleleName) => {
-      if (alleleName !== "" && (genes[0].indexOf("a:" + alleleName) > -1 || genes.indexOf("b:" + alleleName) > -1)) {
+      if (alleleName !== "" && (genes.indexOf("a:" + alleleName) > -1 || genes.indexOf("b:" + alleleName) > -1)) {
         relevantAlleles.push(alleleName);
       }
     });
