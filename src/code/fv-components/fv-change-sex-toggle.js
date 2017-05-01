@@ -13,14 +13,17 @@ const FVChangeSexToggle = ({sex, style={}, onChange}) => {
         isFemaleSelected = sex === BioLogica.FEMALE,
         selectedSexClass = isMaleSelected ? 'male-selected' : 'female-selected';
 
-  function handleFemaleButtonClick() {
-    if (sex !== BioLogica.FEMALE)
-      onChange(BioLogica.FEMALE);
-  }
-
-  function handleMaleButtonClick() {
-    if (sex !== BioLogica.MALE)
-      onChange(BioLogica.MALE);
+  function handleSexToggle() {
+    switch (sex) {
+      case BioLogica.MALE:
+        onChange(BioLogica.FEMALE);
+        break;
+      case BioLogica.FEMALE:
+        onChange(BioLogica.MALE);
+        break;
+      default:
+        console.log("Unhandled sex selected");
+    }
   }
 
   return (
@@ -30,9 +33,9 @@ const FVChangeSexToggle = ({sex, style={}, onChange}) => {
       </div>
       <div className={`change-sex-toggle ${selectedSexClass}`} style={style} >
         <div className={classNames('toggle-button female-button', { selected: isFemaleSelected })}
-              onClick={handleFemaleButtonClick}></div>
+              onClick={handleSexToggle}></div>
         <div className={classNames('toggle-button male-button', { selected: isMaleSelected })}
-              onClick={handleMaleButtonClick}></div>
+              onClick={handleSexToggle}></div>
       </div>
       <div className={classNames('sex-label male-label', { selected: isMaleSelected })}>
         {t('~BUTTON.MALE')}
