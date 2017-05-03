@@ -33,31 +33,13 @@ const FVGeneLabelView = ({species, editable, allele, hiddenAlleles=[], onAlleleC
     const style = {marginTop: percentHeight * chromosomeHeight - stripeHeight * 3 + "px"},
           stripeStyle = {height: stripeHeight + "px"};
 
-    let labelStyle = {marginTop: -stripeHeight * .8, marginLeft: -2, marginRight: -2},
-        lineStyle = {marginTop: -stripeHeight * .8},
-        mountStyle = {};
-    
-    if (normalizedAllele === "fl") {
-      labelStyle.marginTop -= stripeHeight * 5;
-      lineStyle.marginTop -= stripeHeight;
-    } else if (normalizedAllele === "h") {
-      labelStyle.marginTop = 6;
-      lineStyle.marginTop += stripeHeight;
-      mountStyle.marginTop = 14;
-    } else if (normalizedAllele === "a") {
-      labelStyle.marginTop = 6;
-      labelStyle.marginLeft -= 2;
-      lineStyle.marginTop += stripeHeight + 5;
-      mountStyle.marginTop = 25;
-    }
-
-    const line = stripe ? null : <div className="line" style={lineStyle}></div>,
+    const line = stripe ? null : <div className="line"></div>,
           stripeDiv = stripe && chromosomeDescriptor.side !== 'y' ? <div className="stripe" style={stripeStyle}></div> : null,
           alleleName = species.alleleLabelMap[allele];
 
     let label;
     if (!editable) {
-      label = stripe ? null : <div style={labelStyle}>{alleleName}</div>;
+      label = stripe ? null : <div className="fv-gene-label-text">{alleleName}</div>;
     } else {
       const alleles = BioLogica.Genetics.getGeneOfAllele(species, allele).alleles,
             visibleAlleles = alleles.filter(a => hiddenAlleles.indexOf(a) === -1),
@@ -67,7 +49,7 @@ const FVGeneLabelView = ({species, editable, allele, hiddenAlleles=[], onAlleleC
                             ));
 
       label = stripe ? null : (
-        <div id='mountNode' style={mountStyle}>
+        <div id='mountNode'>
             <Form defaultOption={{label: alleleName, value: allele}} options={alleleOptions} handleChange={onAlleleChange}/> 
         </div>
       );
