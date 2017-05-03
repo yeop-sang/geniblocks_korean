@@ -23,7 +23,10 @@ const FVGeneLabelView = ({species, editable, allele, hiddenAlleles=[], onAlleleC
 
     // Manually adjust certain labels and stripes up for the time being
     let normalizedAllele = allele.toLowerCase();
-    if (normalizedAllele === "fl" || normalizedAllele === "hl" || normalizedAllele.indexOf('a') === 0) {
+    if (normalizedAllele === "a1" || normalizedAllele === "a2") {
+      normalizedAllele = "a";
+    }
+    if (normalizedAllele === "fl" || normalizedAllele === "hl" || normalizedAllele=== "a") {
       percentHeight -= .1;
     }
 
@@ -31,7 +34,8 @@ const FVGeneLabelView = ({species, editable, allele, hiddenAlleles=[], onAlleleC
           stripeStyle = {height: stripeHeight + "px"};
 
     let labelStyle = {marginTop: -stripeHeight * .8, marginLeft: -2, marginRight: -2},
-        lineStyle = {marginTop: -stripeHeight * .8};
+        lineStyle = {marginTop: -stripeHeight * .8},
+        mountStyle = {};
     
     if (normalizedAllele === "fl") {
       labelStyle.marginTop -= stripeHeight * 5;
@@ -39,6 +43,12 @@ const FVGeneLabelView = ({species, editable, allele, hiddenAlleles=[], onAlleleC
     } else if (normalizedAllele === "h") {
       labelStyle.marginTop = 6;
       lineStyle.marginTop += stripeHeight;
+      mountStyle.marginTop = 14;
+    } else if (normalizedAllele === "a") {
+      labelStyle.marginTop = 6;
+      labelStyle.marginLeft -= 2;
+      lineStyle.marginTop += stripeHeight + 5;
+      mountStyle.marginTop = 25;
     }
 
     const line = stripe ? null : <div className="line" style={lineStyle}></div>,
@@ -57,14 +67,14 @@ const FVGeneLabelView = ({species, editable, allele, hiddenAlleles=[], onAlleleC
                             ));
 
       label = stripe ? null : (
-        <div id='mountNode'>
+        <div id='mountNode' style={mountStyle}>
             <Form defaultOption={{label: alleleName, value: allele}} options={alleleOptions} handleChange={onAlleleChange}/> 
         </div>
       );
     }
           
     return (
-      <div className={"geniblocks fv-gene-label allele noneditable " + allele.toLowerCase()} key={allele} style={style}>
+      <div className={"geniblocks fv-gene-label allele noneditable " + normalizedAllele} key={allele} style={style}>
         {line}
         {stripeDiv}
         {label}
