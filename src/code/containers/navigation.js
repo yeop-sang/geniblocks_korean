@@ -50,6 +50,8 @@ class Navigation extends Component {
           {navigateButton(2, 1, 2)}
           {navigateButton(2, 2, 1)}
           {navigateButton(2, 2, 2)}
+          {navigateButton(2, 3, 1)}
+          {navigateButton(2, 3, 2)}
           {navigateButton(2, 3, 3)}
           {navigateButton(2, 3, 4)}
           {navigateButton(2, 3, 5)}
