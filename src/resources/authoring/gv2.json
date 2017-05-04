@@ -389,14 +389,14 @@
       "showUserDrake": true,
       "targetDrakes": [{},{},{}],
       "mother":{
-        "alleles": "w-W, M-m, fl-, hl-, T-T, h-h, C-C, A1-A1, B-B, D-D, rh-rh, Bog-Bog",
+        "alleles": "w-W, M-m, fl-, hl-, T-T, h-, C-C, A1-, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 1
       },
       "father": {
-        "alleles": "w-W, m-m, T-T, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
+        "alleles": "w-W, m-m, T-T, H-, a-, C-C, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 0
       },
-      "visibleGenes": "metallic, wings, forelimbs, hindlimbs"
+      "visibleGenes": "wings, forelimbs, hindlimbs, armor, horns"
     },
     "eggDrop-wings": {
       "comment": "*** Egg Sorting Game Test ***",
