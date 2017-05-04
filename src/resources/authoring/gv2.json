@@ -666,8 +666,7 @@
             "sex": 1
           }
         ],
-        "visibleGenes": "forelimbs, hindlimbs, wings",
-        "userChangeableGenes": "armor, horns",
+        "userChangeableGenes": "forelimbs, hindlimbs, wings, armor, horns",
         "hiddenAlleles": "A2",
         "linkedGenes": {
           "drakes": [0, 1],
