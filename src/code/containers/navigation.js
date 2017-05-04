@@ -65,10 +65,6 @@ class Navigation extends Component {
   static propTypes = {
     navigateToChallenge: PropTypes.func.isRequired
   }
-
-  static authoredDrakesToDrakeArray = function() {
-    return [];
-  }
 }
 
 function mapDispatchToProps(dispatch) {
