@@ -12,8 +12,12 @@ function hasChangedRouteParams(currentRouteSpec, routeParams) {
         currLevelStr = String(currLevel + 1),
         currMissionStr = String(currMission + 1),
         currChallengeStr = String(currChallenge + 1);
-  return (routeParams.mission && routeParams.challenge && routeParams.level &&
+  return (isValidRouteParams(routeParams) &&
         ((routeParams.mission !== currMissionStr) || (routeParams.challenge !== currChallengeStr) || (routeParams.level !== currLevelStr)));
+}
+
+function isValidRouteParams(routeParams) {
+  return routeParams.mission && routeParams.challenge && routeParams.level;
 }
 
 function mapContainerNameToContainer(containerName) {
@@ -52,8 +56,10 @@ class ChallengeContainerSelector extends Component {
     if (routeParams.challengeId) {
       routeParams = AuthoringUtils.challengeIdToRouteParams(authoring, routeParams.challengeId);
     }
-    if (hasChangedRouteParams(this.props.currentRouteSpec, routeParams)) {
-      navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});
+    if (isValidRouteParams(routeParams)) {
+      if (hasChangedRouteParams(this.props.currentRouteSpec, routeParams)) {
+        navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});
+      }
     } else {
       navigateToChallenge({level: 0, mission: 0, challenge: 0});
     }
