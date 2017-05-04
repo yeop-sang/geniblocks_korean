@@ -345,7 +345,7 @@ var animationEvents = {
               side = gamete[name];
           if (side) {
             const parentId = sex === BioLogica.FEMALE ? 'mother' : 'father',
-                  chromContainerId = `${parentId}${name}${side}`,
+                  chromContainerId = `${parentId}-${name}-${side}`,
                   elt = document.getElementById(chromContainerId).parentNode;
             // this will trigger an animation which will call onFinish() when complete,
             // which will trigger the next stage of the animation.
@@ -455,8 +455,8 @@ var animationEvents = {
             parentGameteChromEls = parentGameteGenomeEl.getElementsByClassName('chromosome-allele-container'),
             parentGameteImageClass = sex === BioLogica.MALE ? 'sperm' : 'ovum',
             parentGameteImageEl = parentGameteGenomeEl.getElementsByClassName(parentGameteImageClass)[0],
-            parentGameteSvgEl = parentGameteImageEl.getElementsByTagName('svg')[3],
-            parentGameteBounds = parentGameteSvgEl.getBoundingClientRect(),
+            parentGameteDivEl = parentGameteImageEl.getElementsByClassName('gamete-container')[0],
+            parentGameteBounds = parentGameteDivEl.getBoundingClientRect(),
             spermChromOffsets = [{ dx: 19.5, dy: 11 }, { dx: 29.5, dy: 11 }, { dx: 39.5, dy: 11 }],
             ovumChromOffsets = [{ dx: 19.5, dy: 31 }, { dx: 29.5, dy: 31 }, { dx: 39.5, dy: 31 }];
 
@@ -1135,8 +1135,8 @@ export default class FVEggGame extends Component {
                               : { id: 'father-gamete-pen', idPrefix: 'father-gamete-',
                                   gametes: fatherGametes,
                                   selectedIndex: fatherSelectedGameteIndex(gametes) };
-      return <GametePenView {...uniqueProps} gameteSize={0.6} rows={1} sex={sex}
-                            columns={authoredGameteCounts[sex]}
+      return <GametePenView {...uniqueProps} gameteSize={0.6} columns={1} sex={sex}
+                            rows={authoredGameteCounts[sex]} containerHeight={250} containerWidth={48}
                             showChromosomes='selected'
                             onClick={_this.handleGameteSelected}
                             onReportLayoutConstants={function(layout) {

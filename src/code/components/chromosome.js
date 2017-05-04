@@ -39,8 +39,8 @@ const ChromosomeView = ({chromosome, chromosomeDescriptor, ChromosomeImageClass=
   }
 
   let chromId = null;
-  if (orgName && chromosome) {
-    chromId = orgName + "-" + chromosome.chromosome + "-" + chromosome.side;
+  if (orgName && chromosomeDescriptor.name && chromosomeDescriptor.side) {
+    chromId = orgName + "-" + chromosomeDescriptor.name + "-" + chromosomeDescriptor.side;
   }
 
   if (chromosome) {

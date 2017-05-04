@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import { assign, map } from 'lodash';
 import { toClass } from 'recompose';
 import Dimensions from 'react-dimensions';
-import GameteImageView from './gamete-image';
+import FVGameteImageView from '../fv-components/fv-gamete-image';
 
 /**
  * @param {number} rows - Option number of rows. If defined, it will be fixed at that. Otherwise, it
@@ -91,7 +91,7 @@ const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, sh
               gameteDisplayStyle = assign({}, gameteDefaultDisplayStyle,
                                           index === selectedIndex ? { fillColor: selectedColor } : null);
         return gamete != null
-                ? <GameteImageView isEgg={isEgg} chromosomes={chromosomes} key={index}
+                ? <FVGameteImageView isEgg={isEgg} chromosomes={chromosomes} key={index}
                                     id={idPrefix + index} className={className}
                                     style={eltStyle} displayStyle={gameteDisplayStyle}
                                     onClick={handleGameteClick}/>
