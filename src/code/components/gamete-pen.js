@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import { assign, map } from 'lodash';
 import { toClass } from 'recompose';
 import Dimensions from 'react-dimensions';
-import FVGameteImageView from '../fv-components/fv-gamete-image';
+import GameteImageView from './gamete-image';
 
 /**
  * @param {number} rows - Option number of rows. If defined, it will be fixed at that. Otherwise, it
@@ -18,7 +18,7 @@ export function getGameteLocation(layout, index) {
             top: layout.yMargin + row * layout.effectiveHeight };
 }
 
-const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, showChromosomes=true, containerWidth, containerHeight, rows, columns, tightenRows=0, tightenColumns=0, selectedIndex, selectedColor='#FF6666', onClick, onReportLayoutConstants}) => {
+const GametePenView = ({id, sex, GameteImageClass=GameteImageView, gametes, idPrefix='gamete-', gameteSize=1.0, showChromosomes=true, containerWidth, containerHeight, rows, columns, tightenRows=0, tightenColumns=0, selectedIndex, selectedColor='#FF6666', onClick, onReportLayoutConstants}) => {
 
   function handleGameteClick(evt, gameteID) {
     const prefixIndex = gameteID.indexOf(idPrefix),
@@ -79,7 +79,7 @@ const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, sh
     if ((showChromosomes === 'selected') && (index === selectedIndex)) return true;
     return false;
   }
-
+  
   let isEgg = sex === BioLogica.FEMALE,
       gameteDefaultDisplayStyle = { size: gameteSize },
       gameteViews = gametes.map((gamete, index) => {
@@ -88,11 +88,12 @@ const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, sh
                               : [],
               className = index === selectedIndex ? 'selected' : '',
               eltStyle = getGameteStyle(index),
+              isSelected = index === selectedIndex,
               gameteDisplayStyle = assign({}, gameteDefaultDisplayStyle,
-                                          index === selectedIndex ? { fillColor: selectedColor } : null);
+                                          isSelected ? { fillColor: selectedColor } : null);
         return gamete != null
-                ? <FVGameteImageView isEgg={isEgg} chromosomes={chromosomes} key={index}
-                                    id={idPrefix + index} className={className}
+                ? <GameteImageClass isEgg={isEgg} chromosomes={chromosomes} key={index}
+                                    id={idPrefix + index} className={className} isSelected={isSelected}
                                     style={eltStyle} displayStyle={gameteDisplayStyle}
                                     onClick={handleGameteClick}/>
                 : null;

@@ -359,6 +359,20 @@ body
       background-image: url('../resources/fablevision/layout-c/screen_right_chromosome_box.png')
       background-repeat: no-repeat
 
+    .interactive-gamete
+      &.egg
+        width: 111px
+        height: 111px
+        background-image: url('../resources/fablevision/layout-c/egg_chrom_inactive.png')
+        &.selected
+          background-image: url('../resources/fablevision/layout-c/egg_chrom_active.png')
+      &.sperm
+        width: 105px
+        height: 105px
+        background-image: url('../resources/fablevision/layout-c/sperm_chrom_inactive.png')
+        &.selected
+          background-image: url('../resources/fablevision/layout-c/sperm_chrom_active.png')
+
 .egg
   position: relative
   display: flex

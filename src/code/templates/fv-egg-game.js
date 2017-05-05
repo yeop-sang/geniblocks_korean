@@ -21,6 +21,7 @@ import FVGameteImageView from '../fv-components/fv-gamete-image';
 import AnimatedComponentView from '../components/animated-component';
 import TargetDrakeView from '../fv-components/target-drake';
 import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
+import InteractiveGamete from '../fv-components/interactive-gamete';
 import TimerSet from '../utilities/timer-set';
 import unscaleProperties from '../utilities/unscale-properties';
 import t from '../utilities/translate';
@@ -1137,7 +1138,7 @@ export default class FVEggGame extends Component {
                                   selectedIndex: fatherSelectedGameteIndex(gametes) };
       return <GametePenView {...uniqueProps} gameteSize={0.6} columns={1} sex={sex}
                             rows={authoredGameteCounts[sex]} containerHeight={250} containerWidth={48}
-                            showChromosomes='selected'
+                            showChromosomes='selected' GameteImageClass={InteractiveGamete}
                             onClick={_this.handleGameteSelected}
                             onReportLayoutConstants={function(layout) {
                                                         gameteLayoutConstants[sex] = clone(layout);
