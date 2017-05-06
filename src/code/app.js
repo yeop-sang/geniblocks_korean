@@ -80,6 +80,7 @@ loggingMetadata.userName = `${userNameBase}-${sessionID.split("-")[0]}`;
 loggingMetadata.classInfo = urlParams.class_info_url;
 loggingMetadata.studentId = urlParams.domain_uid;
 loggingMetadata.externalId = urlParams.externalId;
+loggingMetadata.returnUrl = urlParams.returnUrl;
 // start the session before syncing history, which triggers navigation
 store.dispatch(startSession(sessionID));
 

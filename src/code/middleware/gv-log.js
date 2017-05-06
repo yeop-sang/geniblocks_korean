@@ -78,6 +78,7 @@ function createLogEntry(loggingMetadata, action, nextState){
     {
       application: loggingMetadata.applicationName,
       username: loggingMetadata.userName,
+      run_remote_endpoint: loggingMetadata.returnUrl,
       session: session,
       time: Date.now(),
       activity: activity,
