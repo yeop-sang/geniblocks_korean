@@ -34,8 +34,8 @@ const GametePenView = ({id, sex, GameteImageClass=GameteImageView, gametes, idPr
 
   const availableWidth = containerWidth - 12,
         availableHeight = containerHeight - 4,
-        gameteImageWidth = Math.ceil((sex === BioLogica.FEMALE ? 68 : 145) * gameteSize),
-        gameteImageHeight = Math.ceil((sex === BioLogica.FEMALE ? 78 : 40) * gameteSize),
+        gameteImageWidth = Math.ceil((sex === BioLogica.FEMALE ? 111 : 105) * gameteSize),
+        gameteImageHeight = Math.ceil((sex === BioLogica.FEMALE ? 111 : 105) * gameteSize),
         xMargin = 2,
         yMargin = sex === BioLogica.MALE ? 14 : 2;
   let   effectiveWidth = gameteImageWidth * (1 - tightenColumns),
@@ -112,6 +112,7 @@ GametePenView.propTypes = {
   id: PropTypes.string,
   sex: PropTypes.number.isRequired,
   gametes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  GameteImageClass: PropTypes.func,
   idPrefix: PropTypes.string,
   containerWidth: PropTypes.number,
   containerHeight: PropTypes.number,
