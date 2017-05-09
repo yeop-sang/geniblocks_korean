@@ -475,6 +475,8 @@ export default class GeneticsUtils {
   /**
    * Given a gene string, returns an object representing the phenotypes expressed by that gene string. For example,
    * 'a:w,b:w' is converted to {'wings': 'No wings'}.
+   *
+   * TODO: baskets should be defined by phenotype instead, to simplify their description and avoid this step entirely
    */
   static convertGeneStringToPhenotype(genes) {
     // First, create a drake from the given gene string. This drake has the correct phenotype, but we only want the
@@ -501,7 +503,10 @@ export default class GeneticsUtils {
         alleleCombinations.forEach((combination) => {
           relevantAlleles.forEach((relevantAllele) => {
             if (combination.indexOf(relevantAllele) > -1) {
-              relevantTraitNames[traitCategory] = trait;
+              if (relevantTraitNames[traitCategory] === undefined) {
+                relevantTraitNames[traitCategory] = [];
+              }
+              relevantTraitNames[traitCategory].push(trait);
             }
           });
         });

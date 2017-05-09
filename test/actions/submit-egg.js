@@ -16,9 +16,9 @@ const types = actions.actionTypes,
       },
       submittedAlleles = "a:T,b:T,a:M,b:M,a:W,b:w,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:hl,b:hl,a:A1,b:A1,a:D,a:Bog,a:rh",
       acceptedAllelesCorrect = ["a:W", "b:W"],
-      acceptedPheotypeCorrect = {"wings": "Wings"},
+      acceptedPhenotypeCorrect = {"wings": "Wings"},
       acceptedAllelesIncorrect = ["a:w,b:w"],
-      acceptedPheotypeIncorrect = {"wings": "No wings"},
+      acceptedPhenotypeIncorrect = {"wings": "No wings"},
       submittedBasketLabel = "test basket";
 
 describe('submitEggForBasket action', () => {
@@ -61,7 +61,7 @@ describe('submitEggForBasket action', () => {
           sex: 0
         },
         userSelections: {
-          phenotype: acceptedPheotypeCorrect
+          phenotype: acceptedPhenotypeCorrect
         },
         isCorrect,
         incrementMoves: false,
@@ -116,7 +116,7 @@ describe('submitEggForBasket action', () => {
           sex: 0
         },
         userSelections: {
-          phenotype: acceptedPheotypeIncorrect,
+          phenotype: acceptedPhenotypeIncorrect,
           sex: 0
         },
         isCorrect,
