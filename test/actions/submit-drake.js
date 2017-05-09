@@ -158,7 +158,7 @@ describe('submitDrake action', () => {
         },
         leftButton: undefined,
         showAward: false,
-        top: "600px"
+        top: undefined
       });
     });
 

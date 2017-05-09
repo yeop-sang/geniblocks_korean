@@ -389,7 +389,6 @@ export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrect
             label: "~BUTTON.NEXT_TRIAL",
             action: "advanceTrial"
           },
-          top: "600px"
         };
       }
     } else {
@@ -400,7 +399,6 @@ export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrect
           label: "~BUTTON.TRY_AGAIN",
           action: incorrectAction || "dismissModalDialog"
         },
-        top: "600px"
       };
     }
     dispatch(showModalDialog(dialog));
@@ -486,7 +484,6 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
           action: "rejectEggFromBasket",
           args: { eggDrakeIndex, basketIndex, isChallengeComplete }
         },
-        top: "475px"
       };
       setTimeout(function() {
         dispatch(showModalDialog(dialog));
