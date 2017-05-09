@@ -98,9 +98,9 @@
       },
       "visibleGenes": "forelimbs, hindlimbs",
       "baskets": [
-        { "label": "Drakes with only forelimbs", "alleles": ["Fl-, hl-hl", "-Fl, hl-hl"] },
-        { "label": "Drakes with only hindlimbs", "alleles": ["fl-fl, Hl-", "fl-fl, -Hl"] },
-        { "label": "Drakes with forelimbs and hindlimbs", "alleles": ["Fl-, Hl-","Fl-, -Hl","-Fl, Hl-","-Fl, -Hl"] }
+        { "label": "Drakes with only arms", "alleles": ["Fl-, hl-hl", "-Fl, hl-hl"] },
+        { "label": "Drakes with only legs", "alleles": ["fl-fl, Hl-", "fl-fl, -Hl"] },
+        { "label": "Drakes with arms and legs", "alleles": ["Fl-, Hl-","Fl-, -Hl","-Fl, Hl-","-Fl, -Hl"] }
       ]
     },
     "allele-targetMatch-visible-armorHorns-original": {
@@ -231,7 +231,7 @@
       },
       "visibleGenes": "armor",
       "baskets": [
-        { "label": "Drakes with no armor plates", "alleles": ["a-a"] },
+        { "label": "Drakes without armor plates", "alleles": ["a-a"] },
         { "label": "Drakes with three armor plates", "alleles": ["A1-a", "a-A1"] },
         { "label": "Drakes with five armor plates", "alleles": ["A1-A1"] }
       ]
@@ -444,9 +444,9 @@
       },
       "visibleGenes": "forelimbs, hindlimbs",
       "baskets": [
-        { "label": "Drakes with only forelimbs", "alleles": ["Fl-, hl-hl", "-Fl, hl-hl"] },
-        { "label": "Drakes with only hindlimbs", "alleles": ["fl-fl, Hl-", "fl-fl, -Hl"] },
-        { "label": "Drakes with forelimbs and hindlimbs", "alleles": ["Fl-, Hl-","Fl-, -Hl","-Fl, Hl-","-Fl, -Hl"] }
+        { "label": "Drakes with only arms", "alleles": ["Fl-, hl-hl", "-Fl, hl-hl"] },
+        { "label": "Drakes with only legs", "alleles": ["fl-fl, Hl-", "fl-fl, -Hl"] },
+        { "label": "Drakes with arms and legs", "alleles": ["Fl-, Hl-","Fl-, -Hl","-Fl, Hl-","-Fl, -Hl"] }
       ]
     },
     "eggDrop-horns": {
