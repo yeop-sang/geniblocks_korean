@@ -21,6 +21,7 @@ import FVGameteImageView from '../fv-components/fv-gamete-image';
 import AnimatedComponentView from '../components/animated-component';
 import TargetDrakeView from '../fv-components/target-drake';
 import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
+import InteractiveGamete from '../fv-components/interactive-gamete';
 import TimerSet from '../utilities/timer-set';
 import unscaleProperties from '../utilities/unscale-properties';
 import t from '../utilities/translate';
@@ -345,7 +346,7 @@ var animationEvents = {
               side = gamete[name];
           if (side) {
             const parentId = sex === BioLogica.FEMALE ? 'mother' : 'father',
-                  chromContainerId = `${parentId}${name}${side}`,
+                  chromContainerId = `${parentId}-${name}-${side}`,
                   elt = document.getElementById(chromContainerId).parentNode;
             // this will trigger an animation which will call onFinish() when complete,
             // which will trigger the next stage of the animation.
@@ -455,10 +456,10 @@ var animationEvents = {
             parentGameteChromEls = parentGameteGenomeEl.getElementsByClassName('chromosome-allele-container'),
             parentGameteImageClass = sex === BioLogica.MALE ? 'sperm' : 'ovum',
             parentGameteImageEl = parentGameteGenomeEl.getElementsByClassName(parentGameteImageClass)[0],
-            parentGameteSvgEl = parentGameteImageEl.getElementsByTagName('svg')[3],
-            parentGameteBounds = parentGameteSvgEl.getBoundingClientRect(),
-            spermChromOffsets = [{ dx: 19.5, dy: 11 }, { dx: 29.5, dy: 11 }, { dx: 39.5, dy: 11 }],
-            ovumChromOffsets = [{ dx: 19.5, dy: 31 }, { dx: 29.5, dy: 31 }, { dx: 39.5, dy: 31 }];
+            parentGameteDivEl = parentGameteImageEl.getElementsByClassName('gamete-container')[0],
+            parentGameteBounds = unscaleProperties(parentGameteDivEl.getBoundingClientRect(), _this.props.scale),
+            spermChromOffsets = [{ dx: 49.5, dy: 11 }, { dx: 69.5, dy: 11 }, { dx: 89.5, dy: 11 }],
+            ovumChromOffsets = [{ dx: 59.5, dy: 11 }, { dx: 79.5, dy: 11 }, { dx: 99.5, dy: 11 }];
 
       animationEvents.moveChromosomesToGamete.sexes.push(sex);
       animationEvents.moveChromosomesToGamete.speed = speed;
@@ -475,7 +476,7 @@ var animationEvents = {
           opacity = { start: 1.0, end: 0.5 };
       for (let i = 0; i < parentGameteChromEls.length; ++i) {
         const parentGameteChromEl = parentGameteChromEls[i],
-              srcChromBounds = parentGameteChromEl.getBoundingClientRect(),
+              srcChromBounds = unscaleProperties(parentGameteChromEl.getBoundingClientRect(), _this.props.scale),
               descriptorComponents = parentGameteChromEl.id.split("-"),
               chromosomeDescriptor = {name: descriptorComponents[1], side: descriptorComponents[2]},
               chromView = <AnimatedChromosomeImageView small={true} empty={false} bold={false} chromosomeDescriptor={chromosomeDescriptor}/>;
@@ -529,12 +530,12 @@ var animationEvents = {
             srcGameteBounds = sex === BioLogica.MALE ? spermTarget : ovumTarget,
             gametePoolId = sex === BioLogica.MALE ? 'father-gamete-pen' : 'mother-gamete-pen',
             gametePoolElt = document.getElementById(gametePoolId),
-            gametePoolBounds = gametePoolElt.getBoundingClientRect(),
+            gametePoolBounds = unscaleProperties(gametePoolElt.getBoundingClientRect(), _this.props.scale),
             animatingGametesInPools = _this.state.animatingGametesInPools,
             gameteCount = animatingGametesInPools ? animatingGametesInPools[sex] : 0,
             loc = getGameteLocationInPen(sex, gameteCount),
-            dstGameteBounds = { top: gametePoolBounds.top + loc.top + 1,
-                                left: gametePoolBounds.left + loc.left + 1,
+            dstGameteBounds = { top: gametePoolBounds.top + loc.top - 35,
+                                left: gametePoolBounds.left + loc.left - 35,
                                 width: srcGameteBounds.width / 2,
                                 height: srcGameteBounds.height / 2 },
             positions = { startPositionRect: srcGameteBounds, startSize: 1.0,
@@ -1135,9 +1136,9 @@ export default class FVEggGame extends Component {
                               : { id: 'father-gamete-pen', idPrefix: 'father-gamete-',
                                   gametes: fatherGametes,
                                   selectedIndex: fatherSelectedGameteIndex(gametes) };
-      return <GametePenView {...uniqueProps} gameteSize={0.6} rows={1} sex={sex}
-                            columns={authoredGameteCounts[sex]}
-                            showChromosomes='selected'
+      return <GametePenView {...uniqueProps} columns={1} sex={sex}
+                            rows={authoredGameteCounts[sex]} containerHeight={250} containerWidth={48}
+                            showChromosomes='selected' GameteImageClass={InteractiveGamete}
                             onClick={_this.handleGameteSelected}
                             onReportLayoutConstants={function(layout) {
                                                         gameteLayoutConstants[sex] = clone(layout);

@@ -18,7 +18,7 @@ export function getGameteLocation(layout, index) {
             top: layout.yMargin + row * layout.effectiveHeight };
 }
 
-const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, showChromosomes=true, containerWidth, containerHeight, rows, columns, tightenRows=0, tightenColumns=0, selectedIndex, selectedColor='#FF6666', onClick, onReportLayoutConstants}) => {
+const GametePenView = ({id, sex, GameteImageClass=GameteImageView, gametes, idPrefix='gamete-', gameteSize=1.0, showChromosomes=true, containerWidth, containerHeight, rows, columns, tightenRows=0, tightenColumns=0, selectedIndex, selectedColor='#FF6666', onClick, onReportLayoutConstants}) => {
 
   function handleGameteClick(evt, gameteID) {
     const prefixIndex = gameteID.indexOf(idPrefix),
@@ -34,8 +34,8 @@ const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, sh
 
   const availableWidth = containerWidth - 12,
         availableHeight = containerHeight - 4,
-        gameteImageWidth = Math.ceil((sex === BioLogica.FEMALE ? 68 : 145) * gameteSize),
-        gameteImageHeight = Math.ceil((sex === BioLogica.FEMALE ? 78 : 40) * gameteSize),
+        gameteImageWidth = Math.ceil((sex === BioLogica.FEMALE ? 111 : 105) * gameteSize),
+        gameteImageHeight = Math.ceil((sex === BioLogica.FEMALE ? 111 : 105) * gameteSize),
         xMargin = 2,
         yMargin = sex === BioLogica.MALE ? 14 : 2;
   let   effectiveWidth = gameteImageWidth * (1 - tightenColumns),
@@ -79,7 +79,7 @@ const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, sh
     if ((showChromosomes === 'selected') && (index === selectedIndex)) return true;
     return false;
   }
-
+  
   let isEgg = sex === BioLogica.FEMALE,
       gameteDefaultDisplayStyle = { size: gameteSize },
       gameteViews = gametes.map((gamete, index) => {
@@ -88,11 +88,12 @@ const GametePenView = ({id, sex, gametes, idPrefix='gamete-', gameteSize=1.0, sh
                               : [],
               className = index === selectedIndex ? 'selected' : '',
               eltStyle = getGameteStyle(index),
+              isSelected = index === selectedIndex,
               gameteDisplayStyle = assign({}, gameteDefaultDisplayStyle,
-                                          index === selectedIndex ? { fillColor: selectedColor } : null);
+                                          isSelected ? { fillColor: selectedColor } : null);
         return gamete != null
-                ? <GameteImageView isEgg={isEgg} chromosomes={chromosomes} key={index}
-                                    id={idPrefix + index} className={className}
+                ? <GameteImageClass isEgg={isEgg} chromosomes={chromosomes} key={index}
+                                    id={idPrefix + index} className={className} isSelected={isSelected}
                                     style={eltStyle} displayStyle={gameteDisplayStyle}
                                     onClick={handleGameteClick}/>
                 : null;
@@ -111,6 +112,7 @@ GametePenView.propTypes = {
   id: PropTypes.string,
   sex: PropTypes.number.isRequired,
   gametes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  GameteImageClass: PropTypes.func,
   idPrefix: PropTypes.string,
   containerWidth: PropTypes.number,
   containerHeight: PropTypes.number,
