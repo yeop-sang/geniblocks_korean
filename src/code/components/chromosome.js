@@ -60,7 +60,7 @@ const ChromosomeView = ({chromosome, chromosomeDescriptor, ChromosomeImageClass=
         } else {
           return (
             <FVGeneLabelView editable={editable && a.editable} chromosomeDescriptor={chromosomeDescriptor} 
-                             chromosomeHeight={height} allele={a.allele} species={chromosome.species} 
+                             chromosomeHeight={height} allele={a.allele} species={chromosome.species} hiddenAlleles={ hiddenAlleles }
                              onAlleleChange={function(event) {
                                onAlleleChange(a.allele, event.value);
                              }

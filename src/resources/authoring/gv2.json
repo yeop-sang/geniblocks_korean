@@ -389,14 +389,14 @@
       "showUserDrake": true,
       "targetDrakes": [{},{},{}],
       "mother":{
-        "alleles": "w-W, M-m, fl-, hl-, T-T, h-h, C-C, A1-A1, B-B, D-D, rh-rh, Bog-Bog",
+        "alleles": "w-W, M-m, fl-, hl-, T-T, h-, C-C, A1-, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 1
       },
       "father": {
-        "alleles": "w-W, m-m, T-T, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
+        "alleles": "w-W, m-m, T-T, H-, a-, C-C, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 0
       },
-      "visibleGenes": "metallic, wings, forelimbs, hindlimbs"
+      "visibleGenes": "wings, forelimbs, hindlimbs, armor, horns"
     },
     "eggDrop-wings": {
       "comment": "*** Egg Sorting Game Test ***",
@@ -586,8 +586,94 @@
       },
       "userChangeableGenes": "wings, forelimbs, hindlimbs"
     },
-  },
-
+    "allele-targetMatch-visible-armorHorns": {
+        "comment": "*** Level 2, Mission 3.1: Genome Challenge (armor intro, user drake visible) ***",
+        "container": "FVContainer",
+        "template": "FVGenomeChallenge",
+        "challengeType": "match-target",
+        "randomizeTrials": true,
+        "instructions": "Match the target drake!",
+        "showUserDrake": true,
+        "initialDrake": [
+          {
+            "alleles": "a-a, H-H, Bog-, D-, rh-rh",
+            "sex": 1
+          },
+          {
+            "alleles": "A1-A1, H-h, Bog-, D-, rh-rh",
+            "sex": 0
+          },
+          {
+            "alleles": "a-A1, h-h, Bog-, D-, rh-rh",
+            "sex": 1
+          }
+        ],
+        "targetDrakes": [
+          {
+            "alleles": "A1-A1, h-h",
+            "sex": 1
+          },
+          {
+            "alleles": "A1-a, h-h",
+            "sex": 1
+          },
+          {
+            "alleles": "a-a, H-h",
+            "sex": 0
+          }
+        ],
+        "userChangeableGenes": "armor, horns",
+        "visibleGenes": "forelimbs, hindlimbs, wings",
+        "hiddenAlleles": "A2",
+        "linkedGenes": {
+          "drakes": [0, 1],
+          "genes": "metallic, wings, forelimbs, hindlimbs, tail, color, black, dilute, nose, bogbreath"
+        }
+      },
+      "allele-targetMatch-hidden-armorHorns": {
+        "comment": "*** Level 2, Mission 3.2: Genome Challenge (armor intro, user drake hidden) ***",
+        "container": "FVContainer",
+        "template": "FVGenomeChallenge",
+        "challengeType": "match-target",
+        "randomizeTrials": true,
+        "instructions": "Match the target drake!",
+        "showUserDrake": false,
+        "initialDrake": [
+          {
+            "alleles": "A1-A1, H-H, Bog-, D-, rh-rh",
+            "sex": 1
+          },
+          {
+            "alleles": "a-a, h-h, Bog-, D-, rh-rh",
+            "sex": 0
+          },
+          {
+            "alleles": "a-A1, H-h, Bog-, D-, rh-rh",
+            "sex": 1
+          }
+        ],
+        "targetDrakes": [
+          {
+            "alleles": "a-a, h-h",
+            "sex": 0
+          },
+          {
+            "alleles": "A1-a, H-H",
+            "sex": 0
+          },
+          {
+            "alleles": "A1-A1, H-H",
+            "sex": 1
+          }
+        ],
+        "userChangeableGenes": "forelimbs, hindlimbs, wings, armor, horns",
+        "hiddenAlleles": "A2",
+        "linkedGenes": {
+          "drakes": [0, 1],
+          "genes": "metallic, wings, forelimbs, hindlimbs, tail, color, black, dilute, nose, bogbreath"
+        }
+      },
+    },
 
   "application": {
     "levels": [

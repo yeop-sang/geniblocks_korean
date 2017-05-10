@@ -1,7 +1,7 @@
 .geniblocks.genome #mountNode .react-selectize-control
   display: flex
   flex-direction: row
-  height: 40px
+  height: 28px
   input
     font-family: "Yanone Kaffeesatz";
     font-size: 1.5rem;
@@ -26,7 +26,7 @@
       margin-right: -10px
 
 .geniblocks.genome .fl #mountNode
-  margin-top: -47px
+  margin-top: -30px
 
 .geniblocks.genome #mountNode .react-selectize-search-field-and-selected-values
   height: 40px
@@ -35,10 +35,14 @@
 
 .geniblocks.fv-gene-label.allele.noneditable
   &.w
-    z-index: 4
+    z-index: 6
+  &.h
+    z-index: 5
   &.fl
-    z-index: 3
+    z-index: 4
   &.hl
+    z-index: 3
+  &.a
     z-index: 2
 
 .fv-layout
@@ -63,11 +67,17 @@
 
   .line
     position: absolute
+    margin-top: -3px
     background-color: #fff
     width: 20px
     height: 2px
     top: 15px
     left: -27px
+
+  .fv-gene-label-text
+    margin-top: -3px
+    margin-left: -2px
+    margin-right: -2px
 
   .items.rtl .line
     margin-left: auto
@@ -93,6 +103,33 @@
   .h .line
     width: 21px
 
+  .fl
+    .line
+      margin-top: -7px
+      width: 25px 
+    #mountNode
+      margin-top: 25px
+    .fv-gene-label-text
+      margin-top: -21px
+
+  .h
+    .line
+      margin-top: 1px
+      width: 21px 
+    #mountNode
+      margin-top: 20px
+    .fv-gene-label-text
+      margin-top: 6px
+
+  .a 
+    .line
+      margin-top: 6px
+      width: 25px 
+    #mountNode
+      margin-top: 31px
+    .fv-gene-label-text
+      margin-top: 19px
+
   .ltl .fl .line
     transform: rotate(-35deg)
     left: -30px
@@ -110,3 +147,13 @@
   .rtl .h .line
     transform: rotate(-15deg)
     top: 15px
+
+  .ltl .a .line
+    transform: rotate(42deg)
+    top: 15px
+    left: -30px
+
+  .rtl .a .line
+    transform: rotate(-42deg)
+    top: 15px
+    right: -30px
