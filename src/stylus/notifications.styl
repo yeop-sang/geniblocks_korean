@@ -1,16 +1,52 @@
 .geniblocks.notification-container
   position: fixed
-  top: 0
-  right: 0
+  bottom: 0
+  left: 0
+  display: flex
+  flex-direction: row
+  align-items: flex-end
+  z-index: 4
 
   .notification
-    width: 200px
-    margin: 17px
+    width: 1405px
+    height: 189px
+    margin: 0 -67px
     padding: 12px
     color: #2d1c06
-    border-radius: 5px
-    border: 1px solid #2d1c06
-    background: rgba(250, 235, 215, 0.8)
-    box-shadow: inset 0px 0px 18px #ffffff, 0px 0px 8px #ffdfb5
+    background-image: url('../resources/fablevision/huds/scroll.png')
 
+    .message-text
+      position: absolute
+      margin-left: 140px
+      top: 216px
+      font-family: 'Yanone Kaffeesatz'
+      font-size: 2rem
+      color: black
+      width: 1000px
 
+    .close-button
+      background-image: url('../resources/fablevision/huds/scroll_close.png')
+      width: 47px
+      height: 45px
+      background-repeat: no-repeat
+      background-size: contain
+      margin-left: 1250px
+      margin-top: 50px
+      cursor: pointer
+
+    .next-arrow
+      background-image: url('../resources/fablevision/huds/arrow_right.png')
+      height: 42px
+      width: 46px
+      background-repeat: no-repeat
+      background-size: contain
+      margin-left: 1155px
+      margin-top: -7px
+      cursor: pointer
+
+  .fv-character
+    background-image: url('../resources/fablevision/huds/speaker.png')
+    width: 325px
+    height: 359px
+    background-repeat: no-repeat
+    background-size: contain
