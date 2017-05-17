@@ -11,10 +11,27 @@ export function generateTrialDrakes(trialDef, trial=0) {
 
     let initialDrakeAlleles = generateComboDrakeAlleles(trialDef.baseDrake, trialDef.initialDrakeCombos, trial),
         targetDrakeAlleles  = generateComboDrakeAlleles(trialDef.baseDrake, trialDef.targetDrakeCombos,  trial),
-        initialDrake = {alleles: initialDrakeAlleles, sex: 0},
-        targetDrake = {alleles: targetDrakeAlleles, sex: 0};
+        initialDrake = new BioLogica.Organism(BioLogica.Species.Drake, initialDrakeAlleles),
+        targetDrake = new BioLogica.Organism(BioLogica.Species.Drake, targetDrakeAlleles);
 
-    return [initialDrake, targetDrake];
+    for (let numTrials = 0; numTrials < 100; numTrials++) {
+      if (arePhenotypesEqual(initialDrake, targetDrake)) {
+        initialDrakeAlleles = generateComboDrakeAlleles(trialDef.baseDrake, trialDef.initialDrakeCombos, trial);
+        initialDrake = new BioLogica.Organism(BioLogica.Species.Drake, initialDrakeAlleles);
+      } else {
+        break;
+      }
+    }
+    if (arePhenotypesEqual(initialDrake, targetDrake)) {
+      console.log("Failed to produce different initial and target drakes");
+    }
+
+    let initialDrakeSex = Math.trunc(2 * Math.random()),
+        targetDrakeSex = Math.trunc(2 * Math.random()),
+        initialDrakeObj = {alleles: initialDrakeAlleles, sex: initialDrakeSex},
+        targetDrakeObj = {alleles: targetDrakeAlleles, sex: targetDrakeSex};
+
+    return [initialDrakeObj, targetDrakeObj];
   }
   if (trialDef.type === RANDOMIZE_ORDER) {
     if (trialDef.drakes) {
@@ -32,6 +49,16 @@ export function generateTrialDrakes(trialDef, trial=0) {
     }
   }
   return [];
+}
+
+function arePhenotypesEqual(drake1, drake2) {
+  let areEqual = true;
+  Object.keys(drake1.phenotype.characteristics).forEach((trait) => {
+    if (drake1.phenotype.characteristics[trait] !== drake2.phenotype.characteristics[trait]) {
+      return areEqual = false;
+    }
+  });
+  return areEqual;
 }
 
 function generateComboDrakeAlleles(base, combos, trial) {
