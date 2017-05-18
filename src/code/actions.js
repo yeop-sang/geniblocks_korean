@@ -268,31 +268,22 @@ function getEarnedCoinString(state) {
   return ["~ALERT.NEW_PIECE_OF_COIN", scoreString];
 }
 
-function getVisibleGenes(state, routeSpec) {
-  const visibleGenes = AuthoringUtils.getChallengeDefinition(state.authoring, routeSpec).visibleGenes;
-  return visibleGenes && visibleGenes.split(", ");
-}
-
 function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state) {
   const incrementMoves = !correct,
         targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[targetDrakeIndex]),
-        userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]),
-        initialDrakeOrg = state.initialDrakes[userDrakeIndex] ? GeneticsUtils.convertDrakeToOrg(state.initialDrakes[userDrakeIndex]) : null,
-        routeSpec = state.routeSpec,
-        // TODO: figure out whether ITS really wants "editableGenes" or "visibleGenes"
-        // because it doesn't make sense to log the latter as the former
-        editableGenes = getVisibleGenes(state, routeSpec);
+        userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]);
 
   return {
     type: actionTypes.DRAKE_SUBMITTED,
     species: BioLogica.Species.Drake.name,
-    correctPhenotype: targetDrakeOrg.phenotype.characteristics,
-    submittedPhenotype: userDrakeOrg.phenotype.characteristics,
-    submittedSex: userDrakeOrg.sex,
-    initialAlleles: initialDrakeOrg ? initialDrakeOrg.alleles : null,
-    selectedAlleles: userDrakeOrg.alleles,
-    targetSex: targetDrakeOrg.sex,
-    editableGenes,
+    challengeCriteria: {
+      sex: targetDrakeOrg.sex,
+      phenotype: targetDrakeOrg.phenotype.characteristics
+    },
+    userSelections: {
+      alleles: userDrakeOrg.alleles,
+      sex: userDrakeOrg.sex
+    },
     correct,
     incrementMoves,
     meta: {
@@ -443,17 +434,24 @@ function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, state) {
   const incrementMoves = !isCorrect,
         submittedDrake = GeneticsUtils.convertDrakeToOrg(state.drakes[eggDrakeIndex]),
         submittedBasket = state.baskets[basketIndex],
-        visibleGenes = getVisibleGenes(state, state.routeSpec);
+        // Each basket has multiple accepted alleles combinations which, at the time of this writing, all 
+        // have the same phenotype. Therefore, we can simply look at the first one
+        submittedBasketPhenotypes = GeneticsUtils.convertGeneStringToPhenotype(submittedBasket.alleles[0]),
+        drakeCriteria = {
+          sex: submittedDrake.sex,
+          alleles: submittedDrake.alleles
+        },
+        basketCriteria = {
+          phenotype: submittedBasketPhenotypes
+        };
+  if (submittedBasket.sex != null) {
+    basketCriteria.sex = submittedBasket.sex;
+  }
   return {
     type: actionTypes.EGG_SUBMITTED,
     species: BioLogica.Species.Drake.name,
-    submittedPhenotype: submittedDrake.phenotype.characteristics,
-    submittedGenotype: submittedDrake.alleles,
-    submittedSex: submittedDrake.sex,
-    acceptedGenotypes: submittedBasket.alleles,
-    acceptedSexes: submittedBasket.sex === undefined ? [BioLogica.FEMALE, BioLogica.MALE] : [submittedBasket.sex],
-    basketLabel: submittedBasket.label,
-    visibleGenes,
+    challengeCriteria: drakeCriteria,
+    userSelections: basketCriteria,
     isCorrect,
     incrementMoves,
     meta: {
@@ -471,9 +469,7 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
     dispatch(_submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, getState()));
 
     if (isCorrect) {
-      setTimeout(function() {
-        dispatch(acceptEggInBasket({eggDrakeIndex, basketIndex, isChallengeComplete}));
-      }, 4000);
+      dispatch(acceptEggInBasket({eggDrakeIndex, basketIndex, isChallengeComplete}));
     }
     else {
       let dialog = {
@@ -485,9 +481,7 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
           args: { eggDrakeIndex, basketIndex, isChallengeComplete }
         },
       };
-      setTimeout(function() {
-        dispatch(showModalDialog(dialog));
-      }, 4000);
+      dispatch(showModalDialog(dialog));
     }
   };
 }

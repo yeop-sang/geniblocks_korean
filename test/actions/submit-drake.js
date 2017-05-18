@@ -74,13 +74,14 @@ describe('submitDrake action', () => {
       expect(submitDrakeAction).toEqual({
         type: types.DRAKE_SUBMITTED,
         species: "Drake",
-        correctPhenotype: submitDrakeAction.correctPhenotype,  // we check valid phenotype below
-        submittedPhenotype: submitDrakeAction.submittedPhenotype,
-        initialAlleles: initialAlleles,
-        selectedAlleles: userAlleles,
-        targetSex: 0,
-        submittedSex: 0,
-        editableGenes: ["wings", "arms"],
+        challengeCriteria: {
+          phenotype: submitDrakeAction.challengeCriteria.phenotype,  // we check valid phenotype below
+          sex: 0
+        },
+        userSelections: {
+          alleles: userAlleles,
+          sex: 0
+        },
         correct: true,
         incrementMoves: false,
         meta: {
@@ -91,8 +92,7 @@ describe('submitDrake action', () => {
           }
         }
       });
-      assertMatchingPhenotype(submitDrakeAction.correctPhenotype, correctCharacteristics);
-      assertMatchingPhenotype(submitDrakeAction.submittedPhenotype, userCharacteristics);
+      assertMatchingPhenotype(submitDrakeAction.challengeCriteria.phenotype, correctCharacteristics);
     });
 
     it('should call dispatch with the correct message action', () => {
@@ -126,13 +126,14 @@ describe('submitDrake action', () => {
       expect(submitDrakeAction).toEqual({
         type: types.DRAKE_SUBMITTED,
         species: "Drake",
-        correctPhenotype: submitDrakeAction.correctPhenotype,  // we check valid phenotype below
-        submittedPhenotype: submitDrakeAction.submittedPhenotype,
-        initialAlleles: initialAlleles,
-        selectedAlleles: userAlleles,
-        targetSex: 0,
-        submittedSex: 0,
-        editableGenes: ["wings", "arms"],
+        challengeCriteria: {
+          phenotype: submitDrakeAction.challengeCriteria.phenotype,  // we check valid phenotype below
+          sex: 0
+        },
+        userSelections: {
+          alleles: userAlleles,
+          sex: 0
+        },
         correct: false,
         incrementMoves: true,
         meta: {
@@ -143,8 +144,7 @@ describe('submitDrake action', () => {
           }
         }
       });
-      assertMatchingPhenotype(submitDrakeAction.correctPhenotype, correctCharacteristics);
-      assertMatchingPhenotype(submitDrakeAction.submittedPhenotype, userCharacteristics);
+      assertMatchingPhenotype(submitDrakeAction.challengeCriteria.phenotype, correctCharacteristics);
     });
 
     it('should call dispatch with the correct message action', () => {

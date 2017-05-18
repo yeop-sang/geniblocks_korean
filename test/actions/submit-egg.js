@@ -16,14 +16,10 @@ const types = actions.actionTypes,
       },
       submittedAlleles = "a:T,b:T,a:M,b:M,a:W,b:w,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:hl,b:hl,a:A1,b:A1,a:D,a:Bog,a:rh",
       acceptedAllelesCorrect = ["a:W", "b:W"],
+      acceptedPhenotypeCorrect = {"wings": "Wings"},
       acceptedAllelesIncorrect = ["a:w,b:w"],
+      acceptedPhenotypeIncorrect = {"wings": "No wings"},
       submittedBasketLabel = "test basket";
-
-function assertMatchingPhenotype(actionPhenotype, targetCharacteristics) {
-  Object.keys(actionPhenotype).forEach((trait) => {
-    expect(actionPhenotype[trait]).toEqual(targetCharacteristics[trait]);
-  });
-}
 
 describe('submitEggForBasket action', () => {
   describe('when the egg is submitted correctly', () => {
@@ -60,13 +56,13 @@ describe('submitEggForBasket action', () => {
       expect(submitEggAction).toEqual({
         type: types.EGG_SUBMITTED,
         species: BioLogica.Species.Drake.name,
-        submittedPhenotype: submitEggAction.submittedPhenotype, // phenotype checked below
-        submittedGenotype: submittedAlleles,
-        submittedSex: 0,
-        acceptedGenotypes: acceptedAllelesCorrect,
-        acceptedSexes: [BioLogica.FEMALE, BioLogica.MALE],
-        basketLabel: submittedBasketLabel,
-        visibleGenes: ["wings", "arms"],
+        challengeCriteria: {
+          alleles: submittedAlleles,
+          sex: 0
+        },
+        userSelections: {
+          phenotype: acceptedPhenotypeCorrect
+        },
         isCorrect,
         incrementMoves: false,
         meta: {
@@ -77,7 +73,6 @@ describe('submitEggForBasket action', () => {
           }
         }
       });
-      assertMatchingPhenotype(submitEggAction.submittedPhenotype, submittedCharacteristics);
     });
   });
 
@@ -97,7 +92,8 @@ describe('submitEggForBasket action', () => {
       baskets: [
         {
           alleles: acceptedAllelesIncorrect,
-          label: submittedBasketLabel
+          label: submittedBasketLabel,
+          sex: 0
         }
       ],
       trials: [{}], 
@@ -115,13 +111,14 @@ describe('submitEggForBasket action', () => {
       expect(submitEggAction).toEqual({
         type: types.EGG_SUBMITTED,
         species: BioLogica.Species.Drake.name,
-        submittedPhenotype: submitEggAction.submittedPhenotype, // phenotype checked below
-        submittedGenotype: submittedAlleles,
-        submittedSex: 0,
-        acceptedGenotypes: acceptedAllelesIncorrect,
-        acceptedSexes: [BioLogica.FEMALE, BioLogica.MALE],
-        basketLabel: submittedBasketLabel,
-        visibleGenes: ["wings", "arms"],
+        challengeCriteria: {
+          alleles: submittedAlleles,
+          sex: 0
+        },
+        userSelections: {
+          phenotype: acceptedPhenotypeIncorrect,
+          sex: 0
+        },
         isCorrect,
         incrementMoves: true,
         meta: {
@@ -132,7 +129,6 @@ describe('submitEggForBasket action', () => {
           }
         }
       });
-      assertMatchingPhenotype(submitEggAction.submittedPhenotype, submittedCharacteristics);
     });
   });
 });

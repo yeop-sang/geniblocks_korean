@@ -71,7 +71,7 @@ export default function configureStore(initialState) {
 const store = configureStore();
 
 const guideServer = "wss://guide.intellimedia.ncsu.edu",
-      guideProtocol  = "guide-protocol-v2";
+      guideProtocol  = "guide-protocol-v3";
 initializeITSSocket(guideServer, guideProtocol, store);
 
 // generate pseudo-random sessionID and username

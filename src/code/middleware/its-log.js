@@ -134,8 +134,9 @@ function createLogEntry(loggingMetadata, action, nextState){
       routeSpec = nextState.routeSpec;
 
   context["routeSpec"] = routeSpec;
-  context["groupId"] = "verticalBite";
+  context["groupId"] = "Slice1-May8";
   context["challengeId"] = AuthoringUtils.getChallengeId(nextState.authoring, routeSpec);
+  context["classId"] = loggingMetadata.classInfo;
 
   if (action.meta.logNextState) {
     for (let prop in action.meta.logNextState) {

@@ -332,7 +332,10 @@ export default class FVEggSortGame extends Component {
     isSubmittedEggCorrect = selectedEgg && isEggCompatibleWithBasket(selectedEgg, basket);
     if (selectedEgg) {
       animationEvents.moveEggToBasket.animate(selectedEgg, selectedEggIndex, basketIndex);
-      onSubmitEggForBasket(eggDrakeIndex, basketIndex, isSubmittedEggCorrect, isChallengeComplete);
+      setTimeout(function() {
+        // Delay the submit until the egg is finished hatching
+        onSubmitEggForBasket(eggDrakeIndex, basketIndex, isSubmittedEggCorrect, isChallengeComplete);
+      }, 4000);
     }
     this.setBasketSelection([basketIndex]);
   }
