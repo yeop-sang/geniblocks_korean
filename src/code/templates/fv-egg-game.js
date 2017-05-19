@@ -1231,10 +1231,10 @@ export default class FVEggGame extends Component {
       left: father.left
     };
 
-    if (challengeDidChange && (this.props.interactionType !== "select-gametes" || this.props.trial > 0)) {
-      // animate the gametes moving from parents after page has rendered
+    if (challengeDidChange && !(this.props.interactionType === "select-gametes" && this.props.trial === 0)) {
+      // This animation kicks off the whole intro. It is only hidden in the first trial of 'select-gametes' games, where
+      // the 'Generate Gametes' button is used to start the intro instead
       _setTimeout( () => {
-        // first animation - show gametes
         animationEvents.showGametes.animate();
       }, delayStartShowGametesAnimation);
       challengeDidChange = false;
