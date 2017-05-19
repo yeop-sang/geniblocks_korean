@@ -52,13 +52,7 @@ export function generateTrialDrakes(trialDef, trial=0) {
 }
 
 function arePhenotypesEqual(drake1, drake2) {
-  let areEqual = true;
-  Object.keys(drake1.phenotype.characteristics).forEach((trait) => {
-    if (drake1.phenotype.characteristics[trait] !== drake2.phenotype.characteristics[trait]) {
-      return areEqual = false;
-    }
-  });
-  return areEqual;
+  return drake1.getImageName() === drake2.getImageName();
 }
 
 function generateComboDrakeAlleles(base, combos, trial) {
