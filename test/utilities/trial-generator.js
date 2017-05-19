@@ -27,6 +27,42 @@ describe('generateTrialDrakes() -- all-combinations', () => {
       expect(GeneticsUtils.isValidAlleleString(drakes[1].alleles)).toBe(true);
     }
   });
+
+  it('should generate different drakes if possible', () => {
+    const spec = GeneticsUtils.convertDashAllelesObjectToABAlleles({
+                  "type": "all-combinations",
+                  "baseDrake": "T-T, W-W, Fl-Fl, Hl-Hl, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
+                  "initialDrakeCombos": [
+                    ["M-M",  "m-m"]
+                  ],
+                  "targetDrakeCombos": [
+                    ["M-M",   "m-m"]
+                  ]
+                }, ["baseDrake", "initialDrakeCombos", "targetDrakeCombos"]);
+    // stochastic test, so try several times
+    for (let tries = 0; tries < 10; tries++) {
+      let drakes = generateTrialDrakes(spec, 0);
+      // just compare alleles for this test, but actual code ensures diff phenotypes
+      assert.notEqual(drakes[0].alleles, drakes[1].alleles);
+    }
+  });
+
+  it('should fail gracefully if impossible to generate different drakes', () => {
+    const spec = GeneticsUtils.convertDashAllelesObjectToABAlleles({
+                  "type": "all-combinations",
+                  "baseDrake": "T-T, W-W, Fl-Fl, Hl-Hl, h-h, A1-A1, C-C, B-B, D-D, rh-rh, Bog-Bog",
+                  "initialDrakeCombos": [
+                    ["M-M"]
+                  ],
+                  "targetDrakeCombos": [
+                    ["M-M"]
+                  ]
+                }, ["baseDrake", "initialDrakeCombos", "targetDrakeCombos"]);
+    let drakes = generateTrialDrakes(spec, 0);
+    expect(drakes.length).toBe(2);
+    expect(GeneticsUtils.isValidAlleleString(drakes[0].alleles)).toBe(true);
+    expect(GeneticsUtils.isValidAlleleString(drakes[1].alleles)).toBe(true);
+  });
 });
 
 describe('generateTrialDrakes() -- randomize-order', () => {
