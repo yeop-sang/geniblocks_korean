@@ -1,12 +1,3 @@
-/*
- * Note: This began as a copy of the (non-FV) EggGame template so that the
- * FableVision version of the template could be developed without breaking
- * the existing EggGame implementations. Once development is complete,
- * we can decide whether to simply retire the non-FV EggGame template, or
- * perhaps find some way for them to share potentially redundant code if
- * there is a desire to keep the old versions around.
- */
-
 import React, { Component, PropTypes } from 'react';
 import { assign, clone, cloneDeep, shuffle, range } from 'lodash';
 import classNames from 'classnames';
@@ -119,6 +110,7 @@ var _this,
   animationTimeline = {},
   mother, father,
   authoredGameteCounts = [0, 0],
+  targetDrakes = [],
   gameteLayoutConstants = [{}, {}],
   authoredDrakes = [],
   challengeDidChange = true,
@@ -472,7 +464,8 @@ var animationEvents = {
                   width: 8, height: 20 };
       }
       let components = [],
-          positions = [];
+          positions = [],
+          opacity = { start: 1.0, end: 0.5 };
       for (let i = 0; i < parentGameteChromEls.length; ++i) {
         const parentGameteChromEl = parentGameteChromEls[i],
               srcChromBounds = unscaleProperties(parentGameteChromEl.getBoundingClientRect(), _this.props.scale),
@@ -484,8 +477,15 @@ var animationEvents = {
                         targetPositionRect: getDstChromBounds(i), endSize: 0.2 });
         ++animationEvents.moveChromosomesToGamete.activeCount;
       }
-      for (let i = animationEvents.moveChromosomesToGamete.activeCount; i >= 0; --i) {
-        animationEvents.moveChromosomesToGamete.onFinish(animationEvents.moveChromosomesToGamete.id);
+      if (!debugSkipRandomGameteAnimation) {
+        animateMultipleComponents(components, positions, opacity, speed,
+                                  animationEvents.moveChromosomesToGamete.id,
+                                  animationEvents.moveChromosomesToGamete.onFinish);
+      }
+      else {
+        for (let i = animationEvents.moveChromosomesToGamete.activeCount; i >= 0; --i) {
+          animationEvents.moveChromosomesToGamete.onFinish(animationEvents.moveChromosomesToGamete.id);
+        }
       }
       let animatingGametes = _this.state.animatingGametes || initialAnimGametes(),
           createdGametes = _this.state.createdGametes || [0, 0];
@@ -526,7 +526,7 @@ var animationEvents = {
             animatingGametesInPools = _this.state.animatingGametesInPools,
             gameteCount = animatingGametesInPools ? animatingGametesInPools[sex] : 0,
             loc = getGameteLocationInPen(sex, gameteCount),
-            dstGameteBounds = { top: gametePoolBounds.top + loc.top - 25,
+            dstGameteBounds = { top: gametePoolBounds.top + loc.top - 35,
                                 left: gametePoolBounds.left + loc.left - 35,
                                 width: srcGameteBounds.width / 2,
                                 height: srcGameteBounds.height / 2 },
@@ -774,18 +774,17 @@ function findCompatibleGametes(mother, father, child) {
   return null;
 }
 
-export default class FVEggGame extends Component {
+export default class ClutchGame extends Component {
 
   state = {
     isIntroComplete: false
   }
 
-  static backgroundClasses = 'fv-layout fv-layout-c'
+  static backgroundClasses = 'fv-layout fv-layout-c layout-b'
 
   componentWillMount() {
     _this = this;
     challengeDidChange = true;
-    chromosomeDisplayStyle = {display: "none"},
     resetAnimationEvents({ showStaticGametes: false,
                           showHatchAnimation: this.props.showUserDrake,
                           clearAnimatedComponents: true,
@@ -812,18 +811,10 @@ export default class FVEggGame extends Component {
         this.setState({ animatingGametes: null, animatingGametesInPools: [0, 0],
                         animation: "complete", isIntroComplete: false });
       }
-      if (this.props.interactionType === "select-gametes") {
-        if (nextTrial === 0) {
-          // hide center chromosomes while "generate gametes" button is displayed on first trial
-          chromosomeDisplayStyle = {display: "none"};
-        } else {
-          chromosomeDisplayStyle = {};
-          this.autoSelectSingletonGametes(nextGametes);
-        }
-      }
       resetAnimationEvents({ showStaticGametes: !challengeDidChange,
                             showHatchAnimation: showUserDrake,
                             clearAnimatedComponents: true });
+      this.autoSelectSingletonGametes(nextGametes);
       if ((newChallenge || newTrialInChallenge) && onResetGametes) {
         onResetGametes();
         showStaticGametes(true);
@@ -932,13 +923,13 @@ export default class FVEggGame extends Component {
   render() {
     const { challengeType, interactionType, scale, showUserDrake, trial, drakes, gametes,
             userChangeableGenes, visibleGenes, userDrakeHidden, onChromosomeAlleleChange,
-            onFertilize, onHatch, onResetGametes, onKeepOffspring, onDrakeSubmission, moves } = this.props,
+            onBreedClutch, onHatch, onResetGametes, onKeepOffspring, onDrakeSubmission, moves } = this.props,
           { currentGametes } = gametes,
           { animatingGametes } = this.state,
           firstTargetDrakeIndex = 3, // 0: mother, 1: father, 2: child, 3-5: targets
           targetDrake = drakes[firstTargetDrakeIndex + trial],
-          isCreationChallenge = challengeType === 'create-unique',
-          isMatchingChallenge = challengeType === 'match-target',
+          isCreationChallenge = true,
+          isMatchingChallenge = true,
           isSelectingGametes = interactionType === 'select-gametes',
           isSelectingChromosomes = !isSelectingGametes,
           challengeClasses = {
@@ -959,12 +950,10 @@ export default class FVEggGame extends Component {
       onChromosomeAlleleChange(0, chrom, side, prevAllele, newAllele);
     };
     const handleFertilize = function() {
-      if (areGametesComplete(currentGametes)) {
-        animationEvents.selectChromosome.ready = false;
-        animatedComponents = [];
-        animationEvents.fertilize.animate();
-        onFertilize(0,1);
-      }
+      animationEvents.selectChromosome.ready = false;
+      animatedComponents = [];
+      animationEvents.fertilize.animate();
+      onBreedClutch(8);
     };
 
     const handleHatch = function () {
@@ -1083,7 +1072,7 @@ export default class FVEggGame extends Component {
     ovumView  = <FVGameteImageView className={ovumClasses}  isEgg={true}  chromosomes={ovumChromosomes} displayStyle={gameteDisplayStyle} />;
     spermView = <FVGameteImageView className={spermClasses} isEgg={false} chromosomes={spermChromosomes} displayStyle={gameteDisplayStyle} />;
 
-    let [,,,...keptDrakes] = drakes;
+    let keptDrakes = drakes.slice(2 + targetDrakes.length);
     keptDrakes = keptDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
 
     if (isCreationChallenge) {
@@ -1114,7 +1103,7 @@ export default class FVEggGame extends Component {
                               ? {orgName: 'mother', chromosomes: motherUnselectedChromosomesMap}
                               : {orgName: 'father', chromosomes: fatherUnselectedChromosomesMap};
       return <GenomeView className={parentGenomeClass}  species={org.species} org={org} {...uniqueProps}
-                         ChromosomeImageClass={FVChromosomeImageView} small={ true } editable={false} labelEmptyChromosomes={!_this.state.isIntroComplete}
+                         ChromosomeImageClass={FVChromosomeImageView} small={ true } editable={false} 
                          userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange } 
                          chromosomeHeight={122} onChromosomeSelected={_this.handleChromosomeSelected} />;
     }
@@ -1146,32 +1135,6 @@ export default class FVEggGame extends Component {
                                                       }}  />;
     }
 
-    function createGametes() {
-      _setTimeout( () => {
-        // first animation - show gametes
-        animationEvents.showGametes.animate();
-      }, 0);
-      challengeDidChange = false;
-    }
-
-    function createGametesButton(isGameteChallenge, challengeDidChange) {
-      if (isGameteChallenge && challengeDidChange) {
-        // Make a button for the first challenge in a series
-        return <div onClick={createGametes} className="gamete-create-button">GENERATE GAMETES</div>;
-      } else {
-        return null;
-      }
-    }
-
-    function isCompleteChromosomeSet(chromosomes) {
-      return chromosomes && (chromosomes.length >= 3) &&
-              chromosomes.every((ch) => ch != null);
-    }
-
-    function isBreedButtonEnabled(ovumChromosomes, spermChromosomes) {
-      return isCompleteChromosomeSet(ovumChromosomes) && isCompleteChromosomeSet(spermChromosomes);
-    }
-
     return (
       <div className={classNames("", {matching: isMatchingChallenge})} id="egg-game">
         <div className="columns centered">
@@ -1183,22 +1146,19 @@ export default class FVEggGame extends Component {
           <div className='egg column'>
             {offspringButtons}
             <BreedButtonAreaView challengeClasses={classNames(challengeClasses)} scale={scale}
-                                  isBreedButtonEnabled={isBreedButtonEnabled(ovumChromosomes, spermChromosomes)}
-                                  userDrake={child} showUserDrake={showUserDrake} userDrakeHidden={userDrakeHidden}
-                                  isHatchingInProgress={animationEvents.hatch.inProgress}
+                                  isBreedButtonEnabled={true}
+                                  showUserDrake={showUserDrake} userDrakeHidden={userDrakeHidden}
+                                  isHatchingInProgress={false}
                                   hatchAnimationDuration={durationHatchAnimation}
                                   handleHatchingComplete={animationEvents.hatch.onFinish}
-                                  isHatchingComplete={animationEvents.hatch.complete}
+                                  isHatchingComplete={false}
                                   onBreed={handleFertilize} />
-            {createGametesButton(isSelectingGametes, challengeDidChange)}
             <div className={ gametesClass }>
               <div className='half-genome half-genome-left' id="mother-gamete-genome">
                 { ovumView }
-                { parentHalfGenomeView(BioLogica.FEMALE) }
               </div>
               <div className='half-genome half-genome-right' id="father-gamete-genome">
                 { spermView }
-                { parentHalfGenomeView(BioLogica.MALE) }
               </div>
             </div>
           </div>
@@ -1242,10 +1202,10 @@ export default class FVEggGame extends Component {
       left: father.left
     };
 
-    if (challengeDidChange && !(this.props.interactionType === "select-gametes" && this.props.trial === 0)) {
-      // This animation kicks off the whole intro. It is only hidden in the first trial of 'select-gametes' games, where
-      // the 'Generate Gametes' button is used to start the intro instead
+    if (challengeDidChange) {
+      // animate the gametes moving from parents after page has rendered
       _setTimeout( () => {
+        // first animation - show gametes
         animationEvents.showGametes.animate();
       }, delayStartShowGametesAnimation);
       challengeDidChange = false;
@@ -1261,7 +1221,6 @@ export default class FVEggGame extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onResetGametes();
     _this = null;
     resetAnimationEvents();
   }
@@ -1283,7 +1242,7 @@ export default class FVEggGame extends Component {
     onChromosomeAlleleChange: PropTypes.func.isRequired,
     onGameteChromosomeAdded: PropTypes.func.isRequired,
     onSelectGameteInPool: PropTypes.func.isRequired,
-    onFertilize: PropTypes.func.isRequired,
+    onBreedClutch: PropTypes.func.isRequired,
     onHatch: PropTypes.func,
     onResetGametes: PropTypes.func,
     onKeepOffspring: PropTypes.func,
@@ -1334,15 +1293,14 @@ export default class FVEggGame extends Component {
           // authored specs may be incomplete; these are complete specs
           motherSpec = { alleles: mother.getAlleleString(), sex: mother.sex },
           fatherSpec = { alleles: father.getAlleleString(), sex: father.sex };
-    if (authoredChallenge.challengeType === 'create-unique')
-      return [motherSpec, fatherSpec];
 
     // already generated drakes
     if (trial > 0)
       return authoredDrakes;
 
     // challengeType === 'match-target'
-    const targetDrakeCount = authoredChallenge.targetDrakes.length;
+    targetDrakes = authoredChallenge.targetDrakes;
+    const targetDrakeCount = targetDrakes.length;
 
     function childDrakesContain(alleles) {
       for (let i = 3; i < authoredDrakes.length; ++i) {
@@ -1352,7 +1310,7 @@ export default class FVEggGame extends Component {
       return false;
     }
 
-    authoredDrakes = [motherSpec, fatherSpec, null];
+    authoredDrakes = [motherSpec, fatherSpec];
     for (let i = 0; i < targetDrakeCount; ++i) {
       let child, childAlleles;
       do {
