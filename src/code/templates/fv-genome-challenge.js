@@ -226,15 +226,15 @@ export default class FVGenomeChallenge extends React.Component {
     challengeType: PropTypes.string.isRequired
   }
 
-  static authoredDrakesToDrakeArray = function(authoredChallenge, trial) {
+  static authoredDrakesToDrakeArray = function(authoredChallenge, authoredTrialNumber) {
     if (authoredChallenge.challengeType === 'create-unique') {
       return [authoredChallenge.initialDrake];
     } else if (authoredChallenge.trialGenerator) {
-      return generateTrialDrakes(authoredChallenge.trialGenerator, trial);
+      return generateTrialDrakes(authoredChallenge.trialGenerator, authoredTrialNumber);
     } else if (Array.isArray(authoredChallenge.initialDrake)) {
-      return [authoredChallenge.initialDrake[trial], authoredChallenge.targetDrakes[trial]];
+      return [authoredChallenge.initialDrake[authoredTrialNumber], authoredChallenge.targetDrakes[authoredTrialNumber]];
     } else {
-      return [authoredChallenge.initialDrake, authoredChallenge.targetDrakes[trial]];
+      return [authoredChallenge.initialDrake, authoredChallenge.targetDrakes[authoredTrialNumber]];
     }
   }
 

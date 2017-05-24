@@ -1324,7 +1324,7 @@ export default class FVEggGame extends Component {
     return [shuffle(fatherPool), shuffle(motherPool)];
   }
 
-  static authoredDrakesToDrakeArray = function(authoredChallenge, trial) {
+  static authoredDrakesToDrakeArray = function(authoredChallenge, authoredTrialNumber) {
     const mother = new BioLogica.Organism(BioLogica.Species.Drake,
                                           authoredChallenge.mother.alleles,
                                           authoredChallenge.mother.sex),
@@ -1338,7 +1338,7 @@ export default class FVEggGame extends Component {
       return [motherSpec, fatherSpec];
 
     // already generated drakes
-    if (trial > 0)
+    if (authoredTrialNumber > 0)
       return authoredDrakes;
 
     // challengeType === 'match-target'
