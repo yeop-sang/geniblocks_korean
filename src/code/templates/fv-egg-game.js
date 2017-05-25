@@ -808,17 +808,22 @@ export default class FVEggGame extends Component {
 
     if (newChallenge || newTrialInChallenge || gametesReset) {
       if (newChallenge) {
-        if (!this.freshLoad) {
-          location.reload();
-        }
         challengeDidChange = true;
         this.setState({ animatingGametes: null, animatingGametesInPools: [0, 0],
                         animation: "complete", isIntroComplete: false });
       }
+      if (this.props.interactionType === "select-gametes") {
+        if (nextTrial === 0) {
+          // hide center chromosomes while "generate gametes" button is displayed on first trial
+          chromosomeDisplayStyle = {display: "none"};
+        } else {
+          chromosomeDisplayStyle = {};
+          this.autoSelectSingletonGametes(nextGametes);
+        }
+      }
       resetAnimationEvents({ showStaticGametes: !challengeDidChange,
                             showHatchAnimation: showUserDrake,
                             clearAnimatedComponents: true });
-      this.autoSelectSingletonGametes(nextGametes);
       if ((newChallenge || newTrialInChallenge) && onResetGametes) {
         onResetGametes();
         showStaticGametes(true);
@@ -863,8 +868,6 @@ export default class FVEggGame extends Component {
   activeSelectionAnimations = 0;
 
   selectChromosomes(sex, speed, chromEntries, onFinish) {
-    this.freshLoad = false;
-
     // onFinish is only used by animated auto-selection
     const isTriggeredByUser = !onFinish,
           { scale } = this.props;
@@ -1144,7 +1147,6 @@ export default class FVEggGame extends Component {
     }
 
     function createGametes() {
-      console.log("make gametes");
       _setTimeout( () => {
         // first animation - show gametes
         animationEvents.showGametes.animate();
@@ -1242,7 +1244,6 @@ export default class FVEggGame extends Component {
   }
 
   componentDidMount() {
-    this.freshLoad = true;
     this.updateComponentLayout();
   }
 
