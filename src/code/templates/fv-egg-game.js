@@ -1103,7 +1103,8 @@ export default class FVEggGame extends Component {
       return parentGametes;
     }
 
-    const parentGenomeClass = classNames('parent', challengeClasses),
+    const motherClassNames = classNames('parent', 'mother', challengeClasses),
+          fatherClassNames = classNames('parent', 'father', challengeClasses),
           childGenomeClass = classNames('child', challengeClasses),
           motherGametes = gametesToShowInPool(BioLogica.FEMALE),
           fatherGametes = gametesToShowInPool(BioLogica.MALE);
@@ -1111,9 +1112,9 @@ export default class FVEggGame extends Component {
     function parentGenomeView(sex) {
       const org = sex === BioLogica.FEMALE ? mother : father,
             uniqueProps = sex === BioLogica.FEMALE
-                              ? {orgName: 'mother', chromosomes: motherUnselectedChromosomesMap}
-                              : {orgName: 'father', chromosomes: fatherUnselectedChromosomesMap};
-      return <GenomeView className={parentGenomeClass}  species={org.species} org={org} {...uniqueProps}
+                              ? {orgName: 'mother', chromosomes: motherUnselectedChromosomesMap, className: motherClassNames}
+                              : {orgName: 'father', chromosomes: fatherUnselectedChromosomesMap, className: fatherClassNames};
+      return <GenomeView species={org.species} org={org} {...uniqueProps}
                          ChromosomeImageClass={FVChromosomeImageView} small={ true } editable={false} labelEmptyChromosomes={!_this.state.isIntroComplete}
                          userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange } 
                          chromosomeHeight={122} onChromosomeSelected={_this.handleChromosomeSelected} />;

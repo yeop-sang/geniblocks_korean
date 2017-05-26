@@ -13,6 +13,10 @@ const Form = React.createClass({
     // render :: a -> ReactElement
     render: function(){
         return <SimpleSelect defaultValue={this.props.defaultOption} onValueChange={this.props.handleChange} options = {this.props.options} hideResetButton={true} editable={false} disabled={false}></SimpleSelect>;
+    },
+
+    componentDidMount: function() {
+      document.querySelectorAll("input").forEach(input => input.setAttribute('readonly', true));
     }
 });
 
