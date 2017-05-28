@@ -10,24 +10,27 @@ export const GUIDE_ERRORED = "Guide errored";
 export const ADVANCE_NOTIFICATIONS = "Advance notifications";
 export const CLOSE_NOTIFICATIONS = "Close notifications";
 
-const initialState = Immutable([]);
+const initialState = {
+  messages: Immutable([]),
+  closeButton: null
+};
 
 export default function notifications(state = initialState, action) {
   switch (action.type) {
     case GUIDE_MESSAGE_RECEIVED:
       if (action.data) {
-        return state.concat(action.data.message.asString());
+        return Object.assign({}, state, {messages: state.messages.concat(action.data.message.asString())});
       }
       else
         return state;
     case actionTypes.MODAL_DIALOG_SHOWN:
       if (action.message && !action.showAward) {
-        return state.concat(t(action.message));
+        return {messages: state.messages.concat(t(action.message)), closeButton: action.rightButton};
       }
       else
         return state;
     case ADVANCE_NOTIFICATIONS:
-      return state.length > 1 ? state.slice(1, state.length) : initialState;
+      return Object.assign({}, state, {messages: state.messages.length > 1 ? state.messages.slice(1, state.length) : initialState});
     case CLOSE_NOTIFICATIONS:
       return initialState;
     // actions which don't clear the guide message
