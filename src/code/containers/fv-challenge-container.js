@@ -6,6 +6,7 @@ import templates from '../templates';
 import BottomHUDView from '../fv-components/bottom-hud';
 import TopHUDView from '../fv-components/top-hud';
 import NotificationContainer from "./notification-container";
+import ModalMessageContainer from "./modal-message-container";
 
 import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
         keepOffspring, fertilize, breedClutch, hatch, completeChallenge,
@@ -36,6 +37,7 @@ class FVChallengeContainer extends Component {
         <BottomHUDView level={routeSpec.level + 1} trial={trial + 1} trialCount={numTrials}
                        currScore={correct} maxScore={maxScore}/>
         <NotificationContainer />
+        <ModalMessageContainer />
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import Immutable from 'seamless-immutable';
 import { GAMETES_RESET } from '../modules/gametes';
 import actionTypes from '../action-types';
+import t from '../utilities/translate';
 
 export const GUIDE_CONNECTED = "Guide connected";
 export const GUIDE_MESSAGE_RECEIVED = "Guide message received";
@@ -16,6 +17,12 @@ export default function notifications(state = initialState, action) {
     case GUIDE_MESSAGE_RECEIVED:
       if (action.data) {
         return state.concat(action.data.message.asString());
+      }
+      else
+        return state;
+    case actionTypes.MODAL_DIALOG_SHOWN:
+      if (action.message && !action.showAward) {
+        return state.concat(t(action.message));
       }
       else
         return state;

@@ -18,15 +18,19 @@ const defaultRightButton = {
 export default function modalDialog(state = initialState, action) {
   switch (action.type) {
     case actionTypes.MODAL_DIALOG_SHOWN:
-      return state.merge({
-        show: true,
-        message: action.message,
-        explanation: action.explanation,
-        rightButton: action.rightButton || defaultRightButton,
-        leftButton: action.leftButton,
-        showAward: action.showAward,
-        top: action.top
-      });
+      if (action.showAward || action.rightButton.action === "advanceTrial") {
+        return state.merge({
+          show: true,
+          message: action.message,
+          explanation: action.explanation,
+          rightButton: action.rightButton || defaultRightButton,
+          leftButton: action.leftButton,
+          showAward: action.showAward,
+          top: action.top
+        });
+      } else {
+        return state;
+      }
     case actionTypes.MODAL_DIALOG_DISMISSED:
       return initialState;
     // actions which don't close the dialog, i.e. that can occur
