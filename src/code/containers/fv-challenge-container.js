@@ -29,6 +29,7 @@ class FVChallengeContainer extends Component {
 
     return (
       <div id="challenges" className={bgClasses} style={style}>
+        // TODO: put location names in the authoring document
         <TopHUDView location={"Hatchery"} />
         <div id="mission-wrapper">
           <Template {...otherProps} />
