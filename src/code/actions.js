@@ -409,7 +409,8 @@ function _acceptEggInBasket(eggDrakeIndex, basketIndex) {
   return {
     type: actionTypes.EGG_ACCEPTED,
     eggDrakeIndex,
-    basketIndex
+    basketIndex,
+    meta: {sound: 'receiveCoin'}
   };
 }
 

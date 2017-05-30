@@ -8,7 +8,7 @@ describe('acceptEggInBasket action', () => {
   it('should create an action to accept the egg in the basket', () => {
     const eggDrakeIndex = 0, basketIndex = 0, isChallengeComplete = false,
           acceptEggArgs = { eggDrakeIndex, basketIndex, isChallengeComplete },
-          acceptEggAction = { type: types.EGG_ACCEPTED, eggDrakeIndex, basketIndex };
+          acceptEggAction = { type: types.EGG_ACCEPTED, meta: {sound: 'receiveCoin'}, eggDrakeIndex, basketIndex };
 
     const dispatch = expect.createSpy();
 
@@ -21,7 +21,7 @@ describe('acceptEggInBasket action', () => {
   it('should create an action to accept the egg in the basket and show completion dialog', () => {
     const eggDrakeIndex = 0, basketIndex = 0, isChallengeComplete = true,
           acceptEggArgs = { eggDrakeIndex, basketIndex, isChallengeComplete },
-          acceptEggAction = { type: types.EGG_ACCEPTED, eggDrakeIndex, basketIndex },
+          acceptEggAction = { type: types.EGG_ACCEPTED, meta: {sound: 'receiveCoin'}, eggDrakeIndex, basketIndex },
           showCompleteChallengeAction = {
                                           type: types.MODAL_DIALOG_SHOWN,
                                           message: "~ALERT.TITLE.GOOD_WORK",
@@ -68,7 +68,7 @@ describe('acceptEggInBasket action', () => {
 
 
       const eggDrakeIndex = 0, basketIndex = 0,
-            acceptEggAction = { type: types.EGG_ACCEPTED, eggDrakeIndex, basketIndex },
+            acceptEggAction = { type: types.EGG_ACCEPTED, meta: {sound: 'receiveCoin'}, eggDrakeIndex, basketIndex },
             nextState = reducer(initialState, acceptEggAction),
             expectedState = initialState.set("correct", 1)
                                         .setIn(["baskets", 0],
