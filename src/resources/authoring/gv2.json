@@ -759,35 +759,45 @@
       "initialDrake": [
         {
           "alleles": "M-M, A1-A1, Bog-, D-, rh-rh",
+          "sex": 0
         },
         {
           "alleles": "c-c, m-m, A1-a, Bog-, D-, rh-rh",
+          "sex": 1
         },
         {
           "alleles": "B-b, M-m, a-A1, Bog-, D-, rh-rh",
+          "sex": 0
         },
         {
           "alleles": "m-m, b-b, a-a, Bog-, D-, rh-rh",
+          "sex": 1
         },
         {
           "alleles": "C-C, A1-A1, Bog-, D-, rh-rh",
+          "sex": 0
         }
       ],
       "targetDrakes": [
         {
-          "alleles": "m-m, C-C, B-B",
+          "alleles": "m-m, C-C, B-B, rh-rh",
+          "sex": 0
         },
         {
-          "alleles": "M-m, C-C, B-B",
+          "alleles": "M-m, C-C, B-B, rh-rh",
+          "sex": 0
         },
         {
-          "alleles": "m-m, C-C, b-b",
+          "alleles": "m-m, C-C, b-b, rh-rh",
+          "sex": 1
         },
         {
-          "alleles": "M-m, C-C, B-B",
+          "alleles": "M-m, C-C, B-B, rh-rh",
+          "sex": 0
         },
         {
-          "alleles": "m-m, c-c, B-B",
+          "alleles": "m-m, c-c, B-B, rh-rh",
+          "sex": 0
         }
       ],
       "userChangeableGenes": "metallic, color, black",
@@ -806,35 +816,45 @@
       "initialDrake": [
         {
           "alleles": "M-M, A1-A1, Bog-, D-, rh-rh",
+          "sex": 0
         },
         {
           "alleles": "c-c, m-m, A1-a, Bog-, D-, rh-rh",
+          "sex": 0
         },
         {
           "alleles": "B-b, M-m, a-A1, Bog-, D-, rh-rh",
+          "sex": 1
         },
         {
           "alleles": "m-m, b-b, a-a, Bog-, D-, rh-rh",
+          "sex": 0
         },
         {
           "alleles": "C-C, A1-A1, Bog-, D-, rh-rh",
+          "sex": 0
         }
       ],
       "targetDrakes": [
         {
-          "alleles": "m-m, C-C, B-B",
+          "alleles": "m-m, C-C, B-B, rh-rh",
+          "sex": 0
         },
         {
-          "alleles": "M-m, C-C, B-B",
+          "alleles": "M-m, C-C, B-B, rh-rh",
+          "sex": 1
         },
         {
-          "alleles": "m-m, C-C, b-b",
+          "alleles": "m-m, C-C, b-b, rh-rh",
+          "sex": 0
         },
         {
-          "alleles": "M-m, C-C, B-B",
+          "alleles": "M-m, C-C, B-B, rh-rh",
+          "sex": 1
         },
         {
-          "alleles": "m-m, c-c, B-B",
+          "alleles": "m-m, c-c, B-B, rh-rh",
+          "sex": 0
         }
       ],
       "numTrials": 3,

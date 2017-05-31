@@ -19,7 +19,8 @@ export default function notifications(state = initialState, action) {
   switch (action.type) {
     case GUIDE_MESSAGE_RECEIVED:
       if (action.data) {
-        return Object.assign({}, state, {messages: state.messages.concat(action.data.message.asString())});
+        let currentMessage = state.messages.length > 0 ? state.messages[0] + " " : "";
+        return Object.assign({}, state, {messages: [currentMessage + action.data.message.asString()]});
       }
       else
         return state;
