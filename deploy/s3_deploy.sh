@@ -6,7 +6,8 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
   echo "skipping deploy to S3: this is a pull request"
   exit 0
 fi
- 
+
+if [ "$TRAVIS_BRANCH" = "master" ]; then
   mv public _site
 else
   # the 2> is to prevent error messages when no match is found
