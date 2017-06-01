@@ -1,6 +1,6 @@
 import AnimatedGameteView from '../../src/code/components/animated-gamete';
 
-describe("<AnimatedGameteView />", function(){
+describe.skip("<AnimatedGameteView />", function(){
   const drake = new BioLogica.Organism(BioLogica.Species.Drake, ''),
         gametes = drake.createGametes(10);
 

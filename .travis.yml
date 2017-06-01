@@ -9,6 +9,7 @@ install:
 before_script:
   - npm install -g bower
   - bower install
+  - npm run build
 script: 
   - travis_retry npm test
   - ./deploy/s3_deploy.sh

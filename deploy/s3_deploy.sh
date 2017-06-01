@@ -8,7 +8,7 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
 fi
  
 if [ "$TRAVIS_BRANCH" = "master" ]; then
-  mv .publish _site
+  mv public _site
 else
   # the 2> is to prevent error messages when no match is found
   CURRENT_TAG=`git describe --tags --exact-match $TRAVIS_COMMIT 2> /dev/null`

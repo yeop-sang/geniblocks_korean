@@ -1,6 +1,6 @@
-import AnimatedOrganismView from '../../src/code/components/animated-organism';
+  import AnimatedOrganismView from '../../src/code/components/animated-organism';
 
-describe("<AnimatedOrganismView />", function(){
+describe.skip("<AnimatedOrganismView />", function(){
   const drake = new BioLogica.Organism(BioLogica.Species.Drake, '');
 
   it("should create a <Motion> component with appropriate classes", function() {
