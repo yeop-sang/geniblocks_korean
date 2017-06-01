@@ -7,7 +7,6 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
   exit 0
 fi
  
-if [ "$TRAVIS_BRANCH" = "master" ]; then
   mv public _site
 else
   # the 2> is to prevent error messages when no match is found
@@ -23,4 +22,4 @@ else
   mv dist _site/$DEPLOY_DIR
   export DEPLOY_DIR
 fi
-s3_website push --site _site
+s3_website push --site _site --config-dir deploy
