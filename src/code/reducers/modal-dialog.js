@@ -18,7 +18,7 @@ const defaultRightButton = {
 export default function modalDialog(state = initialState, action) {
   switch (action.type) {
     case actionTypes.MODAL_DIALOG_SHOWN:
-      if (action.showAward || action.rightButton.action === "advanceTrial") {
+      if (action.showAward || (action.rightButton && action.rightButton.action === "advanceTrial")) {
         return state.merge({
           show: true,
           message: action.message,

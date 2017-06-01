@@ -31,23 +31,22 @@ describe('showModalDialog action', () => {
   });
 
   describe('the reducer', () => {
-    it('should update the modalDialog correctly for a minimal message', () => {
+    it('should update the modalDialog when advancing the level', () => {
       let defaultState = reducer(undefined, {});
 
       let nextState = reducer(defaultState, {
         type: types.MODAL_DIALOG_SHOWN,
-        message: "Message",
-        showAward: false
+        showAward: false,
+        rightButton: {action: "advanceTrial"}
       });
 
       expect(nextState).toEqual(defaultState.merge({
         modalDialog: {
           show: true,
-          message: "Message",
+          message: undefined,
           explanation: undefined,
           rightButton: {
-            "action": "dismissModalDialog",
-            "label": "~BUTTON.OK"
+            "action": "advanceTrial"
           },
           leftButton: undefined,
           showAward: false,

@@ -4,6 +4,7 @@ import { startSession } from '../../src/code/actions';
 import { GUIDE_MESSAGE_RECEIVED } from '../../src/code/modules/notifications';
 import urlParams from '../../src/code/utilities/url-params';
 import GuideProtocol from '../../src/code/utilities/guide-protocol';
+import actionTypes from '../../src/code/action-types';
 
 describe('Notification actions', () => {
 
@@ -41,11 +42,14 @@ describe('Notification actions', () => {
         });
 
         expect(nextState).toEqual(defaultState.merge({
-          notifications: ["Ok! Let's get to work on Mission 0 Challenge 2."]
+          notifications: {
+            messages: ["Ok! Let's get to work on Mission 0 Challenge 2."],
+            closeButton: null
+          }
         }));
       });
 
-      it('should keep adding to the notifications', () => {
+      it('should concatenate the notifications', () => {
 
         let secondMessageData = JSON.stringify(
           {
@@ -64,8 +68,27 @@ describe('Notification actions', () => {
         });
 
         expect(lastState).toEqual(defaultState.merge({
-          notifications: ["Ok! Let's get to work on Mission 0 Challenge 2.", "Second message."]
+          notifications: {
+            messages: ["Ok! Let's get to work on Mission 0 Challenge 2. Second message."],
+            closeButton: null
+          }
         }));
+      });
+    });
+
+    describe('on receiving modal dialog messages', () => {
+
+      it('should add to the notifications with the correct close button action', () => {
+
+        nextState = reducer(defaultState, {
+          type: actionTypes.MODAL_DIALOG_SHOWN,
+          message: "Sample message",
+          showAward: false,
+          rightButton: "sampleAction"
+        });
+
+        expect(nextState.notifications.messages).toEqual(["Sample message"]);
+        expect(nextState.notifications.closeButton).toEqual("sampleAction");
       });
     });
 
@@ -80,7 +103,7 @@ describe('Notification actions', () => {
         let lastState = reducer(nextState, startSession("123"));
 
         expect(lastState).toEqual(defaultState.merge({
-          notifications: []
+          notifications: {messages: [], closeButton: null}
         }));
       });
     });
