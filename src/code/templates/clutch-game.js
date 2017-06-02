@@ -342,7 +342,7 @@ export default class ClutchGame extends Component {
 
     if (isCreationChallenge) {
       penView = <div className='columns bottom'>
-                  <ClutchView orgs={ keptDrakes } width={500} columns={5} rows={1} tightenRows={20} onClick={handleSubmit}/>
+                  <ClutchView orgs={ keptDrakes } width={500} onClick={handleSubmit}/>
                 </div>;
     }
 

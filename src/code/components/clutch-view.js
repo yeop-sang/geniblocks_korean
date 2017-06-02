@@ -2,12 +2,6 @@ import React, {PropTypes} from 'react';
 import FVEggHatchView from '../fv-components/fv-egg-hatch';
 import classNames from 'classnames';
 
-/**
- * @param {number} rows - Option number of rows. If defined, it will be fixed at that. Otherwise, it
- *                        will default to 1 when there are no orgs, and grows as more rows are needed.
- * @param {number} tightenRows - If given, will shrink the vertical height of the stable by this amount
- *                        per row, crowding the org images as needed.
- */
 const ClutchView = React.createClass({
 
   propTypes: {
@@ -15,11 +9,6 @@ const ClutchView = React.createClass({
     orgs: PropTypes.arrayOf(PropTypes.object).isRequired,
     idPrefix: PropTypes.string,
     height: PropTypes.number,
-    rows: PropTypes.number,
-    tightenColumns: PropTypes.number,
-    tightenRows: PropTypes.number,
-    SelectedOrganismView: PropTypes.func,
-    selectedIndex: PropTypes.number,
     onClick: PropTypes.func
   },
 
@@ -31,7 +20,7 @@ const ClutchView = React.createClass({
   },
 
   getInitialState() {
-    return { pagesBack : 0 };
+    return { page : 0 };
   },
 
   handleClick(id, org) {
@@ -40,28 +29,29 @@ const ClutchView = React.createClass({
     if (this.props.onClick) this.props.onClick(index, id, org);
   },
 
-  handlePageForward() {
-    this.setState({pagesBack: Math.max(this.state.pagesBack - 1, 0)});
+  handlePageBackward() {
+    this.setState({page: Math.max(this.state.page - 1, 1)});
   },
 
-  handlePageBackward() {
+  handlePageForward() {
     const numPages = this.props.orgs.length / 8;
-    this.setState({pagesBack: Math.min(this.state.pagesBack + 1, numPages - 1)});
+    this.setState({page: Math.min(this.state.page + 1, numPages)});
   },
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.orgs.length === 0) {
-      this.setState({pagesBack: 0});
+      this.setState({page: 0});
     }
     if (nextProps.orgs.length > this.props.orgs.length) {
       // Move to the end whenever a new clutch is bred
-      this.setState({pagesBack: 0});
+      const numPages = nextProps .orgs.length / 8;
+      this.setState({page: numPages});
     }
   },
 
   render() {
-    let displayStyle = {size: this.props.height*(5/8), top: -153, marginLeft: -12},
-        firstDrake = (this.props.orgs.length - 8) - (this.state.pagesBack * 8),
+    let displayStyle = {size: 136, top: -153, marginLeft: -12},
+        firstDrake = (this.state.page - 1) * 8,
         pageDrakes = this.props.orgs.slice(firstDrake, firstDrake + 8),
         stableDrakeViews = pageDrakes.map((org, index) => {
           return (
@@ -70,18 +60,18 @@ const ClutchView = React.createClass({
             </div>
           );
         });
-    const classes = classNames('geniblocks fv-stable', this.props.className);
+    const classes = classNames('geniblocks clutch-view', this.props.className);
     const maxPages = this.props.orgs.length / 8;
 
     return (
       <div className={classes}>
-        <div className="clutch-page-counter stable-counter">
+        <div className="clutch-page-counter clutch-counter">
           <div className="clutch-page-text">Clutch:</div>
-          <div className="clutch-page-count">{(maxPages - this.state.pagesBack) + " / " + maxPages}</div>
+          <div className="clutch-page-count">{this.state.page + " / " + maxPages}</div>
         </div>
         <div className="drake-pages">
           <div className="clutch-slider left" onClick={this.handlePageBackward}></div>
-          <div className="stable-drakes clutch-drakes">
+          <div className="clutch-drakes">
             { stableDrakeViews }
           </div>
           <div className="clutch-slider right" onClick={this.handlePageForward}></div>
