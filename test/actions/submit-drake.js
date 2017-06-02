@@ -57,7 +57,7 @@ const correctCharacteristics = {
             alleleString: initialAlleles
           }
         ],
-        trial: 0, trials: [{}],
+        trial: 0, trials: [{}], numTrials: 1,
         authoring: {challenges: {"test": {visibleGenes: "wings, arms"}}, "application": {"levels": [{"missions": [{"challenges": [{"id": "test"}]}]}]}}
       });
 
