@@ -8,9 +8,14 @@ import {getChromosomeDescriptor} from '../fv-components/fv-chromosome-image';
  * Usually defined by passing in a Biologica Organism, but may also be defined by
  * passing in a map of Biologica Chromosomes and a Biologica Species.
  */
-const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, species, userChangeableGenes=[], visibleGenes=[], hiddenAlleles=[], editable=true, showLabels=true, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected, chromosomeHeight}) => {
+const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, species, userChangeableGenes=[], visibleGenes=[], hiddenAlleles=[], editable=true, showLabels=true, labelEmptyChromosomes=false, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected, chromosomeHeight}) => {
   // Prefer explicitly passed variables to those extracted from the passed organism
   chromosomes = chromosomes || org.genetics.genotype.chromosomes;
+
+  let fullChromosomes;
+  if (labelEmptyChromosomes && org) {
+    fullChromosomes = org.genetics.genotype.chromosomes;
+  }
   species = species || org.species;
 
   let pairWrappers = [];
@@ -18,7 +23,12 @@ const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, speci
     let chrom = chromosomes[chromosomeName],
         pairs = [];
     for (let side in chrom) {
-      let chromosome = chrom[side];
+      let chromosome = chrom[side],
+          empty = false;
+      if (labelEmptyChromosomes && !chromosome) {
+        empty = true;
+        chromosome = fullChromosomes[chromosomeName][side];
+      }
       pairs.push(
         <ChromosomeView
           ChromosomeImageClass={ChromosomeImageClass}
@@ -34,6 +44,7 @@ const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, speci
           selected={selectedChromosomes[chromosomeName] === side}
           showLabels={showLabels}
           small={small}
+          empty={empty}
           orgName={orgName}
           displayStyle={displayStyle}
           height={chromosomeHeight}
@@ -72,6 +83,7 @@ GenomeView.propTypes = {
   onAlleleChange: PropTypes.func,
   editable: PropTypes.bool,
   showLabels: PropTypes.bool,
+  labelEmptyChromosomes: PropTypes.bool,
   selectedChromosomes: PropTypes.object,
   small: PropTypes.bool,
   chromosomeHeight: PropTypes.number,

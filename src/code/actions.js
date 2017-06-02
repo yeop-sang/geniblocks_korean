@@ -333,14 +333,6 @@ export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrect
         dialog = {
           message: "~ALERT.TITLE.MISSION_ACCOMPLISHED",
           explanation: "~ALERT.COMPLETE_LAST_MISSION",
-          leftButton: {
-            label: "~BUTTON.RETRY_CHALLENGE",
-            action: "retryCurrentChallenge"
-          },
-          rightButton: {
-            label: "~BUTTON.RETRY_MISSION",
-            action: "retryCurrentMission"
-          },
           showAward: true
         };
       }
@@ -390,6 +382,7 @@ export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrect
           label: "~BUTTON.TRY_AGAIN",
           action: incorrectAction || "dismissModalDialog"
         },
+        top: "65%"
       };
     }
     dispatch(showModalDialog(dialog));

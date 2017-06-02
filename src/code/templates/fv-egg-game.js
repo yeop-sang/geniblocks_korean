@@ -472,8 +472,7 @@ var animationEvents = {
                   width: 8, height: 20 };
       }
       let components = [],
-          positions = [],
-          opacity = { start: 1.0, end: 0.5 };
+          positions = [];
       for (let i = 0; i < parentGameteChromEls.length; ++i) {
         const parentGameteChromEl = parentGameteChromEls[i],
               srcChromBounds = unscaleProperties(parentGameteChromEl.getBoundingClientRect(), _this.props.scale),
@@ -485,15 +484,8 @@ var animationEvents = {
                         targetPositionRect: getDstChromBounds(i), endSize: 0.2 });
         ++animationEvents.moveChromosomesToGamete.activeCount;
       }
-      if (!debugSkipRandomGameteAnimation) {
-        animateMultipleComponents(components, positions, opacity, speed,
-                                  animationEvents.moveChromosomesToGamete.id,
-                                  animationEvents.moveChromosomesToGamete.onFinish);
-      }
-      else {
-        for (let i = animationEvents.moveChromosomesToGamete.activeCount; i >= 0; --i) {
-          animationEvents.moveChromosomesToGamete.onFinish(animationEvents.moveChromosomesToGamete.id);
-        }
+      for (let i = animationEvents.moveChromosomesToGamete.activeCount; i >= 0; --i) {
+        animationEvents.moveChromosomesToGamete.onFinish(animationEvents.moveChromosomesToGamete.id);
       }
       let animatingGametes = _this.state.animatingGametes || initialAnimGametes(),
           createdGametes = _this.state.createdGametes || [0, 0];
@@ -534,7 +526,7 @@ var animationEvents = {
             animatingGametesInPools = _this.state.animatingGametesInPools,
             gameteCount = animatingGametesInPools ? animatingGametesInPools[sex] : 0,
             loc = getGameteLocationInPen(sex, gameteCount),
-            dstGameteBounds = { top: gametePoolBounds.top + loc.top - 35,
+            dstGameteBounds = { top: gametePoolBounds.top + loc.top - 25,
                                 left: gametePoolBounds.left + loc.left - 35,
                                 width: srcGameteBounds.width / 2,
                                 height: srcGameteBounds.height / 2 },
@@ -793,6 +785,7 @@ export default class FVEggGame extends Component {
   componentWillMount() {
     _this = this;
     challengeDidChange = true;
+    chromosomeDisplayStyle = {display: "none"},
     resetAnimationEvents({ showStaticGametes: false,
                           showHatchAnimation: this.props.showUserDrake,
                           clearAnimatedComponents: true,
@@ -819,10 +812,18 @@ export default class FVEggGame extends Component {
         this.setState({ animatingGametes: null, animatingGametesInPools: [0, 0],
                         animation: "complete", isIntroComplete: false });
       }
+      if (this.props.interactionType === "select-gametes") {
+        if (nextTrial === 0) {
+          // hide center chromosomes while "generate gametes" button is displayed on first trial
+          chromosomeDisplayStyle = {display: "none"};
+        } else {
+          chromosomeDisplayStyle = {};
+          this.autoSelectSingletonGametes(nextGametes);
+        }
+      }
       resetAnimationEvents({ showStaticGametes: !challengeDidChange,
                             showHatchAnimation: showUserDrake,
                             clearAnimatedComponents: true });
-      this.autoSelectSingletonGametes(nextGametes);
       if ((newChallenge || newTrialInChallenge) && onResetGametes) {
         onResetGametes();
         showStaticGametes(true);
@@ -1113,7 +1114,7 @@ export default class FVEggGame extends Component {
                               ? {orgName: 'mother', chromosomes: motherUnselectedChromosomesMap}
                               : {orgName: 'father', chromosomes: fatherUnselectedChromosomesMap};
       return <GenomeView className={parentGenomeClass}  species={org.species} org={org} {...uniqueProps}
-                         ChromosomeImageClass={FVChromosomeImageView} small={ true } editable={false} 
+                         ChromosomeImageClass={FVChromosomeImageView} small={ true } editable={false} labelEmptyChromosomes={!_this.state.isIntroComplete}
                          userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange } 
                          chromosomeHeight={122} onChromosomeSelected={_this.handleChromosomeSelected} />;
     }
@@ -1145,6 +1146,23 @@ export default class FVEggGame extends Component {
                                                       }}  />;
     }
 
+    function createGametes() {
+      _setTimeout( () => {
+        // first animation - show gametes
+        animationEvents.showGametes.animate();
+      }, 0);
+      challengeDidChange = false;
+    }
+
+    function createGametesButton(isGameteChallenge, challengeDidChange) {
+      if (isGameteChallenge && challengeDidChange) {
+        // Make a button for the first challenge in a series
+        return <div onClick={createGametes} className="gamete-create-button">GENERATE GAMETES</div>;
+      } else {
+        return null;
+      }
+    }
+
     return (
       <div className={classNames("", {matching: isMatchingChallenge})} id="egg-game">
         <div className="columns centered">
@@ -1163,6 +1181,7 @@ export default class FVEggGame extends Component {
                                   handleHatchingComplete={animationEvents.hatch.onFinish}
                                   isHatchingComplete={animationEvents.hatch.complete}
                                   onBreed={handleFertilize} />
+            {createGametesButton(isSelectingGametes, challengeDidChange)}
             <div className={ gametesClass }>
               <div className='half-genome half-genome-left' id="mother-gamete-genome">
                 { ovumView }
@@ -1214,10 +1233,10 @@ export default class FVEggGame extends Component {
       left: father.left
     };
 
-    if (challengeDidChange) {
-      // animate the gametes moving from parents after page has rendered
+    if (challengeDidChange && !(this.props.interactionType === "select-gametes" && this.props.trial === 0)) {
+      // This animation kicks off the whole intro. It is only hidden in the first trial of 'select-gametes' games, where
+      // the 'Generate Gametes' button is used to start the intro instead
       _setTimeout( () => {
-        // first animation - show gametes
         animationEvents.showGametes.animate();
       }, delayStartShowGametesAnimation);
       challengeDidChange = false;
@@ -1233,6 +1252,7 @@ export default class FVEggGame extends Component {
   }
 
   componentWillUnmount() {
+    this.props.onResetGametes();
     _this = null;
     resetAnimationEvents();
   }

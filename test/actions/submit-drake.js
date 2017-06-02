@@ -100,14 +100,8 @@ describe('submitDrake action', () => {
         type: types.MODAL_DIALOG_SHOWN,
         message: "~ALERT.TITLE.MISSION_ACCOMPLISHED",
         explanation: "~ALERT.COMPLETE_LAST_MISSION",
-        leftButton: {
-          label: "~BUTTON.RETRY_CHALLENGE",
-          action: "retryCurrentChallenge"
-        },
-        rightButton: {
-          label: "~BUTTON.RETRY_MISSION",
-          action: "retryCurrentMission"
-        },
+        leftButton: undefined,
+        rightButton: undefined,
         showAward: true,
         top: undefined
       });
@@ -158,7 +152,7 @@ describe('submitDrake action', () => {
         },
         leftButton: undefined,
         showAward: false,
-        top: undefined
+        top: "65%"
       });
     });
 
@@ -168,6 +162,7 @@ describe('submitDrake action', () => {
     it('should update the trialSuccess and challengeComplete property correctly when drake is incorrect', () => {
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
+        routeSpec: {level: 0,mission: 0, challenge: 0},
         trial: 1,
         trials: [{}, {}],
         challengeProgress: {
@@ -195,6 +190,7 @@ describe('submitDrake action', () => {
     describe('when drake is correct', () => {
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
+        routeSpec: {level: 0,mission: 0, challenge: 0},
         trial: 0,
         trials: [{}, {}],
         challengeProgress: {

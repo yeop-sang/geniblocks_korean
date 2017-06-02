@@ -365,6 +365,7 @@ body
         height: 111px
         background-image: url('../resources/fablevision/layout-c/egg_chrom_inactive.png')
         cursor: pointer
+        margin-top: -18px
         z-index: 2
         &.selected
           background-image: url('../resources/fablevision/layout-c/egg_chrom_active.png')
@@ -373,6 +374,7 @@ body
         width: 105px
         height: 105px
         background-image: url('../resources/fablevision/layout-c/sperm_chrom_inactive.png')
+        margin-top: -12px
         cursor: pointer
         z-index: 2
         &.selected
@@ -385,11 +387,11 @@ body
 
     #mother-gamete-pen
       left: 525px
-      bottom: 400px
+      bottom: 434px
 
     #father-gamete-pen
       right: 250px
-      bottom: 400px
+      bottom: 440px
 
 
 .egg
@@ -534,6 +536,19 @@ body
     margin-top: 75px
     margin-left: -10px
     transform: scale(.7)
+
+  .gamete-create-button
+    width: 396px
+    height: 173px
+    margin-top: 100px
+    font-family: 'Yanone Kaffeesatz'
+    font-size: 3.5rem
+    color: white
+    cursor: pointer
+    display: flex
+    justify-content: center
+    align-items: center
+    background-image: url('../resources/fablevision/layout-c/generate_button.png')
 
   .offspring-buttons
     z-index: 2
