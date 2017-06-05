@@ -425,6 +425,7 @@
           "alleles": "m-m, w-w, B-B",
         }
       ],
+      "goalMoves": [1, 1, 1],
       "hiddenAlleles": "A2",
       "linkedGenes": {
         "drakes": [0, 1, 2],
@@ -464,13 +465,13 @@
           "sex": 1
         },
         {
-          "alleles": "M-M, w-w, B-B, H-H, a-a, C-C, T-T, fl-fl, Hl-Hl, D-D, rh-rh, Bog-Bog",
+          "alleles": "M-M, w-w, B-B, H-H, A1-a, C-C, T-T, fl-fl, Hl-Hl, D-D, rh-rh, Bog-Bog",
           "sex": 1
         }
       ],
       "father": [
         {
-          "alleles": "m-M, W-w, b-b, h-h, a-a, C-C, T-T, fl-fl, Hl-Hl, D-D, rh-rh, Bog-Bog",
+          "alleles": "m-M, W-w, b-b, h-h, A1-a, C-C, T-T, fl-fl, Hl-Hl, D-D, rh-rh, Bog-Bog",
           "sex": 0
         },
         {
@@ -478,13 +479,13 @@
           "sex": 0
         },
         {
-          "alleles": "M-M, w-w, b-B, H-H, a-a, c-C, T-T, fl-fl, Hl-Hl, D-D, rh-rh, Bog-Bog",
+          "alleles": "M-M, w-w, b-B, H-h, A1-a, c-C, T-T, fl-fl, Hl-Hl, D-D, rh-rh, Bog-Bog",
           "sex": 0
         }
       ],
       "targetDrakes": [
         {
-          "alleles": "m-m, w-w, B-B, H-H, A1-a, c-c",
+          "alleles": "m-m, w-w, B-B, H-H, A1-A1, c-c",
         },
         {
           "alleles": "m-m, w-w, B-B, H-H, a-a, C-c",
@@ -493,6 +494,7 @@
           "alleles": "m-m, W-W, b-b, h-h, A1-A1, c-c",
         }
       ],
+      "goalMoves": [6, 6, 6],
       "hiddenAlleles": "A2",
       "linkedGenes": {
         "drakes": [0, 1, 2],

@@ -122,6 +122,8 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
   let goalMoves = null;
   if (template.calculateGoalMoves) {
     goalMoves = template.calculateGoalMoves(drakes);
+  } else if (authoredChallenge.goalMoves) {
+    goalMoves = authoredChallenge.goalMoves[trial];
   }
 
   return state.merge({

@@ -213,10 +213,4 @@ export default class ClutchGame extends Component {
             authoredChallenge.targetDrakes[authoredTrialNumber]];
   }
 
-  static calculateGoalMoves = function() {
-    // each incorrect submission counts as one move
-    // the goal is to have no incorrect submissions
-    return 0;
-  }
-
 }
