@@ -56,35 +56,17 @@ function fertilize(state) {
 }
 
 function breedClutch(state, clutchSize) {
-  let chromosomes0 = new BioLogica.Organism(BioLogica.Species.Drake, state.drakes[0].alleleString, state.drakes[0].sex).getGenotype().chromosomes,
-      chromosomes1 = new BioLogica.Organism(BioLogica.Species.Drake, state.drakes[1].alleleString, state.drakes[1].sex).getGenotype().chromosomes,
-      newState = state,
-      sex, alleleString, name, sides, side, chromosome;
+  let mother = new BioLogica.Organism(BioLogica.Species.Drake, state.drakes[0].alleleString, state.drakes[0].sex),
+      father = new BioLogica.Organism(BioLogica.Species.Drake, state.drakes[1].alleleString, state.drakes[1].sex),
+      newState = state;
 
   for (let i = 0; i < clutchSize; i++) {
-    sex = 1;
-    alleleString = "";
-
-    for (name in chromosomes0) {
-      sides = Object.keys(chromosomes0[name]);
-      side = sides[Math.trunc(2 * Math.random())];
-      chromosome = chromosomes0[name][side];
-      if (chromosome && chromosome.alleles) alleleString += "a:" + chromosome.alleles.join(",a:") + ",";
-    }
-    for (name in chromosomes1) {
-      sides = Object.keys(chromosomes1[name]);
-      side = sides[Math.trunc(2 * Math.random())];
-      if (side === "y") sex = 0;
-      chromosome = chromosomes1[name][side];
-      if (chromosome && chromosome.alleles && chromosome.alleles.length) alleleString += "b:" + chromosome.alleles.join(",b:") + ",";
-    }
-
-    newState =  newState.setIn(["drakes", newState.drakes.length], {
-                  alleleString,
-                  sex
-                 });
+    let clutchDrake = BioLogica.breed(mother, father, true);
+    newState = newState.setIn(["drakes", newState.drakes.length], {
+      alleleString: clutchDrake.getAlleleString(),
+      sex: clutchDrake.sex
+    });
   }
-
   return newState;
 }
 
