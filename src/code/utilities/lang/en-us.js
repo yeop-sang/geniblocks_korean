@@ -63,5 +63,12 @@ export default {
   "~COUNTER.n_OF_N": "${0}\xA0\xA0of\xA0\xA0${1}",
 
   // Messages from ITS
-  "~ITS.GREETING": "Hi there user!"
+  "~ITS.GREETING": "Hi there user!",
+
+  // VenturePad
+  "~VENTURE.END_LEVEL": "CHALLENGE COMPLETE",
+  "~VENTURE.YOU_EARNED": "You've earned",
+  "~VENTURE.AWARD_FIRST": "Blue Crystal",
+  "~VENTURE.AWARD_SECOND": "Amber Crystal",
+  "~VENTURE.AWARD_THIRD": "Red Crystal"
 };
