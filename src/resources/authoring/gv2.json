@@ -426,7 +426,7 @@
         "drakes": [0, 1, 2],
         "genes": "armor, forelimbs, hindlimbs, horns, tail, color, dilute, nose, bogbreath"
       },
-      "visibleGenes": "wings, metallic, black"
+      "userChangeableGenes": "wings, metallic, black"
     },
     "clutch-5drakes-intermediateTraits": {
       "container": "FVContainer",
@@ -475,7 +475,7 @@
         "drakes": [0, 1, 2],
         "genes": "forelimbs, hindlimbs, tail, dilute, nose, bogbreath"
       },
-      "visibleGenes": "wings, metallic, black, horns, armor, color"
+      "userChangeableGenes": "wings, metallic, black, horns, armor, color"
     },
     "gamete-targetMatch-starterTraits": {
       "comment": "*** FV Test Level 2 ***",

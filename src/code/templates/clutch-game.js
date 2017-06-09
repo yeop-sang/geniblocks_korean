@@ -151,7 +151,7 @@ export default class ClutchGame extends Component {
                                   editable: changeableDrakeType === "father" || changeableDrakeType === "all"};
       return <GenomeView className={parentGenomeClass}  species={org.species} org={org} {...uniqueProps}
                          ChromosomeImageClass={FVChromosomeImageView} small={ true } hiddenAlleles={hiddenAlleles}
-                         userChangeableGenes={ visibleGenes } visibleGenes={ userChangeableGenes } onAlleleChange={ handleAlleleChange } 
+                         userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange } 
                          chromosomeHeight={122} />;
     }
 
