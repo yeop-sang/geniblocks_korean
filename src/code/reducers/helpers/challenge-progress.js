@@ -37,3 +37,22 @@ export function getScoreValue(score){
       return score >= 2 ? scoreValues.BRONZE : scoreValues.NONE;
   }
 }
+
+export function getChallengeScores(level, mission, challengeCount, progress) {
+  let challengeScore = {},
+      challengePrefix = level + ":" + mission + ":";
+  for (let i = 0; i < challengeCount; i++){
+    for (var key in progress){
+      if (key.startsWith(challengePrefix + i)){
+        const score = progress[key];
+        if (challengeScore[i] == null) {
+           challengeScore[i] = score;
+        } else {
+          // If there are multiple trials in a challenge, add them together
+          challengeScore[i] += score;
+        }
+      }
+    }
+  }
+  return challengeScore;
+}

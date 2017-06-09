@@ -1,17 +1,9 @@
 import React, {PropTypes} from 'react';
 import t from '../utilities/translate';
-import GemView from './gem';
+import GemSetView, {GemView} from './gem-set';
+import { getChallengeScores } from '../reducers/helpers/challenge-progress';
 
 const EndLevelDialogView = ({challengeAwards, onNextChallenge, onTryAgain}) => {
-  let addAwardImage = (progressImages, pieces, pieceNum, score, currChallenge) => {
-    if (score > -1){
-      progressImages.push(<GemView score={score} highlight={currChallenge + 1 === pieceNum}/>);
-    } else {
-      progressImages.push(<GemView challengeNum={pieceNum}/>);
-    }
-    return progressImages;
-  };
-
   let getGemDisplayName = (score) => {
     let gemName = t("~VENTURE.AWARD_FIRST");
     if (score === 1) gemName = t("~VENTURE.AWARD_SECOND");
@@ -19,41 +11,18 @@ const EndLevelDialogView = ({challengeAwards, onNextChallenge, onTryAgain}) => {
     return gemName;
   };
 
-
-  let level = 0, mission = 0, challenge = 0, challengeCount = 0, progress = [], progressImages = [];
-
-  if (challengeAwards.routeSpec != null) {
-    level = challengeAwards.routeSpec.level,
-    mission = challengeAwards.routeSpec.mission,
-    challenge = challengeAwards.routeSpec.challenge,
-    challengeCount = challengeAwards.challengeCount;
-    progress = challengeAwards.progress;
-  } else return null;
-
-  let pieceKey = level + ":" + mission + ":";
-  let challengeScore = {};
-
-  // Get the score for each challenge by summing over trials
-  for (let i = 0; i < challengeCount; i++){
-    for (var key in progress){
-      if (key.startsWith(pieceKey + i)){
-        const score = progress[key];
-        if (challengeScore[i] == null) {
-           challengeScore[i] = score;
-        } else {
-          challengeScore[i] += score;
-        }
-      }
-    }
-  }
-  let pieceNum = challenge + 1;
-
-  for (let challengeNum = 0; challengeNum < challengeCount; challengeNum++) {
-    pieceNum = parseInt(challengeNum) + 1;
-    progressImages = addAwardImage(progressImages, challengeCount, pieceNum, challengeScore[challengeNum], challenge);
+  if (challengeAwards.routeSpec == null) {
+    return null;
   }
 
-  let currentScore = challengeScore[challenge];
+  let level = challengeAwards.routeSpec.level,
+      mission = challengeAwards.routeSpec.mission,
+      challenge = challengeAwards.routeSpec.challenge,
+      challengeCount = challengeAwards.challengeCount,
+      progress = challengeAwards.progress;
+
+  let challengeScores = getChallengeScores(level, mission, challengeCount, progress),
+      currentScore = challengeScores[challenge];
   return (
     <div className="end-level-dialog-container">
       <div className="end-level-dialog-backdrop"></div>
@@ -81,9 +50,7 @@ const EndLevelDialogView = ({challengeAwards, onNextChallenge, onTryAgain}) => {
               {getGemDisplayName(currentScore)}
             </div>
           </div>
-          <div className="gem-history">
-            {progressImages}
-          </div>
+          <GemSetView level={level} mission={mission} challenge={challenge} challengeCount={challengeCount} progress={progress}/>
         </div>
         <div className="end-level-separator" id="end-level-separator-2"></div>
         <div className="end-level-navigation-buttons">
