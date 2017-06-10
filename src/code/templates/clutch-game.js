@@ -19,7 +19,6 @@ function clearTimeouts() {
 
 var _this,
   animatedComponents = [],
-  changeableDrakeType = "",
 
   hatchSoundPlayed = false,
   timerSet = null;
@@ -85,7 +84,7 @@ export default class ClutchGame extends Component {
   }
 
   render() {
-    const { scale, drakes, hiddenAlleles,
+    const { scale, drakes, hiddenAlleles, trial,
             userChangeableGenes, visibleGenes, onChromosomeAlleleChange,
             onBreedClutch, onHatch, onDrakeSubmission } = this.props,
           targetDrake = drakes[2], // 0: mother, 1: father, 2: target, 3...: children
@@ -143,15 +142,21 @@ export default class ClutchGame extends Component {
     const parentGenomeClass = classNames('parent');
 
     function parentGenomeView(sex) {
+      let parentChangeableGenes;
+      // Changeable genes are either of the form ["wings, legs"] or [{mother: "wings", father:""}, {mother: "", father: "wings"]
+      if (userChangeableGenes[0].mother) {
+        parentChangeableGenes = sex === BioLogica.FEMALE ? userChangeableGenes[trial].mother : userChangeableGenes[trial].father;
+      } else {
+        parentChangeableGenes = userChangeableGenes;
+      }
+
       const org = sex === BioLogica.FEMALE ? mother : father,
             uniqueProps = sex === BioLogica.FEMALE
-                              ? { orgName: 'mother', 
-                                  editable: changeableDrakeType === "mother" || changeableDrakeType === "all"}
-                              : { orgName: 'father', 
-                                  editable: changeableDrakeType === "father" || changeableDrakeType === "all"};
-      return <GenomeView className={parentGenomeClass}  species={org.species} org={org} {...uniqueProps}
+                              ? { orgName: 'mother' }
+                              : { orgName: 'father' };
+      return <GenomeView className={parentGenomeClass}  species={org.species} org={org} {...uniqueProps} editable={parentChangeableGenes.length > 0}
                          ChromosomeImageClass={FVChromosomeImageView} small={ true } hiddenAlleles={hiddenAlleles}
-                         userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange } 
+                         userChangeableGenes={ parentChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange } 
                          chromosomeHeight={122} />;
     }
 
@@ -201,23 +206,10 @@ export default class ClutchGame extends Component {
     onDrakeSubmission: PropTypes.func,
   }
 
-  static authoredDrakesToDrakeArray = function(authoredChallenge, authoredTrialNumber, trialNumber) {
-    const changeableDrake = new BioLogica.Organism(BioLogica.Species.Drake,
-                                                   authoredChallenge.changeableDrakes[authoredTrialNumber].alleles,
-                                                   BioLogica.FEMALE),
-          staticDrake = new BioLogica.Organism(BioLogica.Species.Drake,
-                                               authoredChallenge.staticDrakes[authoredTrialNumber].alleles,
-                                               BioLogica.FEMALE);
-    changeableDrakeType = authoredChallenge.changeableDrakeType[trialNumber];
-    let fatherSpec, motherSpec;
-    if (changeableDrakeType === "mother") {
-      motherSpec = { alleles: changeableDrake.getAlleleString(), sex: BioLogica.FEMALE };
-      fatherSpec = { alleles: staticDrake.getAlleleString(), sex: BioLogica.MALE };
-    } else {
-      motherSpec = { alleles: staticDrake.getAlleleString(), sex: BioLogica.FEMALE };
-      fatherSpec = { alleles: changeableDrake.getAlleleString(), sex: BioLogica.MALE };
-    }
-    return [motherSpec, fatherSpec, authoredChallenge.targetDrakes[authoredTrialNumber]];
+  static authoredDrakesToDrakeArray = function(authoredChallenge, authoredTrialNumber) {
+    return [authoredChallenge.mother[authoredTrialNumber], 
+            authoredChallenge.father[authoredTrialNumber], 
+            authoredChallenge.targetDrakes[authoredTrialNumber]];
   }
 
   static calculateGoalMoves = function() {
