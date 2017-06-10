@@ -9,17 +9,19 @@ describe('showModalDialog action', () => {
   it('should create the correct action', () => {
     let message = "Message",
         explanation = "Body",
-        rightButton = {label: "Right"},
-        leftButton = {label: "Left"};
+        rightButton = {action: "advanceTrial"},
+        leftButton = {action: "retry"};
 
-    let actionObject = actions.showModalDialog({
+    const dispatch = expect.createSpy();
+
+    actions.showModalDialog({
       message,
       explanation,
       rightButton,
       leftButton
-    });
+    })(dispatch);
 
-    expect(actionObject).toEqual({
+    expect(dispatch).toHaveBeenCalledWith({
       type: types.MODAL_DIALOG_SHOWN,
       message,
       explanation,

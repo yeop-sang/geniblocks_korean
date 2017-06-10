@@ -523,14 +523,26 @@ export function showCompleteChallengeDialog() {
 }
 
 export function showModalDialog({message, explanation, rightButton, leftButton, showAward=false, top}) {
-  return {
-    type: actionTypes.MODAL_DIALOG_SHOWN,
-    message,
-    explanation,
-    rightButton,
-    leftButton,
-    showAward,
-    top
+  return (dispatch) => {
+    if (showAward || (rightButton && rightButton.action === "advanceTrial")) {
+      dispatch({
+        type: actionTypes.MODAL_DIALOG_SHOWN,
+        message,
+        explanation,
+        rightButton,
+        leftButton,
+        showAward,
+        top
+      });
+    }
+
+    if (message && !showAward) {
+      dispatch({
+        type: actionTypes.NOTIFICATION_SHOWN,
+        message,
+        closeButton: rightButton
+      });
+    }
   };
 }
 

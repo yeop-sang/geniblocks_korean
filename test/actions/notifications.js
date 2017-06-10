@@ -81,10 +81,10 @@ describe('Notification actions', () => {
       it('should add to the notifications with the correct close button action', () => {
 
         nextState = reducer(defaultState, {
-          type: actionTypes.MODAL_DIALOG_SHOWN,
+          type: actionTypes.NOTIFICATION_SHOWN,
           message: "Sample message",
           showAward: false,
-          rightButton: "sampleAction"
+          closeButton: "sampleAction"
         });
 
         expect(nextState.notifications.messages).toEqual(["Sample message"]);

@@ -96,6 +96,10 @@ describe('submitDrake action', () => {
     });
 
     it('should call dispatch with the correct message action', () => {
+      // must call thunk function ourselves
+      dispatch.calls[1].arguments[0](dispatch, getState);
+
+      // thunk function dispatches the MODAL_DIALOG_SHOWN action
       expect(dispatch).toHaveBeenCalledWith({
         type: types.MODAL_DIALOG_SHOWN,
         message: "~ALERT.TITLE.MISSION_ACCOMPLISHED",
@@ -142,17 +146,17 @@ describe('submitDrake action', () => {
     });
 
     it('should call dispatch with the correct message action', () => {
+      // must call thunk function ourselves
+      dispatch.calls[1].arguments[0](dispatch, getState);
+
+      // thunk function dispatches the MODAL_DIALOG_SHOWN action
       expect(dispatch).toHaveBeenCalledWith({
-        type: types.MODAL_DIALOG_SHOWN,
+        type: types.NOTIFICATION_SHOWN,
         message: "~ALERT.TITLE.INCORRECT_DRAKE",
-        explanation: "~ALERT.INCORRECT_DRAKE",
-        rightButton: {
+        closeButton: {
           label: "~BUTTON.TRY_AGAIN",
           action: "dismissModalDialog"
         },
-        leftButton: undefined,
-        showAward: false,
-        top: "65%"
       });
     });
 

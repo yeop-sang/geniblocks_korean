@@ -8,6 +8,7 @@ export default function userDrakeHidden(state = initialState, action) {
   switch (action.type) {
     // Right now the drake is always hidden unless we are displaying a message
     case actionTypes.MODAL_DIALOG_SHOWN:
+    case actionTypes.NOTIFICATION_SHOWN:
       return false;
     // The following actions don't change the state:
     case GUIDE_CONNECTED:

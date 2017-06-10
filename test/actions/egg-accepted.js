@@ -48,9 +48,10 @@ describe('acceptEggInBasket action', () => {
     expect(dispatch.calls[0].arguments).toEqual([acceptEggAction]);
     // must call thunk function ourselves
     dispatch.calls[1].arguments[0](dispatch, getState);
+    dispatch.calls[2].arguments[0](dispatch, getState);
     // thunk function dispatches the showCompleteChallengeAction
-    expect(dispatch.calls[2].arguments).toEqual([showCompleteChallengeAction]);
-    expect(dispatch.calls.length).toBe(3);
+    expect(dispatch.calls[3].arguments).toEqual([showCompleteChallengeAction]);
+    expect(dispatch.calls.length).toBe(4);
   });
 
   describe('the reducer', () => {
