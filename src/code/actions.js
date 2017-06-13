@@ -652,8 +652,7 @@ export function keepOffspring(index, keptDrakesIndices, maxDrakes, shouldKeepSou
       }
     } else {
       dispatch(showModalDialog({
-        message: "~ALERT.TITLE.MISTAKE",
-        explanation: "~ALERT.DUPLICATE_DRAKE",
+        message: "~ALERT.DUPLICATE_DRAKE",
         rightButton: {
           label: "~BUTTON.TRY_AGAIN",
           action: shouldKeepSourceDrake ? "dismissModalDialog" : "resetGametes"
