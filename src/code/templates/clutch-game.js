@@ -139,7 +139,8 @@ export default class ClutchGame extends Component {
                 <ClutchView orgs={ clutchDrakes } width={500} onClick={handleSubmit}/>
               </div>;
 
-    const parentGenomeClass = classNames('parent');
+    const motherClassNames = classNames('parent', 'mother'),
+          fatherClassNames = classNames('parent', 'father');
 
     function parentGenomeView(sex) {
       let parentChangeableGenes;
@@ -152,9 +153,9 @@ export default class ClutchGame extends Component {
 
       const org = sex === BioLogica.FEMALE ? mother : father,
             uniqueProps = sex === BioLogica.FEMALE
-                              ? { orgName: 'mother' }
-                              : { orgName: 'father' };
-      return <GenomeView className={parentGenomeClass}  species={org.species} org={org} {...uniqueProps} editable={parentChangeableGenes.length > 0}
+                              ? { orgName: 'mother', className: motherClassNames }
+                              : { orgName: 'father', className: fatherClassNames };
+      return <GenomeView species={org.species} org={org} {...uniqueProps} editable={parentChangeableGenes.length > 0}
                          ChromosomeImageClass={FVChromosomeImageView} small={ true } hiddenAlleles={hiddenAlleles}
                          userChangeableGenes={ parentChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange } 
                          chromosomeHeight={122} />;
