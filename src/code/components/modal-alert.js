@@ -44,6 +44,7 @@ class ModalAlert extends React.Component {
 
   static propTypes = {
     show: PropTypes.bool,
+    showAward: PropTypes.bool,
     message: React.PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     explanation: React.PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     leftButton: PropTypes.shape({
@@ -86,21 +87,32 @@ class ModalAlert extends React.Component {
     if (this.props.explanation) {
       explanationView = <p>{t(this.props.explanation)}</p>;
     }
-    return (
-      <Modal  aria-labelledby='modal-label'
-              style={modalStyle}
-              backdropStyle={backdropStyle}
-              show={this.props.show}
-              onHide={this.props.onHide} >
-        <div style={dialogStyle(this.props.top)} >
-          <h4 id='modal-label'>{t(this.props.message)}</h4>
-          {awardView}
-          {explanationView}
-          {leftButton} {rightButton}
-        </div>
-      </Modal>
-    );
+    if (this.props.show) {
+      // Only trial-end and next-trial modals are shown
+      if (this.props.showAward) {
+        return (
+          <Modal  aria-labelledby='modal-label'
+                  style={modalStyle}
+                  backdropStyle={backdropStyle}
+                  show={this.props.show}
+                  onHide={this.props.onHide} >
+            <div style={dialogStyle(this.props.top)} >
+              <h4 id='modal-label'>{t(this.props.message)}</h4>
+              {awardView}
+              {explanationView}
+              {leftButton} {rightButton}
+            </div>
+          </Modal>
+        );
+      } else {
+        return <div className="next-trial-button" onClick={rightProps.onClick || this.props.onRightButtonClick}>
+                <div className="next-trial-text">Next Trial</div>
+               </div>;
+      }
+    }
+    return null;
   }
+
 }
 
 export default ModalAlert;

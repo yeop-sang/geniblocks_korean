@@ -758,36 +758,46 @@
       "showUserDrake": true,
       "initialDrake": [
         {
-          "alleles": "M-m, A1-A1, Bog-, D-, rh-rh",
+          "alleles": "M-M, A1-A1, Bog-, D-, rh-rh",
+          "sex": 0
         },
         {
-          "alleles": "c-c, A1-a, Bog-, D-, rh-rh",
+          "alleles": "c-c, m-m, A1-a, Bog-, D-, rh-rh",
+          "sex": 1
         },
         {
-          "alleles": "B-b, a-A1, Bog-, D-, rh-rh",
+          "alleles": "B-b, M-m, a-A1, Bog-, D-, rh-rh",
+          "sex": 0
         },
         {
-          "alleles": "m-m, a-a, Bog-, D-, rh-rh",
+          "alleles": "m-m, b-b, a-a, Bog-, D-, rh-rh",
+          "sex": 1
         },
         {
-          "alleles": "C-c, A1-A1, Bog-, D-, rh-rh",
+          "alleles": "C-C, A1-A1, Bog-, D-, rh-rh",
+          "sex": 0
         }
       ],
       "targetDrakes": [
         {
-          "alleles": "m-m, C-C, B-B",
+          "alleles": "m-m, C-C, B-B, rh-rh",
+          "sex": 0
         },
         {
-          "alleles": "M-m, C-C, B-B",
+          "alleles": "M-m, C-C, B-B, rh-rh",
+          "sex": 0
         },
         {
-          "alleles": "m-m, C-C, b-b",
+          "alleles": "m-m, C-C, b-b, rh-rh",
+          "sex": 1
         },
         {
-          "alleles": "M-m, C-C, B-B",
+          "alleles": "M-m, C-C, B-B, rh-rh",
+          "sex": 0
         },
         {
-          "alleles": "m-m, c-c, B-B",
+          "alleles": "m-m, c-c, B-B, rh-rh",
+          "sex": 0
         }
       ],
       "userChangeableGenes": "metallic, color, black",
@@ -805,36 +815,46 @@
       "instructions": "Match the target drake!",
       "initialDrake": [
         {
-          "alleles": "M-m, Bog-, D-, rh-rh",
+          "alleles": "M-M, A1-A1, Bog-, D-, rh-rh",
+          "sex": 0
         },
         {
-          "alleles": "c-c, Bog-, D-, rh-rh",
+          "alleles": "c-c, m-m, A1-a, Bog-, D-, rh-rh",
+          "sex": 0
         },
         {
-          "alleles": "B-b, Bog-, D-, rh-rh",
+          "alleles": "B-b, M-m, a-A1, Bog-, D-, rh-rh",
+          "sex": 1
         },
         {
-          "alleles": "m-m, Bog-, D-, rh-rh",
+          "alleles": "m-m, b-b, a-a, Bog-, D-, rh-rh",
+          "sex": 0
         },
         {
-          "alleles": "C-c, Bog-, D-, rh-rh",
+          "alleles": "C-C, A1-A1, Bog-, D-, rh-rh",
+          "sex": 0
         }
       ],
       "targetDrakes": [
         {
-          "alleles": "m-m, C-C, B-B",
+          "alleles": "m-m, C-C, B-B, rh-rh",
+          "sex": 0
         },
         {
-          "alleles": "M-m, C-C, B-B",
+          "alleles": "M-m, C-C, B-B, rh-rh",
+          "sex": 1
         },
         {
-          "alleles": "m-m, C-C, b-b",
+          "alleles": "m-m, C-C, b-b, rh-rh",
+          "sex": 0
         },
         {
-          "alleles": "M-m, C-C, B-B",
+          "alleles": "M-m, C-C, B-B, rh-rh",
+          "sex": 1
         },
         {
-          "alleles": "m-m, c-c, B-B",
+          "alleles": "m-m, c-c, B-B, rh-rh",
+          "sex": 0
         }
       ],
       "numTrials": 3,

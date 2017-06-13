@@ -134,7 +134,7 @@ function createLogEntry(loggingMetadata, action, nextState){
       routeSpec = nextState.routeSpec;
 
   context["routeSpec"] = routeSpec;
-  context["groupId"] = "Slice1-May8";
+  context["groupId"] = "Slice2-Next";
   context["challengeId"] = AuthoringUtils.getChallengeId(nextState.authoring, routeSpec);
   context["classId"] = loggingMetadata.classInfo;
 

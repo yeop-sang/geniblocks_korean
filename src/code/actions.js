@@ -409,7 +409,8 @@ function _acceptEggInBasket(eggDrakeIndex, basketIndex) {
   return {
     type: actionTypes.EGG_ACCEPTED,
     eggDrakeIndex,
-    basketIndex
+    basketIndex,
+    meta: {sound: 'receiveCoin'}
   };
 }
 
@@ -522,14 +523,26 @@ export function showCompleteChallengeDialog() {
 }
 
 export function showModalDialog({message, explanation, rightButton, leftButton, showAward=false, top}) {
-  return {
-    type: actionTypes.MODAL_DIALOG_SHOWN,
-    message,
-    explanation,
-    rightButton,
-    leftButton,
-    showAward,
-    top
+  return (dispatch) => {
+    if (showAward || (rightButton && rightButton.action === "advanceTrial")) {
+      dispatch({
+        type: actionTypes.MODAL_DIALOG_SHOWN,
+        message,
+        explanation,
+        rightButton,
+        leftButton,
+        showAward,
+        top
+      });
+    }
+
+    if (message && !showAward) {
+      dispatch({
+        type: actionTypes.NOTIFICATION_SHOWN,
+        message,
+        closeButton: rightButton
+      });
+    }
   };
 }
 
@@ -639,8 +652,7 @@ export function keepOffspring(index, keptDrakesIndices, maxDrakes, shouldKeepSou
       }
     } else {
       dispatch(showModalDialog({
-        message: "~ALERT.TITLE.MISTAKE",
-        explanation: "~ALERT.DUPLICATE_DRAKE",
+        message: "~ALERT.DUPLICATE_DRAKE",
         rightButton: {
           label: "~BUTTON.TRY_AGAIN",
           action: shouldKeepSourceDrake ? "dismissModalDialog" : "resetGametes"

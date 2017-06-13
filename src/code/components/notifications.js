@@ -8,27 +8,44 @@ class Notifications extends React.Component {
 
   static propTypes = {
     location: PropTypes.object,
-    notifications: PropTypes.array
+    messages: PropTypes.array,
+    onCloseButton: PropTypes.func,
+    onAdvanceNotifications: PropTypes.func.isRequired,
+    onCloseNotifications: PropTypes.func.isRequired
   }
 
   static defaultProps = {
-    notifications: []
+    messages: []
+  }
+
+  handleClose(onCloseButton, onCloseNotifications) {
+    return () => {
+      if (onCloseButton) {
+        onCloseButton();
+      }
+      onCloseNotifications();
+    };
   }
 
   render() {
-    const { location } = this.props,
-          style = location ? { left: location.left, top: location.top, right: 'auto' } : null,
-          messages = this.props.notifications.map((message, i) =>
-                        <div key={i} className="notification">{ t(message) }</div>);
-
+    const speaker = this.props.messages.length > 0 ? <div className="fv-character"></div> : null,
+          message = this.props.messages.length > 0 
+                    ? <div className="notification">
+                        <div className="close-button" onClick={ this.handleClose(this.props.onCloseButton, this.props.onCloseNotifications) }></div>
+                        { this.props.messages.length > 1
+                          ? <div className="next-arrow" onClick={ this.props.onAdvanceNotifications }></div> 
+                          : null }
+                        <div className="message-text"> { t(this.props.messages[0]) } </div>
+                      </div>
+                    : null;
 
     return (
-      <div className="geniblocks notification-container" style={style}>
-        { messages }
-      </div>
+      <div className="geniblocks notification-container">
+        { speaker }
+        { message }
+      </div> 
     );
   }
 }
 
 export default Notifications;
-

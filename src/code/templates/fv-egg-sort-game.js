@@ -392,19 +392,21 @@ export default class FVEggSortGame extends Component {
                             onClick={disableSelection ? null : this.handleBasketClick}/>
           </div>
         </div>
-        <div className="chromomatic">
-          <div id="right-section">
-            <div id="container">
-              <div id="background"></div>
-              <div className={sectionTitleClasses}>{sectionTitle}</div>
-              {genomeOrInstructionsView}
+        <div className="chromomatic-container">
+          <div className="chromomatic">
+            <div id="right-section">
+              <div id="container">
+                <div id="background"></div>
+                <div className={sectionTitleClasses}>{sectionTitle}</div>
+                {genomeOrInstructionsView}
+              </div>
             </div>
           </div>
         </div>
         <div id="eggs">
-            <FVEggClutchView eggs={displayEggs} selectedIndex={showSelectedEggIndex}
-                            onClick={disableSelection ? null : this.handleEggClick} />
-          </div>
+          <FVEggClutchView eggs={displayEggs} selectedIndex={showSelectedEggIndex}
+                          onClick={disableSelection ? null : this.handleEggClick} />
+        </div>
         {animatedComponents}
       </div>
     );

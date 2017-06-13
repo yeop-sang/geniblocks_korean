@@ -8,7 +8,7 @@ describe('acceptEggInBasket action', () => {
   it('should create an action to accept the egg in the basket', () => {
     const eggDrakeIndex = 0, basketIndex = 0, isChallengeComplete = false,
           acceptEggArgs = { eggDrakeIndex, basketIndex, isChallengeComplete },
-          acceptEggAction = { type: types.EGG_ACCEPTED, eggDrakeIndex, basketIndex };
+          acceptEggAction = { type: types.EGG_ACCEPTED, meta: {sound: 'receiveCoin'}, eggDrakeIndex, basketIndex };
 
     const dispatch = expect.createSpy();
 
@@ -21,7 +21,7 @@ describe('acceptEggInBasket action', () => {
   it('should create an action to accept the egg in the basket and show completion dialog', () => {
     const eggDrakeIndex = 0, basketIndex = 0, isChallengeComplete = true,
           acceptEggArgs = { eggDrakeIndex, basketIndex, isChallengeComplete },
-          acceptEggAction = { type: types.EGG_ACCEPTED, eggDrakeIndex, basketIndex },
+          acceptEggAction = { type: types.EGG_ACCEPTED, meta: {sound: 'receiveCoin'}, eggDrakeIndex, basketIndex },
           showCompleteChallengeAction = {
                                           type: types.MODAL_DIALOG_SHOWN,
                                           message: "~ALERT.TITLE.GOOD_WORK",
@@ -48,9 +48,10 @@ describe('acceptEggInBasket action', () => {
     expect(dispatch.calls[0].arguments).toEqual([acceptEggAction]);
     // must call thunk function ourselves
     dispatch.calls[1].arguments[0](dispatch, getState);
+    dispatch.calls[2].arguments[0](dispatch, getState);
     // thunk function dispatches the showCompleteChallengeAction
-    expect(dispatch.calls[2].arguments).toEqual([showCompleteChallengeAction]);
-    expect(dispatch.calls.length).toBe(3);
+    expect(dispatch.calls[3].arguments).toEqual([showCompleteChallengeAction]);
+    expect(dispatch.calls.length).toBe(4);
   });
 
   describe('the reducer', () => {
@@ -68,7 +69,7 @@ describe('acceptEggInBasket action', () => {
 
 
       const eggDrakeIndex = 0, basketIndex = 0,
-            acceptEggAction = { type: types.EGG_ACCEPTED, eggDrakeIndex, basketIndex },
+            acceptEggAction = { type: types.EGG_ACCEPTED, meta: {sound: 'receiveCoin'}, eggDrakeIndex, basketIndex },
             nextState = reducer(initialState, acceptEggAction),
             expectedState = initialState.set("correct", 1)
                                         .setIn(["baskets", 0],

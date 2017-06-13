@@ -15,8 +15,6 @@ import { startSession, changeAuthoring } from './actions';
 import AuthoringUpload from './containers/authoring-upload';
 import Navigation from "./containers/navigation";
 import ChallengeContainerSelector from "./containers/challenge-container-selector";
-import ModalMessageContainer from "./containers/modal-message-container";
-import NotificationContainer from "./containers/notification-container";
 
 import loggerMiddleware from './middleware/gv-log';
 import itsMiddleware, { initializeITSSocket } from './middleware/its-log';
@@ -106,8 +104,6 @@ function renderApp() {
                           <Route path="/(:level/:mission/:challenge)" component={ChallengeContainerSelector} />
                           <Route path="/(:challengeId)" component={ChallengeContainerSelector} />
                         </Router>
-                        <ModalMessageContainer />
-                        <NotificationContainer />
                       </div>;
   render(
     <Provider store={store}>

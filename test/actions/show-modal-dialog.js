@@ -9,17 +9,19 @@ describe('showModalDialog action', () => {
   it('should create the correct action', () => {
     let message = "Message",
         explanation = "Body",
-        rightButton = {label: "Right"},
-        leftButton = {label: "Left"};
+        rightButton = {action: "advanceTrial"},
+        leftButton = {action: "retry"};
 
-    let actionObject = actions.showModalDialog({
+    const dispatch = expect.createSpy();
+
+    actions.showModalDialog({
       message,
       explanation,
       rightButton,
       leftButton
-    });
+    })(dispatch);
 
-    expect(actionObject).toEqual({
+    expect(dispatch).toHaveBeenCalledWith({
       type: types.MODAL_DIALOG_SHOWN,
       message,
       explanation,
@@ -31,23 +33,22 @@ describe('showModalDialog action', () => {
   });
 
   describe('the reducer', () => {
-    it('should update the modalDialog correctly for a minimal message', () => {
+    it('should update the modalDialog when advancing the level', () => {
       let defaultState = reducer(undefined, {});
 
       let nextState = reducer(defaultState, {
         type: types.MODAL_DIALOG_SHOWN,
-        message: "Message",
-        showAward: false
+        showAward: false,
+        rightButton: {action: "advanceTrial"}
       });
 
       expect(nextState).toEqual(defaultState.merge({
         modalDialog: {
           show: true,
-          message: "Message",
+          message: undefined,
           explanation: undefined,
           rightButton: {
-            "action": "dismissModalDialog",
-            "label": "~BUTTON.OK"
+            "action": "advanceTrial"
           },
           leftButton: undefined,
           showAward: false,
