@@ -59,6 +59,7 @@ export default {
 
   "~COUNTER.TRIAL_LABEL": "TRIAL",
   "~COUNTER.SCORE_LABEL": "SCORE",
+  "~COUNTER.MOVES_LABEL": "TARGET MOVES",
   "~COUNTER.n_OF_N": "${0}\xA0\xA0of\xA0\xA0${1}",
 
   // Messages from ITS

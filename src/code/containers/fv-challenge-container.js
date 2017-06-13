@@ -35,7 +35,8 @@ class FVChallengeContainer extends Component {
           <Template {...otherProps} />
         </div>
         <BottomHUDView level={routeSpec.level + 1} trial={trial + 1} trialCount={numTrials}
-                       currScore={correct} maxScore={maxScore}/>
+                       currScore={correct} maxScore={maxScore} currMoves={this.props.moves} 
+                       goalMoves={this.props.goalMoves}/>
         <NotificationContainer />
         <ModalMessageContainer />
       </div>
@@ -53,7 +54,9 @@ class FVChallengeContainer extends Component {
     containerWidth: PropTypes.number,
     containerHeight: PropTypes.number,
     routeSpec: PropTypes.object,
-    correct: PropTypes.number
+    correct: PropTypes.number,
+    moves: PropTypes.number,
+    goalMoves: PropTypes.number
   }
 }
 

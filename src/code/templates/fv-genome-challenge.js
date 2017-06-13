@@ -115,7 +115,7 @@ class TargetDrakeView extends React.Component {
  */
 export default class FVGenomeChallenge extends React.Component {
 
-  static backgroundClasses = 'fv-layout fv-layout-a'
+  static backgroundClasses = 'fv-layout fv-layout-a';
 
   state = {
     hatchStarted: false
