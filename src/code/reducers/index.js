@@ -31,6 +31,45 @@ function initialState() {
           });
 }
 
+function fertilize(state) {
+  let chromosomes0 = new BioLogica.Organism(BioLogica.Species.Drake, state.drakes[0].alleleString, state.drakes[0].sex).getGenotype().chromosomes,
+      chromosomes1 = new BioLogica.Organism(BioLogica.Species.Drake, state.drakes[1].alleleString, state.drakes[1].sex).getGenotype().chromosomes,
+      alleleString = "",
+      sex = 1,
+      side, chromosome, name;
+  for (name in chromosomes0) {
+    side = motherCurrentGamete(state.gametes)[name];
+    chromosome = chromosomes0[name][side];
+    if (chromosome && chromosome.alleles) alleleString += "a:" + chromosome.alleles.join(",a:") + ",";
+  }
+  for (name in chromosomes1) {
+    side = fatherCurrentGamete(state.gametes)[name];
+    if (side === "y") sex = 0;
+    chromosome = chromosomes1[name][side];
+    if (chromosome && chromosome.alleles && chromosome.alleles.length) alleleString += "b:" + chromosome.alleles.join(",b:") + ",";
+  }
+
+  return state.setIn(["drakes", 2], {
+    alleleString,
+    sex
+  });
+}
+
+function breedClutch(state, clutchSize) {
+  let mother = new BioLogica.Organism(BioLogica.Species.Drake, state.drakes[0].alleleString, state.drakes[0].sex),
+      father = new BioLogica.Organism(BioLogica.Species.Drake, state.drakes[1].alleleString, state.drakes[1].sex),
+      newState = state;
+
+  for (let i = 0; i < clutchSize; i++) {
+    let clutchDrake = BioLogica.breed(mother, father, true);
+    newState = newState.setIn(["drakes", newState.drakes.length], {
+      alleleString: clutchDrake.getAlleleString(),
+      sex: clutchDrake.sex
+    });
+  }
+  return newState;
+}
+
 export default function reducer(state, action) {
   if (!state) state = initialState();
 
@@ -55,28 +94,11 @@ export default function reducer(state, action) {
         challengeProgress: progress
       });
     }
-    case actionTypes.FERTILIZED: {
-      let chromosomes0 = new BioLogica.Organism(BioLogica.Species.Drake, state.drakes[0].alleleString, state.drakes[0].sex).getGenotype().chromosomes,
-          chromosomes1 = new BioLogica.Organism(BioLogica.Species.Drake, state.drakes[1].alleleString, state.drakes[1].sex).getGenotype().chromosomes,
-          alleleString = "",
-          sex = 1;
-      for (let name in chromosomes0) {
-        let side = motherCurrentGamete(state.gametes)[name];
-        let chromosome = chromosomes0[name][side];
-        if (chromosome && chromosome.alleles) alleleString += "a:" + chromosome.alleles.join(",a:") + ",";
-      }
-      for (let name in chromosomes1) {
-        let side = fatherCurrentGamete(state.gametes)[name];
-        if (side === "y") sex = 0;
-        let chromosome = chromosomes1[name][side];
-        if (chromosome && chromosome.alleles && chromosome.alleles.length) alleleString += "b:" + chromosome.alleles.join(",b:") + ",";
-      }
+    case actionTypes.FERTILIZED:
+      return fertilize(state);
 
-      return state.setIn(["drakes", 2], {
-        alleleString,
-        sex
-      });
-    }
+    case actionTypes.CLUTCH_BRED: 
+      return breedClutch(state, action.clutchSize);
 
     case actionTypes.OFFSPRING_KEPT: {
       let progress = updateProgress(state, action.success);

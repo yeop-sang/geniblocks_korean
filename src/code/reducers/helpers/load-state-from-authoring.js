@@ -39,10 +39,10 @@ function processAuthoredGametes(authoredChallenge, drakes, state) {
             : state.gametes;
 }
 
-function processAuthoredDrakes(authoredChallenge, trial, template) {
+function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template, trialNumber) {
   // takes authored list of named drakes ("mother", etc) and returns an
   // array specific for this template
-  const authoredDrakesArray = template.authoredDrakesToDrakeArray(authoredChallenge, trial);
+  const authoredDrakesArray = template.authoredDrakesToDrakeArray(authoredChallenge, authoredTrialNumber, trialNumber);
   let   alleleString = null,
         linkedGeneDrake = null;
 
@@ -116,7 +116,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
         trials = authoredChallenge.targetDrakes,
         numTrials = authoredChallenge.numTrials || (trials ? trials.length : 1),
         trialOrder = createTrialOrder(trial, trials, state.trialOrder, authoredChallenge.randomizeTrials),
-        drakes = processAuthoredDrakes(authoredChallenge, trialOrder[trial], template),
+        drakes = processAuthoredDrakes(authoredChallenge, trialOrder[trial], template, trial),
         gametes = processAuthoredGametes(authoredChallenge, drakes, state);
 
   let goalMoves = null;

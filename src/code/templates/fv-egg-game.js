@@ -1163,6 +1163,15 @@ export default class FVEggGame extends Component {
       }
     }
 
+    function isCompleteChromosomeSet(chromosomes) {
+      return chromosomes && (chromosomes.length >= 3) &&
+              chromosomes.every((ch) => ch != null);
+    }
+
+    function isBreedButtonEnabled(ovumChromosomes, spermChromosomes) {
+      return isCompleteChromosomeSet(ovumChromosomes) && isCompleteChromosomeSet(spermChromosomes);
+    }
+
     return (
       <div className={classNames("", {matching: isMatchingChallenge})} id="egg-game">
         <div className="columns centered">
@@ -1174,7 +1183,7 @@ export default class FVEggGame extends Component {
           <div className='egg column'>
             {offspringButtons}
             <BreedButtonAreaView challengeClasses={classNames(challengeClasses)} scale={scale}
-                                  ovumChromosomes={ovumChromosomes} spermChromosomes={spermChromosomes}
+                                  isBreedButtonEnabled={isBreedButtonEnabled(ovumChromosomes, spermChromosomes)}
                                   userDrake={child} showUserDrake={showUserDrake} userDrakeHidden={userDrakeHidden}
                                   isHatchingInProgress={animationEvents.hatch.inProgress}
                                   hatchAnimationDuration={durationHatchAnimation}
@@ -1315,7 +1324,7 @@ export default class FVEggGame extends Component {
     return [shuffle(fatherPool), shuffle(motherPool)];
   }
 
-  static authoredDrakesToDrakeArray = function(authoredChallenge, trial) {
+  static authoredDrakesToDrakeArray = function(authoredChallenge, authoredTrialNumber) {
     const mother = new BioLogica.Organism(BioLogica.Species.Drake,
                                           authoredChallenge.mother.alleles,
                                           authoredChallenge.mother.sex),
@@ -1329,7 +1338,7 @@ export default class FVEggGame extends Component {
       return [motherSpec, fatherSpec];
 
     // already generated drakes
-    if (trial > 0)
+    if (authoredTrialNumber > 0)
       return authoredDrakes;
 
     // challengeType === 'match-target'

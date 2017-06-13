@@ -59,6 +59,8 @@ class Navigation extends Component {
           {navigateButton(12, 1, 1)}
           {navigateButton(13, 1, 1)}
           {navigateButton(14, 1, 1)}
+          {navigateButton(15, 1, 1)}
+          {navigateButton(16, 1, 1)}
         </div>
       </div>
     );
