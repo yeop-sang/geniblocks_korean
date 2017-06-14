@@ -38,8 +38,7 @@ const EGG_IMAGE_WIDTH_MEDIUM = EGG_IMAGE_WIDTH,
       SMALL_EGG_ON_BASKET_X_OFFSET = 52,
       SMALL_EGG_ON_BASKET_Y_OFFSET = 10,
 
-      modeCollectInBasket = urlParams.collectInBasket > 0,
-      modeFadeAway = !modeCollectInBasket;
+      modeCollectInBasket = urlParams.collectInBasket > 0;
 
 let _this,
     lastAnimatedComponentId = 0,
@@ -248,17 +247,6 @@ export default class FVEggSortGame extends Component {
       this.createEggsFromDrakes(nextProps);
       this.clearSelection();
     }
-    else {
-      if (prevCorrect !== nextCorrect) {
-        if (modeFadeAway)
-          animationEvents.fadeDrakeAway.animate();
-        else
-          animationEvents.settleEggInBasket.animate();
-      }
-      if (prevErrors !== nextErrors) {
-        animationEvents.fadeDrakeAway.animate();
-      }
-    }
   }
 
   createEggsFromDrakes(props) {
@@ -273,6 +261,20 @@ export default class FVEggSortGame extends Component {
                     return drake;
                   });
     this.setState({ eggs });
+  }
+
+  /*
+   * Returns true if a drake is hatched, but has not yet faded away.
+   */
+  isDrakeHatched() {
+    return this.state.animation === "complete" && this.state.animatedComponents.length > 0;
+  }
+
+  /*
+   * Returns true if an animation is actively playing.
+   */
+  isAnimating() {
+    return this.state.animation !== "complete" && this.state.animatedComponents.length > 0;
   }
 
   selectedEgg() {
@@ -320,7 +322,9 @@ export default class FVEggSortGame extends Component {
   }
 
   handleBackgroundClick = () => {
-    this.clearSelection();
+    if (!this.isAnimating() && !this.isDrakeHatched()) {
+      this.clearSelection();
+    }
   }
 
   handleBasketClick = (basketIndex, basket) => {
@@ -341,6 +345,9 @@ export default class FVEggSortGame extends Component {
   }
 
   handleEggClick = (id, index) => {
+    if (this.isDrakeHatched()) {
+      animationEvents.fadeDrakeAway.animate();
+    }
     this.setEggSelection([index]);
     this.selectAllBaskets();
   }
@@ -379,9 +386,7 @@ export default class FVEggSortGame extends Component {
                         ? <GenomeView org={selectedEgg} small={true} ChromosomeImageClass={FVChromosomeImageView} userChangeableGenes={userChangeableGenes} visibleGenes={visibleGenes} editable={false} />
                         : null,
           genomeOrInstructionsView = selectedEgg ? genomeView : instructionsView,
-          disableSelection = (['moveEggToBasket', 'hatchDrakeInBasket', 'hatchDrakeInEgg']
-                                          .indexOf(animation) >= 0) ||
-                              ((animation === 'complete') && (animatedComponents.length > 0));
+          isAnimating = this.isAnimating();
 
     return (
       <div id="egg-sort-game" onClick={this.handleBackgroundClick}>
@@ -389,7 +394,7 @@ export default class FVEggSortGame extends Component {
           <div id="baskets">
             <BasketSetView baskets={baskets} selectedIndices={selectedBaskets}
                             eggs={basketEggs} animatingEggIndex={animatingEggDrakeIndex}
-                            onClick={disableSelection ? null : this.handleBasketClick}/>
+                            onClick={isAnimating || this.isDrakeHatched() ? null : this.handleBasketClick}/>
           </div>
         </div>
         <div className="chromomatic-container">
@@ -405,7 +410,7 @@ export default class FVEggSortGame extends Component {
         </div>
         <div id="eggs">
           <FVEggClutchView eggs={displayEggs} selectedIndex={showSelectedEggIndex}
-                          onClick={disableSelection ? null : this.handleEggClick} />
+                          onClick={isAnimating ? null : this.handleEggClick} />
         </div>
         {animatedComponents}
       </div>

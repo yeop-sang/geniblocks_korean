@@ -400,8 +400,9 @@ export function rejectEggFromBasket(args) {
   return (dispatch) => {
     dispatch(_rejectEggFromBasket(args.eggDrakeIndex, args.basketIndex));
 
-    if (args.isChallengeComplete)
+    if (args.isChallengeComplete) {
       dispatch(showCompleteChallengeDialog());
+    }
   };
 }
 
@@ -418,8 +419,9 @@ export function acceptEggInBasket(args) {
   return (dispatch) => {
     dispatch(_acceptEggInBasket(args.eggDrakeIndex, args.basketIndex));
 
-    if (args.isChallengeComplete)
+    if (args.isChallengeComplete) {
       dispatch(showCompleteChallengeDialog());
+    }
   };
 }
 
@@ -463,16 +465,10 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
 
     if (isCorrect) {
       dispatch(acceptEggInBasket({eggDrakeIndex, basketIndex, isChallengeComplete}));
-    }
-    else {
+    } else {
+      dispatch(rejectEggFromBasket({eggDrakeIndex, basketIndex, isChallengeComplete}));
       let dialog = {
         message: "~ALERT.TITLE.EGG_MISMATCH",
-        explanation: "~ALERT.EGG_BASKET_MISMATCH",
-        rightButton: {
-          label: isChallengeComplete ? "~BUTTON.CONTINUE" : "~BUTTON.TRY_ANOTHER_EGG",
-          action: "rejectEggFromBasket",
-          args: { eggDrakeIndex, basketIndex, isChallengeComplete }
-        },
       };
       dispatch(showModalDialog(dialog));
     }
