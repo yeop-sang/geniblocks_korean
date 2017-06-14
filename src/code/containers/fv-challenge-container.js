@@ -18,7 +18,7 @@ class FVChallengeContainer extends Component {
 
   render() {
     const { template, style, ...otherProps } = this.props,
-          { challengeType, interactionType, routeSpec, trial, numTrials, correct } = this.props;
+          { challengeType, interactionType, routeSpec, trial, numTrials, correct, challenges, showAward } = this.props;
 
     if (!template) return null;
 
@@ -34,9 +34,9 @@ class FVChallengeContainer extends Component {
         <div id="mission-wrapper">
           <Template {...otherProps} />
         </div>
-        <BottomHUDView level={routeSpec.level + 1} trial={trial + 1} trialCount={numTrials}
-                       currScore={correct} maxScore={maxScore} currMoves={this.props.moves} 
-                       goalMoves={this.props.goalMoves}/>
+        <BottomHUDView routeSpec={routeSpec} numChallenges={challenges} trial={trial + 1} trialCount={numTrials}
+                       currScore={correct} maxScore={maxScore} currMoves={this.props.moves} showAward={showAward}
+                       goalMoves={this.props.goalMoves} challengeProgress={this.props.challengeProgress} />
         <NotificationContainer />
         <ModalMessageContainer />
       </div>
@@ -56,7 +56,10 @@ class FVChallengeContainer extends Component {
     routeSpec: PropTypes.object,
     correct: PropTypes.number,
     moves: PropTypes.number,
-    goalMoves: PropTypes.number
+    goalMoves: PropTypes.number,
+    challengeProgress: PropTypes.object,
+    challenges: PropTypes.number,
+    showAward: PropTypes.bool
   }
 }
 
@@ -82,6 +85,9 @@ function mapStateToProps (state) {
       moves: state.moves,
       goalMoves: state.goalMoves,
       userDrakeHidden: state.userDrakeHidden,
+      challengeProgress: state.challengeProgress,
+      challenges: state.challenges,
+      showAward: state.modalDialog.showAward,
       // drag/drop experiment option for enabling custom drag layer rather
       // than HTML5 drag/drop dragImage
       useCustomDragLayer: true
