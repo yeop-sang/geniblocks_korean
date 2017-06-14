@@ -6,6 +6,7 @@ import ClutchGame from './clutch-game';
 import FVGenomeChallenge from './fv-genome-challenge';
 import FVEggGame from './fv-egg-game';
 import FVEggSortGame from './fv-egg-sort-game';
+import ZoomChallenge from './zoom-challenge';
 
 export default {
   GenomePlayground,
@@ -15,5 +16,6 @@ export default {
   ClutchGame,
   FVGenomeChallenge,
   FVEggGame,
-  FVEggSortGame
+  FVEggSortGame,
+  ZoomChallenge
 };
