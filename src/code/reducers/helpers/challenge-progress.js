@@ -16,8 +16,13 @@ export function updateProgress(state) {
   let currentProgress = state.challengeProgress.asMutable();
   let score = state.moves - state.goalMoves;
 
-  let level = getChallengeName(state.routeSpec,state.trial);
-  currentProgress[level] = getScoreValue(score);
+  let level = getChallengeName(state.routeSpec,state.trial),
+      currentScore = currentProgress[level],
+      newScore = getScoreValue(score);
+  // Update the score if the old one doesn't exist, or the new score is better
+  if (currentScore == null || currentScore < 0 || currentScore > newScore) {
+    currentProgress[level] = getScoreValue(score);
+  }
 
   return currentProgress;
 }
