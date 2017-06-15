@@ -12,7 +12,8 @@ function mapStateToProps (state) {
       challengeAwards: {
         routeSpec: state.routeSpec,
         challengeCount: state.challenges,
-        progress: state.challengeProgress
+        progress: state.challengeProgress,
+        currentScore: state.moves - state.goalMoves
       }
     });
   }

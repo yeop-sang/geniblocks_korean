@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import t from '../utilities/translate';
 import GemSetView, {GemView} from './gem-set';
-import { getChallengeScores } from '../reducers/helpers/challenge-progress';
+import { getScoreValue } from '../reducers/helpers/challenge-progress';
 
 const EndLevelDialogView = ({challengeAwards, onNextChallenge, onTryAgain}) => {
   let getGemDisplayName = (score) => {
@@ -19,10 +19,9 @@ const EndLevelDialogView = ({challengeAwards, onNextChallenge, onTryAgain}) => {
       mission = challengeAwards.routeSpec.mission,
       challenge = challengeAwards.routeSpec.challenge,
       challengeCount = challengeAwards.challengeCount,
-      progress = challengeAwards.progress;
+      progress = challengeAwards.progress,
+      currentScore = getScoreValue(challengeAwards.currentScore);
 
-  let challengeScores = getChallengeScores(level, mission, challengeCount, progress),
-      currentScore = challengeScores[challenge];
   return (
     <div className="end-level-dialog-container">
       <div className="end-level-dialog-backdrop"></div>

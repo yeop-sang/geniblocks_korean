@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import { getChallengeScores } from '../reducers/helpers/challenge-progress';
+import classNames from 'classNames';
 
 export const GemView = ({challengeNum, score, highlight}) => {
   let gem = score != null 
@@ -14,7 +15,7 @@ export const GemView = ({challengeNum, score, highlight}) => {
                   </div>
                 </div>;
   return (
-    <div className="gem-container">
+    <div className={ classNames("gem-container", {highlight: highlight}) }>
       {gem}
     </div>
   );

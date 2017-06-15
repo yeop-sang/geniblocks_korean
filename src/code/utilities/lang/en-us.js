@@ -69,6 +69,6 @@ export default {
   "~VENTURE.END_LEVEL": "CHALLENGE COMPLETE",
   "~VENTURE.YOU_EARNED": "You've earned",
   "~VENTURE.AWARD_FIRST": "Blue Crystal",
-  "~VENTURE.AWARD_SECOND": "Amber Crystal",
+  "~VENTURE.AWARD_SECOND": "Yellow Crystal",
   "~VENTURE.AWARD_THIRD": "Red Crystal"
 };
