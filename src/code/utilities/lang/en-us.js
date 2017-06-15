@@ -26,7 +26,7 @@ export default {
   "~ALERT.CORRECT_DRAKE": "The drake you have created matches the target drake.",
   "~ALERT.INCORRECT_DRAKE": "The drake you have created doesn't match the target drake.\n\
                             Please try again.",
-  "~ALERT.EGG_BASKET_MATCH": "The egg you have selected belongs in that basket.",
+  "~ALERT.EGG_BASKET_MATCH": "That egg matches, good job!",
   "~ALERT.EGG_BASKET_MISMATCH": "The egg you have selected doesn't belong in that basket.",
   "~ALERT.DUPLICATE_DRAKE": "You already have a drake that looks just like that!",
 
