@@ -1,0 +1,62 @@
+.venture-pad-container
+  outline: none
+  font-family: 'Yanone Kaffeesatz'
+  font-size: 4rem
+  color: white
+
+  .venture-pad-backdrop
+    position: fixed
+    zIndex: 10
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    backgroundColor: '#000'
+    opacity: 0.9
+
+  .venture-pad-background
+    position: absolute
+    top: 7%
+    left: 28%
+    width: 921px
+    height: 894px
+    background-image: url('../resources/fablevision/venture-pad/screen_behind.png')
+    background-position: 30% 50%
+    background-repeat: no-repeat
+    z-index: 11
+
+  .venture-pad-screen
+    position: absolute
+    top: 7%
+    left: 28%
+    width: 921px
+    height: 894px
+    z-index: 12
+    margin-left: 70px
+    background-size: cover
+    background-repeat: no-repeat
+    .venture-pad-title
+      margin-top: 80px
+    .venture-pad-flavor-text
+      font-size: 1rem
+      color: gray
+    .venture-pad-separator
+      position: absolute
+      width: 720px
+      height: 3px
+      background-color: gray
+      &#venture-pad-separator-1
+        margin-top: 20px
+    
+  .venture-pad-overlay
+    position: absolute
+    top: 7%
+    left: 28%
+    width: 921px
+    height: 894px
+    background-image: url('../resources/fablevision/venture-pad/frame.png'),
+                      url('../resources/fablevision/venture-pad/screen_over.png')
+    background-position: 50% 50%, 30% 50%
+    background-repeat: no-repeat
+    pointer-events: none
+    z-index: 13
