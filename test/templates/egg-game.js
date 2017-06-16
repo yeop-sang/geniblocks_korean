@@ -13,7 +13,8 @@ const basicUnderdefinedInitialState = (template, routeSpec, challenges) => ({
   goalMoves: null,
   instructions: undefined,
   showUserDrake: false,
-  trialSuccess: false
+  trialSuccess: false,
+  zoomUrl: null
 });
 
 describe('authoredDrakesToDrakeArray()', () => {
@@ -124,7 +125,7 @@ describe('loading authored state into template', () => {
         .merge({
           "challengeType": "match-target",
           drakes,
-          initialDrakes: drakes, 
+          initialDrakes: drakes,
           "goalMoves": nextState.goalMoves,
           "trials": [ {}, {}, {} ],
           "numTrials": 3,
