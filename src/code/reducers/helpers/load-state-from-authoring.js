@@ -105,10 +105,24 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
         template = templateName && templates[templateName];
   if (!template) return state;
 
+  let userChangeableGenes = authoredChallenge.userChangeableGenes;
+  // Changeable genes are either authored in the form "wings, legs" or [{mother: "wings", father:""}, {mother: "", father: "wings"}]
+  if (typeof userChangeableGenes === "object") { 
+    let userChangeableGenesByTrial = [];
+    for (let trial = 0; trial < userChangeableGenes.length; trial++) {
+      userChangeableGenesByTrial.push({
+        mother: split(userChangeableGenes[trial].mother),
+        father: split(userChangeableGenes[trial].father)
+      });
+    }
+    userChangeableGenes = userChangeableGenesByTrial;
+  } else {
+    userChangeableGenes = split(userChangeableGenes);
+  }
+
   const challengeType = authoredChallenge.challengeType,
         interactionType = authoredChallenge.interactionType,
         instructions = authoredChallenge.instructions,
-        userChangeableGenes = split(authoredChallenge.userChangeableGenes),
         visibleGenes = split(authoredChallenge.visibleGenes),
         hiddenAlleles = split(authoredChallenge.hiddenAlleles),
         baskets = processAuthoredBaskets(authoredChallenge, state),
