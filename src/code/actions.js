@@ -572,3 +572,9 @@ export function winZoomChallenge() {
   };
 }
 
+export function displayMap() {
+  return {
+    type: actionTypes.DISPLAY_MAP
+  };
+}
+

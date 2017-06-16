@@ -7,7 +7,7 @@ actions.resetGametes = resetGametes;
 
 function mapStateToProps (state) {
   let props = state.modalDialog;
-  if (props.showAward) {
+  if (props.showAward || props.showMap) {
     props = props.merge({
       gems: state.gems,
       routeSpec: state.routeSpec,
