@@ -55,7 +55,7 @@ const ClutchView = React.createClass({
         pageDrakes = this.props.orgs.slice(firstDrake, firstDrake + 8),
         stableDrakeViews = pageDrakes.map((org, index) => {
           return (
-            <div className="stable-drake-overlay" style={{width: 116}}>
+            <div key={index} className="stable-drake-overlay" style={{width: 116}}>
               <FVEggHatchView organism = {org} id={this.props.idPrefix + index} onClick={this.handleClick} eggStyle={{left: -477, top: -424}} displayStyle={displayStyle}/>
             </div>
           );

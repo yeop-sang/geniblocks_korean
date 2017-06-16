@@ -32,7 +32,7 @@ const FVChromosomeImageView = ({small=false, empty=false, chromosomeDescriptor, 
   if (chromosomeDescriptor && !empty) {
     const alleles = BioLogica.Species.Drake.chromosomeGeneMap[chromosomeDescriptor.name];
     stripes = alleles.map(a => {
-                return <FVGeneLabelView species={BioLogica.Species.Drake} stripe={true} chromosomeDescriptor={chromosomeDescriptor} allele={a} />;
+                return <FVGeneLabelView key={a} species={BioLogica.Species.Drake} stripe={true} chromosomeDescriptor={chromosomeDescriptor} allele={a} />;
               });
   }
 
