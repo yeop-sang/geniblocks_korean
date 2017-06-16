@@ -89,6 +89,7 @@ function mapStateToProps (state) {
       challengeProgress: state.challengeProgress,
       challenges: state.challenges,
       showAward: state.modalDialog.showAward,
+      zoomUrl: state.zoomUrl,
       // drag/drop experiment option for enabling custom drag layer rather
       // than HTML5 drag/drop dragImage
       useCustomDragLayer: true

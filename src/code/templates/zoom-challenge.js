@@ -14,7 +14,7 @@ export default class ZoomChallenge extends Component {
   render() {
     return (
       <div id="zoom-challenge-container">
-        <iframe id="iframe" src="" />
+        <iframe id="iframe" src={ this.props.zoomUrl } />
       </div>
     );
   }
@@ -24,7 +24,8 @@ export default class ZoomChallenge extends Component {
   }
 
   static propTypes = {
-    onWinZoomChallenge: PropTypes.func.isRequired
+    onWinZoomChallenge: PropTypes.func.isRequired,
+    zoomUrl: PropTypes.string.isRequired
   }
 
 }

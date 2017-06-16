@@ -117,7 +117,8 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
         numTrials = authoredChallenge.numTrials || (trials ? trials.length : 1),
         trialOrder = createTrialOrder(trial, trials, state.trialOrder, authoredChallenge.randomizeTrials),
         drakes = processAuthoredDrakes(authoredChallenge, trialOrder[trial], template, trial),
-        gametes = processAuthoredGametes(authoredChallenge, drakes, state);
+        gametes = processAuthoredGametes(authoredChallenge, drakes, state),
+        zoomUrl = authoredChallenge.zoomUrl || null;
 
   let goalMoves = null;
   if (template.calculateGoalMoves) {
@@ -150,7 +151,8 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     userDrakeHidden: true,
     trialSuccess: false,
     challengeProgress: progress,
-    initialDrakes: [...drakes]
+    initialDrakes: [...drakes],
+    zoomUrl
   });
 }
 
