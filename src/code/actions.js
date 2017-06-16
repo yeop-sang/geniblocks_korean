@@ -429,7 +429,7 @@ function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, state) {
   const incrementMoves = !isCorrect,
         submittedDrake = GeneticsUtils.convertDrakeToOrg(state.drakes[eggDrakeIndex]),
         submittedBasket = state.baskets[basketIndex],
-        // Each basket has multiple accepted alleles combinations which, at the time of this writing, all 
+        // Each basket has multiple accepted alleles combinations which, at the time of this writing, all
         // have the same phenotype. Therefore, we can simply look at the first one
         submittedBasketPhenotypes = GeneticsUtils.convertGeneStringToPhenotype(submittedBasket.alleles[0]),
         drakeCriteria = {
@@ -655,6 +655,27 @@ export function keepOffspring(index, keptDrakesIndices, maxDrakes, shouldKeepSou
         }
       }));
     }
+  };
+}
+
+function _winZoomChallenge() {
+  return {
+    type: actionTypes.ZOOM_CHALLENGE_WON,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.COMPLETED,
+        target: ITS_TARGETS.CHALLENGE
+      }
+    }
+  };
+}
+
+export function winZoomChallenge() {
+  return (dispatch) => {
+    dispatch(_winZoomChallenge());
+
+    dispatch(showCompleteChallengeDialog());
   };
 }
 

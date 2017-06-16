@@ -97,7 +97,7 @@ export default function reducer(state, action) {
     case actionTypes.FERTILIZED:
       return fertilize(state);
 
-    case actionTypes.CLUTCH_BRED: 
+    case actionTypes.CLUTCH_BRED:
       return breedClutch(state, action.clutchSize);
 
     case actionTypes.OFFSPRING_KEPT: {
@@ -132,6 +132,14 @@ export default function reducer(state, action) {
     case actionTypes.EGG_ACCEPTED: {
       return state.merge({
         correct: state.correct + 1
+      });
+    }
+    case actionTypes.ZOOM_CHALLENGE_WON: {
+      let progress = updateProgress(state, true);
+
+      return state.merge({
+        trialSuccess: true,
+        challengeProgress: progress
       });
     }
     case actionTypes.ADVANCED_TRIAL: {

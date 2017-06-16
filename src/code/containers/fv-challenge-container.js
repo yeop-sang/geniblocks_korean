@@ -10,7 +10,8 @@ import ModalMessageContainer from "./modal-message-container";
 
 import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
         keepOffspring, fertilize, breedClutch, hatch, completeChallenge,
-        changeBasketSelection, changeDrakeSelection, submitEggForBasket } from '../actions';
+        changeBasketSelection, changeDrakeSelection, submitEggForBasket,
+        winZoomChallenge } from '../actions';
 import { addGameteChromosome, resetGametes,
         addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/gametes';
 
@@ -115,7 +116,8 @@ function mapDispatchToProps(dispatch) {
     onKeepOffspring: (index, keptDrakesIndices, maxDrakes, shouldKeepSourceDrake) => dispatch(keepOffspring(index, keptDrakesIndices, maxDrakes, shouldKeepSourceDrake)),
     onChangeBasketSelection: (selectedIndices) => dispatch(changeBasketSelection(selectedIndices)),
     onChangeDrakeSelection: (selectedIndices) => dispatch(changeDrakeSelection(selectedIndices)),
-    onSubmitEggForBasket: (...args) => dispatch(submitEggForBasket(...args))
+    onSubmitEggForBasket: (...args) => dispatch(submitEggForBasket(...args)),
+    onWinZoomChallenge: (...args) => dispatch(winZoomChallenge(...args))
   };
 }
 
