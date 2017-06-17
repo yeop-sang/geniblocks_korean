@@ -3,15 +3,16 @@ import t from '../utilities/translate';
 import GemSetView from './gem-set';
 import VenturePadView from './venture-pad';
 
-const NavigationDialogView = ({challengeAwards}) => {
+const NavigationDialogView = ({gems, onNavigateToChallenge}) => {
   let gemSets = [];
   for (let level = 0; level < 17; level++) {
     gemSets.push(<div className="gem-set-label">{"Level " + level + ":"}</div>);
-    gemSets.push(<GemSetView level={level} mission={0} challenge={0} challengeCount={1} progress={challengeAwards.progress} />);
+    gemSets.push(<GemSetView level={level} mission={0} challenge={0} challengeCount={1} gems={gems} 
+                             onNavigateToChallenge={onNavigateToChallenge} />);
   }
 
   let screen = (
-    <div>
+    <div className="navigation-dialog">
       {gemSets}
     </div>
   );
@@ -20,7 +21,8 @@ const NavigationDialogView = ({challengeAwards}) => {
 };
 
 NavigationDialogView.propTypes = {
-  challengeAwards: PropTypes.object
+  gems: PropTypes.array,
+  onNavigateToChallenge: PropTypes.func
 };
 
 export default NavigationDialogView;

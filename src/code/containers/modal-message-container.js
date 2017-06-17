@@ -24,12 +24,13 @@ function mapDispatchToProps (dispatch) {
     actionCreator: function (actionName, actionArgs) {
       return () =>
         dispatch(actions[actionName](actionArgs));
-    }
+    },
+    onNavigateToChallenge: (routeSpec) => dispatch(actions.navigateToChallenge(routeSpec))
   };
 }
 
 function mergeProps(stateProps, dispatchProps) {
-  let props = {...stateProps},
+  let props = {...stateProps, ...dispatchProps},
       { leftButton, rightButton } = props;
   if (leftButton && leftButton.action) {
     props.onLeftButtonClick = dispatchProps.actionCreator(leftButton.action, leftButton.args);

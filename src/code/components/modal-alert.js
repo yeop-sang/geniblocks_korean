@@ -19,7 +19,8 @@ class ModalAlert extends React.Component {
     onRightButtonClick: PropTypes.func,       // in button props. (Better for `mapDispatchToProps`)
     gems: PropTypes.array,
     routeSpec: PropTypes.object,
-    challengeCount: PropTypes.number
+    challengeCount: PropTypes.number,
+    onNavigateToChallenge: PropTypes.func
   }
 
   static defaultProps = {
@@ -40,7 +41,7 @@ class ModalAlert extends React.Component {
                               onNextChallenge={this.props.onRightButtonClick} onTryAgain={this.props.onLeftButtonClick}/>
         );
       } else if (this.props.showMap) {
-        return <NavigationDialogView challengeAwards={this.props.challengeAwards}/>;
+        return <NavigationDialogView gems={this.props.gems} onNavigateToChallenge={this.props.onNavigateToChallenge}/>;
       } else {
         return <div className="next-trial-button" onClick={rightProps.onClick || this.props.onRightButtonClick}>
                 <div className="next-trial-text">Next Trial</div>
