@@ -31,9 +31,9 @@ const GemSetView = ({level, mission, challenge, challengeCount, progress}) => {
 
   let getAwardImage = (progressImages, gemNumber, score, currChallenge) => {
     if (score > -1){
-      return <GemView score={score} highlight={currChallenge + 1 === gemNumber}/>;
+      return <GemView key={gemNumber} score={score} highlight={currChallenge + 1 === gemNumber}/>;
     } else {
-      return <GemView challengeNum={gemNumber}/>;
+      return <GemView key={gemNumber} challengeNum={gemNumber}/>;
     }
   };
 

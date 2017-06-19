@@ -21,7 +21,9 @@ const BottomHUDView = React.createClass({
   },
 
   getInitialState() {
-    return {};
+    return {
+      currentProgress: {}
+    };
   },
 
   componentWillReceiveProps(nextProps) {

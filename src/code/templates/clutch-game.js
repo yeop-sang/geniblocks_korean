@@ -144,7 +144,7 @@ export default class ClutchGame extends Component {
 
     function parentGenomeView(sex) {
       let parentChangeableGenes;
-      // Changeable genes are either of the form ["wings, legs"] or [{mother: "wings", father:""}, {mother: "", father: "wings"]
+      // Changeable genes are either of the form ["wings, legs"] or [{mother: ["wings"], father:[]}, {mother: [], father: ["wings"]}]
       if (userChangeableGenes[0].mother) {
         parentChangeableGenes = sex === BioLogica.FEMALE ? userChangeableGenes[trial].mother : userChangeableGenes[trial].father;
       } else {
