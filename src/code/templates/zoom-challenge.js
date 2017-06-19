@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import iframePhone from 'iframe-phone';
+var phone;
 
 export default class ZoomChallenge extends Component {
 
@@ -7,8 +8,12 @@ export default class ZoomChallenge extends Component {
 
   componentDidMount() {
     var iframeElement = document.getElementById("iframe");
-    var phone = new iframePhone.ParentEndpoint(iframeElement);
+    phone = new iframePhone.ParentEndpoint(iframeElement);
     phone.addListener('challengeWin', this.props.onWinZoomChallenge);
+  }
+
+  componentWillUnmount() {
+    phone.disconnect();
   }
 
   render() {
