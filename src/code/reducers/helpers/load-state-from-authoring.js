@@ -118,7 +118,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
         trialOrder = createTrialOrder(trial, trials, state.trialOrder, authoredChallenge.randomizeTrials),
         drakes = processAuthoredDrakes(authoredChallenge, trialOrder[trial], template, trial),
         gametes = processAuthoredGametes(authoredChallenge, drakes, state),
-        zoomUrl = authoredChallenge.zoomUrl || null;
+        zoomUrl = authoredChallenge.zoomUrl;
 
   let goalMoves = null;
   if (template.calculateGoalMoves) {

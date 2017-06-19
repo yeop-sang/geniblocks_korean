@@ -14,7 +14,7 @@ const basicUnderdefinedInitialState = (template, routeSpec, challenges) => ({
   instructions: undefined,
   showUserDrake: false,
   trialSuccess: false,
-  zoomUrl: null
+  zoomUrl: undefined
 });
 
 describe('authoredDrakesToDrakeArray()', () => {
