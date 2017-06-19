@@ -170,7 +170,7 @@ describe('submitDrake action', () => {
         type: types.DRAKE_SUBMITTED,
         species: "Drake",
         challengeCriteria: {
-          phenotype: submitDrakeAction.challengeCriteria.phenotype,  // we check valid phenotype below
+          phenotype: submitDrakeAction.challengeCriteria.phenotype,
           sex: 0
         },
         userSelections: {
