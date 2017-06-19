@@ -268,10 +268,29 @@ function getEarnedCoinString(state) {
   return ["~ALERT.NEW_PIECE_OF_COIN", scoreString];
 }
 
-function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state) {
+function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIndex, fatherIndex) {
   const incrementMoves = !correct,
         targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[targetDrakeIndex]),
-        userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]);
+        userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]),
+        isBredDrake = !isNaN(motherIndex),
+        itsTarget = isBredDrake ? ITS_TARGETS.OFFSPRING : ITS_TARGETS.ORGANISM;
+  var userSelections;
+
+  if (isBredDrake) {
+    const motherDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[motherIndex]),
+          fatherDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[fatherIndex]);
+    userSelections = {
+      motherAlleles: motherDrakeOrg.alleles,
+      fatherAlleles: fatherDrakeOrg.alleles,
+      offspringAlleles: userDrakeOrg.alleles,
+      offspringSex: userDrakeOrg.sex
+    };
+  } else {
+    userSelections = {
+      alleles: userDrakeOrg.alleles,
+      sex: userDrakeOrg.sex
+    };
+  }
 
   return {
     type: actionTypes.DRAKE_SUBMITTED,
@@ -280,28 +299,25 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state) {
       sex: targetDrakeOrg.sex,
       phenotype: targetDrakeOrg.phenotype.characteristics
     },
-    userSelections: {
-      alleles: userDrakeOrg.alleles,
-      sex: userDrakeOrg.sex
-    },
+    userSelections,
     correct,
     incrementMoves,
     meta: {
       itsLog: {
         actor: ITS_ACTORS.USER,
         action: ITS_ACTIONS.SUBMITTED,
-        target: ITS_TARGETS.ORGANISM
+        target: itsTarget
       }
     }
   };
 }
 
-export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrectAction) {
+export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex) {
   return (dispatch, getState) => {
 
 
     const state = getState();
-    dispatch(_submitDrake(targetDrakeIndex, userDrakeIndex, correct, state));
+    dispatch(_submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIndex, fatherIndex));
 
     const authoring = state.authoring,
           levelCount = AuthoringUtils.getLevelCount(authoring),

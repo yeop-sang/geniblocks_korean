@@ -102,8 +102,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(changeAllele(index, chrom, side, prevAllele, newAllele, incrementMoves)),
     onSexChange: (index, newSex, incrementMoves=true) =>
       dispatch(changeSex(index, newSex, incrementMoves)),
-    onDrakeSubmission: (targetDrakeIndex, userDrakeIndex, correct, incorrectAction) =>
-      dispatch(submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrectAction)),
+    onDrakeSubmission: (targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex) =>
+      dispatch(submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex)),
     onNavigateNextChallenge: () => dispatch(navigateToNextChallenge()),
     onCompleteChallenge: () => dispatch(completeChallenge()),
     onGameteChromosomeAdded: (index, name, side) => dispatch(addGameteChromosome(index, name, side)),
