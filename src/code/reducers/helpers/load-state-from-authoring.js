@@ -127,7 +127,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     goalMoves = authoredChallenge.goalMoves[trial];
   }
 
-  return state.merge({
+  let authoredState = {
     template: templateName,
     challengeType,
     interactionType,
@@ -153,7 +153,12 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     challengeProgress: progress,
     initialDrakes: [...drakes],
     zoomUrl
-  });
+  };
+
+  // remove all undefined or null keys
+  Object.keys(authoredState).forEach((key) => (authoredState[key] == null) && delete authoredState[key]);
+
+  return state.merge(authoredState);
 }
 
 export function loadNextTrial(state, authoring, progress) {
