@@ -117,7 +117,8 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
         numTrials = authoredChallenge.numTrials || (trials ? trials.length : 1),
         trialOrder = createTrialOrder(trial, trials, state.trialOrder, authoredChallenge.randomizeTrials),
         drakes = processAuthoredDrakes(authoredChallenge, trialOrder[trial], template, trial),
-        gametes = processAuthoredGametes(authoredChallenge, drakes, state);
+        gametes = processAuthoredGametes(authoredChallenge, drakes, state),
+        zoomUrl = authoredChallenge.zoomUrl;
 
   let goalMoves = null;
   if (template.calculateGoalMoves) {
@@ -126,7 +127,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     goalMoves = authoredChallenge.goalMoves[trial];
   }
 
-  return state.merge({
+  let authoredState = {
     template: templateName,
     challengeType,
     interactionType,
@@ -150,8 +151,14 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     userDrakeHidden: true,
     trialSuccess: false,
     challengeProgress: progress,
-    initialDrakes: [...drakes]
-  });
+    initialDrakes: [...drakes],
+    zoomUrl
+  };
+
+  // remove all undefined or null keys
+  Object.keys(authoredState).forEach((key) => (authoredState[key] == null) && delete authoredState[key]);
+
+  return state.merge(authoredState);
 }
 
 export function loadNextTrial(state, authoring, progress) {

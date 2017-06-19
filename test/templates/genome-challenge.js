@@ -8,12 +8,8 @@ const basicUnderdefinedInitialState = (template, routeSpec, challenges) => ({
   template,
   routeSpec,
   challenges,
-  challengeType: undefined,
-  interactionType: undefined,
-  goalMoves: null,
-  instructions: undefined,
   showUserDrake: false,
-  trialSuccess: false
+  trialSuccess: false,
 });
 
 describe('authoredDrakesToDrakeArray()', () => {

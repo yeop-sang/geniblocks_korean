@@ -17,6 +17,7 @@ const actionTypes = {
   BASKET_SELECTION_CHANGED: "Basket selection changed",
   DRAKE_SELECTION_CHANGED: "Drake selection changed",
   DRAKE_SUBMITTED: "Drake submitted",
+  ZOOM_CHALLENGE_WON: "Zoom challenge won",
   NAVIGATED_NEXT_CHALLENGE: "Navigated to next challenge",
   NAVIGATED_PAGE: "Navigated to another page",
   MODAL_DIALOG_SHOWN: "Modal dialog shown",
