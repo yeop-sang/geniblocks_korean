@@ -14,6 +14,7 @@ var errorHandler = function (error) {
   console.log(error.toString());
   beep();
   this.emit('end');
+  process.exit(1);
 };
 
 // build stand-alone geniverse application, which pulls in
