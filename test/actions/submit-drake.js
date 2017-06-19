@@ -23,31 +23,27 @@ const correctCharacteristics = {
         wings: "No wings"
       },
       correctAlleles = "a:T,b:T,a:M,b:M,a:w,b:w,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:hl,b:hl,a:A1,b:A1,a:D,a:Bog,a:rh",
-      userCharacteristics = {
-        armor: "Five armor",
-        color:"Steel",
-        forelimbs:"Forelimbs",
-        health: "Healthy",
-        hindlimbs: "No hindlimbs",
-        horns: "Horns",
-        liveliness: "Alive",
-        "nose spike": "No nose spike",
-        tail: "Long tail",
-        wings: "Wings"
-      },
       userAlleles = "a:T,b:T,a:M,b:M,a:W,b:W,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:hl,b:hl,a:A1,b:A1,a:D,a:Bog,a:rh",
       initialAlleles = "a:T,b:T,a:M,b:M,a:W,b:w,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:hl,b:hl,a:A1,b:A1,a:D,a:Bog,a:rh",
+      motherAlleles = "a:T,b:T,a:M,b:M,a:W,b:w,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:hl,b:hl,a:A1,b:A1,a:D,a:Bog,a:rh",
+      fatherAlleles = "a:T,b:T,a:M,b:M,a:W,b:w,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:hl,b:hl,a:A1,b:A1,a:D,a:Bog,a:rh",
       getState = () => ({
         routeSpec: {level: 0,mission: 0, challenge: 0},
         drakes: [
           {
-            phenotype: {characteristics: correctCharacteristics},
             alleleString: correctAlleles,
             sex: 0
           },
           {
-            phenotype: {characteristics: userCharacteristics},
             alleleString: userAlleles,
+            sex: 0
+          },
+          {
+            alleleString: motherAlleles,
+            sex: 1
+          },
+          {
+            alleleString: fatherAlleles,
             sex: 0
           }
         ],
@@ -157,6 +153,41 @@ describe('submitDrake action', () => {
           label: "~BUTTON.TRY_AGAIN",
           action: "dismissModalDialog"
         },
+      });
+    });
+
+  });
+
+  describe('when the drake is submitted as an offspring', () => {
+    const correct = true,
+          dispatch = expect.createSpy();
+
+    actions.submitDrake(0, 1, correct, null, 2, 3)(dispatch, getState);
+
+    it('should call dispatch with the correct _submitDrake action', () => {
+      var submitDrakeAction = dispatch.calls[0].arguments[0];
+      expect(submitDrakeAction).toEqual({
+        type: types.DRAKE_SUBMITTED,
+        species: "Drake",
+        challengeCriteria: {
+          phenotype: submitDrakeAction.challengeCriteria.phenotype,
+          sex: 0
+        },
+        userSelections: {
+          motherAlleles: motherAlleles,
+          fatherAlleles: fatherAlleles,
+          offspringAlleles: userAlleles,
+          offspringSex: 0
+        },
+        correct: true,
+        incrementMoves: false,
+        meta: {
+          "itsLog": {
+            "actor": "USER",
+            "action": "SUBMITTED",
+            "target": "OFFSPRING"
+          }
+        }
       });
     });
 

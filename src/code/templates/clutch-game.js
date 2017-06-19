@@ -117,7 +117,7 @@ export default class ClutchGame extends Component {
                                                     targetDrake.alleleString,
                                                     targetDrake.sex);
       success = (childImage === targetDrakeOrg.getImageName());
-      onDrakeSubmission(2, index, success);
+      onDrakeSubmission(2, index, success, null, 0, 1);
     };
 
     const targetDrakeOrg = targetDrake && targetDrake.alleleString
@@ -157,7 +157,7 @@ export default class ClutchGame extends Component {
                               : { orgName: 'father', className: fatherClassNames };
       return <GenomeView species={org.species} org={org} {...uniqueProps} editable={parentChangeableGenes.length > 0}
                          ChromosomeImageClass={FVChromosomeImageView} small={ true } hiddenAlleles={hiddenAlleles}
-                         userChangeableGenes={ parentChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange } 
+                         userChangeableGenes={ parentChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange }
                          chromosomeHeight={122} />;
     }
 
@@ -208,8 +208,8 @@ export default class ClutchGame extends Component {
   }
 
   static authoredDrakesToDrakeArray = function(authoredChallenge, authoredTrialNumber) {
-    return [authoredChallenge.mother[authoredTrialNumber], 
-            authoredChallenge.father[authoredTrialNumber], 
+    return [authoredChallenge.mother[authoredTrialNumber],
+            authoredChallenge.father[authoredTrialNumber],
             authoredChallenge.targetDrakes[authoredTrialNumber]];
   }
 
