@@ -3,7 +3,7 @@ import t from '../utilities/translate';
 import GemSetView from './gem-set';
 import VenturePadView from './venture-pad';
 
-const NavigationDialogView = ({gems, onNavigateToChallenge}) => {
+const NavigationDialogView = ({gems, onNavigateToChallenge, onHideMap}) => {
   let gemSets = [];
   for (let level = 0; level < 17; level++) {
     gemSets.push(<div id={"gem-label-" + level} className="gem-set-label">{"Level " + level + ":"}</div>);
@@ -17,12 +17,13 @@ const NavigationDialogView = ({gems, onNavigateToChallenge}) => {
     </div>
   );
 
-  return <VenturePadView title={t("~VENTURE.MAP")} screen={screen}/>;
+  return <VenturePadView title={t("~VENTURE.MAP")} screen={screen} onClickOutside={onHideMap}/>;
 };
 
 NavigationDialogView.propTypes = {
   gems: PropTypes.array,
-  onNavigateToChallenge: PropTypes.func
+  onNavigateToChallenge: PropTypes.func,
+  onHideMap: PropTypes.func
 };
 
 export default NavigationDialogView;

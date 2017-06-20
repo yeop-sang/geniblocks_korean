@@ -11,7 +11,7 @@ import ModalMessageContainer from "./modal-message-container";
 import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
         keepOffspring, fertilize, breedClutch, hatch,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket,
-        winZoomChallenge, displayMap } from '../actions';
+        winZoomChallenge, toggleMap } from '../actions';
 import { addGameteChromosome, resetGametes,
         addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/gametes';
 
@@ -31,7 +31,7 @@ class FVChallengeContainer extends Component {
     return (
       <div id="challenges" className={bgClasses} style={style}>
         // TODO: put location names in the authoring document
-        <TopHUDView location={"Hatchery"} onDisplayMap={this.props.onDisplayMap}/>
+        <TopHUDView location={"Hatchery"} onToggleMap={this.props.onToggleMap}/>
         <div id="mission-wrapper">
           <Template {...otherProps} />
         </div>
@@ -61,7 +61,7 @@ class FVChallengeContainer extends Component {
     gems: PropTypes.array,
     challenges: PropTypes.number,
     showAward: PropTypes.bool,
-    onDisplayMap: PropTypes.func
+    onToggleMap: PropTypes.func
   }
 }
 
@@ -119,7 +119,7 @@ function mapDispatchToProps(dispatch) {
     onChangeDrakeSelection: (selectedIndices) => dispatch(changeDrakeSelection(selectedIndices)),
     onSubmitEggForBasket: (...args) => dispatch(submitEggForBasket(...args)),
     onWinZoomChallenge: (...args) => dispatch(winZoomChallenge(...args)),
-    onDisplayMap: () => dispatch(displayMap())
+    onToggleMap: (isVisible) => dispatch(toggleMap(isVisible))
   };
 }
 

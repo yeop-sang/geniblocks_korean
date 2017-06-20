@@ -22,10 +22,10 @@ export default function modalDialog(state = initialState, action) {
         leftButton: action.leftButton,
         showAward: action.showAward
       });
-    case actionTypes.DISPLAY_MAP:
+    case actionTypes.TOGGLE_MAP:
       return state.merge({
-        show: true,
-        showMap: true
+        show: action.isVisible,
+        showMap: action.isVisible
       });
     case actionTypes.MODAL_DIALOG_DISMISSED:
       return initialState;

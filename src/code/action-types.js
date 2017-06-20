@@ -25,7 +25,7 @@ const actionTypes = {
   MODAL_DIALOG_DISMISSED: "Modal dialog dismissed",
   NOTIFICATION_SHOWN: "Notification shown",
   ADVANCED_TRIAL: "Advanced to next trial",
-  DISPLAY_MAP: "Map displayed"
+  TOGGLE_MAP: "Map toggled"
 };
 
 export default actionTypes;

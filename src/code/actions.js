@@ -572,9 +572,10 @@ export function winZoomChallenge() {
   };
 }
 
-export function displayMap() {
+export function toggleMap(isVisible) {
   return {
-    type: actionTypes.DISPLAY_MAP
+    type: actionTypes.TOGGLE_MAP,
+    isVisible: isVisible
   };
 }
 

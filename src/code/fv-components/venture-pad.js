@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react';
 
-const VenturePadView = ({title, screen}) => {
+const VenturePadView = ({title, screen, onClickOutside}) => {
   return (
     <div className="venture-pad-container">
-      <div className="venture-pad-backdrop"></div>
+      <div className="venture-pad-backdrop" onClick={onClickOutside}></div>
       <div className="venture-pad-background"></div>
       <div className="venture-pad-overlay"></div>
       <div className="venture-pad-screen">
@@ -26,7 +26,8 @@ const VenturePadView = ({title, screen}) => {
 
 VenturePadView.propTypes = {
   title: PropTypes.string,
-  screen: PropTypes.object
+  screen: PropTypes.object,
+  onClickOutside: PropTypes.func
 };
 
 export default VenturePadView;

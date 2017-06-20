@@ -25,7 +25,8 @@ function mapDispatchToProps (dispatch) {
       return () =>
         dispatch(actions[actionName](actionArgs));
     },
-    onNavigateToChallenge: (routeSpec) => dispatch(actions.navigateToChallenge(routeSpec))
+    onNavigateToChallenge: (routeSpec) => dispatch(actions.navigateToChallenge(routeSpec)),
+    onHideMap: () => dispatch(actions.toggleMap(false))
   };
 }
 
