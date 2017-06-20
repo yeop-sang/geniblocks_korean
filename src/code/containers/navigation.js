@@ -45,21 +45,21 @@ class Navigation extends Component {
         <div id="navigation">
           {navigateButton("Mission 1.1.1", 1, 1, 1)}
           {navigateButton("Mission 2.1.1", 2, 1, 1)}
-          {navigateButton("Mission 2.1.2", 3, 1, 1)}
-          {navigateButton("Mission 2.2.1", 4, 1, 1)}
-          {navigateButton("Mission 2.2.2", 5, 1, 1)}
-          {navigateButton("Mission 2.3.1", 6, 1, 1)}
-          {navigateButton("Mission 2.3.2", 7, 1, 1)}
-          {navigateButton("Mission 2.3.3", 8, 1, 1)}
-          {navigateButton("Mission 2.3.4", 9, 1, 1)}
-          {navigateButton("Mission 4.1.1", 10, 1, 1)}
-          {navigateButton("Mission 4.1.2", 11, 1, 1)}
-          {navigateButton("Mission 4.1.3", 12, 1, 1)}
-          {navigateButton("Mission 4.1.4", 13, 1, 1)}
-          {navigateButton("Mission 3.1.1", 14, 1, 1)}
-          {navigateButton("Mission 3.1.2", 15, 1, 1)}
-          {navigateButton("Mission 4.2.1", 16, 1, 1)}
-          {navigateButton("Mission 4.2.1", 17, 1, 1)}
+          {navigateButton("Mission 2.1.2", 2, 1, 2)}
+          {navigateButton("Mission 2.2.1", 2, 2, 1)}
+          {navigateButton("Mission 2.2.2", 2, 2, 2)}
+          {navigateButton("Mission 2.3.1", 2, 3, 1)}
+          {navigateButton("Mission 2.3.2", 2, 3, 2)}
+          {navigateButton("Mission 2.3.3", 2, 3, 3)}
+          {navigateButton("Mission 2.3.4", 2, 3, 4)}
+          {navigateButton("Mission 4.1.1", 4, 1, 1)}
+          {navigateButton("Mission 4.1.2", 4, 1, 2)}
+          {navigateButton("Mission 4.1.3", 4, 1, 3)}
+          {navigateButton("Mission 4.1.4", 4, 1, 4)}
+          {navigateButton("Mission 3.1.1", 3, 1, 1)}
+          {navigateButton("Mission 3.1.2", 3, 1, 2)}
+          {navigateButton("Mission 4.2.1", 4, 2, 1)}
+          {navigateButton("Mission 4.2.2", 4, 2, 2)}
         </div>
       </div>
     );
