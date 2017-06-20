@@ -6,8 +6,8 @@ import VenturePadView from './venture-pad';
 const NavigationDialogView = ({gems, onNavigateToChallenge}) => {
   let gemSets = [];
   for (let level = 0; level < 17; level++) {
-    gemSets.push(<div className="gem-set-label">{"Level " + level + ":"}</div>);
-    gemSets.push(<GemSetView level={level} mission={0} challenge={0} challengeCount={1} gems={gems} 
+    gemSets.push(<div id={"gem-label-" + level} className="gem-set-label">{"Level " + level + ":"}</div>);
+    gemSets.push(<GemSetView level={level} mission={0} challenge={0} challengeCount={1} gems={gems}
                              onNavigateToChallenge={onNavigateToChallenge} />);
   }
 
