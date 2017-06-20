@@ -9,7 +9,7 @@ import NotificationContainer from "./notification-container";
 import ModalMessageContainer from "./modal-message-container";
 
 import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
-        keepOffspring, fertilize, breedClutch, hatch, completeChallenge,
+        keepOffspring, fertilize, breedClutch, hatch,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket,
         winZoomChallenge } from '../actions';
 import { addGameteChromosome, resetGametes,
@@ -105,7 +105,6 @@ function mapDispatchToProps(dispatch) {
     onDrakeSubmission: (targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex) =>
       dispatch(submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex)),
     onNavigateNextChallenge: () => dispatch(navigateToNextChallenge()),
-    onCompleteChallenge: () => dispatch(completeChallenge()),
     onGameteChromosomeAdded: (index, name, side) => dispatch(addGameteChromosome(index, name, side)),
     onAddGametesToPool: (index, gametes) => dispatch(addGametesToPool(index, gametes)),
     onSelectGameteInPool: (sex, index) => dispatch(selectGameteInPool(sex, index)),
