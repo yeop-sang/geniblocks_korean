@@ -3,7 +3,7 @@ import t from '../utilities/translate';
 import GemSetView, {GemView} from './gem-set';
 import { getScoreValue } from '../reducers/helpers/challenge-progress';
 
-const EndLevelDialogView = ({challengeAwards, onNextChallenge, onTryAgain}) => {
+const EndLevelDialogView = ({currentGem, challengeAwards, onNextChallenge, onTryAgain}) => {
   let getGemDisplayName = (score) => {
     let gemName = t("~VENTURE.AWARD_FIRST");
     if (score === 1) gemName = t("~VENTURE.AWARD_SECOND");
@@ -20,7 +20,7 @@ const EndLevelDialogView = ({challengeAwards, onNextChallenge, onTryAgain}) => {
       challenge = challengeAwards.routeSpec.challenge,
       challengeCount = challengeAwards.challengeCount,
       progress = challengeAwards.progress,
-      currentScore = getScoreValue(challengeAwards.currentScore);
+      currentScore = getScoreValue(currentGem);
 
   return (
     <div className="end-level-dialog-container">
@@ -70,6 +70,7 @@ const EndLevelDialogView = ({challengeAwards, onNextChallenge, onTryAgain}) => {
 };
 
 EndLevelDialogView.propTypes = {
+  currentGem: PropTypes.number,
   challengeAwards: PropTypes.object,
   onNextChallenge: PropTypes.func,
   onTryAgain: PropTypes.func

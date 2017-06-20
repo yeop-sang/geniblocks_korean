@@ -38,8 +38,10 @@ export function getScoreValue(score){
       return scoreValues.GOLD;
     case 1:
       return scoreValues.SILVER;
+    case 2:
+      return scoreValues.BRONZE;
     default:
-      return score >= 2 ? scoreValues.BRONZE : scoreValues.NONE;
+      return scoreValues.NONE;
   }
 }
 

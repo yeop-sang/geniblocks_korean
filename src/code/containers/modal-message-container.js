@@ -9,6 +9,7 @@ function mapStateToProps (state) {
   let props = state.modalDialog;
   if (props.showAward) {
     props = props.merge({
+      currentGem: state.currentGem,
       challengeAwards: {
         routeSpec: state.routeSpec,
         challengeCount: state.challenges,

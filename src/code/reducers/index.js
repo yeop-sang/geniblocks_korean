@@ -14,6 +14,7 @@ import drakes from './drakes';
 import baskets from './baskets';
 import notifications from '../modules/notifications';
 import trialSuccess from './trial-success';
+import currentGem from './current-gem';
 
 function initialState() {
   return Immutable({
@@ -27,6 +28,7 @@ function initialState() {
             challengeProgress: {},
             errors: 0,
             correct: 0,
+            currentGem: 0,
             authoring: window.GV2Authoring,
             endMissionUrl: urlParams.start
           });
@@ -45,6 +47,13 @@ export default function reducer(state, action) {
     baskets: baskets(state.baskets, action),
     notifications: notifications(state.notifications, action),
     trialSuccess: trialSuccess(state.trialSuccess, action)
+  });
+
+  // these reducers act on the state that has already been changed by the
+  // above reducers
+
+  state = state.merge({
+    currentGem: currentGem(state.currentGem, state.moves, state.goalMoves, action)
   });
 
   switch(action.type) {
