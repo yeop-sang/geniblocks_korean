@@ -22,6 +22,11 @@ describe('rejectEggFromBasket action', () => {
     const eggDrakeIndex = 0, basketIndex = 0, isChallengeComplete = true,
           rejectEggArgs = { eggDrakeIndex, basketIndex, isChallengeComplete },
           rejectEggAction = { type: types.EGG_REJECTED, eggDrakeIndex, basketIndex },
+          completeChallengeAction = {
+                                      type: types.CHALLENGE_COMPLETE,
+                                      score: 0,
+                                      meta: {sound: 'receiveCoin'}
+                                    },
           showCompleteChallengeAction = {
                                           type: types.MODAL_DIALOG_SHOWN,
                                           leftButton: {
@@ -43,8 +48,8 @@ describe('rejectEggFromBasket action', () => {
     expect(dispatch.calls[0].arguments).toEqual([rejectEggAction]);
     // must call thunk function ourselves
     dispatch.calls[1].arguments[0](dispatch, getState);
-    dispatch.calls[2].arguments[0](dispatch, getState);
     // thunk function dispatches the showCompleteChallengeAction
+    expect(dispatch.calls[2].arguments).toEqual([completeChallengeAction]);
     expect(dispatch.calls[3].arguments).toEqual([showCompleteChallengeAction]);
     expect(dispatch.calls.length).toBe(4);
   });

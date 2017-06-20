@@ -310,63 +310,30 @@ export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrect
     const state = getState();
     dispatch(_submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIndex, fatherIndex));
 
-    const authoring = state.authoring,
-          levelCount = AuthoringUtils.getLevelCount(authoring),
-          missionCount = AuthoringUtils.getMissionCount(authoring, state.routeSpec.level),
-          challengeCount = AuthoringUtils.getChallengeCount(authoring, state.routeSpec.level, state.routeSpec.mission),
-          trialCount = state.numTrials;
-    let challengeComplete = false,
-        missionComplete = false,
-        // levelComplete = false,
-        allLevelsComplete = false;
-
-    if (correct && state.trial === trialCount - 1) {
-      challengeComplete = true;
-      if (state.routeSpec.challenge >= challengeCount - 1) {
-        missionComplete = true;
-        if (state.routeSpec.mission >= missionCount - 1) {
-          // levelComplete = true;
-          if (state.routeSpec.level >= levelCount - 1)
-            allLevelsComplete = true;
-        }
-      }
-    }
-
-    let dialog = {};
+    const trialCount = state.numTrials,
+          challengeComplete = (correct && state.trial === trialCount - 1);
 
     if (correct) {
-      if (allLevelsComplete) {
-        dialog = {
-          showAward: true
-        };
-      }
-      else if (missionComplete) {
-        dialog = {
-          showAward: true
-        };
-      } else if (challengeComplete) {
-        dialog = {
-          showAward: true
-        };
+      if (challengeComplete) {
+        dispatch(completeChallenge());
       } else {
-        dialog = {
+        dispatch(showNotification({
           message: "~ALERT.TITLE.GOOD_WORK",
-          rightButton:{
-            label: "~BUTTON.NEXT_TRIAL",
+          closeButton: {
             action: "advanceTrial"
-          },
-        };
+          }
+        }));
+        dispatch(showNextTrialButton());
       }
     } else {
-      dialog = {
+      dispatch(showNotification({
         message: "~ALERT.TITLE.INCORRECT_DRAKE",
-        rightButton: {
+        closeButton: {
           label: "~BUTTON.TRY_AGAIN",
           action: incorrectAction || "dismissModalDialog"
         }
-      };
+      }));
     }
-    dispatch(showModalDialog(dialog));
   };
 }
 
@@ -383,7 +350,7 @@ export function rejectEggFromBasket(args) {
     dispatch(_rejectEggFromBasket(args.eggDrakeIndex, args.basketIndex));
 
     if (args.isChallengeComplete) {
-      dispatch(showCompleteChallengeDialog());
+      dispatch(completeChallenge());
     }
   };
 }
@@ -402,7 +369,7 @@ export function acceptEggInBasket(args) {
     dispatch(_acceptEggInBasket(args.eggDrakeIndex, args.basketIndex));
 
     if (args.isChallengeComplete) {
-      dispatch(showCompleteChallengeDialog());
+      dispatch(completeChallenge());
     }
   };
 }
@@ -452,58 +419,42 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
       let dialog = {
         message: "~ALERT.TITLE.EGG_MISMATCH",
       };
-      dispatch(showModalDialog(dialog));
+      dispatch(showNotification(dialog));
     }
   };
 }
 
 export function showCompleteChallengeDialog() {
-  return (dispatch, getState) => {
-    const state = getState();
-
-    const missionComplete = (AuthoringUtils.getChallengeCount(state.authoring, state.routeSpec.level, state.routeSpec.mission) <= state.routeSpec.challenge + 1);
-
-    let dialog = {};
-
-    if (missionComplete) {
-      dialog = {
-        showAward: true
-      };
-    }
-    else {
-      dialog = {
-        showAward: true
-      };
-    }
-
-    dispatch(showModalDialog(dialog));
+  const leftButton = {
+      action: "retryCurrentChallenge"
+    },
+    rightButton = {
+      action: "navigateToNextChallenge"
+    };
+  return {
+    type: actionTypes.MODAL_DIALOG_SHOWN,
+    rightButton,
+    leftButton,
+    showAward: true
   };
 }
 
-export function showModalDialog({message, rightButton, leftButton, showAward=false}) {
-  return (dispatch) => {
-    if (showAward || (rightButton && rightButton.action === "advanceTrial")) {
-      leftButton = leftButton || {
-        action: "retryCurrentChallenge"
-      };
-      rightButton = rightButton || {
-        action: "navigateToNextChallenge"
-      };
-      dispatch({
-        type: actionTypes.MODAL_DIALOG_SHOWN,
-        rightButton,
-        leftButton,
-        showAward
-      });
-    }
+export function showNextTrialButton() {
+  const rightButton = rightButton || {
+          action: "advanceTrial"
+        };
+  return {
+    type: actionTypes.MODAL_DIALOG_SHOWN,
+    rightButton,
+    showAward: false
+  };
+}
 
-    if (message && !showAward) {
-      dispatch({
-        type: actionTypes.NOTIFICATION_SHOWN,
-        message,
-        closeButton: rightButton
-      });
-    }
+export function showNotification({message, closeButton}) {
+  return {
+    type: actionTypes.NOTIFICATION_SHOWN,
+    message,
+    closeButton
   };
 }
 
@@ -538,9 +489,7 @@ export function completeChallenge() {
       score: getChallengeScore(getState()),
       meta: {sound: 'receiveCoin'}
     });
-    dispatch(showModalDialog({
-      showAward: true
-    }));
+    dispatch(showCompleteChallengeDialog());
   };
 }
 
@@ -600,9 +549,9 @@ export function keepOffspring(index, keptDrakesIndices, maxDrakes, shouldKeepSou
         dispatch(completeChallenge());
       }
     } else {
-      dispatch(showModalDialog({
+      dispatch(showNotification({
         message: "~ALERT.DUPLICATE_DRAKE",
-        rightButton: {
+        closeButton: {
           label: "~BUTTON.TRY_AGAIN",
           action: shouldKeepSourceDrake ? "dismissModalDialog" : "resetGametes"
         }
@@ -628,7 +577,7 @@ export function winZoomChallenge() {
   return (dispatch) => {
     dispatch(_winZoomChallenge());
 
-    dispatch(showCompleteChallengeDialog());
+    dispatch(completeChallenge());
   };
 }
 

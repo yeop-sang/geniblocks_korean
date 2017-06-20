@@ -33,6 +33,7 @@ export default function notifications(state = initialState, action) {
     // actions which don't clear the guide message
     case GAMETES_RESET:
     case GUIDE_ALERT_RECEIVED:
+    case actionTypes.MODAL_DIALOG_SHOWN:
     case actionTypes.MODAL_DIALOG_DISMISSED:
       return state;
     // For now, clear all messages every time the user does anything else

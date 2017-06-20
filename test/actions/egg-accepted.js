@@ -22,6 +22,11 @@ describe('acceptEggInBasket action', () => {
     const eggDrakeIndex = 0, basketIndex = 0, isChallengeComplete = true,
           acceptEggArgs = { eggDrakeIndex, basketIndex, isChallengeComplete },
           acceptEggAction = { type: types.EGG_ACCEPTED, meta: {sound: 'receiveCoin'}, eggDrakeIndex, basketIndex },
+          completeChallengeAction = {
+                                      type: types.CHALLENGE_COMPLETE,
+                                      score: 0,
+                                      meta: {sound: 'receiveCoin'}
+                                    },
           showCompleteChallengeAction = {
                                           type: types.MODAL_DIALOG_SHOWN,
                                           leftButton: {
@@ -43,8 +48,8 @@ describe('acceptEggInBasket action', () => {
     expect(dispatch.calls[0].arguments).toEqual([acceptEggAction]);
     // must call thunk function ourselves
     dispatch.calls[1].arguments[0](dispatch, getState);
-    dispatch.calls[2].arguments[0](dispatch, getState);
-    // thunk function dispatches the showCompleteChallengeAction
+    // // thunk function dispatches the showCompleteChallengeAction
+    expect(dispatch.calls[2].arguments).toEqual([completeChallengeAction]);
     expect(dispatch.calls[3].arguments).toEqual([showCompleteChallengeAction]);
     expect(dispatch.calls.length).toBe(4);
   });

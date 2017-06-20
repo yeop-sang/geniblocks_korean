@@ -7,21 +7,10 @@ const types = actions.actionTypes;
 
 describe('showModalDialog action', () => {
   it('should create the correct action', () => {
-    let rightButton = {action: "advanceTrial"},
-        leftButton = {action: "retry"};
-
-    const dispatch = expect.createSpy();
-
-    actions.showModalDialog({
-      rightButton,
-      leftButton
-    })(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith({
+    expect(actions.showNextTrialButton()).toEqual({
       type: types.MODAL_DIALOG_SHOWN,
-      leftButton,
-      rightButton,
-      showAward: false,
+      rightButton: {action: "advanceTrial"},
+      showAward: false
     });
   });
 

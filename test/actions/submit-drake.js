@@ -143,11 +143,8 @@ describe('submitDrake action', () => {
     });
 
     it('should call dispatch with the correct message action', () => {
-      // must call thunk function ourselves
-      dispatch.calls[1].arguments[0](dispatch, getState);
-
-      // thunk function dispatches the MODAL_DIALOG_SHOWN action
-      expect(dispatch).toHaveBeenCalledWith({
+      // MODAL_DIALOG_SHOWN action
+      expect(dispatch.calls[1].arguments[0]).toEqual({
         type: types.NOTIFICATION_SHOWN,
         message: "~ALERT.TITLE.INCORRECT_DRAKE",
         closeButton: {
