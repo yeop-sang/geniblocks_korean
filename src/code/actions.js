@@ -605,11 +605,9 @@ export function completeChallenge() {
   };
 }
 
-export function fertilize(gamete1, gamete2) {
+export function fertilize() {
   return {
-    type: actionTypes.FERTILIZED,
-    gamete1,
-    gamete2
+    type: actionTypes.FERTILIZED
   };
 }
 

@@ -109,7 +109,7 @@ function mapDispatchToProps(dispatch) {
     onGameteChromosomeAdded: (index, name, side) => dispatch(addGameteChromosome(index, name, side)),
     onAddGametesToPool: (index, gametes) => dispatch(addGametesToPool(index, gametes)),
     onSelectGameteInPool: (sex, index) => dispatch(selectGameteInPool(sex, index)),
-    onFertilize: (gamete1, gamete2) => dispatch(fertilize(gamete1, gamete2)),
+    onFertilize: () => dispatch(fertilize()),
     onBreedClutch: (clutchSize) => dispatch(breedClutch(clutchSize)),
     onHatch: () => dispatch(hatch()),
     onResetGametes: (incrementMoves) => dispatch(resetGametes(incrementMoves)),

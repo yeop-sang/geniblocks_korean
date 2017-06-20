@@ -7,9 +7,7 @@ const types = actions.actionTypes;
 describe('fertilize action', () => {
   it('should create an action for fertilizing', () => {
     expect(actions.fertilize(0, 1)).toEqual({
-      type: types.FERTILIZED,
-      gamete1: 0,
-      gamete2: 1
+      type: types.FERTILIZED
     });
   });
 
