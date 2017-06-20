@@ -13,6 +13,7 @@ import gametes from '../modules/gametes';
 import drakes from './drakes';
 import baskets from './baskets';
 import notifications from '../modules/notifications';
+import trialSuccess from './trial-success';
 
 function initialState() {
   return Immutable({
@@ -42,7 +43,8 @@ export default function reducer(state, action) {
     gametes: gametes(state.gametes, action),
     drakes: drakes(state.drakes, state.gametes, action),
     baskets: baskets(state.baskets, action),
-    notifications: notifications(state.notifications, action)
+    notifications: notifications(state.notifications, action),
+    trialSuccess: trialSuccess(state.trialSuccess, action)
   });
 
   switch(action.type) {
@@ -60,7 +62,6 @@ export default function reducer(state, action) {
       let progress = updateProgress(state, action.success);
 
       return state.merge({
-        trialSuccess: action.correct,
         challengeProgress: progress
       });
     }
@@ -68,7 +69,6 @@ export default function reducer(state, action) {
       let progress = updateProgress(state, action.correct);
 
       return state.merge({
-        trialSuccess: action.correct,
         challengeProgress: progress
       });
     }
@@ -76,7 +76,6 @@ export default function reducer(state, action) {
       let progress = updateProgress(state, action.correct);
 
       return state.merge({
-        success: action.correct,
         challengeProgress: progress
       });
     }
@@ -94,7 +93,6 @@ export default function reducer(state, action) {
       let progress = updateProgress(state, true);
 
       return state.merge({
-        trialSuccess: true,
         challengeProgress: progress
       });
     }
