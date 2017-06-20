@@ -24,23 +24,18 @@ describe('acceptEggInBasket action', () => {
           acceptEggAction = { type: types.EGG_ACCEPTED, meta: {sound: 'receiveCoin'}, eggDrakeIndex, basketIndex },
           showCompleteChallengeAction = {
                                           type: types.MODAL_DIALOG_SHOWN,
-                                          message: "~ALERT.TITLE.GOOD_WORK",
-                                          explanation: "~ALERT.COMPLETE_COIN",
                                           leftButton: {
-                                            label: "~BUTTON.TRY_AGAIN",
                                             action: "retryCurrentChallenge"
                                           },
                                           rightButton: {
-                                            label: "~BUTTON.NEXT_MISSION",
                                             action: "navigateToNextChallenge"
                                           },
-                                          top: undefined,
                                           showAward: true
                                         };
 
     const dispatch = expect.createSpy();
     const getState = () => ({routeSpec: {level: 0, mission: 0, challenge: 0}, trial: 0, trials: [{}], authoring: {
-      challenges: {}, 
+      challenges: {},
       "application": {"levels": [{"missions": [{"challenges": []}]}]}
     }});
 

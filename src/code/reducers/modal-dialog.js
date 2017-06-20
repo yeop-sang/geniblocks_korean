@@ -4,8 +4,6 @@ import { GUIDE_ALERT_RECEIVED, GUIDE_MESSAGE_RECEIVED } from '../modules/notific
 
 const initialState = Immutable({
   show: false,
-  message: null,
-  explanation: null,
   leftButton: null,
   rightButton: null
 });
@@ -20,12 +18,9 @@ export default function modalDialog(state = initialState, action) {
     case actionTypes.MODAL_DIALOG_SHOWN:
       return state.merge({
         show: true,
-        message: action.message,
-        explanation: action.explanation,
         rightButton: action.rightButton || defaultRightButton,
         leftButton: action.leftButton,
-        showAward: action.showAward,
-        top: action.top
+        showAward: action.showAward
       });
     case actionTypes.MODAL_DIALOG_DISMISSED:
       return initialState;

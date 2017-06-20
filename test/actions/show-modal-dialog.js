@@ -7,28 +7,21 @@ const types = actions.actionTypes;
 
 describe('showModalDialog action', () => {
   it('should create the correct action', () => {
-    let message = "Message",
-        explanation = "Body",
-        rightButton = {action: "advanceTrial"},
+    let rightButton = {action: "advanceTrial"},
         leftButton = {action: "retry"};
 
     const dispatch = expect.createSpy();
 
     actions.showModalDialog({
-      message,
-      explanation,
       rightButton,
       leftButton
     })(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith({
       type: types.MODAL_DIALOG_SHOWN,
-      message,
-      explanation,
       leftButton,
       rightButton,
       showAward: false,
-      top: undefined
     });
   });
 
@@ -45,14 +38,11 @@ describe('showModalDialog action', () => {
       expect(nextState).toEqual(defaultState.merge({
         modalDialog: {
           show: true,
-          message: undefined,
-          explanation: undefined,
           rightButton: {
             "action": "advanceTrial"
           },
           leftButton: undefined,
-          showAward: false,
-          top: undefined
+          showAward: false
         },
         userDrakeHidden: false
       }));
@@ -63,8 +53,6 @@ describe('showModalDialog action', () => {
 
       let nextState = reducer(defaultState, {
         type: types.MODAL_DIALOG_SHOWN,
-        message: "Message",
-        explanation: "Body",
         rightButton: {
           "action": "action1",
           "label": "Right"
@@ -73,15 +61,12 @@ describe('showModalDialog action', () => {
           "action": "action2",
           "label": "Left"
         },
-        showAward: true,
-        top: "50px"
+        showAward: true
       });
 
       expect(nextState).toEqual(defaultState.merge({
         modalDialog: {
           show: true,
-          message: "Message",
-          explanation: "Body",
           rightButton: {
             "action": "action1",
             "label": "Right"
@@ -90,8 +75,7 @@ describe('showModalDialog action', () => {
             "action": "action2",
             "label": "Left"
           },
-          showAward: true,
-          top: "50px"
+          showAward: true
         },
         userDrakeHidden: false
       }));
@@ -121,8 +105,6 @@ describe('showModalDialog action', () => {
           initialState = defaultState.merge({
             modalDialog: {
               show: true,
-              message: "Message",
-              explanation: "Body",
               rightButton: {
                 "action": "action1",
                 "label": "Right"
@@ -131,8 +113,7 @@ describe('showModalDialog action', () => {
                 "action": "action2",
                 "label": "Left"
               },
-              showAward: true,
-              top: "50px"
+              showAward: true
             }
           });
 
@@ -143,8 +124,6 @@ describe('showModalDialog action', () => {
       expect(nextState).toEqual(defaultState.merge({
         modalDialog: {
           show: false,
-          message: null,
-          explanation: null,
           rightButton: null,
           leftButton: null
         }

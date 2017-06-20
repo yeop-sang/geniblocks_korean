@@ -98,12 +98,13 @@ describe('submitDrake action', () => {
       // thunk function dispatches the MODAL_DIALOG_SHOWN action
       expect(dispatch).toHaveBeenCalledWith({
         type: types.MODAL_DIALOG_SHOWN,
-        message: "~ALERT.TITLE.MISSION_ACCOMPLISHED",
-        explanation: "~ALERT.COMPLETE_LAST_MISSION",
-        leftButton: undefined,
-        rightButton: undefined,
-        showAward: true,
-        top: undefined
+        leftButton: {
+          action: "retryCurrentChallenge"
+        },
+        rightButton: {
+          action: "navigateToNextChallenge"
+        },
+        showAward: true
       });
     });
 
