@@ -1,11 +1,12 @@
 import actionTypes from '../action-types';
+import { getGemFromChallengeErrors } from './helpers/challenge-progress';
 
 const initialState = [];
 
 /**
  * gems is the list of all gems the user has been awarded.
  */
-export default function gems(state = initialState, currentGem, routeSpec, action) {
+export default function gems(state = initialState, challengeErrors, routeSpec, action) {
   switch(action.type) {
     case actionTypes.CHALLENGE_COMPLETED:
     case actionTypes.CHALLENGE_RETRIED: {
@@ -16,9 +17,10 @@ export default function gems(state = initialState, currentGem, routeSpec, action
         if (!state[level][mission]) {
           state = state.setIn([level, mission], []);
         }
-        if (isNaN(state[level][mission][challenge]) || state[level][mission][challenge] > currentGem) {
-          state = state.setIn([level, mission, challenge], currentGem);
-        }
+
+        let gem = getGemFromChallengeErrors(challengeErrors);
+        state = state.setIn([level, mission, challenge], gem);
+
         return state;
       }
     default:

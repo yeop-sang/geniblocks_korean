@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import { getChallengeScores } from '../reducers/helpers/challenge-progress';
+import { getMissionGems } from '../reducers/helpers/challenge-progress';
 import classNames from 'classnames';
 
 export const GemView = ({challengeNum, score, highlight}) => {
@@ -37,7 +37,7 @@ const GemSetView = ({level, mission, challenge, challengeCount, gems}) => {
     }
   };
 
-  let challengeScores = getChallengeScores(level, mission, challengeCount, gems),
+  let challengeScores = getMissionGems(level, mission, challengeCount, gems),
       progressImages = [];
 
   for (let challengeNum = 0; challengeNum < challengeCount; challengeNum++) {

@@ -13,7 +13,7 @@ import drakes from './drakes';
 import baskets from './baskets';
 import notifications from '../modules/notifications';
 import trialSuccess from './trial-success';
-import currentGem from './current-gem';
+import challengeErrors from './challenge-errors';
 import gems from './gems';
 
 function initialState() {
@@ -27,7 +27,7 @@ function initialState() {
             challenges: 1,
             errors: 0,
             correct: 0,
-            currentGem: 0,
+            challengeErrors: 0,
             gems: [],
             authoring: window.GV2Authoring,
             endMissionUrl: urlParams.start
@@ -52,10 +52,10 @@ export default function reducer(state, action) {
   // these reducers act on the state that has already been changed by the
   // above reducers
   state = state.merge({
-    currentGem: currentGem(state.currentGem, state.moves, state.goalMoves, action)
+    challengeErrors: challengeErrors(state.challengeErrors, state.moves, state.goalMoves, action)
   });
   state = state.merge({
-    gems: gems(state.gems, state.currentGem, state.routeSpec, action)
+    gems: gems(state.gems, state.challengeErrors, state.routeSpec, action)
   });
 
   switch(action.type) {

@@ -1,18 +1,12 @@
 export const scoreValues = {
-  NONE: -1,
   GOLD: 0,
   SILVER: 1,
-  BRONZE: 2
+  BRONZE: 2,
+  NONE: 3
 };
 
-export function getChallengeName(routeSpec, trial){
-  let {level, mission, challenge} = routeSpec,
-      challengeName = `${level}:${mission}:${challenge}:${trial}`;
-  return challengeName;
-}
-
-export function getScoreValue(score){
-  switch (score) {
+export function getGemFromChallengeErrors(challengeErrors){
+  switch (challengeErrors) {
     case 0:
       return scoreValues.GOLD;
     case 1:
@@ -24,14 +18,18 @@ export function getScoreValue(score){
   }
 }
 
-export function getChallengeScores(level, mission, challengeCount, gems) {
+export function getChallengeGem(level, mission, challenge, gems) {
+  if (gems[level] && gems[level][mission] && !isNaN(gems[level][mission][challenge])) {
+    return gems[level][mission][challenge];
+  } else {
+    return scoreValues.NONE;
+  }
+}
+
+export function getMissionGems(level, mission, challengeCount, gems) {
   let challengeScore = [];
   for (let i = 0; i < challengeCount; i++){
-    if (gems[level] && gems[level][mission] && !isNaN(gems[level][mission][i])) {
-      challengeScore.push(gems[level][mission][i]);
-    } else {
-      challengeScore.push(3);
-    }
+    challengeScore.push(getChallengeGem(level, mission, i, gems));
   }
   return challengeScore;
 }

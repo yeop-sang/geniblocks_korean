@@ -15,7 +15,6 @@ class ModalAlert extends React.Component {
     }),
     onLeftButtonClick: PropTypes.func,        // optional click handlers if not defined
     onRightButtonClick: PropTypes.func,       // in button props. (Better for `mapDispatchToProps`)
-    currentGem: PropTypes.number,
     gems: PropTypes.array,
     routeSpec: PropTypes.object,
     challengeCount: PropTypes.number
@@ -33,8 +32,7 @@ class ModalAlert extends React.Component {
       // Only trial-end and next-trial modals are shown
       if (this.props.showAward) {
         return (
-          <EndLevelDialogView currentGem={this.props.currentGem}
-                              gems={this.props.gems}
+          <EndLevelDialogView gems={this.props.gems}
                               routeSpec={this.props.routeSpec}
                               challengeCount={this.props.challengeCount}
                               onNextChallenge={this.props.onRightButtonClick} onTryAgain={this.props.onLeftButtonClick}/>

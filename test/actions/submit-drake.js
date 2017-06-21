@@ -192,7 +192,7 @@ describe('submitDrake action', () => {
   });
 
   describe('the reducer', () => {
-    it('should update the currentGem and challengeComplete property correctly when drake is incorrect', () => {
+    it('should update the challengeErrors and challengeComplete property correctly when drake is incorrect', () => {
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
         routeSpec: {level: 0,mission: 0, challenge: 0},
@@ -200,7 +200,7 @@ describe('submitDrake action', () => {
         trials: [{}, {}],
         moves: 0,
         goalMoves: 1,
-        currentGem: 0
+        challengeErrors: 0
       });
 
       let nextState = reducer(initialState, {
@@ -214,7 +214,7 @@ describe('submitDrake action', () => {
       expect(nextState).toEqual(initialState.merge({
         trialSuccess: false,
         moves: 1,
-        currentGem: 0
+        challengeErrors: 0
       }));
     });
 
@@ -226,7 +226,7 @@ describe('submitDrake action', () => {
         trials: [{}, {}],
         moves: 1,
         goalMoves: 1,
-        currentGem: 0
+        challengeErrors: 0
       });
 
       let nextState = reducer(initialState, {
@@ -240,7 +240,7 @@ describe('submitDrake action', () => {
       expect(nextState).toEqual(initialState.merge({
         trialSuccess: false,
         moves: 2,
-        currentGem: 1
+        challengeErrors: 1
       }));
     });
 
