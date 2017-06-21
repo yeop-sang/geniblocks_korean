@@ -23,8 +23,7 @@ describe('acceptEggInBasket action', () => {
           acceptEggArgs = { eggDrakeIndex, basketIndex, isChallengeComplete },
           acceptEggAction = { type: types.EGG_ACCEPTED, meta: {sound: 'receiveCoin'}, eggDrakeIndex, basketIndex },
           completeChallengeAction = {
-                                      type: types.CHALLENGE_COMPLETE,
-                                      score: 0,
+                                      type: types.CHALLENGE_COMPLETED,
                                       meta: {sound: 'receiveCoin'}
                                     },
           showCompleteChallengeAction = {

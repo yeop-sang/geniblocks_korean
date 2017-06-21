@@ -3,7 +3,7 @@ import t from '../utilities/translate';
 import GemSetView, {GemView} from './gem-set';
 import { getScoreValue } from '../reducers/helpers/challenge-progress';
 
-const EndLevelDialogView = ({currentGem, challengeAwards, onNextChallenge, onTryAgain}) => {
+const EndLevelDialogView = ({currentGem, gems, routeSpec, challengeCount, onNextChallenge, onTryAgain}) => {
   let getGemDisplayName = (score) => {
     let gemName = t("~VENTURE.AWARD_FIRST");
     if (score === 1) gemName = t("~VENTURE.AWARD_SECOND");
@@ -11,15 +11,9 @@ const EndLevelDialogView = ({currentGem, challengeAwards, onNextChallenge, onTry
     return gemName;
   };
 
-  if (challengeAwards.routeSpec == null) {
-    return null;
-  }
-
-  let level = challengeAwards.routeSpec.level,
-      mission = challengeAwards.routeSpec.mission,
-      challenge = challengeAwards.routeSpec.challenge,
-      challengeCount = challengeAwards.challengeCount,
-      progress = challengeAwards.progress,
+  let level = routeSpec.level,
+      mission = routeSpec.mission,
+      challenge = routeSpec.challenge,
       currentScore = getScoreValue(currentGem);
 
   return (
@@ -49,7 +43,7 @@ const EndLevelDialogView = ({currentGem, challengeAwards, onNextChallenge, onTry
               {getGemDisplayName(currentScore)}
             </div>
           </div>
-          <GemSetView level={level} mission={mission} challenge={challenge} challengeCount={challengeCount} progress={progress}/>
+          <GemSetView level={level} mission={mission} challenge={challenge} challengeCount={challengeCount} gems={gems}/>
         </div>
         <div className="end-level-separator" id="end-level-separator-2"></div>
         <div className="end-level-navigation-buttons">
@@ -71,7 +65,9 @@ const EndLevelDialogView = ({currentGem, challengeAwards, onNextChallenge, onTry
 
 EndLevelDialogView.propTypes = {
   currentGem: PropTypes.number,
-  challengeAwards: PropTypes.object,
+  gems: PropTypes.array,
+  routeSpec: PropTypes.object,
+  challengeCount: PropTypes.number,
   onNextChallenge: PropTypes.func,
   onTryAgain: PropTypes.func
 };

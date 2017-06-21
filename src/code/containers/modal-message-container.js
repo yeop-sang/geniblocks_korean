@@ -10,12 +10,9 @@ function mapStateToProps (state) {
   if (props.showAward) {
     props = props.merge({
       currentGem: state.currentGem,
-      challengeAwards: {
-        routeSpec: state.routeSpec,
-        challengeCount: state.challenges,
-        progress: state.challengeProgress,
-        currentScore: state.moves - state.goalMoves
-      }
+      gems: state.gems,
+      routeSpec: state.routeSpec,
+      challengeCount: state.challenges
     });
   }
   return {

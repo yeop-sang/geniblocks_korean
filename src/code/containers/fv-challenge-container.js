@@ -37,7 +37,7 @@ class FVChallengeContainer extends Component {
         </div>
         <BottomHUDView routeSpec={routeSpec} numChallenges={challenges} trial={trial + 1} trialCount={numTrials}
                        currScore={correct} maxScore={maxScore} currMoves={this.props.moves} showAward={showAward}
-                       goalMoves={this.props.goalMoves} challengeProgress={this.props.challengeProgress} />
+                       goalMoves={this.props.goalMoves} gems={this.props.gems} />
         <NotificationContainer />
         <ModalMessageContainer />
       </div>
@@ -58,7 +58,7 @@ class FVChallengeContainer extends Component {
     correct: PropTypes.number,
     moves: PropTypes.number,
     goalMoves: PropTypes.number,
-    challengeProgress: PropTypes.object,
+    gems: PropTypes.array,
     challenges: PropTypes.number,
     showAward: PropTypes.bool
   }
@@ -86,7 +86,7 @@ function mapStateToProps (state) {
       moves: state.moves,
       goalMoves: state.goalMoves,
       userDrakeHidden: state.userDrakeHidden,
-      challengeProgress: state.challengeProgress,
+      gems: state.gems,
       challenges: state.challenges,
       showAward: state.modalDialog.showAward,
       zoomUrl: state.zoomUrl,

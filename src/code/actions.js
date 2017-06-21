@@ -53,8 +53,15 @@ export function navigateToChallenge(routeSpec) {
   };
 }
 
+function _retryCurrentChallenge() {
+  return {
+    type: actionTypes.CHALLENGE_RETRIED
+  };
+}
+
 export function retryCurrentChallenge() {
   return (dispatch, getState) => {
+    dispatch(_retryCurrentChallenge());
     dispatch(navigateToChallenge(getState().routeSpec));
   };
 }
@@ -242,21 +249,6 @@ export function changeDrakeSelection(selectedIndices) {
       }
     }
   };
-}
-
-function getChallengeScore(state) {
-  const { challengeProgress: progress, routeSpec } = state,
-        { level, mission, challenge } = routeSpec,
-        challengePrefix = `${level}:${mission}:${challenge}`;
-  let challengeScore = 0;
-  for (let key in progress) {
-    if (key.startsWith(challengePrefix)) {
-      let trialScore = progress[key];
-      if ((trialScore != null) && (trialScore >= 0))
-        challengeScore += trialScore;
-    }
-  }
-  return challengeScore;
 }
 
 function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIndex, fatherIndex) {
@@ -483,10 +475,9 @@ export function advanceTrial() {
 
 
 export function completeChallenge() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({
-      type: actionTypes.CHALLENGE_COMPLETE,
-      score: getChallengeScore(getState()),
+      type: actionTypes.CHALLENGE_COMPLETED,
       meta: {sound: 'receiveCoin'}
     });
     dispatch(showCompleteChallengeDialog());

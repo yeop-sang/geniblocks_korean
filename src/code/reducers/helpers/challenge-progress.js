@@ -5,27 +5,6 @@ export const scoreValues = {
   BRONZE: 2
 };
 
-export function setProgressScore(state, score){
-  let currentProgress = state.challengeProgress.asMutable();
-  let level = getChallengeName(state.routeSpec,state.trial);
-  currentProgress[level] = getScoreValue(score);
-  return currentProgress;
-}
-
-export function updateProgress(state) {
-  let currentProgress = state.challengeProgress.asMutable();
-  let score = state.moves - state.goalMoves;
-
-  let level = getChallengeName(state.routeSpec,state.trial),
-      currentScore = currentProgress[level],
-      newScore = getScoreValue(score);
-  // Update the score if the old one doesn't exist, or the new score is better
-  if (currentScore == null || currentScore < 0 || currentScore > newScore) {
-    currentProgress[level] = getScoreValue(score);
-  }
-
-  return currentProgress;
-}
 export function getChallengeName(routeSpec, trial){
   let {level, mission, challenge} = routeSpec,
       challengeName = `${level}:${mission}:${challenge}:${trial}`;
@@ -45,20 +24,13 @@ export function getScoreValue(score){
   }
 }
 
-export function getChallengeScores(level, mission, challengeCount, progress) {
-  let challengeScore = {},
-      challengePrefix = level + ":" + mission + ":";
+export function getChallengeScores(level, mission, challengeCount, gems) {
+  let challengeScore = [];
   for (let i = 0; i < challengeCount; i++){
-    for (var key in progress){
-      if (key.startsWith(challengePrefix + i)){
-        const score = progress[key];
-        if (challengeScore[i] == null) {
-           challengeScore[i] = score;
-        } else {
-          // If there are multiple trials in a challenge, add them together
-          challengeScore[i] += score;
-        }
-      }
+    if (gems[level] && gems[level][mission] && !isNaN(gems[level][mission][i])) {
+      challengeScore.push(gems[level][mission][i]);
+    } else {
+      challengeScore.push(3);
     }
   }
   return challengeScore;

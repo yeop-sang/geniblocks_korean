@@ -16,7 +16,9 @@ class ModalAlert extends React.Component {
     onLeftButtonClick: PropTypes.func,        // optional click handlers if not defined
     onRightButtonClick: PropTypes.func,       // in button props. (Better for `mapDispatchToProps`)
     currentGem: PropTypes.number,
-    challengeAwards: PropTypes.object,
+    gems: PropTypes.array,
+    routeSpec: PropTypes.object,
+    challengeCount: PropTypes.number
   }
 
   static defaultProps = {
@@ -32,7 +34,9 @@ class ModalAlert extends React.Component {
       if (this.props.showAward) {
         return (
           <EndLevelDialogView currentGem={this.props.currentGem}
-                              challengeAwards={this.props.challengeAwards}
+                              gems={this.props.gems}
+                              routeSpec={this.props.routeSpec}
+                              challengeCount={this.props.challengeCount}
                               onNextChallenge={this.props.onRightButtonClick} onTryAgain={this.props.onLeftButtonClick}/>
         );
       } else {

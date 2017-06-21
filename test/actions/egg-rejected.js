@@ -23,8 +23,7 @@ describe('rejectEggFromBasket action', () => {
           rejectEggArgs = { eggDrakeIndex, basketIndex, isChallengeComplete },
           rejectEggAction = { type: types.EGG_REJECTED, eggDrakeIndex, basketIndex },
           completeChallengeAction = {
-                                      type: types.CHALLENGE_COMPLETE,
-                                      score: 0,
+                                      type: types.CHALLENGE_COMPLETED,
                                       meta: {sound: 'receiveCoin'}
                                     },
           showCompleteChallengeAction = {
