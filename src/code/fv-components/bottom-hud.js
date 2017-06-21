@@ -29,6 +29,8 @@ const BottomHUDView = React.createClass({
       <div id='fv-bottom-hud' className='fv-hud fv-bottom-hud' >
         <AvatarButtonView />
         <LevelIndicatorView level={routeSpec.level + 1} />
+        <div className="mission-label mission-label-text">Mission</div>
+        <div className="mission-label mission-label-value">{routeSpec.mission + 1}</div>
         <GemSetView level={routeSpec.level} mission={routeSpec.mission} challenge={routeSpec.challenge} challengeCount={numChallenges} gems={gems}/>
         <CountView countTitleText={t('~COUNTER.TRIAL_LABEL')} className={'trial-count'} currCount={trial} maxCount={trialCount} />
         {scoreView}

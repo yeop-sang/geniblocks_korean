@@ -8,7 +8,9 @@ export const GemView = ({challengeNum, score, highlight, onNavigateToGem}) => {
                 ? <div className="gem-outline-highlight" onClick={onNavigateToGem}>
                     <div className={"gem-fill gem-fill-" + score}></div>
                   </div>
-                : <div className={"gem-fill gem-fill-" + score} onClick={onNavigateToGem}></div>
+                : <div className="gem-outline-highlight" onClick={onNavigateToGem} style={{visibility: "hidden"}}>
+                    <div className={"gem-fill gem-fill-" + score} style={{visibility: "visible"}}></div>
+                  </div>
               : <div className="gem-outline" onClick={onNavigateToGem}>
                   <div className="gem-number-text">
                     {challengeNum}
@@ -51,8 +53,10 @@ const GemSetView = ({level, mission, challenge, challengeCount, gems, onNavigate
   }
 
   return (
-    <div className="gem-set">
-      {progressImages}
+    <div className="gem-set-container">
+      <div className="gem-set">
+        {progressImages}
+      </div>
     </div>
   );
 };
