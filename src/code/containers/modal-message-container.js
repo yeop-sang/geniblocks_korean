@@ -11,7 +11,8 @@ function mapStateToProps (state) {
     props = props.merge({
       gems: state.gems,
       routeSpec: state.routeSpec,
-      challengeCount: state.challenges
+      challengeCount: state.challenges,
+      authoring: state.authoring
     });
   }
   return {
