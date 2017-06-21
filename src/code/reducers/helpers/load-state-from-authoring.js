@@ -94,7 +94,7 @@ function createTrialOrder(trial, trials, currentTrialOrder, doShuffle) {
   return range(trials.length);
 }
 
-export function loadStateFromAuthoring(state, authoring, progress={}) {
+export function loadStateFromAuthoring(state, authoring) {
   let trial = state.trial ? state.trial : 0;
 
   const challenges = AuthoringUtils.getChallengeCount(authoring, state.routeSpec.level, state.routeSpec.mission),
@@ -107,7 +107,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
 
   let userChangeableGenes = authoredChallenge.userChangeableGenes;
   // Changeable genes are either authored in the form "wings, legs" or [{mother: "wings", father:""}, {mother: "", father: "wings"}]
-  if (typeof userChangeableGenes === "object") { 
+  if (typeof userChangeableGenes === "object") {
     let userChangeableGenesByTrial = [];
     for (let trial = 0; trial < userChangeableGenes.length; trial++) {
       userChangeableGenesByTrial.push({
@@ -164,7 +164,6 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
     goalMoves,
     userDrakeHidden: true,
     trialSuccess: false,
-    challengeProgress: progress,
     initialDrakes: [...drakes],
     zoomUrl
   };
@@ -175,7 +174,7 @@ export function loadStateFromAuthoring(state, authoring, progress={}) {
   return state.merge(authoredState);
 }
 
-export function loadNextTrial(state, authoring, progress) {
+export function loadNextTrial(state, authoring) {
   let trial = state.trial;
   if (state.trialSuccess){
     trial = (state.trial < state.numTrials) ? (trial+1) : 0;
@@ -184,5 +183,5 @@ export function loadNextTrial(state, authoring, progress) {
     trial: trial
   });
 
-  return  loadStateFromAuthoring(nextState, authoring, progress);
+  return  loadStateFromAuthoring(nextState, authoring);
 }

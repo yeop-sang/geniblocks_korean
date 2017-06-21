@@ -944,7 +944,7 @@ export default class EggGame extends Component {
         animationEvents.selectChromosome.ready = false;
         animatedComponents = [];
         animationEvents.fertilize.animate();
-        onFertilize(0,1);
+        onFertilize();
       }
     };
 

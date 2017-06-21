@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react';
 import t from '../utilities/translate';
 import GemSetView, {GemView} from './gem-set';
-import { getScoreValue } from '../reducers/helpers/challenge-progress';
+import { getChallengeGem } from '../reducers/helpers/challenge-progress';
 
-const EndLevelDialogView = ({challengeAwards, onNextChallenge, onTryAgain}) => {
+const EndLevelDialogView = ({gems, routeSpec, challengeCount, onNextChallenge, onTryAgain}) => {
   let getGemDisplayName = (score) => {
     let gemName = t("~VENTURE.AWARD_FIRST");
     if (score === 1) gemName = t("~VENTURE.AWARD_SECOND");
@@ -11,16 +11,10 @@ const EndLevelDialogView = ({challengeAwards, onNextChallenge, onTryAgain}) => {
     return gemName;
   };
 
-  if (challengeAwards.routeSpec == null) {
-    return null;
-  }
-
-  let level = challengeAwards.routeSpec.level,
-      mission = challengeAwards.routeSpec.mission,
-      challenge = challengeAwards.routeSpec.challenge,
-      challengeCount = challengeAwards.challengeCount,
-      progress = challengeAwards.progress,
-      currentScore = getScoreValue(challengeAwards.currentScore);
+  let level = routeSpec.level,
+      mission = routeSpec.mission,
+      challenge = routeSpec.challenge,
+      currentScore = getChallengeGem(level, mission, challenge, gems);
 
   return (
     <div className="end-level-dialog-container">
@@ -49,7 +43,7 @@ const EndLevelDialogView = ({challengeAwards, onNextChallenge, onTryAgain}) => {
               {getGemDisplayName(currentScore)}
             </div>
           </div>
-          <GemSetView level={level} mission={mission} challenge={challenge} challengeCount={challengeCount} progress={progress}/>
+          <GemSetView level={level} mission={mission} challenge={challenge} challengeCount={challengeCount} gems={gems}/>
         </div>
         <div className="end-level-separator" id="end-level-separator-2"></div>
         <div className="end-level-navigation-buttons">
@@ -70,7 +64,9 @@ const EndLevelDialogView = ({challengeAwards, onNextChallenge, onTryAgain}) => {
 };
 
 EndLevelDialogView.propTypes = {
-  challengeAwards: PropTypes.object,
+  gems: PropTypes.array,
+  routeSpec: PropTypes.object,
+  challengeCount: PropTypes.number,
   onNextChallenge: PropTypes.func,
   onTryAgain: PropTypes.func
 };

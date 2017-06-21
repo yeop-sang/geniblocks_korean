@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react';
-import { getChallengeScores } from '../reducers/helpers/challenge-progress';
+import { getMissionGems } from '../reducers/helpers/challenge-progress';
 import classNames from 'classnames';
 
 export const GemView = ({challengeNum, score, highlight}) => {
-  let gem = score != null 
+  let gem = score != null
               ? highlight
                 ? <div className="gem-outline-highlight">
                     <div className={"gem-fill gem-fill-" + score}></div>
@@ -27,7 +27,7 @@ GemView.propTypes = {
   highlight: PropTypes.bool
 };
 
-const GemSetView = ({level, mission, challenge, challengeCount, progress}) => {
+const GemSetView = ({level, mission, challenge, challengeCount, gems}) => {
 
   let getAwardImage = (progressImages, gemNumber, score, currChallenge) => {
     if (score > -1){
@@ -37,7 +37,7 @@ const GemSetView = ({level, mission, challenge, challengeCount, progress}) => {
     }
   };
 
-  let challengeScores = getChallengeScores(level, mission, challengeCount, progress),
+  let challengeScores = getMissionGems(level, mission, challengeCount, gems),
       progressImages = [];
 
   for (let challengeNum = 0; challengeNum < challengeCount; challengeNum++) {
@@ -57,7 +57,7 @@ GemSetView.propTypes = {
   mission: PropTypes.number.isRequired,
   challenge: PropTypes.number,
   challengeCount: PropTypes.number.isRequired,
-  progress: PropTypes.object.isRequired
+  gems: PropTypes.array.isRequired
 };
 
 export default GemSetView;

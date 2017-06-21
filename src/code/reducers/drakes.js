@@ -1,12 +1,51 @@
 import Immutable from 'seamless-immutable';
 import actionTypes from '../action-types';
 import GeneticsUtils from '../utilities/genetics-utils';
-import { GAMETES_RESET } from '../modules/gametes';
+import { GAMETES_RESET, motherCurrentGamete, fatherCurrentGamete } from '../modules/gametes';
 import { assign } from 'lodash';
 
 const initialState = Immutable([]);
 
-export default function drakes(state = initialState, action) {
+
+function fertilize(state, gametes) {
+  let chromosomes0 = new BioLogica.Organism(BioLogica.Species.Drake, state[0].alleleString, state[0].sex).getGenotype().chromosomes,
+      chromosomes1 = new BioLogica.Organism(BioLogica.Species.Drake, state[1].alleleString, state[1].sex).getGenotype().chromosomes,
+      alleleString = "",
+      sex = 1,
+      side, chromosome, name;
+  for (name in chromosomes0) {
+    side = motherCurrentGamete(gametes)[name];
+    chromosome = chromosomes0[name][side];
+    if (chromosome && chromosome.alleles) alleleString += "a:" + chromosome.alleles.join(",a:") + ",";
+  }
+  for (name in chromosomes1) {
+    side = fatherCurrentGamete(gametes)[name];
+    if (side === "y") sex = 0;
+    chromosome = chromosomes1[name][side];
+    if (chromosome && chromosome.alleles && chromosome.alleles.length) alleleString += "b:" + chromosome.alleles.join(",b:") + ",";
+  }
+
+  return state.setIn([2], {
+    alleleString,
+    sex
+  });
+}
+
+function breedClutch(state, clutchSize) {
+  let mother = new BioLogica.Organism(BioLogica.Species.Drake, state[0].alleleString, state[0].sex),
+      father = new BioLogica.Organism(BioLogica.Species.Drake, state[1].alleleString, state[1].sex);
+
+  for (let i = 0; i < clutchSize; i++) {
+    let clutchDrake = BioLogica.breed(mother, father, true);
+    state = state.concat({
+      alleleString: clutchDrake.getAlleleString(),
+      sex: clutchDrake.sex
+    });
+  }
+  return state;
+}
+
+export default function drakes(state = initialState, gametes = {}, action) {
   switch (action.type) {
     case actionTypes.ALLELE_CHANGED:
       return state.update(action.index, function(drakeDef) {
@@ -71,6 +110,10 @@ export default function drakes(state = initialState, action) {
       return state.setIn([action.eggDrakeIndex, "basket"], action.basketIndex);
     case actionTypes.EGG_REJECTED:
       return state.setIn([action.eggDrakeIndex, "basket"], -1);
+    case actionTypes.FERTILIZED:
+      return fertilize(state, gametes);
+    case actionTypes.CLUTCH_BRED:
+      return breedClutch(state, action.clutchSize);
     default:
       return state;
   }

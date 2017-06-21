@@ -963,7 +963,7 @@ export default class FVEggGame extends Component {
         animationEvents.selectChromosome.ready = false;
         animatedComponents = [];
         animationEvents.fertilize.animate();
-        onFertilize(0,1);
+        onFertilize();
       }
     };
 
@@ -1116,7 +1116,7 @@ export default class FVEggGame extends Component {
                               : {orgName: 'father', chromosomes: fatherUnselectedChromosomesMap, className: fatherClassNames};
       return <GenomeView species={org.species} org={org} {...uniqueProps}
                          ChromosomeImageClass={FVChromosomeImageView} small={ true } editable={false} labelEmptyChromosomes={!_this.state.isIntroComplete}
-                         userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange } 
+                         userChangeableGenes={ userChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange }
                          chromosomeHeight={122} onChromosomeSelected={_this.handleChromosomeSelected} />;
     }
 

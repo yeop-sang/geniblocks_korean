@@ -1,63 +1,35 @@
 export const scoreValues = {
-  NONE: -1,
   GOLD: 0,
   SILVER: 1,
-  BRONZE: 2
+  BRONZE: 2,
+  NONE: 3
 };
 
-export function setProgressScore(state, score){
-  let currentProgress = state.challengeProgress.asMutable();
-  let level = getChallengeName(state.routeSpec,state.trial);
-  currentProgress[level] = getScoreValue(score);
-  return currentProgress;
-}
-
-export function updateProgress(state) {
-  let currentProgress = state.challengeProgress.asMutable();
-  let score = state.moves - state.goalMoves;
-
-  let level = getChallengeName(state.routeSpec,state.trial),
-      currentScore = currentProgress[level],
-      newScore = getScoreValue(score);
-  // Update the score if the old one doesn't exist, or the new score is better
-  if (currentScore == null || currentScore < 0 || currentScore > newScore) {
-    currentProgress[level] = getScoreValue(score);
-  }
-
-  return currentProgress;
-}
-export function getChallengeName(routeSpec, trial){
-  let {level, mission, challenge} = routeSpec,
-      challengeName = `${level}:${mission}:${challenge}:${trial}`;
-  return challengeName;
-}
-
-export function getScoreValue(score){
-  switch (score) {
+export function getGemFromChallengeErrors(challengeErrors){
+  switch (challengeErrors) {
     case 0:
       return scoreValues.GOLD;
     case 1:
       return scoreValues.SILVER;
+    case 2:
+      return scoreValues.BRONZE;
     default:
-      return score >= 2 ? scoreValues.BRONZE : scoreValues.NONE;
+      return scoreValues.NONE;
   }
 }
 
-export function getChallengeScores(level, mission, challengeCount, progress) {
-  let challengeScore = {},
-      challengePrefix = level + ":" + mission + ":";
+export function getChallengeGem(level, mission, challenge, gems) {
+  if (gems[level] && gems[level][mission] && !isNaN(gems[level][mission][challenge])) {
+    return gems[level][mission][challenge];
+  } else {
+    return scoreValues.NONE;
+  }
+}
+
+export function getMissionGems(level, mission, challengeCount, gems) {
+  let challengeScore = [];
   for (let i = 0; i < challengeCount; i++){
-    for (var key in progress){
-      if (key.startsWith(challengePrefix + i)){
-        const score = progress[key];
-        if (challengeScore[i] == null) {
-           challengeScore[i] = score;
-        } else {
-          // If there are multiple trials in a challenge, add them together
-          challengeScore[i] += score;
-        }
-      }
-    }
+    challengeScore.push(getChallengeGem(level, mission, i, gems));
   }
   return challengeScore;
 }

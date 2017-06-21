@@ -22,25 +22,24 @@ describe('rejectEggFromBasket action', () => {
     const eggDrakeIndex = 0, basketIndex = 0, isChallengeComplete = true,
           rejectEggArgs = { eggDrakeIndex, basketIndex, isChallengeComplete },
           rejectEggAction = { type: types.EGG_REJECTED, eggDrakeIndex, basketIndex },
+          completeChallengeAction = {
+                                      type: types.CHALLENGE_COMPLETED,
+                                      meta: {sound: 'receiveCoin'}
+                                    },
           showCompleteChallengeAction = {
                                           type: types.MODAL_DIALOG_SHOWN,
-                                          message: "~ALERT.TITLE.GOOD_WORK",
-                                          explanation: "~ALERT.COMPLETE_COIN",
                                           leftButton: {
-                                            label: "~BUTTON.TRY_AGAIN",
                                             action: "retryCurrentChallenge"
                                           },
                                           rightButton: {
-                                            label: "~BUTTON.NEXT_MISSION",
                                             action: "navigateToNextChallenge"
                                           },
-                                          top: undefined,
                                           showAward: true
                                         };
 
     const dispatch = expect.createSpy();
   const getState = () => ({routeSpec: {level: 0, mission: 0, challenge: 0}, trial: 0, trials: [{}], authoring: {
-    challenges: {}, 
+    challenges: {},
     "application": {"levels": [{"missions": [{"challenges": []}]}]}
   }});
 
@@ -48,8 +47,8 @@ describe('rejectEggFromBasket action', () => {
     expect(dispatch.calls[0].arguments).toEqual([rejectEggAction]);
     // must call thunk function ourselves
     dispatch.calls[1].arguments[0](dispatch, getState);
-    dispatch.calls[2].arguments[0](dispatch, getState);
     // thunk function dispatches the showCompleteChallengeAction
+    expect(dispatch.calls[2].arguments).toEqual([completeChallengeAction]);
     expect(dispatch.calls[3].arguments).toEqual([showCompleteChallengeAction]);
     expect(dispatch.calls.length).toBe(4);
   });
