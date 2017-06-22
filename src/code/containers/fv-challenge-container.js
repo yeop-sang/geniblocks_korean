@@ -11,7 +11,7 @@ import ModalMessageContainer from "./modal-message-container";
 import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
         keepOffspring, fertilize, breedClutch, hatch,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket,
-        winZoomChallenge, toggleMap } from '../actions';
+        winZoomChallenge, toggleMap, enterChallengeFromRoom } from '../actions';
 import { addGameteChromosome, resetGametes,
         addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/gametes';
 
@@ -35,7 +35,7 @@ class FVChallengeContainer extends Component {
       bgClasses = classNames('mission-backdrop', 'fv-layout', 'room', location.id),
 
       MainView = (
-        <div />
+        <div id="enter-challenge-hotspot" className="hotspot" onClick={ this.props.onEnterChallenge }/>
       );
     } else {
       bgClasses = classNames('mission-backdrop', Template.backgroundClasses,
@@ -82,6 +82,7 @@ class FVChallengeContainer extends Component {
     challenges: PropTypes.number,
     showAward: PropTypes.bool,
     onToggleMap: PropTypes.func,
+    onEnterChallenge: PropTypes.func,
     location: PropTypes.object,
     showingRoom: PropTypes.bool
   }
@@ -143,7 +144,8 @@ function mapDispatchToProps(dispatch) {
     onChangeDrakeSelection: (selectedIndices) => dispatch(changeDrakeSelection(selectedIndices)),
     onSubmitEggForBasket: (...args) => dispatch(submitEggForBasket(...args)),
     onWinZoomChallenge: (...args) => dispatch(winZoomChallenge(...args)),
-    onToggleMap: (isVisible) => dispatch(toggleMap(isVisible))
+    onToggleMap: (isVisible) => dispatch(toggleMap(isVisible)),
+    onEnterChallenge: () => dispatch(enterChallengeFromRoom())
   };
 }
 

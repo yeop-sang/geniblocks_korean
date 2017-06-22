@@ -579,3 +579,9 @@ export function toggleMap(isVisible) {
   };
 }
 
+export function enterChallengeFromRoom() {
+  return {
+    type: actionTypes.ENTERED_CHALLENGE_FROM_ROOM
+  };
+}
+
