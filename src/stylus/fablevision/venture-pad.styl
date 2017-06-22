@@ -1,0 +1,77 @@
+.venture-pad-container
+  outline: none
+  font-family: 'Yanone Kaffeesatz'
+  font-size: 4rem
+  color: white
+
+  .venture-pad-backdrop
+    position: fixed
+    z-index: 10
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    backgroundColor: '#000'
+    opacity: 0.9
+
+  .venture-pad-background
+    position: absolute
+    top: 7%
+    left: 28%
+    width: 921px
+    height: 894px
+    background-image: url('../resources/fablevision/venture-pad/screen_behind.png')
+    background-position: 30% 50%
+    background-repeat: no-repeat
+    z-index: 11
+
+  .venture-pad-screen
+    position: absolute
+    top: 125px
+    left: 28%
+    width: 700px
+    height: 825px
+    z-index: 12
+    margin-left: 70px
+    background-size: cover
+    background-repeat: no-repeat
+    overflow-y: auto
+    .venture-pad-title
+      margin-top: 34px
+    .venture-pad-flavor-text
+      font-size: 1rem
+      color: gray
+    .venture-pad-separator
+      position: absolute
+      width: 720px
+      height: 3px
+      background-color: gray
+      &#venture-pad-separator-1
+        margin-top: 20px
+
+  .venture-pad-screen::-webkit-scrollbar-thumb
+    border-radius: 10px
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3)
+    background-color: #555
+
+  .venture-pad-screen::-webkit-scrollbar-track
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+
+  .venture-pad-screen::-webkit-scrollbar
+    width: 12px;
+    background-color: #F5F5F5;
+    
+  .venture-pad-overlay
+    position: absolute
+    top: 7%
+    left: 28%
+    width: 921px
+    height: 894px
+    background-image: url('../resources/fablevision/venture-pad/frame.png'),
+                      url('../resources/fablevision/venture-pad/screen_over.png')
+    background-position: 50% 50%, 30% 50%
+    background-repeat: no-repeat
+    pointer-events: none
+    z-index: 13

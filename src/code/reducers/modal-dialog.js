@@ -22,6 +22,11 @@ export default function modalDialog(state = initialState, action) {
         leftButton: action.leftButton,
         showAward: action.showAward
       });
+    case actionTypes.TOGGLE_MAP:
+      return state.merge({
+        show: action.isVisible,
+        showMap: action.isVisible
+      });
     case actionTypes.MODAL_DIALOG_DISMISSED:
       return initialState;
     // actions which don't close the dialog, i.e. that can occur

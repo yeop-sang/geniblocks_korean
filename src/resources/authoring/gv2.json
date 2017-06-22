@@ -926,8 +926,28 @@
         "alleles": "w-W, m-m, T-T, h-H, A1-a, C-C, B-B, D-D, rh-rh, Bog-Bog",
         "sex": 0
       },
-      "gameteCounts": [[3, 1], [1, 3], [3, 3], [5, 5]],
-      "targetDrakes": [{}, {}, {}, {}],
+      "gameteCounts": [[3, 1], [1, 3]],
+      "targetDrakes": [{}, {}],
+      "visibleGenes": "wings, forelimbs, hindlimbs, armor, horns"
+    },
+    "gamete-selectSpermEgg-starterTraits-bothParents": {
+      "comment": "*** Level 4, Mission 1.3: Egg Breeding (select gametes to match drakes) ***",
+      "container": "FVContainer",
+      "template": "FVEggGame",
+      "challengeType": "match-target",
+      "interactionType": "select-gametes",
+      "instructions": "Match the target drakes!",
+      "showUserDrake": true,
+      "mother":{
+        "alleles": "w-W, M-M, fl-, hl-, T-T, H-h, C-C, a-A1, B-B, D-D, rh-rh, Bog-Bog",
+        "sex": 1
+      },
+      "father": {
+        "alleles": "w-W, m-m, T-T, h-H, A1-a, C-C, B-B, D-D, rh-rh, Bog-Bog",
+        "sex": 0
+      },
+      "gameteCounts": [[3, 3], [5, 5]],
+      "targetDrakes": [{}, {}],
       "visibleGenes": "wings, forelimbs, hindlimbs, armor, horns"
     },
     "cell-game-size-intro": {
@@ -995,11 +1015,49 @@
         "name": "Level 2",
         "missions": [
           {
-            "name": "Mission 1.1",
+            "name": "Mission 2.1",
             "challenges": [
               {
-                "name": "Challenge 1.1.1",
+                "name": "Challenge 2.1.1",
                 "id": "allele-targetMatch-visible-simpleDom"
+              },
+              {
+                "name": "Challenge 2.1.2",
+                "id": "allele-targetMatch-hidden-simpleDom"
+              }
+            ]
+          },
+          {
+            "name": "Mission 2.2",
+            "challenges": [
+              {
+                "name": "Challenge 2.2.1",
+                "id": "eggDrop-wings"
+              },
+              {
+                "name": "Challenge 2.2.2",
+                "id": "eggDrop-limbs"
+              }
+            ]
+          },
+          {
+            "name": "Mission 2.3",
+            "challenges": [
+              {
+                "name": "Challenge 2.3.1",
+                "id": "allele-targetMatch-visible-armorHorns"
+              },
+              {
+                "name": "Challenge 2.3.2",
+                "id": "allele-targetMatch-hidden-armorHorns"
+              },
+              {
+                "name": "Challenge 2.3.3",
+                "id": "eggDrop-horns"
+              },
+              {
+                "name": "Challenge 2.3.4",
+                "id": "eggDrop-armor"
               }
             ]
           }
@@ -1010,11 +1068,15 @@
         "name": "Level 3",
         "missions": [
           {
-            "name": "Mission 1.1",
+            "name": "Mission 3.1",
             "challenges": [
               {
-                "name": "Challenge 1.1.1",
-                "id": "allele-targetMatch-hidden-simpleDom"
+                "name": "Challenge 3.1.1",
+                "id": "allele-targetMatch-visible-simpleColors"
+              },
+              {
+                "name": "Challenge 3.1.2",
+                "id": "allele-targetMatch-hidden-simpleColors"
               }
             ]
           }
@@ -1025,190 +1087,35 @@
         "name": "Level 4",
         "missions": [
           {
-            "name": "Mission 1.1",
+            "name": "Mission 4.1",
             "challenges": [
               {
-                "name": "Challenge 1.1.1",
-                "id": "eggDrop-wings"
-              }
-            ]
-          }
-        ]
-      },
-
-      {
-        "name": "Level 5",
-        "missions": [
-          {
-            "name": "Mission 1.1",
-            "challenges": [
-              {
-                "name": "Challenge 1.1.1",
-                "id": "eggDrop-limbs"
-              }
-            ]
-          }
-        ]
-      },
-
-      {
-        "name": "Level 6",
-        "missions": [
-          {
-            "name": "Mission 1.1",
-            "challenges": [
-              {
-                "name": "Challenge 1.1.1",
-                "id": "allele-targetMatch-visible-armorHorns"
-              }
-            ]
-          }
-        ]
-      },
-
-      {
-        "name": "Level 7",
-        "missions": [
-          {
-            "name": "Mission 1.1",
-            "challenges": [
-              {
-                "name": "Challenge 1.1.1",
-                "id": "allele-targetMatch-hidden-armorHorns"
-              }
-            ]
-          }
-        ]
-      },
-
-      {
-        "name": "Level 8",
-        "missions": [
-          {
-            "name": "Mission 1.1",
-            "challenges": [
-              {
-                "name": "Challenge 1.1.1",
-                "id": "eggDrop-horns"
-              }
-            ]
-          }
-        ]
-      },
-
-      {
-        "name": "Level 9",
-        "missions": [
-          {
-            "name": "Mission 1.1",
-            "challenges": [
-              {
-                "name": "Challenge 1.1.1",
-                "id": "eggDrop-armor"
-              }
-            ]
-          }
-        ]
-      },
-
-      {
-        "name": "Level 10",
-        "missions": [
-          {
-            "name": "Mission 1.1",
-            "challenges": [
-              {
-                "name": "Challenge 1.1.1",
+                "name": "Challenge 4.1.1",
                 "id": "gamete-5drakes-starterTraits"
-              }
-            ]
-          }
-        ]
-      },
-
-      {
-        "name": "Level 11",
-        "missions": [
-          {
-            "name": "Mission 1.1",
-            "challenges": [
+              },
               {
-                "name": "Challenge 1.1.1",
+                "name": "Challenge 4.1.2",
                 "id": "gamete-targetMatch-starterTraits"
-              }
-            ]
-          }
-        ]
-      },
-
-      {
-        "name": "Level 12",
-        "missions": [
-          {
-            "name": "Mission 1.1",
-            "challenges": [
+              },
               {
-                "name": "Challenge 1.1.1",
+                "name": "Challenge 4.1.3",
                 "id": "gamete-selectSpermEgg-starterTraits"
+              },
+              {
+                "name": "Challenge 4.1.4",
+                "id": "gamete-selectSpermEgg-starterTraits-bothParents"
               }
             ]
-          }
-        ]
-      },
-
-      {
-        "name": "Level 13",
-        "missions": [
+          },
           {
-            "name": "Mission 1.1",
+            "name": "Mission 4.2",
             "challenges": [
               {
-                "name": "Challenge 1.1.1",
-                "id": "allele-targetMatch-visible-simpleColors"
-              }
-            ]
-          }
-        ]
-      },
-
-      {
-        "name": "Level 14",
-        "missions": [
-          {
-            "name": "Mission 1.1",
-            "challenges": [
-              {
-                "name": "Challenge 1.1.1",
-                "id": "allele-targetMatch-hidden-simpleColors"
-              }
-            ]
-          }
-        ]
-      },
-
-      {
-        "name": "Level 15",
-        "missions": [
-          {
-            "name": "Mission 1.1",
-            "challenges": [
-              {
-                "name": "Challenge 1.1.1",
+                "name": "Challenge 4.2.1",
                 "id": "clutch-5drakes-starterTraits"
-              }
-            ]
-          }
-        ]
-      },
-
-      {
-        "name": "Level 16",
-        "missions": [
-          {
-            "name": "Mission 1.1",
-            "challenges": [
+              },
               {
-                "name": "Challenge 1.1.1",
+                "name": "Challenge 4.2.2",
                 "id": "clutch-5drakes-intermediateTraits"
               }
             ]

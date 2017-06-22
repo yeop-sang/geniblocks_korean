@@ -7,11 +7,12 @@ actions.resetGametes = resetGametes;
 
 function mapStateToProps (state) {
   let props = state.modalDialog;
-  if (props.showAward) {
+  if (props.showAward || props.showMap) {
     props = props.merge({
       gems: state.gems,
       routeSpec: state.routeSpec,
-      challengeCount: state.challenges
+      challengeCount: state.challenges,
+      authoring: state.authoring
     });
   }
   return {
@@ -24,12 +25,14 @@ function mapDispatchToProps (dispatch) {
     actionCreator: function (actionName, actionArgs) {
       return () =>
         dispatch(actions[actionName](actionArgs));
-    }
+    },
+    onNavigateToChallenge: (routeSpec) => dispatch(actions.navigateToChallenge(routeSpec)),
+    onHideMap: () => dispatch(actions.toggleMap(false))
   };
 }
 
 function mergeProps(stateProps, dispatchProps) {
-  let props = {...stateProps},
+  let props = {...stateProps, ...dispatchProps},
       { leftButton, rightButton } = props;
   if (leftButton && leftButton.action) {
     props.onLeftButtonClick = dispatchProps.actionCreator(leftButton.action, leftButton.args);

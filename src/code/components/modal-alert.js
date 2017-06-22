@@ -2,6 +2,7 @@
  * Based on ReactOverlays demo at http://react-bootstrap.github.io/react-overlays/examples/#modals
  */
 import EndLevelDialogView from '../fv-components/end-level-dialog';
+import NavigationDialogView from '../fv-components/navigation-dialog';
 import React, { PropTypes } from 'react';
 
 class ModalAlert extends React.Component {
@@ -9,6 +10,7 @@ class ModalAlert extends React.Component {
   static propTypes = {
     show: PropTypes.bool,
     showAward: PropTypes.bool,
+    showMap: PropTypes.bool,
     rightButton: PropTypes.shape({
       label: React.PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
       onClick: PropTypes.func
@@ -17,7 +19,10 @@ class ModalAlert extends React.Component {
     onRightButtonClick: PropTypes.func,       // in button props. (Better for `mapDispatchToProps`)
     gems: PropTypes.array,
     routeSpec: PropTypes.object,
-    challengeCount: PropTypes.number
+    challengeCount: PropTypes.number,
+    onNavigateToChallenge: PropTypes.func,
+    onHideMap: PropTypes.func,
+    authoring: PropTypes.object
   }
 
   static defaultProps = {
@@ -37,6 +42,12 @@ class ModalAlert extends React.Component {
                               challengeCount={this.props.challengeCount}
                               onNextChallenge={this.props.onRightButtonClick} onTryAgain={this.props.onLeftButtonClick}/>
         );
+      } else if (this.props.showMap) {
+        return <NavigationDialogView authoring={this.props.authoring}
+                                     routeSpec={this.props.routeSpec}
+                                     gems={this.props.gems} 
+                                     onNavigateToChallenge={this.props.onNavigateToChallenge}
+                                     onHideMap={this.props.onHideMap}/>;
       } else {
         return <div className="next-trial-button" onClick={rightProps.onClick || this.props.onRightButtonClick}>
                 <div className="next-trial-text">Next Trial</div>
