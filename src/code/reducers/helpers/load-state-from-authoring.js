@@ -135,7 +135,7 @@ export function loadStateFromAuthoring(state, authoring) {
         gametes = processAuthoredGametes(authoredChallenge, drakes, state),
         zoomUrl = authoredChallenge.zoomUrl,
         room = authoredChallengeMetadata.room || "simroom",
-        roomInfo = authoring.rooms[room],
+        roomInfo = (authoring && authoring.rooms) ? authoring.rooms[room] : {},
         location = {id: room, ...roomInfo},
         showingRoom = trial === 0;
 
