@@ -24,7 +24,7 @@ const EndLevelDialogView = ({gems, routeSpec, challengeCount, onNextChallenge, o
       </div>
       <div className="gem-info">
         <div className="gem-win-box">
-          <GemView score={currentScore}/>
+          <GemView gem={currentScore}/>
           <div className="gem-won-text">
             {getGemDisplayName(currentScore)}
           </div>

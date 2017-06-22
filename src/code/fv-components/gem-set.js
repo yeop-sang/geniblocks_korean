@@ -1,15 +1,15 @@
 import React, {PropTypes} from 'react';
-import { getMissionGems } from '../reducers/helpers/challenge-progress';
+import { getMissionGems, scoreValues } from '../reducers/helpers/challenge-progress';
 import classNames from 'classnames';
 
-export const GemView = ({challengeNum, score, highlight, onNavigateToGem}) => {
-  let gem = score != null 
+export const GemView = ({challengeNum, gem, highlight, onNavigateToGem}) => {
+  let gemDiv = (gem != null && gem !== scoreValues.NONE)
               ? highlight
                 ? <div className="gem-outline-highlight" onClick={onNavigateToGem}>
-                    <div className={"gem-fill gem-fill-" + score}></div>
+                    <div className={"gem-fill gem-fill-" + gem}></div>
                   </div>
                 : <div className="gem-outline-highlight" onClick={onNavigateToGem} style={{visibility: "hidden"}}>
-                    <div className={"gem-fill gem-fill-" + score} style={{visibility: "visible"}}></div>
+                    <div className={"gem-fill gem-fill-" + gem} style={{visibility: "visible"}}></div>
                   </div>
               : <div className="gem-outline" onClick={onNavigateToGem}>
                   <div className="gem-number-text">
@@ -18,37 +18,37 @@ export const GemView = ({challengeNum, score, highlight, onNavigateToGem}) => {
                 </div>;
   return (
     <div className={ classNames("gem-container", {highlight: highlight}) }>
-      {gem}
+      {gemDiv}
     </div>
   );
 };
 
 GemView.propTypes = {
   challengeNum: PropTypes.number,
-  score: PropTypes.number,
+  gem: PropTypes.number,
   highlight: PropTypes.bool,
   onNavigateToGem: PropTypes.func
 };
 
 const GemSetView = ({level, mission, challenge, challengeCount, gems, onNavigateToChallenge}) => {
 
-  let getAwardImage = (progressImages, gemNumber, score, highlight, onNavigateToGem) => {
-    if (score > -1){
-      return <GemView key={gemNumber} score={score} highlight={highlight} onNavigateToGem={onNavigateToGem}/>;
+  let getAwardImage = (progressImages, gemNumber, challengeGem, highlight, onNavigateToGem) => {
+    if (challengeGem != null && challengeGem !== scoreValues.NONE){
+      return <GemView key={gemNumber} gem={challengeGem} highlight={highlight} onNavigateToGem={onNavigateToGem}/>;
     } else {
       return <GemView key={gemNumber} challengeNum={gemNumber} onNavigateToGem={onNavigateToGem}/>;
     }
   };
 
-  let challengeScores = getMissionGems(level, mission, challengeCount, gems),
+  let missionGems = getMissionGems(level, mission, challengeCount, gems),
       progressImages = [];
 
   for (let challengeNum = 0; challengeNum < challengeCount; challengeNum++) {
     let gemNumber = challengeNum + 1,
         highlight = challenge === challengeNum,
-        challengeScore = challengeScores[challengeNum],
+        challengeGem = missionGems[challengeNum],
         routeSpec = {level, mission, challenge: challengeNum};
-    progressImages.push(getAwardImage(progressImages, gemNumber, challengeScore, highlight, 
+    progressImages.push(getAwardImage(progressImages, gemNumber, challengeGem, highlight, 
                                       onNavigateToChallenge ? onNavigateToChallenge.bind(this, routeSpec) : null));
   }
 
