@@ -14,7 +14,7 @@ export const GemView = ({challengeNum, gem, highlight, onNavigateToGem}) => {
                     <div className="gem-number-text">
                       {challengeNum}
                     </div>
-                  </div>;
+                  </div>
                 </div>;
   return (
     <div className={ classNames("gem-container", {highlight: highlight}) }>

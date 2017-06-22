@@ -71,5 +71,6 @@ export default {
   "~VENTURE.YOU_EARNED": "You've earned",
   "~VENTURE.AWARD_FIRST": "Blue Crystal",
   "~VENTURE.AWARD_SECOND": "Yellow Crystal",
-  "~VENTURE.AWARD_THIRD": "Red Crystal"
+  "~VENTURE.AWARD_THIRD": "Red Crystal",
+  "~VENTURE.AWARD_NONE": "No Crystal"
 };

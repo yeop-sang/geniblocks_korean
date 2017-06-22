@@ -5,10 +5,11 @@ import { getChallengeGem } from '../reducers/helpers/challenge-progress';
 import VenturePadView from './venture-pad';
 
 const EndLevelDialogView = ({gems, routeSpec, challengeCount, onNextChallenge, onTryAgain}) => {
-  let getGemDisplayName = (score) => {
+  let getGemDisplayName = (gem) => {
     let gemName = t("~VENTURE.AWARD_FIRST");
-    if (score === 1) gemName = t("~VENTURE.AWARD_SECOND");
-    if (score >= 2) gemName = t("~VENTURE.AWARD_THIRD");
+    if (gem === 1) gemName = t("~VENTURE.AWARD_SECOND");
+    if (gem === 2) gemName = t("~VENTURE.AWARD_THIRD");
+    if (gem >= 3) gemName = t("~VENTURE.AWARD_NONE");
     return gemName;
   };
 
