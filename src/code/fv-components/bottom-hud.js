@@ -17,13 +17,25 @@ const BottomHUDView = React.createClass({
     goalMoves: PropTypes.number,
     gems: PropTypes.array,
     numChallenges: PropTypes.number,
-    showAward: PropTypes.bool
+    showAward: PropTypes.bool,
+    showChallengeWidgets: PropTypes.bool
   },
 
   render() {
     let {routeSpec, trial, trialCount, currScore, maxScore, currMoves, goalMoves, numChallenges, gems} = this.props,
         scoreView = maxScore ? <CountView countTitleText={t('~COUNTER.SCORE_LABEL')} className={'score-count'} currCount={currScore} maxCount={maxScore} /> : null,
-        movesView = goalMoves > 0 ? <CountView countTitleText={t('~COUNTER.MOVES_LABEL')} className={'moves-count'} currCount={currMoves} maxCount={goalMoves} /> : null;
+        movesView = goalMoves > 0 ? <CountView countTitleText={t('~COUNTER.MOVES_LABEL')} className={'moves-count'} currCount={currMoves} maxCount={goalMoves} /> : null,
+        widgets;
+
+    if (this.props.showChallengeWidgets) {
+      widgets = (
+        <div>
+          <CountView countTitleText={t('~COUNTER.TRIAL_LABEL')} className={'trial-count'} currCount={trial} maxCount={trialCount} />
+          {scoreView}
+          {movesView}
+        </div>
+      );
+    }
 
     return (
       <div id='fv-bottom-hud' className='fv-hud fv-bottom-hud' >
@@ -32,9 +44,7 @@ const BottomHUDView = React.createClass({
         <div className="mission-label mission-label-text">Mission</div>
         <div className="mission-label mission-label-value">{routeSpec.mission + 1}</div>
         <GemSetView level={routeSpec.level} mission={routeSpec.mission} challenge={routeSpec.challenge} challengeCount={numChallenges} gems={gems}/>
-        <CountView countTitleText={t('~COUNTER.TRIAL_LABEL')} className={'trial-count'} currCount={trial} maxCount={trialCount} />
-        {scoreView}
-        {movesView}
+        { widgets }
       </div>
     );
   }

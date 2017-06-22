@@ -18,25 +18,46 @@ import { addGameteChromosome, resetGametes,
 class FVChallengeContainer extends Component {
 
   render() {
-    const { template, style, ...otherProps } = this.props,
+    const { template, style, location, showingRoom, ...otherProps } = this.props,
           { challengeType, interactionType, routeSpec, trial, numTrials, correct, challenges, showAward } = this.props;
 
     if (!template) return null;
 
-    const Template = templates[this.props.template],
-          bgClasses = classNames('mission-backdrop', Template.backgroundClasses,
-                                  challengeType, interactionType),
-          maxScore = Template.maxScore;
+    const Template = templates[this.props.template];
+
+    let bgClasses,
+        maxScore,
+        goalMoves,
+        showChallengeWidgets = false,
+        MainView;
+
+    if (showingRoom) {
+      bgClasses = classNames('mission-backdrop', 'fv-layout', 'room', location.id),
+
+      MainView = (
+        <div />
+      );
+    } else {
+      bgClasses = classNames('mission-backdrop', Template.backgroundClasses,
+                              challengeType, interactionType);
+      maxScore = Template.maxScore;
+      goalMoves = this.props.goalMoves;
+      showChallengeWidgets = true;
+
+      MainView = (
+        <div id="mission-wrapper">
+          <Template {...otherProps} />
+        </div>
+      );
+    }
 
     return (
       <div id="challenges" className={bgClasses} style={style}>
         <TopHUDView locationName={ this.props.location.name } onToggleMap={this.props.onToggleMap}/>
-        <div id="mission-wrapper">
-          <Template {...otherProps} />
-        </div>
+        { MainView }
         <BottomHUDView routeSpec={routeSpec} numChallenges={challenges} trial={trial + 1} trialCount={numTrials}
                        currScore={correct} maxScore={maxScore} currMoves={this.props.moves} showAward={showAward}
-                       goalMoves={this.props.goalMoves} gems={this.props.gems} />
+                       goalMoves={goalMoves} gems={this.props.gems} showChallengeWidgets={showChallengeWidgets}/>
         <NotificationContainer />
         <ModalMessageContainer />
       </div>
@@ -61,7 +82,8 @@ class FVChallengeContainer extends Component {
     challenges: PropTypes.number,
     showAward: PropTypes.bool,
     onToggleMap: PropTypes.func,
-    location: PropTypes.string
+    location: PropTypes.object,
+    showingRoom: PropTypes.bool
   }
 }
 
@@ -92,6 +114,7 @@ function mapStateToProps (state) {
       showAward: state.modalDialog.showAward,
       zoomUrl: state.zoomUrl,
       location: state.location,
+      showingRoom: state.showingRoom,
       // drag/drop experiment option for enabling custom drag layer rather
       // than HTML5 drag/drop dragImage
       useCustomDragLayer: true

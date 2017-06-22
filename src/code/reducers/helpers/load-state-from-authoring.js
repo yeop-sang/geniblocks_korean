@@ -135,7 +135,9 @@ export function loadStateFromAuthoring(state, authoring) {
         gametes = processAuthoredGametes(authoredChallenge, drakes, state),
         zoomUrl = authoredChallenge.zoomUrl,
         room = authoredChallengeMetadata.room || "simroom",
-        location = authoring.rooms[room];
+        roomInfo = authoring.rooms[room],
+        location = {id: room, ...roomInfo},
+        showingRoom = trial === 0;
 
   let goalMoves = null;
   if (template.calculateGoalMoves) {
@@ -169,7 +171,8 @@ export function loadStateFromAuthoring(state, authoring) {
     trialSuccess: false,
     initialDrakes: [...drakes],
     zoomUrl,
-    location
+    location,
+    showingRoom
   };
 
   // remove all undefined or null keys
