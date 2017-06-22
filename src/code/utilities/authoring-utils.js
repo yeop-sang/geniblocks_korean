@@ -5,15 +5,20 @@ export default class AuthoringUtils {
     return challengeId && challenges ? authoring.challenges[challengeId] : null;
   }
 
-  static getChallengeId(authoring, routeSpec) {
+  static getChallengeMeta(authoring, routeSpec) {
     if (!routeSpec) {
       return null;
     }
     const levels = authoring.application.levels,
           missions = levels ? levels[routeSpec.level].missions : null,
           challenges = missions ? missions[routeSpec.mission].challenges : null,
-          challenge = challenges ? challenges[routeSpec.challenge] : null;
-    return challenge ? challenge.id : null;
+          challengeMeta = challenges ? challenges[routeSpec.challenge] : null;
+    return challengeMeta;
+  }
+
+  static getChallengeId(authoring, routeSpec) {
+    let meta = this.getChallengeMeta(authoring, routeSpec);
+    return meta ? meta.id : null;
   }
 
   static getLevelCount(authoring) {

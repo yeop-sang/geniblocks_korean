@@ -98,7 +98,8 @@ export function loadStateFromAuthoring(state, authoring) {
   let trial = state.trial ? state.trial : 0;
 
   const challenges = AuthoringUtils.getChallengeCount(authoring, state.routeSpec.level, state.routeSpec.mission),
-        authoredChallenge = AuthoringUtils.getChallengeDefinition(authoring, state.routeSpec);
+        authoredChallenge = AuthoringUtils.getChallengeDefinition(authoring, state.routeSpec),
+        authoredChallengeMetadata = AuthoringUtils.getChallengeMeta(authoring, state.routeSpec);
   if (!authoredChallenge) return state;
 
   const templateName = authoredChallenge.template,
@@ -132,7 +133,9 @@ export function loadStateFromAuthoring(state, authoring) {
         trialOrder = createTrialOrder(trial, trials, state.trialOrder, authoredChallenge.randomizeTrials),
         drakes = processAuthoredDrakes(authoredChallenge, trialOrder[trial], template, trial),
         gametes = processAuthoredGametes(authoredChallenge, drakes, state),
-        zoomUrl = authoredChallenge.zoomUrl;
+        zoomUrl = authoredChallenge.zoomUrl,
+        room = authoredChallengeMetadata.room || "simroom",
+        location = authoring.rooms[room];
 
   let goalMoves = null;
   if (template.calculateGoalMoves) {
@@ -165,7 +168,8 @@ export function loadStateFromAuthoring(state, authoring) {
     userDrakeHidden: true,
     trialSuccess: false,
     initialDrakes: [...drakes],
-    zoomUrl
+    zoomUrl,
+    location
   };
 
   // remove all undefined or null keys

@@ -30,8 +30,7 @@ class FVChallengeContainer extends Component {
 
     return (
       <div id="challenges" className={bgClasses} style={style}>
-        // TODO: put location names in the authoring document
-        <TopHUDView location={"Hatchery"} onToggleMap={this.props.onToggleMap}/>
+        <TopHUDView locationName={ this.props.location.name } onToggleMap={this.props.onToggleMap}/>
         <div id="mission-wrapper">
           <Template {...otherProps} />
         </div>
@@ -61,7 +60,8 @@ class FVChallengeContainer extends Component {
     gems: PropTypes.array,
     challenges: PropTypes.number,
     showAward: PropTypes.bool,
-    onToggleMap: PropTypes.func
+    onToggleMap: PropTypes.func,
+    location: PropTypes.string
   }
 }
 
@@ -91,6 +91,7 @@ function mapStateToProps (state) {
       challenges: state.challenges,
       showAward: state.modalDialog.showAward,
       zoomUrl: state.zoomUrl,
+      location: state.location,
       // drag/drop experiment option for enabling custom drag layer rather
       // than HTML5 drag/drop dragImage
       useCustomDragLayer: true

@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import LocationIndicatorView from './location-indicator';
 
-const TopHUDView = ({location, onToggleMap}) => {
+const TopHUDView = ({locationName, onToggleMap}) => {
   let onDisplayMap = () => {
     onToggleMap(true);
   };
@@ -9,13 +9,13 @@ const TopHUDView = ({location, onToggleMap}) => {
   return (
     <div id='fv-top-hud' className='fv-hud fv-top-hud' >
       <div className="map-button" onClick={onDisplayMap}></div>
-      <LocationIndicatorView location={location} />
+      <LocationIndicatorView locationName={locationName} />
     </div>
   );
 };
 
 TopHUDView.propTypes = {
-  location: PropTypes.string,
+  locationName: PropTypes.string,
   onToggleMap: PropTypes.func
 };
 

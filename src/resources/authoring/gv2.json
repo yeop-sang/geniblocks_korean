@@ -1,4 +1,18 @@
 {
+  "rooms": {
+    "simroom": {
+      "name": "Sim Room"
+    },
+    "hatchery": {
+      "name": "Hatchery"
+    },
+    "zoomroom": {
+      "name": "Zoom Room"
+    },
+    "breedingbarn": {
+      "name": "Breeding Barn"
+    }
+  },
   "challenges": {
     "allele-5drakes-tutorial-original": {
       "comment": "*** Level 1, Mission 1.1: Playground ***",
@@ -1004,7 +1018,8 @@
             "challenges": [
               {
                 "name": "Challenge 1.1.1",
-                "id": "allele-5drakes-tutorial"
+                "id": "allele-5drakes-tutorial",
+                "room": "simroom"
               }
             ]
           }
@@ -1019,11 +1034,13 @@
             "challenges": [
               {
                 "name": "Challenge 2.1.1",
-                "id": "allele-targetMatch-visible-simpleDom"
+                "id": "allele-targetMatch-visible-simpleDom",
+                "room": "simroom"
               },
               {
                 "name": "Challenge 2.1.2",
-                "id": "allele-targetMatch-hidden-simpleDom"
+                "id": "allele-targetMatch-hidden-simpleDom",
+                "room": "simroom"
               }
             ]
           },
@@ -1032,11 +1049,13 @@
             "challenges": [
               {
                 "name": "Challenge 2.2.1",
-                "id": "eggDrop-wings"
+                "id": "eggDrop-wings",
+                "room": "hatchery"
               },
               {
                 "name": "Challenge 2.2.2",
-                "id": "eggDrop-limbs"
+                "id": "eggDrop-limbs",
+                "room": "hatchery"
               }
             ]
           },
