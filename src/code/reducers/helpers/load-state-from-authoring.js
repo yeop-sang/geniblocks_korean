@@ -139,6 +139,8 @@ export function loadStateFromAuthoring(state, authoring) {
     goalMoves = template.calculateGoalMoves(drakes);
   } else if (authoredChallenge.goalMoves) {
     goalMoves = authoredChallenge.goalMoves[trial];
+  } else {
+    goalMoves = 0;
   }
 
   let authoredState = {

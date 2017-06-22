@@ -244,7 +244,7 @@ export default class FVGenomeChallenge extends React.Component {
       return GeneticsUtils.numberOfChangesToReachPhenotype(initial, target);
     } else {
       // Skip goal moves calculation for 'create-unique' challenges
-      return null;
+      return 0;
     }
   }
 
