@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import { getMissionGems, scoreValues } from '../reducers/helpers/challenge-progress';
+import { getMissionGems, scoreValues } from '../reducers/helpers/gems-helper';
 import classNames from 'classnames';
 
 export const GemView = ({challengeNum, gem, highlight, onNavigateToGem}) => {
@@ -44,7 +44,7 @@ const GemSetView = ({level, mission, challenge, challengeCount, gems, onNavigate
         highlight = challenge === challengeNum,
         challengeGem = missionGems[challengeNum],
         routeSpec = {level, mission, challenge: challengeNum};
-    progressImages.push(getAwardImage(progressImages, gemNumber, challengeGem, highlight, 
+    progressImages.push(getAwardImage(progressImages, gemNumber, challengeGem, highlight,
                                       onNavigateToChallenge ? onNavigateToChallenge.bind(this, routeSpec) : null));
   }
 

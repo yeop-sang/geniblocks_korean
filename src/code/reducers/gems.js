@@ -1,5 +1,5 @@
 import actionTypes from '../action-types';
-import { getGemFromChallengeErrors } from './helpers/challenge-progress';
+import { getGemFromChallengeErrors } from './helpers/gems-helper';
 
 const initialState = [];
 
