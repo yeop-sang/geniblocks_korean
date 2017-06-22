@@ -3,18 +3,18 @@ import { getMissionGems, scoreValues } from '../reducers/helpers/challenge-progr
 import classNames from 'classnames';
 
 export const GemView = ({challengeNum, gem, highlight, onNavigateToGem}) => {
+  let visibleStyle = {visibility: "visible"},
+      highlightStyle = highlight ? visibleStyle : {visibility: "hidden"};
   let gemDiv = (gem != null && gem !== scoreValues.NONE)
-              ? highlight
-                ? <div className="gem-outline-highlight" onClick={onNavigateToGem}>
-                    <div className={"gem-fill gem-fill-" + gem}></div>
-                  </div>
-                : <div className="gem-outline-highlight" onClick={onNavigateToGem} style={{visibility: "hidden"}}>
-                    <div className={"gem-fill gem-fill-" + gem} style={{visibility: "visible"}}></div>
-                  </div>
-              : <div className="gem-outline" onClick={onNavigateToGem}>
-                  <div className="gem-number-text">
-                    {challengeNum}
-                  </div>
+              ? <div className="gem-outline-highlight" onClick={onNavigateToGem} style={highlightStyle}>
+                  <div className={"gem-fill gem-fill-" + gem} style={visibleStyle}></div>
+                </div>
+              : <div className="gem-outline-highlight" onClick={onNavigateToGem} style={highlightStyle}>
+                  <div className="gem-outline" onClick={onNavigateToGem} style={visibleStyle}>
+                    <div className="gem-number-text">
+                      {challengeNum}
+                    </div>
+                  </div>;
                 </div>;
   return (
     <div className={ classNames("gem-container", {highlight: highlight}) }>
@@ -33,11 +33,7 @@ GemView.propTypes = {
 const GemSetView = ({level, mission, challenge, challengeCount, gems, onNavigateToChallenge}) => {
 
   let getAwardImage = (progressImages, gemNumber, challengeGem, highlight, onNavigateToGem) => {
-    if (challengeGem != null && challengeGem !== scoreValues.NONE){
-      return <GemView key={gemNumber} gem={challengeGem} highlight={highlight} onNavigateToGem={onNavigateToGem}/>;
-    } else {
-      return <GemView key={gemNumber} challengeNum={gemNumber} onNavigateToGem={onNavigateToGem}/>;
-    }
+    return <GemView key={gemNumber} challengeNum={gemNumber} gem={challengeGem} highlight={highlight} onNavigateToGem={onNavigateToGem}/>;
   };
 
   let missionGems = getMissionGems(level, mission, challengeCount, gems),

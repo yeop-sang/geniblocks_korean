@@ -28,8 +28,8 @@ const EndLevelDialogView = ({gems, routeSpec, challengeCount, onNextChallenge, o
           <div className="gem-won-text">
             {getGemDisplayName(currentScore)}
           </div>
-          <GemSetView level={level} mission={mission} challenge={challenge} challengeCount={challengeCount} gems={gems}/>
         </div>
+        <GemSetView level={level} mission={mission} challenge={challenge} challengeCount={challengeCount} gems={gems}/>
       </div>
       <div className="venture-pad-separator" id="end-level-separator-2"></div>
       <div className="end-level-navigation-buttons">
