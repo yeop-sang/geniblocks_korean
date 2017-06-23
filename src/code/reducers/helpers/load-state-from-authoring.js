@@ -140,7 +140,7 @@ export function loadStateFromAuthoring(state, authoring) {
   } else if (authoredChallenge.goalMoves) {
     goalMoves = authoredChallenge.goalMoves[trial];
   } else {
-    goalMoves = 0;
+    goalMoves = -1;
   }
 
   let authoredState = {

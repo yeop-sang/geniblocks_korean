@@ -17,7 +17,7 @@ export default function challengeErrors(state = initialState, moves, goalMoves, 
     default: {
       // for any action that increases moves, increase challengeErrors if we're above
       // goal moves. (Remembering that `moves` has already been set by previous reducers)
-      if (action.incrementMoves && moves > goalMoves) {
+      if (action.incrementMoves && goalMoves >= 0 && moves > goalMoves) {
         return state + 1;
       } else {
         return state;
