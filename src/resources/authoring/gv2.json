@@ -1,4 +1,18 @@
 {
+  "rooms": {
+    "simroom": {
+      "name": "Sim Room"
+    },
+    "hatchery": {
+      "name": "Hatchery"
+    },
+    "zoomroom": {
+      "name": "Zoom Room"
+    },
+    "breedingbarn": {
+      "name": "Breeding Barn"
+    }
+  },
   "challenges": {
     "allele-5drakes-tutorial-original": {
       "comment": "*** Level 1, Mission 1.1: Playground ***",
@@ -1004,7 +1018,8 @@
             "challenges": [
               {
                 "name": "Challenge 1.1.1",
-                "id": "allele-5drakes-tutorial"
+                "id": "allele-5drakes-tutorial",
+                "room": "simroom"
               }
             ]
           }
@@ -1019,11 +1034,13 @@
             "challenges": [
               {
                 "name": "Challenge 2.1.1",
-                "id": "allele-targetMatch-visible-simpleDom"
+                "id": "allele-targetMatch-visible-simpleDom",
+                "room": "simroom"
               },
               {
                 "name": "Challenge 2.1.2",
-                "id": "allele-targetMatch-hidden-simpleDom"
+                "id": "allele-targetMatch-hidden-simpleDom",
+                "room": "simroom"
               }
             ]
           },
@@ -1032,11 +1049,13 @@
             "challenges": [
               {
                 "name": "Challenge 2.2.1",
-                "id": "eggDrop-wings"
+                "id": "eggDrop-wings",
+                "room": "hatchery"
               },
               {
                 "name": "Challenge 2.2.2",
-                "id": "eggDrop-limbs"
+                "id": "eggDrop-limbs",
+                "room": "hatchery"
               }
             ]
           },
@@ -1045,19 +1064,23 @@
             "challenges": [
               {
                 "name": "Challenge 2.3.1",
-                "id": "allele-targetMatch-visible-armorHorns"
+                "id": "allele-targetMatch-visible-armorHorns",
+                "room": "simroom"
               },
               {
                 "name": "Challenge 2.3.2",
-                "id": "allele-targetMatch-hidden-armorHorns"
+                "id": "allele-targetMatch-hidden-armorHorns",
+                "room": "simroom"
               },
               {
                 "name": "Challenge 2.3.3",
-                "id": "eggDrop-horns"
+                "id": "eggDrop-horns",
+                "room": "hatchery"
               },
               {
                 "name": "Challenge 2.3.4",
-                "id": "eggDrop-armor"
+                "id": "eggDrop-armor",
+                "room": "hatchery"
               }
             ]
           }
@@ -1072,11 +1095,63 @@
             "challenges": [
               {
                 "name": "Challenge 3.1.1",
-                "id": "allele-targetMatch-visible-simpleColors"
+                "id": "allele-targetMatch-visible-simpleColors",
+                "room": "simroom"
               },
               {
                 "name": "Challenge 3.1.2",
-                "id": "allele-targetMatch-hidden-simpleColors"
+                "id": "allele-targetMatch-hidden-simpleColors",
+                "room": "simroom"
+              }
+            ]
+          },
+          {
+            "name": "Mission 3.2",
+            "challenges": [
+              {
+                "name": "Challenge 3.2.1",
+                "id": "cell-game-size-intro",
+                "room": "zoomroom"
+              },
+              {
+                "name": "Challenge 3.2.2",
+                "id": "cell-game-charcoal-lava-size",
+                "room": "zoomroom"
+              },
+              {
+                "name": "Challenge 3.2.3",
+                "id": "cell-game-lava-charcoal-size",
+                "room": "zoomroom"
+              }
+            ]
+          },
+          {
+            "name": "Mission 3.3",
+            "challenges": [
+              {
+                "name": "Challenge 3.3.1",
+                "id": "cell-game-charcoal-frost-size",
+                "room": "zoomroom"
+              },
+              {
+                "name": "Challenge 3.3.2",
+                "id": "cell-game-frost-charcoal-size",
+                "room": "zoomroom"
+              }
+            ]
+          },
+          {
+            "name": "Mission 3.4",
+            "challenges": [
+              {
+                "name": "Challenge 3.4.2",
+                "id": "cell-game-lava-copper-gate",
+                "room": "zoomroom"
+              },
+              {
+                "name": "Challenge 3.4.3",
+                "id": "cell-game-copper-lava-gate",
+                "room": "zoomroom"
               }
             ]
           }
@@ -1091,19 +1166,23 @@
             "challenges": [
               {
                 "name": "Challenge 4.1.1",
-                "id": "gamete-5drakes-starterTraits"
+                "id": "gamete-5drakes-starterTraits",
+                "room": "hatchery"
               },
               {
                 "name": "Challenge 4.1.2",
-                "id": "gamete-targetMatch-starterTraits"
+                "id": "gamete-targetMatch-starterTraits",
+                "room": "hatchery"
               },
               {
                 "name": "Challenge 4.1.3",
-                "id": "gamete-selectSpermEgg-starterTraits"
+                "id": "gamete-selectSpermEgg-starterTraits",
+                "room": "hatchery"
               },
               {
                 "name": "Challenge 4.1.4",
-                "id": "gamete-selectSpermEgg-starterTraits-bothParents"
+                "id": "gamete-selectSpermEgg-starterTraits-bothParents",
+                "room": "hatchery"
               }
             ]
           },
@@ -1112,60 +1191,13 @@
             "challenges": [
               {
                 "name": "Challenge 4.2.1",
-                "id": "clutch-5drakes-starterTraits"
+                "id": "clutch-5drakes-starterTraits",
+                "room": "breedingbarn"
               },
               {
                 "name": "Challenge 4.2.2",
-                "id": "clutch-5drakes-intermediateTraits"
-              }
-            ]
-          }
-        ]
-      },
-
-      {
-        "name": "Level 17",
-        "missions": [
-          {
-            "name": "Mission 3.2",
-            "challenges": [
-              {
-                "name": "Challenge 3.2.1",
-                "id": "cell-game-size-intro"
-              },
-              {
-                "name": "Challenge 3.2.2",
-                "id": "cell-game-charcoal-lava-size"
-              },
-              {
-                "name": "Challenge 3.2.3",
-                "id": "cell-game-lava-charcoal-size"
-              }
-            ]
-          },
-          {
-            "name": "Mission 3.3",
-            "challenges": [
-              {
-                "name": "Challenge 3.3.1",
-                "id": "cell-game-charcoal-frost-size"
-              },
-              {
-                "name": "Challenge 3.3.2",
-                "id": "cell-game-frost-charcoal-size"
-              }
-            ]
-          },
-          {
-            "name": "Mission 3.4",
-            "challenges": [
-              {
-                "name": "Challenge 3.4.2",
-                "id": "cell-game-lava-copper-gate"
-              },
-              {
-                "name": "Challenge 3.4.3",
-                "id": "cell-game-copper-lava-gate"
+                "id": "clutch-5drakes-intermediateTraits",
+                "room": "breedingbarn"
               }
             ]
           }

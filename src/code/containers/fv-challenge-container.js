@@ -11,33 +11,53 @@ import ModalMessageContainer from "./modal-message-container";
 import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
         keepOffspring, fertilize, breedClutch, hatch,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket,
-        winZoomChallenge, toggleMap } from '../actions';
+        winZoomChallenge, toggleMap, enterChallengeFromRoom } from '../actions';
 import { addGameteChromosome, resetGametes,
         addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/gametes';
 
 class FVChallengeContainer extends Component {
 
   render() {
-    const { template, style, ...otherProps } = this.props,
+    const { template, style, location, showingRoom, ...otherProps } = this.props,
           { challengeType, interactionType, routeSpec, trial, numTrials, correct, challenges, showAward } = this.props;
 
     if (!template) return null;
 
-    const Template = templates[this.props.template],
-          bgClasses = classNames('mission-backdrop', Template.backgroundClasses,
-                                  challengeType, interactionType),
-          maxScore = Template.maxScore;
+    const Template = templates[this.props.template];
 
-    return (
-      <div id="challenges" className={bgClasses} style={style}>
-        // TODO: put location names in the authoring document
-        <TopHUDView location={"Hatchery"} onToggleMap={this.props.onToggleMap}/>
+    let bgClasses,
+        maxScore,
+        goalMoves,
+        showChallengeWidgets = false,
+        MainView;
+
+    if (showingRoom) {
+      bgClasses = classNames('mission-backdrop', 'fv-layout', 'room', location.id),
+
+      MainView = (
+        <div id="enter-challenge-hotspot" className="hotspot" onClick={ this.props.onEnterChallenge }/>
+      );
+    } else {
+      bgClasses = classNames('mission-backdrop', Template.backgroundClasses,
+                              challengeType, interactionType);
+      maxScore = Template.maxScore;
+      goalMoves = this.props.goalMoves;
+      showChallengeWidgets = true;
+
+      MainView = (
         <div id="mission-wrapper">
           <Template {...otherProps} />
         </div>
+      );
+    }
+
+    return (
+      <div id="challenges" className={bgClasses} style={style}>
+        <TopHUDView locationName={ this.props.location.name } onToggleMap={this.props.onToggleMap}/>
+        { MainView }
         <BottomHUDView routeSpec={routeSpec} numChallenges={challenges} trial={trial + 1} trialCount={numTrials}
                        currScore={correct} maxScore={maxScore} currMoves={this.props.moves} showAward={showAward}
-                       goalMoves={this.props.goalMoves} gems={this.props.gems} />
+                       goalMoves={goalMoves} gems={this.props.gems} showChallengeWidgets={showChallengeWidgets}/>
         <NotificationContainer />
         <ModalMessageContainer />
       </div>
@@ -61,7 +81,10 @@ class FVChallengeContainer extends Component {
     gems: PropTypes.array,
     challenges: PropTypes.number,
     showAward: PropTypes.bool,
-    onToggleMap: PropTypes.func
+    onToggleMap: PropTypes.func,
+    onEnterChallenge: PropTypes.func,
+    location: PropTypes.object,
+    showingRoom: PropTypes.bool
   }
 }
 
@@ -91,6 +114,8 @@ function mapStateToProps (state) {
       challenges: state.challenges,
       showAward: state.modalDialog.showAward,
       zoomUrl: state.zoomUrl,
+      location: state.location,
+      showingRoom: state.showingRoom,
       // drag/drop experiment option for enabling custom drag layer rather
       // than HTML5 drag/drop dragImage
       useCustomDragLayer: true
@@ -119,7 +144,8 @@ function mapDispatchToProps(dispatch) {
     onChangeDrakeSelection: (selectedIndices) => dispatch(changeDrakeSelection(selectedIndices)),
     onSubmitEggForBasket: (...args) => dispatch(submitEggForBasket(...args)),
     onWinZoomChallenge: (...args) => dispatch(winZoomChallenge(...args)),
-    onToggleMap: (isVisible) => dispatch(toggleMap(isVisible))
+    onToggleMap: (isVisible) => dispatch(toggleMap(isVisible)),
+    onEnterChallenge: () => dispatch(enterChallengeFromRoom())
   };
 }
 

@@ -73,6 +73,12 @@ export default function reducer(state, action) {
       });
     }
 
+    case actionTypes.ENTERED_CHALLENGE_FROM_ROOM: {
+      return state.merge({
+        showingRoom: false
+      });
+    }
+
     case actionTypes.ADVANCED_TRIAL: {
       if (state.trialSuccess){
         if (state.trial < state.numTrials - 1) {
