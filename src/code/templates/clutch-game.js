@@ -110,14 +110,14 @@ export default class ClutchGame extends Component {
     };
 
     const handleSubmit = function (index, id, child) {
-      let childImage = child.getImageName(),
-          success = false;
-
-      const targetDrakeOrg = new BioLogica.Organism(BioLogica.Species.Drake,
+      const childImage = child.getImageName(),
+            selectedDrakeIndex = index + 3,
+            targetDrakeOrg = new BioLogica.Organism(BioLogica.Species.Drake,
                                                     targetDrake.alleleString,
-                                                    targetDrake.sex);
-      success = (childImage === targetDrakeOrg.getImageName());
-      onDrakeSubmission(2, index, success, null, 0, 1);
+                                                    targetDrake.sex),
+            success = (childImage === targetDrakeOrg.getImageName());
+
+      onDrakeSubmission(2, selectedDrakeIndex, success, null, 0, 1);
     };
 
     const targetDrakeOrg = targetDrake && targetDrake.alleleString
