@@ -25,7 +25,9 @@ const ClutchView = React.createClass({
 
   handleClick(id, org) {
     const prefixIndex = id.indexOf(this.props.idPrefix),
-          index = Number(id.substr(prefixIndex + this.props.idPrefix.length));
+          indexOnPage = Number(id.substr(prefixIndex + this.props.idPrefix.length)),
+          index = ((this.state.page-1) * 8) + indexOnPage;
+
     if (this.props.onClick) this.props.onClick(index, id, org);
   },
 

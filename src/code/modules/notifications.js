@@ -19,6 +19,10 @@ export default function notifications(state = initialState, action) {
   switch (action.type) {
     case GUIDE_MESSAGE_RECEIVED:
       if (action.data) {
+        if (action.data.reason) {
+          console.log(`%c ITS Message Reason: ${action.data.reason.why || ""}`, `color: #f99a00`, action.data.reason);
+        }
+
         let currentMessage = state.messages.length > 0 ? state.messages[0] + " " : "";
         return Object.assign({}, state, {messages: [currentMessage + action.data.message.asString()]});
       }
