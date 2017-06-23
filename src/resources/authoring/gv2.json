@@ -1019,13 +1019,26 @@
               {
                 "name": "Challenge 1.1.1",
                 "id": "allele-5drakes-tutorial",
-                "room": "simroom"
+                "room": "simroom",
+                "dialog": [
+                  {
+                    "character": "YEUNG",
+                    "text": "Good to meet you, Cadet! I'm Professor Yeung, and I'm in charge of the Sim Room. We’re going to show you on this simulator how to breed five different kinds of drakes - with different combinations of arms, legs, wings, horns, and armor."
+                  },
+                  {
+                    "character": "HATCH",
+                    "text": "Remember, we learn what we can from drakes and then apply what we’ve learned to dragons."
+                  },
+                  {
+                    "character": "YEUNG",
+                    "text": "Now let’s get going! Every moment lost could mean a dragon’s life! Click the screen to get started!"
+                  }
+                ]
               }
             ]
           }
         ]
       },
-
       {
         "name": "Level 2",
         "missions": [

@@ -9,6 +9,10 @@
   pointer-events: none
 
   .notification
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: space-between
     width: 1405px
     height: 189px
     margin: 0 -67px
@@ -18,33 +22,40 @@
     background-image: url('../resources/fablevision/huds/scroll.png')
 
     .message-text
-      position: absolute
       margin-left: 140px
-      top: 202px
+      margin-top: 23px
       font-family: 'Yanone Kaffeesatz'
       font-size: 2rem
       color: black
-      width: 1000px
+      width: 1030px
 
-    .close-button
-      background-image: url('../resources/fablevision/huds/scroll_close.png')
-      width: 47px
-      height: 45px
-      background-repeat: no-repeat
-      background-size: contain
-      margin-left: 1250px
-      margin-top: 50px
-      cursor: pointer
+    .message-buttons
+      padding-right: 112px
+      height: 100%
+      position: relative
 
-    .next-arrow
-      background-image: url('../resources/fablevision/huds/arrow_right.png')
-      height: 42px
-      width: 46px
-      background-repeat: no-repeat
-      background-size: contain
-      margin-left: 1155px
-      margin-top: -7px
-      cursor: pointer
+      .close-button
+        position: absolute
+        top: -6px
+        right: 111px
+        background-image: url('../resources/fablevision/huds/scroll_close.png')
+        width: 47px
+        height: 45px
+        background-repeat: no-repeat
+        background-size: contain
+        margin-top: 50px
+        cursor: pointer
+
+      .next-arrow
+        position: absolute
+        bottom: 53px
+        right: 157px
+        background-image: url('../resources/fablevision/huds/arrow_right.png')
+        height: 42px
+        width: 46px
+        background-repeat: no-repeat
+        background-size: contain
+        cursor: pointer
 
   .fv-character
     background-image: url('../resources/fablevision/huds/Rajput_active.png')

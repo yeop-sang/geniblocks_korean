@@ -137,7 +137,8 @@ export function loadStateFromAuthoring(state, authoring) {
         room = authoredChallengeMetadata.room || "simroom",
         roomInfo = (authoring && authoring.rooms) ? authoring.rooms[room] : {},
         location = {id: room, ...roomInfo},
-        showingRoom = trial === 0;
+        showingRoom = trial === 0,
+        dialog = authoredChallengeMetadata.dialog;
 
   let goalMoves = null;
   if (template.calculateGoalMoves) {
@@ -146,6 +147,13 @@ export function loadStateFromAuthoring(state, authoring) {
     goalMoves = authoredChallenge.goalMoves[trial];
   } else {
     goalMoves = -1;
+  }
+
+  let messages = [],
+      closeButton = null;
+  if (dialog) {
+    messages = dialog.map( (d) => ({type: "dialog", ...d}));
+    closeButton = {action: "enterChallengeFromRoom"};
   }
 
   let authoredState = {
@@ -174,7 +182,11 @@ export function loadStateFromAuthoring(state, authoring) {
     initialDrakes: [...drakes],
     zoomUrl,
     location,
-    showingRoom
+    showingRoom,
+    notifications: {
+      messages,
+      closeButton
+    }
   };
 
   // remove all undefined or null keys
