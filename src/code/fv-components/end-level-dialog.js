@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import t from '../utilities/translate';
 import GemSetView, {GemView} from './gem-set';
-import { getChallengeGem } from '../reducers/helpers/challenge-progress';
+import { getChallengeGem } from '../reducers/helpers/gems-helper';
 import VenturePadView from './venture-pad';
 
 const EndLevelDialogView = ({gems, routeSpec, challengeCount, onNextChallenge, onTryAgain}) => {
