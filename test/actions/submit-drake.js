@@ -244,6 +244,32 @@ describe('submitDrake action', () => {
       }));
     });
 
+    it('should not update challengeErrors when drake is incorrect but goalMoves < 0', () => {
+      let defaultState = reducer(undefined, {});
+      let initialState = defaultState.merge({
+        routeSpec: {level: 0,mission: 0, challenge: 0},
+        trial: 1,
+        trials: [{}, {}],
+        moves: 1,
+        goalMoves: -1,
+        challengeErrors: 0
+      });
+
+      let nextState = reducer(initialState, {
+        type: types.DRAKE_SUBMITTED,
+        correctPhenotype: [],
+        submittedPhenotype: [],
+        correct: false,
+        incrementMoves: true
+      });
+
+      expect(nextState).toEqual(initialState.merge({
+        trialSuccess: false,
+        moves: 2,
+        challengeErrors: 0
+      }));
+    });
+
     describe.skip('when drake is correct', () => {
       let defaultState = reducer(undefined, {});
       let initialState = defaultState.merge({
