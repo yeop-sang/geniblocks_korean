@@ -27,8 +27,8 @@ GuideProtocol.Text.prototype.asString = function() {
 /**
  * Event - information sent by the client (Geniverse) to the GUIDE ITS
  */
-GuideProtocol.Event = function(username, session, sequence, actor, action, target, context, time) {
-    this.username = username;
+GuideProtocol.Event = function(studentId, session, sequence, actor, action, target, context, time) {
+    this.studentId = studentId;
     this.session = session;
     this.sequence = sequence;
     this.actor = actor;
@@ -40,6 +40,16 @@ GuideProtocol.Event = function(username, session, sequence, actor, action, targe
 
 GuideProtocol.Event.Channel = 'Event';
 
+GuideProtocol.Event.prototype.isMatch = function(actor, action, target) {
+    return ((!actor || actor === '*' || actor === this.actor)
+        && (!action || action === '*' || action === this.action)
+        && (!target || target === '*' || target === this.target));
+};
+
+GuideProtocol.Event.prototype.toString = function() {
+    return this.actor + "-" + this.action + "-" + this.target;
+};
+
 GuideProtocol.Event.prototype.toJson = function() {
     return JSON.stringify(this);
 };
@@ -47,7 +57,7 @@ GuideProtocol.Event.prototype.toJson = function() {
 GuideProtocol.Event.fromJson = function(json) {
     var obj = JSON.parse(json);
     return new GuideProtocol.Event(
-        obj.username,
+        obj.studentId,
         obj.session,
         obj.sequence,
         obj.actor,
@@ -66,7 +76,7 @@ GuideProtocol.Event.fromJsonAsync = function(json) {
 /**
  * TutorDialog - used by the ITS to send a message to the student
  */
-GuideProtocol.TutorDialog = function(message, time) {
+GuideProtocol.TutorDialog = function(message, reason, time) {
 
     if (message instanceof GuideProtocol.Text) {
        this.message = message;
@@ -77,6 +87,7 @@ GuideProtocol.TutorDialog = function(message, time) {
     }
 
     this.time = (time == null ? Date.now() : time);
+    this.reason = reason;
 };
 
 GuideProtocol.TutorDialog.Channel = 'TutorDialog';
@@ -89,6 +100,7 @@ GuideProtocol.TutorDialog.fromJson = function(json) {
     var obj = JSON.parse(json);
     return new GuideProtocol.TutorDialog(
         obj.message,
+        obj.reason,
         obj.time);
 };
 
