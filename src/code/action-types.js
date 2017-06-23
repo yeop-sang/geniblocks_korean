@@ -26,7 +26,8 @@ const actionTypes = {
   NOTIFICATION_SHOWN: "Notification shown",
   ADVANCED_TRIAL: "Advanced to next trial",
   TOGGLE_MAP: "Map toggled",
-  ENTERED_CHALLENGE_FROM_ROOM: "Entered challenge from room"
+  ENTERED_CHALLENGE_FROM_ROOM: "Entered challenge from room",
+  LOAD_SAVED_STATE: "Loaded saved state"
 };
 
 export default actionTypes;

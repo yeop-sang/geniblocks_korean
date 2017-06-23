@@ -12,4 +12,12 @@ var urlParams;
        urlParams[decode(match[1])] = decode(match[2]);
 })();
 
+export function getReturnUrlId() {
+  //Extract the UID at the end of the returnUrl
+  let regex = /.*\/(\S+)/g,
+      matches = regex.exec(urlParams.returnUrl);
+
+  return matches[1];
+}
+
 export default urlParams;
