@@ -26,15 +26,18 @@ export function startSession(uuid) {
     dispatch(_startSession(uuid));
 
     // Attempt to load saved state from firebase
-    let db = firebase.database(),
-        ref = db.ref(getReturnUrlId());
+    if (typeof firebase !== "undefined") {
+      let db = firebase.database(), //eslint-disable-line
+          ref = db.ref(getReturnUrlId());
 
-    ref.once("value", function(data) {
-      dispatch({
-        type: actionTypes.LOAD_SAVED_STATE,
-        gems: data.val()
+      ref.once("value", function(data) {
+        dispatch({
+          type: actionTypes.LOAD_SAVED_STATE,
+          gems: data.val()
+        });
       });
-    });
+    }
+    
   };
 }
 

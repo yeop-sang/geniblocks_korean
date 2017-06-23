@@ -10,7 +10,7 @@ export default () => store => next => action => {
           update = {};
 
       update[getReturnUrlId()] = gems;
-      firebase.database().ref().update(update);
+      firebase.database().ref().update(update); //eslint-disable-line
     }
 
   return result;
