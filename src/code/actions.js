@@ -2,7 +2,7 @@ import actionTypes from './action-types';
 import { ITS_ACTORS, ITS_ACTIONS, ITS_TARGETS } from './its-constants';
 import GeneticsUtils from './utilities/genetics-utils';
 import AuthoringUtils from './utilities/authoring-utils';
-import { getReturnUrlId } from './utilities/url-params';
+import { authoringVersionNumber, getUserQueryString } from './middleware/state-save';
 
 export { actionTypes };
 
@@ -22,20 +22,35 @@ function _startSession(uuid) {
 }
 
 export function startSession(uuid) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(_startSession(uuid));
 
-    // Attempt to load saved state from firebase
     if (typeof firebase !== "undefined") {
+      // Store the authoring, if it is not already present
       let db = firebase.database(), //eslint-disable-line
-          ref = db.ref(getReturnUrlId());
+          authoringRef = db.ref(authoringVersionNumber + "/authoring");
 
-      ref.once("value", function(data) {
-        dispatch({
-          type: actionTypes.LOAD_SAVED_STATE,
-          gems: data.val()
+        authoringRef.once("value", function(storedAuthoring) {
+          if (!storedAuthoring.val()) {
+            let authoringUpdate = { authoring: getState().authoring };
+
+            firebase.database().ref(authoringVersionNumber).update(authoringUpdate); //eslint-disable-line
+          }
         });
-      });
+
+      // Attempt to load saved state from firebase
+      let userQueryString = getUserQueryString();
+
+      if (userQueryString) {
+        const ref = db.ref(userQueryString + "/state");
+
+        ref.once("value", function(data) {
+          dispatch({
+            type: actionTypes.LOAD_SAVED_STATE,
+            gems: data.val()
+          });
+        });
+      }
     }
     
   };

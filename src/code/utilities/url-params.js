@@ -12,12 +12,16 @@ var urlParams;
        urlParams[decode(match[1])] = decode(match[2]);
 })();
 
-export function getReturnUrlId() {
-  //Extract the UID at the end of the returnUrl
-  let regex = /.*\/(\S+)/g,
-      matches = regex.exec(urlParams.returnUrl);
+export function getClassId() {
+  // Pull the class number out of the class info
+  let regex = /classes\/(\d*)/g,
+      matches = regex.exec(urlParams.class_info_url);
 
-  return matches[1];
+  return matches ? matches[1] : null;
+}
+
+export function getUserId() {
+  return urlParams.domain_uid;
 }
 
 export default urlParams;

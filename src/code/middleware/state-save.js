@@ -1,17 +1,29 @@
 import actionTypes from '../action-types';
-import { getReturnUrlId } from '../utilities/url-params';
+import { getClassId, getUserId } from '../utilities/url-params';
+
+export const authoringVersionNumber = 1;
 
 export default () => store => next => action => {
-  let result = next(action),
-      nextState = store.getState();
+  let result = next(action);
 
   if (action.type === actionTypes.CHALLENGE_COMPLETED) {
-      let gems = nextState.gems, 
-          update = {};
+      let userQueryString = getUserQueryString();
 
-      update[getReturnUrlId()] = gems;
-      firebase.database().ref().update(update); //eslint-disable-line
+      if (userQueryString) {
+        let nextState = store.getState(),
+            gems = nextState.gems,
+            stateUpdate = {state: gems};
+          
+        firebase.database().ref(userQueryString).update(stateUpdate); //eslint-disable-line
+      }
     }
 
   return result;
 };
+
+export function getUserQueryString() {
+  const classId = getClassId(),
+        userId = getUserId();
+
+  return (classId && userId) ? authoringVersionNumber + "/userState/" + classId + "/" + userId : null;
+}
