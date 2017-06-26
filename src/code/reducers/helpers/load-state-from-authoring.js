@@ -201,8 +201,14 @@ export function loadHome(state, authoring) {
       roomInfo = (authoring && authoring.rooms) ? authoring.rooms[room] : {},
       location = {id: room, ...roomInfo},
       { level, mission, started } = AuthoringUtils.getCurrentMissionFromGems(authoring, state.gems),
-      dialog = started ? [] : authoring.application.levels[level].missions[mission].dialog,
-      messages = dialog.map( (d) => ({type: notificationType.DIALOG, ...d}));
+      dialogDefs = authoring.application.levels[level].missions[mission].dialog,
+      messages = [];
+
+  if (dialogDefs) {
+    let whichDialog = started ? "middle" : "start",
+        dialog = dialogDefs[whichDialog];
+    messages = dialog.map( (d) => ({type: notificationType.DIALOG, ...d}));
+  }
 
   let authoredState = {
     location,
