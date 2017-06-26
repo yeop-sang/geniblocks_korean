@@ -45,10 +45,13 @@ export default class NavigationDialogView extends React.Component {
     };
 
     let levelNavigation = (
-      <div className="level-navigation">
-        <div id="prev-level-button" className="level-nav-button" onClick={handlePageBackward}></div>
-        <div className="level-label">{this.state.level + 1}</div>
-        <div id="next-level-button" className="level-nav-button" onClick={handlePageForward}></div>
+      <div className="level-indicator">
+        <div className="level-title">{t("~LEVEL_INDICATOR.LEVEL_LABEL")}</div>
+        <div className="level-navigation">
+          <div id="prev-level-button" className="level-nav-button" onClick={handlePageBackward}></div>
+          <div className="level-label">{this.state.level + 1}</div>
+          <div id="next-level-button" className="level-nav-button" onClick={handlePageForward}></div>
+        </div>
       </div>
     );
 
