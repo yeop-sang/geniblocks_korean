@@ -22,27 +22,16 @@ function _startSession(uuid) {
 }
 
 export function startSession(uuid) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(_startSession(uuid));
 
     if (typeof firebase !== "undefined") {
-      // Store the authoring, if it is not already present
-      let db = firebase.database(), //eslint-disable-line
-          authoringRef = db.ref(authoringVersionNumber + "/authoring");
-
-        authoringRef.once("value", function(storedAuthoring) {
-          if (!storedAuthoring.val()) {
-            let authoringUpdate = { authoring: getState().authoring };
-
-            firebase.database().ref(authoringVersionNumber).update(authoringUpdate); //eslint-disable-line
-          }
-        });
-
       // Attempt to load saved state from firebase
       let userQueryString = getUserQueryString();
 
       if (userQueryString) {
-        const ref = db.ref(userQueryString + "/state");
+        const db = firebase.database(), //eslint-disable-line
+              ref = db.ref(userQueryString + "/state");
 
         ref.once("value", function(data) {
           dispatch({
