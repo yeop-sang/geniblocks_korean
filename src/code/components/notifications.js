@@ -35,7 +35,7 @@ class Notifications extends React.Component {
     const message = this.props.messages[0],
           text = message.text,
           character = message.character || this.props.defaultCharacter,
-          speaker = <div className="fv-character"></div>,
+          speaker = <div className={`fv-character ${character}`}></div>,
             // don't show close button if there's more narrative dialog
           showCloseButton = (message.type && message.type !== "dialog") || !this.props.messages[1],
           showNextButton = !!this.props.messages[1],
