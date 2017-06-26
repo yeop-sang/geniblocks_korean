@@ -10,6 +10,10 @@ export const GUIDE_ERRORED = "Guide errored";
 export const ADVANCE_NOTIFICATIONS = "Advance notifications";
 export const CLOSE_NOTIFICATIONS = "Close notifications";
 
+export const notificationType = {
+  DIALOG: "dialog"
+};
+
 const initialState = {
   messages: Immutable([]),
   closeButton: null
@@ -21,6 +25,11 @@ export default function notifications(state = initialState, action) {
       if (action.data) {
         if (action.data.reason) {
           console.log(`%c ITS Message Reason: ${action.data.reason.why || ""}`, `color: #f99a00`, action.data.reason);
+        }
+
+        if (state.messages[0] && state.messages[0].type === notificationType.DIALOG) {
+          console.log(`%c Not showing ITS Message due to narrative`, `color: #f99a00`);
+          return state;
         }
 
         let currentMessage = state.messages.length > 0 ? state.messages[0].text + " " : "";

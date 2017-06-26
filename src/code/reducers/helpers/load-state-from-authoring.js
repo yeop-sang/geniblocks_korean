@@ -2,6 +2,7 @@ import templates from '../../templates';
 import GeneticsUtils from '../../utilities/genetics-utils';
 import { range, shuffle, assign } from 'lodash';
 import AuthoringUtils from '../../utilities/authoring-utils';
+import { notificationType } from '../../modules/notifications';
 
 /**
  * Tolerant splitter into a list of strings.
@@ -152,7 +153,7 @@ export function loadStateFromAuthoring(state, authoring) {
   let messages = [],
       closeButton = null;
   if (dialog) {
-    messages = dialog.map( (d) => ({type: "dialog", ...d}));
+    messages = dialog.map( (d) => ({type: notificationType.DIALOG, ...d}));
     closeButton = {action: "enterChallengeFromRoom"};
   }
 
