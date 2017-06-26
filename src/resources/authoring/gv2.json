@@ -1022,6 +1022,28 @@
         "missions": [
           {
             "name": "Mission 1.1",
+            "dialog": [
+              {
+                "character": "HATCH",
+                "text": "Welcome, Cadet, to our underground hideout! I'm Professor Hatch, director of the Drake Breeder's Guild."
+              },
+              {
+                "character": "WEAVER",
+                "text": "And I'm Dr. Weaver, head of Mission Control here in the heart of our subterranean base."
+              },
+              {
+                "character": "HATCH",
+                "text": "Our country -- the Wyvern Republic -- depends on its dragons for defense, but they are under attack from the evil Kingdom of Darkwell, and in danger of going extinct! "
+              },
+              {
+                "character": "WEAVER",
+                "text": "You are training to be part of an elite team of scientists who will help us bring dragons back from the brink! We want to assemble a small dragon squad to stage a behind-enemy-lines strike on the Darkwellians to end the war."
+              },
+              {
+                "character": "HATCH",
+                "text": "Time is running out and we need to train you fast! Come with me to the Sim Room. Click your VenturePad to navigate around the base."
+              }
+            ],
             "challenges": [
               {
                 "name": "Challenge 1.1.1",
@@ -1051,6 +1073,24 @@
         "missions": [
           {
             "name": "Mission 2.1",
+            "dialog": [
+              {
+                "character": "HERRERA",
+                "text": "Attention, Cadet! I’m Colonel de Herrera, commander of the dragon pilots! We’re losing the war against Darkwell, so I will be leading the sneaky mission behind enemy lines!"
+              },
+              {
+                "character": "YEUNG",
+                "text": "Over the course of your service here with us, we will need your help understanding how to breed different types of drakes so that we can develop dragons that help Colonel de Herrera and his squad!"
+              },
+              {
+                "character": "HERRERA",
+                "text": "I hear you’ve been training in the Sim Room and show lots of promise! So let’s go back there and see if you can knock a few out of the park!"
+              },
+              {
+                "character": "YEUNG",
+                "text": "Open your VentureMap and head on over there with us. Quickly! We don’t have much time!"
+              }
+            ],
             "challenges": [
               {
                 "name": "Challenge 2.1.1",

@@ -199,11 +199,18 @@ export function loadStateFromAuthoring(state, authoring) {
 export function loadHome(state, authoring) {
   let room = "home",
       roomInfo = (authoring && authoring.rooms) ? authoring.rooms[room] : {},
-      location = {id: room, ...roomInfo};
+      location = {id: room, ...roomInfo},
+      { level, mission, started } = AuthoringUtils.getCurrentMissionFromGems(authoring, state.gems),
+      dialog = started ? [] : authoring.application.levels[level].missions[mission].dialog,
+      messages = dialog.map( (d) => ({type: notificationType.DIALOG, ...d}));
 
   let authoredState = {
     location,
-    showingRoom: true
+    showingRoom: true,
+    notifications: {
+      messages,
+      closeButton: false
+    }
   };
 
   // remove all undefined or null keys
