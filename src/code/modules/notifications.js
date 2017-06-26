@@ -11,7 +11,7 @@ export const ADVANCE_NOTIFICATIONS = "Advance notifications";
 export const CLOSE_NOTIFICATIONS = "Close notifications";
 
 export const notificationType = {
-  DIALOG: "dialog"
+  NARRATIVE: "narrative"
 };
 
 const initialState = {
@@ -27,7 +27,7 @@ export default function notifications(state = initialState, action) {
           console.log(`%c ITS Message Reason: ${action.data.reason.why || ""}`, `color: #f99a00`, action.data.reason);
         }
 
-        if (state.messages[0] && state.messages[0].type === notificationType.DIALOG) {
+        if (state.messages[0] && state.messages[0].type === notificationType.NARRATIVE) {
           console.log(`%c Not showing ITS Message due to narrative`, `color: #f99a00`);
           return state;
         }

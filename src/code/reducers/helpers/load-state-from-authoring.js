@@ -153,7 +153,7 @@ export function loadStateFromAuthoring(state, authoring) {
   let messages = [],
       closeButton = null;
   if (dialog) {
-    messages = dialog.map( (d) => ({type: notificationType.DIALOG, ...d}));
+    messages = dialog.map( (d) => ({type: notificationType.NARRATIVE, ...d}));
     closeButton = {action: "enterChallengeFromRoom"};
   }
 

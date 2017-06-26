@@ -4,9 +4,8 @@ import * as actions from '../actions';
 import { advanceNotifications, closeNotifications } from '../modules/notifications';
 
 function mapStateToProps (state) {
-  let messages = state.notifications.messages.concat(state.dialog);
   return {
-    messages,
+    messages: state.notifications.messages,
     closeButton: state.notifications.closeButton,
     defaultCharacter: state.location.defaultCharacter
   };
