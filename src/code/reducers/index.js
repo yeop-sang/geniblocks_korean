@@ -1,6 +1,6 @@
 import Immutable from 'seamless-immutable';
 import actionTypes from '../action-types';
-import { loadStateFromAuthoring, loadNextTrial } from './helpers/load-state-from-authoring';
+import { loadStateFromAuthoring, loadNextTrial, loadHome } from './helpers/load-state-from-authoring';
 import urlParams from '../utilities/url-params';
 
 // reducers
@@ -86,6 +86,12 @@ export default function reducer(state, action) {
         }
       }
       return state;
+    }
+    case actionTypes.NAVIGATED_HOME: {
+      state = state.merge({
+        routeSpec: null
+      });
+      return loadHome(state, state.authoring);
     }
     case actionTypes.NAVIGATED: {
       //TODO: it would be nice to merge this with the "routing" reducer into a module which controls the state's routeSpec

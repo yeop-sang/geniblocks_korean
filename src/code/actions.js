@@ -78,6 +78,12 @@ export function navigateToChallenge(routeSpec) {
   };
 }
 
+export function navigateToHome() {
+  return {
+    type: actionTypes.NAVIGATED_HOME
+  };
+}
+
 function _retryCurrentChallenge() {
   return {
     type: actionTypes.CHALLENGE_RETRIED

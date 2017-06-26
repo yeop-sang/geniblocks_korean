@@ -196,6 +196,22 @@ export function loadStateFromAuthoring(state, authoring) {
   return state.merge(authoredState);
 }
 
+export function loadHome(state, authoring) {
+  let room = "home",
+      roomInfo = (authoring && authoring.rooms) ? authoring.rooms[room] : {},
+      location = {id: room, ...roomInfo};
+
+  let authoredState = {
+    location,
+    showingRoom: true
+  };
+
+  // remove all undefined or null keys
+  Object.keys(authoredState).forEach((key) => (authoredState[key] == null) && delete authoredState[key]);
+
+  return state.merge(authoredState);
+}
+
 export function loadNextTrial(state, authoring) {
   let trial = state.trial;
   if (state.trialSuccess){

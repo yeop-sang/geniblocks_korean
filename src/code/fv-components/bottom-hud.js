@@ -25,10 +25,28 @@ const BottomHUDView = React.createClass({
     let {routeSpec, trial, trialCount, currScore, maxScore, currMoves, goalMoves, numChallenges, gems} = this.props,
         scoreView = maxScore ? <CountView countTitleText={t('~COUNTER.SCORE_LABEL')} className={'score-count'} currCount={currScore} maxCount={maxScore} /> : null,
         movesView = goalMoves > 0 ? <CountView countTitleText={t('~COUNTER.MOVES_LABEL')} className={'moves-count'} currCount={currMoves} maxCount={goalMoves} /> : null,
-        widgets;
+        showRouteWidgets = routeSpec !== null,
+        routeWidgets, challengeWidgets;
+
+    if (showRouteWidgets) {
+      let missionScreen = (
+        <div className="mission-screen">
+          <div className="mission-label mission-label-text">Mission</div>
+          <div className="mission-label mission-label-value">{routeSpec.mission + 1}</div>
+        </div>
+      );
+
+      routeWidgets = (
+        <div>
+          <LevelIndicatorView level={routeSpec.level + 1} />
+          {missionScreen}
+          <GemSetView level={routeSpec.level} mission={routeSpec.mission} challenge={routeSpec.challenge} challengeCount={numChallenges} gems={gems}/>
+        </div>
+      );
+    }
 
     if (this.props.showChallengeWidgets) {
-      widgets = (
+      challengeWidgets = (
         <div>
           <CountView countTitleText={t('~COUNTER.TRIAL_LABEL')} className={'trial-count'} currCount={trial} maxCount={trialCount} />
           {scoreView}
@@ -37,20 +55,13 @@ const BottomHUDView = React.createClass({
       );
     }
 
-    let missionScreen = (
-      <div className="mission-screen">
-        <div className="mission-label mission-label-text">Mission</div>
-        <div className="mission-label mission-label-value">{routeSpec.mission + 1}</div>
-      </div>
-    );
+
 
     return (
       <div id='fv-bottom-hud' className='fv-hud fv-bottom-hud' >
         <AvatarButtonView />
-        <LevelIndicatorView level={routeSpec.level + 1} />
-        {missionScreen}
-        <GemSetView level={routeSpec.level} mission={routeSpec.mission} challenge={routeSpec.challenge} challengeCount={numChallenges} gems={gems}/>
-        { widgets }
+        { routeWidgets }
+        { challengeWidgets }
       </div>
     );
   }

@@ -3,6 +3,7 @@ const actionTypes = {
   AUTHORING_CHANGED: "Authoring changed",
   LOADED_CHALLENGE_FROM_AUTHORING: "Loaded challenge from authoring",
   NAVIGATED: "Navigated",
+  NAVIGATED_HOME: "Navigated home",
   CHALLENGE_COMPLETED: "Challenge completed",
   CHALLENGE_RETRIED: "Challenge retried",
   BRED: "Bred",

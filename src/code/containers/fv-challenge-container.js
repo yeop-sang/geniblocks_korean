@@ -21,10 +21,6 @@ class FVChallengeContainer extends Component {
     const { template, style, location, showingRoom, ...otherProps } = this.props,
           { challengeType, interactionType, routeSpec, trial, numTrials, correct, challenges, showAward } = this.props;
 
-    if (!template) return null;
-
-    const Template = templates[this.props.template];
-
     let bgClasses,
         maxScore,
         goalMoves,
@@ -38,6 +34,8 @@ class FVChallengeContainer extends Component {
         <div id="enter-challenge-hotspot" className="hotspot" onClick={ this.props.onEnterChallenge }/>
       );
     } else {
+      const Template = templates[this.props.template];
+
       bgClasses = classNames('mission-backdrop', Template.backgroundClasses,
                               challengeType, interactionType);
       maxScore = Template.maxScore;

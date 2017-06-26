@@ -1,5 +1,8 @@
 {
   "rooms": {
+    "home": {
+      "name": "Mission Control"
+    },
     "simroom": {
       "name": "Sim Room",
       "defaultCharacter": "YEUNG"
