@@ -7,7 +7,8 @@ function mapStateToProps (state) {
   let messages = state.notifications.messages.concat(state.dialog);
   return {
     messages,
-    closeButton: state.notifications.closeButton
+    closeButton: state.notifications.closeButton,
+    defaultCharacter: state.location.defaultCharacter
   };
 }
 

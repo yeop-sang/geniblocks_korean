@@ -1,16 +1,20 @@
 {
   "rooms": {
     "simroom": {
-      "name": "Sim Room"
+      "name": "Sim Room",
+      "defaultCharacter": "YEUNG"
     },
     "hatchery": {
-      "name": "Hatchery"
+      "name": "Hatchery",
+      "defaultCharacter": "NETANYA"
     },
     "zoomroom": {
-      "name": "Zoom Room"
+      "name": "Zoom Room",
+      "defaultCharacter": "ELLIS"
     },
     "breedingbarn": {
-      "name": "Breeding Barn"
+      "name": "Breeding Barn",
+      "defaultCharacter": "RAJPUT"
     }
   },
   "challenges": {

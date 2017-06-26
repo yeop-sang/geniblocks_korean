@@ -7,8 +7,8 @@ import t from '../utilities/translate';
 class Notifications extends React.Component {
 
   static propTypes = {
-    location: PropTypes.object,
     messages: PropTypes.array,
+    defaultCharacter: PropTypes.string,
     onCloseButton: PropTypes.func,
     onAdvanceNotifications: PropTypes.func.isRequired,
     onCloseNotifications: PropTypes.func.isRequired
@@ -33,8 +33,9 @@ class Notifications extends React.Component {
     }
 
     const message = this.props.messages[0],
-          speaker = <div className="fv-character"></div>,
           text = message.text,
+          character = message.character || this.props.defaultCharacter,
+          speaker = <div className="fv-character"></div>,
             // don't show close button if there's more narrative dialog
           showCloseButton = (message.type && message.type !== "dialog") || !this.props.messages[1],
           showNextButton = !!this.props.messages[1],
