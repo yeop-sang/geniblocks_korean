@@ -23,13 +23,15 @@ export default function notifications(state = initialState, action) {
           console.log(`%c ITS Message Reason: ${action.data.reason.why || ""}`, `color: #f99a00`, action.data.reason);
         }
 
-        let currentMessage = state.messages.length > 0 ? state.messages[0] + " " : "";
-        return Object.assign({}, state, {messages: [currentMessage + action.data.message.asString()]});
+        let currentMessage = state.messages.length > 0 ? state.messages[0].text + " " : "";
+        return Object.assign({}, state, {messages: [
+          {text: currentMessage + action.data.message.asString()}
+        ]});
       }
       else
         return state;
     case actionTypes.NOTIFICATION_SHOWN:
-      return {messages: state.messages.concat(t(action.message)), closeButton: action.closeButton};
+      return {messages: state.messages.concat({text: t(action.message)}), closeButton: action.closeButton};
     case ADVANCE_NOTIFICATIONS:
       return Object.assign({}, state, {messages: state.messages.length > 1 ? state.messages.slice(1, state.length) : initialState});
     case CLOSE_NOTIFICATIONS:
