@@ -6,7 +6,8 @@ import { advanceNotifications, closeNotifications } from '../modules/notificatio
 function mapStateToProps (state) {
   return {
     messages: state.notifications.messages,
-    closeButton: state.notifications.closeButton
+    closeButton: state.notifications.closeButton,
+    defaultCharacter: state.location.defaultCharacter
   };
 }
 

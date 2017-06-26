@@ -43,7 +43,9 @@ describe('Notification actions', () => {
 
         expect(nextState).toEqual(defaultState.merge({
           notifications: {
-            messages: ["Ok! Let's get to work on Mission 0 Challenge 2."],
+            messages: [{
+              text: "Ok! Let's get to work on Mission 0 Challenge 2."
+            }],
             closeButton: null
           }
         }));
@@ -69,7 +71,9 @@ describe('Notification actions', () => {
 
         expect(lastState).toEqual(defaultState.merge({
           notifications: {
-            messages: ["Ok! Let's get to work on Mission 0 Challenge 2. Second message."],
+            messages: [{
+              text: "Ok! Let's get to work on Mission 0 Challenge 2. Second message."
+            }],
             closeButton: null
           }
         }));
@@ -87,7 +91,7 @@ describe('Notification actions', () => {
           closeButton: "sampleAction"
         });
 
-        expect(nextState.notifications.messages).toEqual(["Sample message"]);
+        expect(nextState.notifications.messages).toEqual([{text: "Sample message"}]);
         expect(nextState.notifications.closeButton).toEqual("sampleAction");
       });
     });

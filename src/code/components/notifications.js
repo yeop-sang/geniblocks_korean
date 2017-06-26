@@ -7,8 +7,8 @@ import t from '../utilities/translate';
 class Notifications extends React.Component {
 
   static propTypes = {
-    location: PropTypes.object,
     messages: PropTypes.array,
+    defaultCharacter: PropTypes.string,
     onCloseButton: PropTypes.func,
     onAdvanceNotifications: PropTypes.func.isRequired,
     onCloseNotifications: PropTypes.func.isRequired
@@ -28,22 +28,35 @@ class Notifications extends React.Component {
   }
 
   render() {
-    const speaker = this.props.messages.length > 0 ? <div className="fv-character"></div> : null,
-          message = this.props.messages.length > 0 
-                    ? <div className="notification">
-                        <div className="close-button" onClick={ this.handleClose(this.props.onCloseButton, this.props.onCloseNotifications) }></div>
-                        { this.props.messages.length > 1
-                          ? <div className="next-arrow" onClick={ this.props.onAdvanceNotifications }></div> 
+    if (!this.props.messages || !this.props.messages[0]) {
+      return null;
+    }
+
+    const message = this.props.messages[0],
+          text = message.text,
+          character = message.character || this.props.defaultCharacter,
+          speaker = <div className={`fv-character ${character}`}></div>,
+            // don't show close button if there's more narrative dialog
+          showCloseButton = (message.type && message.type !== "narrative") || !this.props.messages[1],
+          showNextButton = !!this.props.messages[1],
+
+          messageView = <div className="notification">
+                      <div className="message-text"> { t(text) } </div>
+                      <div className="message-buttons">
+                        { showCloseButton
+                          ? <div className="close-button" onClick={ this.handleClose(this.props.onCloseButton, this.props.onCloseNotifications) }></div>
                           : null }
-                        <div className="message-text"> { t(this.props.messages[0]) } </div>
+                        { showNextButton
+                          ? <div className="next-arrow" onClick={ this.props.onAdvanceNotifications }></div>
+                          : null }
                       </div>
-                    : null;
+                    </div>;
 
     return (
       <div className="geniblocks notification-container">
         { speaker }
-        { message }
-      </div> 
+        { messageView }
+      </div>
     );
   }
 }
