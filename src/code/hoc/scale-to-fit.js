@@ -63,7 +63,7 @@ export default function scaleToFit(dimensionsOptions, contentFn) {
         const { containerWidth, containerHeight, ...otherProps } = this.props,
               container = { width: containerWidth, height: containerHeight },
               scale = calcScaleFactor(container, this.props),
-              style = { transform: `scale(${scale})`};
+              style = { transform: `scale(${scale}) translate(-50%, -50%)`};
         return (
           <WrappedComponent scale={scale} style={style} {...otherProps} />
         );
