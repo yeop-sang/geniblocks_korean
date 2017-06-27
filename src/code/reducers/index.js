@@ -91,7 +91,7 @@ export default function reducer(state, action) {
       state = state.merge({
         routeSpec: null
       });
-      return loadHome(state, state.authoring);
+      return loadHome(state, state.authoring, action.showMissionEndDialog);
     }
     case actionTypes.NAVIGATED: {
       //TODO: it would be nice to merge this with the "routing" reducer into a module which controls the state's routeSpec

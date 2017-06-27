@@ -1044,6 +1044,20 @@
                   "character": "HATCH",
                   "text": "Time is running out and we need to train you fast! Come with me to the Sim Room. Click your VenturePad to navigate around the base."
                 }
+              ],
+              "end": [
+                {
+                  "character": "HATCH",
+                  "text": "By completing this mission, you’ve earned the right to use one of our most valuable tools: the Chromoscope."
+                },
+                {
+                  "character": "WEAVER",
+                  "text": "The Chromoscope checks and displays chromosome alleles for each drake. It will be invaluable in your future missions!"
+                },
+                {
+                  "character": "HATCH",
+                  "text": "Speaking of which..."
+                }
               ]
             },
             "challenges": [
@@ -1098,6 +1112,32 @@
                 {
                   "character": "YEUNG",
                   "text": "Open your VentureMap and head on over to the Sim Room. Quickly! We don’t have much time!"
+                }
+              ],
+              "end": [
+                {
+                  "character": "HERRERA",
+                  "text": "Cadet, you’ve cleared a major hurdle and shown that you just might be able to help us save the day."
+                },
+                {
+                  "character": "YEUNG",
+                  "text": "Yes, you have mastered a key skill. You now know how to manipulate alleles. Since alleles are different versions of genes, you can now help us select the genes we need to breed the dragons necessary for defeating Darkwell."
+                },
+                {
+                  "character": "HERRERA",
+                  "text": "Well, let’s not celebrate yet. I’m getting word that Darkwellian spies have learned that there’s a new member of our team."
+                },
+                {
+                  "character": "YEUNG",
+                  "text": "That means you, Cadet."
+                },
+                {
+                  "character": "HERRERA",
+                  "text": "Right. And they’re trying to make life even more difficult for us now by stepping up their attacks on our remaining dragons!"
+                },
+                {
+                  "character": "YEUNG",
+                  "text": "Looks like this is going to be, um, down to the wire."
                 }
               ]
             },
@@ -1160,6 +1200,54 @@
           },
           {
             "name": "Mission 2.2",
+            "dialog": {
+              "start": [
+                {
+                  "character": "HERRERA",
+                  "text": "Listen up, Cadet! This is for your ears only! Aboveground, there’s a tunnel to this underground base, hidden in a cute, innocent-looking little cottage."
+                },
+                {
+                  "character": "NETANYA",
+                  "text": "That cottage is home to the Drake Breeders’ Guild. It houses a veterinary clinic and store, which I run. The money made by the store helps pay for the secret work we do down here."
+                },
+                {
+                  "character": "HERRERA",
+                  "text": "The Darkwellians have no idea that the Guild is just a front. The thing is, we suddenly need a lot more drakes than usual…"
+                },
+                {
+                  "character": "NETANYA",
+                  "text": "…And if a ton of drakes start coming and going from the cottage, the Darkwellians will get suspicious. So activate your VentureMap and come help us in the Hatchery."
+                }
+              ],
+              "middle": [
+                {
+                  "character": "NETANYA",
+                  "text": "Activate your VentureMap and come help us in the Hatchery."
+                }
+              ],
+              "end": [
+                {
+                  "character": "HERRERA",
+                  "text": "Oh no! I’m getting reports that Darkwell has found out about the secret messages we send via flying drakes to the Principality of Robinstone!"
+                },
+                {
+                  "character": "NETANYA",
+                  "text": "What? It must be those spies! If only we knew who they were!"
+                },
+                {
+                  "character": "HERRERA",
+                  "text": "Well, it gets even worse. They also know that the Kingdom of Bloomberg was going to grow crops for us. Darkwell is  going to kill two birds with one stone by polluting the skies."
+                },
+                {
+                  "character": "NETANYA",
+                  "text": "Now our drakes won’t be able to fly to Robinstone, and Bloomberg’s crops will  be ruined."
+                },
+                {
+                  "character": "HERRERA",
+                  "text": "Things are pretty grim, Cadet. We already had a couple of strikes against us, and we’re not gonna have many more chances at bat."
+                }
+              ]
+            },
             "challenges": [
               {
                 "name": "Challenge 2.2.1",

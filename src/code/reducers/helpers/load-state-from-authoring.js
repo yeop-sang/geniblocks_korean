@@ -196,7 +196,7 @@ export function loadStateFromAuthoring(state, authoring) {
   return state.merge(authoredState);
 }
 
-export function loadHome(state, authoring) {
+export function loadHome(state, authoring, showMissionEndDialog) {
   let room = "home",
       roomInfo = (authoring && authoring.rooms) ? authoring.rooms[room] : {},
       location = {id: room, ...roomInfo},
@@ -207,6 +207,15 @@ export function loadHome(state, authoring) {
   if (dialogDefs) {
     let whichDialog = started ? "middle" : "start",
         dialog = dialogDefs[whichDialog];
+
+    if (!started && showMissionEndDialog) {
+      let previousMission = AuthoringUtils.getPreviousMission(authoring, level, mission);
+      if (previousMission) {
+        let endDialog = authoring.application.levels[previousMission.level].missions[previousMission.mission].dialog["end"] || [];
+        dialog = endDialog.concat(dialog);
+      }
+    }
+
     messages = dialog.map( (d) => ({type: notificationType.DIALOG, ...d}));
   }
 

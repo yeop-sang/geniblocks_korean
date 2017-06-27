@@ -57,6 +57,22 @@ export default class AuthoringUtils {
     return routeSpec;
   }
 
+  static getPreviousMission(authoring, level, mission) {
+    if (mission > 0) {
+      return {
+        level,
+        mission: mission - 1
+      };
+    } else if (level > 0) {
+      return {
+        level: level - 1,
+        mission: authoring.application.levels[level - 1].missions.length - 1
+      };
+    } else {
+      return null;
+    }
+  }
+
   /**
    * Returns an object representing the current level+mission the user is on,
    * and whether the user has completed at least one challenge in the mission.

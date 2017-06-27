@@ -78,9 +78,10 @@ export function navigateToChallenge(routeSpec) {
   };
 }
 
-export function navigateToHome() {
+export function navigateToHome(showMissionEndDialog=false) {
   return {
-    type: actionTypes.NAVIGATED_HOME
+    type: actionTypes.NAVIGATED_HOME,
+    showMissionEndDialog
   };
 }
 
@@ -128,7 +129,7 @@ export function navigateToNextChallenge() {
         nextChallenge = currentChallenge+1,
         challengeCountInMission = AuthoringUtils.getChallengeCount(authoring, currentLevel, currentMission);
     if (challengeCountInMission <= nextChallenge) {
-      dispatch(navigateToHome());
+      dispatch(navigateToHome(true));
 
       if (endMissionUrl) {
         dispatch(navigateToStartPage(endMissionUrl));
