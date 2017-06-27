@@ -26,7 +26,9 @@ export default class NavigationDialogView extends React.Component {
 
     let gemSets = [];
     for (let mission = 0; mission < AuthoringUtils.getMissionCount(authoring, this.state.level); mission++) {
-      gemSets.push(<div id={"gem-label-" + mission} className="gem-set-label">{"Mission " + (mission + 1) + ":"}</div>);
+      gemSets.push(<div id={"gem-label-" + mission} className="gem-set-label">
+                     {"Mission " + (this.state.level + 1) + "." + (mission + 1) + ":"}
+                   </div>);
       gemSets.push(<GemSetView level={this.state.level} mission={mission} 
                                challengeCount={AuthoringUtils.getChallengeCount(authoring, this.state.level, mission)} 
                                gems={gems} 
@@ -43,10 +45,13 @@ export default class NavigationDialogView extends React.Component {
     };
 
     let levelNavigation = (
-      <div className="level-navigation">
-        <div id="prev-level-button" className="level-nav-button" onClick={handlePageBackward}></div>
-        <div className="level-label">{this.state.level + 1}</div>
-        <div id="next-level-button" className="level-nav-button" onClick={handlePageForward}></div>
+      <div className="level-indicator">
+        <div className="level-title">{t("~LEVEL_INDICATOR.LEVEL_LABEL")}</div>
+        <div className="level-navigation">
+          <div id="prev-level-button" className="level-nav-button" onClick={handlePageBackward}></div>
+          <div className="level-label">{this.state.level + 1}</div>
+          <div id="next-level-button" className="level-nav-button" onClick={handlePageForward}></div>
+        </div>
       </div>
     );
 
