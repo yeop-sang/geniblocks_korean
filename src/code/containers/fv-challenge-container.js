@@ -8,7 +8,7 @@ import TopHUDView from '../fv-components/top-hud';
 import NotificationContainer from "./notification-container";
 import ModalMessageContainer from "./modal-message-container";
 
-import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
+import { changeAllele, changeSex, submitDrake,
         keepOffspring, fertilize, breedClutch, hatch,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket,
         winZoomChallenge, toggleMap, enterChallengeFromRoom } from '../actions';
@@ -128,7 +128,6 @@ function mapDispatchToProps(dispatch) {
       dispatch(changeSex(index, newSex, incrementMoves)),
     onDrakeSubmission: (targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex) =>
       dispatch(submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex)),
-    onNavigateNextChallenge: () => dispatch(navigateToNextChallenge()),
     onGameteChromosomeAdded: (index, name, side) => dispatch(addGameteChromosome(index, name, side)),
     onAddGametesToPool: (index, gametes) => dispatch(addGametesToPool(index, gametes)),
     onSelectGameteInPool: (sex, index) => dispatch(selectGameteInPool(sex, index)),

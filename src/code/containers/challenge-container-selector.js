@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
-import { navigateToCurrentRoute, navigateToChallenge, navigateToHome } from '../actions';
+import { navigateToCurrentRoute, navigateToHome } from '../actions';
 import ChallengeContainer from './challenge-container';
 import FVChallengeContainer from './fv-challenge-container';
 import AuthoringUtils from '../utilities/authoring-utils';
@@ -49,12 +49,12 @@ class ChallengeContainerSelector extends Component {
       challenge: PropTypes.string,
       challengeId: PropTypes.string
     }),
-    navigateToChallenge: PropTypes.func,
+    navigateToHome: PropTypes.func,
     navigateToCurrentRoute: PropTypes.func
   }
 
   componentWillMount() {
-    const { navigateToCurrentRoute, navigateToChallenge, navigateToHome, authoring } = this.props;
+    const { navigateToCurrentRoute, navigateToHome, authoring } = this.props;
     // the URL's challengeId is only used for initial routing, so prioritize the numeric route params
     let routeParams = this.props.routeParams;
     if (routeParams.challengeId) {
@@ -118,7 +118,6 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    navigateToChallenge: (routeSpec) => dispatch(navigateToChallenge(routeSpec)),
     navigateToCurrentRoute: (routeSpec) => dispatch(navigateToCurrentRoute(routeSpec)),
     navigateToHome: () => dispatch(navigateToHome())
   };

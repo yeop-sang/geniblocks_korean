@@ -25,7 +25,8 @@ export default function modalDialog(state = initialState, action) {
     case actionTypes.TOGGLE_MAP:
       return state.merge({
         show: action.isVisible,
-        showMap: action.isVisible
+        showMap: action.isVisible,
+        showAward: false
       });
     case actionTypes.MODAL_DIALOG_DISMISSED:
       return initialState;

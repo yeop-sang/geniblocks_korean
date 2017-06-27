@@ -120,6 +120,20 @@ function navigateToStartPage(url) {
   };
 }
 
+export function continueFromVictory() {
+  return (dispatch, getState) => {
+    const { routeSpec, authoring, gems } = getState(),
+          currentMission = routeSpec.level + "" + routeSpec.mission,
+          nextMissionSpec = AuthoringUtils.getCurrentMissionFromGems(authoring, gems),
+          nextMission = nextMissionSpec.level + "" + nextMissionSpec.mission;
+    if (currentMission !== nextMission) {
+      dispatch(navigateToHome(true));
+    } else {
+      dispatch(toggleMap(true));
+    }
+  };
+}
+
 export function navigateToNextChallenge() {
   return (dispatch, getState) => {
     const { routeSpec, authoring, endMissionUrl } = getState();
@@ -438,7 +452,7 @@ export function showCompleteChallengeDialog() {
       action: "retryCurrentChallenge"
     },
     rightButton = {
-      action: "navigateToNextChallenge"
+      action: "continueFromVictory"
     };
   return {
     type: actionTypes.MODAL_DIALOG_SHOWN,

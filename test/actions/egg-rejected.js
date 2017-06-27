@@ -32,7 +32,7 @@ describe('rejectEggFromBasket action', () => {
                                             action: "retryCurrentChallenge"
                                           },
                                           rightButton: {
-                                            action: "navigateToNextChallenge"
+                                            action: "continueFromVictory"
                                           },
                                           showAward: true
                                         };
