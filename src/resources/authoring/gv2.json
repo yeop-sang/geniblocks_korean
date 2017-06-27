@@ -989,6 +989,12 @@
       "template": "ZoomChallenge",
       "zoomUrl": "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=size"
     },
+    "cell-game-lava-charcoal-nucleus": {
+      "comment": "*** Level 3, Mission 2.4: Lava -> Charcoal, Nucleus ***",
+      "container": "FVContainer",
+      "template": "ZoomChallenge",
+      "zoomUrl": "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=nucleus"
+    },
     "cell-game-charcoal-frost-size": {
       "comment": "*** Level 3, Mission 3.1: Charcoal -> Frost (Albino), Size - Working Everything ***",
       "container": "FVContainer",
@@ -1001,6 +1007,12 @@
       "template": "ZoomChallenge",
       "zoomUrl": "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=size"
     },
+    "cell-game-frost-charcoal-nucleus": {
+      "comment": "*** Level 3, Mission 3.3: Frost (Albino) -> Charcoal, Nucleus ***",
+      "container": "FVContainer",
+      "template": "ZoomChallenge",
+      "zoomUrl": "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=nucleus"
+    },
     "cell-game-lava-copper-gate": {
       "comment": "*** Level 3, Mission 4.2: Lava -> Copper, Gates - Broken TRP ***",
       "container": "FVContainer",
@@ -1012,6 +1024,18 @@
       "container": "FVContainer",
       "template": "ZoomChallenge",
       "zoomUrl": "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=gate"
+    },
+    "cell-game-copper-lava-nucleus": {
+      "comment": "*** Level 3, Mission 4.4: Copper -> Lava, Nucleus ***",
+      "container": "FVContainer",
+      "template": "ZoomChallenge",
+      "zoomUrl": "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=nucleus"
+    },
+    "cell-game-lava-steel-nucleus": {
+      "comment": "*** Level 3, Mission 4.5: Lava -> Steel, Nucleus ***",
+      "container": "FVContainer",
+      "template": "ZoomChallenge",
+      "zoomUrl": "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-steel&alleles=00111111&game=nucleus"
     }
   },
 
@@ -1368,6 +1392,11 @@
                 "name": "Challenge 3.2.3",
                 "id": "cell-game-lava-charcoal-size",
                 "room": "zoomroom"
+              },
+              {
+                "name": "Challenge 3.2.4",
+                "id": "cell-game-lava-charcoal-nucleus",
+                "room": "zoomroom"
               }
             ]
           },
@@ -1383,6 +1412,11 @@
                 "name": "Challenge 3.3.2",
                 "id": "cell-game-frost-charcoal-size",
                 "room": "zoomroom"
+              },
+              {
+                "name": "Challenge 3.3.3",
+                "id": "cell-game-frost-charcoal-nucleus",
+                "room": "zoomroom"
               }
             ]
           },
@@ -1397,6 +1431,16 @@
               {
                 "name": "Challenge 3.4.3",
                 "id": "cell-game-copper-lava-gate",
+                "room": "zoomroom"
+              },
+              {
+                "name": "Challenge 3.4.4",
+                "id": "cell-game-copper-lava-nucleus",
+                "room": "zoomroom"
+              },
+              {
+                "name": "Challenge 3.4.5",
+                "id": "cell-game-lava-steel-nucleus",
                 "room": "zoomroom"
               }
             ]
