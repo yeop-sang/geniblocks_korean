@@ -4,9 +4,13 @@ import * as actions from '../../src/code/actions';
 const types = actions.actionTypes;
 
 describe('startSession action', () => {
+  const dispatch = expect.createSpy(),
+        uuid = '123';
+
+  actions.startSession(uuid)(dispatch);
   it('should create an action to start a session', () => {
-    const uuid = '123';
-    expect(actions.startSession(uuid)).toEqual({
+    var startSessionAction = dispatch.calls[0].arguments[0];
+    expect(startSessionAction).toEqual({
       type: types.SESSION_STARTED,
       session: uuid,
       meta: {

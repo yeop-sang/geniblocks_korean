@@ -2,10 +2,11 @@ import actionTypes from './action-types';
 import { ITS_ACTORS, ITS_ACTIONS, ITS_TARGETS } from './its-constants';
 import GeneticsUtils from './utilities/genetics-utils';
 import AuthoringUtils from './utilities/authoring-utils';
+import { getUserQueryString } from './middleware/state-save';
 
 export { actionTypes };
 
-export function startSession(uuid) {
+function _startSession(uuid) {
   return {
     type: actionTypes.SESSION_STARTED,
     session: uuid,
@@ -17,6 +18,30 @@ export function startSession(uuid) {
         target: ITS_TARGETS.SESSION
       }
     }
+  };
+}
+
+export function startSession(uuid) {
+  return (dispatch) => {
+    dispatch(_startSession(uuid));
+
+    if (typeof firebase !== "undefined") {
+      // Attempt to load saved state from firebase
+      let userQueryString = getUserQueryString();
+
+      if (userQueryString) {
+        const db = firebase.database(), //eslint-disable-line
+              ref = db.ref(userQueryString + "/state");
+
+        ref.once("value", function(data) {
+          dispatch({
+            type: actionTypes.LOAD_SAVED_STATE,
+            gems: data.val().gems
+          });
+        });
+      }
+    }
+    
   };
 }
 

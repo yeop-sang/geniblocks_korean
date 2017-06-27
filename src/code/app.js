@@ -19,6 +19,7 @@ import ChallengeContainerSelector from "./containers/challenge-container-selecto
 import loggerMiddleware from './middleware/gv-log';
 import itsMiddleware, { initializeITSSocket } from './middleware/its-log';
 import routerMiddleware from './middleware/router-history';
+import stateSaveMiddleware from './middleware/state-save';
 import soundsMiddleware from 'redux-sounds';
 import thunk from 'redux-thunk';
 
@@ -59,6 +60,7 @@ const createStoreWithMiddleware =
     loggerMiddleware(loggingMetadata),
     itsMiddleware(loggingMetadata),
     routerMiddleware(hashHistory),
+    stateSaveMiddleware(),
     loadedSoundsMiddleware
   )(createStore);
 
