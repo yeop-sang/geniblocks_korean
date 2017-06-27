@@ -37,12 +37,18 @@ const BottomHUDView = React.createClass({
       );
     }
 
+    let missionScreen = (
+      <div className="mission-screen">
+        <div className="mission-label mission-label-text">Mission</div>
+        <div className="mission-label mission-label-value">{routeSpec.mission + 1}</div>
+      </div>
+    );
+
     return (
       <div id='fv-bottom-hud' className='fv-hud fv-bottom-hud' >
         <AvatarButtonView />
         <LevelIndicatorView level={routeSpec.level + 1} />
-        <div className="mission-label mission-label-text">Mission</div>
-        <div className="mission-label mission-label-value">{routeSpec.mission + 1}</div>
+        {missionScreen}
         <GemSetView level={routeSpec.level} mission={routeSpec.mission} challenge={routeSpec.challenge} challengeCount={numChallenges} gems={gems}/>
         { widgets }
       </div>
