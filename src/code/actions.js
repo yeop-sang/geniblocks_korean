@@ -128,27 +128,12 @@ export function navigateToNextChallenge() {
         nextChallenge = currentChallenge+1,
         challengeCountInMission = AuthoringUtils.getChallengeCount(authoring, currentLevel, currentMission);
     if (challengeCountInMission <= nextChallenge) {
-      let missionCountInLevel = AuthoringUtils.getMissionCount(authoring, currentLevel);
-      // there are not enough challenges...if the next mission exists, navigate to it
-      if (currentMission + 1 < missionCountInLevel) {
-        nextMission++;
-      } else {
-        let levelCount = AuthoringUtils.getLevelCount(authoring);
-        // otherwise, check if the next level exists
-        if (currentLevel + 1 < levelCount) {
-          nextLevel++;
-        } else {
-          // if no next level exists, loop around
-          nextLevel = 0;
-        }
-        nextMission = 0;
-      }
-      nextChallenge = 0;
+      dispatch(navigateToHome());
 
       if (endMissionUrl) {
         dispatch(navigateToStartPage(endMissionUrl));
-        return;
       }
+      return;
     }
     dispatch(navigateToChallenge({level: nextLevel, mission: nextMission, challenge: nextChallenge}));
   };

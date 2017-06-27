@@ -41,6 +41,7 @@ class ChallengeContainerSelector extends Component {
       mission: PropTypes.number,
       challenge: PropTypes.number
     }),
+    currentRoom: PropTypes.string,
     // Potentially updated, incoming route parameters
     routeParams: PropTypes.shape({
       level: PropTypes.string,
@@ -58,7 +59,9 @@ class ChallengeContainerSelector extends Component {
     let routeParams = this.props.routeParams;
     if (routeParams.challengeId) {
       if (routeParams.challengeId === "home") {
-        navigateToHome();
+        if (this.props.currentRoom !== "home") {
+          navigateToHome();
+        }
         return;
       }
       routeParams = AuthoringUtils.challengeIdToRouteParams(authoring, routeParams.challengeId);
@@ -77,7 +80,9 @@ class ChallengeContainerSelector extends Component {
     let { routeParams } = newProps;
     if (routeParams.challengeId) {
       if (routeParams.challengeId === "home") {
-        navigateToHome();
+        if (newProps.currentRoom !== "home") {
+          navigateToHome();
+        }
         return;
       }
       routeParams = AuthoringUtils.challengeIdToRouteParams(authoring, routeParams.challengeId);
@@ -106,7 +111,8 @@ class ChallengeContainerSelector extends Component {
 function mapStateToProps (state) {
   return {
     authoring: state.authoring,
-    currentRouteSpec: state.routeSpec
+    currentRouteSpec: state.routeSpec,
+    currentRoom: state.location && state.location.id
   };
 }
 
