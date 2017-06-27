@@ -71,7 +71,7 @@ class ChallengeContainerSelector extends Component {
         navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});
       }
     } else {
-      navigateToChallenge({level: 0, mission: 0, challenge: 0});
+      navigateToHome();
     }
   }
 
