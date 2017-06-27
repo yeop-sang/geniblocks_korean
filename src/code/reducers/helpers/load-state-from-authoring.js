@@ -139,7 +139,7 @@ export function loadStateFromAuthoring(state, authoring) {
         roomInfo = (authoring && authoring.rooms) ? authoring.rooms[room] : {},
         location = {id: room, ...roomInfo},
         showingRoom = trial === 0,
-        dialog = authoredChallengeMetadata.dialog;
+        dialog = authoredChallengeMetadata.dialog && authoredChallengeMetadata.dialog.start;
 
   let goalMoves = null;
   if (template.calculateGoalMoves) {
