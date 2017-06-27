@@ -1,4 +1,4 @@
-import { getClassId, getUserId } from '../utilities/url-params';
+import urlParams from '../utilities/url-params';
 
 export const authoringVersionNumber = 1;
 
@@ -29,4 +29,17 @@ export function getUserQueryString() {
         userId = getUserId();
 
   return (classId && userId) ? authoringVersionNumber + "/userState/" + classId + "/" + userId : null;
+}
+
+function getClassId() {
+  return convertUrlToFirebaseKey(urlParams.class_info_url);
+}
+
+function getUserId() {
+  return convertUrlToFirebaseKey(urlParams.domain) + urlParams.domain_uid;
+}
+
+function convertUrlToFirebaseKey(url) {
+  // Convert invalid Firebase characters (inluding periods) to their ASCII equivalents
+  return encodeURIComponent(url).replace(/\./g, "%2E");
 }
