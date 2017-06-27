@@ -15,7 +15,7 @@ export default () => store => next => action => {
 
       if (userQueryString) {
         let gems = nextState.gems,
-            stateUpdate = {state: gems, stateVersion: stateVersionNumber};
+            stateUpdate = {state: {gems}, stateVersion: stateVersionNumber};
           
         firebase.database().ref(userQueryString).update(stateUpdate); //eslint-disable-line
       }

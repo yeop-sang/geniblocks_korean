@@ -2,7 +2,7 @@ import actionTypes from './action-types';
 import { ITS_ACTORS, ITS_ACTIONS, ITS_TARGETS } from './its-constants';
 import GeneticsUtils from './utilities/genetics-utils';
 import AuthoringUtils from './utilities/authoring-utils';
-import { authoringVersionNumber, getUserQueryString } from './middleware/state-save';
+import { getUserQueryString } from './middleware/state-save';
 
 export { actionTypes };
 
@@ -36,7 +36,7 @@ export function startSession(uuid) {
         ref.once("value", function(data) {
           dispatch({
             type: actionTypes.LOAD_SAVED_STATE,
-            gems: data.val()
+            gems: data.val().gems
           });
         });
       }
