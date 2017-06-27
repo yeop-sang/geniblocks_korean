@@ -34,7 +34,7 @@ class FVChallengeContainer extends Component {
         <div id="enter-challenge-hotspot" className="hotspot" onClick={ this.props.onEnterChallenge }/>
       );
     } else {
-      const Template = templates[this.props.template];
+      const Template = templates[template];
 
       bgClasses = classNames('mission-backdrop', Template.backgroundClasses,
                               challengeType, interactionType);

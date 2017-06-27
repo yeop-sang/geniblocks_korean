@@ -9,6 +9,7 @@ class Notifications extends React.Component {
   static propTypes = {
     messages: PropTypes.array,
     defaultCharacter: PropTypes.string,
+    closeButton: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     onCloseButton: PropTypes.func,
     onAdvanceNotifications: PropTypes.func.isRequired,
     onCloseNotifications: PropTypes.func.isRequired
