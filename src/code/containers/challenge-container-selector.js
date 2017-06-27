@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
-import { navigateToCurrentRoute, navigateToChallenge } from '../actions';
+import { navigateToCurrentRoute, navigateToHome } from '../actions';
 import ChallengeContainer from './challenge-container';
 import FVChallengeContainer from './fv-challenge-container';
 import AuthoringUtils from '../utilities/authoring-utils';
@@ -41,6 +41,7 @@ class ChallengeContainerSelector extends Component {
       mission: PropTypes.number,
       challenge: PropTypes.number
     }),
+    currentRoom: PropTypes.string,
     // Potentially updated, incoming route parameters
     routeParams: PropTypes.shape({
       level: PropTypes.string,
@@ -48,15 +49,21 @@ class ChallengeContainerSelector extends Component {
       challenge: PropTypes.string,
       challengeId: PropTypes.string
     }),
-    navigateToChallenge: PropTypes.func,
+    navigateToHome: PropTypes.func,
     navigateToCurrentRoute: PropTypes.func
   }
 
   componentWillMount() {
-    const { navigateToCurrentRoute, navigateToChallenge, authoring } = this.props;
+    const { navigateToCurrentRoute, navigateToHome, authoring } = this.props;
     // the URL's challengeId is only used for initial routing, so prioritize the numeric route params
     let routeParams = this.props.routeParams;
     if (routeParams.challengeId) {
+      if (routeParams.challengeId === "home") {
+        if (this.props.currentRoom !== "home") {
+          navigateToHome();
+        }
+        return;
+      }
       routeParams = AuthoringUtils.challengeIdToRouteParams(authoring, routeParams.challengeId);
     }
     if (isValidRouteParams(routeParams)) {
@@ -64,14 +71,20 @@ class ChallengeContainerSelector extends Component {
         navigateToCurrentRoute({level: routeParams.level-1, mission: routeParams.mission-1, challenge: routeParams.challenge-1});
       }
     } else {
-      navigateToChallenge({level: 0, mission: 0, challenge: 0});
+      navigateToHome();
     }
   }
 
   componentWillReceiveProps(newProps) {
-    const { currentRouteSpec, navigateToCurrentRoute, authoring } = newProps;
+    const { currentRouteSpec, navigateToCurrentRoute, navigateToHome, authoring } = newProps;
     let { routeParams } = newProps;
     if (routeParams.challengeId) {
+      if (routeParams.challengeId === "home") {
+        if (newProps.currentRoom !== "home") {
+          navigateToHome();
+        }
+        return;
+      }
       routeParams = AuthoringUtils.challengeIdToRouteParams(authoring, routeParams.challengeId);
     }
     if (hasChangedRouteParams(currentRouteSpec, routeParams)) {
@@ -81,12 +94,14 @@ class ChallengeContainerSelector extends Component {
 
   render() {
     const { authoring, currentRouteSpec, ...otherProps } = this.props;
-    if (!currentRouteSpec) {
-      return null;
+    let ContainerClass;
+    if (currentRouteSpec) {
+      const authoredChallenge = AuthoringUtils.getChallengeDefinition(authoring, currentRouteSpec),
+            containerName = authoredChallenge.container;
+      ContainerClass = mapContainerNameToContainer(containerName);
+    } else {
+      ContainerClass = FVChallengeContainer;
     }
-    const authoredChallenge = AuthoringUtils.getChallengeDefinition(authoring, currentRouteSpec),
-          containerName = authoredChallenge.container,
-          ContainerClass = mapContainerNameToContainer(containerName);
     return (
       <ContainerClass {...otherProps} />
     );
@@ -96,14 +111,15 @@ class ChallengeContainerSelector extends Component {
 function mapStateToProps (state) {
   return {
     authoring: state.authoring,
-    currentRouteSpec: state.routeSpec
+    currentRouteSpec: state.routeSpec,
+    currentRoom: state.location && state.location.id
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    navigateToChallenge: (routeSpec) => dispatch(navigateToChallenge(routeSpec)),
-    navigateToCurrentRoute: (routeSpec) => dispatch(navigateToCurrentRoute(routeSpec))
+    navigateToCurrentRoute: (routeSpec) => dispatch(navigateToCurrentRoute(routeSpec)),
+    navigateToHome: () => dispatch(navigateToHome())
   };
 }
 

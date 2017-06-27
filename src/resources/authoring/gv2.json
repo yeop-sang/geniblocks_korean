@@ -1,5 +1,8 @@
 {
   "rooms": {
+    "home": {
+      "name": "Mission Control"
+    },
     "simroom": {
       "name": "Sim Room",
       "defaultCharacter": "YEUNG"
@@ -1019,6 +1022,44 @@
         "missions": [
           {
             "name": "Mission 1.1",
+            "dialog": {
+              "start": [
+                {
+                  "character": "HATCH",
+                  "text": "Welcome, Cadet, to our underground hideout! I'm Professor Hatch, director of the Drake Breeder's Guild."
+                },
+                {
+                  "character": "WEAVER",
+                  "text": "And I'm Dr. Weaver, head of Mission Control here in the heart of our subterranean base."
+                },
+                {
+                  "character": "HATCH",
+                  "text": "Our country -- the Wyvern Republic -- depends on its dragons for defense, but they are under attack from the evil Kingdom of Darkwell, and in danger of going extinct! "
+                },
+                {
+                  "character": "WEAVER",
+                  "text": "You are training to be part of an elite team of scientists who will help us bring dragons back from the brink! We want to assemble a small dragon squad to stage a behind-enemy-lines strike on the Darkwellians to end the war."
+                },
+                {
+                  "character": "HATCH",
+                  "text": "Time is running out and we need to train you fast! Come with me to the Sim Room. Click your VenturePad to navigate around the base."
+                }
+              ],
+              "end": [
+                {
+                  "character": "HATCH",
+                  "text": "By completing this mission, you’ve earned the right to use one of our most valuable tools: the Chromoscope."
+                },
+                {
+                  "character": "WEAVER",
+                  "text": "The Chromoscope checks and displays chromosome alleles for each drake. It will be invaluable in your future missions!"
+                },
+                {
+                  "character": "HATCH",
+                  "text": "Speaking of which..."
+                }
+              ]
+            },
             "challenges": [
               {
                 "name": "Challenge 1.1.1",
@@ -1048,6 +1089,58 @@
         "missions": [
           {
             "name": "Mission 2.1",
+            "dialog": {
+              "start": [
+                {
+                  "character": "HERRERA",
+                  "text": "Attention, Cadet! I’m Colonel de Herrera, commander of the dragon pilots! We’re losing the war against Darkwell, so I will be leading the sneaky mission behind enemy lines!"
+                },
+                {
+                  "character": "YEUNG",
+                  "text": "Over the course of your service here with us, we will need your help understanding how to breed different types of drakes so that we can develop dragons that help Colonel de Herrera and his squad!"
+                },
+                {
+                  "character": "HERRERA",
+                  "text": "I hear you’ve been training in the Sim Room and show lots of promise! So let’s go back there and see if you can knock a few out of the park!"
+                },
+                {
+                  "character": "YEUNG",
+                  "text": "Open your VentureMap and head on over there with us. Quickly! We don’t have much time!"
+                }
+              ],
+              "middle": [
+                {
+                  "character": "YEUNG",
+                  "text": "Open your VentureMap and head on over to the Sim Room. Quickly! We don’t have much time!"
+                }
+              ],
+              "end": [
+                {
+                  "character": "HERRERA",
+                  "text": "Cadet, you’ve cleared a major hurdle and shown that you just might be able to help us save the day."
+                },
+                {
+                  "character": "YEUNG",
+                  "text": "Yes, you have mastered a key skill. You now know how to manipulate alleles. Since alleles are different versions of genes, you can now help us select the genes we need to breed the dragons necessary for defeating Darkwell."
+                },
+                {
+                  "character": "HERRERA",
+                  "text": "Well, let’s not celebrate yet. I’m getting word that Darkwellian spies have learned that there’s a new member of our team."
+                },
+                {
+                  "character": "YEUNG",
+                  "text": "That means you, Cadet."
+                },
+                {
+                  "character": "HERRERA",
+                  "text": "Right. And they’re trying to make life even more difficult for us now by stepping up their attacks on our remaining dragons!"
+                },
+                {
+                  "character": "YEUNG",
+                  "text": "Looks like this is going to be, um, down to the wire."
+                }
+              ]
+            },
             "challenges": [
               {
                 "name": "Challenge 2.1.1",
@@ -1107,6 +1200,54 @@
           },
           {
             "name": "Mission 2.2",
+            "dialog": {
+              "start": [
+                {
+                  "character": "HERRERA",
+                  "text": "Listen up, Cadet! This is for your ears only! Aboveground, there’s a tunnel to this underground base, hidden in a cute, innocent-looking little cottage."
+                },
+                {
+                  "character": "NETANYA",
+                  "text": "That cottage is home to the Drake Breeders’ Guild. It houses a veterinary clinic and store, which I run. The money made by the store helps pay for the secret work we do down here."
+                },
+                {
+                  "character": "HERRERA",
+                  "text": "The Darkwellians have no idea that the Guild is just a front. The thing is, we suddenly need a lot more drakes than usual…"
+                },
+                {
+                  "character": "NETANYA",
+                  "text": "…And if a ton of drakes start coming and going from the cottage, the Darkwellians will get suspicious. So activate your VentureMap and come help us in the Hatchery."
+                }
+              ],
+              "middle": [
+                {
+                  "character": "NETANYA",
+                  "text": "Activate your VentureMap and come help us in the Hatchery."
+                }
+              ],
+              "end": [
+                {
+                  "character": "HERRERA",
+                  "text": "Oh no! I’m getting reports that Darkwell has found out about the secret messages we send via flying drakes to the Principality of Robinstone!"
+                },
+                {
+                  "character": "NETANYA",
+                  "text": "What? It must be those spies! If only we knew who they were!"
+                },
+                {
+                  "character": "HERRERA",
+                  "text": "Well, it gets even worse. They also know that the Kingdom of Bloomberg was going to grow crops for us. Darkwell is  going to kill two birds with one stone by polluting the skies."
+                },
+                {
+                  "character": "NETANYA",
+                  "text": "Now our drakes won’t be able to fly to Robinstone, and Bloomberg’s crops will  be ruined."
+                },
+                {
+                  "character": "HERRERA",
+                  "text": "Things are pretty grim, Cadet. We already had a couple of strikes against us, and we’re not gonna have many more chances at bat."
+                }
+              ]
+            },
             "challenges": [
               {
                 "name": "Challenge 2.2.1",

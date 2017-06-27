@@ -12,6 +12,8 @@ export default function routerMiddleware(history) {
   return () => next => action => {
     if (action.type === actionTypes.NAVIGATED && action.route) {
       history.push(action.route);
+    } else if (action.type === actionTypes.NAVIGATED_HOME) {
+      history.push("home");
     }
 
     return next(action);

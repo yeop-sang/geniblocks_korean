@@ -102,7 +102,7 @@ describe('submitDrake action', () => {
           action: "retryCurrentChallenge"
         },
         rightButton: {
-          action: "navigateToNextChallenge"
+          action: "continueFromVictory"
         },
         showAward: true
       });

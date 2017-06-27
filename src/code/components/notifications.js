@@ -9,6 +9,7 @@ class Notifications extends React.Component {
   static propTypes = {
     messages: PropTypes.array,
     defaultCharacter: PropTypes.string,
+    closeButton: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     onCloseButton: PropTypes.func,
     onAdvanceNotifications: PropTypes.func.isRequired,
     onCloseNotifications: PropTypes.func.isRequired
@@ -37,7 +38,7 @@ class Notifications extends React.Component {
           character = message.character || this.props.defaultCharacter,
           speaker = <div className={`fv-character ${character}`}></div>,
             // don't show close button if there's more narrative dialog
-          showCloseButton = (message.type && message.type !== "narrative") || !this.props.messages[1],
+          showCloseButton = !!this.props.closeButton && ((message.type && message.type !== "narrative") || !this.props.messages[1]),
           showNextButton = !!this.props.messages[1],
 
           messageView = <div className="notification">

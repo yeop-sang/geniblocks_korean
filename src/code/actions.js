@@ -78,6 +78,13 @@ export function navigateToChallenge(routeSpec) {
   };
 }
 
+export function navigateToHome(showMissionEndDialog=false) {
+  return {
+    type: actionTypes.NAVIGATED_HOME,
+    showMissionEndDialog
+  };
+}
+
 function _retryCurrentChallenge() {
   return {
     type: actionTypes.CHALLENGE_RETRIED
@@ -113,6 +120,20 @@ function navigateToStartPage(url) {
   };
 }
 
+export function continueFromVictory() {
+  return (dispatch, getState) => {
+    const { routeSpec, authoring, gems } = getState(),
+          currentMission = routeSpec.level + "" + routeSpec.mission,
+          nextMissionSpec = AuthoringUtils.getCurrentMissionFromGems(authoring, gems),
+          nextMission = nextMissionSpec.level + "" + nextMissionSpec.mission;
+    if (currentMission !== nextMission) {
+      dispatch(navigateToHome(true));
+    } else {
+      dispatch(toggleMap(true));
+    }
+  };
+}
+
 export function navigateToNextChallenge() {
   return (dispatch, getState) => {
     const { routeSpec, authoring, endMissionUrl } = getState();
@@ -122,27 +143,12 @@ export function navigateToNextChallenge() {
         nextChallenge = currentChallenge+1,
         challengeCountInMission = AuthoringUtils.getChallengeCount(authoring, currentLevel, currentMission);
     if (challengeCountInMission <= nextChallenge) {
-      let missionCountInLevel = AuthoringUtils.getMissionCount(authoring, currentLevel);
-      // there are not enough challenges...if the next mission exists, navigate to it
-      if (currentMission + 1 < missionCountInLevel) {
-        nextMission++;
-      } else {
-        let levelCount = AuthoringUtils.getLevelCount(authoring);
-        // otherwise, check if the next level exists
-        if (currentLevel + 1 < levelCount) {
-          nextLevel++;
-        } else {
-          // if no next level exists, loop around
-          nextLevel = 0;
-        }
-        nextMission = 0;
-      }
-      nextChallenge = 0;
+      dispatch(navigateToHome(true));
 
       if (endMissionUrl) {
         dispatch(navigateToStartPage(endMissionUrl));
-        return;
       }
+      return;
     }
     dispatch(navigateToChallenge({level: nextLevel, mission: nextMission, challenge: nextChallenge}));
   };
@@ -446,7 +452,7 @@ export function showCompleteChallengeDialog() {
       action: "retryCurrentChallenge"
     },
     rightButton = {
-      action: "navigateToNextChallenge"
+      action: "continueFromVictory"
     };
   return {
     type: actionTypes.MODAL_DIALOG_SHOWN,

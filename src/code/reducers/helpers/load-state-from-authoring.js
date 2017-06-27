@@ -152,7 +152,7 @@ export function loadStateFromAuthoring(state, authoring) {
 
   let messages = [],
       closeButton = null;
-  if (dialog) {
+  if (showingRoom && dialog) {
     messages = dialog.map( (d) => ({type: notificationType.NARRATIVE, ...d}));
     closeButton = {action: "enterChallengeFromRoom"};
   }
@@ -187,6 +187,44 @@ export function loadStateFromAuthoring(state, authoring) {
     notifications: {
       messages,
       closeButton
+    }
+  };
+
+  // remove all undefined or null keys
+  Object.keys(authoredState).forEach((key) => (authoredState[key] == null) && delete authoredState[key]);
+
+  return state.merge(authoredState);
+}
+
+export function loadHome(state, authoring, showMissionEndDialog) {
+  let room = "home",
+      roomInfo = (authoring && authoring.rooms) ? authoring.rooms[room] : {},
+      location = {id: room, ...roomInfo},
+      { level, mission, started } = AuthoringUtils.getCurrentMissionFromGems(authoring, state.gems),
+      dialogDefs = authoring.application.levels[level].missions[mission].dialog,
+      messages = [];
+
+  if (dialogDefs) {
+    let whichDialog = started ? "middle" : "start",
+        dialog = dialogDefs[whichDialog];
+
+    if (!started && showMissionEndDialog) {
+      let previousMission = AuthoringUtils.getPreviousMission(authoring, level, mission);
+      if (previousMission) {
+        let endDialog = authoring.application.levels[previousMission.level].missions[previousMission.mission].dialog["end"] || [];
+        dialog = endDialog.concat(dialog);
+      }
+    }
+
+    messages = dialog.map( (d) => ({type: notificationType.NARRATIVE, ...d}));
+  }
+
+  let authoredState = {
+    location,
+    showingRoom: true,
+    notifications: {
+      messages,
+      closeButton: false
     }
   };
 

@@ -56,4 +56,44 @@ export default class AuthoringUtils {
     });
     return routeSpec;
   }
+
+  static getPreviousMission(authoring, level, mission) {
+    if (mission > 0) {
+      return {
+        level,
+        mission: mission - 1
+      };
+    } else if (level > 0) {
+      return {
+        level: level - 1,
+        mission: authoring.application.levels[level - 1].missions.length - 1
+      };
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Returns an object representing the current level+mission the user is on,
+   * and whether the user has completed at least one challenge in the mission.
+   */
+  static getCurrentMissionFromGems(authoring, gems) {
+    for (let i = 0, ii = authoring.application.levels.length; i < ii; i++) {
+      let level = authoring.application.levels[i];
+      for (let j = 0, jj = level.missions.length; j < jj; j++) {
+        let mission = level.missions[j];
+        for (let k = 0, kk = mission.challenges.length; k < kk; k++) {
+          if (gems[i] && gems[i][j] && !isNaN(gems[i][j][k])) {
+            continue;
+          } else {
+            return {
+              level: i,
+              mission: j,
+              started: k > 0
+            };
+          }
+        }
+      }
+    }
+  }
 }

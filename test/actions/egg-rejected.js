@@ -32,7 +32,7 @@ describe('rejectEggFromBasket action', () => {
                                             action: "retryCurrentChallenge"
                                           },
                                           rightButton: {
-                                            action: "navigateToNextChallenge"
+                                            action: "continueFromVictory"
                                           },
                                           showAward: true
                                         };
@@ -64,7 +64,10 @@ describe('rejectEggFromBasket action', () => {
       const eggDrakeIndex = 0, basketIndex = 0,
             rejectEggAction = { type: types.EGG_REJECTED, eggDrakeIndex, basketIndex },
             nextState = reducer(initialState, rejectEggAction),
-            expectedState = initialState.set("errors", 1)
+            expectedState = initialState.merge({
+                                          errors:1,
+                                          challengeErrors: 1
+                                        })
                                         .setIn(["drakes", 0],
                                               { alleles: "a:T,b:T", sex: 0, basket: -1, isSelected: false });
       expect(nextState).toEqual(expectedState);

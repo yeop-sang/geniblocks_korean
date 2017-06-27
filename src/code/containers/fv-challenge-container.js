@@ -8,7 +8,7 @@ import TopHUDView from '../fv-components/top-hud';
 import NotificationContainer from "./notification-container";
 import ModalMessageContainer from "./modal-message-container";
 
-import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
+import { changeAllele, changeSex, submitDrake,
         keepOffspring, fertilize, breedClutch, hatch,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket,
         winZoomChallenge, toggleMap, enterChallengeFromRoom } from '../actions';
@@ -20,10 +20,6 @@ class FVChallengeContainer extends Component {
   render() {
     const { template, style, location, showingRoom, ...otherProps } = this.props,
           { challengeType, interactionType, routeSpec, trial, numTrials, correct, challenges, showAward } = this.props;
-
-    if (!template) return null;
-
-    const Template = templates[this.props.template];
 
     let bgClasses,
         maxScore,
@@ -38,6 +34,8 @@ class FVChallengeContainer extends Component {
         <div id="enter-challenge-hotspot" className="hotspot" onClick={ this.props.onEnterChallenge }/>
       );
     } else {
+      const Template = templates[template];
+
       bgClasses = classNames('mission-backdrop', Template.backgroundClasses,
                               challengeType, interactionType);
       maxScore = Template.maxScore;
@@ -130,7 +128,6 @@ function mapDispatchToProps(dispatch) {
       dispatch(changeSex(index, newSex, incrementMoves)),
     onDrakeSubmission: (targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex) =>
       dispatch(submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex)),
-    onNavigateNextChallenge: () => dispatch(navigateToNextChallenge()),
     onGameteChromosomeAdded: (index, name, side) => dispatch(addGameteChromosome(index, name, side)),
     onAddGametesToPool: (index, gametes) => dispatch(addGametesToPool(index, gametes)),
     onSelectGameteInPool: (sex, index) => dispatch(selectGameteInPool(sex, index)),

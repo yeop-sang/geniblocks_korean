@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import templates from '../templates';
-import { changeAllele, changeSex, submitDrake, navigateToNextChallenge,
+import { changeAllele, changeSex, submitDrake,
         keepOffspring, fertilize, hatch,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket } from '../actions';
 import { addGameteChromosome, resetGametes,
@@ -60,7 +60,6 @@ function mapDispatchToProps(dispatch) {
       dispatch(changeSex(index, newSex, incrementMoves)),
     onDrakeSubmission: (targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex) =>
       dispatch(submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex)),
-    onNavigateNextChallenge: () => dispatch(navigateToNextChallenge()),
     onGameteChromosomeAdded: (index, name, side) => dispatch(addGameteChromosome(index, name, side)),
     onAddGametesToPool: (index, gametes) => dispatch(addGametesToPool(index, gametes)),
     onSelectGameteInPool: (sex, index) => dispatch(selectGameteInPool(sex, index)),

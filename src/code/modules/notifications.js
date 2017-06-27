@@ -1,5 +1,6 @@
 import Immutable from 'seamless-immutable';
 import { GAMETES_RESET } from '../modules/gametes';
+import { LOCATION_CHANGE } from 'react-router-redux';
 import actionTypes from '../action-types';
 import t from '../utilities/translate';
 
@@ -51,6 +52,7 @@ export default function notifications(state = initialState, action) {
     case GUIDE_ALERT_RECEIVED:
     case actionTypes.MODAL_DIALOG_SHOWN:
     case actionTypes.MODAL_DIALOG_DISMISSED:
+    case LOCATION_CHANGE:
       return state;
     // For now, clear all messages every time the user does anything else
     default:
