@@ -216,7 +216,7 @@ export function loadHome(state, authoring, showMissionEndDialog) {
       }
     }
 
-    messages = dialog.map( (d) => ({type: notificationType.DIALOG, ...d}));
+    messages = dialog.map( (d) => ({type: notificationType.NARRATIVE, ...d}));
   }
 
   let authoredState = {
