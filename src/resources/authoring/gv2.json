@@ -720,7 +720,7 @@
       "instructions": "Create 5 unique drakes!",
       "showUserDrake": true,
       "initialDrake": {
-        "alleles": "M-M, T-T, w-w, C-C, B-B, D-D, rh-rh, Bog-Bog",
+        "alleles": "T-T, h-h, A1-A1, D-, rh-rh, Bog-",
         "sex": 1
       },
       "userChangeableGenes": "wings, forelimbs, hindlimbs"
