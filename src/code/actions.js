@@ -22,7 +22,7 @@ function _startSession(uuid) {
 }
 
 export function startSession(uuid) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(_startSession(uuid));
 
     if (typeof firebase !== "undefined") {
@@ -38,10 +38,17 @@ export function startSession(uuid) {
             type: actionTypes.LOAD_SAVED_STATE,
             gems: data.val().gems
           });
+
+          const { location, routeSpec } = getState();
+          if (location && location.id === "home") {
+            dispatch(navigateToHome());
+          } else if (routeSpec) {
+            dispatch(navigateToCurrentRoute(routeSpec));
+          }
         });
       }
     }
-    
+
   };
 }
 
