@@ -528,7 +528,7 @@ export function completeChallenge() {
 
     const { routeSpec, authoring } = getState(),
           authoredChallengeMetadata = AuthoringUtils.getChallengeMeta(authoring, routeSpec),
-          dialog = authoredChallengeMetadata.dialog.end;
+          dialog = authoredChallengeMetadata.dialog.end.success;
 
     if (dialog) {
       let messages = dialog.map( (d) => ({type: notificationType.NARRATIVE, ...d}));
