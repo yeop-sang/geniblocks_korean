@@ -1,4 +1,5 @@
 import urlParams from '../utilities/url-params';
+import actionTypes from '../action-types';
 
 export const authoringVersionNumber = 1;
 
@@ -9,14 +10,16 @@ export default () => store => next => action => {
       result = next(action),
       nextState = store.getState();
 
+
   // Store updated gems if they have changed
-  if (JSON.stringify(prevState.gems) !== JSON.stringify(nextState.gems)) {
+  if (action.type !== actionTypes.LOAD_SAVED_STATE &&
+        JSON.stringify(prevState.gems) !== JSON.stringify(nextState.gems)) {
       let userQueryString = getUserQueryString();
 
       if (userQueryString) {
         let gems = nextState.gems,
             stateUpdate = {state: {gems}, stateVersion: stateVersionNumber};
-          
+
         firebase.database().ref(userQueryString).update(stateUpdate); //eslint-disable-line
       }
     }
@@ -40,6 +43,9 @@ function getUserId() {
 }
 
 function convertUrlToFirebaseKey(url) {
+  if (!url) {
+    return null;
+  }
   // Convert invalid Firebase characters (inluding periods) to their ASCII equivalents
   return encodeURIComponent(url).replace(/\./g, "%2E");
 }
