@@ -40,6 +40,9 @@ function getUserId() {
 }
 
 function convertUrlToFirebaseKey(url) {
+  if (!url) {
+    return null;
+  }
   // Convert invalid Firebase characters (inluding periods) to their ASCII equivalents
   return encodeURIComponent(url).replace(/\./g, "%2E");
 }
