@@ -530,7 +530,7 @@ export function completeChallenge() {
     const { routeSpec, authoring, challengeErrors } = getState(),
           authoredChallengeMetadata = AuthoringUtils.getChallengeMeta(authoring, routeSpec),
           success = getGemFromChallengeErrors(challengeErrors) < 3,
-          dialogOptions = authoredChallengeMetadata.dialog && authoredChallengeMetadata.dialog.end;
+          dialogOptions = authoredChallengeMetadata && authoredChallengeMetadata.dialog && authoredChallengeMetadata.dialog.end;
 
     if (dialogOptions) {
       let dialog = success ? dialogOptions.success : dialogOptions.failure,

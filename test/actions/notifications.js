@@ -85,8 +85,8 @@ describe('Notification actions', () => {
       it('should add to the notifications with the correct close button action', () => {
 
         nextState = reducer(defaultState, {
-          type: actionTypes.NOTIFICATION_SHOWN,
-          message: "Sample message",
+          type: actionTypes.NOTIFICATIONS_SHOWN,
+          messages: [{text: "Sample message"}],
           showAward: false,
           closeButton: "sampleAction"
         });
