@@ -22,7 +22,8 @@ class ModalAlert extends React.Component {
     challengeCount: PropTypes.number,
     onNavigateToChallenge: PropTypes.func,
     onHideMap: PropTypes.func,
-    authoring: PropTypes.object
+    authoring: PropTypes.object,
+    enableContinueButton: PropTypes.bool
   }
 
   static defaultProps = {
@@ -40,12 +41,13 @@ class ModalAlert extends React.Component {
           <EndLevelDialogView gems={this.props.gems}
                               routeSpec={this.props.routeSpec}
                               challengeCount={this.props.challengeCount}
+                              enableContinueButton={this.props.enableContinueButton}
                               onNextChallenge={this.props.onRightButtonClick} onTryAgain={this.props.onLeftButtonClick}/>
         );
       } else if (this.props.showMap) {
         return <NavigationDialogView authoring={this.props.authoring}
                                      routeSpec={this.props.routeSpec}
-                                     gems={this.props.gems} 
+                                     gems={this.props.gems}
                                      onNavigateToChallenge={this.props.onNavigateToChallenge}
                                      onHideMap={this.props.onHideMap}/>;
       } else {

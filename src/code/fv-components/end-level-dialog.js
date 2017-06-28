@@ -4,7 +4,7 @@ import GemSetView, {GemView} from './gem-set';
 import { getChallengeGem } from '../reducers/helpers/gems-helper';
 import VenturePadView from './venture-pad';
 
-const EndLevelDialogView = ({gems, routeSpec, challengeCount, onNextChallenge, onTryAgain}) => {
+const EndLevelDialogView = ({gems, routeSpec, challengeCount, enableContinueButton, onNextChallenge, onTryAgain}) => {
   let getGemDisplayName = (gem) => {
     let gemName = t("~VENTURE.AWARD_FIRST");
     if (gem === 1) gemName = t("~VENTURE.AWARD_SECOND");
@@ -13,10 +13,18 @@ const EndLevelDialogView = ({gems, routeSpec, challengeCount, onNextChallenge, o
     return gemName;
   };
 
+  let handleContinueClick = () => {
+    if (enableContinueButton) {
+      onNextChallenge();
+    }
+  };
+
   let level = routeSpec.level,
       mission = routeSpec.mission,
       challenge = routeSpec.challenge,
-      currentScore = getChallengeGem(level, mission, challenge, gems);
+      currentScore = getChallengeGem(level, mission, challenge, gems),
+      continueButtonClass = "continue-button-container" + (enableContinueButton ? "" : " disabled");
+
 
   let screen = (
     <div>
@@ -40,9 +48,9 @@ const EndLevelDialogView = ({gems, routeSpec, challengeCount, onNextChallenge, o
             {t("~BUTTON.TRY_AGAIN")}
           </div>
         </div>
-        <div className="continue-button-container">
+        <div className={continueButtonClass}>
           {t("~BUTTON.CONTINUE")}
-          <div className="continue-button" onClick={onNextChallenge}></div>
+          <div className="continue-button" onClick={handleContinueClick}></div>
         </div>
       </div>
     </div>

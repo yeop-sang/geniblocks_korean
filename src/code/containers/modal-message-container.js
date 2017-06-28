@@ -6,13 +6,16 @@ import { resetGametes } from '../modules/gametes';
 actions.resetGametes = resetGametes;
 
 function mapStateToProps (state) {
-  let props = state.modalDialog;
+  let props = state.modalDialog,
+      hasMoreDialog = state.notifications && state.notifications.messages &&
+                        state.notifications.messages.length > 1;
   if (props.showAward || props.showMap) {
     props = props.merge({
       gems: state.gems,
       routeSpec: state.routeSpec,
       challengeCount: state.challenges,
-      authoring: state.authoring
+      authoring: state.authoring,
+      enableContinueButton: !hasMoreDialog
     });
   }
   return {
