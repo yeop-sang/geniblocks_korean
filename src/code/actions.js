@@ -3,6 +3,8 @@ import { ITS_ACTORS, ITS_ACTIONS, ITS_TARGETS } from './its-constants';
 import GeneticsUtils from './utilities/genetics-utils';
 import AuthoringUtils from './utilities/authoring-utils';
 import { getUserQueryString } from './middleware/state-save';
+import { notificationType } from './modules/notifications';
+import { getGemFromChallengeErrors } from './reducers/helpers/gems-helper';
 
 export { actionTypes };
 
@@ -335,8 +337,6 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIn
 
 export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex) {
   return (dispatch, getState) => {
-
-
     const state = getState();
     dispatch(_submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIndex, fatherIndex));
 
@@ -481,9 +481,16 @@ export function showNextTrialButton() {
 }
 
 export function showNotification({message, closeButton}) {
+  return showNotifications({
+    messages: [{text: message}], 
+    closeButton
+  });
+}
+
+export function showNotifications({messages, closeButton}) {
   return {
-    type: actionTypes.NOTIFICATION_SHOWN,
-    message,
+    type: actionTypes.NOTIFICATIONS_SHOWN,
+    messages,
     closeButton
   };
 }
@@ -513,12 +520,28 @@ export function advanceTrial() {
 
 
 export function completeChallenge() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch({
       type: actionTypes.CHALLENGE_COMPLETED,
       meta: {sound: 'receiveCoin'}
     });
     dispatch(showCompleteChallengeDialog());
+
+    const { routeSpec, authoring, challengeErrors } = getState(),
+          authoredChallengeMetadata = AuthoringUtils.getChallengeMeta(authoring, routeSpec),
+          success = getGemFromChallengeErrors(challengeErrors) < 3,
+          dialogOptions = authoredChallengeMetadata && authoredChallengeMetadata.dialog && authoredChallengeMetadata.dialog.end;
+
+    if (dialogOptions) {
+      let dialog = success ? dialogOptions.success : dialogOptions.failure,
+          messages = dialog.map( (d) => ({type: notificationType.NARRATIVE, ...d}));
+      dispatch(showNotifications({
+        messages,
+        closeButton: {
+          action: ""
+        }
+      }));
+    }
   };
 }
 

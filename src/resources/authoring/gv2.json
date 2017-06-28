@@ -1089,20 +1089,44 @@
                 "name": "Challenge 1.1.1",
                 "id": "allele-5drakes-tutorial",
                 "room": "simroom",
-                "dialog": [
-                  {
-                    "character": "YEUNG",
-                    "text": "Good to meet you, Cadet! I'm Professor Yeung, and I'm in charge of the Sim Room. We’re going to show you on this simulator how to breed five different kinds of drakes - with different combinations of arms, legs, wings, horns, and armor."
-                  },
-                  {
-                    "character": "HATCH",
-                    "text": "Remember, we learn what we can from drakes and then apply what we’ve learned to dragons."
-                  },
-                  {
-                    "character": "YEUNG",
-                    "text": "Now let’s get going! Every moment lost could mean a dragon’s life! Click the screen to get started!"
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "YEUNG",
+                      "text": "Good to meet you, Cadet! I'm Professor Yeung, and I'm in charge of the Sim Room. We’re going to show you on this simulator how to breed five different kinds of drakes - with different combinations of arms, legs, wings, horns, and armor."
+                    },
+                    {
+                      "character": "HATCH",
+                      "text": "Remember, we learn what we can from drakes and then apply what we’ve learned to dragons."
+                    },
+                    {
+                      "character": "YEUNG",
+                      "text": "Now let’s get going! Every moment lost could mean a dragon’s life! Click the screen to get started!"
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "YEUNG",
+                        "text": "Our Cadet succeeded with the simulator, Professor Hatch!"
+                      },
+                      {
+                        "character": "HATCH",
+                        "text": "Great work, Cadet! You're now part of our team! And check out that crystal you've earned."
+                      },
+                      {
+                        "character": "YEUNG",
+                        "text": "We use these crystals to power the devices that both heal and help breed our dragons. Red crystals are fairly weak, followed by yellow crystals, and blue crystals are the most powerful. We need as much power as possible to build our forces and secure our defenses."
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "YEUNG",
+                        "text": "You did it, but you took too many moves to earn a crystal. Let's try this one again!"
+                      }
+                    ]
                   }
-                ]
+                }
               }
             ]
           }
@@ -1170,55 +1194,95 @@
                 "name": "Challenge 2.1.1",
                 "id": "allele-targetMatch-visible-simpleDom",
                 "room": "simroom",
-                "dialog": [
-                  {
-                    "character": "HERRERA",
-                    "text": "So, we need you to learn how to change alleles. Remember, alleles are different versions of a gene!"
-                  },
-                  {
-                    "character": "YEUNG",
-                    "text": "Right. So in this case you are going to use the simulator to learn how to change alleles for arms, legs, and wings to match the targeted drakes you see on the screen."
-                  },
-                  {
-                    "character": "HERRERA",
-                    "text": "And it’s critical that you do it in as few moves as possible! So tap on the simulator and show us the shortest, quickest way to the finish line!"
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "HERRERA",
+                      "text": "So, we need you to learn how to change alleles. Remember, alleles are different versions of a gene!"
+                    },
+                    {
+                      "character": "YEUNG",
+                      "text": "Right. So in this case you are going to use the simulator to learn how to change alleles for arms, legs, and wings to match the targeted drakes you see on the screen."
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "And it’s critical that you do it in as few moves as possible! So tap on the simulator and show us the shortest, quickest way to the finish line!"
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "YEUNG",
+                        "text": "Great job, Cadet! Remember the value of those crystals: red are weakest, yellow are in the middle, and blue crystals are the most powerful."
+                      },
+                      {
+                        "character": "HERRERA",
+                        "text": "We need as many blue crystals as possible to power the devices that heal and help breed our dragons!"
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "YEUNG",
+                        "text": "You did it, but you took too many moves to earn a crystal. Let's try this one again!"
+                      }
+                    ],
                   }
-                ]
+                }
               },
               {
                 "name": "Challenge 2.1.2",
                 "id": "allele-targetMatch-hidden-simpleDom",
                 "room": "simroom",
-                "dialog": [
-                  {
-                    "character": "HERRERA",
-                    "text": "Okay, Cadet! You’ll be using the simulator to change alleles for arms, legs, and wings to match a target drake. But we’re gonna throw you a curveball!"
-                  },
-                  {
-                    "character": "YEUNG",
-                    "text": "Right. You don’t get to see how your drake looks until you submit your answer!"
-                  },
-                  {
-                    "character": "HERRERA",
-                    "text": "You make it through these higher levels of training, and you’re starting to play in the big leagues!"
-                  },
-                  {
-                    "character": "YEUNG",
-                    "text": "Is everything a silly sports analogy with you, de Herrera?"
-                  },
-                  {
-                    "character": "HERRERA",
-                    "text": "What can I say, Yeung? I’m a team player. Give it a shot."
-                  },
-                  {
-                    "character": "YEUNG",
-                    "text": "Sigh. Okay, Cadet. The, um, ball is in your, uh, court. Please tap on the simulator and, see if you can, uh, hit any home runs."
-                  },
-                  {
-                    "character": "HERRERA",
-                    "text": "Yeung shoots! She scores!"
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "HERRERA",
+                      "text": "Okay, Cadet! You’ll be using the simulator to change alleles for arms, legs, and wings to match a target drake. But we’re gonna throw you a curveball!"
+                    },
+                    {
+                      "character": "YEUNG",
+                      "text": "Right. You don’t get to see how your drake looks until you submit your answer!"
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "You make it through these higher levels of training, and you’re starting to play in the big leagues!"
+                    },
+                    {
+                      "character": "YEUNG",
+                      "text": "Is everything a silly sports analogy with you, de Herrera?"
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "What can I say, Yeung? I’m a team player. Give it a shot."
+                    },
+                    {
+                      "character": "YEUNG",
+                      "text": "Sigh. Okay, Cadet. The, um, ball is in your, uh, court. Please tap on the simulator and, see if you can, uh, hit any home runs."
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "Yeung shoots! She scores!"
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "YEUNG",
+                        "text": "Okay, Cadet. Now let’s take a, um, time out!"
+                      },
+                      {
+                        "character": "HERRERA",
+                        "text": "Another touchdown for Yeung! Ha ha! Okay, but seriously, Cadet, let’s activate your VentureMap and move along!"
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "YEUNG",
+                        "text": "You did it, but you took too many moves to earn a crystal. Let's try this one again!"
+                      }
+                    ]
                   }
-                ]
+                }
               }
             ]
           },
@@ -1264,7 +1328,7 @@
                 },
                 {
                   "character": "NETANYA",
-                  "text": "Now our drakes won’t be able to fly to Robinstone, and Bloomberg’s crops will  be ruined."
+                  "text": "Now our drakes won’t be able to fly to Robinstone, and Bloomberg’s crops will be ruined."
                 },
                 {
                   "character": "HERRERA",
@@ -1277,55 +1341,99 @@
                 "name": "Challenge 2.2.1",
                 "id": "eggDrop-wings",
                 "room": "hatchery",
-                "dialog": [
-                  {
-                    "character": "HERRERA",
-                    "text": "We’re short on cash and need to sell a few thousand wingless drakes as pets for toddlers."
-                  },
-                  {
-                    "character": "NETANYA",
-                    "text": "Parents prefer wingless drakes because, well, flying drakes sometimes give the toddlers unexpected rides that go up about a quarter mile in the sky."
-                  },
-                  {
-                    "character": "HERRERA",
-                    "text": "Yeah, and it’s bad enough that the flying drakes, um, expel their waste from way up there, but, uh, let’s just say a freaked out toddler can drop one heck of a load from a thousand feet."
-                  },
-                  {
-                    "character": "HERRERA",
-                    "text": "So, we have to sort out four kinds of drake eggs – fast! Females with wings, females without wings, males with wings, and males without wings."
-                  },
-                  {
-                    "character": "NETANYA",
-                    "text": "See the baskets and the big pile of eggs? Click over there and get sorting!"
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "HERRERA",
+                      "text": "We’re short on cash and need to sell a few thousand wingless drakes as pets for toddlers."
+                    },
+                    {
+                      "character": "NETANYA",
+                      "text": "Parents prefer wingless drakes because, well, flying drakes sometimes give the toddlers unexpected rides that go up about a quarter mile in the sky."
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "Yeah, and it’s bad enough that the flying drakes, um, expel their waste from way up there, but, uh, let’s just say a freaked out toddler can drop one heck of a load from a thousand feet."
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "So, we have to sort out four kinds of drake eggs – fast! Females with wings, females without wings, males with wings, and males without wings."
+                    },
+                    {
+                      "character": "NETANYA",
+                      "text": "See the baskets and the big pile of eggs? Click over there and get sorting!"
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "NETANYA",
+                        "text": "Good work, Cadet. Those pet drakes will sell fast!"
+                      },
+                      {
+                        "character": "HERRERA",
+                        "text": "And we’ll also use those winged drakes to carry hidden messages to our allies in the Principality of Robinstone. It’s the only way to communicate without the Darkwellians listening in."
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "NETANYA",
+                        "text": "You got there, but you need to sort more drakes correctly to earn a crystal."
+                      }
+                    ]
                   }
-                ]
+                }
               },
               {
                 "name": "Challenge 2.2.2",
                 "id": "eggDrop-limbs",
                 "room": "hatchery",
-                "dialog": [
-                  {
-                    "character": "NETANYA",
-                    "text": "Hey Cadet! We need you to help us breed some drakes for farming!"
-                  },
-                  {
-                    "character": "HERRERA",
-                    "text": "Here’s the deal. The Darkwellians have ruined all of Wyvern’s crops. The Kingdom of Bloomberg has offered to grow extra crops for us, but they don’t have the resources for tilling all the extra fields. So we need to give them drakes that only have arms."
-                  },
-                  {
-                    "character": "NETANYA",
-                    "text": "Arms-only drakes naturally burrow in soil and can help prepare fields for crops. It’s like they swim through it!"
-                  },
-                  {
-                    "character": "HERRERA",
-                    "text": "We need to quickly sort out three kinds of eggs – those with arms only, those with legs only, and those with both."
-                  },
-                  {
-                    "character": "NETANYA",
-                    "text": "So check out the baskets and the giant egg pile, then tap over there and start sorting!"
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "NETANYA",
+                      "text": "Hey Cadet! We need you to help us breed some drakes for farming!"
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "Here’s the deal. The Darkwellians have ruined all of Wyvern’s crops. The Kingdom of Bloomberg has offered to grow extra crops for us, but they don’t have the resources for tilling all the extra fields. So we need to give them drakes that only have arms."
+                    },
+                    {
+                      "character": "NETANYA",
+                      "text": "Arms-only drakes naturally burrow in soil and can help prepare fields for crops. It’s like they swim through it!"
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "We need to quickly sort out three kinds of eggs – those with arms only, those with legs only, and those with both."
+                    },
+                    {
+                      "character": "NETANYA",
+                      "text": "So check out the baskets and the giant egg pile, then tap over there and start sorting!"
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "NETANYA",
+                        "text": "Great job. Those legs-only drakes are useful, too. They develop really strong, fast legs, and we need to study them so we can breed cavalry mount dragons."
+                      },
+                      {
+                        "character": "HERRERA",
+                        "text": "By the way, those arms-only, burrowing drakes can also do a great job at wrecking a golf course! Remind me to tell you about the prank we played on Darkwell when they hosted last year’s Evil Empires Golf Open."
+                      },
+                      {
+                        "character": "NETANYA",
+                        "text": "Maybe later, Colonel. Cadet, let’s get going!"
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "NETANYA",
+                        "text": "You got there, but you need to sort more drakes correctly to earn a crystal."
+                      }
+                    ]
                   }
-                ]
+                }
               }
             ]
           },

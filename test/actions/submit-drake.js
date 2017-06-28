@@ -145,8 +145,10 @@ describe('submitDrake action', () => {
     it('should call dispatch with the correct message action', () => {
       // MODAL_DIALOG_SHOWN action
       expect(dispatch.calls[1].arguments[0]).toEqual({
-        type: types.NOTIFICATION_SHOWN,
-        message: "~ALERT.TITLE.INCORRECT_DRAKE",
+        type: types.NOTIFICATIONS_SHOWN,
+        messages: [{
+          text: "~ALERT.TITLE.INCORRECT_DRAKE"
+        }],
         closeButton: {
           label: "~BUTTON.TRY_AGAIN",
           action: "dismissModalDialog"
