@@ -19,6 +19,12 @@ const EndLevelDialogView = ({gems, routeSpec, challengeCount, enableContinueButt
     }
   };
 
+  let handleTryAgainClick = () => {
+    if (enableContinueButton) {
+      onTryAgain();
+    }
+  };
+
   let level = routeSpec.level,
       mission = routeSpec.mission,
       challenge = routeSpec.challenge,
@@ -43,7 +49,7 @@ const EndLevelDialogView = ({gems, routeSpec, challengeCount, enableContinueButt
       <div className="venture-pad-separator" id="end-level-separator-2"></div>
       <div className={endLevelButtonClass}>
         <div className="try-again-button-container">
-          <div className="try-again-button" onClick={onTryAgain}></div>
+          <div className="try-again-button" onClick={handleTryAgainClick}></div>
           <div className="try-again-text">
             {t("~BUTTON.TRY_AGAIN")}
           </div>
