@@ -4,6 +4,7 @@ import GeneticsUtils from './utilities/genetics-utils';
 import AuthoringUtils from './utilities/authoring-utils';
 import { getUserQueryString } from './middleware/state-save';
 import { notificationType } from './modules/notifications';
+import { getGemFromChallengeErrors } from './reducers/helpers/gems-helper';
 
 export { actionTypes };
 
@@ -526,12 +527,14 @@ export function completeChallenge() {
     });
     dispatch(showCompleteChallengeDialog());
 
-    const { routeSpec, authoring } = getState(),
+    const { routeSpec, authoring, challengeErrors } = getState(),
           authoredChallengeMetadata = AuthoringUtils.getChallengeMeta(authoring, routeSpec),
-          dialog = authoredChallengeMetadata.dialog.end.success;
+          success = getGemFromChallengeErrors(challengeErrors) < 3,
+          dialogOptions = authoredChallengeMetadata.dialog && authoredChallengeMetadata.dialog.end;
 
-    if (dialog) {
-      let messages = dialog.map( (d) => ({type: notificationType.NARRATIVE, ...d}));
+    if (dialogOptions) {
+      let dialog = success ? dialogOptions.success : dialogOptions.failure,
+          messages = dialog.map( (d) => ({type: notificationType.NARRATIVE, ...d}));
       dispatch(showNotifications({
         messages,
         closeButton: {

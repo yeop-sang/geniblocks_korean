@@ -1118,6 +1118,12 @@
                         "character": "YEUNG",
                         "text": "We use these crystals to power the devices that both heal and help breed our dragons. Red crystals are fairly weak, followed by yellow crystals, and blue crystals are the most powerful. We need as much power as possible to build our forces and secure our defenses."
                       }
+                    ],
+                    "failure": [
+                      {
+                        "character": "YEUNG",
+                        "text": "You did it, but you took too many moves to earn a crystal. Let's try this one again!"
+                      }
                     ]
                   }
                 }
@@ -1213,7 +1219,13 @@
                         "character": "HERRERA",
                         "text": "We need as many blue crystals as possible to power the devices that heal and help breed our dragons!"
                       }
-                    ]
+                    ],
+                    "failure": [
+                      {
+                        "character": "YEUNG",
+                        "text": "You did it, but you took too many moves to earn a crystal. Let's try this one again!"
+                      }
+                    ],
                   }
                 }
               },
@@ -1261,6 +1273,12 @@
                       {
                         "character": "HERRERA",
                         "text": "Another touchdown for Yeung! Ha ha! Okay, but seriously, Cadet, let’s activate your VentureMap and move along!"
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "YEUNG",
+                        "text": "You did it, but you took too many moves to earn a crystal. Let's try this one again!"
                       }
                     ]
                   }
@@ -1356,6 +1374,12 @@
                         "character": "HERRERA",
                         "text": "And we’ll also use those winged drakes to carry hidden messages to our allies in the Principality of Robinstone. It’s the only way to communicate without the Darkwellians listening in."
                       }
+                    ],
+                    "failure": [
+                      {
+                        "character": "NETANYA",
+                        "text": "You got there, but you need to sort more drakes correctly to earn a crystal."
+                      }
                     ]
                   }
                 }
@@ -1400,6 +1424,12 @@
                       {
                         "character": "NETANYA",
                         "text": "Maybe later, Colonel. Cadet, let’s get going!"
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "NETANYA",
+                        "text": "You got there, but you need to sort more drakes correctly to earn a crystal."
                       }
                     ]
                   }
