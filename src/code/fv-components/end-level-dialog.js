@@ -23,7 +23,7 @@ const EndLevelDialogView = ({gems, routeSpec, challengeCount, enableContinueButt
       mission = routeSpec.mission,
       challenge = routeSpec.challenge,
       currentScore = getChallengeGem(level, mission, challenge, gems),
-      continueButtonClass = "continue-button-container" + (enableContinueButton ? "" : " disabled");
+      endLevelButtonClass = "end-level-navigation-buttons" + (enableContinueButton ? "" : " disabled");
 
 
   let screen = (
@@ -41,14 +41,14 @@ const EndLevelDialogView = ({gems, routeSpec, challengeCount, enableContinueButt
         <GemSetView level={level} mission={mission} challenge={challenge} challengeCount={challengeCount} gems={gems}/>
       </div>
       <div className="venture-pad-separator" id="end-level-separator-2"></div>
-      <div className="end-level-navigation-buttons">
+      <div className={endLevelButtonClass}>
         <div className="try-again-button-container">
           <div className="try-again-button" onClick={onTryAgain}></div>
           <div className="try-again-text">
             {t("~BUTTON.TRY_AGAIN")}
           </div>
         </div>
-        <div className={continueButtonClass}>
+        <div className="continue-button-container">
           {t("~BUTTON.CONTINUE")}
           <div className="continue-button" onClick={handleContinueClick}></div>
         </div>
