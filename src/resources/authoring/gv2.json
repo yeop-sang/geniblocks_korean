@@ -1103,6 +1103,20 @@
                       "character": "YEUNG",
                       "text": "Now let’s get going! Every moment lost could mean a dragon’s life! Click the screen to get started!"
                     }
+                  ],
+                  "end": [
+                    {
+                      "character": "YEUNG",
+                      "text": "Our Cadet succeeded with the simulator, Professor Hatch!"
+                    },
+                    {
+                      "character": "HATCH",
+                      "text": "Great work, Cadet! You're now part of our team! And check out that crystal you've earned."
+                    },
+                    {
+                      "character": "YEUNG",
+                      "text": "We use these crystals to power the devices that both heal and help breed our dragons. Red crystals are fairly weak, followed by yellow crystals, and blue crystals are the most powerful. We need as much power as possible to build our forces and secure our defenses."
+                    }
                   ]
                 }
               }
@@ -1186,6 +1200,16 @@
                       "character": "HERRERA",
                       "text": "And it’s critical that you do it in as few moves as possible! So tap on the simulator and show us the shortest, quickest way to the finish line!"
                     }
+                  ],
+                  "end": [
+                    {
+                      "character": "YEUNG",
+                      "text": "Great job, Cadet! Remember the value of those crystals: red are weakest, yellow are in the middle, and blue crystals are the most powerful."
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "We need as many blue crystals as possible to power the devices that heal and help breed our dragons!"
+                    }
                   ]
                 }
               },
@@ -1222,6 +1246,16 @@
                     {
                       "character": "HERRERA",
                       "text": "Yeung shoots! She scores!"
+                    }
+                  ],
+                  "end": [
+                    {
+                      "character": "YEUNG",
+                      "text": "Okay, Cadet. Now let’s take a, um, time out!"
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "Another touchdown for Yeung! Ha ha! Okay, but seriously, Cadet, let’s activate your VentureMap and move along!"
                     }
                   ]
                 }
@@ -1270,7 +1304,7 @@
                 },
                 {
                   "character": "NETANYA",
-                  "text": "Now our drakes won’t be able to fly to Robinstone, and Bloomberg’s crops will  be ruined."
+                  "text": "Now our drakes won’t be able to fly to Robinstone, and Bloomberg’s crops will be ruined."
                 },
                 {
                   "character": "HERRERA",
@@ -1305,6 +1339,16 @@
                       "character": "NETANYA",
                       "text": "See the baskets and the big pile of eggs? Click over there and get sorting!"
                     }
+                  ],
+                  "end": [
+                    {
+                      "character": "NETANYA",
+                      "text": "Good work, Cadet. Those pet drakes will sell fast!"
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "And we’ll also use those winged drakes to carry hidden messages to our allies in the Principality of Robinstone. It’s the only way to communicate without the Darkwellians listening in."
+                    }
                   ]
                 }
               },
@@ -1333,6 +1377,20 @@
                     {
                       "character": "NETANYA",
                       "text": "So check out the baskets and the giant egg pile, then tap over there and start sorting!"
+                    }
+                  ],
+                  "end": [
+                    {
+                      "character": "NETANYA",
+                      "text": "Great job. Those legs-only drakes are useful, too. They develop really strong, fast legs, and we need to study them so we can breed cavalry mount dragons."
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "By the way, those arms-only, burrowing drakes can also do a great job at wrecking a golf course! Remind me to tell you about the prank we played on Darkwell when they hosted last year’s Evil Empires Golf Open."
+                    },
+                    {
+                      "character": "NETANYA",
+                      "text": "Maybe later, Colonel. Cadet, let’s get going!"
                     }
                   ]
                 }

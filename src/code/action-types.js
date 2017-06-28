@@ -24,7 +24,7 @@ const actionTypes = {
   NAVIGATED_PAGE: "Navigated to another page",
   MODAL_DIALOG_SHOWN: "Modal dialog shown",
   MODAL_DIALOG_DISMISSED: "Modal dialog dismissed",
-  NOTIFICATION_SHOWN: "Notification shown",
+  NOTIFICATIONS_SHOWN: "Notifications shown",
   ADVANCED_TRIAL: "Advanced to next trial",
   TOGGLE_MAP: "Map toggled",
   ENTERED_CHALLENGE_FROM_ROOM: "Entered challenge from room",
