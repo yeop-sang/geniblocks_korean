@@ -103,7 +103,7 @@ describe('submitEggForBasket action', () => {
       }
     });
 
-    actions.submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect)(dispatch, getState);
+    actions.submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, true)(dispatch, getState);
 
     expect(dispatch).toHaveBeenCalled();
     it('should call dispatch with the correct _submitEggForBasket action', () => {
@@ -127,6 +127,17 @@ describe('submitEggForBasket action', () => {
             "action": "SUBMITTED",
             "target": "EGG"
           }
+        }
+      });
+    });
+
+    it('should call dispatch with the correct notification when the last egg is incorrect', () => {
+      var notificationAction = dispatch.calls[2].arguments[0];
+      expect(notificationAction).toEqual({
+        type: types.NOTIFICATIONS_SHOWN,
+        messages: [{text: "~ALERT.TITLE.EGG_MISMATCH"}],
+        closeButton: {
+          action: "completeChallenge"
         }
       });
     });

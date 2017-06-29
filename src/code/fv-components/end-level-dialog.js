@@ -70,7 +70,8 @@ EndLevelDialogView.propTypes = {
   routeSpec: PropTypes.object,
   challengeCount: PropTypes.number,
   onNextChallenge: PropTypes.func,
-  onTryAgain: PropTypes.func
+  onTryAgain: PropTypes.func,
+  enableContinueButton: PropTypes.bool
 };
 
 export default EndLevelDialogView;
