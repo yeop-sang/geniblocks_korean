@@ -10,16 +10,20 @@ export default function gems(state = initialState, challengeErrors, routeSpec, a
   switch(action.type) {
     case actionTypes.CHALLENGE_COMPLETED:
     case actionTypes.CHALLENGE_RETRIED: {
-        let { level, mission, challenge } = routeSpec;
-        if (!state[level]) {
-          state = state.setIn([level], []);
+        let { level: currLevel, mission: currMission, challenge: currChallenge } = routeSpec;
+        for (let level = 0; level <= currLevel; level++) {
+          if (!state[level]) {
+            state = state.setIn([level], []);
+          }
         }
-        if (!state[level][mission]) {
-          state = state.setIn([level, mission], []);
+        for (let mission = 0; mission <= currMission; mission++) {
+          if (!state[currLevel][mission]) {
+            state = state.setIn([currLevel, mission], []);
+          }
         }
 
         let gem = getGemFromChallengeErrors(challengeErrors);
-        state = state.setIn([level, mission, challenge], gem);
+        state = state.setIn([currLevel, currMission, currChallenge], gem);
 
         return state;
       }
