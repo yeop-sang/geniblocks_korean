@@ -21,21 +21,7 @@ describe('rejectEggFromBasket action', () => {
   it('should create an action to reject the egg from the basket and show completion dialog', () => {
     const eggDrakeIndex = 0, basketIndex = 0, isChallengeComplete = true,
           rejectEggArgs = { eggDrakeIndex, basketIndex, isChallengeComplete },
-          rejectEggAction = { type: types.EGG_REJECTED, eggDrakeIndex, basketIndex },
-          completeChallengeAction = {
-                                      type: types.CHALLENGE_COMPLETED,
-                                      meta: {sound: 'receiveCoin'}
-                                    },
-          showCompleteChallengeAction = {
-                                          type: types.MODAL_DIALOG_SHOWN,
-                                          leftButton: {
-                                            action: "retryCurrentChallenge"
-                                          },
-                                          rightButton: {
-                                            action: "continueFromVictory"
-                                          },
-                                          showAward: true
-                                        };
+          rejectEggAction = { type: types.EGG_REJECTED, eggDrakeIndex, basketIndex };
 
     const dispatch = expect.createSpy();
   const getState = () => ({routeSpec: {level: 0, mission: 0, challenge: 0}, trial: 0, trials: [{}], authoring: {
@@ -45,12 +31,7 @@ describe('rejectEggFromBasket action', () => {
 
     actions.rejectEggFromBasket(rejectEggArgs)(dispatch, getState);
     expect(dispatch.calls[0].arguments).toEqual([rejectEggAction]);
-    // must call thunk function ourselves
-    dispatch.calls[1].arguments[0](dispatch, getState);
-    // thunk function dispatches the showCompleteChallengeAction
-    expect(dispatch.calls[2].arguments).toEqual([completeChallengeAction]);
-    expect(dispatch.calls[3].arguments).toEqual([showCompleteChallengeAction]);
-    expect(dispatch.calls.length).toBe(4);
+    expect(dispatch.calls.length).toBe(1);
   });
 
   describe('the reducer', () => {

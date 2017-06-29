@@ -21,10 +21,10 @@ class Notifications extends React.Component {
 
   handleClose(onCloseButton, onCloseNotifications) {
     return () => {
+      onCloseNotifications();
       if (onCloseButton) {
         onCloseButton();
       }
-      onCloseNotifications();
     };
   }
 
