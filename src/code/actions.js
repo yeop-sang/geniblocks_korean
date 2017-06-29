@@ -36,11 +36,14 @@ export function startSession(uuid) {
               ref = db.ref(userQueryString + "/state");
 
         ref.once("value", function(data) {
-          dispatch({
-            type: actionTypes.LOAD_SAVED_STATE,
-            gems: data.val().gems
-          });
-
+          let loadedState = data.val();
+          if (loadedState) {
+            dispatch({
+              type: actionTypes.LOAD_SAVED_STATE,
+              gems: loadedState.gems
+            });
+          }
+          
           const { location, routeSpec } = getState();
           if (location && location.id === "home") {
             dispatch(navigateToHome());
@@ -378,10 +381,6 @@ function _rejectEggFromBasket(eggDrakeIndex, basketIndex) {
 export function rejectEggFromBasket(args) {
   return (dispatch) => {
     dispatch(_rejectEggFromBasket(args.eggDrakeIndex, args.basketIndex));
-
-    if (args.isChallengeComplete) {
-      dispatch(completeChallenge());
-    }
   };
 }
 
@@ -449,6 +448,11 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
       let dialog = {
         message: "~ALERT.TITLE.EGG_MISMATCH",
       };
+      if (isChallengeComplete) {
+        dialog.closeButton = {
+          action: "completeChallenge"
+        };
+      }
       dispatch(showNotification(dialog));
     }
   };
