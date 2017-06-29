@@ -1439,26 +1439,197 @@
           },
           {
             "name": "Mission 2.3",
+            "dialog": {
+              "start": [
+                {
+                  "character": "HERRERA",
+                  "text": "My elite team of pilots needs powerful dragons that can hold their own in battle if we are to have any chance of defeating Darkwell."
+                },
+                {
+                  "character": "YEUNG",
+                  "text": "And I just heard from Dr. Netanya that customers at the Guild store are complaining that our drakes with armor don’t make great pets. She’s asking whether we can make “cuddlier” drakes to raise more money."
+                },
+                {
+                  "character": "HERRERA",
+                  "text": "Let’s tackle both of these needs at once. Cadet, open your VentureMap and start cuddling! The drakes, I mean; making them cuddlier. "
+                }
+              ],
+              "middle": [
+                {
+                  "character": "HERRERA",
+                  "text": "Open your VentureMap!"
+                }
+              ],
+              "end": [
+                {
+                  "character": "HATCH",
+                  "text": "Cadet, I’m impressed at how quickly you jumped from the simulations to working with real drakes. You are showing all the signs of a master breeder!"
+                },
+                {
+                  "character": "WEAVER",
+                  "text": "All these new crystals are powering our dragon-breeding and healing machines for longer than ever. Our dragon force is on its way to being unstoppable! "
+                },
+                {
+                  "character": "HATCH",
+                  "text": "And the Guild store is turning a huge profit selling the cute new drakes we’ve been breeding!"
+                },
+                {
+                  "character": "WEAVER",
+                  "text": "By completing this mission, Cadet, you’ve unlocked access to the Zoom Room projector, a vital tool that simulates the inner workings of drakes and dragons."
+                }
+              ]
+            },
             "challenges": [
               {
                 "name": "Challenge 2.3.1",
                 "id": "allele-targetMatch-visible-armorHorns",
-                "room": "simroom"
+                "room": "simroom",
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "HERRERA",
+                      "text": "For my undercover operation against the Darkwellians, I need the toughest dragons we can create. I want dragons with horns and five armor plates."
+                    },
+                    {
+                      "character": "YEUNG",
+                      "text": "And for the Guild store, super charging the cuddle factor will maximize profit! Drakes without horns or armor will sell the best."
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "Start by breeding drakes on the simulator. You’ll be changing the alleles to create a drake that matches the target in as few moves as possible. Click the screen to begin."
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "YEUNG",
+                        "text": "Congratulations, Cadet. With your work, our chances of saving the Wyvern Republic are growing every day!"
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "YEUNG",
+                        "text": "You did it, but you took too many moves to earn a crystal. Let's try this one again!"
+                      }
+                    ]
+                  }
+                }
               },
               {
                 "name": "Challenge 2.3.2",
                 "id": "allele-targetMatch-hidden-armorHorns",
-                "room": "simroom"
+                "room": "simroom",
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "HERRERA",
+                      "text": "My pilots need dragons with horns. The horns will act as lifesaving handles to steady ourselves during our undercover operation."
+                    },
+                    {
+                      "character": "YEUNG",
+                      "text": "And the Guild store customers love drakes with three plates that can roll themselves into a ball. Use the simulator to breed drakes with these target traits."
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "But watch out! That curveball is back! Only the target drake is visible, so make sure you know what you’re doing with those alleles. Click the screen to begin."
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "HERRERA",
+                        "text": "Excellent work, Cadet. Did you know that dragons with five armor plates and no horns are more docile than those with horns? The Guild could use some of these dragons for armored transport."
+                      },
+                      {
+                        "character": "YEUNG",
+                        "text": "Great idea, Colonel! And it won’t be long before our new cadet here can turn that into reality by transferring the knowledge from the simulators to real drakes and dragons."
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "YEUNG",
+                        "text": "You did it, but you took too many moves to earn a crystal. Let's try this one again!"
+                      }
+                    ]
+                  }
+                }
               },
               {
                 "name": "Challenge 2.3.3",
                 "id": "eggDrop-horns",
-                "room": "hatchery"
+                "room": "hatchery",
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "YEUNG",
+                      "text": "Okay, Cadet, this is the real deal! We’re working with actual drake eggs here in the hatchery."
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "Get started by clicking on the baskets and eggs."
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "YEUNG",
+                        "text": "Impressive work, Cadet. Selling those adorable drakes without horns or armor as pets will boost our cash reserves. Underground bases and dragon armies are not cheap to run, you know!"
+                      },
+                      {
+                        "character": "HERRERA",
+                        "text": "And now that we know how to breed drakes with horns, we’re a step closer to breeding dragons with “handle horns” for my pilots."
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "YEUNG",
+                        "text": "You got there, but you need to sort more drakes correctly to earn a crystal."
+                      }
+                    ]
+                  }
+                }
               },
               {
                 "name": "Challenge 2.3.4",
                 "id": "eggDrop-armor",
-                "room": "hatchery"
+                "room": "hatchery",
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "HERRERA",
+                      "text": "Get ready--there’s a whole bunch of drake eggs to sort! You’ll need to separate out drakes with no armor, as well as drakes with three plates that can roll themselves into balls. We’ll sell these as pets in the store."
+                    },
+                    {
+                      "character": "YEUNG",
+                      "text": "I also want you to identify those drakes with five armor plates. This will help us breed the toughest dragons for the Colonel and his pilots."
+                    },{
+                      "character": "HERRERA",
+                      "text": "This is not a drill, Cadet. Click the baskets and eggs to start."
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "YEUNG",
+                        "text": "Impressive work, Cadet. We have a new set of drakes to sell in the store…"
+                      },
+                      {
+                        "character": "HERRERA",
+                        "text": "...and a better understanding of how to breed dragons with five armor plates. You’re a natural hatcher, a master drake designer, a..."
+                      },
+                      {
+                        "character": "YEUNG",
+                        "text": "Just stop. You’re out of your league, here, de Herrera. Despite our progress here, we’re still one step behind the Darkwellians..."
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "YEUNG",
+                        "text": "You got there, but you need to sort more drakes correctly to earn a crystal."
+                      }
+                    ]
+                  }
+                }
               }
             ]
           }
