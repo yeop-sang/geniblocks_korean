@@ -51,7 +51,7 @@ class FVChallengeContainer extends Component {
 
     return (
       <div id="challenges" className={bgClasses} style={style}>
-        <TopHUDView locationName={ this.props.location.name } onToggleMap={this.props.onToggleMap}/>
+        <TopHUDView location={ this.props.location } onToggleMap={this.props.onToggleMap} isDialogComplete={this.props.messages.length <= 1}/>
         { MainView }
         <BottomHUDView routeSpec={routeSpec} numChallenges={challenges} trial={trial + 1} trialCount={numTrials}
                        currScore={correct} maxScore={maxScore} currMoves={this.props.moves} showAward={showAward}
@@ -82,7 +82,8 @@ class FVChallengeContainer extends Component {
     onToggleMap: PropTypes.func,
     onEnterChallenge: PropTypes.func,
     location: PropTypes.object,
-    showingRoom: PropTypes.bool
+    showingRoom: PropTypes.bool,
+    messages: PropTypes.array
   }
 }
 
@@ -114,6 +115,7 @@ function mapStateToProps (state) {
       zoomUrl: state.zoomUrl,
       location: state.location,
       showingRoom: state.showingRoom,
+      messages: state.notifications.messages,
       // drag/drop experiment option for enabling custom drag layer rather
       // than HTML5 drag/drop dragImage
       useCustomDragLayer: true
