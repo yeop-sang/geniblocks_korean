@@ -19,7 +19,7 @@ export default class NavigationDialogView extends React.Component {
     let level = props.routeSpec && props.routeSpec.level;
 
     if (typeof level !== "number") {
-      level = AuthoringUtils.getCurrentMissionFromGems(props.authoring, props.gems).level;
+      level = AuthoringUtils.getCurrentChallengeFromGems(props.authoring, props.gems).level;
     }
 
     this.state = {
@@ -29,13 +29,12 @@ export default class NavigationDialogView extends React.Component {
 
   render() {
     let {gems, onNavigateToChallenge, onHideMap, authoring} = this.props,
-        currChallengeRoute = AuthoringUtils.getCurrentChallengeInLevelFromGems(authoring, gems, this.state.level),
-        isCurrLevel = this.state.level === currChallengeRoute.level;
+        currChallengeRoute = AuthoringUtils.getCurrentChallengeFromGems(authoring, gems, this.state.level);
 
     let gemSets = [];
 
     for (let mission = 0; mission < AuthoringUtils.getMissionCount(authoring, this.state.level); mission++) {
-      let isCurrMission = isCurrLevel && mission === currChallengeRoute.mission;
+      let isCurrMission = mission === currChallengeRoute.mission;
       gemSets.push(<div id={"gem-label-" + mission} className="gem-set-label" key={"label-" + mission}>
                      {"Mission " + (this.state.level + 1) + "." + (mission + 1) + ":"}
                    </div>);

@@ -76,55 +76,64 @@ export default class AuthoringUtils {
   }
 
   /**
-   * Returns an object representing the current level+mission the user is on,
-   * and whether the user has completed at least one challenge in the mission.
-   */
-  static getCurrentMissionFromGems(authoring, gems) {
-    for (let i = 0, ii = authoring.application.levels.length; i < ii; i++) {
-      let level = authoring.application.levels[i];
-      for (let j = 0, jj = level.missions.length; j < jj; j++) {
-        let mission = level.missions[j];
-        for (let k = 0, kk = mission.challenges.length; k < kk; k++) {
-          if (gems[i] && gems[i][j] && !isNaN(gems[i][j][k])) {
-            continue;
-          } else {
-            return {
-              level: i,
-              mission: j,
-              started: k > 0
-            };
-          }
-        }
-      }
-    }
-  }
-
-  /**
    * Returns an object representing the current mission and challenge the user is on in the given level,
    * by finding the first challenge which is failed or incomplete. If all challenges are complete,
-   * returns the first challenge instead.
+   * returns the last challenge instead.
+   * 
+   * @param {Object} authoring - the authored hierarchy of levels
+   * @param {Object} gems - the earned gems of the user
+   * @param {number} levelNum - optionally, the level for which the next challenge should be found
+   * @returns {Object} - an object representing the next level, mission and challenge based on the given
+   *                     parameters. Also contains a flag representing whether or not the returned mission
+   *                     has been started by the user.
    */
-  static getCurrentChallengeInLevelFromGems(authoring, gems, levelNum) {
-    let level = authoring.application.levels[levelNum];
-    for (let j = 0, jj = level.missions.length; j < jj; j++) {
-      let mission = level.missions[j];
-      for (let k = 0, kk = mission.challenges.length; k < kk; k++) {
-        if (gems[levelNum] && gems[levelNum][j] && !isNaN(gems[levelNum][j][k]) && gems[levelNum][j][k] !== scoreValues.NONE) {
+  static getCurrentChallengeFromGems(authoring, gems, levelNum) {
+    let startLevel = !isNaN(levelNum) ? levelNum : 0,
+        endLevel = !isNaN(levelNum) ? levelNum + 1 : authoring.application.levels.length,
+        lastLevel = 0, lastMission = 0, lastChallenge = 0;
+    for (let i = startLevel, ii = endLevel; i < ii; i++) {
+      let level = authoring.application.levels[i];
+      lastLevel = i;
+      for (let j = 0, jj = level.missions.length; j < jj; j++) {
+        let mission = level.missions[j],
+            nextChallenge = -1,
+            isStarted = false;
+        lastMission = j;
+        for (let k = 0, kk = mission.challenges.length; k < kk; k++) {
+          lastChallenge = k;
+          let challengeGem = gems[i] && gems[i][j] && gems[i][j][k];
+          if ((isNaN(challengeGem) || challengeGem === scoreValues.NONE) && nextChallenge === -1) {
+            // Mark the first incomplete or failed challenge as the next one
+            nextChallenge = k;
+          }
+
+          // We must iterate over all the challenges to see if any were attempted, even if we already
+          // found the next challenge
+          if (!isNaN(challengeGem)) {
+            isStarted = true;
+          }
+        }
+
+        if (nextChallenge === -1) {
+          // All challenges were passed for this mission, so check the next one
           continue;
         } else {
           return {
-            level: levelNum,
+            level: i,
             mission: j,
-            challenge: k
+            challenge: nextChallenge,
+            missionStarted: isStarted
           };
         }
       }
     }
+
     // All challenges are complete
     return {
-      level: levelNum,
-      mission: 0,
-      challenge: 0
+      level: lastLevel,
+      mission: lastMission,
+      challenge: lastChallenge,
+      missionStarted: true
     };
   }
 }

@@ -136,7 +136,7 @@ export function continueFromVictory() {
   return (dispatch, getState) => {
     const { routeSpec, authoring, gems } = getState(),
           currentMission = routeSpec.level + "" + routeSpec.mission,
-          nextMissionSpec = AuthoringUtils.getCurrentMissionFromGems(authoring, gems),
+          nextMissionSpec = AuthoringUtils.getCurrentChallengeFromGems(authoring, gems),
           nextMission = nextMissionSpec.level + "" + nextMissionSpec.mission;
     if (currentMission !== nextMission) {
       dispatch(navigateToHome(true));
