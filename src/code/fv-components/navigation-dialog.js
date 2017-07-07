@@ -29,18 +29,21 @@ export default class NavigationDialogView extends React.Component {
 
   render() {
     let {gems, onNavigateToChallenge, onHideMap, authoring} = this.props,
-        currChallengeRoute = AuthoringUtils.getCurrentChallengeFromGems(authoring, gems, this.state.level);
+        currChallengeRoute = AuthoringUtils.getCurrentChallengeFromGems(authoring, gems),
+        currChallengeRouteForLevel = AuthoringUtils.getCurrentChallengeFromGems(authoring, gems, this.state.level);
 
     let gemSets = [];
 
     for (let mission = 0; mission < AuthoringUtils.getMissionCount(authoring, this.state.level); mission++) {
-      let isCurrMission = mission === currChallengeRoute.mission;
+      let isCurrMission = mission === currChallengeRouteForLevel.mission,
+          isLocked = this.state.level > currChallengeRoute.level 
+                  || (this.state.level === currChallengeRoute.level && mission > currChallengeRouteForLevel.mission );
       gemSets.push(<div id={"gem-label-" + mission} className="gem-set-label" key={"label-" + mission}>
                      {"Mission " + (this.state.level + 1) + "." + (mission + 1) + ":"}
                    </div>);
-      gemSets.push(<GemSetView level={this.state.level} mission={mission} challenge={isCurrMission ? currChallengeRoute.challenge : null}
+      gemSets.push(<GemSetView level={this.state.level} mission={mission} challenge={isCurrMission ? currChallengeRouteForLevel.challenge : null}
                                challengeCount={AuthoringUtils.getChallengeCount(authoring, this.state.level, mission)}
-                               gems={gems} key={"gem-set-" + mission}
+                               gems={gems} key={"gem-set-" + mission} isLocked={isLocked}
                                onNavigateToChallenge={onNavigateToChallenge} />);
     }
 
@@ -72,7 +75,7 @@ export default class NavigationDialogView extends React.Component {
     );
 
     return <VenturePadView title={t("~VENTURE.MAP")} screen={screen} onClickOutside={onHideMap} onNavigateToChallenge={onNavigateToChallenge}
-                           authoring={authoring} roomHighlightRoute={currChallengeRoute}></VenturePadView>;
+                           authoring={authoring} roomHighlightRoute={currChallengeRouteForLevel}></VenturePadView>;
   }
 }
 
