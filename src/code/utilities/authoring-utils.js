@@ -1,5 +1,3 @@
-import { scoreValues } from '../reducers/helpers/gems-helper';
-
 export default class AuthoringUtils {
   static getChallengeDefinition(authoring, routeSpec) {
     const challengeId = this.getChallengeId(authoring, routeSpec),

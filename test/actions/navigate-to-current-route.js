@@ -4,7 +4,6 @@ import { navigateToCurrentRoute, actionTypes as types } from '../../src/code/act
 
 describe('navigateToCurrentRoute action', () => {
   const validLevel = 0, validMission = 1, validChallenge = 2,
-        invalidLevel = 3, invalidMission = 3, invalidChallenge = 3,
         currentRouteAction = {
           type: types.NAVIGATED,
           level: validLevel,
@@ -39,7 +38,8 @@ describe('navigateToCurrentRoute action', () => {
 
   const dispatch = expect.createSpy();
   const getState = () => ({
-    routeSpec: {level: 0, mission: 0, challenge: 0}, 
+    routeSpec: {level: 0, mission: 0, challenge: 0},
+    gems: [[[], [[0], [1]]]],
     authoring: {
       "challenges": {"empty": {}}, 
       "application": {
@@ -51,7 +51,10 @@ describe('navigateToCurrentRoute action', () => {
               },
               {
                 "challenges": [{"id": "empty"}, {"id": "empty"}, {"id": "empty"}]
-              }
+              },
+              {
+                "challenges": [{"id": "empty"}]
+              },
             ]
           }
         ]
@@ -66,7 +69,13 @@ describe('navigateToCurrentRoute action', () => {
 
   it("should dispatch a navigateToChallenge action to the nearest valid challenge" +
       " when an invalid challenge is specified", () => {
-    navigateToCurrentRoute({level: invalidLevel, mission: invalidMission, challenge: invalidChallenge})(dispatch, getState);
+    navigateToCurrentRoute({level: 0, mission: 1, challenge: 5})(dispatch, getState);
+    expect(dispatch.calls[1].arguments).toEqual([challengeAction]);
+  });
+
+  it("should dispatch a navigateToChallenge action to the nearest unlocked challenge" +
+      " when a locked challenge is specified", () => {
+    navigateToCurrentRoute({level: 0, mission: 2, challenge: 0})(dispatch, getState);
     expect(dispatch.calls[1].arguments).toEqual([challengeAction]);
   });
 
