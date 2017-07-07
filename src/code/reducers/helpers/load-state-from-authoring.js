@@ -200,7 +200,8 @@ export function loadHome(state, authoring, showMissionEndDialog) {
   let room = "home",
       roomInfo = (authoring && authoring.rooms) ? authoring.rooms[room] : {},
       location = {id: room, ...roomInfo},
-      { level, mission, missionStarted } = AuthoringUtils.getCurrentChallengeFromGems(authoring, state.gems),
+      { level, mission } = AuthoringUtils.getCurrentChallengeFromGems(authoring, state.gems),
+      missionStarted = AuthoringUtils.isMissionStarted(state.gems, level, mission),
       dialogDefs = authoring.application.levels[level].missions[mission].dialog,
       messages = [];
 
