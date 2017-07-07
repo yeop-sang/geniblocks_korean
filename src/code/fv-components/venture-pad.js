@@ -17,7 +17,7 @@ const VenturePadView = ({title, screen, onClickOutside, onNavigateToChallenge, a
       <div className="venture-pad-glass">
         <div className="venture-pad-map">
           <div style={onNavigateToChallenge ? {cursor: "pointer"} : null}
-               className={classNames("venture-pad-room-highlight", roomMeta ? roomMeta.room : "home")} 
+               className={classNames("venture-pad-room-highlight", roomMeta && roomMeta.room)} 
                onClick={handleNavigateToChallenge}></div>
         </div>
       </div>

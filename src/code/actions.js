@@ -2,6 +2,7 @@ import actionTypes from './action-types';
 import { ITS_ACTORS, ITS_ACTIONS, ITS_TARGETS } from './its-constants';
 import GeneticsUtils from './utilities/genetics-utils';
 import AuthoringUtils from './utilities/authoring-utils';
+import ProgressUtils from './utilities/progress-utils';
 import { getUserQueryString } from './middleware/state-save';
 import { notificationType } from './modules/notifications';
 import { getGemFromChallengeErrors } from './reducers/helpers/gems-helper';
@@ -136,7 +137,7 @@ export function continueFromVictory() {
   return (dispatch, getState) => {
     const { routeSpec, authoring, gems } = getState(),
           currentMission = routeSpec.level + "" + routeSpec.mission,
-          nextMissionSpec = AuthoringUtils.getCurrentChallengeFromGems(authoring, gems),
+          nextMissionSpec = ProgressUtils.getCurrentChallengeFromGems(authoring, gems),
           nextMission = nextMissionSpec.level + "" + nextMissionSpec.mission;
     if (currentMission !== nextMission) {
       dispatch(navigateToHome(true));

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 export const GemView = ({challengeNum, gem, highlight, onNavigateToGem, isLocked}) => {
   let visibleStyle = {visibility: "visible"},
-      highlightStyle = highlight ? visibleStyle : {visibility: "hidden"};
+      highlightStyle = highlight && !isLocked ? visibleStyle : {visibility: "hidden"};
 
   onNavigateToGem = isLocked ? null : onNavigateToGem;
   let gemDiv = (gem != null && gem !== scoreValues.NONE)
