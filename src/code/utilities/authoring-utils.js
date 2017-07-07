@@ -78,7 +78,7 @@ export default class AuthoringUtils {
   /**
    * Returns an object representing the current level, mission and challenge the user is on,
    * by returning the route spec first unattempted or failed challenge. If all challenges are complete, 
-   * returns the first challenge instead. Optionally, accepts a level number, to find the 
+   * returns the last challenge instead. Optionally, accepts a level number, to find the 
    * current challenge on the given level instead.
    */
   static getCurrentChallengeFromGems(authoring, gems, levelNum) {
@@ -104,10 +104,13 @@ export default class AuthoringUtils {
     }
 
     // All challenges are complete
+    let lastLevel = endLevel - 1,
+        lastMission = authoring.application.levels[lastLevel].missions.length - 1,
+        lastChallenge = authoring.application.levels[lastLevel].missions[lastMission].challenges.length - 1;
     return {
-      level: startLevel,
-      mission: 0,
-      challenge: 0
+      level: lastLevel,
+      mission: lastMission,
+      challenge: lastChallenge
     };
   }
 
