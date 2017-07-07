@@ -21,6 +21,11 @@ export default function gems(state = initialState, challengeErrors, routeSpec, a
             state = state.setIn([currLevel, mission], []);
           }
         }
+        for (let challenge = 0; challenge <= currChallenge; challenge++) {
+          if (isNaN(state[currLevel][currMission][challenge])) {
+            state = state.setIn([currLevel, currMission, challenge], null);
+          }
+        }
 
         let gem = getGemFromChallengeErrors(challengeErrors);
         state = state.setIn([currLevel, currMission, currChallenge], gem);
