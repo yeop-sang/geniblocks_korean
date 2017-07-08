@@ -19,7 +19,7 @@ import ChallengeContainerSelector from "./containers/challenge-container-selecto
 import loggerMiddleware from './middleware/gv-log';
 import itsMiddleware, { initializeITSSocket } from './middleware/its-log';
 import routerMiddleware from './middleware/router-history';
-import stateSaveMiddleware from './middleware/state-save';
+import stateSaveMiddleware, {authoringVersionNumber} from './middleware/state-save';
 import soundsMiddleware from 'redux-sounds';
 import thunk from 'redux-thunk';
 
@@ -35,9 +35,6 @@ function convertAuthoring(authoring) {
   return GeneticsUtils.convertDashAllelesObjectToABAlleles(authoring,
                           ["alleles", "baseDrake","initialDrakeCombos", "targetDrakeCombos"]);
 }
-
-const authoring = require('../resources/authoring/gv2.json');
-window.GV2Authoring = convertAuthoring(authoring);
 
 // TODO: session ID and application name could be passed in via a container
 // use placeholder ID for duration of session and hard-coded name for now.
@@ -90,9 +87,25 @@ const history = syncHistoryWithStore(hashHistory, store);
 const isAuthorUploadRequested = (urlParams.author === "upload");
 let isAuthorUploadEnabled = isAuthorUploadRequested;  // e.g. check PRODUCTION flag
 
+function loadAuthoring() {
+  const db = firebase.database(), //eslint-disable-line
+        ref = db.ref(authoringVersionNumber + "/authoring");
+
+  ref.once("value", function(authoringData) {
+    handleFirebaseLoad(authoringData.val());
+  });
+}
+
 function handleCompleteUpload(authoring) {
   store.dispatch(changeAuthoring(convertAuthoring(authoring)));
   isAuthorUploadEnabled = false;
+  renderApp();
+}
+
+function handleFirebaseLoad(authoring) {
+  let convertedAuthoring = convertAuthoring(authoring);
+  window.GV2Authoring = convertedAuthoring;
+  store.dispatch(changeAuthoring(convertedAuthoring));
   renderApp();
 }
 
@@ -114,4 +127,4 @@ function renderApp() {
   , document.getElementById("gv"));
 }
 
-renderApp();
+loadAuthoring();
