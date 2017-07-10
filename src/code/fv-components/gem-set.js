@@ -7,7 +7,7 @@ export const GemView = ({challengeNum, gem, highlight, onNavigateToGem, isLocked
       highlightStyle = highlight && !isLocked ? visibleStyle : {visibility: "hidden"};
 
   onNavigateToGem = isLocked ? null : onNavigateToGem;
-  let gemDiv = (gem != null && gem !== scoreValues.NONE)
+  let gemDiv = (gem != null && gem !== scoreValues.UNATTEMPTED)
               ? <div className="gem-outline-highlight" onClick={onNavigateToGem} style={highlightStyle}>
                   <div className={"gem-fill gem-fill-" + gem} style={visibleStyle}></div>
                 </div>

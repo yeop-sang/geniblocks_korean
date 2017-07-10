@@ -2,7 +2,8 @@ export const scoreValues = {
   GOLD: 0,
   SILVER: 1,
   BRONZE: 2,
-  NONE: 3
+  NONE: 3,
+  UNATTEMPTED: 4
 };
 
 export function getGemFromChallengeErrors(challengeErrors){
@@ -19,10 +20,10 @@ export function getGemFromChallengeErrors(challengeErrors){
 }
 
 export function getChallengeGem(level, mission, challenge, gems) {
-  if (gems[level] && gems[level][mission] && !isNaN(gems[level][mission][challenge])) {
+  if (gems[level] && gems[level][mission] && gems[level][mission][challenge] != null) {
     return gems[level][mission][challenge];
   } else {
-    return scoreValues.NONE;
+    return scoreValues.UNATTEMPTED;
   }
 }
 
