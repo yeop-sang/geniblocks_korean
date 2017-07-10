@@ -45,8 +45,16 @@ export default class AuthoringUtils {
    * Returns true if any challenge in the given mission has been attempted.
    */
   static isMissionStarted(gems, level, mission) {
-    let missionGems = gems[level] && gems[level][mission];
-    return missionGems && missionGems.length;
+    let missionGems = gems[level] && gems[level][mission],
+        started = false;
+    if (missionGems) {
+      for (let i = 0; i < missionGems.length; i++) {
+        if (missionGems[i] != null) {
+          started = true;
+        }
+      }
+    }
+    return started;
   }
 
   /**

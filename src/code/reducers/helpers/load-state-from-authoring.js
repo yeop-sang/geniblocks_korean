@@ -207,7 +207,7 @@ export function loadHome(state, authoring, showMissionEndDialog) {
       messages = [];
 
   if (dialogDefs) {
-    let whichDialog = missionStarted ? "start" : "start",
+    let whichDialog = missionStarted ? "middle" : "start",
         dialog = dialogDefs[whichDialog];
 
     if (!missionStarted && showMissionEndDialog) {
