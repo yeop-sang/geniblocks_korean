@@ -210,12 +210,12 @@ export function navigateToCurrentRoute(routeSpec) {
         nextChallenge = restrictToIntegerRange(challenge, 0, challengeCount - 1);
 
     // Prevent students from skipping through missions by re-routing to the next unlocked challenge
-    if (ProgressUtils.isMissionLocked(state.gems, authoring, nextLevel, nextMission)) {
-      let currentChallengeRoute = ProgressUtils.getCurrentChallengeFromGems(authoring, state.gems);
-      nextLevel = currentChallengeRoute.level;
-      nextMission = currentChallengeRoute.mission;
-      nextChallenge = currentChallengeRoute.challenge;
-    }
+    // if (ProgressUtils.isMissionLocked(state.gems, authoring, nextLevel, nextMission)) {
+    //   let currentChallengeRoute = ProgressUtils.getCurrentChallengeFromGems(authoring, state.gems);
+    //   nextLevel = currentChallengeRoute.level;
+    //   nextMission = currentChallengeRoute.mission;
+    //   nextChallenge = currentChallengeRoute.challenge;
+    // }
 
     const routeChangeRequired = (level !== nextLevel) || (mission !== nextMission) || (challenge !== nextChallenge);
     // TODO: Ideally, route changes would be handled in their own module (see routing.js)
