@@ -36,6 +36,9 @@ function convertAuthoring(authoring) {
                           ["alleles", "baseDrake","initialDrakeCombos", "targetDrakeCombos"]);
 }
 
+const authoring = require('../resources/authoring/gv2.json');
+window.GV2Authoring = convertAuthoring(authoring);
+
 // TODO: session ID and application name could be passed in via a container
 // use placeholder ID for duration of session and hard-coded name for now.
 let loggingMetadata = {
@@ -127,4 +130,5 @@ function renderApp() {
   , document.getElementById("gv"));
 }
 
-loadAuthoring();
+//loadAuthoring();
+renderApp();
