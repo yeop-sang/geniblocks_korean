@@ -1225,7 +1225,7 @@
                         "character": "YEUNG",
                         "text": "You did it, but you took too many moves to earn a crystal. Let's try this one again!"
                       }
-                    ],
+                    ]
                   }
                 }
               },
@@ -1641,14 +1641,120 @@
         "missions": [
           {
             "name": "Mission 3.1",
+            "dialog": {
+              "start": [
+                {
+                  "character": "WEAVER",
+                  "text": "Things just got a whole lot tougher, Cadet! We’ve just heard that some of the dragons that the Guild supplied to our allies are also under attack from the Darkwellians."
+                },
+                {
+                  "character": "HATCH",
+                  "text": "It’ll stretch our resources even further, but we have to help our allies and their dragons as well."
+                },
+                {
+                  "character": "WEAVER",
+                  "text": "I agree. We need to start breeding dragons with specific traits to counter the targeted attacks the Darkwellians have been staging."
+                },
+                {
+                  "character": "HATCH",
+                  "text": "We’re going to need you to stay sharp, Cadet. Check out the VentureMap to see what you should tackle first."
+                }
+              ],
+              "end": [
+                {
+                  "character": "HATCH",
+                  "text": "Cadet, your skills are increasing rapidly. I’m very impressed."
+                },
+                {
+                  "character": "WEAVER",
+                  "text": "Our allies in Admar and Sawaki are encouraged with the progress the Guild is making in breeding dragons to help the cause."
+                },
+                {
+                  "character": "HATCH",
+                  "text": "Your work here will be extraordinarily valuable in solving the dire threat from the Darkwellians. Keep up the good work!"
+                }
+              ]
+            },
             "challenges": [
               {
                 "name": "Challenge 3.1.1",
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "YEUNG",
+                      "text": "Listen up, Cadet! You need to get up to speed on breeding drakes and dragons with a variety of scale colors. Each color is an invaluable tool for the Guild."
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "Case in point: dark, charcoal-colored dragons can blend in with the sky when my pilots fly night missions."
+                    },
+                    {
+                      "character": "YEUNG",
+                      "text": "And shiny, steel-colored drakes (and dragons) tend to have infrared vision -- meaning they can see in the dark. "
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "These dragons can help us find hidden and camouflaged Darkwell troops and installations. Let’s get started!"
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "HERRERA",
+                        "text": "Great work! Our allies in the nation of Admar will be truly grateful once we are able to breed albino drakes and dragons."
+                      },
+                      {
+                        "character": "YEUNG",
+                        "text": "The people of Admar consider albino dragons sacred, and our lucrative a trade deal with them depends on us sharing that secret."
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "YEUNG",
+                        "text": "You got there, but you'll need to do better to earn a crystal!."
+                      }
+                    ]
+                  }
+                },
                 "id": "allele-targetMatch-visible-simpleColors",
                 "room": "simroom"
               },
               {
                 "name": "Challenge 3.1.2",
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "HERRERA",
+                      "text": "Our allies in the volcanic islands of Sawaki need lava-colored dragons that can blend in with the landscape and serve as a defense force."
+                    },
+                    {
+                      "character": "YEUNG",
+                      "text": "In exchange for several tons of papayas, which the Guild turns into biofuel, the Guild will provide Sawaki with lava dragons… once we figure out how to breed them!"
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "In this simulation, we’re going to gauge your accuracy at creating different colored drakes just by viewing the target. Let’s go! "
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "YEUNG",
+                        "text": "You’re a natural at this. It won’t be long before we’re able to breed lava-colored drakes and dragons."
+                      },
+                      {
+                        "character": "HERRERA",
+                        "text": "They have a natural immunity to a parasitic worm the Darkwellians have unleashed on dragons, so the Guild plans to isolate that immunity and create a cure."
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "YEUNG",
+                        "text": "You got there, but you'll need to do better to earn a crystal!."
+                      }
+                    ]
+                  }
+                },
                 "id": "allele-targetMatch-hidden-simpleColors",
                 "room": "simroom"
               }
@@ -1656,19 +1762,139 @@
           },
           {
             "name": "Mission 3.2",
+            "dialog": {
+              "start": [
+                {
+                  "character": "WEAVER",
+                  "text": "News from the front! Darkwell has just attacked our allies in both Sawaki and Admar with a debilitating virus. We need more help!"
+                },
+                {
+                  "character": "ELLIS",
+                  "text": "Cadet, it’s a pleasure to meet you. If everything I’ve heard about you is true, I have high hopes for the future of Wyvern and its allies."
+                },
+                {
+                  "character": "WEAVER",
+                  "text": "Dr. Ellis is chief of the Protein Lab, or as we like to call it, the Zoom Room. His equipment lets us see how the genetic instructions in the chromosomes create proteins that affect the traits of drakes and dragons."
+                },
+                {
+                  "character": "ELLIS",
+                  "text": "We’ll begin by having you investigate how drakes get their different colors. Click the VentureMap to navigate to the Zoom Room."
+                }
+              ],
+              "end": [
+                {
+                  "character": "HATCH",
+                  "text": "Great work in the Zoom Room, Cadet! I just wish there was better news from our pilots."
+                },
+                {
+                  "character": "WEAVER",
+                  "text": "I won’t sugar coat it for you. The situation is still grim, and the battle is not going well."
+                }
+              ]
+            },
             "challenges": [
               {
                 "name": "Challenge 3.2.1",
+                "dialog": {
+                "start": [
+                  {
+                    "character": "HERRERA",
+                    "text": "Welcome to the Zoom Room, Cadet! This room does exactly what what it sounds like: our simulator can zoom into drake cells to see how the genetic instructions create proteins that change the drake."
+                  },
+                  {
+                    "character": "ELLIS",
+                    "text": "Cadet, we’ll start with a simple walkthrough of the equipment, and the basics of how drake scale color can be modified. Click the projection wall to begin."
+                  }
+                ],
+                "end": {
+                  "success": [
+                    {
+                      "character": "ELLIS",
+                      "text": "Now you’ve seen how a drake gets to be charcoal-colored! Great big pods of melanin give the scale cell its gray color. Next, you’ll have to figure out how to shrink the pod to make an orange scale cell."
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "Cadet, go on and make me proud!"
+                    }
+                  ],
+                  "failure": [
+                    {
+                      "character": "ELLIS",
+                      "text": "You got there, but you'll need to do better to earn a crystal!."
+                    }
+                  ]
+                }
+              },
                 "id": "cell-game-size-intro",
                 "room": "zoomroom"
               },
               {
                 "name": "Challenge 3.2.2",
+                "dialog": {
+                "start": [
+                  {
+                    "character": "HERRERA",
+                    "text": "Cadet, pay close attention to Dr. Ellis. Once you understand how to modify drake scale color, we’ll be much closer to creating dragons that can help our allies."
+                  },
+                  {
+                    "character": "ELLIS",
+                    "text": "Case in point: our allies in the volcanic landscape of Sawaki need those lava dragons to build their camouflaged defense force! Click the projection and work out how to create a lava scale color."
+                  }
+                ],
+                "end": {
+                  "success": [
+                    {
+                      "character": "ELLIS",
+                      "text": "Congratulations, Cadet!"
+                    }
+                  ],
+                  "failure": [
+                    {
+                      "character": "ELLIS",
+                      "text": "You got there, but you'll need to do better to earn a crystal!."
+                    }
+                  ]
+                }
+              },
                 "id": "cell-game-charcoal-lava-size",
                 "room": "zoomroom"
               },
               {
                 "name": "Challenge 3.2.3",
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "ELLIS",
+                      "text": "Now that you’ve mastered making lava scales, let’s see if you can reverse it to make charcoal scales."
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "I won’t lie to you, Cadet. Charcoal dragons that blend in with the dark sky could make or break the surprise attack on Darkwell that will make or break us. "
+                    },
+                    {
+                      "character": "ELLIS",
+                      "text": "You know what to do. Click the projection and get working on those proteins to turn that drake from lava to charcoal."
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "ELLIS",
+                        "text": "Congratulations, Cadet! You mastered how the proteins work to create both the lava and charcoal scale colors."
+                      },
+                      {
+                        "character": "HERRERA",
+                        "text": "You’ve earned a shortcut for your hard work: you now have access to the orange/gray allele that controls the mela-maker directly in the nucleus. "
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "ELLIS",
+                        "text": "You got there, but you'll need to do better to earn a crystal!."
+                      }
+                    ]
+                  }
+                },
                 "id": "cell-game-lava-charcoal-size",
                 "room": "zoomroom"
               }
@@ -1676,19 +1902,115 @@
           },
           {
             "name": "Mission 3.3",
+            "dialog": {
+              "start": [
+                {
+                  "character": "ELLIS",
+                  "text": "We’re in new territory here, Cadet. For this next challenge, you and I will be learning together."
+                },
+                {
+                  "character": "HERRERA",
+                  "text": "You remember our allies from Admar? Albino  dragons are sacred to them. The Admar rulers know we are close to figuring how proteins cause drakes and dragons to become albino... "
+                },
+                {
+                  "character": "ELLIS",
+                  "text": "And if we share our knowledge, they will approve a massive trade deal that will help our cause. Open the VentureMap and come with me to the Zoom Room!"
+                }
+              ],
+              "end": [
+                {
+                  "character": "ELLIS",
+                  "text": "That was some great teamwork! I’ve already shared what we learned about albino drakes and dragons with my counterpart in Admar."
+                },
+                {
+                  "character": "HATCH",
+                  "text": "And I already heard back from Admar that they’ve signed our trade deal. Well done, you two. "
+                },
+                {
+                  "character": "ELLIS",
+                  "text": "That’s a significant win that will help our defenses, but there’s still so much to do to build our dragon force. It’s time to shift into high gear. "
+                }
+              ]
+            },
             "challenges": [
               {
                 "name": "Challenge 3.3.1",
+                "dialog": {
+                "start": [
+                  {
+                    "character": "ELLIS",
+                    "text": "We’ll start by trying to modify our familiar charcoal drake so it is albino.  Click the projection to get started."
+                  }
+                ],
+                "end": {
+                  "success": [
+                    {
+                      "character": "ELLIS",
+                      "text": "Congratulations, Cadet! Another challenge completed, more science knowledge absorbed, and a new crystal collected!"
+                    }
+                  ],
+                  "failure": [
+                    {
+                      "character": "ELLIS",
+                      "text": "You got there, but you'll need to do better to earn a crystal!."
+                    }
+                  ]
+                }
+              },
                 "id": "cell-game-charcoal-frost-size",
                 "room": "zoomroom"
               },
               {
                 "name": "Challenge 3.3.2",
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "ELLIS",
+                      "text": "You know what’s coming next! Now that we’ve modified the drake’s scale color from charcoal to albino , let’s try going the other way. Click the projection. "
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "ELLIS",
+                        "text": "Now that we understand what’s going on with the proteins, I’ve programmed the simulator to unlock the albino/color allele so we can control the mela-maker protein directly from the nucleus. "
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "ELLIS",
+                        "text": "You got there, but you'll need to do better to earn a crystal!."
+                      }
+                    ]
+                  }
+                },
                 "id": "cell-game-frost-charcoal-size",
                 "room": "zoomroom"
               },
               {
                 "name": "Challenge 3.3.3",
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "ELLIS",
+                      "text": "Let’s use our newly unlocked albino/color allele to modify the drake scale color from charcoal to albino, directly in the nucleus. Click the projection."
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "ELLIS",
+                        "text": "Well done! "
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "ELLIS",
+                        "text": "You got there, but you'll need to do better to earn a crystal!."
+                      }
+                    ]
+                  }
+                },
                 "id": "cell-game-frost-charcoal-nucleus",
                 "room": "zoomroom"
               }
@@ -1696,24 +2018,194 @@
           },
           {
             "name": "Mission 3.4",
+            "dialog": {
+              "start": [
+                {
+                  "character": "HERRERA",
+                  "text": "My dragon pilots are reporting that the Darkwellian forces are building more quickly than we expected."
+                },
+                {
+                  "character": "HATCH",
+                  "text": "And we also suspect that Darkwell has unleashed a parasitic worm on our dragons; several have become ill in the last 24 hours."
+                },
+                {
+                  "character": "HERRERA",
+                  "text": "Professor Hatch, permission to mobilize our surprise attack!"
+                },
+                {
+                  "character": "HATCH",
+                  "text": "Not yet, Colonel! We’re so close to understanding how to control the full range of scale colors in drakes. Applying that knowledge to our dragon defenses will give us the edge in our attack."
+                },
+                {
+                  "character": "HERRERA",
+                  "text": "But if we delay the strike much longer, our defeat is inevitable. "
+                },
+                {
+                  "character": "HATCH",
+                  "text": "Cadet, use the VenturePad to meet up with Ellis in the Zoom Room team. Hurry! "
+                }
+              ],
+              "end": [
+                {
+                  "character": "WEAVER",
+                  "text": "Cadet, you’ve proven yourself ready to take the Guild to the next level. We are granting you access to the Breeding Barn equipment. "
+                },
+                {
+                  "character": "HATCH",
+                  "text": "As grim as things may seem out there, the Guild is making significant progress thanks to you. Keep it up!"
+                }
+              ]
+            },
             "challenges": [
               {
                 "name": "Challenge 3.4.2",
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "ELLIS",
+                      "text": "Interesting! Our dragon carers are reporting that copper-colored drakes and dragons have a natural immunity to the parasitic worm unleashed by Darkwell."
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "Meaning that if we can isolate that immunity, we could create a cure?"
+                    },
+                    {
+                      "character": "ELLIS",
+                      "text": "Yes! But first we need to understand how copper drakes get their color. Copper drakes are shiny versions of lava drakes, so we need to zoom in on a lava drake and see if we can turn it copper."
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "Lucky for us that we’re in the Zoom Room. Projection, please, Cadet!"
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "HERRERA",
+                        "text": "Excellent, Cadet, another crystal!"
+                      },
+                      {
+                        "character": "ELLIS",
+                        "text": "And, just as important, we now know that when melanosomes are blocked from entering the drake scales, the drake becomes shiny."
+                      },
+                      {
+                        "character": "HERRERA",
+                        "text": "And I’m guessing there are proteins that control how those melanosomes move around. I wonder what’s really going on..."
+                      },
+                      {
+                        "character": "ELLIS",
+                        "text": "You want to trade your wings for my lab coat and have ME lead the pilots, Colonel? Stay in your lane. "
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "ELLIS",
+                        "text": "You got there, but you'll need to do better to earn a crystal!."
+                      }
+                    ]
+                  }
+              },
                 "id": "cell-game-lava-copper-gate",
                 "room": "zoomroom"
               },
               {
                 "name": "Challenge 3.4.3",
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "ELLIS",
+                      "text": "You know the drill! Now we’ve modified the drake’s scale color from lava to copper, let’s try going from copper to lava. Click the projection."
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "ELLIS",
+                        "text": "Now that we understand what’s going on with the proteins, I’ve programmed the simulator to unlock the shiny/dull allele so we can control the mela-port protein directly from the nucleus. "
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "ELLIS",
+                        "text": "You got there, but you'll need to do better to earn a crystal!."
+                      }
+                    ]
+                  }
+                },
                 "id": "cell-game-copper-lava-gate",
                 "room": "zoomroom"
               },
               {
                 "name": "Challenge 3.4.4",
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "ELLIS",
+                      "text": "Let’s use our newly unlocked shiny/dull allele to modify the drake scale color permanently from copper to lava, directly in the nucleus. Click the projection."
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "ELLIS",
+                        "text": "You did it! Congratulations!"
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "ELLIS",
+                        "text": "You got there, but you'll need to do better to earn a crystal!."
+                      }
+                    ]
+                  }
+                },
                 "id": "cell-game-copper-lava-nucleus",
                 "room": "zoomroom"
               },
               {
                 "name": "Challenge 3.4.5",
+                "dialog": {
+                  "start": [
+                    {
+                      "character": "ELLIS",
+                      "text": "Okay, Cadet, let’s challenge ourselves. This time we’re going to start with a lava drake and I’m setting the target color as steel."
+                    },
+                    {
+                      "character": "HERRERA",
+                      "text": "That sounds more complicated. That’s going to involve a couple of changes to our unlocked alleles in the nucleus, right?"
+                    },
+                    {
+                      "character": "ELLIS",
+                      "text": "Perhaps. Cadet, click the projection whenever you’re ready!"
+                    }
+                  ],
+                  "end": {
+                    "success": [
+                      {
+                        "character": "ELLIS",
+                        "text": "We did it! We’re really mastering these color changes!"
+                      },
+                      {
+                        "character": "HERRERA",
+                        "text": "Impressive, especially when you consider how useful those steel-colored dragons are. Their vision extends into the infra-red, giving them great vision at night."
+                      },
+                      {
+                        "character": "ELLIS",
+                        "text": "That’s because the steel-color and night vision are linked traits."
+                      },
+                      {
+                        "character": "HERRERA",
+                        "text": "Sure, yeah, linked traits. However it works, those steel-colored dragons are invaluable for night rides and surprise attacks!"
+                      }
+                    ],
+                    "failure": [
+                      {
+                        "character": "ELLIS",
+                        "text": "You got there, but you'll need to do better to earn a crystal!."
+                      }
+                    ]
+                  }
+                },
                 "id": "cell-game-lava-steel-nucleus",
                 "room": "zoomroom"
               }
