@@ -11,22 +11,23 @@ export default function gems(state = initialState, challengeErrors, routeSpec, a
     case actionTypes.CHALLENGE_COMPLETED:
     case actionTypes.CHALLENGE_RETRIED: {
         let { level: currLevel, mission: currMission, challenge: currChallenge } = routeSpec;
-        for (let level = 0; level <= currLevel; level++) {
+        //XXX: Ultra-hack to make sure there are no undefined levels
+        for (let level = 0; level <= 10; level++) {
           if (!state[level]) {
             state = state.setIn([level], []);
           }
-        }
-        for (let mission = 0; mission <= currMission; mission++) {
-          if (!state[currLevel][mission]) {
-            state = state.setIn([currLevel, mission], []);
+          for (let mission = 0; mission <= 10; mission++) {
+            if (!state[level][mission]) {
+              state = state.setIn([level, mission], []);
+            }
+            for (let challenge = 0; challenge <= 10; challenge++) {
+              if (isNaN(state[level][mission][challenge])) {
+                state = state.setIn([level, mission, challenge], null);
+              }
+            }
           }
         }
-        for (let challenge = 0; challenge <= currChallenge; challenge++) {
-          if (isNaN(state[currLevel][currMission][challenge])) {
-            state = state.setIn([currLevel, currMission, challenge], null);
-          }
-        }
-
+        
         let gem = getGemFromChallengeErrors(challengeErrors);
         state = state.setIn([currLevel, currMission, currChallenge], gem);
 

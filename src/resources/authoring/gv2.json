@@ -1986,33 +1986,6 @@
                 },
                 "id": "cell-game-frost-charcoal-size",
                 "room": "zoomroom"
-              },
-              {
-                "name": "Challenge 3.3.3",
-                "dialog": {
-                  "start": [
-                    {
-                      "character": "ELLIS",
-                      "text": "Let’s use our newly unlocked albino/color allele to modify the drake scale color from charcoal to albino, directly in the nucleus. Click the projection."
-                    }
-                  ],
-                  "end": {
-                    "success": [
-                      {
-                        "character": "ELLIS",
-                        "text": "Well done! "
-                      }
-                    ],
-                    "failure": [
-                      {
-                        "character": "ELLIS",
-                        "text": "You got there, but you'll need to do better to earn a crystal!."
-                      }
-                    ]
-                  }
-                },
-                "id": "cell-game-frost-charcoal-nucleus",
-                "room": "zoomroom"
               }
             ]
           },
@@ -2133,80 +2106,6 @@
                   }
                 },
                 "id": "cell-game-copper-lava-gate",
-                "room": "zoomroom"
-              },
-              {
-                "name": "Challenge 3.4.4",
-                "dialog": {
-                  "start": [
-                    {
-                      "character": "ELLIS",
-                      "text": "Let’s use our newly unlocked shiny/dull allele to modify the drake scale color permanently from copper to lava, directly in the nucleus. Click the projection."
-                    }
-                  ],
-                  "end": {
-                    "success": [
-                      {
-                        "character": "ELLIS",
-                        "text": "You did it! Congratulations!"
-                      }
-                    ],
-                    "failure": [
-                      {
-                        "character": "ELLIS",
-                        "text": "You got there, but you'll need to do better to earn a crystal!."
-                      }
-                    ]
-                  }
-                },
-                "id": "cell-game-copper-lava-nucleus",
-                "room": "zoomroom"
-              },
-              {
-                "name": "Challenge 3.4.5",
-                "dialog": {
-                  "start": [
-                    {
-                      "character": "ELLIS",
-                      "text": "Okay, Cadet, let’s challenge ourselves. This time we’re going to start with a lava drake and I’m setting the target color as steel."
-                    },
-                    {
-                      "character": "HERRERA",
-                      "text": "That sounds more complicated. That’s going to involve a couple of changes to our unlocked alleles in the nucleus, right?"
-                    },
-                    {
-                      "character": "ELLIS",
-                      "text": "Perhaps. Cadet, click the projection whenever you’re ready!"
-                    }
-                  ],
-                  "end": {
-                    "success": [
-                      {
-                        "character": "ELLIS",
-                        "text": "We did it! We’re really mastering these color changes!"
-                      },
-                      {
-                        "character": "HERRERA",
-                        "text": "Impressive, especially when you consider how useful those steel-colored dragons are. Their vision extends into the infra-red, giving them great vision at night."
-                      },
-                      {
-                        "character": "ELLIS",
-                        "text": "That’s because the steel-color and night vision are linked traits."
-                      },
-                      {
-                        "character": "HERRERA",
-                        "text": "Sure, yeah, linked traits. However it works, those steel-colored dragons are invaluable for night rides and surprise attacks!"
-                      }
-                    ],
-                    "failure": [
-                      {
-                        "character": "ELLIS",
-                        "text": "You got there, but you'll need to do better to earn a crystal!."
-                      }
-                    ]
-                  }
-                },
-                "id": "cell-game-lava-steel-nucleus",
                 "room": "zoomroom"
               }
             ]
