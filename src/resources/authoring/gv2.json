@@ -1660,6 +1660,12 @@
                   "text": "We’re going to need you to stay sharp, Cadet. Check out the VentureMap to see what you should tackle first."
                 }
               ],
+              "middle": [
+                {
+                  "character": "HATCH",
+                  "text": "Open your VentureMap and head on over to the Sim Room. Quickly! We don’t have much time!"
+                }
+              ],
               "end": [
                 {
                   "character": "HATCH",
@@ -1779,6 +1785,12 @@
                 {
                   "character": "ELLIS",
                   "text": "We’ll begin by having you investigate how drakes get their different colors. Click the VentureMap to navigate to the Zoom Room."
+                }
+              ],
+              "middle": [
+                {
+                  "character": "HATCH",
+                  "text": "Open your VentureMap and head on over to the Sim Room. Quickly! We don’t have much time!"
                 }
               ],
               "end": [
@@ -1917,6 +1929,12 @@
                   "text": "And if we share our knowledge, they will approve a massive trade deal that will help our cause. Open the VentureMap and come with me to the Zoom Room!"
                 }
               ],
+              "middle": [
+                {
+                  "character": "ELLIS",
+                  "text": "Open your VentureMap and head on over to the Sim Room. Quickly! We don’t have much time!"
+                }
+              ],
               "end": [
                 {
                   "character": "ELLIS",
@@ -2016,6 +2034,12 @@
                 {
                   "character": "HATCH",
                   "text": "Cadet, use the VenturePad to meet up with Ellis in the Zoom Room team. Hurry! "
+                }
+              ],
+              "middle": [
+                {
+                  "character": "HERRERA",
+                  "text": "Open your VentureMap and head on over to the Sim Room. Quickly! We don’t have much time!"
                 }
               ],
               "end": [
