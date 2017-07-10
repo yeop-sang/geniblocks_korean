@@ -2,6 +2,7 @@ import actionTypes from './action-types';
 import { ITS_ACTORS, ITS_ACTIONS, ITS_TARGETS } from './its-constants';
 import GeneticsUtils from './utilities/genetics-utils';
 import AuthoringUtils from './utilities/authoring-utils';
+import ProgressUtils from './utilities/progress-utils';
 import { getUserQueryString } from './middleware/state-save';
 import { notificationType } from './modules/notifications';
 import { getGemFromChallengeErrors } from './reducers/helpers/gems-helper';
@@ -136,7 +137,7 @@ export function continueFromVictory() {
   return (dispatch, getState) => {
     const { routeSpec, authoring, gems } = getState(),
           currentMission = routeSpec.level + "" + routeSpec.mission,
-          nextMissionSpec = AuthoringUtils.getCurrentMissionFromGems(authoring, gems),
+          nextMissionSpec = ProgressUtils.getCurrentChallengeFromGems(authoring, gems),
           nextMission = nextMissionSpec.level + "" + nextMissionSpec.mission;
     if (currentMission !== nextMission) {
       dispatch(navigateToHome(true));
@@ -199,14 +200,24 @@ function restrictToIntegerRange(value, minValue, maxValue) {
 export function navigateToCurrentRoute(routeSpec) {
   const {level, mission, challenge} = routeSpec;
   return (dispatch, getState) => {
-    const authoring = getState().authoring,
-          levelCount = AuthoringUtils.getLevelCount(authoring),
-          nextLevel = restrictToIntegerRange(level, 0, levelCount - 1),
-          missionCount = AuthoringUtils.getMissionCount(authoring, nextLevel),
-          nextMission = restrictToIntegerRange(mission, 0, missionCount - 1),
-          challengeCount = AuthoringUtils.getChallengeCount(authoring, nextLevel, nextMission),
-          nextChallenge = restrictToIntegerRange(challenge, 0, challengeCount - 1),
-          routeChangeRequired = (level !== nextLevel) || (mission !== nextMission) || (challenge !== nextChallenge);
+    let state = getState(),
+        authoring = state.authoring,
+        levelCount = AuthoringUtils.getLevelCount(authoring),
+        nextLevel = restrictToIntegerRange(level, 0, levelCount - 1),
+        missionCount = AuthoringUtils.getMissionCount(authoring, nextLevel),
+        nextMission = restrictToIntegerRange(mission, 0, missionCount - 1),
+        challengeCount = AuthoringUtils.getChallengeCount(authoring, nextLevel, nextMission),
+        nextChallenge = restrictToIntegerRange(challenge, 0, challengeCount - 1);
+
+    // Prevent students from skipping through missions by re-routing to the next unlocked challenge
+    if (ProgressUtils.isMissionLocked(state.gems, authoring, nextLevel, nextMission)) {
+      let currentChallengeRoute = ProgressUtils.getCurrentChallengeFromGems(authoring, state.gems);
+      nextLevel = currentChallengeRoute.level;
+      nextMission = currentChallengeRoute.mission;
+      nextChallenge = currentChallengeRoute.challenge;
+    }
+
+    const routeChangeRequired = (level !== nextLevel) || (mission !== nextMission) || (challenge !== nextChallenge);
     // TODO: Ideally, route changes would be handled in their own module (see routing.js)
     if (routeChangeRequired) {
       dispatch(navigateToChallenge({level: nextLevel, mission: nextMission, challenge: nextChallenge}));

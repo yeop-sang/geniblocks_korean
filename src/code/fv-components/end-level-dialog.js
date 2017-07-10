@@ -4,7 +4,7 @@ import GemSetView, {GemView} from './gem-set';
 import { getChallengeGem } from '../reducers/helpers/gems-helper';
 import VenturePadView from './venture-pad';
 
-const EndLevelDialogView = ({gems, routeSpec, challengeCount, enableContinueButton, onNextChallenge, onTryAgain}) => {
+const EndLevelDialogView = ({gems, routeSpec, challengeCount, enableContinueButton, authoring, onNextChallenge, onTryAgain}) => {
   let getGemDisplayName = (gem) => {
     let gemName = t("~VENTURE.AWARD_FIRST");
     if (gem === 1) gemName = t("~VENTURE.AWARD_SECOND");
@@ -62,7 +62,7 @@ const EndLevelDialogView = ({gems, routeSpec, challengeCount, enableContinueButt
     </div>
   );
 
-  return <VenturePadView title={t("~VENTURE.END_LEVEL")} screen={screen}/>;
+  return <VenturePadView title={t("~VENTURE.END_LEVEL")} screen={screen} authoring={authoring} roomHighlightRoute={routeSpec}/>;
 };
 
 EndLevelDialogView.propTypes = {
@@ -71,6 +71,7 @@ EndLevelDialogView.propTypes = {
   challengeCount: PropTypes.number,
   onNextChallenge: PropTypes.func,
   onTryAgain: PropTypes.func,
+  authoring: PropTypes.object,
   enableContinueButton: PropTypes.bool
 };
 

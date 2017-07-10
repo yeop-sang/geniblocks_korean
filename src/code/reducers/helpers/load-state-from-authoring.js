@@ -2,6 +2,7 @@ import templates from '../../templates';
 import GeneticsUtils from '../../utilities/genetics-utils';
 import { range, shuffle, assign } from 'lodash';
 import AuthoringUtils from '../../utilities/authoring-utils';
+import ProgressUtils from '../../utilities/progress-utils';
 import { notificationType } from '../../modules/notifications';
 
 /**
@@ -200,15 +201,16 @@ export function loadHome(state, authoring, showMissionEndDialog) {
   let room = "home",
       roomInfo = (authoring && authoring.rooms) ? authoring.rooms[room] : {},
       location = {id: room, ...roomInfo},
-      { level, mission, started } = AuthoringUtils.getCurrentMissionFromGems(authoring, state.gems),
+      { level, mission } = ProgressUtils.getCurrentChallengeFromGems(authoring, state.gems),
+      missionStarted = ProgressUtils.isMissionStarted(state.gems, level, mission),
       dialogDefs = authoring.application.levels[level].missions[mission].dialog,
       messages = [];
 
   if (dialogDefs) {
-    let whichDialog = started ? "middle" : "start",
+    let whichDialog = missionStarted ? "middle" : "start",
         dialog = dialogDefs[whichDialog];
 
-    if (!started && showMissionEndDialog) {
+    if (!missionStarted && showMissionEndDialog) {
       let previousMission = AuthoringUtils.getPreviousMission(authoring, level, mission);
       if (previousMission) {
         let endDialog = authoring.application.levels[previousMission.level].missions[previousMission.mission].dialog["end"] || [];
