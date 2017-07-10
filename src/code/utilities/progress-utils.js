@@ -17,7 +17,7 @@ export default class AuthoringUtils {
       for (let j = 0, jj = level.missions.length; j < jj; j++) {
         let mission = level.missions[j];
         for (let k = 0, kk = mission.challenges.length; k < kk; k++) {
-          if (gems[i] && gems[i][j] && !isNaN(gems[i][j][k]) && gems[i][j][k] !== scoreValues.NONE) {
+          if (gems[i] && gems[i][j] && gems[i][j][k] != null && gems[i][j][k] !== scoreValues.NONE) {
             continue;
           } else {
             return {
