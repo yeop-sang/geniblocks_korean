@@ -1671,11 +1671,6 @@
                 "name": "Challenge 3.2.3",
                 "id": "cell-game-lava-charcoal-size",
                 "room": "zoomroom"
-              },
-              {
-                "name": "Challenge 3.2.4",
-                "id": "cell-game-lava-charcoal-nucleus",
-                "room": "zoomroom"
               }
             ]
           },
