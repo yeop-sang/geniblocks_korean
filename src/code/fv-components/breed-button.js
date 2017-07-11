@@ -2,22 +2,36 @@ import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import t from '../utilities/translate';
 
-const BreedButtonView = ({onClick, disabled}) => {
-
-  function handleClick() {
-    onClick();
+export default class BreedButtonView extends React.Component {
+  static propTypes = {
+    onClick: PropTypes.func.isRequired,
+    disabled: PropTypes.bool
   }
 
-  return (
-    <div className={classNames('breed-button', { 'disabled': disabled})} onClick={handleClick}>
-      <div className="button-label breed-button-label unselectable">{ t("~FV_EGG_GAME.BREED_BUTTON") }</div>
-    </div>
-  );
-};
+  constructor(props) {
+    super(props);
+    this.state = {
+      tempDisabled: false
+    };
+  }
 
-BreedButtonView.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  disabled: PropTypes.bool
-};
+  render() {
+    let _this = this;
+    const handleClick = () => {
+      if (!_this.state.tempDisabled) {
+        _this.props.onClick();
+        _this.setState({tempDisabled: true});
+        // Disable the button for a bit to avoid mass breeding
+        setTimeout(function() {
+          _this.setState({tempDisabled: false});
+        }, 500);
+      }
+    };
 
-export default BreedButtonView;
+    return (
+      <div className={classNames('breed-button', { 'disabled': this.props.disabled})} onClick={handleClick}>
+        <div className="button-label breed-button-label unselectable">{ t("~FV_EGG_GAME.BREED_BUTTON") }</div>
+      </div>
+    );
+  }
+}

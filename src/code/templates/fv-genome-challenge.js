@@ -37,6 +37,7 @@ class HatchDrakeButton extends React.Component {
       if (!_this.state.disabled) {
         _this.props.onClick();
         _this.setState({disabled: true});
+        // Disable the button for a second to avoid mass submissions
         setTimeout(function() {
           _this.setState({disabled: false});
         }, 1000);
