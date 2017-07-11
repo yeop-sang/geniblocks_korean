@@ -18,26 +18,41 @@ const userDrakeIndex   = 0,
 /*
  * HatchDrakeButton
  */
-const HatchDrakeButton = ({label, onClick, disabled}) => {
-
-  function handleClick() {
-    onClick();
+class HatchDrakeButton extends React.Component {
+  static propTypes = {
+    label: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
   }
 
-  return (
-    <div className={classNames('hatch-drake-button', {disabled})} onClick={handleClick}>
-      <div className="button-label hatch-drake-button-label unselectable">
-        {label}
-      </div>
-    </div>
-  );
-};
+  constructor(props) {
+    super(props);
+    this.state = {
+      disabled: false
+    };
+  }
 
-HatchDrakeButton.propTypes = {
-  label: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  disabled: PropTypes.bool
-};
+  render() {
+    let _this = this;
+    const handleClick = () => {
+      if (!_this.state.disabled) {
+        _this.props.onClick();
+        _this.setState({disabled: true});
+        // Disable the button for a second to avoid mass submissions
+        setTimeout(function() {
+          _this.setState({disabled: false});
+        }, 1000);
+      }
+    };
+
+    return (
+      <div className={classNames('hatch-drake-button', {disabled: _this.state.disabled})} onClick={handleClick}>
+        <div className="button-label hatch-drake-button-label unselectable">
+          {_this.props.label}
+        </div>
+      </div>
+    );
+  }
+}
 
 /*
  * YourDrakeView

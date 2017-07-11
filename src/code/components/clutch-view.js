@@ -20,15 +20,7 @@ const ClutchView = React.createClass({
   },
 
   getInitialState() {
-    return { page : 0 };
-  },
-
-  handleClick(id, org) {
-    const prefixIndex = id.indexOf(this.props.idPrefix),
-          indexOnPage = Number(id.substr(prefixIndex + this.props.idPrefix.length)),
-          index = ((this.state.page-1) * 8) + indexOnPage;
-
-    if (this.props.onClick) this.props.onClick(index, id, org);
+    return { page : 0, tempDisabled: false };
   },
 
   handlePageBackward() {
@@ -52,13 +44,32 @@ const ClutchView = React.createClass({
   },
 
   render() {
+    const handleClick = (id, org) => {
+      let _this = this;
+      if (!_this.state.tempDisabled) {
+        const prefixIndex = id.indexOf(_this.props.idPrefix),
+              indexOnPage = Number(id.substr(prefixIndex + _this.props.idPrefix.length)),
+              index = ((_this.state.page-1) * 8) + indexOnPage;
+
+        if (_this.props.onClick) {
+          _this.props.onClick(index, id, org);
+        }
+
+        // Disable clicks for a bit to avoid mass submissions
+        _this.setState({tempDisabled: true});
+        setTimeout(function() {
+          _this.setState({tempDisabled: false});
+        }, 2000);
+      }
+    };
+
     let displayStyle = {size: 136, top: -153, marginLeft: -12},
         firstDrake = (this.state.page - 1) * 8,
         pageDrakes = this.props.orgs.slice(firstDrake, firstDrake + 8),
         stableDrakeViews = pageDrakes.map((org, index) => {
           return (
             <div key={index} className="stable-drake-overlay" style={{width: 116}}>
-              <FVEggHatchView organism = {org} id={this.props.idPrefix + index} onClick={this.handleClick} eggStyle={{left: -477, top: -424}} displayStyle={displayStyle}/>
+              <FVEggHatchView organism = {org} id={this.props.idPrefix + index} onClick={handleClick} eggStyle={{left: -477, top: -424}} displayStyle={displayStyle}/>
             </div>
           );
         });
