@@ -5,6 +5,7 @@ import { GUIDE_CONNECTED, GUIDE_ERRORED,
          GUIDE_MESSAGE_RECEIVED, GUIDE_ALERT_RECEIVED } from '../modules/notifications';
 import io from 'socket.io-client';
 import AuthoringUtils from '../utilities/authoring-utils';
+import { cloneDeep } from 'lodash';
 
 var socket = null,
     session = "",
@@ -162,7 +163,7 @@ function createLogEntry(loggingMetadata, action, nextState){
   delete context.type;
   delete context.meta;
 
-  context = makeMutable(context);
+  context = makeMutable(cloneDeep(context));
 
   let changeSexToString = sex => sex === 0 ? "male" : "female";
   changePropertyValues(context, "sex", changeSexToString);
