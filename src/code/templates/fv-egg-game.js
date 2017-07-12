@@ -1343,7 +1343,7 @@ export default class FVEggGame extends Component {
       return authoredDrakes;
 
     // challengeType === 'match-target'
-    const targetDrakeCount = authoredChallenge.targetDrakes.length;
+    const targetDrakeCount = authoredChallenge.numTrials || authoredChallenge.targetDrakes.length;
 
     function childDrakesContain(alleles) {
       for (let i = 3; i < authoredDrakes.length; ++i) {
