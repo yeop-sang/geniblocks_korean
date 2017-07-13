@@ -62,13 +62,6 @@ export default class GeneticsUtils {
     return convertValue(null, object);
   }
 
-  static ensureValidOrganism(orgOrDef, species=BioLogica.Species.Drake) {
-    if (orgOrDef.getAlleleString) {
-      return orgOrDef;
-    }
-    return new BioLogica.Organism(species, orgOrDef.alleleString, orgOrDef.sex);
-  }
-
   /**
    * Returns true if the specified alleles are present in the allele string.
    *
@@ -266,133 +259,6 @@ export default class GeneticsUtils {
     return GeneticsUtils.fillInMissingAllelesFromGeneMap(genetics, alleleString, baseGeneMap);
   }
 
-  static numberOfBreedingMovesToReachDrake(organism1, organism2, changeableAlleles1, changeableAlleles2, targetOrganism) {
-    var moves = 0,
-        org1Alleles = organism1.getAlleleString().split(',').map(a => a.split(':')[1]),
-        org2Alleles = organism2.getAlleleString().split(',').map(a => a.split(':')[1]),
-        targetchars = targetOrganism.phenotype.characteristics,
-        traitRules = organism1.species.traitRules;
-
-    for (var trait in traitRules) {
-      if (traitRules.hasOwnProperty(trait)) {
-        var possibleSolutions = traitRules[trait][targetchars[trait]],
-            shortestPath = Infinity;
-        if (possibleSolutions && possibleSolutions.length) {
-          for (var i = 0, ii = possibleSolutions.length; i<ii; i++) {
-            var solution = possibleSolutions[i],
-                movesForSolution1 = 0,
-                movesForSolution2 = 0;
-            for (var j = 0, jj = solution.length; j<jj; j++) {
-              var allele1 = solution[j],
-                  allele2 = j%2 === 0 ? solution[j+1] : solution[j-1],
-                  solutionMoves = 0;
-              if (org1Alleles.indexOf(allele1) === -1) {
-                if (allele1 && (changeableAlleles1.indexOf(allele1) > -1 ||
-                    changeableAlleles1.indexOf(allele1.toLowerCase()) > -1)) {
-                  solutionMoves++;
-                } else {
-                  solutionMoves = Infinity;
-                }
-              }
-
-              if (org2Alleles.indexOf(allele2) === -1) {
-                if (allele2 && (changeableAlleles2.indexOf(allele2) > -1 ||
-                      changeableAlleles2.indexOf(allele2.toLowerCase()) > -1)) {
-                  solutionMoves++;
-                } else {
-                  solutionMoves = Infinity;
-                }
-              }
-
-              if (j%2 === 0) {
-                movesForSolution1 += solutionMoves;
-              } else {
-                movesForSolution2 += solutionMoves;
-              }
-            }
-            shortestPath = Math.min(shortestPath, Math.min(movesForSolution1, movesForSolution2));
-          }
-          moves += shortestPath;
-        }
-      }
-    }
-
-    return moves;
-  }
-
-  /**
-   * Returns the number of separate changes, including allele changes and sex changes,
-   * required to match the phenotype of the 'testOrganism' to that of the 'targetOrganism'.
-   *
-   * @param {BioLogica.Organism} testOrganism - the organism to which changes would apply
-   * @param {BioLogica.Organism} targetOrganism - the organism that serves as destination
-   * @return {number} - the total number of changes required for the phenotypes to match
-   */
-  static numberOfChangesToReachPhenotype(testOrganism, targetOrganism) {
-    testOrganism = this.ensureValidOrganism(testOrganism);
-    targetOrganism = this.ensureValidOrganism(targetOrganism);
-
-    let requiredChangeCount = GeneticsUtils.numberOfAlleleChangesToReachPhenotype(
-                                              testOrganism.phenotype.characteristics,
-                                              targetOrganism.phenotype.characteristics,
-                                              testOrganism.genetics.genotype.allAlleles,
-                                              testOrganism.species.traitRules);
-    if (testOrganism.sex !== targetOrganism.sex)
-      ++requiredChangeCount;
-
-    return requiredChangeCount;
-  }
-
-  /**
-   * Returns the number of separate allele changes required to make the phenotype of
-   * the organism characterized by 'testCharacterstics' match that of the organism
-   * characterized by 'targetCharacteristics'. Adapted from:
-   * @see https://github.com/concord-consortium/Geniverse-SproutCore/blob/master/frameworks/geniverse/controllers/match.js
-   *
-   * @param {object} testCharacteristics - the characteristics of the test organism
-   * @param {object} targetCharacteristics - the characteristics of the target organism
-   * @param {string[]} testAlleles - the array of alleles of the test organism
-   * @param {object} traitRules - the traitRules of the BioLogica.Species of the organisms
-   * @return {number} - the number of allele changes required for the phenotypes to match
-   */
-  static numberOfAlleleChangesToReachPhenotype(testCharacteristics, targetCharacteristics, testAlleles, traitRules) {
-    const alleles = testAlleles;
-    let   moves = 0;
-
-    for (const trait in traitRules) {
-      if (traitRules.hasOwnProperty(trait)) {
-        if (testCharacteristics[trait] !== targetCharacteristics[trait]) {
-          // first we have to work out what alleles the original drake has that correspond to
-          // their non-matching trait
-          const possibleTraitAlleles = GeneticsUtils.collectAllAllelesForTrait(trait, traitRules);
-          let   characteristicAlleles = [];
-          for (let i = 0, ii = alleles.length; i < ii; i++) {
-            if (possibleTraitAlleles.indexOf(alleles[i]) >= 0){
-              characteristicAlleles.push(alleles[i]);
-            }
-          }
-          // now work out the smallest number of steps to get from there to the desired characteristic
-          const possibleSolutions = traitRules[trait][targetCharacteristics[trait]];
-          let   shortestPathLength = Infinity;
-          for (let i = 0, ii = possibleSolutions.length; i < ii; i++) {
-            let solution = possibleSolutions[i].slice(),
-                pathLength = 0;
-            for (let j = 0, jj = characteristicAlleles.length; j < jj; j++){
-              if (solution.indexOf(characteristicAlleles[j]) === -1){
-                pathLength++;
-              } else {
-                solution.splice(solution.indexOf(characteristicAlleles[j]), 1); // already matched this one, can't match it again
-              }
-            }
-            shortestPathLength = (pathLength < shortestPathLength) ? pathLength : shortestPathLength;
-          }
-          moves += shortestPathLength;
-        }
-      }
-    }
-    return moves;
-  }
-
   /**
    * Returns a string containing the alleles present in the fully specified organism, but not in
    * the partially specified organism. For example, if a female and male organism are given, the returned string
@@ -407,41 +273,6 @@ export default class GeneticsUtils {
     let partialAlleles = partiallySpecifiedOrganism.getAlleleString().split(",");
     let extraAlleles = fullAlleles.filter(function(allele) { return partialAlleles.indexOf(allele) === -1; });
     return extraAlleles.join(",");
-  }
-
-  /**
-   * Goes through the traitRules to find out what unique alleles are associated with each trait
-   * e.g. For "tail" it will return ["T", "Tk", "t"]. Adapted from:
-   * @see https://github.com/concord-consortium/Geniverse-SproutCore/blob/master/frameworks/geniverse/controllers/match.js
-   *
-   * @param {string} trait - name of trait, e.g. "tail"
-   * @param {object} traitRules - the traitRules of the BioLogica.Species whose traits are of interest
-   * @return {string[]} - array of allele strings, e.g. ["T", "Tk", "t"]
-   */
-  static _possibleAllelesForTrait = {};
-  static collectAllAllelesForTrait(trait, traitRules) {
-    if (GeneticsUtils._possibleAllelesForTrait[trait]) {
-      return GeneticsUtils._possibleAllelesForTrait[trait];
-    }
-
-    let allelesHash = {},
-        alleles     = [];
-    for (const characteristic in traitRules[trait]){
-        for (const possibileAllelesCombo in traitRules[trait][characteristic]) {
-          if (traitRules[trait][characteristic].hasOwnProperty(possibileAllelesCombo)){
-            for (let i = 0, ii = traitRules[trait][characteristic][possibileAllelesCombo].length; i < ii; i++) {
-              allelesHash[traitRules[trait][characteristic][possibileAllelesCombo][i]] = 1;
-            }
-          }
-        }
-    }
-
-    for (const allele in allelesHash){
-      alleles.push(allele);
-    }
-
-    GeneticsUtils._possibleAllelesForTrait[trait] = alleles;  // store so we don't need to recalculate it
-    return alleles;
   }
 
   /**
