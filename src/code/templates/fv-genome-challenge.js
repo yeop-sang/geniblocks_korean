@@ -256,7 +256,7 @@ export default class FVGenomeChallenge extends React.Component {
   static calculateGoalMoves = function(drakesArray) {
     if (drakesArray.length > 1) {
       let [initial, target] = drakesArray;
-      return GeneticsUtils.numberOfChangesToReachPhenotype(initial, target);
+      return BioLogica.Phenotype.numberOfChangesToReachPhenotype(initial, target, BioLogica.Species.Drake);
     } else {
       // Skip goal moves calculation for 'create-unique' challenges
       return -1;

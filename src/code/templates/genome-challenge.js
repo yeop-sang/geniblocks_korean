@@ -94,7 +94,7 @@ export default class GenomeChallengeTemplate extends Component {
 
   static calculateGoalMoves = function(drakesArray) {
     let [initial, target] = drakesArray;
-    return GeneticsUtils.numberOfChangesToReachPhenotype(initial, target);
+    return BioLogica.Phenotype.numberOfChangesToReachPhenotype(initial, target, BioLogica.Species.Drake);
   }
 
   static logState = function(state) {
