@@ -35,8 +35,8 @@ export default function gems(state = initialState, challengeErrors, routeSpec, a
         return state;
       }
     case actionTypes.LOAD_SAVED_STATE: {
-      if (action.gems && action.gems.length > 0) {
-        return action.gems;
+      if (action.state && action.state.gems) {
+        return action.state.gems;
       } else {
         return state;
       }

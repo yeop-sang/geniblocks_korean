@@ -7,6 +7,7 @@ import ProgressUtils from './utilities/progress-utils';
 import { getUserQueryString } from './middleware/state-save';
 import { notificationType } from './modules/notifications';
 import { getGemFromChallengeErrors } from './reducers/helpers/gems-helper';
+import migrate from './migrations';
 
 export { actionTypes };
 
@@ -38,14 +39,15 @@ export function startSession(uuid) {
               ref = db.ref(userQueryString);
 
         ref.once("value", function(data) {
-          let loadedState = data.val();
-          if (loadedState) {
+          let loadedState = data.val(),
+              migratedState = migrate(loadedState);
+          if (migratedState) {
             dispatch({
               type: actionTypes.LOAD_SAVED_STATE,
-              gems: loadedState.gems
+              state: migratedState
             });
           }
-          
+
           const { location, routeSpec } = getState();
           if (location && location.id === "home") {
             dispatch(navigateToHome());
@@ -498,7 +500,7 @@ export function showNextTrialButton() {
 
 export function showNotification({message, closeButton}) {
   return showNotifications({
-    messages: [{text: message}], 
+    messages: [{text: message}],
     closeButton
   });
 }

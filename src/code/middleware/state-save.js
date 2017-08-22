@@ -17,10 +17,9 @@
 import urlParams from '../utilities/url-params';
 import actionTypes from '../action-types';
 import progressUtils from '../utilities/progress-utils';
+import { currentStateVersion } from '../migrations';
 
 export const authoringVersionNumber = 1;
-
-const stateVersionNumber = 1;
 const userQueryString = getUserQueryString();
 
 export default () => store => next => action => {
@@ -45,7 +44,7 @@ export default () => store => next => action => {
       let gems = nextState.gems;
       userDataUpdate.state = {
         gems,
-        stateVersion: stateVersionNumber
+        stateVersion: currentStateVersion
       };
     }
     firebase.database().ref(userQueryString).update(userDataUpdate);
