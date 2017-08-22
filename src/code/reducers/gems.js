@@ -8,8 +8,7 @@ const initialState = [];
  */
 export default function gems(state = initialState, challengeErrors, routeSpec, action) {
   switch(action.type) {
-    case actionTypes.CHALLENGE_COMPLETED:
-    case actionTypes.CHALLENGE_RETRIED: {
+    case actionTypes.CHALLENGE_COMPLETED: {
         let { level: currLevel, mission: currMission, challenge: currChallenge } = routeSpec;
         //XXX: Ultra-hack to make sure there are no undefined levels
         for (let level = 0; level <= 10; level++) {
@@ -21,15 +20,17 @@ export default function gems(state = initialState, challengeErrors, routeSpec, a
               state = state.setIn([level, mission], []);
             }
             for (let challenge = 0; challenge <= 10; challenge++) {
-              if (isNaN(state[level][mission][challenge])) {
-                state = state.setIn([level, mission, challenge], null);
+              if (!(state[level][mission][challenge])) {
+                state = state.setIn([level, mission, challenge], []);
               }
             }
           }
         }
-        
-        let gem = getGemFromChallengeErrors(challengeErrors);
-        state = state.setIn([currLevel, currMission, currChallenge], gem);
+
+        let gem = getGemFromChallengeErrors(challengeErrors),
+            gemArray = state[currLevel][currMission][currChallenge].concat(gem);
+
+        state = state.setIn([currLevel, currMission, currChallenge], gemArray);
 
         return state;
       }

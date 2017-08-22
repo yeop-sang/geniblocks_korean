@@ -21,7 +21,8 @@ export function getGemFromChallengeErrors(challengeErrors){
 
 export function getChallengeGem(level, mission, challenge, gems) {
   if (gems[level] && gems[level][mission] && gems[level][mission][challenge] != null) {
-    return gems[level][mission][challenge];
+    let gemArray = gems[level][mission][challenge];
+    return gemArray[gemArray.length-1];     // return last gem
   } else {
     return scoreValues.UNATTEMPTED;
   }
@@ -33,4 +34,8 @@ export function getMissionGems(level, mission, challengeCount, gems) {
     challengeScore.push(getChallengeGem(level, mission, i, gems));
   }
   return challengeScore;
+}
+
+export function isPassingGem(score) {
+  return score <= scoreValues.BRONZE;
 }
