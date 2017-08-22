@@ -272,41 +272,168 @@ describe('submitDrake action', () => {
       }));
     });
 
-    describe.skip('when drake is correct', () => {
-      let defaultState = reducer(undefined, {});
-      let initialState = defaultState.merge({
-        routeSpec: {level: 0,mission: 0, challenge: 0},
-        trial: 1,
-        trials: [{}, {}],
-        gems: [],
-        goalMoves: 3,
-        moves: 3
-      });
-      let submitAction = {
-        type: types.DRAKE_SUBMITTED,
-        correctPhenotype: [],
-        submittedPhenotype: [],
-        correct: true,
-        incrementMoves: true
-      };
+    describe('when drake is correct', () => {
 
-      it('should update the trialSuccess and challengeComplete property correctly when there are no more trials', () => {
+      describe('and there are more trials', () => {
+        let defaultState = reducer(undefined, {});
+        let initialState = defaultState.merge({
+          routeSpec: {level: 0,mission: 0, challenge: 0},
+          drakes: [
+            {
+              alleleString: "",
+              sex: 0
+            },
+            {
+              alleleString: "",
+              sex: 0
+            }
+          ],
+          trial: 1,
+          numTrials: 3,
+          gems: [],
+          goalMoves: 3,
+          moves: 3
+        });
 
-        // NEEDS THE REST OF THE ACTIONS TO MAKE GEMS UPDATE
-        let nextState = reducer(initialState, submitAction);
+        const dispatch = expect.createSpy();
+        actions.submitDrake(0, 1, true)(dispatch, () => initialState);
 
-        expect(nextState).toEqual(initialState.merge({
-          trialSuccess: true,
-          moves: 4,
-          gems: [
-            [
-              [
-                0
+        let state1, state2, state3;
+
+
+        it('should dispatch submitDrake and update the trialSuccess and challengeComplete property correctly', () => {
+          let submitAction = dispatch.calls[0].arguments[0];
+          expect(submitAction.type).toEqual(types.DRAKE_SUBMITTED);
+
+          state1 = reducer(initialState, submitAction);
+
+          expect(state1).toEqual(initialState.merge({
+            trialSuccess: true,
+            moves: 3,
+            challengeErrors: 0,
+            gems: []
+          }));
+        });
+
+        it('should then trigger a notification_shown action', () => {
+          let nextAction = dispatch.calls[1].arguments[0];
+          expect(nextAction.type).toEqual(types.NOTIFICATIONS_SHOWN);
+
+          state2 = reducer(state1, nextAction);
+
+          expect(state2).toEqual(state1.merge({
+            notifications: {
+              closeButton: {
+                action: "advanceTrial"
+              },
+              messages: [
+                {
+                  "text": "Good work!"
+                }
               ]
-            ]
-          ]
-        }));
+            },
+            trialSuccess: true,
+            userDrakeHidden: false
+          }));
+        });
+
+        it('should then trigger a modal_dialog_shown action', () => {
+          let nextAction = dispatch.calls[2].arguments[0];
+          expect(nextAction.type).toEqual(types.MODAL_DIALOG_SHOWN);
+
+          state3 = reducer(state2, nextAction);
+
+          expect(state3).toEqual(state2.merge({
+            modalDialog: {
+              leftButton: undefined,
+              rightButton: {
+                action: "advanceTrial"
+              },
+              show: true,
+              showAward: false
+            }
+          }));
+        });
       });
+
+      describe('and there are no more trials', () => {
+        let defaultState = reducer(undefined, {});
+        let initialState = defaultState.merge({
+          routeSpec: {level: 0,mission: 0, challenge: 0},
+          drakes: [
+            {
+              alleleString: "",
+              sex: 0
+            },
+            {
+              alleleString: "",
+              sex: 0
+            }
+          ],
+          trial: 0,
+          numTrials: 1,
+          gems: [],
+          goalMoves: 3,
+          moves: 3,
+          authoring: {challenges: {"test": {visibleGenes: "wings, arms"}}, "application": {"levels": [{"missions": [{"challenges": [{"id": "test"}]}]}]}}
+        });
+
+        let dispatch = expect.createSpy();
+        let nextDispatch = expect.createSpy();
+        actions.submitDrake(0, 1, true)(dispatch, () => initialState);
+
+        let state1, state2, state3;
+
+
+        it('should dispatch submitDrake and update the trialSuccess and challengeComplete property correctly', () => {
+          let submitAction = dispatch.calls[0].arguments[0];
+          expect(submitAction.type).toEqual(types.DRAKE_SUBMITTED);
+
+          state1 = reducer(initialState, submitAction);
+
+          expect(state1).toEqual(initialState.merge({
+            trialSuccess: true,
+            moves: 3,
+            challengeErrors: 0,
+            gems: []
+          }));
+        });
+
+        it('should then trigger a complete_challenge action and award gems', () => {
+          let completeChallengeThunk = dispatch.calls[1].arguments[0];
+          completeChallengeThunk(nextDispatch, () => state1);
+          let nextAction = nextDispatch.calls[0].arguments[0];
+
+          state2 = reducer(state1, nextAction);
+
+          expect(state2).toEqual(state1.merge({
+            gems: state2.gems           // huge array
+          }));
+          expect(state2.gems[0][0][0]).toEqual([0]);
+        });
+
+        it('should then trigger a modal_dialog_shown action with retry and continue buttons', () => {
+          let nextAction = nextDispatch.calls[1].arguments[0];
+
+          state3 = reducer(state2, nextAction);
+
+          expect(state3).toEqual(state2.merge({
+            modalDialog: {
+              leftButton: {
+                action: "retryCurrentChallenge"
+              },
+              rightButton: {
+                action: "continueFromVictory"
+              },
+              show: true,
+              showAward: true
+            },
+            userDrakeHidden: false
+          }));
+        });
+
+      });
+
     });
   });
 });
