@@ -1,3 +1,4 @@
+/* global firebase*/
 import actionTypes from './action-types';
 import { ITS_ACTORS, ITS_ACTIONS, ITS_TARGETS } from './its-constants';
 import GeneticsUtils from './utilities/genetics-utils';
@@ -33,8 +34,8 @@ export function startSession(uuid) {
       let userQueryString = getUserQueryString();
 
       if (userQueryString) {
-        const db = firebase.database(), //eslint-disable-line
-              ref = db.ref(userQueryString + "/state");
+        const db = firebase.database(),
+              ref = db.ref(userQueryString);
 
         ref.once("value", function(data) {
           let loadedState = data.val();

@@ -5,7 +5,7 @@
 
   {
     state: < saveable state (i.e. gems) >,
-    stateVersion: 1,
+    stateVersion: n,
     stateMeta: {
       lastActionTime: t
       currentChallenge: {l, m, c}
@@ -43,8 +43,10 @@ export default () => store => next => action => {
     if (action.type !== actionTypes.LOAD_SAVED_STATE &&
           JSON.stringify(prevState.gems) !== JSON.stringify(nextState.gems)) {
       let gems = nextState.gems;
-      userDataUpdate.state = {gems};
-      userDataUpdate.stateVersion = stateVersionNumber;
+      userDataUpdate.state = {
+        gems,
+        stateVersion: stateVersionNumber
+      };
     }
     firebase.database().ref(userQueryString).update(userDataUpdate);
   }
@@ -71,7 +73,7 @@ export function getUserQueryString() {
   const classId = getClassId(),
         userId = getUserId();
 
-  return (classId && userId) ? authoringVersionNumber + "/userState/" + classId + "/" + userId : null;
+  return (classId && userId) ? authoringVersionNumber + "/userState/" + classId + "/" + userId + "/state" : null;
 }
 
 function getClassId() {
