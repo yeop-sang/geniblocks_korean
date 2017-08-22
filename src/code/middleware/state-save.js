@@ -1,28 +1,45 @@
+/* globals firebase */
+
+/**
+ Our current user state:
+
+ {
+   state: < saveable state (i.e. gems) >,
+   stateVersion: 1,
+   stateMeta: { lastActionTime: t },
+   itsData: < set by ITS >
+ }
+ */
+
 import urlParams from '../utilities/url-params';
 import actionTypes from '../action-types';
 
 export const authoringVersionNumber = 1;
 
 const stateVersionNumber = 1;
+const userQueryString = getUserQueryString();
 
 export default () => store => next => action => {
   let prevState = store.getState(),
       result = next(action),
       nextState = store.getState();
 
+  // If we have a FB query string, update timestamp on every action,
+  // and update savable state (gems) if they have changed
+  if (userQueryString) {
+    let timeInSec = Math.floor(Date.now() / 1000),
+        stateMeta = {lastActionTime: timeInSec},
+        userDataUpdate = {stateMeta: stateMeta};
 
-  // Store updated gems if they have changed
-  if (action.type !== actionTypes.LOAD_SAVED_STATE &&
-        JSON.stringify(prevState.gems) !== JSON.stringify(nextState.gems)) {
-      let userQueryString = getUserQueryString();
-
-      if (userQueryString) {
-        let gems = nextState.gems,
-            stateUpdate = {state: {gems}, stateVersion: stateVersionNumber};
-
-        firebase.database().ref(userQueryString).update(stateUpdate); //eslint-disable-line
-      }
+    // Store updated gems if they have changed
+    if (action.type !== actionTypes.LOAD_SAVED_STATE &&
+          JSON.stringify(prevState.gems) !== JSON.stringify(nextState.gems)) {
+      let gems = nextState.gems;
+      userDataUpdate.state = {gems};
+      userDataUpdate.stateVersion = stateVersionNumber;
     }
+    firebase.database().ref(userQueryString).update(userDataUpdate);
+  }
 
   return result;
 };
