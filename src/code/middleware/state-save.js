@@ -27,8 +27,8 @@ export default () => store => next => action => {
   // If we have a FB query string, update timestamp on every action,
   // and update savable state (gems) if they have changed
   if (userQueryString) {
-    let timeInSec = Math.floor(Date.now() / 1000),
-        stateMeta = {lastActionTime: timeInSec},
+    let time = firebase.database.ServerValue.TIMESTAMP,
+        stateMeta = {lastActionTime: time},
         userDataUpdate = {stateMeta: stateMeta};
 
     // Store updated gems if they have changed
