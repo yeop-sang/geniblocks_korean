@@ -1,30 +1,70 @@
+/* globals firebase */
+
+/**
+ Our current user state:
+
+  {
+    state: < saveable state (i.e. gems) >,
+    stateVersion: 1,
+    stateMeta: {
+      lastActionTime: t
+      currentChallenge: {l, m, c}
+    },
+    itsData: < set by ITS >
+  }
+ */
+
 import urlParams from '../utilities/url-params';
 import actionTypes from '../action-types';
+import progressUtils from '../utilities/progress-utils';
 
 export const authoringVersionNumber = 1;
 
 const stateVersionNumber = 1;
+const userQueryString = getUserQueryString();
 
 export default () => store => next => action => {
   let prevState = store.getState(),
       result = next(action),
       nextState = store.getState();
 
+  // If we have a FB query string, update timestamp on every action,
+  // and update savable state (gems) if they have changed
+  if (userQueryString) {
+    let time = firebase.database.ServerValue.TIMESTAMP,
+        currentChallenge = getCurrentChallenge(nextState),
+        stateMeta = {
+          lastActionTime: time,
+          currentChallenge
+        },
+        userDataUpdate = {stateMeta: stateMeta};
 
-  // Store updated gems if they have changed
-  if (action.type !== actionTypes.LOAD_SAVED_STATE &&
-        JSON.stringify(prevState.gems) !== JSON.stringify(nextState.gems)) {
-      let userQueryString = getUserQueryString();
-
-      if (userQueryString) {
-        let gems = nextState.gems,
-            stateUpdate = {state: {gems}, stateVersion: stateVersionNumber};
-
-        firebase.database().ref(userQueryString).update(stateUpdate); //eslint-disable-line
-      }
+    // Store updated gems if they have changed
+    if (action.type !== actionTypes.LOAD_SAVED_STATE &&
+          JSON.stringify(prevState.gems) !== JSON.stringify(nextState.gems)) {
+      let gems = nextState.gems;
+      userDataUpdate.state = {gems};
+      userDataUpdate.stateVersion = stateVersionNumber;
     }
+    firebase.database().ref(userQueryString).update(userDataUpdate);
+  }
 
   return result;
+};
+
+const getCurrentChallenge = function(nextState) {
+  const {routeSpec, authoring, gems} = nextState;
+  if (!authoring) {
+    return null;
+  } else if (routeSpec && routeSpec.level !== undefined) {
+    return {
+      level: routeSpec.level,
+      mission: routeSpec.mission,
+      challenge: routeSpec.challenge
+    };
+  } else {
+    return progressUtils.getCurrentChallengeFromGems(authoring, gems);
+  }
 };
 
 export function getUserQueryString() {
