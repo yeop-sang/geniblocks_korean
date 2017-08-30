@@ -1,11 +1,11 @@
-import { scoreValues } from '../reducers/helpers/gems-helper';
+import { getChallengeGem, isPassingGem } from '../reducers/helpers/gems-helper';
 
 export default class AuthoringUtils {
 
   /**
    * Returns an object representing the current level, mission and challenge the user is on,
-   * by returning the route spec first unattempted or failed challenge. If all challenges are complete, 
-   * returns the last challenge instead. Optionally, accepts a level number, to find the 
+   * by returning the route spec first unattempted or failed challenge. If all challenges are complete,
+   * returns the last challenge instead. Optionally, accepts a level number, to find the
    * current challenge on the given level instead.
    */
   static getCurrentChallengeFromGems(authoring, gems, levelNum) {
@@ -17,7 +17,7 @@ export default class AuthoringUtils {
       for (let j = 0, jj = level.missions.length; j < jj; j++) {
         let mission = level.missions[j];
         for (let k = 0, kk = mission.challenges.length; k < kk; k++) {
-          if (gems[i] && gems[i][j] && gems[i][j][k] != null && gems[i][j][k] !== scoreValues.NONE) {
+          if (isPassingGem(getChallengeGem(i, j, k, gems))) {
             continue;
           } else {
             return {
@@ -49,7 +49,8 @@ export default class AuthoringUtils {
         started = false;
     if (missionGems) {
       for (let i = 0; i < missionGems.length; i++) {
-        if (missionGems[i] != null) {
+        // we just care if there are any attempts, even failing ones
+        if (missionGems[i] && missionGems[i].length > 0) {
           started = true;
         }
       }
@@ -63,7 +64,7 @@ export default class AuthoringUtils {
   static isMissionLocked(gems, authoring, level, mission) {
     let currChallengeRoute = this.getCurrentChallengeFromGems(authoring, gems);
 
-    return level > currChallengeRoute.level 
+    return level > currChallengeRoute.level
         || (level === currChallengeRoute.level && mission > currChallengeRoute.mission);
   }
 
