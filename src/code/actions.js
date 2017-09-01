@@ -36,7 +36,7 @@ export function startSession(uuid) {
 
       if (userQueryString) {
         const db = firebase.database(),
-              ref = db.ref(userQueryString);
+              ref = db.ref(userQueryString + "/state" );
 
         ref.once("value", function(data) {
           let loadedState = data.val(),

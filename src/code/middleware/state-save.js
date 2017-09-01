@@ -72,7 +72,7 @@ export function getUserQueryString() {
   const classId = getClassId(),
         userId = getUserId();
 
-  return (classId && userId) ? authoringVersionNumber + "/userState/" + classId + "/" + userId + "/state" : null;
+  return (classId && userId) ? authoringVersionNumber + "/userState/" + classId + "/" + userId : null;
 }
 
 function getClassId() {
