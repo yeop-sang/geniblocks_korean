@@ -60,12 +60,18 @@ export default class AuthoringUtils {
 
   /**
    * Returns true if the given mission is beyond the current mission, and is therefore inaccesible.
+   *
+   * FIXME: Unlocking all missions was requested as a TEMPORARY feature, to remove gating
+   * entirely for the Fall 2017 teachers until we add a feature to put this under teacher
+   * control. The smallest temporary way to do this, and make it easy to revert, is to simply
+   * return `false` here.
    */
   static isMissionLocked(gems, authoring, level, mission) {
-    let currChallengeRoute = this.getCurrentChallengeFromGems(authoring, gems);
+    // let currChallengeRoute = this.getCurrentChallengeFromGems(authoring, gems);
 
-    return level > currChallengeRoute.level
-        || (level === currChallengeRoute.level && mission > currChallengeRoute.mission);
+    // return level > currChallengeRoute.level
+    //     || (level === currChallengeRoute.level && mission > currChallengeRoute.mission);
+    return false;
   }
 
 }
