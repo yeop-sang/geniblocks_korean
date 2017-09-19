@@ -4,40 +4,63 @@ export default class AuthoringUtils {
 
   /**
    * Returns an object representing the current level, mission and challenge the user is on,
-   * by returning the route spec first unattempted or failed challenge. If all challenges are complete,
+   * by returning the first unstarted challenge of the next started or unstarted mission
+   * after the last mission the user has any gems for. If all challenges are complete,
    * returns the last challenge instead. Optionally, accepts a level number, to find the
    * current challenge on the given level instead.
    */
   static getCurrentChallengeFromGems(authoring, gems, levelNum) {
     let startLevel = !isNaN(levelNum) ? levelNum : 0,
-        endLevel = !isNaN(levelNum) ? levelNum + 1 : authoring.application.levels.length;
+        endLevel = !isNaN(levelNum) ? levelNum + 1 : authoring.application.levels.length - 1;
 
-    for (let i = startLevel, ii = endLevel; i < ii; i++) {
+    let nextUnstartedChallenge;
+
+    // Go backwards through the challenges to find the last mission the user has gems
+    for (let i = endLevel, ii = startLevel; i >= ii; i--) {
       let level = authoring.application.levels[i];
-      for (let j = 0, jj = level.missions.length; j < jj; j++) {
+      for (let j = level.missions.length - 1; j >= 0; j--) {
         let mission = level.missions[j];
-        for (let k = 0, kk = mission.challenges.length; k < kk; k++) {
+        let gemInMission = false;
+        let lowestMissingGem;
+        for (let k = mission.challenges.length - 1; k >= 0; k--) {
           if (isPassingGem(getChallengeGem(i, j, k, gems))) {
-            continue;
+            gemInMission = true;
           } else {
+            if (gemInMission) {
+              // if we've already found a gem in this mission, lowestMissingGem will be
+              // the lowest challenge in this mission without a gem
+              lowestMissingGem = k;
+            } else {
+              // if we haven't found a gem yet, this will always be the last seen challenge
+              nextUnstartedChallenge = {
+                level: i,
+                mission: j,
+                challenge: k
+              };
+            }
+          }
+        }
+        if (gemInMission) {
+          if (lowestMissingGem !== undefined) {
             return {
               level: i,
               mission: j,
-              challenge: k
+              challenge: lowestMissingGem
             };
+          } else {
+            // this may be the next challenge in the same mission, or the first
+            // challenge of the next mission
+            return nextUnstartedChallenge;
           }
         }
       }
     }
 
-    // All challenges are complete
-    let lastLevel = endLevel - 1,
-        lastMission = authoring.application.levels[lastLevel].missions.length - 1,
-        lastChallenge = authoring.application.levels[lastLevel].missions[lastMission].challenges.length - 1;
+    // No challenges have been completed
     return {
-      level: lastLevel,
-      mission: lastMission,
-      challenge: lastChallenge
+      level: 0,
+      mission: 0,
+      challenge: 0
     };
   }
 
