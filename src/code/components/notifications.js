@@ -38,10 +38,12 @@ class Notifications extends React.Component {
           character = message.character || this.props.defaultCharacter,
           speaker = <div className={`fv-character ${character}`}></div>,
             // don't show close button if there's more narrative dialog
-          showCloseButton = !!this.props.closeButton && ((message.type && message.type !== "narrative") || !this.props.messages[1]),
+          isNarrative = message.type && message.type === "narrative",
+          showCloseButton = !!this.props.closeButton && (!isNarrative || !this.props.messages[1]),
           showNextButton = !!this.props.messages[1],
+          className = `notification${isNarrative ? "" : " its-hint"}`,
 
-          messageView = <div className="notification">
+          messageView = <div className={ className }>
                       <div className="message-text"> { t(text) } </div>
                       <div className="message-buttons">
                         { showCloseButton
