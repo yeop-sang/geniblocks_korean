@@ -77,6 +77,37 @@ describe('Notification actions', () => {
           }
         }));
       });
+
+      it('should append a trait to the message if there is one', () => {
+
+        const traitMessage = JSON.stringify(
+          {
+            message: {
+              id: 'ITS.CHALLENGE.INTRO.2',
+              text: 'This is a message about legs.',
+              args: {
+                trait: "hindlimbs"
+              }
+            },
+            time: 1484069330265
+          }
+        );
+
+        nextState = reducer(defaultState, {
+          type: GUIDE_MESSAGE_RECEIVED,
+          data: traitMessage
+        });
+
+        expect(nextState).toEqual(defaultState.merge({
+          notifications: {
+            messages: [{
+              text: "This is a message about legs.",
+              "trait": "hindlimbs"
+            }],
+            closeButton: null
+          }
+        }));
+      });
     });
 
     describe('on receiving modal dialog messages', () => {

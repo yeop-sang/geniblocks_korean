@@ -51,12 +51,17 @@ class Notifications extends React.Component {
                           ? <div className="next-arrow" onClick={ this.props.onAdvanceNotifications }></div>
                           : null }
                       </div>
-                    </div>;
+                    </div>,
+
+          traitHighlightView = message.trait ? (
+            <div className={`hint-arrow ${message.trait}`} />
+          ) : null;
 
     return (
       <div className="geniblocks notification-container">
         { speaker }
         { messageView }
+        { traitHighlightView }
       </div>
     );
   }

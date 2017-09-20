@@ -35,10 +35,15 @@ export default function notifications(state = initialState, action) {
           return state;
         }
 
-        let currentMessage = state.messages.length > 0 ? state.messages[0].text + " " : "";
-        return Object.assign({}, state, {messages: [
-          {text: currentMessage + data.message.asString()}
-        ]});
+        let trait = data.message.args ? data.message.args.trait : null;
+        let currentText = state.messages.length > 0 ? state.messages[0].text + " " : "";
+        let newMessage = {
+          text: currentText + data.message.asString()
+        };
+        if (trait) {
+          newMessage.trait = trait;
+        }
+        return Object.assign({}, state, {messages: [newMessage]});
       }
       else
         return state;
