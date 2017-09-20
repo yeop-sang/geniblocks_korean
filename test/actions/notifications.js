@@ -3,7 +3,6 @@ import reducer from '../../src/code/reducers/';
 import { startSession } from '../../src/code/actions';
 import { GUIDE_MESSAGE_RECEIVED } from '../../src/code/modules/notifications';
 import urlParams from '../../src/code/utilities/url-params';
-import GuideProtocol from '../../src/code/utilities/guide-protocol';
 import actionTypes from '../../src/code/action-types';
 
 describe('Notification actions', () => {
@@ -38,7 +37,7 @@ describe('Notification actions', () => {
 
         nextState = reducer(defaultState, {
           type: GUIDE_MESSAGE_RECEIVED,
-          data: GuideProtocol.TutorDialog.fromJson(messageData)
+          data: messageData
         });
 
         expect(nextState).toEqual(defaultState.merge({
@@ -66,7 +65,7 @@ describe('Notification actions', () => {
 
         let lastState = reducer(nextState, {
           type: GUIDE_MESSAGE_RECEIVED,
-          data: GuideProtocol.TutorDialog.fromJson(secondMessageData)
+          data: secondMessageData
         });
 
         expect(lastState).toEqual(defaultState.merge({
@@ -100,7 +99,7 @@ describe('Notification actions', () => {
 
       nextState = reducer(defaultState, {
         type: GUIDE_MESSAGE_RECEIVED,
-        data: GuideProtocol.TutorDialog.fromJson(messageData)
+        data: messageData
       });
 
       it('should clear the notifications', () => {

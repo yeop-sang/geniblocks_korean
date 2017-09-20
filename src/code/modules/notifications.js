@@ -3,6 +3,7 @@ import { GAMETES_RESET } from '../modules/gametes';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import actionTypes from '../action-types';
 import t from '../utilities/translate';
+import GuideProtocol from '../utilities/guide-protocol';
 
 export const GUIDE_CONNECTED = "Guide connected";
 export const GUIDE_MESSAGE_RECEIVED = "Guide message received";
@@ -24,8 +25,9 @@ export default function notifications(state = initialState, action) {
   switch (action.type) {
     case GUIDE_MESSAGE_RECEIVED:
       if (action.data) {
-        if (action.data.reason) {
-          console.log(`%c ITS Message Reason: ${action.data.reason.why || ""}`, `color: #f99a00`, action.data.reason);
+        let data = GuideProtocol.TutorDialog.fromJson(action.data);
+        if (data.reason) {
+          console.log(`%c ITS Message Reason: ${data.reason.why || ""}`, `color: #f99a00`, action.data.reason);
         }
 
         if (state.messages[0] && state.messages[0].type === notificationType.NARRATIVE) {
@@ -35,7 +37,7 @@ export default function notifications(state = initialState, action) {
 
         let currentMessage = state.messages.length > 0 ? state.messages[0].text + " " : "";
         return Object.assign({}, state, {messages: [
-          {text: currentMessage + action.data.message.asString()}
+          {text: currentMessage + data.message.asString()}
         ]});
       }
       else

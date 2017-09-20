@@ -19,10 +19,10 @@ export function initializeITSSocket(guideServer, guideProtocol, store) {
     store.dispatch({type: GUIDE_CONNECTED, data})
   );
   socket.on(GuideProtocol.TutorDialog.Channel, data =>
-    store.dispatch({type: GUIDE_MESSAGE_RECEIVED, data: GuideProtocol.TutorDialog.fromJson(data)})
+    store.dispatch({type: GUIDE_MESSAGE_RECEIVED, data: data})
   );
   socket.on(GuideProtocol.Alert.Channel, (data) =>
-    store.dispatch({type: GUIDE_ALERT_RECEIVED, data: GuideProtocol.Alert.fromJson(data)})
+    store.dispatch({type: GUIDE_ALERT_RECEIVED, data: data})
   );
   socket.on('connect_error', data =>
     store.dispatch({type: GUIDE_ERRORED, data})
