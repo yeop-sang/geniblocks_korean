@@ -36,6 +36,9 @@ export function getMissionGems(level, mission, challengeCount, gems) {
   return challengeScore;
 }
 
+// FIXME: Without gating, we have to count black NONE gems as passing, as otherwise
+// it will keep showing dialog for missions a user has started.
 export function isPassingGem(score) {
-  return score <= scoreValues.BRONZE;
+  // return score <= scoreValues.BRONZE;
+  return score <= scoreValues.NONE;
 }

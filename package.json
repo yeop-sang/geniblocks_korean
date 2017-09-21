@@ -96,6 +96,7 @@
     "examples": "live-server public --open=examples",
     "gv2": "live-server public --open=gv2",
     "pretest": "npm run lint",
+    "start": "gulp",
     "test": "mocha --compilers js:babel-core/register --recursive --require ./test/setup.js",
     "test:watch": "npm run test -- --watch"
   }

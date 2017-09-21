@@ -23,7 +23,7 @@ use the GeniBlocks library this way.
 
     npm install           # or 'yarn'
     bower install
-    gulp                  # or its alias 'npm run build:watch'
+    npm start             # or 'gulp'
 
 or to build without watching:
 
