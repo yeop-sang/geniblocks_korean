@@ -3,7 +3,6 @@ import reducer from '../../src/code/reducers/';
 import { startSession } from '../../src/code/actions';
 import { GUIDE_MESSAGE_RECEIVED } from '../../src/code/modules/notifications';
 import urlParams from '../../src/code/utilities/url-params';
-import GuideProtocol from '../../src/code/utilities/guide-protocol';
 import actionTypes from '../../src/code/action-types';
 
 describe('Notification actions', () => {
@@ -38,7 +37,7 @@ describe('Notification actions', () => {
 
         nextState = reducer(defaultState, {
           type: GUIDE_MESSAGE_RECEIVED,
-          data: GuideProtocol.TutorDialog.fromJson(messageData)
+          data: messageData
         });
 
         expect(nextState).toEqual(defaultState.merge({
@@ -66,13 +65,44 @@ describe('Notification actions', () => {
 
         let lastState = reducer(nextState, {
           type: GUIDE_MESSAGE_RECEIVED,
-          data: GuideProtocol.TutorDialog.fromJson(secondMessageData)
+          data: secondMessageData
         });
 
         expect(lastState).toEqual(defaultState.merge({
           notifications: {
             messages: [{
               text: "Ok! Let's get to work on Mission 0 Challenge 2. Second message."
+            }],
+            closeButton: null
+          }
+        }));
+      });
+
+      it('should append a trait to the message if there is one', () => {
+
+        const traitMessage = JSON.stringify(
+          {
+            message: {
+              id: 'ITS.CHALLENGE.INTRO.2',
+              text: 'This is a message about legs.',
+              args: {
+                trait: "hindlimbs"
+              }
+            },
+            time: 1484069330265
+          }
+        );
+
+        nextState = reducer(defaultState, {
+          type: GUIDE_MESSAGE_RECEIVED,
+          data: traitMessage
+        });
+
+        expect(nextState).toEqual(defaultState.merge({
+          notifications: {
+            messages: [{
+              text: "This is a message about legs.",
+              "trait": "hindlimbs"
             }],
             closeButton: null
           }
@@ -100,7 +130,7 @@ describe('Notification actions', () => {
 
       nextState = reducer(defaultState, {
         type: GUIDE_MESSAGE_RECEIVED,
-        data: GuideProtocol.TutorDialog.fromJson(messageData)
+        data: messageData
       });
 
       it('should clear the notifications', () => {
