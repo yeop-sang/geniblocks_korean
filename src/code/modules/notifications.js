@@ -27,7 +27,7 @@ export default function notifications(state = initialState, action) {
       if (action.data) {
         let data = GuideProtocol.TutorDialog.fromJson(action.data);
         if (data.reason) {
-          console.log(`%c ITS Message Reason: ${data.reason.why || ""}`, `color: #f99a00`, action.data.reason);
+          console.log(`%c ITS Message Reason: ${data.reason.why || ""}`, `color: #f99a00`, data.reason);
         }
 
         if (state.messages[0] && state.messages[0].type === notificationType.NARRATIVE) {
@@ -35,14 +35,22 @@ export default function notifications(state = initialState, action) {
           return state;
         }
 
-        let trait = data.message.args ? data.message.args.trait : null;
         let currentText = state.messages.length > 0 ? state.messages[0].text + " " : "";
         let newMessage = {
           text: currentText + data.message.asString()
         };
+
+        let trait;
+        // check reason.trait first, then message.args.trait
+        if (data.reason && data.reason.trait) {
+          trait = data.reason.trait;
+        } else if (data.message.args) {
+          trait = data.message.args.trait;
+        }
         if (trait) {
           newMessage.trait = trait;
         }
+
         return Object.assign({}, state, {messages: [newMessage]});
       }
       else
