@@ -365,7 +365,10 @@ export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrect
         dispatch(completeChallenge());
       } else {
         dispatch(showNotification({
-          message: "~ALERT.TITLE.GOOD_WORK",
+          message: {
+            text: "~ALERT.TITLE.GOOD_WORK",
+            type: notificationType.NARRATIVE
+          },
           closeButton: {
             action: "advanceTrial"
           }
@@ -499,8 +502,9 @@ export function showNextTrialButton() {
 }
 
 export function showNotification({message, closeButton}) {
+  const messageObj = typeof message === "string" ? {text: message} : message;
   return showNotifications({
-    messages: [{text: message}],
+    messages: [messageObj],
     closeButton
   });
 }

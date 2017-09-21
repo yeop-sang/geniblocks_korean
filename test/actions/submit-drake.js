@@ -328,7 +328,8 @@ describe('submitDrake action', () => {
               },
               messages: [
                 {
-                  "text": "Good work!"
+                  "text": "Good work!",
+                  "type": "narrative"
                 }
               ]
             },
