@@ -11,10 +11,11 @@ import migrate from './migrations';
 
 export { actionTypes };
 
-function _startSession(uuid) {
+function _startSession(uuid, itsDBEndpoint) {
   return {
     type: actionTypes.SESSION_STARTED,
     session: uuid,
+    itsDBEndpoint,
     meta: {
       dontLog: ["session"],
       itsLog: {
@@ -28,34 +29,32 @@ function _startSession(uuid) {
 
 export function startSession(uuid) {
   return (dispatch, getState) => {
-    dispatch(_startSession(uuid));
+    let userQueryString = getUserQueryString();
 
-    if (typeof firebase !== "undefined") {
+    dispatch(_startSession(uuid, userQueryString + "/itsData"));
+
+    if (typeof firebase !== "undefined" && userQueryString) {
       // Attempt to load saved state from firebase
-      let userQueryString = getUserQueryString();
+      const db = firebase.database(),
+            ref = db.ref(userQueryString + "/state" );
 
-      if (userQueryString) {
-        const db = firebase.database(),
-              ref = db.ref(userQueryString + "/state" );
+      ref.once("value", function(data) {
+        let loadedState = data.val(),
+            migratedState = migrate(loadedState);
+        if (migratedState) {
+          dispatch({
+            type: actionTypes.LOAD_SAVED_STATE,
+            state: migratedState
+          });
+        }
 
-        ref.once("value", function(data) {
-          let loadedState = data.val(),
-              migratedState = migrate(loadedState);
-          if (migratedState) {
-            dispatch({
-              type: actionTypes.LOAD_SAVED_STATE,
-              state: migratedState
-            });
-          }
-
-          const { location, routeSpec } = getState();
-          if (location && location.id === "home") {
-            dispatch(navigateToHome());
-          } else if (routeSpec) {
-            dispatch(navigateToCurrentRoute(routeSpec));
-          }
-        });
-      }
+        const { location, routeSpec } = getState();
+        if (location && location.id === "home") {
+          dispatch(navigateToHome());
+        } else if (routeSpec) {
+          dispatch(navigateToCurrentRoute(routeSpec));
+        }
+      });
     }
 
   };
