@@ -13,6 +13,7 @@ describe('startSession action', () => {
     expect(startSessionAction).toEqual({
       type: types.SESSION_STARTED,
       session: uuid,
+      itsDBEndpoint: null,
       meta: {
         "dontLog": [
           "session"

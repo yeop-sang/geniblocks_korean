@@ -29,9 +29,10 @@ function _startSession(uuid, itsDBEndpoint) {
 
 export function startSession(uuid) {
   return (dispatch, getState) => {
-    let userQueryString = getUserQueryString();
+    const userQueryString = getUserQueryString();
+    const itsDataQuery = userQueryString ? userQueryString + "/itsData" : null;
 
-    dispatch(_startSession(uuid, userQueryString + "/itsData"));
+    dispatch(_startSession(uuid, itsDataQuery));
 
     if (typeof firebase !== "undefined" && userQueryString) {
       // Attempt to load saved state from firebase
