@@ -6,18 +6,18 @@ export default class AuthoringUtils {
    * Returns an object representing the current level, mission and challenge the user is on,
    * by returning the first unstarted challenge of the next started or unstarted mission
    * after the last mission the user has any gems for. If all challenges are complete,
-   * returns the last challenge instead. Optionally, accepts a level number, to find the
-   * current challenge on the given level instead.
+   * returns the last challenge instead.
    */
-  static getCurrentChallengeFromGems(authoring, gems, levelNum) {
-    let startLevel = !isNaN(levelNum) ? levelNum : 0,
-        endLevel = !isNaN(levelNum) ? levelNum + 1 : authoring.application.levels.length - 1;
+  static getCurrentChallengeFromGems(authoring, gems) {
+    let levels = authoring.application.levels,
+        startLevel = 0,
+        endLevel = levels.length - 1;
 
     let nextUnstartedChallenge;
 
     // Go backwards through the challenges to find the last mission the user has gems
     for (let i = endLevel, ii = startLevel; i >= ii; i--) {
-      let level = authoring.application.levels[i];
+      let level = levels[i];
       for (let j = level.missions.length - 1; j >= 0; j--) {
         let mission = level.missions[j];
         let gemInMission = false;

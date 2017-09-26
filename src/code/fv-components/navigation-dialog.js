@@ -30,18 +30,18 @@ export default class NavigationDialogView extends React.Component {
 
   render() {
     let {gems, onNavigateToChallenge, onHideMap, authoring} = this.props,
-        currChallengeRouteForLevel = ProgressUtils.getCurrentChallengeFromGems(authoring, gems, this.state.level);
+        currChallengeRoute = ProgressUtils.getCurrentChallengeFromGems(authoring, gems);
 
     let gemSets = [];
 
     for (let mission = 0; mission < AuthoringUtils.getMissionCount(authoring, this.state.level); mission++) {
-      let isCurrMission = mission === currChallengeRouteForLevel.mission,
+      let isCurrMission = mission === currChallengeRoute.mission && this.state.level === currChallengeRoute.level,
           isLocked = ProgressUtils.isMissionLocked(gems, authoring, this.state.level, mission);
       gemSets.push(<div id={"gem-label-" + mission} className="gem-set-label" key={"label-" + mission} style={isLocked ? {opacity: .5} : null}>
                      {"Mission " + (this.state.level + 1) + "." + (mission + 1) + ":"}
                    </div>);
       gemSets.push(<div className="mission-lock" style={isLocked ? null : {visibility: "hidden"}}></div>);
-      gemSets.push(<GemSetView level={this.state.level} mission={mission} challenge={isCurrMission ? currChallengeRouteForLevel.challenge : null}
+      gemSets.push(<GemSetView level={this.state.level} mission={mission} challenge={isCurrMission ? currChallengeRoute.challenge : null}
                                challengeCount={AuthoringUtils.getChallengeCount(authoring, this.state.level, mission)}
                                gems={gems} key={"gem-set-" + mission} isLocked={isLocked}
                                onNavigateToChallenge={onNavigateToChallenge} />);
@@ -74,9 +74,9 @@ export default class NavigationDialogView extends React.Component {
       </div>
     );
 
-    let highlightedRoomLocked = ProgressUtils.isMissionLocked(gems, authoring, currChallengeRouteForLevel.level, currChallengeRouteForLevel.mission);
+    let highlightedRoomLocked = ProgressUtils.isMissionLocked(gems, authoring, currChallengeRoute.level, currChallengeRoute.mission);
     return <VenturePadView title={t("~VENTURE.MAP")} screen={screen} onClickOutside={onHideMap} onNavigateToChallenge={onNavigateToChallenge}
-                           authoring={authoring} roomHighlightRoute={highlightedRoomLocked ? null : currChallengeRouteForLevel}></VenturePadView>;
+                           authoring={authoring} roomHighlightRoute={highlightedRoomLocked ? null : currChallengeRoute}></VenturePadView>;
   }
 }
 
