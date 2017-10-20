@@ -7,7 +7,6 @@ import OrganismView from '../components/organism';
 import GenomeView from '../components/genome';
 import FVStableView from '../fv-components/fv-stable';
 import FVChangeSexToggle from '../fv-components/fv-change-sex-toggle';
-import GeneticsUtils from '../utilities/genetics-utils';
 import { generateTrialDrakes } from '../utilities/trial-generator';
 import classNames from 'classnames';
 import t from '../utilities/translate';

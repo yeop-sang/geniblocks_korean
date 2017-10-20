@@ -442,7 +442,7 @@ function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, state) {
     species: BioLogica.Species.Drake.name,
     challengeCriteria: drakeCriteria,
     userSelections: basketCriteria,
-    isCorrect,
+    correct: isCorrect,
     incrementMoves,
     meta: {
       itsLog: {

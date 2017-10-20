@@ -4,7 +4,6 @@ import GenomeView from '../components/genome';
 import ChangeSexButtons from '../components/change-sex-buttons';
 import FeedbackView from '../components/feedback';
 import ButtonView from '../components/button';
-import GeneticsUtils from '../utilities/genetics-utils';
 import { generateTrialDrakes } from '../utilities/trial-generator';
 
 const userDrakeIndex   = 0,

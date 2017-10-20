@@ -41,9 +41,9 @@ describe('submitEggForBasket action', () => {
           label: submittedBasketLabel
         }
       ],
-      trials: [{}], 
+      trials: [{}],
       authoring: {
-        challenges: {"test": {visibleGenes: "wings, arms"}}, 
+        challenges: {"test": {visibleGenes: "wings, arms"}},
         "application": {"levels": [{"missions": [{"challenges": [{"id": "test"}]}]}]}
       }
     });
@@ -63,7 +63,7 @@ describe('submitEggForBasket action', () => {
         userSelections: {
           phenotype: acceptedPhenotypeCorrect
         },
-        isCorrect,
+        correct: isCorrect,
         incrementMoves: false,
         meta: {
           "itsLog": {
@@ -96,9 +96,9 @@ describe('submitEggForBasket action', () => {
           sex: 0
         }
       ],
-      trials: [{}], 
+      trials: [{}],
       authoring: {
-        challenges: {"test": {visibleGenes: "wings, arms"}}, 
+        challenges: {"test": {visibleGenes: "wings, arms"}},
         "application": {"levels": [{"missions": [{"challenges": [{"id": "test"}]}]}]}
       }
     });
@@ -119,7 +119,7 @@ describe('submitEggForBasket action', () => {
           phenotype: acceptedPhenotypeIncorrect,
           sex: 0
         },
-        isCorrect,
+        correct: isCorrect,
         incrementMoves: true,
         meta: {
           "itsLog": {
