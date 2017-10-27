@@ -27,4 +27,4 @@ max_age:
 #   aliases:
 #     quantity: 1
 #     items:
-#       CNAME0: geniblocks.concord.org
+#       - geniblocks.concord.org
