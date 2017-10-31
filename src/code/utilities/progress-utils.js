@@ -47,7 +47,7 @@ export default class AuthoringUtils {
               mission: j,
               challenge: lowestMissingGem
             };
-          } else {
+          } else if (nextUnstartedChallenge) {  // this is only null if user has completed all
             // this may be the next challenge in the same mission, or the first
             // challenge of the next mission
             return nextUnstartedChallenge;
@@ -56,7 +56,7 @@ export default class AuthoringUtils {
       }
     }
 
-    // No challenges have been completed
+    // No challenges or all challenges have been completed
     return {
       level: 0,
       mission: 0,
