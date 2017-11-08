@@ -44,16 +44,14 @@ const ClutchView = React.createClass({
   },
 
   render() {
-    const handleClick = (id, org) => {
+    const handleClick = this.props.onClick ? (id, org) => {
       let _this = this;
       if (!_this.state.tempDisabled) {
         const prefixIndex = id.indexOf(_this.props.idPrefix),
               indexOnPage = Number(id.substr(prefixIndex + _this.props.idPrefix.length)),
               index = ((_this.state.page-1) * 8) + indexOnPage;
 
-        if (_this.props.onClick) {
-          _this.props.onClick(index, id, org);
-        }
+        _this.props.onClick(index, id, org);
 
         // Disable clicks for a bit to avoid mass submissions
         _this.setState({tempDisabled: true});
@@ -61,7 +59,7 @@ const ClutchView = React.createClass({
           _this.setState({tempDisabled: false});
         }, 2000);
       }
-    };
+    } : null;
 
     let displayStyle = {size: 170, top: -35, marginLeft: 0, marginTop: 0},
         firstDrake = (this.state.page - 1) * 8,

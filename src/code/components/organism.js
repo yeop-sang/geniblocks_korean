@@ -24,6 +24,9 @@ const OrganismView = ({org, id, className="", width=200, flipped=false, style={}
   if (flipped) {
     classes += " flipped";
   }
+  if (onClick) {
+    classes += " clickable";
+  }
 
   function handleClick() {
     if (onClick) onClick(id, org);
