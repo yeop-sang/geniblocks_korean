@@ -469,6 +469,10 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
         dialog.closeButton = {
           action: "completeChallenge"
         };
+      } else {
+        dialog.closeButton = {
+          action: "dismissModalDialog"
+        };
       }
       dispatch(showNotification(dialog));
     }
