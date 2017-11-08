@@ -10,10 +10,11 @@ const basicUnderdefinedInitialState = (template, routeSpec, challenges) => ({
   challenges,
   showUserDrake: false,
   trialSuccess: false,
-  "location": {
+  numTargets: 1,
+  location: {
     "id": "simroom"
   },
-  "showingRoom": true
+  showingRoom: true
 });
 
 describe('authoredDrakesToDrakeArray()', () => {

@@ -196,6 +196,7 @@ export default class ClutchGame extends Component {
     scale: PropTypes.number,
     trial: PropTypes.number.isRequired,
     drakes: PropTypes.array.isRequired,
+    numTargets: PropTypes.number,
     userChangeableGenes: PropTypes.array.isRequired,
     visibleGenes: PropTypes.array.isRequired,
     hiddenAlleles: PropTypes.array,
@@ -206,9 +207,22 @@ export default class ClutchGame extends Component {
   }
 
   static authoredDrakesToDrakeArray = function(authoredChallenge, authoredTrialNumber) {
+    // allow for multiple targets
+    if (Array.isArray(authoredChallenge.targetDrakes[authoredTrialNumber])) {
+      return [authoredChallenge.mother[authoredTrialNumber],
+              authoredChallenge.father[authoredTrialNumber]]
+            .concat(authoredChallenge.targetDrakes[authoredTrialNumber]);
+    }
     return [authoredChallenge.mother[authoredTrialNumber],
             authoredChallenge.father[authoredTrialNumber],
             authoredChallenge.targetDrakes[authoredTrialNumber]];
+  }
+
+  static getNumTargets = function(authoredChallenge, authoredTrialNumber) {
+    if (Array.isArray(authoredChallenge.targetDrakes[authoredTrialNumber])) {
+      return authoredChallenge.targetDrakes[authoredTrialNumber].length;
+    }
+    return 1;
   }
 
 }

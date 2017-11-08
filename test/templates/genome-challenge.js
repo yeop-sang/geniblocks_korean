@@ -10,6 +10,7 @@ const basicUnderdefinedInitialState = (template, routeSpec, challenges) => ({
   challenges,
   showUserDrake: false,
   trialSuccess: false,
+  numTargets: 1,
   "location": {
     "id": "simroom"
   },
