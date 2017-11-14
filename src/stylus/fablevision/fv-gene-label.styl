@@ -1,10 +1,71 @@
 .geniblocks.genome #mountNode .react-selectize-control
   display: flex
   flex-direction: row
-  height: 28px
+  height: 26px
+  border-radius:12px;
+  padding-left:10px;
+  background-repeat:no-repeat
+  background-size: 100% 100%
+  color:white
   input
     font-family: "Yanone Kaffeesatz";
     font-size: 1.5rem;
+.rtl .fv-gene-option-value
+  padding-left: 30px;
+
+.fv-layout-a #mountNode .react-selectize-control
+  background: #4C1FB6
+  border:2px solid #EAE1FE
+.fv-layout-b #mountNode .react-selectize-control
+  background: #CF670A
+  border:2px solid #F7E88D
+.fv-layout-c #mountNode .react-selectize-control
+  background: #084875
+  border:2px solid #0BEBFF
+.fv-layout-e #mountNode .react-selectize-control
+  background: #084875
+  border:2px solid #0BEBFF
+.fv-layout-h #mountNode .react-selectize-control
+  background: #CF670A
+  border:2px solid #F7E88D
+.fv-layout-i #mountNode .react-selectize-control
+  background: #CF670A
+  border:2px solid #F7E88D
+
+.react-selectize-toggle-button-container
+  background: url('../resources/images/arrow.svg')
+  background-repeat: no-repeat
+  background-size:60%
+  background-position: center center
+.ltl .react-selectize-toggle-button-container
+  border-left: 2px solid white
+.rtl .react-selectize-toggle-button-container
+  position:absolute
+  border-right: 2px solid white
+  left:0px;
+
+.react-selectize-toggle-button
+  display:none
+
+.fv-gene-option
+  width:100%
+  color:white
+  :hover
+    background-color:#555
+  div
+    padding-left:16px;
+.fv-layout-a .fv-gene-option
+  background: #4C1FB6
+.fv-layout-b .fv-gene-option
+  background: #CF670A
+.fv-layout-c .fv-gene-option
+  background: #084875
+.fv-layout-e .fv-gene-option
+  background: #084875
+.fv-layout-h .fv-gene-option
+  background: #CF670A
+.fv-layout-i .fv-gene-option
+  background: #CF670A
 
 .react-selectize.root-node
     position: relative;
@@ -13,7 +74,7 @@
       color: transparent
       text-shadow: 0 0 0 black;
 
-.geniblocks.genome 
+.geniblocks.genome
     #mountNode
       position: relative
       z-index: 1
@@ -121,7 +182,7 @@
   .fl .line
     width: 25px
 
-  .h 
+  .h
     .line
       width: 21px
     #mountNode
@@ -130,7 +191,7 @@
   .fl
     .line
       margin-top: -7px
-      width: 25px 
+      width: 25px
     #mountNode
       margin-top: 25px
     .fv-gene-label-text
@@ -139,25 +200,25 @@
   .w
     .line
       margin-top: -7px
-      width: 25px 
+      width: 25px
     #mountNode
       margin-top: -23px
     .fv-gene-label-text
       margin-top: -24px
 
-  .a 
+  .a
     .line
       margin-top: 6px
-      width: 25px 
+      width: 25px
     #mountNode
       margin-top: 31px
     .fv-gene-label-text
       margin-top: 19px
 
-  .c 
+  .c
     .line
       margin-top: -7px
-      width: 25px 
+      width: 25px
     #mountNode
       margin-top: -17px
     .fv-gene-label-text
@@ -166,7 +227,7 @@
   .b
     .line
       margin-top: 3px
-      width: 25px 
+      width: 25px
     #mountNode
       margin-top: 7px
     .fv-gene-label-text

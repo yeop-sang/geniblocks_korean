@@ -11,8 +11,26 @@ const Form = React.createClass({
     },
 
     // render :: a -> ReactElement
-    render: function(){
-        return <SimpleSelect defaultValue={this.props.defaultOption} onValueChange={this.props.handleChange} options = {this.props.options} hideResetButton={true} editable={false} disabled={false}></SimpleSelect>;
+    render: function () {
+      let self = this;
+      return <SimpleSelect
+        onValueChange={this.props.handleChange}
+        options={this.props.options}
+        hideResetButton={true}
+        editable={false}
+        disabled={false}
+        defaultValue={this.props.defaultOption}
+        renderValue={function(item){
+          return <div className="fv-gene-option-value">
+                    <div>{item.label}</div>
+                </div>
+          }}
+        renderOption={function (item) {
+          return <div className="fv-gene-option">
+                    <div>{item.label}</div>
+                </div>
+          }}
+      ></SimpleSelect>;
     },
 
     componentDidMount: function() {
@@ -54,11 +72,11 @@ const FVGeneLabelView = ({species, editable, allele, hiddenAlleles=[], onAlleleC
 
       label = stripe ? null : (
         <div id='mountNode'>
-            <Form defaultOption={{label: alleleName, value: allele}} options={alleleOptions} handleChange={onAlleleChange}/> 
+            <Form defaultOption={{label: alleleName, value: allele}} options={alleleOptions} handleChange={onAlleleChange}/>
         </div>
       );
     }
-          
+
     return (
       <div className={"geniblocks fv-gene-label allele noneditable " + normalizedAllele} key={allele} style={style}>
         {line}
