@@ -12,7 +12,6 @@ const Form = React.createClass({
 
     // render :: a -> ReactElement
     render: function () {
-      let self = this;
       return <SimpleSelect
         onValueChange={this.props.handleChange}
         options={this.props.options}
@@ -22,13 +21,13 @@ const Form = React.createClass({
         defaultValue={this.props.defaultOption}
         renderValue={function(item){
           return <div className="fv-gene-option-value">
-                    <div>{item.label}</div>
-                </div>
+            <div>{item.label}</div>
+          </div>;
           }}
         renderOption={function (item) {
           return <div className="fv-gene-option">
-                    <div>{item.label}</div>
-                </div>
+            <div>{item.label}</div>
+          </div>;
           }}
       ></SimpleSelect>;
     },
