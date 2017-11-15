@@ -17,6 +17,7 @@
       width: 100%
   &.home
     background-image: url('../resources/fablevision/rooms/missioncontrol.jpg')
+
   &.simroom
     background-image: url('../resources/fablevision/rooms/simroom.jpg')
     .hotspot
@@ -35,3 +36,163 @@
 #enter-challenge-hotspot
   position: absolute
   cursor: pointer
+
+// ******** Room Sprite Animations *********
+
+.room-sprite
+  position: absolute
+
+&.home
+  #sprite-1
+    background-image: url('../resources/fablevision/rooms/sprites/mission_control/MissionControl_spritesheet-group1_150x203-tiny.png')
+    width: 150px
+    height: 203px
+    left: 511px
+    top: 495px
+    animation: MissionControl_spritesheet-group1 7s steps(17) infinite
+  #sprite-2
+    background-image: url('../resources/fablevision/rooms/sprites/mission_control/MissionControl_spritesheet-group2_206x227-tiny.png')
+    width: 206px
+    height: 227px
+    left: 800px
+    top: 500px
+    animation: MissionControl_spritesheet-group2 5s steps(23) infinite;
+
+@keyframes MissionControl_spritesheet-group1 {
+  0% {
+    background-position:    0px;
+  }
+  20%, 100% {
+    background-position: -2550px;
+  }
+}
+
+@keyframes MissionControl_spritesheet-group2 {
+  0% {
+    background-position:    0px;
+  }
+  20%, 100% {
+    background-position: -4738px;
+  }
+}
+
+&.simroom
+  #sprite-1
+    background-image: url('../resources/fablevision/rooms/sprites/sim_room/outerpaper_spritesheet700x644-tiny.png')
+    width: 700px
+    height: 568px
+    left: 0px
+    top: 76px
+    animation: outerpaper_spritesheet 3s steps(24) infinite
+  #sprite-2
+    background-image: url('../resources/fablevision/rooms/sprites/sim_room/RollMachine_spritesheet683x700-tiny.png')
+    width: 683px
+    height: 700px
+    left: 1011px
+    top: 162px
+    animation: RollMachine_spritesheet 4s steps(23) infinite;
+
+@keyframes outerpaper_spritesheet {
+  0% {
+    background-position: 0px;
+  }
+  100% {
+    background-position: -16800px;
+  }
+}
+
+@keyframes RollMachine_spritesheet {
+  0% {
+    background-position:    0px;
+  }
+  100% {
+    background-position: -15709px;
+  }
+}
+
+&.hatchery
+  #sprite-1
+    background-image: url('../resources/fablevision/rooms/sprites/hatchery/Egg3_spritesheet100x100-tiny.png')
+    width: 100px
+    height: 100px
+    left: 10px
+    top: 472px
+    animation: Egg3_spritesheet 2s steps(9) infinite
+  #sprite-2
+    background-image: url('../resources/fablevision/rooms/sprites/hatchery/Egg5_spritesheet90x90-tiny.png')
+    width: 90px
+    height: 90px
+    left: 240px
+    top: 504px
+    animation: Egg5_spritesheet 4s steps(12) infinite;
+
+@keyframes Egg3_spritesheet {
+  0%, 70% {
+    background-position: 0px;
+  }
+  100% {
+    background-position: -900px;
+  }
+}
+
+@keyframes Egg5_spritesheet {
+  0%, 90% {
+    background-position:    0px;
+  }
+  100% {
+    background-position: -1080px;
+  }
+}
+
+&.breedingbarn
+  #sprite-1
+    background-image: url('../resources/fablevision/rooms/sprites/breeding_barn/FlyingDrake_Spritesheet_356x215-tiny.png')
+    width: 356px
+    height: 215px
+    left: 709px
+    top: 0
+    animation: FlyingDrake_Spritesheet 10s steps(22) infinite
+  #sprite-2
+    background-image: url('../resources/fablevision/rooms/sprites/breeding_barn/Tail-Orange_Spritesheet_375x454-tiny.png')
+    width: 360px
+    height: 454px
+    left: 566px
+    top: 243px
+    animation: Tail-Orange_Spritesheet 7s steps(24) infinite;
+  #sprite-3
+    background-image: url('../resources/fablevision/rooms/sprites/breeding_barn/Tail-Blue_Spritesheet164x195-tiny.png')
+    width: 164px
+    height: 195px
+    left: 1200px
+    top: 100px
+    // background-position: -2624px;
+    animation: Tail-Blue_Spritesheet 12s steps(15) infinite;
+
+@keyframes FlyingDrake_Spritesheet {
+  75% {
+    background-position: 0px;
+  }
+  100% {
+    background-position: -7832px;
+  }
+}
+
+@keyframes Tail-Orange_Spritesheet {
+  0%, 30% {
+    background-position:    0px;
+  }
+  100% {
+    background-position: -9000px;
+  }
+}
+
+@keyframes Tail-Blue_Spritesheet {
+  0% {
+    background-position:    0px;
+  }
+  20%, 100% {
+    background-position: -2460px;
+  }
+}
+
+
