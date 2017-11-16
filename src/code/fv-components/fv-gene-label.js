@@ -10,8 +10,8 @@ const Form = React.createClass({
       handleChange: PropTypes.func
     },
 
-    // render :: a -> ReactElement
-    render: function () {
+  render: function () {
+    let currentValue = "";
       return <SimpleSelect
         onValueChange={this.props.handleChange}
         options={this.props.options}
@@ -19,13 +19,15 @@ const Form = React.createClass({
         editable={false}
         disabled={false}
         defaultValue={this.props.defaultOption}
-        renderValue={function(item){
+        renderValue={function (item) {
+          currentValue = item.label;
           return <div className="fv-gene-option-value">
             <div>{item.label}</div>
           </div>;
           }}
         renderOption={function (item) {
           return <div className="fv-gene-option">
+            {item.label === currentValue && <div className="selected">&nbsp;</div>}
             <div>{item.label}</div>
           </div>;
           }}
