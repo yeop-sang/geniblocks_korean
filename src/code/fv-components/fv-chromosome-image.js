@@ -27,6 +27,22 @@ const FVChromosomeImageView = ({small=false, empty=false, chromosomeDescriptor, 
     return null;
   }
 
+  function chromosomeDescriptorText(chromosomeDescriptor) {
+    if (!chromosomeDescriptor) {
+      return null;
+    } else if (chromosomeDescriptor.side === 'y') {
+      return <div className="chromosome-label label-y">Y</div>;
+    } else if (chromosomeDescriptor.side.startsWith('x')) {
+      return <div className="chromosome-label label-x">X</div>;
+    } else if (chromosomeDescriptor.name === '1') {
+      return <div className="chromosome-label label-1">1</div>;
+    } else if (chromosomeDescriptor.name === '2') {
+      return <div className="chromosome-label label-2">2</div>;
+    }
+    // Default case, no name for empty chromosomes
+    return null;
+  }
+
   let stripes = null;
 
   if (chromosomeDescriptor && !empty) {
@@ -43,7 +59,8 @@ const FVChromosomeImageView = ({small=false, empty=false, chromosomeDescriptor, 
     };
   }
   return (
-    <div className={classNames('fv-chromosome-image', chromosomeDescriptorToClass(chromosomeDescriptor), { 'empty': empty, 'small': small})} style={positionStyling}>
+    <div className={classNames('fv-chromosome-image', chromosomeDescriptorToClass(chromosomeDescriptor), { 'empty': empty, 'small': small })} style={positionStyling}>
+      {chromosomeDescriptorText(chromosomeDescriptor)}
       {stripes}
     </div>
   );
