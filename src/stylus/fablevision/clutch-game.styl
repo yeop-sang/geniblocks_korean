@@ -1,18 +1,142 @@
-.layout-b
-  .geniblocks.breed-button-surround
-    margin-top: 300px
+
+#challenges.mission-backdrop.fv-layout-h
+  background-image: url('../resources/fablevision/layout-a/screen_border.png'),
+                    url('../resources/fablevision/layout-h/female_label_trans.png'),
+                    url('../resources/fablevision/layout-h/male_label_trans.png'),
+                    url('../resources/fablevision/layout-h/background.jpg')
+  background-position: 50% 50%, 7% 10%, 93% 10%, 50% 50%
+  background-repeat: no-repeat
+
+
+  .center-column
+    width: 674px
+    display: flex
+    margin-top: -3px
+
+  &.create-unique
+    .geniblocks.parentDrake
+      height: 240px
+      margin-top: -7px
+      background-position: 50%, 50%
+      position: relative
+      &.mother, &.father
+        margin-right: 0px
+        margin-left: 0px
+        .parentTitle
+          position: absolute
+          top: 137px
+          color: #f9ec9a
+        .organism
+          position: absolute
+          top: -22px
+
+      &.mother
+        background-image: url('../resources/fablevision/layout-h/parent_circle_female.png')
+        .parentTitle
+          left: -17px
+        .organism
+          left: 112px
+
+      &.father
+        background-image: url('../resources/fablevision/layout-h/parent_circle_male.png')
+        .parentTitle
+          left: 368px
+        .organism
+          left:  64px
+
+    .geniblocks.genome.parent
+      margin-top: 40px
 
   .geniblocks.target-drake-container
-    background-image: url('../resources/fablevision/layout-b/target_gizmo_single.png')
-    margin-top: -853px
+    background-image: url('../resources/fablevision/layout-h/target_gizmo_single.png')
+    margin: 0
     width: 400px
     height: 362px
-    background-size: contain
-    background-repeat: no-repeat
     flex-direction: column
+    align-items: center
     .organism
-      margin-top: 62px
-      margin-left: 100px
+      margin: 65px 0 0 -14px
     .target-drake-text
-      margin-top: -25px
-      margin-left: 143px
+      margin-top: -4px
+      margin-left: 5px
+
+  .geniblocks.clutch-view
+    margin-top: -3px
+    height: 323px
+    width: 577px
+    background: none
+
+    .clutch-slider
+      width: 169px
+      height: 29px
+      background-repeat: no-repeat
+      background-position-y: 50%
+      &.left
+        background-image: url('../resources/fablevision/layout-b/Clutch_Slider_Arrow_L.png'),
+                          url('../resources/fablevision/layout-h/slider_track.jpg')
+      &.right
+        background-image: url('../resources/fablevision/layout-b/Clutch_Slider_Arrow_R.png'),
+                          url('../resources/fablevision/layout-h/slider_track.jpg')
+        background-position-x: 100%
+
+    .clutch-counter
+      width: 100%
+      justify-content: space-between
+      margin-top: 5px
+      z-index: 10       // there's a slight overlap with lower drakes
+
+      .stable-count
+        margin-left: 90px
+
+    .clutch-slider
+      margin-top: 0
+
+    .clutch-page-count
+        margin-left: 0px
+
+    .drake-pages
+      height: 80%
+
+      .clutch-drakes
+        display: flex
+        flex-direction: row
+        height: 100%
+        margin: 0
+        align-self: flex-end
+        justify-content: space-around
+        align-content: space-around
+
+        .stable-drake-overlay
+          background-image: url('../resources/fablevision/layout-h/pen_circle.png')
+          margin: 0
+
+  .geniblocks.breed-button-area
+    background-image: none
+    height: auto
+    width: auto
+    margin-top: 23px
+
+  .geniblocks.breed-button-surround
+    background: none
+    height: auto
+    width: auto
+    margin-top: 0
+
+    .breed-button
+      width: 236px
+      height: 118px
+      background: url('../resources/fablevision/layout-h/breed_button.png')
+      color: #95471f
+
+      &:active
+        // temp
+        background: url('../resources/fablevision/layout-h/breed_button.png')
+        opacity: 0.5
+
+      &.disabled
+        // temp
+        background: url('../resources/fablevision/layout-h/breed_button.png')
+        opacity: 0.5
+
+        .breed-button-label
+          font-size: 3rem

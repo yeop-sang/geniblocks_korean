@@ -63,12 +63,12 @@ const ClutchView = React.createClass({
       }
     };
 
-    let displayStyle = {size: 136, top: -153, marginLeft: -12},
+    let displayStyle = {size: 170, top: -35, marginLeft: 0, marginTop: 0},
         firstDrake = (this.state.page - 1) * 8,
         pageDrakes = this.props.orgs.slice(firstDrake, firstDrake + 8),
         stableDrakeViews = pageDrakes.map((org, index) => {
           return (
-            <div key={index} className="stable-drake-overlay" style={{width: 116}}>
+            <div key={index} className="stable-drake-overlay" style={{width: 116, height: 116}}>
               <FVEggHatchView organism = {org} id={this.props.idPrefix + index} onClick={handleClick} eggStyle={{left: -477, top: -424}} displayStyle={displayStyle}/>
             </div>
           );
@@ -78,15 +78,15 @@ const ClutchView = React.createClass({
 
     return (
       <div className={classes}>
-        <div className="clutch-page-counter clutch-counter">
-          <div className="clutch-page-text">Clutch:</div>
-          <div className="clutch-page-count">{this.state.page + " / " + maxPages}</div>
-        </div>
         <div className="drake-pages">
-          <div className="clutch-slider left" onClick={this.handlePageBackward}></div>
           <div className="clutch-drakes">
             { stableDrakeViews }
           </div>
+        </div>
+        <div className="clutch-page-counter clutch-counter">
+          <div className="clutch-slider left" onClick={this.handlePageBackward}></div>
+          <div className="clutch-page-text">Clutch:</div>
+          <div className="clutch-page-count">{this.state.page + " / " + maxPages}</div>
           <div className="clutch-slider right" onClick={this.handlePageForward}></div>
         </div>
       </div>
