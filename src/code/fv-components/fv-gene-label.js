@@ -10,11 +10,29 @@ const Form = React.createClass({
       handleChange: PropTypes.func
     },
 
-    // render :: a -> ReactElement
-    render: function(){
-        return <SimpleSelect defaultValue={this.props.defaultOption} onValueChange={this.props.handleChange} options = {this.props.options} hideResetButton={true} editable={false} disabled={false}></SimpleSelect>;
+  render: function () {
+    let self = this;
+      return <SimpleSelect
+        onValueChange={this.props.handleChange}
+        options={this.props.options}
+        hideResetButton={true}
+        editable={false}
+        disabled={false}
+        defaultValue={this.props.defaultOption}
+        renderValue={function (item) {
+          self.currentValue = item.label;
+          return <div className="fv-gene-option-value">
+            <div>{item.label}</div>
+          </div>;
+        }}
+        renderOption={function (item) {
+          return <div className="fv-gene-option">
+            {item.label === self.currentValue && <div className="selected">&nbsp;</div>}
+            <div>{item.label}</div>
+          </div>;
+          }}
+      ></SimpleSelect>;
     },
-
     componentDidMount: function() {
       document.querySelectorAll("input").forEach(input => input.setAttribute('readonly', true));
     }
@@ -50,15 +68,18 @@ const FVGeneLabelView = ({species, editable, allele, hiddenAlleles=[], onAlleleC
             alleleNames = visibleAlleles.map(a => species.alleleLabelMap[a]),
             alleleOptions = alleleNames.map((name, i) => (
                               {label:name, value:visibleAlleles[i]}
-                            ));
+            ));
+
+      let sortedAlleleOptions = alleleOptions.filter(a => a.value !== allele);
+      sortedAlleleOptions.unshift({ label: alleleName, value: allele });
 
       label = stripe ? null : (
         <div id='mountNode'>
-            <Form defaultOption={{label: alleleName, value: allele}} options={alleleOptions} handleChange={onAlleleChange}/> 
+            <Form defaultOption={{label: alleleName, value: allele}} options={sortedAlleleOptions} handleChange={onAlleleChange}/>
         </div>
       );
     }
-          
+
     return (
       <div className={"geniblocks fv-gene-label allele noneditable " + normalizedAllele} key={allele} style={style}>
         {line}

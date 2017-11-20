@@ -1,11 +1,139 @@
 .geniblocks.genome #mountNode .react-selectize-control
   display: flex
   flex-direction: row
-  height: 28px
+  height: 26px
+  border-radius:12px;
+  padding-left:10px;
+  background-repeat:no-repeat
+  background-size: 100% 100%
+  color:white
   input
     font-family: "Yanone Kaffeesatz";
     font-size: 1.5rem;
+.rtl .fv-gene-option-value
+  padding-left: 30px;
 
+layout-a-background = #4c1fb6
+layout-a-highlight = #eae1fe
+
+layout-b-h-i-background = #cf670a
+layout-b-h-i-highlight = #f7e88d
+
+layout-c-e-background = #084875
+layout-c-e-highlight = #0bebff
+
+.fv-layout-a
+  #mountNode .react-selectize-control
+    background: layout-a-background
+    border:2px solid layout-a-highlight
+  .fv-gene-option
+    background: layout-a-background
+  .dropdown-menu
+    border-color: layout-a-highlight !important;
+    .option-wrapper
+      background: layout-a-highlight;
+.fv-layout-b
+  #mountNode .react-selectize-control
+    background: layout-b-h-i-background
+    border:2px solid layout-b-highlight
+  .fv-gene-option
+    background: layout-b-h-i-background
+  .dropdown-menu
+    border-color: layout-b-h-i-highlight !important;
+    .option-wrapper
+      background: layout-b-h-i-highlight;
+.fv-layout-c
+  #mountNode .react-selectize-control
+    background: layout-c-e-background
+    border:2px solid layout-c-e-highlight
+  .fv-gene-option
+    background: layout-c-e-background
+  .dropdown-menu
+    border-color: layout-c-e-highlight !important;
+    .option-wrapper
+      background: layout-c-e-highlight;
+.fv-layout-e
+  #mountNode .react-selectize-control
+    background: layout-c-e-background
+    border:2px solid layout-c-e-highlight
+  .fv-gene-option
+    background: layout-c-e-background
+  .dropdown-menu
+    border-color: layout-c-e-highlight !important;
+    .option-wrapper
+      background: layout-c-e-highlight;
+.fv-layout-h
+  #mountNode .react-selectize-control
+    background: layout-b-h-i-background
+    border:2px solid layout-b-h-i-highlight
+  .fv-gene-option
+    background: layout-b-h-i-background
+  .dropdown-menu
+    border-color: layout-b-h-i-highlight !important;
+    .option-wrapper
+      background: layout-b-h-i-highlight;
+.fv-layout-i
+  #mountNode .react-selectize-control
+    background: layout-b-h-i-background
+    border:2px solid layout-b-h-i-highlight
+  .fv-gene-option
+    background: layout-b-h-i-background
+  .dropdown-menu
+    border-color: layout-b-h-i-highlight !important;
+    .option-wrapper
+      background: layout-b-h-i-highlight;
+
+.react-selectize-toggle-button-container
+  background: url('../resources/images/arrow.svg')
+  background-repeat: no-repeat
+  background-size:60%
+  background-position: center center
+.ltl .react-selectize-toggle-button-container
+  border-left: 2px solid white
+.rtl .react-selectize-toggle-button-container
+  position:absolute
+  border-right: 2px solid white
+  left:0px;
+
+.react-selectize-toggle-button
+  display:none
+
+.dropdown-menu
+  border: 1px solid #666;
+  border-color: #333 !important;
+  background: black;
+  top:0px
+  border-radius: 12px !important
+  padding:1px
+  box-shadow: 0px 0px 15px #333;
+  .option-wrapper
+    padding:2px 1px 1px 1px;
+    background: #fff;
+    &.highlight
+      background: #fff !important;
+
+.fv-gene-option
+  width:100%
+  color:white
+  padding:6px 0px;
+  border-radius: 12px
+
+  :hover
+    border-radius: 12px;
+    background: #444;
+  div
+    padding-left:16px;
+    font-size:1.1em !important
+  .selected
+    position:relative;
+    float:left;
+    margin-left:-2px;
+    color:#fff;
+    background: url('../resources/images/arrow.svg')
+    background-repeat: no-repeat
+    background-size:80%
+    transform: rotate(270deg)
+    background-position: center center
 .react-selectize.root-node
     position: relative;
     width: 158px;
@@ -13,7 +141,7 @@
       color: transparent
       text-shadow: 0 0 0 black;
 
-.geniblocks.genome 
+.geniblocks.genome
     #mountNode
       position: relative
       z-index: 1
@@ -121,7 +249,7 @@
   .fl .line
     width: 25px
 
-  .h 
+  .h
     .line
       width: 21px
     #mountNode
@@ -130,7 +258,7 @@
   .fl
     .line
       margin-top: -7px
-      width: 25px 
+      width: 25px
     #mountNode
       margin-top: 25px
     .fv-gene-label-text
@@ -139,25 +267,25 @@
   .w
     .line
       margin-top: -7px
-      width: 25px 
+      width: 25px
     #mountNode
       margin-top: -23px
     .fv-gene-label-text
       margin-top: -24px
 
-  .a 
+  .a
     .line
       margin-top: 6px
-      width: 25px 
+      width: 25px
     #mountNode
       margin-top: 31px
     .fv-gene-label-text
       margin-top: 19px
 
-  .c 
+  .c
     .line
       margin-top: -7px
-      width: 25px 
+      width: 25px
     #mountNode
       margin-top: -17px
     .fv-gene-label-text
@@ -166,7 +294,7 @@
   .b
     .line
       margin-top: 3px
-      width: 25px 
+      width: 25px
     #mountNode
       margin-top: 7px
     .fv-gene-label-text
