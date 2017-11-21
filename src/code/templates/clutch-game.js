@@ -163,7 +163,7 @@ export default class ClutchGame extends Component {
       <div id="breeding-game">
         <div className="columns centered">
           <div className='column'>
-            <ParentDrakeView className="mother" org={ mother } width={280} />
+            <ParentDrakeView className="mother" org={ mother } width={250} />
             { parentGenomeView(BioLogica.FEMALE) }
           </div>
           <div className='column center-column'>
@@ -177,7 +177,7 @@ export default class ClutchGame extends Component {
                                   onBreed={handleFertilize} />
           </div>
           <div className='column'>
-            <ParentDrakeView className="father" org={ father } width={280} />
+            <ParentDrakeView className="father" org={ father } width={250} />
             { parentGenomeView(BioLogica.MALE) }
           </div>
         </div>

@@ -1,55 +1,55 @@
 
 #challenges.mission-backdrop.fv-layout-h
-  background-image: url('../resources/fablevision/layout-a/screen_border.png'),
-                    url('../resources/fablevision/layout-h/female_label_trans.png'),
-                    url('../resources/fablevision/layout-h/male_label_trans.png'),
-                    url('../resources/fablevision/layout-h/background.jpg')
-  background-position: 50% 50%, 7% 10%, 93% 10%, 50% 50%
+  background-position: 50% 50%
   background-repeat: no-repeat
 
+  &.create-unique
+    background-image: url('../resources/fablevision/layout-a/screen_border.png'),
+                      url('../resources/fablevision/layout-b/background.jpg')
 
   .center-column
     width: 674px
     display: flex
     margin-top: -3px
 
-  &.create-unique
-    .geniblocks.parentDrake
-      height: 240px
-      margin-top: -7px
-      background-position: 50%, 50%
-      position: relative
-      &.mother, &.father
-        margin-right: 0px
-        margin-left: 0px
-        .parentTitle
-          position: absolute
-          top: 137px
-          color: #f9ec9a
-        .organism
-          position: absolute
-          top: -22px
+  .geniblocks.parentDrake
+    height: 240px
+    margin: -17px 0 -45px 0
+    position: relative
+    &.mother, &.father
+      margin-right: 0px
+      margin-left: 0px
+      .parentTitle
+        position: absolute
+        top:  56px
+        color: #f9ec9a
+      .organism
+        position: absolute
+        top: -22px
 
-      &.mother
-        background-image: url('../resources/fablevision/layout-h/parent_circle_female.png')
-        .parentTitle
-          left: -17px
-        .organism
-          left: 112px
+    &.mother
+      background-image: none
+      left: 53px
+      .parentTitle
+        left: -10px
+      .organism
+        left: 112px
 
-      &.father
-        background-image: url('../resources/fablevision/layout-h/parent_circle_male.png')
-        .parentTitle
-          left: 368px
-        .organism
-          left:  64px
+    &.father
+      background-image: none
+      left: -33px
+      .parentTitle
+        left: 346px
+      .organism
+        left:  64px
 
-    .geniblocks.genome.parent
-      margin-top: 40px
+  .geniblocks.genome.parent
+    margin-top: 40px
 
   .geniblocks.target-drake-container
     background-image: url('../resources/fablevision/layout-h/target_gizmo_single.png')
-    margin: 0
+    margin: -87px 0 17px 0
+    // margin-top: -87px;
     width: 400px
     height: 362px
     flex-direction: column
@@ -129,12 +129,9 @@
       color: #95471f
 
       &:active
-        // temp
-        background: url('../resources/fablevision/layout-h/breed_button.png')
-        opacity: 0.5
+        background: url('../resources/fablevision/layout-h/breed_button_clicked.png')
 
       &.disabled
-        // temp
         background: url('../resources/fablevision/layout-h/breed_button.png')
         opacity: 0.5
 
