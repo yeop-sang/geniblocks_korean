@@ -52,6 +52,7 @@ export default {
   "~BUTTON.FERTILIZE": "Make a baby! ❤️",
   "~BUTTON.MALE": "Male",
   "~BUTTON.FEMALE": "Female",
+  "~BUTTON.SUBMIT_PARENTS": "Submit Parents",
 
   "~LABEL.YOUR_DRAKE": "Your Drake",
   "~LABEL.TARGET_DRAKE": "Target Drake",
@@ -62,6 +63,10 @@ export default {
   "~COUNTER.SCORE_LABEL": "SCORE",
   "~COUNTER.MOVES_LABEL": "TARGET MOVES",
   "~COUNTER.n_OF_N": "${0}\xA0\xA0of\xA0\xA0${1}",
+
+  "~TARGET.TARGET_DRAKE": "Target Drake",
+  "~TARGET.OFFSPRING": "Offspring",
+
 
   // Messages from ITS
   "~ITS.GREETING": "Hi there user!",
