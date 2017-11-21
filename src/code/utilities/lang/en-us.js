@@ -15,6 +15,7 @@ export default {
   "~ALERT.TITLE.GOOD_WORK": "Good work!",
   "~ALERT.TITLE.MISSION_ACCOMPLISHED": "Level Accomplished!",
   "~ALERT.TITLE.INCORRECT_DRAKE": "That's not the drake!",
+  "~ALERT.TITLE.INCORRECT_PARENT": "Those parents won't work!",
   "~ALERT.TITLE.EGG_MISMATCH": "That egg doesn't belong!",
   "~ALERT.TITLE.MISTAKE": "Uh oh!",
   "~ALERT.NEW_PIECE_OF_COIN": "You earned a ${0} piece of the coin!",
