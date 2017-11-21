@@ -7,6 +7,10 @@
     background-image: url('../resources/fablevision/layout-a/screen_border.png'),
                       url('../resources/fablevision/layout-b/background.jpg')
 
+  &.submit-parents
+    background-image: url('../resources/fablevision/layout-a/screen_border.png'),
+                      url('../resources/fablevision/layout-h/background.jpg')
+
   .center-column
     width: 674px
     display: flex
@@ -43,6 +47,21 @@
       .organism
         left:  64px
 
+  &.submit-parents
+    .geniblocks.parentDrake
+      margin: 0
+      &.mother, &.father
+        .parentTitle
+          top: 137px
+      &.mother
+        left: 0px
+        .parentTitle
+          left: -27px
+      &.father
+        left: 0px
+        .parentTitle
+          left: 388px
+
   .geniblocks.genome.parent
     margin-top: 40px
 
@@ -59,6 +78,19 @@
     .target-drake-text
       margin-top: -4px
       margin-left: 5px
+
+  &.submit-parents
+    .geniblocks.target-drake-container
+      background-image: none
+      margin: -53px 0 50px 0
+      .drakes
+        display: flex
+        justify-content: space-around
+        width: 500px
+      .target-drake-text
+        color: #B05E22
+        font-size: 38px
+        margin: -16px 0 0 0
 
   .geniblocks.clutch-view
     margin-top: -3px
@@ -137,3 +169,17 @@
 
         .breed-button-label
           font-size: 3rem
+
+  #bottom-buttons
+    display: flex
+    justify-content: center
+
+    .submit-parents-button
+      color: #95471f
+      background-image: url('../resources/fablevision/layout-h/submitparent_button_unclicked.png')
+      width: 255px
+      height: 100px
+      .button-label
+        font-size: 2rem
+      &:active
+        background-image: url('../resources/fablevision/layout-h/submitparent_button_clicked.png')
