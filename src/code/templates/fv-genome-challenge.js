@@ -11,6 +11,8 @@ import { generateTrialDrakes } from '../utilities/trial-generator';
 import classNames from 'classnames';
 import t from '../utilities/translate';
 
+import TutorialView from '../components/tutorial';
+
 const userDrakeIndex   = 0,
       targetDrakeIndex = 1;
 
@@ -195,7 +197,7 @@ export default class FVGenomeChallenge extends React.Component {
       <div id="genome-challenge">
         <div className="columns centered">
           <div id='left-column' className='column'>
-            <GenomeView small={true} ChromosomeImageClass={FVChromosomeImageView} org={ userDrake } onAlleleChange={ handleAlleleChange } userChangeableGenes= { userChangeableGenes } visibleGenes={ visibleGenes } hiddenAlleles={ hiddenAlleles }/>
+            <GenomeView className={'tutorial'} small={true} ChromosomeImageClass={FVChromosomeImageView} org={ userDrake } onAlleleChange={ handleAlleleChange } userChangeableGenes= { userChangeableGenes } visibleGenes={ visibleGenes } hiddenAlleles={ hiddenAlleles }/>
             <FVChangeSexToggle id="change-sex-buttons" sex={ userDrake.sex } onChange= { handleSexChange } />
           </div>
           <div id="center-column" className='column'>
@@ -217,6 +219,7 @@ export default class FVGenomeChallenge extends React.Component {
         <div className="columns bottom">
           {penView}
         </div>
+        <TutorialView hidden={false} />
       </div>
     );
   }
