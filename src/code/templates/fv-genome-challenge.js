@@ -11,7 +11,7 @@ import { generateTrialDrakes } from '../utilities/trial-generator';
 import classNames from 'classnames';
 import t from '../utilities/translate';
 
-import TutorialView from '../components/tutorial';
+import TutorialView from '../components/tutorial-view';
 
 const userDrakeIndex   = 0,
       targetDrakeIndex = 1;
@@ -144,7 +144,7 @@ export default class FVGenomeChallenge extends React.Component {
 
   render() {
     const { drakes, onChromosomeAlleleChange, onSexChange, onDrakeSubmission, onKeepOffspring, challengeType,
-            userChangeableGenes, visibleGenes, hiddenAlleles, showUserDrake } = this.props,
+            userChangeableGenes, visibleGenes, hiddenAlleles, showUserDrake, tutorials } = this.props,
           userDrakeDef = drakes[userDrakeIndex],
           isCreationChallenge = challengeType === 'create-unique',
           isMatchingChallenge = challengeType === 'match-target',
@@ -197,7 +197,7 @@ export default class FVGenomeChallenge extends React.Component {
       <div id="genome-challenge">
         <div className="columns centered">
           <div id='left-column' className='column'>
-            <GenomeView className={'tutorial'} small={true} ChromosomeImageClass={FVChromosomeImageView} org={ userDrake } onAlleleChange={ handleAlleleChange } userChangeableGenes= { userChangeableGenes } visibleGenes={ visibleGenes } hiddenAlleles={ hiddenAlleles }/>
+            <GenomeView small={true} ChromosomeImageClass={FVChromosomeImageView} org={ userDrake } onAlleleChange={ handleAlleleChange } userChangeableGenes= { userChangeableGenes } visibleGenes={ visibleGenes } hiddenAlleles={ hiddenAlleles }/>
             <FVChangeSexToggle id="change-sex-buttons" sex={ userDrake.sex } onChange= { handleSexChange } />
           </div>
           <div id="center-column" className='column'>
@@ -219,7 +219,7 @@ export default class FVGenomeChallenge extends React.Component {
         <div className="columns bottom">
           {penView}
         </div>
-        <TutorialView hidden={false} />
+        <TutorialView hidden={false} tutorials={tutorials} />
       </div>
     );
   }
@@ -240,7 +240,8 @@ export default class FVGenomeChallenge extends React.Component {
     onSexChange: PropTypes.func.isRequired,
     onDrakeSubmission: PropTypes.func.isRequired,
     onKeepOffspring: PropTypes.func.isRequired,
-    challengeType: PropTypes.string.isRequired
+    challengeType: PropTypes.string.isRequired,
+    tutorials: PropTypes.array
   }
 
   static authoredDrakesToDrakeArray = function(authoredChallenge, authoredTrialNumber) {

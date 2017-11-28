@@ -1,0 +1,110 @@
+import React, {PropTypes} from 'react';
+
+const tutorialStyle = 'tutorial';
+
+class TutorialView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isVisible: false,
+      currentStep: -1,
+      tutorialStep: null
+    };
+    this.handleNextTutorial = this.handleNextTutorial.bind(this);
+    this.handlePreviousTutorial = this.handlePreviousTutorial.bind(this);
+    this.handleCloseTutorial = this.handleCloseTutorial.bind(this);
+  }
+
+  componentDidMount() {
+    const { hidden } = this.props;
+    let self = this;
+    if (!hidden) {
+      setTimeout(() => {
+        self.showTutorial();
+      }, 1500);
+    }
+  }
+  showTutorial() {
+    if (!this.state.isVisible) {
+      this.handleNextTutorial();
+      this.setState({ isVisible: true });
+    }
+  }
+  handleNextTutorial() {
+    const { currentStep } = this.state;
+    if (currentStep < this.props.tutorials.length - 1) {
+      let nextStep = currentStep + 1;
+      this.setState({ currentStep: nextStep });
+      this.showTutorialStep(nextStep);
+    }
+  }
+
+  handlePreviousTutorial() {
+    const { currentStep } = this.state;
+    if (currentStep > -1) {
+      let nextStep = currentStep - 1;
+      this.setState({ currentStep: nextStep });
+      this.showTutorialStep(nextStep);
+    }
+  }
+
+  showTutorialStep(step) {
+    let tutorialStep = this.props.tutorials[step];
+    if (tutorialStep) {
+      this.applyHighlight(tutorialStep.element);
+      this.setState({ tutorialStep });
+    }
+  }
+
+  removeHighlight(el) {
+    let elements = document.getElementsByClassName(el);
+    for (let i = elements.length - 1; i > -1; i--){
+      elements[i].classList.remove(tutorialStyle);
+    }
+  }
+
+  applyHighlight(el) {
+    this.removeHighlight(tutorialStyle);
+    setTimeout(() => {
+      let elements = document.getElementsByClassName(el);
+      for (let i = 0; i < elements.length; i++){
+        elements[i].classList.add(tutorialStyle);
+      }
+    }, 200);
+  }
+
+  handleCloseTutorial() {
+    this.setState({ isVisible: false, tutorialStep: null, currentStep: -1 });
+  }
+
+  render() {
+    const { tutorials } = this.props;
+    const { tutorialStep, isVisible, currentStep } = this.state;
+
+    let tutorialClass = isVisible === true ? "active": "";
+
+    return (
+      <div id='tutorial' className={tutorialClass}>
+        {tutorialStep &&
+          <div className="tutorial-text">
+          <div className="tutorial-short">{tutorialStep.text}</div>
+          <div className="tutorial-long">{tutorialStep.more}</div>
+          {currentStep < tutorials.length - 1 &&
+            <div className="tutorial-navigate next" onClick={this.handleNextTutorial}>Next</div>
+          }
+          {currentStep > 0 &&
+            <div className="tutorial-navigate prev" onClick={this.handlePreviousTutorial}>Back</div>
+          }
+          <div className="tutorial-close" onClick={this.handleCloseTutorial}>X</div>
+        </div>}
+      </div>
+    );
+  }
+}
+
+TutorialView.propTypes = {
+  hidden: PropTypes.bool,
+  tutorials: PropTypes.array
+};
+
+export default TutorialView;

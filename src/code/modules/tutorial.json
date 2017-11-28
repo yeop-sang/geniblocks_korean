@@ -10,19 +10,59 @@
               "challenge": 0,
               "steps": [
                 {
-                  "delay": 2,
+                  "element": "fv-chromosome-image",
+                  "delay": 2000,
                   "text": "Chromosomes",
                   "more": "Chromosomes are made of DNA and contain genes. For each pair of chromosomes, an individual gets one from its mother and one from its father."
                 },
                 {
-                  "delay": 1,
+                  "element": "stripe",
+                  "delay": 3000,
                   "text": "Genes",
-                  "more": "These white lines show where certain genes are on the chromosomes. Each gene has an affect on a particular trait. Play around with different versions of each gene to see how they change the drake."
+                  "more": "These white lines show where certain genes are on the chromosomes. Each gene has an affect on a particular trait."
                 },
                 {
-                  "delay": 1,
+                  "element": "labels",
+                  "delay": 3000,
+                  "text": "Genes have different versions called \"alleles\"",
+                  "more": "Change the versions of genes to make different drakes"
+                },
+                {
+                  "delay": 3000,
                   "text": "Show tutorial",
                   "more": "Click the question mark button to see the tutorial again."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 1,
+      "missions": [
+        {
+          "mission": 0,
+          "challenges":[
+            {
+              "challenge": 0,
+              "steps":[
+                {
+                  "element": "change-sex-toggle",
+                  "delay": 2,
+                  "text": "Male/Female button",
+                  "more": "Make sure you can tell the difference between male and female drakes"
+                }
+              ]
+            },
+            {
+              "challenge": 2,
+              "steps":[
+                {
+                  "element": "clutch-egg",
+                  "delay": 2,
+                  "text": "Click an egg to see its genotype",
+                  "more": "Genotype description? Other text?"
                 }
               ]
             }

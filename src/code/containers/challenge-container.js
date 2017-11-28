@@ -48,7 +48,8 @@ function mapStateToProps (state) {
       errors: state.errors,
       moves: state.moves,
       goalMoves: state.goalMoves,
-      userDrakeHidden: state.userDrakeHidden
+      userDrakeHidden: state.userDrakeHidden,
+      tutorials: state.tutorials
     };
   }
 
