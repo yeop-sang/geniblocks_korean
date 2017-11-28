@@ -55,7 +55,7 @@ function resetAnimationEvents(options = {}){
 
 export default class ClutchGame extends Component {
 
-  static backgroundClasses = 'fv-layout fv-layout-c layout-b'
+  static backgroundClasses = 'fv-layout fv-layout-h'
 
   componentWillMount() {
     _this = this;
@@ -135,9 +135,7 @@ export default class ClutchGame extends Component {
 
     let clutchDrakes = drakes.slice(3);
     clutchDrakes = clutchDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
-    let penView = <div className='columns bottom'>
-                <ClutchView orgs={ clutchDrakes } width={500} onClick={handleSubmit}/>
-              </div>;
+    let penView = <ClutchView orgs={ clutchDrakes } width={250} onClick={handleSubmit}/>;
 
     const motherClassNames = classNames('parent', 'mother'),
           fatherClassNames = classNames('parent', 'father');
@@ -162,13 +160,15 @@ export default class ClutchGame extends Component {
     }
 
     return (
-      <div id="egg-game">
+      <div id="breeding-game">
         <div className="columns centered">
           <div className='column'>
-            <ParentDrakeView className="mother" org={ mother } />
+            <ParentDrakeView className="mother" org={ mother } width={250} />
             { parentGenomeView(BioLogica.FEMALE) }
           </div>
-          <div className='egg column'>
+          <div className='column center-column'>
+            {targetDrakeSection}
+            {penView}
             <BreedButtonAreaView  scale={scale} isBreedButtonEnabled={true}
                                   isHatchingInProgress={false}
                                   hatchAnimationDuration={durationHatchAnimation}
@@ -177,12 +177,10 @@ export default class ClutchGame extends Component {
                                   onBreed={handleFertilize} />
           </div>
           <div className='column'>
-            <ParentDrakeView className="father" org={ father } />
+            <ParentDrakeView className="father" org={ father } width={250} />
             { parentGenomeView(BioLogica.MALE) }
           </div>
         </div>
-        {penView}
-        {targetDrakeSection}
         {animatedComponents}
       </div>
     );

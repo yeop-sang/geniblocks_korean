@@ -2,9 +2,9 @@ import React, {PropTypes} from 'react';
 import OrganismView from '../components/organism';
 import classNames from 'classnames';
 
-const ParentDrakeView = ({org, className}) => {
+const ParentDrakeView = ({org, width=200, className}) => {
   let sexName = org.sex ? "FEMALE" : "MALE",
-      drakeView = <OrganismView org={org} flipped={org.sex} width={200}/>,
+      drakeView = <OrganismView org={org} flipped={org.sex} width={width}/>,
       textView = <div className={"parentTitle"}> {sexName} </div>;
 
   return (
@@ -17,6 +17,7 @@ const ParentDrakeView = ({org, className}) => {
 
 ParentDrakeView.propTypes = {
   org: PropTypes.object.isRequired,
+  width: PropTypes.number,
   className: PropTypes.string
 };
 
