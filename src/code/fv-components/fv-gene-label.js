@@ -50,6 +50,8 @@ const FVGeneLabelView = ({species, editable, allele, hiddenAlleles=[], onAlleleC
     }
     if (normalizedAllele === "fl" || normalizedAllele === "hl" || normalizedAllele=== "a") {
       percentHeight -= .1;
+    } else if (normalizedAllele=== "d") {
+      percentHeight -= .05;
     }
 
     const style = {marginTop: percentHeight * chromosomeHeight - stripeHeight * 3 + "px"},
@@ -75,7 +77,7 @@ const FVGeneLabelView = ({species, editable, allele, hiddenAlleles=[], onAlleleC
 
       label = stripe ? null : (
         <div id='mountNode'>
-            <Form defaultOption={{label: alleleName, value: allele}} options={sortedAlleleOptions} handleChange={onAlleleChange}/>
+          <Form defaultOption={{label: alleleName, value: allele}} options={sortedAlleleOptions} handleChange={onAlleleChange}/>
         </div>
       );
     }

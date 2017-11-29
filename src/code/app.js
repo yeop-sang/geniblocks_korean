@@ -1,3 +1,4 @@
+/* global firebase */
 import 'babel-polyfill';
 
 import React from 'react';
@@ -88,12 +89,20 @@ const isAuthorUploadRequested = (urlParams.author === "upload");
 let isAuthorUploadEnabled = isAuthorUploadRequested;  // e.g. check PRODUCTION flag
 
 function loadAuthoring() {
-  const db = firebase.database(), //eslint-disable-line
-        ref = db.ref(authoringVersionNumber + "/authoring");
+  const localAuthoring = urlParams.localAuthoring || false;
+  if (localAuthoring) {
+    const url = `resources/authoring/${localAuthoring}.json`;
+    fetch(url)
+      .then(response => response.json())
+      .then(handleAuthoringLoad, () => alert(`Cannot load ${url}`));
+  } else {
+    const db = firebase.database(),
+          ref = db.ref(authoringVersionNumber + "/authoring");
 
-  ref.once("value", function(authoringData) {
-    handleFirebaseLoad(authoringData.val());
-  });
+    ref.once("value", function(authoringData) {
+      handleAuthoringLoad(authoringData.val());
+    });
+  }
 }
 
 function handleCompleteUpload(authoring) {
@@ -102,7 +111,7 @@ function handleCompleteUpload(authoring) {
   renderApp();
 }
 
-function handleFirebaseLoad(authoring) {
+function handleAuthoringLoad(authoring) {
   let convertedAuthoring = convertAuthoring(authoring);
   window.GV2Authoring = convertedAuthoring;
   store.dispatch(changeAuthoring(convertedAuthoring));

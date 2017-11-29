@@ -387,6 +387,75 @@ export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrect
   };
 }
 
+function _submitParents(motherIndex, fatherIndex, targetDrakeIndices, correct, state) {
+  const incrementMoves = !correct,
+        motherDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[motherIndex]),
+        fatherDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[fatherIndex]),
+        targetDrakeOrgs = targetDrakeIndices.map(i =>
+          GeneticsUtils.convertDrakeToOrg(state.drakes[i])),
+        userSelections = {
+          motherAlleles: motherDrakeOrg.alleles,
+          fatherAlleles: fatherDrakeOrg.alleles
+        },
+        challengeCriteria = targetDrakeOrgs.map(o =>
+          ({
+            sex: o.sex,
+            phenotype: o.phenotype.characteristics
+          }));
+
+
+  return {
+    type: actionTypes.DRAKE_SUBMITTED,
+    species: BioLogica.Species.Drake.name,
+    challengeCriteria,
+    userSelections,
+    correct,
+    incrementMoves,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.SUBMITTED,
+        target: ITS_TARGETS.PARENTS
+      }
+    }
+  };
+}
+
+export function submitParents(motherIndex, fatherIndex, targetDrakeIndices, correct) {
+  return (dispatch, getState) => {
+    const state = getState();
+    dispatch(_submitParents(motherIndex, fatherIndex, targetDrakeIndices, correct, state));
+
+    const trialCount = state.numTrials,
+          challengeComplete = (correct && state.trial === trialCount - 1);
+
+    if (correct) {
+      if (challengeComplete) {
+        dispatch(completeChallenge());
+      } else {
+        dispatch(showNotification({
+          message: {
+            text: "~ALERT.TITLE.GOOD_WORK",
+            type: notificationType.NARRATIVE
+          },
+          closeButton: {
+            action: "advanceTrial"
+          }
+        }));
+        dispatch(showNextTrialButton());
+      }
+    } else {
+      dispatch(showNotification({
+        message: "~ALERT.TITLE.INCORRECT_PARENT",
+        closeButton: {
+          label: "~BUTTON.TRY_AGAIN",
+          action: "dismissModalDialog"
+        }
+      }));
+    }
+  };
+}
+
 function _rejectEggFromBasket(eggDrakeIndex, basketIndex) {
   return {
     type: actionTypes.EGG_REJECTED,

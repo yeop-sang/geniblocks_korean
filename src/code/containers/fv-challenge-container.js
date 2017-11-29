@@ -8,7 +8,7 @@ import TopHUDView from '../fv-components/top-hud';
 import NotificationContainer from "./notification-container";
 import ModalMessageContainer from "./modal-message-container";
 
-import { changeAllele, changeSex, submitDrake,
+import { changeAllele, changeSex, submitDrake, submitParents,
         keepOffspring, fertilize, breedClutch, hatch,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket,
         winZoomChallenge, toggleMap, enterChallengeFromRoom } from '../actions';
@@ -70,6 +70,7 @@ class FVChallengeContainer extends Component {
     trial: PropTypes.number,
     trials: PropTypes.array,
     numTrials: PropTypes.number,
+    numTargets: PropTypes.number,
     containerWidth: PropTypes.number,
     containerHeight: PropTypes.number,
     routeSpec: PropTypes.object,
@@ -104,6 +105,7 @@ function mapStateToProps (state) {
       trial: state.trial,
       trials: state.trials,
       numTrials: state.numTrials,
+      numTargets: state.numTargets,
       routeSpec: state.routeSpec,
       correct: state.correct,
       errors: state.errors,
@@ -132,6 +134,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(changeSex(index, newSex, incrementMoves)),
     onDrakeSubmission: (targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex) =>
       dispatch(submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex)),
+    onParentSubmission: (motherIndex, fatherIndex, targetDrakeIndices, success) =>
+      dispatch(submitParents(motherIndex, fatherIndex, targetDrakeIndices, success)),
     onGameteChromosomeAdded: (index, name, side) => dispatch(addGameteChromosome(index, name, side)),
     onAddGametesToPool: (index, gametes) => dispatch(addGametesToPool(index, gametes)),
     onSelectGameteInPool: (sex, index) => dispatch(selectGameteInPool(sex, index)),

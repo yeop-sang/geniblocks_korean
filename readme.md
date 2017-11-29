@@ -46,6 +46,14 @@ which will launch a browser tab pointing to the examples page.
 For deployment, `yarn` may be preferable to `npm install` for dependency installation
 due to its greater predictability.
 
+### Running Geniventure locally
+
+By default, Geniventure will try to fetch the authoring for the activities from the Firebase database.
+
+You can add the url parameter `localAuthoring=x` to the url to load a JSON file stored in `src/resources/authoring` instead of loading the default authoring stored. E.g. http://127.0.0.1:8080/gv2/?localAuthoring=gv-1
+
+The authored activities in the authoring folder should be named `gv-x` for reasonably-up-to-date copies of the official authoring, where x is the version at the root of the Firebase document. Experimental activities can be given other names.
+
 ## Structure
 
 The code is written in ES2015+ and JSX, which is transformed using Babel. We use
