@@ -42,12 +42,12 @@ export default function tutorials(state = initialState, action) {
 
 function getTutorialForCurrentStage(l, m, c) {
   let levelTutorials = tutorialSteps.levels.filter(lvl => lvl.level === l);
-  if (levelTutorials.length !== 1) return null;
+  if (levelTutorials.length !== 1) return [];
 
   let levelMissions = levelTutorials[0].missions.filter(ms => ms.mission === m);
-  if (levelMissions.length !== 1) return null;
+  if (levelMissions.length !== 1) return [];
 
   let levelChallenges = levelMissions[0].challenges.filter(ch => ch.challenge === c);
-  if (levelChallenges.length !== 1) return null;
+  if (levelChallenges.length !== 1) return [];
   else return levelChallenges[0].steps;
 }
