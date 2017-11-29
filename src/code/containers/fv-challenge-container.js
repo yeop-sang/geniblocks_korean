@@ -11,7 +11,7 @@ import ModalMessageContainer from "./modal-message-container";
 import { changeAllele, changeSex, submitDrake, submitParents,
         keepOffspring, fertilize, breedClutch, hatch,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket,
-        winZoomChallenge, toggleMap, enterChallengeFromRoom } from '../actions';
+        winZoomChallenge, toggleMap, enterChallengeFromRoom, showTutorial } from '../actions';
 import { addGameteChromosome, resetGametes,
         addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/gametes';
 
@@ -54,8 +54,8 @@ class FVChallengeContainer extends Component {
         <TopHUDView location={ this.props.location } onToggleMap={this.props.onToggleMap} isDialogComplete={this.props.messages.length <= 1}/>
         { MainView }
         <BottomHUDView routeSpec={routeSpec} numChallenges={challenges} trial={trial + 1} trialCount={numTrials}
-                       currScore={correct} maxScore={maxScore} currMoves={this.props.moves} showAward={showAward}
-                       goalMoves={goalMoves} gems={this.props.gems} showChallengeWidgets={showChallengeWidgets}/>
+          currScore={correct} maxScore={maxScore} currMoves={this.props.moves} showAward={showAward}
+          goalMoves={goalMoves} gems={this.props.gems} showChallengeWidgets={showChallengeWidgets} tutorials={this.props.tutorials} onShowTutorial={this.props.onShowTutorial} />
         <NotificationContainer />
         <ModalMessageContainer />
       </div>
@@ -85,7 +85,8 @@ class FVChallengeContainer extends Component {
     location: PropTypes.object,
     showingRoom: PropTypes.bool,
     messages: PropTypes.array,
-    tutorials: PropTypes.array
+    tutorials: PropTypes.array,
+    onShowTutorial: PropTypes.func
   }
 }
 
@@ -150,7 +151,8 @@ function mapDispatchToProps(dispatch) {
     onSubmitEggForBasket: (...args) => dispatch(submitEggForBasket(...args)),
     onWinZoomChallenge: (...args) => dispatch(winZoomChallenge(...args)),
     onToggleMap: (isVisible) => dispatch(toggleMap(isVisible)),
-    onEnterChallenge: () => dispatch(enterChallengeFromRoom())
+    onEnterChallenge: () => dispatch(enterChallengeFromRoom()),
+    onShowTutorial: () => dispatch(showTutorial())
   };
 }
 

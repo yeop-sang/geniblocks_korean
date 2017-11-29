@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import templates from '../templates';
 import { changeAllele, changeSex, submitDrake,
         keepOffspring, fertilize, hatch,
-        changeBasketSelection, changeDrakeSelection, submitEggForBasket } from '../actions';
+        changeBasketSelection, changeDrakeSelection, submitEggForBasket, showTutorial } from '../actions';
 import { addGameteChromosome, resetGametes,
         addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/gametes';
 
@@ -71,7 +71,8 @@ function mapDispatchToProps(dispatch) {
     onKeepOffspring: (index, keptDrakesIndices, maxDrakes, shouldKeepSourceDrake) => dispatch(keepOffspring(index, keptDrakesIndices, maxDrakes, shouldKeepSourceDrake)),
     onChangeBasketSelection: (selectedIndices) => dispatch(changeBasketSelection(selectedIndices)),
     onChangeDrakeSelection: (selectedIndices) => dispatch(changeDrakeSelection(selectedIndices)),
-    onSubmitEggForBasket: (...args) => dispatch(submitEggForBasket(...args))
+    onSubmitEggForBasket: (...args) => dispatch(submitEggForBasket(...args)),
+    onShowTutorial: () => dispatch(showTutorial())
   };
 }
 

@@ -8,6 +8,7 @@ import { getUserQueryString } from './middleware/state-save';
 import { notificationType } from './modules/notifications';
 import { getGemFromChallengeErrors } from './reducers/helpers/gems-helper';
 import migrate from './migrations';
+import { tutorialActionTypes } from './modules/tutorials';
 
 export { actionTypes };
 
@@ -738,6 +739,19 @@ export function toggleMap(isVisible) {
 export function enterChallengeFromRoom() {
   return {
     type: actionTypes.ENTERED_CHALLENGE_FROM_ROOM
+  };
+}
+
+
+export function showTutorial() {
+  console.log("showTutorial");
+  return (dispatch) => {
+    dispatch(_showTutorial());
+  };
+}
+function _showTutorial() {
+  return {
+    type: tutorialActionTypes.TUTORIAL_ENABLED
   };
 }
 

@@ -18,15 +18,16 @@ const BottomHUDView = React.createClass({
     gems: PropTypes.array,
     numChallenges: PropTypes.number,
     showAward: PropTypes.bool,
-    showChallengeWidgets: PropTypes.bool
+    showChallengeWidgets: PropTypes.bool,
+    tutorials: PropTypes.array
   },
 
   render() {
-    let {routeSpec, trial, trialCount, currScore, maxScore, currMoves, goalMoves, numChallenges, gems} = this.props,
+    let {routeSpec, trial, trialCount, currScore, maxScore, currMoves, goalMoves, numChallenges, gems, tutorials, onShowTutorial} = this.props,
         scoreView = maxScore ? <CountView countTitleText={t('~COUNTER.SCORE_LABEL')} className={'score-count'} currCount={currScore} maxCount={maxScore} /> : null,
         movesView = goalMoves > -1 ? <CountView countTitleText={t('~COUNTER.MOVES_LABEL')} className={'moves-count'} currCount={currMoves} maxCount={goalMoves} /> : null,
         showRouteWidgets = routeSpec !== null,
-        routeWidgets, challengeWidgets;
+        routeWidgets, challengeWidgets, tutorialWidgets;
 
     if (showRouteWidgets) {
       let missionScreen = (
@@ -54,14 +55,21 @@ const BottomHUDView = React.createClass({
         </div>
       );
     }
-
-
+    if (tutorials && tutorials.length > 0) {
+      // Also need to hide this until we are in the challenge, should not be visible on the main room view
+      tutorialWidgets = (
+        <div className="tutorial-activate">
+          <div className="tutorial-icon" onClick={onShowTutorial} />
+        </div>
+      );
+    }
 
     return (
       <div id='fv-bottom-hud' className='fv-hud fv-bottom-hud' >
         <AvatarButtonView />
         { routeWidgets }
-        { challengeWidgets }
+        {challengeWidgets}
+        {tutorialWidgets}
       </div>
     );
   }
