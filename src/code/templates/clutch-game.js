@@ -7,6 +7,8 @@ import BreedButtonAreaView from '../fv-components/breed-button-area';
 import ClutchView from '../components/clutch-view';
 import OrganismView from '../components/organism';
 import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
+import ButtonView from '../fv-components/button';
+import t from '../utilities/translate';
 
 const durationHatchAnimation = 1333;  // msec
 
@@ -84,18 +86,20 @@ export default class ClutchGame extends Component {
   }
 
   render() {
-    const { scale, drakes, hiddenAlleles, trial,
+    const { scale, challengeType, drakes, hiddenAlleles, trial, numTargets,
             userChangeableGenes, visibleGenes, onChromosomeAlleleChange,
-            onBreedClutch, onHatch, onDrakeSubmission } = this.props,
-          targetDrake = drakes[2], // 0: mother, 1: father, 2: target, 3...: children
+            onBreedClutch, onHatch, onDrakeSubmission, onParentSubmission } = this.props,
+          // 0: mother, 1: father, 2...n: target, n+1...: children
           mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
-          father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex);
-
+          father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex),
+          targetDrakes = drakes.slice(2, 2+numTargets),
+          isSubmitParents = challengeType === "submit-parents";
     let child = null;
 
     const handleAlleleChange = function(chrom, side, prevAllele, newAllele, orgName) {
-      let index = orgName === "mother" ? 0 : 1;
-      onChromosomeAlleleChange(index, chrom, side, prevAllele, newAllele);
+      const index = orgName === "mother" ? 0 : 1,
+            incrementMoves = !isSubmitParents;
+      onChromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, incrementMoves);
     };
     const handleFertilize = function() {
       animatedComponents = [];
@@ -113,29 +117,52 @@ export default class ClutchGame extends Component {
       const childImage = child.getImageName(),
             selectedDrakeIndex = index + 3,
             targetDrakeOrg = new BioLogica.Organism(BioLogica.Species.Drake,
-                                                    targetDrake.alleleString,
-                                                    targetDrake.sex),
+                                                    targetDrakes[0].alleleString,
+                                                    targetDrakes[0].sex),
             success = (childImage === targetDrakeOrg.getImageName());
 
       onDrakeSubmission(2, selectedDrakeIndex, success, null, 0, 1);
     };
 
-    const targetDrakeOrg = targetDrake && targetDrake.alleleString
-                              ? new BioLogica.Organism(BioLogica.Species.Drake,
-                                                        targetDrake.alleleString,
-                                                        targetDrake.sex)
-                              : null,
-          targetDrakeSection = <div className='geniblocks target-drake-container'>
-                                 <OrganismView org={targetDrakeOrg} width={170}/>
-                                 <div className="target-drake-text">Target Drake</div>
+    const handleSubmitParents = function() {
+      const movesToMakeAllOffspring = targetDrakes.reduce((sum, t) => {
+        const targetDrake = new BioLogica.Organism(BioLogica.Species.Drake,
+                                              t.alleleString, t.sex);
+        return sum + BioLogica.Organism.numberOfBreedingMovesToReachOrganism(
+          mother,
+          father,
+          [],
+          [],
+          targetDrake
+        );
+      }, 0);
+      const success = movesToMakeAllOffspring === 0;
+      const targetDrakeArray = Array(numTargets).fill().map((e,i)=>i+2);  // [2, ... n]
+      onParentSubmission(0, 1, targetDrakeArray, success);
+    };
+
+    const targetSize = isSubmitParents ? 210 : 170;
+    const targetText = isSubmitParents ? t("~TARGET.OFFSPRING") : t("~TARGET.TARGET_DRAKE");
+    const targetDrakeViews = targetDrakes.map(d => {
+      const org = new BioLogica.Organism(BioLogica.Species.Drake,
+                              d.alleleString,
+                              d.sex);
+      return <OrganismView org={org} width={targetSize}/>;
+    });
+    const targetDrakeSection = <div className='geniblocks target-drake-container'>
+                                  <div className='drakes'>
+                                    {targetDrakeViews}
+                                  </div>
+                                 <div className="target-drake-text">{targetText}</div>
                                </div>;
     if (child && animationEvents.hatch.complete) {
       handleHatch();
     }
 
-    let clutchDrakes = drakes.slice(3);
+    let clutchDrakes = drakes.slice(2+numTargets);
     clutchDrakes = clutchDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
-    let penView = <ClutchView orgs={ clutchDrakes } width={250} onClick={handleSubmit}/>;
+    const clickDrake = isSubmitParents ? handleSubmit : null;
+    let penView = <ClutchView orgs={ clutchDrakes } width={250} onClick={clickDrake}/>;
 
     const motherClassNames = classNames('parent', 'mother'),
           fatherClassNames = classNames('parent', 'father');
@@ -159,11 +186,23 @@ export default class ClutchGame extends Component {
                          chromosomeHeight={122} />;
     }
 
+    const bottomButtons = isSubmitParents ?
+      (
+        <div id="bottom-buttons">
+          <ButtonView
+            text={t("~BUTTON.SUBMIT_PARENTS")}
+            styleName="submit-parents-button"
+            onClick={handleSubmitParents} />
+        </div>
+      ) : null;
+
+    const parentSize = isSubmitParents ? 280 : 250;
+
     return (
       <div id="breeding-game">
         <div className="columns centered">
           <div className='column'>
-            <ParentDrakeView className="mother" org={ mother } width={250} />
+            <ParentDrakeView className="mother" org={ mother } width={parentSize} />
             { parentGenomeView(BioLogica.FEMALE) }
           </div>
           <div className='column center-column'>
@@ -177,10 +216,11 @@ export default class ClutchGame extends Component {
                                   onBreed={handleFertilize} />
           </div>
           <div className='column'>
-            <ParentDrakeView className="father" org={ father } width={250} />
+            <ParentDrakeView className="father" org={ father } width={parentSize} />
             { parentGenomeView(BioLogica.MALE) }
           </div>
         </div>
+        {bottomButtons}
         {animatedComponents}
       </div>
     );
@@ -193,9 +233,11 @@ export default class ClutchGame extends Component {
 
   static propTypes = {
     routeSpec: PropTypes.object.isRequired,
+    challengeType: PropTypes.string.isRequired,
     scale: PropTypes.number,
     trial: PropTypes.number.isRequired,
     drakes: PropTypes.array.isRequired,
+    numTargets: PropTypes.number,
     userChangeableGenes: PropTypes.array.isRequired,
     visibleGenes: PropTypes.array.isRequired,
     hiddenAlleles: PropTypes.array,
@@ -203,12 +245,26 @@ export default class ClutchGame extends Component {
     onBreedClutch: PropTypes.func.isRequired,
     onHatch: PropTypes.func,
     onDrakeSubmission: PropTypes.func,
+    onParentSubmission: PropTypes.func
   }
 
   static authoredDrakesToDrakeArray = function(authoredChallenge, authoredTrialNumber) {
+    // allow for multiple targets
+    if (Array.isArray(authoredChallenge.targetDrakes[authoredTrialNumber])) {
+      return [authoredChallenge.mother[authoredTrialNumber],
+              authoredChallenge.father[authoredTrialNumber]]
+            .concat(authoredChallenge.targetDrakes[authoredTrialNumber]);
+    }
     return [authoredChallenge.mother[authoredTrialNumber],
             authoredChallenge.father[authoredTrialNumber],
             authoredChallenge.targetDrakes[authoredTrialNumber]];
+  }
+
+  static getNumTargets = function(authoredChallenge, authoredTrialNumber) {
+    if (Array.isArray(authoredChallenge.targetDrakes[authoredTrialNumber])) {
+      return authoredChallenge.targetDrakes[authoredTrialNumber].length;
+    }
+    return 1;
   }
 
 }

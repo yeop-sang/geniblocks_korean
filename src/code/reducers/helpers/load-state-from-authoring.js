@@ -85,6 +85,10 @@ function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template,
   return drakes;
 }
 
+function getNumTargets(authoredChallenge, authoredTrialNumber, template) {
+  return template.getNumTargets ? template.getNumTargets(authoredChallenge, authoredTrialNumber) : 1;
+}
+
 // Returns an array [0...len], optionally shuffled
 function createTrialOrder(trial, trials, currentTrialOrder, doShuffle) {
   if (trial > 0)
@@ -135,6 +139,7 @@ export function loadStateFromAuthoring(state, authoring) {
         trialOrder = createTrialOrder(trial, trials, state.trialOrder, authoredChallenge.randomizeTrials),
         drakes = processAuthoredDrakes(authoredChallenge, trialOrder[trial], template, trial),
         gametes = processAuthoredGametes(authoredChallenge, drakes, state),
+        numTargets = getNumTargets(authoredChallenge, trialOrder[trial], template),
         zoomUrl = authoredChallenge.zoomUrl,
         room = authoredChallengeMetadata.room || "simroom",
         roomInfo = (authoring && authoring.rooms) ? authoring.rooms[room] : {},
@@ -170,6 +175,7 @@ export function loadStateFromAuthoring(state, authoring) {
     baskets,
     gametes,
     drakes,
+    numTargets,
     trial,
     trials,
     numTrials,
