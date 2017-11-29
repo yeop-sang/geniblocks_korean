@@ -9,9 +9,7 @@ const tutorialActionTypes = {
   TUTORIAL_COMPLETE: "Tutorial completed",
   TUTORIAL_SKIPPED: "Tutorial skipped"
 };
-const initialState = {
-  tutorialSteps: Immutable([])
-};
+const initialState = Immutable([]);
 
 export default function tutorials(state = initialState, action) {
   switch (action.type) {
