@@ -161,7 +161,7 @@ export default class ClutchGame extends Component {
 
     let clutchDrakes = drakes.slice(2+numTargets);
     clutchDrakes = clutchDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
-    const clickDrake = isSubmitParents ? handleSubmit : null;
+    const clickDrake = !isSubmitParents ? handleSubmit : null;
     let penView = <ClutchView orgs={ clutchDrakes } width={250} onClick={clickDrake}/>;
 
     const motherClassNames = classNames('parent', 'mother'),
