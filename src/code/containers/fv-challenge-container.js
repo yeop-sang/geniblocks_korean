@@ -31,7 +31,13 @@ class FVChallengeContainer extends Component {
       bgClasses = classNames('mission-backdrop', 'fv-layout', 'room', location.id),
 
       MainView = (
-        <div id="enter-challenge-hotspot" className="hotspot" onClick={ this.props.onEnterChallenge }/>
+        <div>
+          <div id="enter-challenge-hotspot" className="hotspot" onClick={ this.props.onEnterChallenge }/>
+          <div id="sprite-1" className="room-sprite" />
+          <div id="sprite-2" className="room-sprite" />
+          <div id="sprite-3" className="room-sprite" />
+          <div id="sprite-4" className="room-sprite" />
+        </div>
       );
     } else {
       const Template = templates[template];
