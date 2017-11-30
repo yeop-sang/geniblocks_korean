@@ -8,17 +8,19 @@ class TutorialView extends React.Component {
     this.state = {
       isVisible: false,
       currentStep: -1,
-      tutorialStep: null
+      tutorialStep: null,
+      showMore: false
     };
     this.handleNextTutorial = this.handleNextTutorial.bind(this);
     this.handlePreviousTutorial = this.handlePreviousTutorial.bind(this);
     this.handleCloseTutorial = this.handleCloseTutorial.bind(this);
+    this.handleShowMore = this.handleShowMore.bind(this);
   }
 
   componentDidMount() {
     const { hidden } = this.props;
     let self = this;
-    if (!hidden) {
+    if (!hidden && this.props.tutorials && this.props.tutorials.length > 0) {
       setTimeout(() => {
         self.showTutorial();
       }, 1500);
@@ -34,7 +36,7 @@ class TutorialView extends React.Component {
     const { currentStep } = this.state;
     if (currentStep < this.props.tutorials.length - 1) {
       let nextStep = currentStep + 1;
-      this.setState({ currentStep: nextStep });
+      this.setState({ currentStep: nextStep, showMore: false });
       this.showTutorialStep(nextStep);
     }
   }
@@ -73,22 +75,27 @@ class TutorialView extends React.Component {
     }, 200);
   }
 
+  handleShowMore() {
+    this.setState({ showMore: true });
+  }
+
   handleCloseTutorial() {
     this.setState({ isVisible: false, tutorialStep: null, currentStep: -1 });
   }
 
   render() {
     const { tutorials } = this.props;
-    const { tutorialStep, isVisible, currentStep } = this.state;
+    const { tutorialStep, isVisible, currentStep, showMore } = this.state;
 
-    let tutorialClass = isVisible === true ? "active": "";
+    let tutorialClass = isVisible === true ? "active" : "";
 
     return (
       <div id='tutorial' className={tutorialClass}>
         {tutorialStep &&
           <div className="tutorial-text">
           <div className="tutorial-short">{tutorialStep.text}</div>
-          <div className="tutorial-long">{tutorialStep.more}</div>
+          {showMore && <div className="tutorial-long">{tutorialStep.more}</div>}
+          {!showMore && <div className="tutorial-show-more" onClick={this.handleShowMore}>More</div>}
           {currentStep < tutorials.length - 1 &&
             <div className="tutorial-navigate next" onClick={this.handleNextTutorial}>Next</div>
           }

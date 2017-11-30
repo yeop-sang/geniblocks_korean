@@ -25,6 +25,7 @@
                   "more": "Change the versions of genes to make different drakes"
                 },
                 {
+                  "element": "tutorial-activate",
                   "text": "Show tutorial",
                   "more": "Click the question mark button to see the tutorial again."
                 }
