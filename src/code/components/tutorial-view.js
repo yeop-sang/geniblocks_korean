@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 
-const tutorialStyle = 'tutorial';
+const tutorialHighlightStyle = 'tutorial';
+const pulseStyle = 'mini-pulse';
 
 class TutorialView extends React.Component {
   constructor(props) {
@@ -30,7 +31,7 @@ class TutorialView extends React.Component {
     if (this.state.currentStep !== nextState.currentStep) {
       let tutorialStep = this.props.tutorials[nextState.currentStep];
       if (tutorialStep) {
-        this.applyHighlight(tutorialStep.element);
+        this.showTutorialHighlights(tutorialStep);
       }
     }
   }
@@ -64,19 +65,33 @@ class TutorialView extends React.Component {
     }
   }
 
-  removeHighlight(el) {
-    let elements = document.getElementsByClassName(el);
-    for (let i = elements.length - 1; i > -1; i--){
-      elements[i].classList.remove(tutorialStyle);
+  showTutorialHighlights(tutorialStep) {
+    this.addClass(tutorialStep.element, tutorialHighlightStyle);
+    if (tutorialStep.pulseElement) {
+      this.addClass(tutorialStep.pulseElement, pulseStyle);
+    } else {
+      this.addClass(tutorialStep.element, pulseStyle);
     }
   }
 
-  applyHighlight(el) {
-    this.removeHighlight(tutorialStyle);
+  removeAllTutorialHighlights() {
+    this.removeClassFromAllElements(tutorialHighlightStyle);
+    this.removeClassFromAllElements(pulseStyle);
+  }
+
+  removeClassFromAllElements(className) {
+    let elements = document.getElementsByClassName(className);
+    for (let i = elements.length - 1; i > -1; i--){
+      elements[i].classList.remove(className);
+    }
+  }
+
+  addClass(elClassName, newClassName) {
+    this.removeClassFromAllElements(newClassName);
     setTimeout(() => {
-      let elements = document.getElementsByClassName(el);
+      let elements = document.getElementsByClassName(elClassName);
       for (let i = 0; i < elements.length; i++){
-        elements[i].classList.add(tutorialStyle);
+        elements[i].classList.add(newClassName);
       }
     }, 200);
   }
@@ -86,7 +101,7 @@ class TutorialView extends React.Component {
   }
 
   handleCloseTutorial() {
-    this.removeHighlight(tutorialStyle);
+    this.removeAllTutorialHighlights();
     this.setState({ isVisible: false, currentStep: -1 });
   }
 

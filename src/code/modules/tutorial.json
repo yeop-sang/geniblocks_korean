@@ -22,7 +22,8 @@
                 {
                   "element": "labels",
                   "text": "Genes have different versions called \"alleles\"",
-                  "more": "Change the versions of genes to make different drakes"
+                  "more": "Change the versions of genes to make different drakes",
+                  "pulseElement": "simple-select"
                 },
                 {
                   "element": "tutorial-activate",
