@@ -89,21 +89,26 @@ class TutorialView extends React.Component {
 
     let tutorialClass = isVisible === true ? "active" : "";
 
+    if (!tutorialStep) {
+      return null;
+    }
+
     return (
       <div id='tutorial' className={tutorialClass}>
-        {tutorialStep &&
-          <div className="tutorial-text">
+        <div className="tutorial-content">
           <div className="tutorial-short">{tutorialStep.text}</div>
           {showMore && <div className="tutorial-long">{tutorialStep.more}</div>}
-          {!showMore && <div className="tutorial-show-more" onClick={this.handleShowMore}>More</div>}
-          {currentStep < tutorials.length - 1 &&
-            <div className="tutorial-navigate next" onClick={this.handleNextTutorial}>Next</div>
-          }
-          {currentStep > 0 &&
-            <div className="tutorial-navigate prev" onClick={this.handlePreviousTutorial}>Back</div>
-          }
+          {!showMore && <div className="tutorial-show-more" onClick={this.handleShowMore}>(Click to show more)</div>}
+          <div className="forward-back-buttons">
+            {currentStep > 0 &&
+              <div className="tutorial-navigate prev" onClick={this.handlePreviousTutorial}>Back</div>
+            }
+            {currentStep < tutorials.length - 1 &&
+              <div className="tutorial-navigate next" onClick={this.handleNextTutorial}>Next</div>
+            }
+          </div>
           <div className="tutorial-close" onClick={this.handleCloseTutorial}>X</div>
-        </div>}
+        </div>
       </div>
     );
   }
