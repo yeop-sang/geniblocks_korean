@@ -744,12 +744,6 @@ export function enterChallengeFromRoom() {
 
 
 export function showTutorial() {
-  console.log("showTutorial");
-  return (dispatch) => {
-    dispatch(_showTutorial());
-  };
-}
-function _showTutorial() {
   return {
     type: tutorialActionTypes.TUTORIAL_ENABLED
   };

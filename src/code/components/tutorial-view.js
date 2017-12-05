@@ -8,7 +8,6 @@ class TutorialView extends React.Component {
     this.state = {
       isVisible: false,
       currentStep: -1,
-      tutorialStep: null,
       showMore: false
     };
     this.handleNextTutorial = this.handleNextTutorial.bind(this);
@@ -26,35 +25,42 @@ class TutorialView extends React.Component {
       }, 1500);
     }
   }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (this.state.currentStep !== nextState.currentStep) {
+      let tutorialStep = this.props.tutorials[nextState.currentStep];
+      if (tutorialStep) {
+        this.applyHighlight(tutorialStep.element);
+      }
+    }
+  }
+
   showTutorial() {
     if (!this.state.isVisible) {
       this.handleNextTutorial();
       this.setState({ isVisible: true });
     }
   }
+
   handleNextTutorial() {
     const { currentStep } = this.state;
     if (currentStep < this.props.tutorials.length - 1) {
       let nextStep = currentStep + 1;
-      this.setState({ currentStep: nextStep, showMore: false });
-      this.showTutorialStep(nextStep);
+      this.setState({ 
+        currentStep: nextStep,
+        showMore: false 
+      });
     }
   }
 
   handlePreviousTutorial() {
     const { currentStep } = this.state;
-    if (currentStep > -1) {
+    if (currentStep > 0) {
       let nextStep = currentStep - 1;
-      this.setState({ currentStep: nextStep });
-      this.showTutorialStep(nextStep);
-    }
-  }
-
-  showTutorialStep(step) {
-    let tutorialStep = this.props.tutorials[step];
-    if (tutorialStep) {
-      this.applyHighlight(tutorialStep.element);
-      this.setState({ tutorialStep });
+      this.setState({ 
+        currentStep: nextStep,
+        showMore: false 
+      });
     }
   }
 
@@ -80,12 +86,13 @@ class TutorialView extends React.Component {
   }
 
   handleCloseTutorial() {
-    this.setState({ isVisible: false, tutorialStep: null, currentStep: -1 });
+    this.setState({ isVisible: false, currentStep: -1 });
   }
 
   render() {
     const { tutorials } = this.props;
-    const { tutorialStep, isVisible, currentStep, showMore } = this.state;
+    const { isVisible, currentStep, showMore } = this.state;
+    const tutorialStep = tutorials[currentStep];
 
     let tutorialClass = isVisible === true ? "active" : "";
 
