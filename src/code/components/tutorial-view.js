@@ -86,6 +86,7 @@ class TutorialView extends React.Component {
   }
 
   handleCloseTutorial() {
+    this.removeHighlight(tutorialStyle);
     this.setState({ isVisible: false, currentStep: -1 });
   }
 
