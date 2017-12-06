@@ -7,61 +7,36 @@ class TutorialView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isVisible: false,
-      currentStep: -1,
-      showMore: false
+      isShowing: false
     };
-    this.handleNextTutorial = this.handleNextTutorial.bind(this);
-    this.handlePreviousTutorial = this.handlePreviousTutorial.bind(this);
-    this.handleCloseTutorial = this.handleCloseTutorial.bind(this);
-    this.handleShowMore = this.handleShowMore.bind(this);
+    const { onTutorialNext, onTutorialPrevious, onTutorialMore, onTutorialClosed } = this.props;
+    this.handleNextTutorial =  onTutorialNext;
+    this.handlePreviousTutorial = onTutorialPrevious;
+    this.handleShowMore = onTutorialMore;
+    this.handleCloseTutorial = onTutorialClosed;
   }
 
   componentDidMount() {
-    const { hidden } = this.props;
+    const { visible, steps } = this.props;
     let self = this;
-    if (!hidden && this.props.tutorials && this.props.tutorials.length > 0) {
+    if (visible && steps && steps.length > 0) {
+      // the first time we mount on a page, wait a little before showing first tutorial
       setTimeout(() => {
-        self.showTutorial();
+        self.setState({ isShowing: true });
       }, 1500);
     }
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (this.state.currentStep !== nextState.currentStep) {
-      let tutorialStep = this.props.tutorials[nextState.currentStep];
+    if (this.props.currentStep !== nextProps.currentStep ||
+        this.state.isShowing !== nextState.isShowing) {
+      let tutorialStep = this.props.steps[nextProps.currentStep];
       if (tutorialStep) {
         this.showTutorialHighlights(tutorialStep);
       }
     }
-  }
-
-  showTutorial() {
-    if (!this.state.isVisible) {
-      this.handleNextTutorial();
-      this.setState({ isVisible: true });
-    }
-  }
-
-  handleNextTutorial() {
-    const { currentStep } = this.state;
-    if (currentStep < this.props.tutorials.length - 1) {
-      let nextStep = currentStep + 1;
-      this.setState({ 
-        currentStep: nextStep,
-        showMore: false 
-      });
-    }
-  }
-
-  handlePreviousTutorial() {
-    const { currentStep } = this.state;
-    if (currentStep > 0) {
-      let nextStep = currentStep - 1;
-      this.setState({ 
-        currentStep: nextStep,
-        showMore: false 
-      });
+    if (this.props.visible !== nextProps.visible && !nextProps.visible) {
+      this.removeAllTutorialHighlights();
     }
   }
 
@@ -96,39 +71,31 @@ class TutorialView extends React.Component {
     }, 200);
   }
 
-  handleShowMore() {
-    this.setState({ showMore: true });
-  }
-
-  handleCloseTutorial() {
-    this.removeAllTutorialHighlights();
-    this.setState({ isVisible: false, currentStep: -1 });
-  }
-
   render() {
-    const { tutorials } = this.props;
-    const { isVisible, currentStep, showMore } = this.state;
-    const tutorialStep = tutorials[currentStep];
+    const { steps, visible, currentStep, moreVisible } = this.props;
+    const { isShowing } = this.state;
+    const tutorialStep = steps[currentStep];
 
-    let tutorialClass = isVisible === true ? "active" : "";
-
-    if (!tutorialStep) {
+    if (!visible || !isShowing || !tutorialStep) {
       return null;
     }
 
     const dialogClass = "tutorial-content " + (tutorialStep.location ? tutorialStep.location : "");
 
+    const more = moreVisible ? 
+      <div className="tutorial-long">{tutorialStep.more}</div> : 
+      <div className="tutorial-show-more" onClick={this.handleShowMore}>(Click to show more)</div>;
+
     return (
-      <div id='tutorial' className={tutorialClass}>
+      <div id='tutorial'>
         <div className={dialogClass}>
           <div className="tutorial-short">{tutorialStep.text}</div>
-          {showMore && <div className="tutorial-long">{tutorialStep.more}</div>}
-          {!showMore && <div className="tutorial-show-more" onClick={this.handleShowMore}>(Click to show more)</div>}
+          {more}
           <div className="forward-back-buttons">
             {currentStep > 0 &&
               <div className="tutorial-navigate prev" onClick={this.handlePreviousTutorial}>Back</div>
             }
-            {currentStep < tutorials.length - 1 &&
+            {currentStep < steps.length - 1 &&
               <div className="tutorial-navigate next" onClick={this.handleNextTutorial}>Next</div>
             }
           </div>
@@ -140,8 +107,13 @@ class TutorialView extends React.Component {
 }
 
 TutorialView.propTypes = {
-  hidden: PropTypes.bool,
-  tutorials: PropTypes.array
+  visible: PropTypes.bool,
+  tutorials: PropTypes.array,
+  currentStep: PropTypes.number,
+  moreVisible: PropTypes.bool,
+  onTutorialMore: PropTypes.func,
+  onTutorialNext: PropTypes.func,
+  onTutorialPrevious: PropTypes.func,
 };
 
 export default TutorialView;

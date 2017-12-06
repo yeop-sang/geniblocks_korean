@@ -15,6 +15,7 @@ import { changeAllele, changeSex, submitDrake, submitParents,
         winZoomChallenge, toggleMap, enterChallengeFromRoom, showTutorial } from '../actions';
 import { addGameteChromosome, resetGametes,
         addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/gametes';
+import { tutorialNext, tutorialPrevious, tutorialMore, tutorialClosed, restartTutorial } from '../modules/tutorials';
 
 class FVChallengeContainer extends Component {
 
@@ -43,13 +44,19 @@ class FVChallengeContainer extends Component {
       goalMoves = this.props.goalMoves;
       showChallengeWidgets = true;
 
+      const { steps, currentStep, moreVisible, visible } = tutorials;
+      const { onTutorialNext, onTutorialPrevious, onTutorialMore, onTutorialClosed } = this.props;
+
       MainView = (
         <div id="mission-wrapper">
           <Template {...otherProps} />
-          <TutorialView hidden={false} tutorials={tutorials} />
+          <TutorialView  steps={steps} visible={visible} currentStep={currentStep} moreVisible={moreVisible}
+            onTutorialNext={onTutorialNext} onTutorialPrevious={onTutorialPrevious} onTutorialMore={onTutorialMore} onTutorialClosed={onTutorialClosed}/>
         </div>
       );
     }
+
+    const showTutorialButton = !showingRoom && this.props.tutorials.steps && this.props.tutorials.steps.length > 0;
 
     return (
       <div id="challenges" className={bgClasses} style={style}>
@@ -57,7 +64,7 @@ class FVChallengeContainer extends Component {
         { MainView }
         <BottomHUDView routeSpec={routeSpec} numChallenges={challenges} trial={trial + 1} trialCount={numTrials}
           currScore={correct} maxScore={maxScore} currMoves={this.props.moves} showAward={showAward}
-          goalMoves={goalMoves} gems={this.props.gems} showChallengeWidgets={showChallengeWidgets} tutorials={this.props.tutorials} onShowTutorial={this.props.onShowTutorial} />
+          goalMoves={goalMoves} gems={this.props.gems} showChallengeWidgets={showChallengeWidgets} showTutorialButton={showTutorialButton} onRestartTutorial={this.props.onRestartTutorial} />
         <NotificationContainer />
         <ModalMessageContainer />
       </div>
@@ -87,8 +94,7 @@ class FVChallengeContainer extends Component {
     location: PropTypes.object,
     showingRoom: PropTypes.bool,
     messages: PropTypes.array,
-    tutorials: PropTypes.array,
-    onShowTutorial: PropTypes.func
+    tutorials: PropTypes.array
   }
 }
 
@@ -154,7 +160,11 @@ function mapDispatchToProps(dispatch) {
     onWinZoomChallenge: (...args) => dispatch(winZoomChallenge(...args)),
     onToggleMap: (isVisible) => dispatch(toggleMap(isVisible)),
     onEnterChallenge: () => dispatch(enterChallengeFromRoom()),
-    onShowTutorial: () => dispatch(showTutorial())
+    onTutorialNext: () => dispatch(tutorialNext()),
+    onTutorialPrevious: () => dispatch(tutorialPrevious()),
+    onTutorialMore: () => dispatch(tutorialMore()),
+    onTutorialClosed: () => dispatch(tutorialClosed()),
+    onRestartTutorial: () => dispatch(restartTutorial())
   };
 }
 

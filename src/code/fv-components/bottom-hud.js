@@ -19,11 +19,12 @@ const BottomHUDView = React.createClass({
     numChallenges: PropTypes.number,
     showAward: PropTypes.bool,
     showChallengeWidgets: PropTypes.bool,
-    tutorials: PropTypes.array
+    showTutorialButton: PropTypes.bool,
+    onRestartTutorial: PropTypes.func
   },
 
   render() {
-    let {routeSpec, trial, trialCount, currScore, maxScore, currMoves, goalMoves, numChallenges, gems, tutorials, onShowTutorial} = this.props,
+    let {routeSpec, trial, trialCount, currScore, maxScore, currMoves, goalMoves, numChallenges, gems, showTutorialButton, onRestartTutorial} = this.props,
         scoreView = maxScore ? <CountView countTitleText={t('~COUNTER.SCORE_LABEL')} className={'score-count'} currCount={currScore} maxCount={maxScore} /> : null,
         movesView = goalMoves > -1 ? <CountView countTitleText={t('~COUNTER.MOVES_LABEL')} className={'moves-count'} currCount={currMoves} maxCount={goalMoves} /> : null,
         showRouteWidgets = routeSpec !== null,
@@ -55,11 +56,10 @@ const BottomHUDView = React.createClass({
         </div>
       );
     }
-    if (tutorials && tutorials.length > 0) {
-      // Also need to hide this until we are in the challenge, should not be visible on the main room view
+    if (showTutorialButton) {
       tutorialWidgets = (
         <div className="tutorial-activate">
-          <div className="tutorial-icon" onClick={onShowTutorial} />
+          <div className="tutorial-icon" onClick={onRestartTutorial} />
         </div>
       );
     }

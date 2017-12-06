@@ -742,10 +742,3 @@ export function enterChallengeFromRoom() {
   };
 }
 
-
-export function showTutorial() {
-  return {
-    type: tutorialActionTypes.TUTORIAL_ENABLED
-  };
-}
-
