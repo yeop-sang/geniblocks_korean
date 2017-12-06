@@ -17,18 +17,18 @@
                 {
                   "element": "stripe",
                   "text": "Genes",
-                  "more": "These white lines show where certain genes are on the chromosomes. Each gene has an affect on a particular trait."
+                  "more": "These white lines show where certain genes are on the chromosomes. Each gene affects a particular trait."
                 },
                 {
                   "element": "labels",
-                  "text": "Genes have different versions called \"alleles\"",
-                  "more": "Change the versions of genes to make different drakes",
+                  "text": "Alleles",
+                  "more": "Genes have different versions called “alleles” (ah-leelz). Change the versions of each gene to make different drakes.",
                   "pulseElement": "simple-select"
                 },
                 {
                   "element": "tutorial-activate",
-                  "text": "Show tutorial",
-                  "more": "Click the question mark button to see the tutorial again."
+                  "text": "Tutorial button",
+                  "more": "Click the question mark button to see the tutorial again.",
                   "location": "bottom-right"
                 }
               ]
@@ -47,19 +47,24 @@
               "challenge": 0,
               "steps":[
                 {
-                  "element": "change-sex-toggle",
+                  "element": "change-sex-toggle-group",
                   "text": "Male/Female button",
-                  "more": "Make sure you can tell the difference between male and female drakes"
+                  "more": "The third chromosome pair determines whether a dragon is male or female. Change the position of the button to change this chromosome pair."
                 }
               ]
-            },
+            }
+          ]
+        },
+        {
+          "mission": 1,
+          "challenges":[
             {
-              "challenge": 2,
+              "challenge": 0,
               "steps":[
                 {
-                  "element": "clutch-egg",
-                  "text": "Click an egg to see its genotype",
-                  "more": "Genotype description? Other text?"
+                  "element": "basket",
+                  "text": "Sorting baskets",
+                  "more": "To sort the eggs, study the genotype in the Chromoscope and click on the basket that matches."
                 }
               ]
             }
