@@ -7,6 +7,7 @@ import BottomHUDView from '../fv-components/bottom-hud';
 import TopHUDView from '../fv-components/top-hud';
 import NotificationContainer from "./notification-container";
 import ModalMessageContainer from "./modal-message-container";
+import TutorialView from '../components/tutorial-view';
 
 import { changeAllele, changeSex, submitDrake, submitParents,
         keepOffspring, fertilize, breedClutch, hatch,
@@ -18,7 +19,7 @@ import { addGameteChromosome, resetGametes,
 class FVChallengeContainer extends Component {
 
   render() {
-    const { template, style, location, showingRoom, ...otherProps } = this.props,
+    const { template, style, location, showingRoom, tutorials, ...otherProps } = this.props,
           { challengeType, interactionType, routeSpec, trial, numTrials, correct, challenges, showAward } = this.props;
 
     let bgClasses,
@@ -45,6 +46,7 @@ class FVChallengeContainer extends Component {
       MainView = (
         <div id="mission-wrapper">
           <Template {...otherProps} />
+          <TutorialView hidden={false} tutorials={tutorials} />
         </div>
       );
     }

@@ -11,8 +11,6 @@ import { generateTrialDrakes } from '../utilities/trial-generator';
 import classNames from 'classnames';
 import t from '../utilities/translate';
 
-import TutorialView from '../components/tutorial-view';
-
 const userDrakeIndex   = 0,
       targetDrakeIndex = 1;
 
@@ -144,7 +142,7 @@ export default class FVGenomeChallenge extends React.Component {
 
   render() {
     const { drakes, onChromosomeAlleleChange, onSexChange, onDrakeSubmission, onKeepOffspring, challengeType,
-            userChangeableGenes, visibleGenes, hiddenAlleles, showUserDrake, tutorials } = this.props,
+            userChangeableGenes, visibleGenes, hiddenAlleles, showUserDrake } = this.props,
           userDrakeDef = drakes[userDrakeIndex],
           isCreationChallenge = challengeType === 'create-unique',
           isMatchingChallenge = challengeType === 'match-target',
@@ -219,7 +217,6 @@ export default class FVGenomeChallenge extends React.Component {
         <div className="columns bottom">
           {penView}
         </div>
-        <TutorialView hidden={false} tutorials={tutorials} />
       </div>
     );
   }
@@ -240,8 +237,7 @@ export default class FVGenomeChallenge extends React.Component {
     onSexChange: PropTypes.func.isRequired,
     onDrakeSubmission: PropTypes.func.isRequired,
     onKeepOffspring: PropTypes.func.isRequired,
-    challengeType: PropTypes.string.isRequired,
-    tutorials: PropTypes.array
+    challengeType: PropTypes.string.isRequired
   }
 
   static authoredDrakesToDrakeArray = function(authoredChallenge, authoredTrialNumber) {
