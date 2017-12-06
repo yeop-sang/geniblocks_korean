@@ -116,9 +116,11 @@ class TutorialView extends React.Component {
       return null;
     }
 
+    const dialogClass = "tutorial-content " + (tutorialStep.location ? tutorialStep.location : "");
+
     return (
       <div id='tutorial' className={tutorialClass}>
-        <div className="tutorial-content">
+        <div className={dialogClass}>
           <div className="tutorial-short">{tutorialStep.text}</div>
           {showMore && <div className="tutorial-long">{tutorialStep.more}</div>}
           {!showMore && <div className="tutorial-show-more" onClick={this.handleShowMore}>(Click to show more)</div>}

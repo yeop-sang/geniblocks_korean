@@ -29,6 +29,7 @@
                   "element": "tutorial-activate",
                   "text": "Show tutorial",
                   "more": "Click the question mark button to see the tutorial again."
+                  "location": "bottom-right"
                 }
               ]
             }
