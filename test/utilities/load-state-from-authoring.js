@@ -101,5 +101,54 @@ describe("Loading an authored challenge", function() {
           expect(state.goalMoves).toBe(3);
       });
     });
+
+    describe("when we have random matched selection", function() {
+      let authoredChallenge = GeneticsUtils.convertDashAllelesObjectToABAlleles({
+        "test": {
+          "template": "ClutchGame",
+          "mother": [ {
+            "randomMatched": [{
+              "alleles": "W-W",
+              "sex": 1
+            }, {
+              "alleles": "w-w",
+              "sex": 1
+            }]
+          } ],
+          "father": [ {
+            "randomMatched": [{
+              "alleles": "W-w",
+              "sex": 1
+            }, {
+              "alleles": "w-W",
+              "sex": 1
+            }]
+          } ],
+          "targetDrakes": [ {
+            "randomMatched": [{
+              "alleles": "w-w",
+              "sex": 1
+            }, {
+              "alleles": "W-W",
+              "sex": 1
+            }]
+          } ],
+          "goalMoves": [[4, 5]]
+        }
+      }, "alleles");
+      let authoring = authoredStateWrapper.set("challenges", authoredChallenge);
+      let state = loadStateFromAuthoring(initialState, authoring);
+
+      it("should load the drakes with one of the random variations for the trial", function() {
+          let mother = state.drakes[0].alleleString;
+          let father = state.drakes[1].alleleString;
+          let target = state.drakes[2].alleleString;
+          let goal = state.goalMoves;
+          let variation1 = (mother.indexOf("a:W,b:W") > -1) && (father.indexOf("a:W,b:w") > -1) && (target.indexOf("a:w,b:w") > -1 && goal === 4);
+          let variation2 = (mother.indexOf("a:w,b:w") > -1) && (father.indexOf("a:w,b:W") > -1) && (target.indexOf("a:W,b:W") > -1 && goal === 5);
+
+          expect(variation1 || variation2).toBe(true);
+      });
+    });
   });
 });
