@@ -52,7 +52,7 @@ function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template,
 
   // instead of a drake, we have an array of drakes, and we are expected to randomly select one and keep
   // that same index across all the named drakes
-  if (authoredDrakesArray[0].randomMatched) {
+  if (authoredDrakesArray && authoredDrakesArray[0] && authoredDrakesArray[0].randomMatched) {
     randomSelection = Math.floor(Math.random() * authoredDrakesArray[0].randomMatched.length);
   }
 
