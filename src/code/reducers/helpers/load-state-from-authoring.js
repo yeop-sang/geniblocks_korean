@@ -5,6 +5,8 @@ import AuthoringUtils from '../../utilities/authoring-utils';
 import ProgressUtils from '../../utilities/progress-utils';
 import { notificationType } from '../../modules/notifications';
 
+let randomSelection;
+
 /**
  * Tolerant splitter into a list of strings.
  * @param list - null, "one, two" or ["one", "two"]
@@ -48,18 +50,43 @@ function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template,
   let   alleleString = null,
         linkedGeneDrake = null;
 
+  // instead of a drake, we have an array of drakes, and we are expected to randomly select one and keep
+  // that same index across all the named drakes
+  if (authoredDrakesArray[0].randomMatched) {
+    randomSelection = Math.floor(Math.random() * authoredDrakesArray[0].randomMatched.length);
+  }
+
   // turn authored alleles into completely-specified alleleStrings
-  let drakes = authoredDrakesArray.map(function(drakeDef, i) {
-    if (!drakeDef) return null;
+  // we do it with a for-loop instead of a map so we can unroll nested arrays
+  let drakes = [];
+  for (let i = 0; i < authoredDrakesArray.length; i++) {
+    let drakeDef = authoredDrakesArray[i];
+    if (!drakeDef) {
+      drakes.push(null);
+      continue;
+    }
+    if (drakeDef.randomMatched) {
+      drakeDef = drakeDef.randomMatched[randomSelection];
+    }
+    if (Array.isArray(drakeDef)) {
+      // unroll in place
+      authoredDrakesArray.splice(i, 0, drakeDef[0]);
+      authoredDrakesArray.splice.apply(authoredDrakesArray, [i+1, 1].concat(drakeDef.asMutable().splice(1)));
+      drakeDef = drakeDef[0];
+    }
     // Keep the drake as female until the end, so no sex-linked information is lost for linked drakes
     let femaleDrake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleles, BioLogica.FEMALE);
 
     alleleString = femaleDrake.getAlleleString();
     if (authoredChallenge.linkedGenes) {
-      if (i === authoredChallenge.linkedGenes.drakes[0]) {
+      let linkedGenesDef = authoredChallenge.linkedGenes;
+      if (Array.isArray(authoredChallenge.linkedGenes)) {
+        linkedGenesDef = authoredChallenge.linkedGenes[authoredTrialNumber];
+      }
+      if (i === linkedGenesDef.drakes[0]) {
         linkedGeneDrake = femaleDrake;
-      } else if (authoredChallenge.linkedGenes.drakes.indexOf(i)) {
-        let linkedGenes = split(authoredChallenge.linkedGenes.genes);
+      } else if (linkedGenesDef.drakes.indexOf(i)) {
+        let linkedGenes = split(linkedGenesDef.genes);
         for (let gene of linkedGenes) {
           let copyIntoGenes = femaleDrake.genetics.genotype.getAlleleString([gene], femaleDrake.genetics);
           let masterGenes = linkedGeneDrake.genetics.genotype.getAlleleString([gene], femaleDrake.genetics);
@@ -76,12 +103,12 @@ function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template,
       secondXAlleles = GeneticsUtils.computeExtraAlleles(fixedFemaleDrake, fixedDrake);
     }
 
-    return assign({}, secondXAlleles ? {secondXAlleles: secondXAlleles} : null, {
+    drakes.push(assign({}, secondXAlleles ? {secondXAlleles: secondXAlleles} : null, {
       alleleString: fixedDrake.getAlleleString(),
       sex: fixedDrake.sex,
-    });
+    }));
 
-  });
+  }
   return drakes;
 }
 
@@ -102,6 +129,7 @@ function createTrialOrder(trial, trials, currentTrialOrder, doShuffle) {
 
 export function loadStateFromAuthoring(state, authoring) {
   let trial = state.trial ? state.trial : 0;
+  randomSelection = null;
 
   const challenges = AuthoringUtils.getChallengeCount(authoring, state.routeSpec.level, state.routeSpec.mission),
         authoredChallenge = AuthoringUtils.getChallengeDefinition(authoring, state.routeSpec),
@@ -151,7 +179,11 @@ export function loadStateFromAuthoring(state, authoring) {
   if (template.calculateGoalMoves) {
     goalMoves = template.calculateGoalMoves(drakes);
   } else if (authoredChallenge.goalMoves) {
-    goalMoves = authoredChallenge.goalMoves[trial];
+    if (Array.isArray(authoredChallenge.goalMoves[trial]) && randomSelection !== null) {
+      goalMoves = authoredChallenge.goalMoves[trial][randomSelection];
+    } else {
+      goalMoves = authoredChallenge.goalMoves[trial];
+    }
   } else {
     goalMoves = -1;
   }

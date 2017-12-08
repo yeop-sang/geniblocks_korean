@@ -250,7 +250,8 @@ export default class ClutchGame extends Component {
 
   static authoredDrakesToDrakeArray = function(authoredChallenge, authoredTrialNumber) {
     // allow for multiple targets
-    if (Array.isArray(authoredChallenge.targetDrakes[authoredTrialNumber])) {
+    if (authoredChallenge.challengeType === "submit-parents" &&
+          Array.isArray(authoredChallenge.targetDrakes[authoredTrialNumber])) {
       return [authoredChallenge.mother[authoredTrialNumber],
               authoredChallenge.father[authoredTrialNumber]]
             .concat(authoredChallenge.targetDrakes[authoredTrialNumber]);
@@ -261,7 +262,10 @@ export default class ClutchGame extends Component {
   }
 
   static getNumTargets = function(authoredChallenge, authoredTrialNumber) {
-    if (Array.isArray(authoredChallenge.targetDrakes[authoredTrialNumber])) {
+    if (authoredChallenge.challengeType === "submit-parents") {
+      if (authoredChallenge.targetDrakes[authoredTrialNumber].randomMatched) {
+        return authoredChallenge.targetDrakes[authoredTrialNumber].randomMatched[0].length;
+      }
       return authoredChallenge.targetDrakes[authoredTrialNumber].length;
     }
     return 1;
