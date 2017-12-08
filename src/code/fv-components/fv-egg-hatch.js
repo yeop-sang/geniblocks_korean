@@ -32,7 +32,7 @@ class FVEggHatchView extends React.Component {
           eggStyle = { transform: "scale(.6)", position: 'absolute', size: width, ...displayStyle, top: displayStyle.top - width, ...this.props.eggStyle },
           drakeStyle = { position: 'relative',
                           marginLeft: "400px", marginTop: "125px", ...displayStyle },
-          orgView = <OrganismView onClick={onClick} id={id} org={organism} width={width} style={drakeStyle} />,
+          orgView = <OrganismView onClick={onClick} id={id} org={organism} width={width} style={drakeStyle} separateClickableArea={true} />,
           displayedView = this.state.finished ? orgView : <AnimatedSprite onEnd={this.handleEnd} classNames={"animated-egg-image"} frames={16} frameWidth={1052} duration={duration || 1333} style={eggStyle} />;
 
     return (
