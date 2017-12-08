@@ -16,7 +16,7 @@ import preloadImageList from '../preload-images.json';
 import { changeAllele, changeSex, submitDrake, submitParents,
         keepOffspring, fertilize, breedClutch, hatch,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket,
-        winZoomChallenge, toggleMap, enterChallengeFromRoom, showTutorial } from '../actions';
+        winZoomChallenge, toggleMap, enterChallengeFromRoom, showEasterEgg } from '../actions';
 import { addGameteChromosome, resetGametes,
         addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/gametes';
 import { tutorialNext, tutorialPrevious, tutorialMore, tutorialClosed, restartTutorial } from '../modules/tutorials';
@@ -71,8 +71,11 @@ class FVChallengeContainer extends Component {
     const { template, style, location, showingRoom, tutorials, ...otherProps } = this.props,
           { challengeType, interactionType, routeSpec, trial, numTrials, correct, challenges, showAward } = this.props;
 
-    const showEasterEgg = () => this.setState({showingEasterEgg: true});
-    const hideEasterEgg = () => this.setState({showingEasterEgg: false});
+    const _showEasterEgg = () => {
+      this.props.onShowEasterEgg();
+      this.setState({showingEasterEgg: true});
+    };
+    const _hideEasterEgg = () => this.setState({showingEasterEgg: false});
 
     let bgClasses,
         easterEggClass,
@@ -91,8 +94,8 @@ class FVChallengeContainer extends Component {
           <div id="sprite-1" className="room-sprite" />
           <div id="sprite-2" className="room-sprite" />
           <div id="sprite-3" className="room-sprite" />
-          <div id="easter-egg-trigger" onClick={ showEasterEgg } />
-          <div id="easter-egg" className={easterEggClass} onClick={ hideEasterEgg }>
+          <div id="easter-egg-trigger" onClick={ _showEasterEgg } />
+          <div id="easter-egg" className={easterEggClass} onClick={ _hideEasterEgg }>
             <div id="easter-egg-image"/>
             <div id="close-easter-egg">X</div>
           </div>
@@ -227,7 +230,8 @@ function mapDispatchToProps(dispatch) {
     onTutorialPrevious: () => dispatch(tutorialPrevious()),
     onTutorialMore: () => dispatch(tutorialMore()),
     onTutorialClosed: () => dispatch(tutorialClosed()),
-    onRestartTutorial: () => dispatch(restartTutorial())
+    onRestartTutorial: () => dispatch(restartTutorial()),
+    onShowEasterEgg: () => dispatch(showEasterEgg())
   };
 }
 

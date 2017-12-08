@@ -742,3 +742,10 @@ export function enterChallengeFromRoom() {
   };
 }
 
+// no-op, this is just for logging
+export function showEasterEgg() {
+  return {
+    type: actionTypes.VIEWED_EASTER_EGG
+  };
+}
+
