@@ -26,7 +26,8 @@ class FVChallengeContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imagesLoaded: false
+      imagesLoaded: false,
+      showingEasterEgg: false
     };
   }
 
@@ -70,7 +71,11 @@ class FVChallengeContainer extends Component {
     const { template, style, location, showingRoom, tutorials, ...otherProps } = this.props,
           { challengeType, interactionType, routeSpec, trial, numTrials, correct, challenges, showAward } = this.props;
 
+    const showEasterEgg = () => this.setState({showingEasterEgg: true});
+    const hideEasterEgg = () => this.setState({showingEasterEgg: false});
+
     let bgClasses,
+        easterEggClass,
         maxScore,
         goalMoves,
         showChallengeWidgets = false,
@@ -78,6 +83,7 @@ class FVChallengeContainer extends Component {
 
     if (showingRoom) {
       bgClasses = classNames('mission-backdrop', 'fv-layout', 'room', location.id),
+      easterEggClass = this.state.showingEasterEgg ? 'visible' : 'hidden',
 
       MainView = (
         <div>
@@ -85,7 +91,11 @@ class FVChallengeContainer extends Component {
           <div id="sprite-1" className="room-sprite" />
           <div id="sprite-2" className="room-sprite" />
           <div id="sprite-3" className="room-sprite" />
-          <div id="sprite-4" className="room-sprite" />
+          <div id="easter-egg-trigger" onClick={ showEasterEgg } />
+          <div id="easter-egg" className={easterEggClass} onClick={ hideEasterEgg }>
+            <div id="easter-egg-image"/>
+            <div id="close-easter-egg">X</div>
+          </div>
         </div>
       );
     } else {
