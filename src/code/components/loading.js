@@ -1,7 +1,7 @@
 import React from 'react';
+import { shuffle } from 'lodash';
 
 const loadingText = [
-  "Loading Images",
   "Warming Up Chromoscope",
   "Hatching Drake Eggs",
   "Mucking Stables",
@@ -25,14 +25,16 @@ class LoadingView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      textN: 0
+      textN: 0,
+      strings: ["Loading Images"].concat(shuffle(loadingText))
     };
   }
 
   componentDidMount() {
     const self = this;
+    const {strings} = this.state;
     timer = setInterval(function() {
-      const nextText = (self.state.textN + 1) % loadingText.length;
+      const nextText = (self.state.textN + 1) % strings.length;
       self.setState({textN: nextText});
     }, 900);
   }
@@ -42,7 +44,7 @@ class LoadingView extends React.Component {
   }
 
   render() {
-    return( <div className="loading-images">{loadingText[this.state.textN] + "..."}</div> );
+    return( <div className="loading-images">{this.state.strings[this.state.textN] + "..."}</div> );
   }
 
 }
