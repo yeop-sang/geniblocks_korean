@@ -20,3 +20,26 @@
   -webkit-animation-name: pulse
   -webkit-animation-duration: 5s
   -webkit-animation-iteration-count: infinite
+
+@-webkit-keyframes mini-pulse {
+  from {
+    -webkit-transform: scale(1.0);
+  }
+  5% {
+    -webkit-transform: scale(1.06);
+  }
+  10% {
+    -webkit-transform: scale(1.0);
+  }
+  15% {
+    -webkit-transform: scale(1.06);
+  }
+  20% {
+    -webkit-transform: scale(1.0);
+  }
+}
+
+.mini-pulse
+  -webkit-animation-name: mini-pulse
+  -webkit-animation-duration: 5s
+  -webkit-animation-iteration-count: infinite

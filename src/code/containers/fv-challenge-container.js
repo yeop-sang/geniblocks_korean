@@ -7,18 +7,20 @@ import BottomHUDView from '../fv-components/bottom-hud';
 import TopHUDView from '../fv-components/top-hud';
 import NotificationContainer from "./notification-container";
 import ModalMessageContainer from "./modal-message-container";
+import TutorialView from '../components/tutorial-view';
 
 import { changeAllele, changeSex, submitDrake, submitParents,
         keepOffspring, fertilize, breedClutch, hatch,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket,
-        winZoomChallenge, toggleMap, enterChallengeFromRoom } from '../actions';
+        winZoomChallenge, toggleMap, enterChallengeFromRoom, showTutorial } from '../actions';
 import { addGameteChromosome, resetGametes,
         addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/gametes';
+import { tutorialNext, tutorialPrevious, tutorialMore, tutorialClosed, restartTutorial } from '../modules/tutorials';
 
 class FVChallengeContainer extends Component {
 
   render() {
-    const { template, style, location, showingRoom, ...otherProps } = this.props,
+    const { template, style, location, showingRoom, tutorials, ...otherProps } = this.props,
           { challengeType, interactionType, routeSpec, trial, numTrials, correct, challenges, showAward } = this.props;
 
     let bgClasses,
@@ -48,20 +50,27 @@ class FVChallengeContainer extends Component {
       goalMoves = this.props.goalMoves;
       showChallengeWidgets = true;
 
+      const { steps, currentStep, moreVisible, visible } = tutorials;
+      const { onTutorialNext, onTutorialPrevious, onTutorialMore, onTutorialClosed } = this.props;
+
       MainView = (
         <div id="mission-wrapper">
           <Template {...otherProps} />
+          <TutorialView  steps={steps} visible={visible} currentStep={currentStep} moreVisible={moreVisible}
+            onTutorialNext={onTutorialNext} onTutorialPrevious={onTutorialPrevious} onTutorialMore={onTutorialMore} onTutorialClosed={onTutorialClosed}/>
         </div>
       );
     }
+
+    const showTutorialButton = !showingRoom && this.props.tutorials.steps && this.props.tutorials.steps.length > 0;
 
     return (
       <div id="challenges" className={bgClasses} style={style}>
         <TopHUDView location={ this.props.location } onToggleMap={this.props.onToggleMap} isDialogComplete={this.props.messages.length <= 1}/>
         { MainView }
         <BottomHUDView routeSpec={routeSpec} numChallenges={challenges} trial={trial + 1} trialCount={numTrials}
-                       currScore={correct} maxScore={maxScore} currMoves={this.props.moves} showAward={showAward}
-                       goalMoves={goalMoves} gems={this.props.gems} showChallengeWidgets={showChallengeWidgets}/>
+          currScore={correct} maxScore={maxScore} currMoves={this.props.moves} showAward={showAward}
+          goalMoves={goalMoves} gems={this.props.gems} showChallengeWidgets={showChallengeWidgets} showTutorialButton={showTutorialButton} onRestartTutorial={this.props.onRestartTutorial} />
         <NotificationContainer />
         <ModalMessageContainer />
       </div>
@@ -90,7 +99,8 @@ class FVChallengeContainer extends Component {
     onEnterChallenge: PropTypes.func,
     location: PropTypes.object,
     showingRoom: PropTypes.bool,
-    messages: PropTypes.array
+    messages: PropTypes.array,
+    tutorials: PropTypes.array
   }
 }
 
@@ -126,7 +136,8 @@ function mapStateToProps (state) {
       messages: state.notifications.messages,
       // drag/drop experiment option for enabling custom drag layer rather
       // than HTML5 drag/drop dragImage
-      useCustomDragLayer: true
+      useCustomDragLayer: true,
+      tutorials: state.tutorials
     };
   }
 
@@ -154,7 +165,12 @@ function mapDispatchToProps(dispatch) {
     onSubmitEggForBasket: (...args) => dispatch(submitEggForBasket(...args)),
     onWinZoomChallenge: (...args) => dispatch(winZoomChallenge(...args)),
     onToggleMap: (isVisible) => dispatch(toggleMap(isVisible)),
-    onEnterChallenge: () => dispatch(enterChallengeFromRoom())
+    onEnterChallenge: () => dispatch(enterChallengeFromRoom()),
+    onTutorialNext: () => dispatch(tutorialNext()),
+    onTutorialPrevious: () => dispatch(tutorialPrevious()),
+    onTutorialMore: () => dispatch(tutorialMore()),
+    onTutorialClosed: () => dispatch(tutorialClosed()),
+    onRestartTutorial: () => dispatch(restartTutorial())
   };
 }
 

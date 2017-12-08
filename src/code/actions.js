@@ -8,6 +8,7 @@ import { getUserQueryString } from './middleware/state-save';
 import { notificationType } from './modules/notifications';
 import { getGemFromChallengeErrors } from './reducers/helpers/gems-helper';
 import migrate from './migrations';
+import { tutorialActionTypes } from './modules/tutorials';
 
 export { actionTypes };
 

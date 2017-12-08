@@ -15,6 +15,7 @@ import notifications from '../modules/notifications';
 import trialSuccess from './trial-success';
 import challengeErrors from './challenge-errors';
 import gems from './gems';
+import tutorials from '../modules/tutorials';
 
 function initialState() {
   return Immutable({
@@ -46,7 +47,8 @@ export default function reducer(state, action) {
     drakes: drakes(state.drakes, state.gametes, action),
     baskets: baskets(state.baskets, action),
     notifications: notifications(state.notifications, action),
-    trialSuccess: trialSuccess(state.trialSuccess, action)
+    trialSuccess: trialSuccess(state.trialSuccess, action),
+    tutorials: tutorials(state.tutorials, action)
   });
 
   // these reducers act on the state that has already been changed by the
@@ -100,6 +102,7 @@ export default function reducer(state, action) {
         routeSpec: {level, mission, challenge},
         trial: 0
       });
+      console.log("navigated", state);
       return loadStateFromAuthoring(state, state.authoring);
     }
     case actionTypes.NAVIGATED_PAGE:
