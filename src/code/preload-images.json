@@ -8,6 +8,7 @@
 		"resources/fablevision/venture-pad/frame.png",
 		"resources/fablevision/rooms/sprites/mission_control/MissionControl_spritesheet-group1_150x203-tiny.png",
 		"resources/fablevision/rooms/sprites/mission_control/MissionControl_spritesheet-group2_206x227-tiny.png",
+		"resources/fablevision/rooms/eastereggs/missioncontrol-small-screen-right-kingdom_map03.jpg",
 		"resources/fablevision/huds/HUD_top.png",
 		"resources/fablevision/huds/scroll.png",
 		"resources/fablevision/huds/HUD_bottom.png",
@@ -16,7 +17,8 @@
 	"simroom": [
 		"resources/fablevision/rooms/simroom.jpg",
 		"resources/fablevision/rooms/sprites/sim_room/outerpaper_spritesheet700x644-tiny.png",
-		"resources/fablevision/rooms/sprites/sim_room/RollMachine_spritesheet683x700-tiny.png",
+		"resources/fablevision/rooms/sprites/sim_room/RollMachine_spritesheet682x700-tiny.png",
+		"resources/fablevision/rooms/eastereggs/simroom-floor-notebook4.jpg",
 		"resources/fablevision/layout-a/screen_border.png",
 		"resources/fablevision/layout-a/screen_center_box.png",
 		"resources/fablevision/layout-a/screen_R_chromosome_box.png",
@@ -63,6 +65,7 @@
 	],
 	"zoomroom": [
 		"resources/fablevision/rooms/zoom.jpg",
-		"resources/fablevision/huds/scroll.png"
+		"resources/fablevision/huds/scroll.png",
+		"resources/fablevision/rooms/eastereggs/zoomroom-rolled-up-poster-drakecolorposter4.jpg"
 	]
 }
