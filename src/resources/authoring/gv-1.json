@@ -4,7 +4,7 @@
       "missions" : [ {
         "challenges" : [ {
           "about" : {
-            "description" : "Students will create drakes with different traits  (arms, legs, wings, horns, armor)  by selecting alleles from pulldown menus and changing the sex of the drakes. To complete the challenge, students must create five different looking drakes and save them to their stable.",
+            "description" : "Students will create drakes with different traits (arms, legs, wings) by selecting alleles from pulldown menus and changing the sex of the drakes. To complete the challenge, students must create five different looking drakes and save them to their stable.",
             "type" : "Drake Builder"
           },
           "dialog" : {
@@ -21,18 +21,18 @@
                 "text" : "Great work, Cadet! You're now part of our team! And check out that crystal you've earned."
               }, {
                 "character" : "YEUNG",
-                "text" : "We use these crystals to power the devices that both heal and help breed our dragons. Red crystals are fairly weak, followed by yellow crystals, and blue crystals are the most powerful. We need as much power as possible to build our forces and secure our defenses."
+                "text" : "We use these crystals to power the devices that both heal and help breed our dragons. Red crystals are fairly weak, yellow crystals are a littlew stronger, and blue crystals are the most powerful. We need as much power as possible to build our forces and secure our defenses."
               } ]
             },
             "start" : [ {
               "character" : "YEUNG",
-              "text" : "Good to meet you, Cadet! I'm Professor Yeung, and I'm in charge of the Sim Room. We’re going to show you on this simulator how to breed five different kinds of drakes - with different combinations of arms, legs, wings, horns, and armor."
+              "text" : "Good to meet you, Cadet! I'm Professor Yeung, and I'm in charge of the Sim Room. We’re going to show you on this simulator how to breed five different kinds of drakes - with different combinations of arms, legs and wings."
             }, {
               "character" : "HATCH",
               "text" : "Remember, we learn what we can from drakes and then apply what we’ve learned to dragons."
             }, {
               "character" : "YEUNG",
-              "text" : "Now let’s get going! Every moment lost could mean a dragon’s life! Click the screen to get started!"
+              "text" : "Now let’s get going! Every moment lost could mean a dragon’s life! Click the purple screen to get started!"
             } ]
           },
           "id" : "allele-5drakes-tutorial",
@@ -141,13 +141,13 @@
               "text" : "You make it through these higher levels of training, and you’re starting to play in the big leagues!"
             }, {
               "character" : "YEUNG",
-              "text" : "Is everything a silly sports analogy with you, de Herrera?"
+              "text" : "Is everything a sports analogy with you, de Herrera?"
             }, {
               "character" : "HERRERA",
               "text" : "What can I say, Yeung? I’m a team player. Give it a shot."
             }, {
               "character" : "YEUNG",
-              "text" : "Sigh. Okay, Cadet. The, um, ball is in your, uh, court. Please tap on the simulator and, see if you can, uh, hit any home runs."
+              "text" : "*Sigh* Okay, Cadet. The, um, ball is in your, uh, court. Please tap on the simulator and, see if you can, uh, hit any home runs."
             }, {
               "character" : "HERRERA",
               "text" : "Yeung shoots! She scores!"
@@ -214,7 +214,7 @@
                 "text" : "Good work, Cadet. Those pet drakes will sell fast!"
               }, {
                 "character" : "HERRERA",
-                "text" : "And we’ll also use those winged drakes to carry hidden messages to our allies in the Principality of Robinstone. It’s the only way to communicate without the Darkwellians listening in."
+                "text" : "And we’ll also use those winged drakes to carry hidden messages to our allies in the Principality of Robinstow. It’s the only way to communicate without the Darkwellians listening in."
               } ]
             },
             "start" : [ {
@@ -284,7 +284,7 @@
         "dialog" : {
           "end" : [ {
             "character" : "HERRERA",
-            "text" : "Oh no! I’m getting reports that Darkwell has found out about the secret messages we send via flying drakes to the Principality of Robinstone!"
+            "text" : "Oh no! I’m getting reports that Darkwell has found out about the secret messages we send via flying drakes to the Principality of Robinstow!"
           }, {
             "character" : "NETANYA",
             "text" : "What? It must be those spies! If only we knew who they were!"
@@ -293,7 +293,7 @@
             "text" : "Well, it gets even worse. They also know that the Kingdom of Bloomberg was going to grow crops for us. Darkwell is  going to kill two birds with one stone by polluting the skies."
           }, {
             "character" : "NETANYA",
-            "text" : "Now our drakes won’t be able to fly to Robinstone, and Bloomberg’s crops will be ruined."
+            "text" : "Now our drakes won’t be able to fly to Robinstow, and Bloomberg’s crops will be ruined."
           }, {
             "character" : "HERRERA",
             "text" : "Things are pretty grim, Cadet. We already had a couple of strikes against us, and we’re not gonna have many more chances at bat."
@@ -1116,19 +1116,13 @@
             "text" : "Another mission complete, and more disasters averted! The dull-colored drakes you helped us breed, Cadet, are at work foraging mushrooms to keep the people of Wyvern fed."
           }, {
             "character" : "HATCH",
-            "text" : "And our allies in Sawaki and Admar are gaining strength again now that we have stock-piled and shared our antidote to the Darwellian’s virus."
+            "text" : "And our allies in Sawaki and Admar are gaining strength  now that we have stock-piled and shared our antidote to the Darwellian’s virus."
           }, {
             "character" : "WEAVER",
-            "text" : "Thanks to your work, Cadet, the Guild has faith that the tide will turn in favor of the Wyvern Republic."
+            "text" : "All that's missing now is the intelligence report from the front at Robinstow. Dr. Netanya's been incognito there and should be back here at the base at any moment."
           }, {
             "character" : "HATCH",
-            "text" : "We can’t wait another moment. I will give the order for the surprise attack on Darkwell."
-          }, {
-            "character" : "WEAVER",
-            "text" : "I just hope we were able to breed enough dragons and gain enough support from our allies to make this a success."
-          }, {
-            "character" : "HATCH",
-            "text" : "Our future is now in the hands of Colonel de Herrera and the dragon force…"
+            "text" : "She'll give you your next assignment based on what she's learned about . Colonel de Herrera will be in the loop to make sure we're ready for the surprise attack on Darkwell."
           } ],
           "middle" : [ {
             "character" : "RAJPUT",
@@ -1152,11 +1146,11 @@
             "end" : {
               "failure" : [ {
                 "character" : "HERRERA",
-                "text" : "You got there, but for a crystal you’ll need to get better at this!"
+                "text" : "You can do better at this!"
               } ],
               "success" : [ {
                 "character" : "HERRERA",
-                "text" : "Thank you Cadet, I’ll inform our breeders at Robinstow about your results!"
+                "text" : "Thank you Cadet, These results will go straight to our breeders at Robinstow!"
               } ]
             },
             "start" : [ {
@@ -1175,7 +1169,7 @@
             "end" : {
               "failure" : [ {
                 "character" : "HERRERA",
-                "text" : "You got there, but for a blue crystal you’ll need to get better at this!"
+                "text" : "You got there, but for our sneak attack to work, you’ll need to get better at this!"
               } ],
               "success" : [ {
                 "character" : "NETANYA",
@@ -1198,7 +1192,7 @@
             "end" : {
               "failure" : [ {
                 "character" : "HERRERA",
-                "text" : "You got there, but for a blue crystal you’ll need to get better at this!"
+                "text" : "You got there, but for our sneak attack to work, you’ll need to get better at this!"
               } ],
               "success" : [ {
                 "character" : "NETANYA",
@@ -1220,7 +1214,19 @@
             "text" : "Well, de Herrera, what do you think?"
           }, {
             "character" : "HERRERA",
-            "text" : "This offspring pair work is an example of truly fine thinking by our cadet. Speaking of fine, did I mention I’m glad we’re not brother and sister?"
+            "text" : "This offspring pair work is an example of truly awesome thinking by our cadet. And we now know enough to breed the dragons in Robinstow!"
+          }, {
+            "character" : "NETANYA",
+            "text" : "The bonded pair dragons will pave the way for our sneak attack. The Darkwellians will never see it coming, and the kingdom will finally be safe -- for dragons and humans alike!"
+          }, {
+            "character" : "WEAVER",
+            "text" : "Cadet, you've graduated! Your talents will be useful out in the field to help preserve the dragon species."
+          }, {
+            "character" : "HATCH",
+            "text" : "Yes, and make sure to come back and tell us about your adventures! We'll have new cadets who'll need your advice."
+          }, {
+            "character" : "HERRERA",
+            "text" : "It's been sweet, Cadet. Take care out there. Thanks, K--Bye!"
           } ],
           "middle" : [ {
             "character" : "NETANYA",
@@ -1228,16 +1234,19 @@
           } ],
           "start" : [ {
             "character" : "NETANYA",
-            "text" : "Hi Cadet, I’m Dr. Netanya, just in from the front at Robinstow. It’s great to be back in Wyvern. I can’t wait to see de Herrera, that cute, um, I mean, brave pilot whose sneak attack plan just needs a few more dragons!"
+            "text" : "Glad we found you, Cadet. Bad news from the front-- the Darkwellians are beefing up their defenses bigtime. de Herrera's sneak attack isn't just our best plan... Now it's our only option!"
           }, {
             "character" : "HERRERA",
-            "text" : "Hey, did I hear my name? Glad you mentioned the sneak attack. The key is creating secret trails from Robinstow to the outskirts of Darkwell. We need dragons that can work in pairs and anticipate each other’s movements under attack."
+            "text" : "The key is creating secret trails from Robinstow to the outskirts of Darkwell. We need dragons that can work in pairs and anticipate each other’s movements under attack."
           }, {
             "character" : "NETANYA",
             "text" : "A bonded pair of dragons know each other so well, they can practically read each other’s minds... But it takes many years for a pair to develop that bond. Hmm, wait-- two drakes from the same parents are bonded right away!"
           }, {
             "character" : "HERRERA",
-            "text" : "Here’s a catch, though-- the offspring must have different strengths so that together they can perform a wide variety of tasks, from clearing a trail to repelling attackers. Cadet, can we have the best of both worlds?"
+            "text" : "There’s a catch, though-- the offspring must have different strengths so that together they can perform a wide variety of tasks, from clearing a trail to repelling attackers. Cadet, can we have the best of both worlds?"
+          }, {
+            "character" : "NETANYA",
+            "text" : "Open your VentureMap and head over to the Breeding Barn. We need you at your best!"
           } ]
         },
         "name" : "Mission 4.3"
