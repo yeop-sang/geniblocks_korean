@@ -1122,7 +1122,7 @@
             "text" : "All that's missing now is the intelligence report from the front at Robinstow. Dr. Netanya's been incognito there and should be back here at the base at any moment."
           }, {
             "character" : "HATCH",
-            "text" : "She'll give you your next assignment based on what she's learned about . Colonel de Herrera will be in the loop to make sure we're ready for the surprise attack on Darkwell."
+            "text" : "Aha - here she comes. She'll give you your next assignment based on what she's learned. Colonel de Herrera will be in the loop to make sure we're ready for the surprise attack on Darkwell."
           } ],
           "middle" : [ {
             "character" : "RAJPUT",
@@ -1195,8 +1195,23 @@
                 "text" : "You got there, but for our sneak attack to work, you’ll need to get better at this!"
               } ],
               "success" : [ {
-                "character" : "NETANYA",
-                "text" : "We’ll consider it handled, Cadet!"
+            "character" : "NETANYA",
+            "text" : "Well, de Herrera, what do you think?"
+          }, {
+            "character" : "HERRERA",
+            "text" : "This offspring pair work is an example of truly awesome thinking by our cadet. And we now know enough to breed the dragons in Robinstow!"
+          }, {
+            "character" : "NETANYA",
+            "text" : "The bonded pair dragons will pave the way for our sneak attack. The Darkwellians will never see it coming, and the kingdom will finally be safe -- for dragons and humans alike!"
+          }, {
+            "character" : "WEAVER",
+            "text" : "Cadet, you've graduated! Your talents will be useful out in the field to help preserve the dragon species."
+          }, {
+            "character" : "HATCH",
+            "text" : "Yes, and make sure to come back and tell us about your adventures! We'll have new cadets who'll need your advice."
+          }, {
+            "character" : "HERRERA",
+            "text" : "It's been sweet, Cadet. Take care out there. Thanks, K--Bye!"
               } ]
             },
             "start" : [ {
@@ -1227,6 +1242,9 @@
           }, {
             "character" : "HERRERA",
             "text" : "It's been sweet, Cadet. Take care out there. Thanks, K--Bye!"
+          }, {
+            "character" : "HATCH",
+            "text" : "Colonel - what, no sports analogy? You really dropped the ball...! Seriously, Cadet, It's been great having you. We have to bid you farewell for now. Just remember, when you come across genetics, think of us here at Geniventure!"
           } ],
           "middle" : [ {
             "character" : "NETANYA",
@@ -1234,7 +1252,7 @@
           } ],
           "start" : [ {
             "character" : "NETANYA",
-            "text" : "Glad we found you, Cadet. Bad news from the front-- the Darkwellians are beefing up their defenses bigtime. de Herrera's sneak attack isn't just our best plan... Now it's our only option!"
+            "text" : "Good to see you again, Cadet. But bad news from the front-- the Darkwellians are beefing up their defenses bigtime. de Herrera's sneak attack isn't just our best plan... Now it's our only option!"
           }, {
             "character" : "HERRERA",
             "text" : "The key is creating secret trails from Robinstow to the outskirts of Darkwell. We need dragons that can work in pairs and anticipate each other’s movements under attack."
