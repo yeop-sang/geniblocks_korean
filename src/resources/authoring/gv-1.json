@@ -1212,7 +1212,10 @@
           }, {
             "character" : "HERRERA",
             "text" : "It's been sweet, Cadet. Take care out there. Thanks, K--Bye!"
-              } ]
+          }, {
+            "character" : "HATCH",
+            "text" : "Colonel - what, no sports analogy? You really dropped the ball...! Seriously, Cadet, It's been great having you. We have to bid you farewell for now. Just remember, when you come across genetics, think of us here at Geniventure!"
+          	} ]
             },
             "start" : [ {
               "character" : "NETANYA",
