@@ -21,7 +21,7 @@
                 "text" : "Great work, Cadet! You're now part of our team! And check out that crystal you've earned."
               }, {
                 "character" : "YEUNG",
-                "text" : "We use these crystals to power the devices that both heal and help breed our dragons. Red crystals are fairly weak, yellow crystals are a littlew stronger, and blue crystals are the most powerful. We need as much power as possible to build our forces and secure our defenses."
+                "text" : "We use these crystals to power the devices that both heal and help breed our dragons. Red crystals are fairly weak, yellow crystals are a little stronger, and blue crystals are the most powerful. We need as much power as possible to build our forces and secure our defenses."
               } ]
             },
             "start" : [ {
@@ -1195,27 +1195,27 @@
                 "text" : "You got there, but for our sneak attack to work, you’ll need to get better at this!"
               } ],
               "success" : [ {
-            "character" : "NETANYA",
-            "text" : "Well, de Herrera, what do you think?"
-          }, {
-            "character" : "HERRERA",
-            "text" : "This offspring pair work is an example of truly awesome thinking by our cadet. And we now know enough to breed the dragons in Robinstow!"
-          }, {
-            "character" : "NETANYA",
-            "text" : "The bonded pair dragons will pave the way for our sneak attack. The Darkwellians will never see it coming, and the kingdom will finally be safe -- for dragons and humans alike!"
-          }, {
-            "character" : "WEAVER",
-            "text" : "Cadet, you've graduated! Your talents will be useful out in the field to help preserve the dragon species."
-          }, {
-            "character" : "HATCH",
-            "text" : "Yes, and make sure to come back and tell us about your adventures! We'll have new cadets who'll need your advice."
-          }, {
-            "character" : "HERRERA",
-            "text" : "It's been sweet, Cadet. Take care out there. Thanks, K--Bye!"
-          }, {
-            "character" : "HATCH",
-            "text" : "Colonel - what, no sports analogy? You really dropped the ball...! Seriously, Cadet, It's been great having you. We have to bid you farewell for now. Just remember, when you come across genetics, think of us here at Geniventure!"
-          	} ]
+                "character" : "NETANYA",
+                "text" : "Well, de Herrera, what do you think?"
+              }, {
+                "character" : "HERRERA",
+                "text" : "This offspring pair work is an example of truly awesome thinking by our cadet. And we now know enough to breed the dragons in Robinstow!"
+              }, {
+                "character" : "NETANYA",
+                "text" : "The bonded pair dragons will pave the way for our sneak attack. The Darkwellians will never see it coming, and the kingdom will finally be safe -- for dragons and humans alike!"
+              }, {
+                "character" : "WEAVER",
+                "text" : "Cadet, you've graduated! Your talents will be useful out in the field to help preserve the dragon species."
+              }, {
+                "character" : "HATCH",
+                "text" : "Yes, and make sure to come back and tell us about your adventures! We'll have new cadets who'll need your advice."
+              }, {
+                "character" : "HERRERA",
+                "text" : "It's been sweet, Cadet. Take care out there. Thanks, K--Bye!"
+              }, {
+                "character" : "HATCH",
+                "text" : "Colonel - what, no sports analogy? You really dropped the ball...! Seriously, Cadet, It's been great having you. We have to bid you farewell for now. Just remember, when you come across genetics, think of us here at Geniventure!"
+              } ]
             },
             "start" : [ {
               "character" : "NETANYA",
@@ -2572,7 +2572,7 @@
           "alleles" : "w-w, M-M, Fl-fl",
           "sex" : 0
         }, {
-          "alleles" : "w-w, M-M, fl-Fl",
+          "alleles" : "w-w, m-M, fl-Fl",
           "sex" : 0
         }, {
           "alleles" : "w-W, M-m, Fl-fl",
