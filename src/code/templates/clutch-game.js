@@ -87,21 +87,23 @@ export default class ClutchGame extends Component {
 
   render() {
     const { scale, challengeType, drakes, hiddenAlleles, trial, numTargets,
-            userChangeableGenes, visibleGenes, onChromosomeAlleleChange,
-            onBreedClutch, onHatch, onDrakeSubmission, onParentSubmission } = this.props,
-          // 0: mother, 1: father, 2...n: target, n+1...: children
-          mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
-          father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex),
-          targetDrakes = drakes.slice(2, 2+numTargets),
-          isSubmitParents = challengeType === "submit-parents";
+      userChangeableGenes, visibleGenes, onChromosomeAlleleChange,
+      onBreedClutch, onHatch, onDrakeSubmission, onParentSubmission } = this.props,
+      // 0: mother, 1: father, 2...n: target, n+1...: children
+      mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
+      father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex),
+      targetDrakes = drakes.slice(2, 2 + numTargets),
+      isSubmitParents = challengeType === "submit-parents",
+      isTestCross = challengeType === "test-cross";
     let child = null;
+    console.log(challengeType);
 
-    const handleAlleleChange = function(chrom, side, prevAllele, newAllele, orgName) {
+    const handleAlleleChange = function (chrom, side, prevAllele, newAllele, orgName) {
       const index = orgName === "mother" ? 0 : 1,
-            incrementMoves = !isSubmitParents;
+        incrementMoves = !isSubmitParents;
       onChromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, incrementMoves);
     };
-    const handleFertilize = function() {
+    const handleFertilize = function () {
       animatedComponents = [];
       onBreedClutch(8);
     };
@@ -115,19 +117,19 @@ export default class ClutchGame extends Component {
 
     const handleSubmit = function (index, id, child) {
       const childImage = child.getImageName(),
-            selectedDrakeIndex = index + 3,
-            targetDrakeOrg = new BioLogica.Organism(BioLogica.Species.Drake,
-                                                    targetDrakes[0].alleleString,
-                                                    targetDrakes[0].sex),
-            success = (childImage === targetDrakeOrg.getImageName());
+        selectedDrakeIndex = index + 3,
+        targetDrakeOrg = new BioLogica.Organism(BioLogica.Species.Drake,
+          targetDrakes[0].alleleString,
+          targetDrakes[0].sex),
+        success = (childImage === targetDrakeOrg.getImageName());
 
       onDrakeSubmission(2, selectedDrakeIndex, success, null, 0, 1);
     };
 
-    const handleSubmitParents = function() {
+    const handleSubmitParents = function () {
       const movesToMakeAllOffspring = targetDrakes.reduce((sum, t) => {
         const targetDrake = new BioLogica.Organism(BioLogica.Species.Drake,
-                                              t.alleleString, t.sex);
+          t.alleleString, t.sex);
         return sum + BioLogica.Organism.numberOfBreedingMovesToReachOrganism(
           mother,
           father,
@@ -137,7 +139,7 @@ export default class ClutchGame extends Component {
         );
       }, 0);
       const success = movesToMakeAllOffspring === 0;
-      const targetDrakeArray = Array(numTargets).fill().map((e,i)=>i+2);  // [2, ... n]
+      const targetDrakeArray = Array(numTargets).fill().map((e, i) => i + 2);  // [2, ... n]
       onParentSubmission(0, 1, targetDrakeArray, success);
     };
 
@@ -145,16 +147,19 @@ export default class ClutchGame extends Component {
     const targetText = isSubmitParents ? t("~TARGET.OFFSPRING") : t("~TARGET.TARGET_DRAKE");
     const targetDrakeViews = targetDrakes.map(d => {
       const org = new BioLogica.Organism(BioLogica.Species.Drake,
-                              d.alleleString,
-                              d.sex);
-      return <OrganismView org={org} width={targetSize}/>;
+        d.alleleString,
+        d.sex);
+      return <OrganismView org={org} width={targetSize} />;
     });
-    const targetDrakeSection = <div className='geniblocks target-drake-container'>
-                                  <div className='drakes'>
-                                    {targetDrakeViews}
-                                  </div>
-                                 <div className="target-drake-text">{targetText}</div>
-                               </div>;
+
+    const targetDrakeSection = (!isTestCross && <div className='geniblocks target-drake-container'>
+      <div className='drakes'>
+        {targetDrakeViews}
+      </div>
+      <div className="target-drake-text">{targetText}</div>
+    </div>
+    );
+
     if (child && animationEvents.hatch.complete) {
       handleHatch();
     }
@@ -162,7 +167,7 @@ export default class ClutchGame extends Component {
     let clutchDrakes = drakes.slice(2+numTargets);
     clutchDrakes = clutchDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
     const clickDrake = !isSubmitParents ? handleSubmit : null;
-    let penView = <ClutchView orgs={ clutchDrakes } width={250} onClick={clickDrake}/>;
+    let penView = (isTestCross ? <ClutchView orgs={clutchDrakes} width={150} height={500} onClick={clickDrake}/> :<ClutchView orgs={ clutchDrakes } width={250} onClick={clickDrake}/>);
 
     const motherClassNames = classNames('parent', 'mother'),
           fatherClassNames = classNames('parent', 'father');
@@ -198,6 +203,16 @@ export default class ClutchGame extends Component {
 
     const parentSize = isSubmitParents ? 280 : 250;
 
+    const testCross = isTestCross ?
+      (
+        <div id="test-cross-buttons">
+          <ButtonView
+            text={"test cross"}
+            styleName="test-cross-button"
+            />
+        </div>
+
+      ): null;
     return (
       <div id="breeding-game">
         <div className="columns centered">
@@ -220,6 +235,7 @@ export default class ClutchGame extends Component {
             { parentGenomeView(BioLogica.MALE) }
           </div>
         </div>
+        {testCross}
         {bottomButtons}
         {animatedComponents}
       </div>
