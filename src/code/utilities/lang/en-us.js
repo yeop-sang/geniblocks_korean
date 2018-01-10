@@ -53,6 +53,8 @@ export default {
   "~BUTTON.MALE": "Male",
   "~BUTTON.FEMALE": "Female",
   "~BUTTON.SUBMIT_PARENTS": "Submit Parents",
+  "~BUTTON.READY_TO_ANSWER": "Ready to Answer",
+  "~BUTTON.SAVE_AND_CLOSE": "Save & Close",
 
   "~LABEL.YOUR_DRAKE": "Your Drake",
   "~LABEL.TARGET_DRAKE": "Target Drake",

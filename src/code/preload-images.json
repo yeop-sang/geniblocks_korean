@@ -61,7 +61,8 @@
 		"resources/fablevision/layout-b/Target_Gizmo_single.jpg",
 		"resources/fablevision/layout-h/background.jpg",
 		"resources/fablevision/layout-c/egg_animation.png",
-		"resources/fablevision/huds/scroll.png"
+    "resources/fablevision/huds/scroll.png",
+    "resources/fablevision/layout-i/screen.jpg"
 	],
 	"zoomroom": [
 		"resources/fablevision/rooms/zoom.jpg",

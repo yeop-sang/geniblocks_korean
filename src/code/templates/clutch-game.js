@@ -96,7 +96,6 @@ export default class ClutchGame extends Component {
       isSubmitParents = challengeType === "submit-parents",
       isTestCross = challengeType === "test-cross";
     let child = null;
-    console.log(challengeType);
 
     const handleAlleleChange = function (chrom, side, prevAllele, newAllele, orgName) {
       const index = orgName === "mother" ? 0 : 1,
@@ -206,13 +205,23 @@ export default class ClutchGame extends Component {
     const testCross = isTestCross ?
       (
         <div id="test-cross-buttons">
-          <ButtonView
-            text={"test cross"}
-            styleName="test-cross-button"
-            />
+          <div className="geniblocks ready-to-answer-button-area">
+            <div className='geniblocks ready-to-answer-button-surround'>
+              <ButtonView
+                text={t("~BUTTON.READY_TO_ANSWER")}
+                styleName="ready-to-answer-button"
+                onClick={handleFertilize}
+                  />
+            </div>
+          </div>
         </div>
 
-      ): null;
+      ) : null;
+
+    const fatherGenomeView = isTestCross ? (
+      <div id="test-cross-guess"></div>
+    ): parentGenomeView(BioLogica.MALE);
+
     return (
       <div id="breeding-game">
         <div className="columns centered">
@@ -231,11 +240,12 @@ export default class ClutchGame extends Component {
                                   onBreed={handleFertilize} />
           </div>
           <div className='column'>
-            <ParentDrakeView className="father" org={ father } width={parentSize} />
-            { parentGenomeView(BioLogica.MALE) }
+            <ParentDrakeView className="father" org={father} width={parentSize} hidden={true} />
+            {fatherGenomeView}
+            {testCross}
           </div>
         </div>
-        {testCross}
+
         {bottomButtons}
         {animatedComponents}
       </div>
