@@ -27,6 +27,9 @@ import thunk from 'redux-thunk';
 import GeneticsUtils from './utilities/genetics-utils';
 import urlParams from './utilities/url-params';
 import uuid from 'uuid';
+import initFirebase from "./utilities/firebase-auth";
+
+initFirebase();
 
 // trivial check for Windows as part of user agent string
 if (navigator.userAgent.indexOf('Windows') >= 0)
