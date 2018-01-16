@@ -24,10 +24,10 @@ export default function initFirebase() {
     let jwtUrl = urlParams.domain + "api/v1/jwt/firebase?firebase_app=" + config.projectId;
     fetch(jwtUrl, {
       method: 'post',
-      headers: {
+      headers: new Headers({
         'Authorization': `Bearer ${urlParams.token}`,
         'Content-Type': 'application/x-www-form-urlencoded'
-      },
+      }),
       body: 'A=1&B=2'
     }).then(function (response) {
       return response;
