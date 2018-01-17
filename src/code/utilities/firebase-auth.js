@@ -35,10 +35,8 @@ export default function initFirebase() {
         if (!response.ok) console.log("Failed to fetch JWT", response.error, response.body);
         else {
           response.json().then(function (jsonData) {
-            let tokenAuth = jsonData.token.split('.');
-            let decodedToken = atob(tokenAuth[1]);
-
-            firebase.auth().signInWithCustomToken(decodedToken).catch(function (error) {
+            // TODO: validate token!
+            firebase.auth().signInWithCustomToken(jsonData.token).catch(function (error) {
               console.log("Error authenticating with Firebase", error);
             });
           });
