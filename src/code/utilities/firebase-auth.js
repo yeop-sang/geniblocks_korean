@@ -19,35 +19,30 @@ export default function initFirebase() {
     console.log("Not authenticated via portal");
     return;
   } else {
-    // send request to portal - for staging:
-    // https://learn.staging.concord.org/api/v1/jwt/firebase?firebase_app=GVStaging
+    // send request to portal via domain url parameter
+    // for example, https://learn.staging.concord.org/api/v1/jwt/firebase?firebase_app=GVStaging
     let jwtUrl = urlParams.domain + "api/v1/jwt/firebase?firebase_app=" + config.projectId;
-    fetch(jwtUrl, {
-      method: 'post',
-      headers: new Headers({
-        'Authorization': `Bearer ${urlParams.token}`,
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }),
-      body: 'A=1&B=2'
-    }).then(function (response) {
-      return response;
-    }).then(function (response) {
-      if (!response.ok) console.log("nope");
-      else {
-        response.json().then(function (token) {
-          // TODO: This will need some attention once tokens are returned
-          firebase.auth().signInWithCustomToken(token).catch(function (error) {
-            // Handle Errors here.
-            console.log(error);
-            // var errorCode = error.code;
-            // var errorMessage = error.message;
-            // ...
-          });
-        });
+
+    let jwtInit = {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${urlParams.token}`
       }
+    };
 
-      console.log("Response: ", response.body);
+    fetch(jwtUrl, jwtInit)
+      .then(function (response) {
+        if (!response.ok) console.log("Failed to fetch JWT", response.error, response.body);
+        else {
+          response.json().then(function (jsonData) {
+            let tokenAuth = jsonData.token.split('.');
+            let decodedToken = atob(tokenAuth[1]);
+
+            firebase.auth().signInWithCustomToken(decodedToken).catch(function (error) {
+              console.log("Error authenticating with Firebase", error);
+            });
+          });
+        }
     });
-
   }
 }
