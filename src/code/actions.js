@@ -8,7 +8,7 @@ import { getUserQueryString } from './middleware/state-save';
 import { notificationType } from './modules/notifications';
 import { getGemFromChallengeErrors } from './reducers/helpers/gems-helper';
 import migrate from './migrations';
-import { tutorialActionTypes } from './modules/tutorials';
+//import { tutorialActionTypes } from './modules/tutorials';
 
 export { actionTypes };
 
@@ -651,6 +651,13 @@ export function breedClutch(clutchSize) {
   return {
     type: actionTypes.CLUTCH_BRED,
     clutchSize
+  };
+}
+
+export function readyToAnswer(ready) {
+  return {
+    type: actionTypes.READY_TO_ANSWER,
+    ready
   };
 }
 

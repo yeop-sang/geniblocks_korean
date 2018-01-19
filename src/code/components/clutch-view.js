@@ -9,13 +9,15 @@ const ClutchView = React.createClass({
     orgs: PropTypes.arrayOf(PropTypes.object).isRequired,
     idPrefix: PropTypes.string,
     height: PropTypes.number,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    pageSize: PropTypes.number
   },
 
   getDefaultProps() {
     return ({
       idPrefix: 'organism-',
-      height: 218
+      height: 218,
+      pageSize: 8
     });
   },
 
@@ -28,7 +30,7 @@ const ClutchView = React.createClass({
   },
 
   handlePageForward() {
-    const numPages = this.props.orgs.length / 8;
+    const numPages = this.props.orgs.length / this.props.pageSize;
     this.setState({page: Math.min(this.state.page + 1, numPages)});
   },
 
@@ -38,7 +40,7 @@ const ClutchView = React.createClass({
     }
     if (nextProps.orgs.length > this.props.orgs.length) {
       // Move to the end whenever a new clutch is bred
-      const numPages = nextProps .orgs.length / 8;
+      const numPages = nextProps .orgs.length / this.props.pageSize;
       this.setState({page: numPages});
     }
   },
@@ -49,7 +51,7 @@ const ClutchView = React.createClass({
       if (!_this.state.tempDisabled) {
         const prefixIndex = id.indexOf(_this.props.idPrefix),
               indexOnPage = Number(id.substr(prefixIndex + _this.props.idPrefix.length)),
-              index = ((_this.state.page-1) * 8) + indexOnPage;
+              index = ((_this.state.page-1) * this.props.pageSize) + indexOnPage;
 
         _this.props.onClick(index, id, org);
 
@@ -62,8 +64,8 @@ const ClutchView = React.createClass({
     } : null;
 
     let displayStyle = {size: 170, top: -35, marginLeft: 0, marginTop: 0},
-        firstDrake = (this.state.page - 1) * 8,
-        pageDrakes = this.props.orgs.slice(firstDrake, firstDrake + 8),
+        firstDrake = (this.state.page - 1) * this.props.pageSize,
+        pageDrakes = this.props.orgs.slice(firstDrake, firstDrake + this.props.pageSize),
         stableDrakeViews = pageDrakes.map((org, index) => {
           return (
             <div key={index} className="stable-drake-overlay" style={{width: 116, height: 116}}>
@@ -72,7 +74,7 @@ const ClutchView = React.createClass({
           );
         });
     const classes = classNames('geniblocks clutch-view', this.props.className);
-    const maxPages = this.props.orgs.length / 8;
+    const maxPages = this.props.orgs.length / this.props.pageSize;
 
     return (
       <div className={classes}>

@@ -16,7 +16,7 @@ import preloadImageList from '../preload-images.json';
 import { changeAllele, changeSex, submitDrake, submitParents,
         keepOffspring, fertilize, breedClutch, hatch,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket,
-        winZoomChallenge, toggleMap, enterChallengeFromRoom, showEasterEgg } from '../actions';
+        winZoomChallenge, toggleMap, enterChallengeFromRoom, showEasterEgg, readyToAnswer } from '../actions';
 import { addGameteChromosome, resetGametes,
         addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/gametes';
 import { tutorialNext, tutorialPrevious, tutorialMore, tutorialClosed, restartTutorial } from '../modules/tutorials';
@@ -160,7 +160,11 @@ class FVChallengeContainer extends Component {
     location: PropTypes.object,
     showingRoom: PropTypes.bool,
     messages: PropTypes.array,
-    tutorials: PropTypes.array
+    tutorials: PropTypes.object,
+    onTutorialNext: PropTypes.func,
+    onTutorialPrevious: PropTypes.func,
+    onTutorialMore: PropTypes.func,
+    onTutorialClosed: PropTypes.func
   }
 }
 
@@ -176,6 +180,7 @@ function mapStateToProps (state) {
       userChangeableGenes: state.userChangeableGenes,
       visibleGenes: state.visibleGenes,
       hiddenAlleles: state.hiddenAlleles,
+      hiddenParent: state.hiddenParent,
       baskets: state.baskets,
       trial: state.trial,
       trials: state.trials,
@@ -231,7 +236,8 @@ function mapDispatchToProps(dispatch) {
     onTutorialMore: () => dispatch(tutorialMore()),
     onTutorialClosed: () => dispatch(tutorialClosed()),
     onRestartTutorial: () => dispatch(restartTutorial()),
-    onShowEasterEgg: () => dispatch(showEasterEgg())
+    onShowEasterEgg: () => dispatch(showEasterEgg()),
+    onReadyToAnswer: (ready) => dispatch(readyToAnswer(ready))
   };
 }
 

@@ -11,6 +11,7 @@ const actionTypes = {
   SEX_CHANGED: "Sex changed",
   FERTILIZED: "Fertilized",
   CLUTCH_BRED: "Clutch bred",
+  READY_TO_ANSWER: "Ready to answer",
   HATCHED: "Hatched",
   EGG_SUBMITTED: "Egg submitted",
   EGG_ACCEPTED: "Egg accepted",

@@ -40,6 +40,7 @@ function mapStateToProps (state) {
       userChangeableGenes: state.userChangeableGenes,
       visibleGenes: state.visibleGenes,
       hiddenAlleles: state.hiddenAlleles,
+      hiddenParent: state.hiddenParent,
       baskets: state.baskets,
       trial: state.trial,
       trials: state.trials,

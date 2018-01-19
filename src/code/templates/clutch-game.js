@@ -86,9 +86,9 @@ export default class ClutchGame extends Component {
   }
 
   render() {
-    const { scale, challengeType, drakes, hiddenAlleles, trial, numTargets,
+    const { scale, challengeType, drakes, hiddenAlleles, hiddenParent, trial, numTargets,
       userChangeableGenes, visibleGenes, onChromosomeAlleleChange,
-      onBreedClutch, onHatch, onDrakeSubmission, onParentSubmission } = this.props,
+      onBreedClutch, onHatch, onDrakeSubmission, onParentSubmission, onReadyToAnswer } = this.props,
       // 0: mother, 1: father, 2...n: target, n+1...: children
       mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
       father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex),
@@ -104,7 +104,18 @@ export default class ClutchGame extends Component {
     };
     const handleFertilize = function () {
       animatedComponents = [];
-      onBreedClutch(8);
+      if (isTestCross) {
+        onBreedClutch(12);
+      } else {
+        onBreedClutch(8);
+      }
+    };
+    const handleReadyToAnswer = function () {
+      console.log("ready!");
+      onReadyToAnswer(true);
+    };
+    const handleSubmitParentGenotype = function () {
+      console.log("submit");
     };
 
     const handleHatch = function () {
@@ -166,7 +177,7 @@ export default class ClutchGame extends Component {
     let clutchDrakes = drakes.slice(2+numTargets);
     clutchDrakes = clutchDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
     const clickDrake = !isSubmitParents ? handleSubmit : null;
-    let penView = (isTestCross ? <ClutchView orgs={clutchDrakes} width={150} height={500} onClick={clickDrake}/> :<ClutchView orgs={ clutchDrakes } width={250} onClick={clickDrake}/>);
+    let penView = (isTestCross ? <ClutchView orgs={clutchDrakes} width={150} height={500} onClick={clickDrake} pageSize={12} /> :<ClutchView orgs={ clutchDrakes } width={250} onClick={clickDrake}/>);
 
     const motherClassNames = classNames('parent', 'mother'),
           fatherClassNames = classNames('parent', 'father');
@@ -183,13 +194,25 @@ export default class ClutchGame extends Component {
       const org = sex === BioLogica.FEMALE ? mother : father,
             uniqueProps = sex === BioLogica.FEMALE
                               ? { orgName: 'mother', className: motherClassNames }
-                              : { orgName: 'father', className: fatherClassNames };
-      return <GenomeView species={org.species} org={org} {...uniqueProps} editable={parentChangeableGenes.length > 0}
+          : { orgName: 'father', className: fatherClassNames };
+      let view = isTestCross && hiddenParent && (hiddenParent.parent === uniqueProps.orgName) && hiddenParent.hiddenGenotype ?
+        <div id="test-cross-guess">
+          {testCross}
+        </div> :
+        <GenomeView species={org.species} org={org} {...uniqueProps} editable={parentChangeableGenes.length > 0}
                          ChromosomeImageClass={FVChromosomeImageView} small={ true } hiddenAlleles={hiddenAlleles}
                          userChangeableGenes={ parentChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange }
-                         chromosomeHeight={122} />;
+          chromosomeHeight={122} />;
+      return view;
     }
 
+    function parentImageView(sex) {
+      const org = sex === BioLogica.FEMALE ? mother : father,
+        parentName = sex === BioLogica.FEMALE ? "mother" : "father",
+        isHiddenParent = hiddenParent && hiddenParent.parent === parentName,
+        hiddenImage = isTestCross && isHiddenParent ? hiddenParent.hiddenImage : false;
+      return <ParentDrakeView className={parentName} org={org} width={parentSize} hidden={hiddenImage} />;
+    }
     const bottomButtons = isSubmitParents ?
       (
         <div id="bottom-buttons">
@@ -207,27 +230,26 @@ export default class ClutchGame extends Component {
         <div id="test-cross-buttons">
           <div className="geniblocks ready-to-answer-button-area">
             <div className='geniblocks ready-to-answer-button-surround'>
-              <ButtonView
-                text={t("~BUTTON.READY_TO_ANSWER")}
-                styleName="ready-to-answer-button"
-                onClick={handleFertilize}
-                  />
+              <div className={classNames('ready-to-answer-button', 'geniblocks', 'fv-button')} onClick={handleReadyToAnswer}>
+                <div className="button-label unselectable">{t("~BUTTON.READY_TO_ANSWER")}</div>
+              </div>
             </div>
           </div>
         </div>
 
       ) : null;
-
-    const fatherGenomeView = isTestCross ? (
-      <div id="test-cross-guess"></div>
-    ): parentGenomeView(BioLogica.MALE);
+    const fatherView = isTestCross && hiddenParent && hiddenParent.parent === "father" ? (
+      <div id="test-cross-guess">
+        {testCross}
+      </div>
+    ) : parentGenomeView(BioLogica.MALE);
 
     return (
       <div id="breeding-game">
         <div className="columns centered">
           <div className='column'>
-            <ParentDrakeView className="mother" org={ mother } width={parentSize} />
-            { parentGenomeView(BioLogica.FEMALE) }
+            {parentImageView(BioLogica.FEMALE)}
+            {parentGenomeView(BioLogica.FEMALE)}
           </div>
           <div className='column center-column'>
             {targetDrakeSection}
@@ -240,9 +262,8 @@ export default class ClutchGame extends Component {
                                   onBreed={handleFertilize} />
           </div>
           <div className='column'>
-            <ParentDrakeView className="father" org={father} width={parentSize} hidden={true} />
-            {fatherGenomeView}
-            {testCross}
+            {parentImageView(BioLogica.MALE)}
+            {parentGenomeView(BioLogica.MALE)}
           </div>
         </div>
 
@@ -267,23 +288,31 @@ export default class ClutchGame extends Component {
     userChangeableGenes: PropTypes.array.isRequired,
     visibleGenes: PropTypes.array.isRequired,
     hiddenAlleles: PropTypes.array,
+    hiddenParent: PropTypes.object,
     onChromosomeAlleleChange: PropTypes.func.isRequired,
     onBreedClutch: PropTypes.func.isRequired,
     onHatch: PropTypes.func,
     onDrakeSubmission: PropTypes.func,
-    onParentSubmission: PropTypes.func
+    onParentSubmission: PropTypes.func,
+    onReadyToAnswer: PropTypes.func
   }
 
-  static authoredDrakesToDrakeArray = function(authoredChallenge, authoredTrialNumber) {
+  static authoredDrakesToDrakeArray = function (authoredChallenge, authoredTrialNumber) {
     // allow for multiple targets
     if (authoredChallenge.challengeType === "submit-parents" &&
-          Array.isArray(authoredChallenge.targetDrakes[authoredTrialNumber])) {
+      Array.isArray(authoredChallenge.targetDrakes[authoredTrialNumber])) {
       return [authoredChallenge.mother[authoredTrialNumber],
-              authoredChallenge.father[authoredTrialNumber]]
-            .concat(authoredChallenge.targetDrakes[authoredTrialNumber]);
+      authoredChallenge.father[authoredTrialNumber]]
+        .concat(authoredChallenge.targetDrakes[authoredTrialNumber]);
+    } else if (authoredChallenge.challengeType === "test-cross") {
+        return [authoredChallenge.mother[authoredTrialNumber],
+        authoredChallenge.father[authoredTrialNumber]]
+          .concat(authoredChallenge.targetDrakes[authoredTrialNumber]);
     }
-    return [authoredChallenge.mother[authoredTrialNumber],
-            authoredChallenge.father[authoredTrialNumber],
+    let mother = authoredChallenge.mother[authoredTrialNumber];
+    let father = authoredChallenge.father[authoredTrialNumber];
+    return [mother,
+            father,
             authoredChallenge.targetDrakes[authoredTrialNumber]];
   }
 
@@ -295,6 +324,15 @@ export default class ClutchGame extends Component {
       return authoredChallenge.targetDrakes[authoredTrialNumber].length;
     }
     return 1;
+  }
+
+  static getHiddenParent = function(authoredChallenge) {
+    if (authoredChallenge.challengeType === "test-cross") {
+      if (authoredChallenge.hiddenParent) {
+        return authoredChallenge.hiddenParent;
+      }
+    }
+    return undefined;
   }
 
 }
