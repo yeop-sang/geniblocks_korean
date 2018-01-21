@@ -199,10 +199,25 @@ export default class ClutchGame extends Component {
         <div id="test-cross-guess">
           {testCross}
         </div> :
-        <GenomeView species={org.species} org={org} {...uniqueProps} editable={parentChangeableGenes.length > 0}
+        <div id="genome-container">
+          <GenomeView species={org.species} org={org} {...uniqueProps} editable={parentChangeableGenes.length > 0}
                          ChromosomeImageClass={FVChromosomeImageView} small={ true } hiddenAlleles={hiddenAlleles}
                          userChangeableGenes={ parentChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange }
-          chromosomeHeight={122} />;
+            chromosomeHeight={122} />
+          {isTestCross && (hiddenParent.parent === uniqueProps.orgName) &&
+            <div>
+              <div className='geniblocks test-cross-submit-button-surround'>
+                <div className={classNames('test-cross-submit-button', 'geniblocks', 'fv-button')} onClick={handleReadyToAnswer}>
+                  <div className="button-label unselectable">{t("~BUTTON.SUBMIT_PARENTS")}</div>
+                </div>
+              </div>
+              <div className='geniblocks test-cross-save-button-surround'>
+                <div className={classNames('test-cross-save-button', 'geniblocks', 'fv-button')} onClick={handleReadyToAnswer}>
+                  <div className="button-label unselectable">{t("~BUTTON.SAVE_AND_CLOSE")}</div>
+                </div>
+              </div>
+            </div>}
+        </div>;
       return view;
     }
 
