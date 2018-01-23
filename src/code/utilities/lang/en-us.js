@@ -55,6 +55,7 @@ export default {
   "~BUTTON.SUBMIT_PARENTS": "Submit Parents",
   "~BUTTON.READY_TO_ANSWER": "Ready to Answer",
   "~BUTTON.SAVE_AND_CLOSE": "Save & Close",
+  "~BUTTON.RESUBMIT": "Resubmit",
 
   "~LABEL.YOUR_DRAKE": "Your Drake",
   "~LABEL.TARGET_DRAKE": "Target Drake",

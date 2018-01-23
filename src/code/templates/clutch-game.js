@@ -92,16 +92,19 @@ export default class ClutchGame extends Component {
       // 0: mother, 1: father, 2...n: target, n+1...: children
       mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
       father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex),
+      userDrake = new BioLogica.Organism(BioLogica.Species.Drake, drakes[2].alleleString, drakes[2].sex),
       targetDrakes = drakes.slice(2, 2 + numTargets),
       isSubmitParents = challengeType === "submit-parents",
-      isTestCross = challengeType === "test-cross";
-    let child = null;
+      isTestCross = challengeType === "test-cross",
+      child = null;
 
     const handleAlleleChange = function (chrom, side, prevAllele, newAllele, orgName) {
-      const index = orgName === "mother" ? 0 : 1,
-        incrementMoves = !isSubmitParents;
+      const isHiddenParent = isTestCross && hiddenParent && ((hiddenParent.sex === BioLogica.FEMALE && orgName === "mother") || (hiddenParent.sex === BioLogica.MALE && orgName === "father")),
+        incrementMoves = isTestCross ? isHiddenParent : !isSubmitParents,
+        index = isHiddenParent ? 2 : orgName === "mother" ? 0 : 1;
       onChromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, incrementMoves);
     };
+
     const handleFertilize = function () {
       animatedComponents = [];
       if (isTestCross) {
@@ -111,11 +114,15 @@ export default class ClutchGame extends Component {
       }
     };
     const handleReadyToAnswer = function () {
-      console.log("ready!");
       onReadyToAnswer(true);
     };
+
     const handleSubmitParentGenotype = function () {
-      console.log("submit");
+      const parent = hiddenParent.sex === BioLogica.FEMALE ? mother : father,
+      success = (parent.getImageName() === userDrake.getImageName());
+
+      console.log(parent.getImageName(), userDrake.getImageName());
+      onDrakeSubmission(2, 2, success, null, 0, 1);
     };
 
     const handleHatch = function () {
@@ -177,7 +184,7 @@ export default class ClutchGame extends Component {
     let clutchDrakes = drakes.slice(2+numTargets);
     clutchDrakes = clutchDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
     const clickDrake = !isSubmitParents ? handleSubmit : null;
-    let penView = (isTestCross ? <ClutchView orgs={clutchDrakes} width={150} height={500} onClick={clickDrake} pageSize={12} /> :<ClutchView orgs={ clutchDrakes } width={250} onClick={clickDrake}/>);
+    let penView = (isTestCross ? <ClutchView orgs={clutchDrakes} pageSize={12} /> :<ClutchView orgs={ clutchDrakes } width={250} onClick={clickDrake}/>);
 
     const motherClassNames = classNames('parent', 'mother'),
           fatherClassNames = classNames('parent', 'father');
@@ -191,29 +198,26 @@ export default class ClutchGame extends Component {
         parentChangeableGenes = userChangeableGenes;
       }
 
+      const isHiddenParent = isTestCross && hiddenParent && (hiddenParent.sex === sex);
       const org = sex === BioLogica.FEMALE ? mother : father,
             uniqueProps = sex === BioLogica.FEMALE
-                              ? { orgName: 'mother', className: motherClassNames }
-          : { orgName: 'father', className: fatherClassNames };
-      let view = isTestCross && hiddenParent && (hiddenParent.parent === uniqueProps.orgName) && hiddenParent.hiddenGenotype ?
+                              ? { orgName: 'mother', className: motherClassNames, isHiddenParent }
+          : { orgName: 'father', className: fatherClassNames, isHiddenParent };
+
+      let view = isHiddenParent && hiddenParent.hiddenGenotype ?
         <div id="test-cross-guess">
           {testCross}
         </div> :
         <div id="genome-container">
-          <GenomeView species={org.species} org={org} {...uniqueProps} editable={parentChangeableGenes.length > 0}
+          <GenomeView species={isHiddenParent ? userDrake.species : org.species} org={isHiddenParent ? userDrake : org} {...uniqueProps} editable={parentChangeableGenes.length > 0}
                          ChromosomeImageClass={FVChromosomeImageView} small={ true } hiddenAlleles={hiddenAlleles}
                          userChangeableGenes={ parentChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange }
             chromosomeHeight={122} />
-          {isTestCross && (hiddenParent.parent === uniqueProps.orgName) &&
+          {isHiddenParent &&
             <div>
               <div className='geniblocks test-cross-submit-button-surround'>
-                <div className={classNames('test-cross-submit-button', 'geniblocks', 'fv-button')} onClick={handleReadyToAnswer}>
-                  <div className="button-label unselectable">{t("~BUTTON.SUBMIT_PARENTS")}</div>
-                </div>
-              </div>
-              <div className='geniblocks test-cross-save-button-surround'>
-                <div className={classNames('test-cross-save-button', 'geniblocks', 'fv-button')} onClick={handleReadyToAnswer}>
-                  <div className="button-label unselectable">{t("~BUTTON.SAVE_AND_CLOSE")}</div>
+                <div className={classNames('test-cross-submit-button', 'geniblocks', 'fv-button')} onClick={handleSubmitParentGenotype}>
+                  <div className="button-label unselectable">{t("~BUTTON.SUBMIT")}</div>
                 </div>
               </div>
             </div>}
@@ -224,8 +228,8 @@ export default class ClutchGame extends Component {
     function parentImageView(sex) {
       const org = sex === BioLogica.FEMALE ? mother : father,
         parentName = sex === BioLogica.FEMALE ? "mother" : "father",
-        isHiddenParent = hiddenParent && hiddenParent.parent === parentName,
-        hiddenImage = isTestCross && isHiddenParent ? hiddenParent.hiddenImage : false;
+        isHiddenParent = isTestCross && hiddenParent && hiddenParent.sex === sex,
+        hiddenImage = isHiddenParent ? hiddenParent.hiddenImage : false;
       return <ParentDrakeView className={parentName} org={org} width={parentSize} hidden={hiddenImage} />;
     }
     const bottomButtons = isSubmitParents ?
@@ -253,11 +257,6 @@ export default class ClutchGame extends Component {
         </div>
 
       ) : null;
-    const fatherView = isTestCross && hiddenParent && hiddenParent.parent === "father" ? (
-      <div id="test-cross-guess">
-        {testCross}
-      </div>
-    ) : parentGenomeView(BioLogica.MALE);
 
     return (
       <div id="breeding-game">
@@ -320,15 +319,15 @@ export default class ClutchGame extends Component {
       authoredChallenge.father[authoredTrialNumber]]
         .concat(authoredChallenge.targetDrakes[authoredTrialNumber]);
     } else if (authoredChallenge.challengeType === "test-cross") {
-        return [authoredChallenge.mother[authoredTrialNumber],
-        authoredChallenge.father[authoredTrialNumber]]
-          .concat(authoredChallenge.targetDrakes[authoredTrialNumber]);
+        return [authoredChallenge.mother,
+        authoredChallenge.father,
+        authoredChallenge.targetDrake];
     }
-    let mother = authoredChallenge.mother[authoredTrialNumber];
-    let father = authoredChallenge.father[authoredTrialNumber];
-    return [mother,
-            father,
-            authoredChallenge.targetDrakes[authoredTrialNumber]];
+    // let mother = authoredChallenge.mother[authoredTrialNumber];
+    // let father = authoredChallenge.father[authoredTrialNumber];
+    // return [mother,
+    //         father,
+    //         authoredChallenge.targetDrakes[authoredTrialNumber]];
   }
 
   static getNumTargets = function(authoredChallenge, authoredTrialNumber) {
