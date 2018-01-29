@@ -38,7 +38,7 @@ const Form = React.createClass({
     }
 });
 
-const FVGeneLabelView = ({species, editable, allele, hiddenAlleles=[], onAlleleChange, chromosomeDescriptor, chromosomeHeight=122, stripe}) => {
+const FVGeneLabelView = ({species, editable, allele, hiddenAlleles=[], onAlleleChange, chromosomeDescriptor, chromosomeHeight=122, stripe, defaultUnknown}) => {
     const geneStripeInfo = GeneticsUtils.getGeneStripeInfoForAllele(species, chromosomeDescriptor.name, allele);
     let stripeHeight = chromosomeHeight * .03,
         percentHeight = geneStripeInfo.geneStart / geneStripeInfo.chromosomeHeight;
@@ -71,13 +71,21 @@ const FVGeneLabelView = ({species, editable, allele, hiddenAlleles=[], onAlleleC
             alleleOptions = alleleNames.map((name, i) => (
                               {label:name, value:visibleAlleles[i]}
             ));
-
-      let sortedAlleleOptions = alleleOptions.filter(a => a.value !== allele);
-      sortedAlleleOptions.unshift({ label: alleleName, value: allele });
+      let renderedAlleleOptions = [];
+      let defaultUnknownOption = { label: "?", value: "?" };
+      if (!defaultUnknown) {
+        let sortedAlleleOptions = alleleOptions.filter(a => a.value !== allele);
+        sortedAlleleOptions.unshift({ label: alleleName, value: allele });
+        renderedAlleleOptions = sortedAlleleOptions;
+      } else {
+        renderedAlleleOptions = alleleOptions;
+        renderedAlleleOptions.unshift(defaultUnknownOption);
+      }
+      let defaultDisplayOption = defaultUnknown ? defaultUnknownOption : { label: alleleName, value: allele };
 
       label = stripe ? null : (
         <div id='mountNode'>
-          <Form defaultOption={{label: alleleName, value: allele}} options={sortedAlleleOptions} handleChange={onAlleleChange}/>
+          <Form defaultOption={defaultDisplayOption} options={renderedAlleleOptions} handleChange={onAlleleChange}/>
         </div>
       );
     }
@@ -99,7 +107,8 @@ FVGeneLabelView.propTypes = {
   editable: PropTypes.bool,
   chromosomeHeight: PropTypes.number,
   chromosomeDescriptor: PropTypes.object,
-  stripe: PropTypes.bool
+  stripe: PropTypes.bool,
+  defaultUnknown: PropTypes.bool
 };
 
 export default FVGeneLabelView;
