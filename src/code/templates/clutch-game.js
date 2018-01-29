@@ -97,6 +97,7 @@ export default class ClutchGame extends Component {
       isSubmitParents = challengeType === "submit-parents",
       isTestCross = challengeType === "test-cross",
       child = null;
+      console.log(mother.getImageName(), father.getImageName(), userDrake.getImageName());
 
     const handleAlleleChange = function (chrom, side, prevAllele, newAllele, orgName) {
       const isHiddenParent = isTestCross && hiddenParent && ((hiddenParent.sex === BioLogica.FEMALE && orgName === "mother") || (hiddenParent.sex === BioLogica.MALE && orgName === "father")),
@@ -121,7 +122,8 @@ export default class ClutchGame extends Component {
       const parent = hiddenParent.sex === BioLogica.FEMALE ? mother : father,
       success = (parent.getImageName() === userDrake.getImageName());
 
-      console.log(parent.getImageName(), userDrake.getImageName());
+      //console.log(parent.getImageName(), userDrake.getImageName());
+
       onDrakeSubmission(2, 2, success, null, 0, 1);
     };
 
@@ -181,10 +183,10 @@ export default class ClutchGame extends Component {
       handleHatch();
     }
 
-    let clutchDrakes = drakes.slice(2+numTargets);
+    let clutchDrakes = drakes.slice(2 + numTargets);
     clutchDrakes = clutchDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
     const clickDrake = !isSubmitParents ? handleSubmit : null;
-    let penView = (isTestCross ? <ClutchView orgs={clutchDrakes} pageSize={12} /> :<ClutchView orgs={ clutchDrakes } width={250} onClick={clickDrake}/>);
+    let penView = (isTestCross ? <ClutchView orgs={clutchDrakes} pageSize={12} /> : <ClutchView orgs={clutchDrakes} width={250} onClick={clickDrake} />);
 
     const motherClassNames = classNames('parent', 'mother'),
           fatherClassNames = classNames('parent', 'father');
@@ -212,7 +214,8 @@ export default class ClutchGame extends Component {
           <GenomeView species={isHiddenParent ? userDrake.species : org.species} org={isHiddenParent ? userDrake : org} {...uniqueProps} editable={parentChangeableGenes.length > 0}
                          ChromosomeImageClass={FVChromosomeImageView} small={ true } hiddenAlleles={hiddenAlleles}
                          userChangeableGenes={ parentChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange }
-            chromosomeHeight={122} />
+            chromosomeHeight={122} defaultUnknown={isHiddenParent}
+          />
           {isHiddenParent &&
             <div>
               <div className='geniblocks test-cross-submit-button-surround'>
@@ -319,15 +322,22 @@ export default class ClutchGame extends Component {
       authoredChallenge.father[authoredTrialNumber]]
         .concat(authoredChallenge.targetDrakes[authoredTrialNumber]);
     } else if (authoredChallenge.challengeType === "test-cross") {
-        return [authoredChallenge.mother,
-        authoredChallenge.father,
-        authoredChallenge.targetDrake];
+      let parentArray = authoredChallenge.hiddenParent.sex === BioLogica.FEMALE ? authoredChallenge.mother : authoredChallenge.father;
+      let randomSelection = Math.floor(Math.random() * parentArray[0].randomMatched.length);
+      let parent = parentArray[0].randomMatched[randomSelection];
+
+      let userDrake = Object.assign({}, parent);
+      let replaceRegex = new RegExp(authoredChallenge.targetDrake.alleles, "i");
+      let newAlleles = userDrake.alleles.replace(replaceRegex, authoredChallenge.targetDrake.alleles );
+
+      userDrake.alleles = newAlleles;
+
+      let authoredDrakes =
+        [ authoredChallenge.hiddenParent.sex === BioLogica.FEMALE ? parent: authoredChallenge.mother,
+          authoredChallenge.hiddenParent.sex === BioLogica.FEMALE ? authoredChallenge.father : parent,
+          userDrake ];
+      return authoredDrakes;
     }
-    // let mother = authoredChallenge.mother[authoredTrialNumber];
-    // let father = authoredChallenge.father[authoredTrialNumber];
-    // return [mother,
-    //         father,
-    //         authoredChallenge.targetDrakes[authoredTrialNumber]];
   }
 
   static getNumTargets = function(authoredChallenge, authoredTrialNumber) {
