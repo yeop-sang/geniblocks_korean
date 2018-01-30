@@ -10,6 +10,8 @@ import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
 import ButtonView from '../fv-components/button';
 import t from '../utilities/translate';
 
+import GeneticsUtils from '../utilities/genetics-utils';
+
 const durationHatchAnimation = 1333;  // msec
 
 var timers = [];
@@ -120,9 +122,26 @@ export default class ClutchGame extends Component {
 
     const handleSubmitParentGenotype = function () {
       const parent = hiddenParent.sex === BioLogica.FEMALE ? mother : father,
-      success = (parent.getImageName() === userDrake.getImageName());
+        filteredUserAlleles = GeneticsUtils.filterVisibleAlleles(userDrake.getGenotype().allAlleles, userChangeableGenes, visibleGenes, userDrake.species),
+        filteredParentAlleles = GeneticsUtils.filterVisibleAlleles(parent.getGenotype().allAlleles, userChangeableGenes, visibleGenes, parent.species);
 
-      //console.log(parent.getImageName(), userDrake.getImageName());
+      let userDrakeAlleleArray = filteredUserAlleles.map(t => t.allele);
+      let parentDrakeAlleleArray = filteredParentAlleles.map(t => t.allele);
+      let unmatched = [];
+
+      // check through all changeable alleles, see if all the parent alleles are matched with the user submission
+      for (let i = 0; i < userDrakeAlleleArray.length; i++){
+        let matchIndex = parentDrakeAlleleArray.indexOf(userDrakeAlleleArray[i]);
+        if (matchIndex > -1) {
+          // found a match
+          parentDrakeAlleleArray.splice(matchIndex, 1);
+        } else {
+          unmatched.push(userDrakeAlleleArray[i]);
+        }
+      }
+      console.log(unmatched, parentDrakeAlleleArray);
+
+      let success = unmatched.length === 0;
 
       onDrakeSubmission(2, 2, success, null, 0, 1);
     };
@@ -205,6 +224,7 @@ export default class ClutchGame extends Component {
             uniqueProps = sex === BioLogica.FEMALE
                               ? { orgName: 'mother', className: motherClassNames, isHiddenParent }
           : { orgName: 'father', className: fatherClassNames, isHiddenParent };
+
 
       let view = isHiddenParent && hiddenParent.hiddenGenotype ?
         <div id="test-cross-guess">
@@ -322,20 +342,11 @@ export default class ClutchGame extends Component {
       authoredChallenge.father[authoredTrialNumber]]
         .concat(authoredChallenge.targetDrakes[authoredTrialNumber]);
     } else if (authoredChallenge.challengeType === "test-cross") {
-      let parentArray = authoredChallenge.hiddenParent.sex === BioLogica.FEMALE ? authoredChallenge.mother : authoredChallenge.father;
-      let randomSelection = Math.floor(Math.random() * parentArray[0].randomMatched.length);
-      let parent = parentArray[0].randomMatched[randomSelection];
-
-      let userDrake = Object.assign({}, parent);
-      let replaceRegex = new RegExp(authoredChallenge.targetDrake.alleles, "i");
-      let newAlleles = userDrake.alleles.replace(replaceRegex, authoredChallenge.targetDrake.alleles );
-
-      userDrake.alleles = newAlleles;
-
-      let authoredDrakes =
-        [ authoredChallenge.hiddenParent.sex === BioLogica.FEMALE ? parent: authoredChallenge.mother,
-          authoredChallenge.hiddenParent.sex === BioLogica.FEMALE ? authoredChallenge.father : parent,
-          userDrake ];
+      let authoredDrakes = [
+        authoredChallenge.mother,
+        authoredChallenge.father,
+        authoredChallenge.targetDrake
+      ];
       return authoredDrakes;
     }
 

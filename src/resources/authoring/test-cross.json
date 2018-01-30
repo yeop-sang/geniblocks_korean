@@ -1318,7 +1318,7 @@
             },
             "start" : [ {
               "character" : "RAJPUT",
-              "text" : "Welcome!"
+              "text" : "Welcome to the second stage!"
             } ]
           },
           "id" : "test-cross-2",
@@ -2964,7 +2964,7 @@
       "challengeType" : "test-cross",
       "container" : "FVContainer",
       "father" : {
-          "alleles" : "h-h, w-w, hl-hl, b-b, m-m, a1-a1, fl-fl, rh-rh, Bog-Bog",
+          "alleles" : "h-h, w-w, hl-hl, b-b, m-m, a1-a1, fl-fl, rh-rh, D-D, Bog-Bog",
           "sex" : 0
       },
       "goalMoves" : [6],
@@ -2973,7 +2973,7 @@
       "interactionType" : "select-chromosomes",
       "linkedGenes" : {
         "drakes" : [ 0, 1, 2 ],
-        "genes" : "color, horns, armor, tail, dilute, nose, bogbreath"
+        "genes" : "color, armor, tail, dilute, nose, bogbreath"
       },
       "mother" : [ {
         "randomMatched" : [ {
