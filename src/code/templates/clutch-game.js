@@ -338,6 +338,10 @@ export default class ClutchGame extends Component {
           userDrake ];
       return authoredDrakes;
     }
+
+    return [authoredChallenge.mother[authoredTrialNumber],
+      authoredChallenge.father[authoredTrialNumber]]
+        .concat(authoredChallenge.targetDrakes[authoredTrialNumber]);
   }
 
   static getNumTargets = function(authoredChallenge, authoredTrialNumber) {
