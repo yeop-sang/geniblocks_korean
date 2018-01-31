@@ -342,10 +342,14 @@ export default class ClutchGame extends Component {
       authoredChallenge.father[authoredTrialNumber]]
         .concat(authoredChallenge.targetDrakes[authoredTrialNumber]);
     } else if (authoredChallenge.challengeType === "test-cross") {
+      const motherIdx = Math.floor(Math.random() * authoredChallenge.mother.length),
+       fatherIdx = Math.floor(Math.random() * authoredChallenge.father.length),
+       targetIdx = Math.floor(Math.random() * authoredChallenge.targetDrakes.length);
+
       let authoredDrakes = [
-        authoredChallenge.mother,
-        authoredChallenge.father,
-        authoredChallenge.targetDrake
+        authoredChallenge.mother[motherIdx],
+        authoredChallenge.father[fatherIdx],
+        authoredChallenge.targetDrakes[targetIdx]
       ];
       return authoredDrakes;
     }
