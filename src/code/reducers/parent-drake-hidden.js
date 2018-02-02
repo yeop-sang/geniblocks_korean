@@ -6,10 +6,18 @@ const initialState = true;
 
 export default function parentDrakeHidden(state = initialState, action) {
   switch (action.type) {
+    case actionTypes.ALLELE_CHANGED:
+      if (action.updateSelected) {
+        state = state.setIn(["selectedAlleles", action.chromosome, action.side], action.newAllele);
+      }
+      return state;
+    case actionTypes.NAVIGATED:
+      return state;
 
     case actionTypes.READY_TO_ANSWER:
-      console.log(state, action);
-      return state.setIn(["hiddenGenotype"], !action.ready);
+      state = state.setIn(["hiddenGenotype"], !action.ready);
+
+      return state;
     default:
       return state;
   }

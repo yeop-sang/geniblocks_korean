@@ -22,6 +22,7 @@ describe('changeAllele action', () => {
       previousAllele,
       newAllele,
       incrementMoves: false,
+      updateSelected: false,
       meta: {
         "itsLog": {
           "actor": "USER",

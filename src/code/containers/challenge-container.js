@@ -56,8 +56,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onChromosomeAlleleChange: (index, chrom, side, prevAllele, newAllele, incrementMoves=true) =>
-      dispatch(changeAllele(index, chrom, side, prevAllele, newAllele, incrementMoves)),
+    onChromosomeAlleleChange: (index, chrom, side, prevAllele, newAllele, incrementMoves=true, updateSelected) =>
+      dispatch(changeAllele(index, chrom, side, prevAllele, newAllele, incrementMoves, updateSelected)),
     onSexChange: (index, newSex, incrementMoves=true) =>
       dispatch(changeSex(index, newSex, incrementMoves)),
     onDrakeSubmission: (targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex) =>

@@ -243,7 +243,7 @@ export function breed(mother, father, offspringBin, quantity=1, incrementMoves=f
   };
 }
 
-export function changeAllele(index, chromosome, side, previousAllele, newAllele, incrementMoves=false) {
+export function changeAllele(index, chromosome, side, previousAllele, newAllele, incrementMoves=false, updateSelected=false) {
  return {
     type: actionTypes.ALLELE_CHANGED,
     index,
@@ -252,6 +252,7 @@ export function changeAllele(index, chromosome, side, previousAllele, newAllele,
     previousAllele,
     newAllele,
     incrementMoves,
+    updateSelected,
     meta: {
       logNextState: {
         newAlleles: ["drakes", index, "alleleString"]

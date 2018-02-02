@@ -1343,7 +1343,7 @@
             },
             "start" : [ {
               "character" : "RAJPUT",
-              "text" : "This time you need to determine the father's genotype."
+              "text" : "This time you need to determine the father's genotype. You can change the mother's alleles."
             } ]
           },
           "id" : "test-cross-3",
@@ -2963,7 +2963,7 @@
       "challengeType" : "test-cross",
       "container" : "FVContainer",
       "father" : [ {
-          "alleles" : "h-h, w-w, hl-hl, b-b, m-m, a1-a1, fl-fl,  D-D, Bog-Bog, rh-rh",
+          "alleles" : "h-h, w-w, hl-hl, b-b, m-m, a1-a1, fl-fl, D-D, Bog-Bog, rh-rh",
           "sex" : 0
         }],
       "goalMoves" : [6],

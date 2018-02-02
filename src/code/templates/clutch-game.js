@@ -104,8 +104,10 @@ export default class ClutchGame extends Component {
     const handleAlleleChange = function (chrom, side, prevAllele, newAllele, orgName) {
       const isHiddenParent = isTestCross && hiddenParent && ((hiddenParent.sex === BioLogica.FEMALE && orgName === "mother") || (hiddenParent.sex === BioLogica.MALE && orgName === "father")),
         incrementMoves = isTestCross ? isHiddenParent : !isSubmitParents,
-        index = isHiddenParent ? 2 : orgName === "mother" ? 0 : 1;
-      onChromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, incrementMoves);
+        index = isHiddenParent ? 2 : orgName === "mother" ? 0 : 1,
+        updateSelectedAlleles = isHiddenParent;
+
+      onChromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, incrementMoves, updateSelectedAlleles);
     };
 
     const handleFertilize = function () {
@@ -124,7 +126,6 @@ export default class ClutchGame extends Component {
       const parent = hiddenParent.sex === BioLogica.FEMALE ? mother : father,
         filteredUserAlleles = GeneticsUtils.filterVisibleAlleles(userDrake.getGenotype().allAlleles, userChangeableGenes, visibleGenes, userDrake.species),
         filteredParentAlleles = GeneticsUtils.filterVisibleAlleles(parent.getGenotype().allAlleles, userChangeableGenes, visibleGenes, parent.species);
-
       let userDrakeAlleleArray = filteredUserAlleles.map(t => t.allele);
       let parentDrakeAlleleArray = filteredParentAlleles.map(t => t.allele);
       let unmatched = [];
@@ -139,8 +140,6 @@ export default class ClutchGame extends Component {
           unmatched.push(userDrakeAlleleArray[i]);
         }
       }
-      console.log(unmatched, parentDrakeAlleleArray);
-
       let success = unmatched.length === 0;
 
       onDrakeSubmission(2, 2, success, null, 0, 1);
@@ -234,7 +233,7 @@ export default class ClutchGame extends Component {
           <GenomeView species={isHiddenParent ? userDrake.species : org.species} org={isHiddenParent ? userDrake : org} {...uniqueProps} editable={parentChangeableGenes.length > 0}
                          ChromosomeImageClass={FVChromosomeImageView} small={ true } hiddenAlleles={hiddenAlleles}
                          userChangeableGenes={ parentChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange }
-            chromosomeHeight={122} defaultUnknown={isHiddenParent}
+            chromosomeHeight={122} defaultUnknown={isHiddenParent} selectedAlleles={isHiddenParent ? hiddenParent.selectedAlleles : null}
           />
           {isHiddenParent &&
             <div>
