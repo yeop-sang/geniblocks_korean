@@ -111,12 +111,12 @@ export default class ClutchGame extends Component {
     };
 
     const handleFertilize = function () {
-      animatedComponents = [];
-      if (isTestCross) {
-        onBreedClutch(12);
-      } else {
-        onBreedClutch(8);
-      }
+        animatedComponents = [];
+        if (isTestCross) {
+          if (hiddenParent && hiddenParent.hiddenGenotype) onBreedClutch(12);
+        } else {
+          onBreedClutch(8);
+        }
     };
     const handleReadyToAnswer = function () {
       onReadyToAnswer(true);
@@ -271,14 +271,25 @@ export default class ClutchGame extends Component {
         <div id="test-cross-buttons">
           <div className="geniblocks ready-to-answer-button-area">
             <div className='geniblocks ready-to-answer-button-surround'>
-              <div className={classNames('ready-to-answer-button', 'geniblocks', 'fv-button')} onClick={handleReadyToAnswer}>
-                <div className="button-label unselectable">{t("~BUTTON.READY_TO_ANSWER")}</div>
-              </div>
+              {drakes.length > 3 &&
+                <div className={classNames('ready-to-answer-button', 'geniblocks', 'fv-button')} onClick={handleReadyToAnswer}>
+                  <div className="button-label unselectable">{t("~BUTTON.READY_TO_ANSWER")}</div>
+                </div>
+              }
+              {drakes.length <= 3 &&
+                <div className={classNames('ready-to-answer-button', 'geniblocks', 'fv-button', 'disabled')}>
+                  <div className="button-label unselectable">{t("~BUTTON.READY_TO_ANSWER")}</div>
+                </div>
+              }
             </div>
           </div>
         </div>
 
       ) : null;
+    let breedEnabled = true;
+    if (isTestCross && hiddenParent) {
+      breedEnabled = hiddenParent.hiddenGenotype;
+    }
 
     return (
       <div id="breeding-game">
@@ -290,7 +301,7 @@ export default class ClutchGame extends Component {
           <div className='column center-column'>
             {targetDrakeSection}
             {penView}
-            <BreedButtonAreaView  scale={scale} isBreedButtonEnabled={true}
+            <BreedButtonAreaView  scale={scale} isBreedButtonEnabled={breedEnabled}
                                   isHatchingInProgress={false}
                                   hatchAnimationDuration={durationHatchAnimation}
                                   handleHatchingComplete={animationEvents.hatch.onFinish}
