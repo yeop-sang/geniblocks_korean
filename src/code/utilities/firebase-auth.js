@@ -1,5 +1,6 @@
 /* global firebase */
 import urlParams from "./url-params";
+import jwt from 'jsonwebtoken';
 
 export default function initFirebase() {
   // Initialize Firebase
@@ -34,12 +35,14 @@ export default function initFirebase() {
       .then(function (response) {
         if (!response.ok) console.log("Failed to fetch JWT", response.error, response.body);
         else {
+          let authToken = {};
           response.json().then(function (jsonData) {
-            // TODO: validate token!
+            authToken = jwt.decode(jsonData.token);
             firebase.auth().signInWithCustomToken(jsonData.token).catch(function (error) {
               console.log("Error authenticating with Firebase", error);
             });
           });
+          return authToken;
         }
     });
   }

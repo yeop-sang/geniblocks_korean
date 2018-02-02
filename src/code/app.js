@@ -29,7 +29,7 @@ import urlParams from './utilities/url-params';
 import uuid from 'uuid';
 import initFirebase from "./utilities/firebase-auth";
 
-initFirebase();
+let authToken = initFirebase();
 
 // trivial check for Windows as part of user agent string
 if (navigator.userAgent.indexOf('Windows') >= 0)
@@ -77,12 +77,12 @@ initializeITSSocket(guideServer, guideProtocol, store);
 
 // generate pseudo-random sessionID and username
 const sessionID = uuid.v4(),
-      userNameBase = urlParams.baseUser || "gv2-user";
+      userNameBase = authToken.claims.user_id || "gv2-user";
 loggingMetadata.userName = `${userNameBase}-${sessionID.split("-")[0]}`;
-loggingMetadata.classInfo = urlParams.class_info_url;
+loggingMetadata.classInfo = authToken.class_info_url;
 loggingMetadata.studentId = urlParams.domain_uid;
-loggingMetadata.externalId = urlParams.externalId;
-loggingMetadata.returnUrl = urlParams.returnUrl;
+loggingMetadata.externalId = authToken.externalId;
+loggingMetadata.returnUrl = urlParams.domain;
 // start the session before syncing history, which triggers navigation
 store.dispatch(startSession(sessionID));
 
