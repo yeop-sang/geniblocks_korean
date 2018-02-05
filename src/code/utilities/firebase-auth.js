@@ -2,7 +2,7 @@
 import urlParams from "./url-params";
 import jwt from 'jsonwebtoken';
 
-export default function initFirebase() {
+export const initFirebase = new Promise(function (resolve, reject) {
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyCr8UbzmHqWVuOIQrU2_1_CIIwT-GphnYo",
@@ -17,8 +17,8 @@ export default function initFirebase() {
   // communicate with portal for JWT
   // if there is no domain parameter, there is no authentication
   if (!urlParams.domain) {
-    console.log("Not authenticated via portal");
-    return;
+    //console.log("Not authenticated via portal");
+    reject(Error("Not authenticated via portal"));
   } else {
     // send request to portal via domain url parameter
     // for example, https://learn.staging.concord.org/api/v1/jwt/firebase?firebase_app=GVStaging
@@ -33,17 +33,19 @@ export default function initFirebase() {
 
     fetch(jwtUrl, jwtInit)
       .then(function (response) {
-        if (!response.ok) console.log("Failed to fetch JWT", response.error, response.body);
+        if (!response.ok) {
+          reject(Error("Failed to fetch JWT", response.error, response.body));
+        }
         else {
-          let authToken = {};
+          let authToken;
           response.json().then(function (jsonData) {
             authToken = jwt.decode(jsonData.token);
             firebase.auth().signInWithCustomToken(jsonData.token).catch(function (error) {
-              console.log("Error authenticating with Firebase", error);
+              reject(Error(error));
             });
+            resolve(authToken);
           });
-          return authToken;
         }
-    });
+      });
   }
-}
+});

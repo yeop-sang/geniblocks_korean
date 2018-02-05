@@ -27,9 +27,7 @@ import thunk from 'redux-thunk';
 import GeneticsUtils from './utilities/genetics-utils';
 import urlParams from './utilities/url-params';
 import uuid from 'uuid';
-import initFirebase from "./utilities/firebase-auth";
-
-let authToken = initFirebase();
+import { initFirebase } from "./utilities/firebase-auth";
 
 // trivial check for Windows as part of user agent string
 if (navigator.userAgent.indexOf('Windows') >= 0)
@@ -69,22 +67,47 @@ export default function configureStore(initialState) {
   return createStoreWithMiddleware(reducer, initialState, window.devToolsExtension && window.devToolsExtension());
 }
 
-const store = configureStore();
 
+const store = configureStore();
 const guideServer = "wss://guide.intellimedia.ncsu.edu",
       guideProtocol  = "guide-protocol-v3";
-initializeITSSocket(guideServer, guideProtocol, store);
 
-// generate pseudo-random sessionID and username
-const sessionID = uuid.v4(),
-      userNameBase = authToken.claims.user_id || "gv2-user";
-loggingMetadata.userName = `${userNameBase}-${sessionID.split("-")[0]}`;
-loggingMetadata.classInfo = authToken.class_info_url;
-loggingMetadata.studentId = urlParams.domain_uid;
-loggingMetadata.externalId = authToken.externalId;
-loggingMetadata.returnUrl = urlParams.domain;
-// start the session before syncing history, which triggers navigation
-store.dispatch(startSession(sessionID));
+initFirebase.then(function (authToken) {
+  if (authToken) {
+    initITS(
+      authToken.claims.user_id,
+      authToken.class_info_url,
+      authToken.externalId,
+      authToken.returnUrl);
+  } else {
+    initITS(
+      urlParams.baseUser || "gv2-user",
+      urlParams.class_info_url,
+      urlParams.externalId,
+      urlParams.returnUrl);
+  }
+}, function(err){
+  console.log(err);
+  initITS(
+    urlParams.baseUser || "gv2-user",
+    urlParams.class_info_url,
+    urlParams.externalId,
+    urlParams.returnUrl);
+});
+
+const initITS = function (user_id, class_info_url, externalId, returnUrl) {
+  initializeITSSocket(guideServer, guideProtocol, store);
+  // generate pseudo-random sessionID and username
+  const sessionID = uuid.v4(),
+        userNameBase = user_id;
+  loggingMetadata.userName = `${userNameBase}-${sessionID.split("-")[0]}`;
+  loggingMetadata.classInfo = class_info_url;
+  loggingMetadata.studentId = urlParams.domain_uid;
+  loggingMetadata.externalId = externalId;
+  loggingMetadata.returnUrl = returnUrl;
+  // start the session before syncing history, which triggers navigation
+  store.dispatch(startSession(sessionID));
+};
 
 const history = syncHistoryWithStore(hashHistory, store);
 
