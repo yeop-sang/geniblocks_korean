@@ -34,7 +34,19 @@ export const initFirebase = new Promise(function (resolve, reject) {
     fetch(jwtUrl, jwtInit)
       .then(function (response) {
         if (!response.ok) {
-          reject(Error("Failed to fetch JWT", response.error, response.body));
+          // try local session
+          let token = sessionStorage.getItem('jwtToken');
+          if (!token) {
+            reject(Error("Failed to fetch JWT", response.error, response.body));
+          }
+          else {
+            let authToken = (jwt.decode(token));
+            firebase.auth().signInWithCustomToken(token).catch(function (error) {
+              reject(Error(error));
+            });
+            sessionStorage.setItem('jwtToken', token);
+            resolve(authToken);
+          }
         }
         else {
           let authToken;
@@ -43,6 +55,7 @@ export const initFirebase = new Promise(function (resolve, reject) {
             firebase.auth().signInWithCustomToken(jsonData.token).catch(function (error) {
               reject(Error(error));
             });
+            sessionStorage.setItem('jwtToken', jsonData.token);
             resolve(authToken);
           });
         }
