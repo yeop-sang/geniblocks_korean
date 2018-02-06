@@ -144,6 +144,9 @@ export default class ClutchGame extends Component {
 
       onDrakeSubmission(2, 2, success, null, 0, 1);
     };
+    const handleSaveAndClose = function () {
+      onReadyToAnswer(false);
+    };
 
     const handleHatch = function () {
       if (!hatchSoundPlayed) {
@@ -240,6 +243,11 @@ export default class ClutchGame extends Component {
               <div className='geniblocks test-cross-submit-button-surround'>
                 <div className={classNames('test-cross-submit-button', 'geniblocks', 'fv-button')} onClick={handleSubmitParentGenotype}>
                   <div className="button-label unselectable">{t("~BUTTON.SUBMIT")}</div>
+                </div>
+            </div>
+            <div className='geniblocks test-cross-save-button-surround'>
+                <div className={classNames('test-cross-save-button', 'geniblocks', 'fv-button')} onClick={handleSaveAndClose}>
+                  <div className="button-label unselectable">{t("~BUTTON.SAVE_AND_CLOSE")}</div>
                 </div>
               </div>
             </div>}
