@@ -104,7 +104,6 @@ export default function reducer(state, action) {
         routeSpec: {level, mission, challenge},
         trial: 0
       });
-      console.log("navigated", state);
       return loadStateFromAuthoring(state, state.authoring);
     }
     case actionTypes.NAVIGATED_PAGE:

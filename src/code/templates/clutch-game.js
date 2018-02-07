@@ -90,7 +90,7 @@ export default class ClutchGame extends Component {
   render() {
     const { scale, challengeType, drakes, hiddenAlleles, hiddenParent, trial, numTargets,
       userChangeableGenes, visibleGenes, onChromosomeAlleleChange,
-      onBreedClutch, onHatch, onDrakeSubmission, onParentSubmission, onReadyToAnswer } = this.props,
+      onBreedClutch, onClearClutch, onHatch, onDrakeSubmission, onParentSubmission, onReadyToAnswer } = this.props,
       // 0: mother, 1: father, 2...n: target, n+1...: children
       mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
       father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex),
@@ -106,7 +106,7 @@ export default class ClutchGame extends Component {
         //incrementMoves = isTestCross ? isHiddenParent : !isSubmitParents,
         index = isHiddenParent ? 2 : orgName === "mother" ? 0 : 1,
         updateSelectedAlleles = isHiddenParent;
-
+      if (!isHiddenParent) onClearClutch();
       onChromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, false, updateSelectedAlleles);
     };
 
@@ -346,6 +346,7 @@ export default class ClutchGame extends Component {
     hiddenParent: PropTypes.object,
     onChromosomeAlleleChange: PropTypes.func.isRequired,
     onBreedClutch: PropTypes.func.isRequired,
+    onClearClutch: PropTypes.func,
     onHatch: PropTypes.func,
     onDrakeSubmission: PropTypes.func,
     onParentSubmission: PropTypes.func,

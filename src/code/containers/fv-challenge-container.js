@@ -16,7 +16,7 @@ import preloadImageList from '../preload-images.json';
 import { changeAllele, changeSex, submitDrake, submitParents,
         keepOffspring, fertilize, breedClutch, hatch,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket,
-        winZoomChallenge, toggleMap, enterChallengeFromRoom, showEasterEgg, readyToAnswer } from '../actions';
+        winZoomChallenge, toggleMap, enterChallengeFromRoom, showEasterEgg, readyToAnswer, clearClutch } from '../actions';
 import { addGameteChromosome, resetGametes,
         addGametesToPool, selectGameteInPool, resetGametePools } from '../modules/gametes';
 import { tutorialNext, tutorialPrevious, tutorialMore, tutorialClosed, restartTutorial } from '../modules/tutorials';
@@ -221,6 +221,7 @@ function mapDispatchToProps(dispatch) {
     onSelectGameteInPool: (sex, index) => dispatch(selectGameteInPool(sex, index)),
     onFertilize: () => dispatch(fertilize()),
     onBreedClutch: (clutchSize) => dispatch(breedClutch(clutchSize)),
+    onClearClutch: () => dispatch(clearClutch()),
     onHatch: () => dispatch(hatch()),
     onResetGametes: (incrementMoves) => dispatch(resetGametes(incrementMoves)),
     onResetGametePools: () => dispatch(resetGametePools()),

@@ -45,6 +45,11 @@ function breedClutch(state, clutchSize) {
   return state;
 }
 
+function clearClutch(state) {
+  let nextDrakes = [state[0], state[1], state[2]];
+  return nextDrakes;
+}
+
 export default function drakes(state = initialState, gametes = {}, action) {
   switch (action.type) {
     case actionTypes.ALLELE_CHANGED:
@@ -114,6 +119,8 @@ export default function drakes(state = initialState, gametes = {}, action) {
       return fertilize(state, gametes);
     case actionTypes.CLUTCH_BRED:
       return breedClutch(state, action.clutchSize);
+    case actionTypes.CLUTCH_CLEARED:
+      return clearClutch(state);
     default:
       return state;
   }

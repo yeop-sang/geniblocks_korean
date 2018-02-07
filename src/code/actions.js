@@ -243,7 +243,7 @@ export function breed(mother, father, offspringBin, quantity=1, incrementMoves=f
   };
 }
 
-export function changeAllele(index, chromosome, side, previousAllele, newAllele, incrementMoves=false, updateSelected=false) {
+export function changeAllele(index, chromosome, side, previousAllele, newAllele, incrementMoves=false, updateSelected=false, clearClutch=false) {
  return {
     type: actionTypes.ALLELE_CHANGED,
     index,
@@ -652,6 +652,12 @@ export function breedClutch(clutchSize) {
   return {
     type: actionTypes.CLUTCH_BRED,
     clutchSize
+  };
+}
+
+export function clearClutch() {
+  return {
+    type: actionTypes.CLUTCH_CLEARED
   };
 }
 
