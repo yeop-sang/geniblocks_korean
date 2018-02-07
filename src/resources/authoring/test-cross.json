@@ -2929,7 +2929,7 @@
           "alleles" : "Hl-Hl, w-w, B-B, H-h, M-m, fl-fl, A1-A1, rh-rh, Bog-Bog",
           "sex" : 0
         } ],
-      "goalMoves" : [0],
+      "goalMoves" : [-1],
       "hiddenAlleles" : "A2",
       "instructions" : "Test!",
       "interactionType" : "select-chromosomes",
@@ -2966,7 +2966,7 @@
           "alleles" : "h-h, w-w, hl-hl, b-b, m-m, a1-a1, fl-fl, D-D, Bog-Bog, rh-rh",
           "sex" : 0
         }],
-      "goalMoves" : [0],
+      "goalMoves" : [-1],
       "hiddenAlleles" : "A2",
       "instructions" : "Test2!",
       "interactionType" : "select-chromosomes",
@@ -3039,7 +3039,7 @@
           "alleles" : "a-a, L-l, W-w, b-b, h-h, M-M, Fl-Fl, D-D, hl-hl",
           "sex" : 0
         } ],
-      "goalMoves" : [0],
+      "goalMoves" : [-1],
       "hiddenAlleles" : "A2",
       "instructions" : "Test!",
       "interactionType" : "select-chromosomes",
