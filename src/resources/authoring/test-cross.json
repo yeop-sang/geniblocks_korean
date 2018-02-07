@@ -3083,6 +3083,7 @@
         "father" : "forelimbs, hindlimbs, metallic, armor",
         "mother" : "forelimbs, hindlimbs, metallic, armor"
       } ],
+      "visibleGenes" : "forelimbs, hindlimbs, metallic, armor",
       "hiddenParent": {
         "sex": 0,
         "hiddenImage": true,

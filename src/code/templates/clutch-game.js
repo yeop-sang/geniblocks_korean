@@ -141,7 +141,6 @@ export default class ClutchGame extends Component {
         }
       }
       let success = unmatched.length === 0;
-
       onDrakeSubmission(2, 2, success, null, 0, 1);
     };
     const handleSaveAndClose = function () {
