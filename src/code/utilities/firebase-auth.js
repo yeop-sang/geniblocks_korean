@@ -40,23 +40,20 @@ export const initFirebase = new Promise(function (resolve, reject) {
             reject(Error("Failed to fetch JWT", response.error, response.body));
           }
           else {
-            let authToken = (jwt.decode(token));
             firebase.auth().signInWithCustomToken(token).catch(function (error) {
               reject(Error(error));
             });
-            sessionStorage.setItem('jwtToken', token);
-            resolve(userAuth());
+            window.sessionStorage.setItem('jwtToken', token);
+            resolve(_userAuth(token));
           }
         }
         else {
-          let authToken;
           response.json().then(function (jsonData) {
-            authToken = jwt.decode(jsonData.token);
             firebase.auth().signInWithCustomToken(jsonData.token).catch(function (error) {
               reject(Error(error));
             });
             window.sessionStorage.setItem('jwtToken', jsonData.token);
-            resolve(userAuth());
+            resolve(_userAuth(jsonData.token));
           });
         }
       });
@@ -65,6 +62,10 @@ export const initFirebase = new Promise(function (resolve, reject) {
 
 export const userAuth = () => {
   let token = window.sessionStorage.getItem('jwtToken');
+  return _userAuth(token);
+};
+
+const _userAuth = (token) => {
   if (token) {
     let authToken = (jwt.decode(token));
     return {
