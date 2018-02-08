@@ -22,6 +22,7 @@ const BottomHUDView = React.createClass({
     maxScore: PropTypes.number,
     currMoves: PropTypes.number,
     goalMoves: PropTypes.number,
+    showMoveCounter: PropTypes.boolean,
     gems: PropTypes.array,
     numChallenges: PropTypes.number,
     showAward: PropTypes.bool,
@@ -31,7 +32,7 @@ const BottomHUDView = React.createClass({
   },
 
   render() {
-    let {routeSpec, trial, trialCount, currScore, maxScore, currMoves, goalMoves, numChallenges, gems, showTutorialButton, onRestartTutorial} = this.props,
+    let {routeSpec, trial, trialCount, currScore, maxScore, currMoves, goalMoves, showMoveCounter, numChallenges, gems, showTutorialButton, onRestartTutorial} = this.props,
         scoreView = maxScore ?
           <CountView
             countTitleText={t('~COUNTER.SCORE_LABEL')}
@@ -42,7 +43,7 @@ const BottomHUDView = React.createClass({
         movesRemainingShown = Math.max(0, movesRemaining),
         possibleGem = Math.max(-1, Math.min(2, movesRemaining)),
         color = gemColors[possibleGem],
-        movesView = goalMoves > -1 ?
+        movesView = (showMoveCounter && goalMoves > -1) ?
           <CountView
             countTitleText={t('~COUNTER.MOVES_LABEL')}
             className={`moves-count ${color}`}
