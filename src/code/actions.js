@@ -363,7 +363,7 @@ export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrect
 
     if (correct) {
       if (challengeComplete) {
-        dispatch(completeChallenge());
+        dispatch(showInChallengeCompletionMessage());
       } else {
         dispatch(showNotification({
           message: {
@@ -432,7 +432,7 @@ export function submitParents(motherIndex, fatherIndex, targetDrakeIndices, corr
 
     if (correct) {
       if (challengeComplete) {
-        dispatch(completeChallenge());
+        dispatch(showInChallengeCompletionMessage());
       } else {
         dispatch(showNotification({
           message: {
@@ -485,7 +485,7 @@ export function acceptEggInBasket(args) {
     dispatch(_acceptEggInBasket(args.eggDrakeIndex, args.basketIndex));
 
     if (args.isChallengeComplete) {
-      dispatch(completeChallenge());
+      dispatch(showInChallengeCompletionMessage());
     }
   };
 }
@@ -537,7 +537,7 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
       };
       if (isChallengeComplete) {
         dialog.closeButton = {
-          action: "completeChallenge"
+          action: "showInChallengeCompletionMessage"
         };
       } else {
         dialog.closeButton = {
@@ -612,6 +612,35 @@ export function advanceTrial() {
         target: ITS_TARGETS.TRIAL
       }
     }
+  };
+}
+
+export function showInChallengeCompletionMessage() {
+  return (dispatch, getState) => {
+
+    dispatch({
+      type: actionTypes.CHALLENGE_COMPLETED,
+      meta: {sound: 'receiveCoin'}
+    });
+
+    dispatch(showNotification({
+      message: {
+        text: "~ALERT.COMPLETED_CHALLENGE",
+        type: notificationType.NARRATIVE
+      },
+      closeButton: {
+        action: "completeChallenge"
+      }
+    }));
+
+    dispatch({
+      type: actionTypes.MODAL_DIALOG_SHOWN,
+      bigButtonText: "~BUTTON.CONTINUE",
+      rightButton: {
+        action: "completeChallenge"
+      },
+      showAward: false
+    });
   };
 }
 
@@ -695,7 +724,7 @@ export function keepOffspring(index, keptDrakesIndices, maxDrakes, shouldKeepSou
       // The size of the drakes array has changed since dispatching _keepOffspring
       const { drakes: updatedDrakes } = getState();
       if (updatedDrakes.length === maxDrakes) {
-        dispatch(completeChallenge());
+        dispatch(showInChallengeCompletionMessage());
       }
     } else {
       dispatch(showNotification({
@@ -726,7 +755,7 @@ export function winZoomChallenge() {
   return (dispatch) => {
     dispatch(_winZoomChallenge());
 
-    dispatch(completeChallenge());
+    dispatch(showInChallengeCompletionMessage());
   };
 }
 
