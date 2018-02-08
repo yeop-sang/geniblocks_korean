@@ -5,6 +5,13 @@ import CountView from './counter';
 import GemSetView from './gem-set';
 import t from '../utilities/translate';
 
+const gemColors = {
+  2: "blue",
+  1: "yellow",
+  0: "red",
+  [-1]: "black"
+};
+
 const BottomHUDView = React.createClass({
 
   propTypes: {
@@ -25,8 +32,21 @@ const BottomHUDView = React.createClass({
 
   render() {
     let {routeSpec, trial, trialCount, currScore, maxScore, currMoves, goalMoves, numChallenges, gems, showTutorialButton, onRestartTutorial} = this.props,
-        scoreView = maxScore ? <CountView countTitleText={t('~COUNTER.SCORE_LABEL')} className={'score-count'} currCount={currScore} maxCount={maxScore} /> : null,
-        movesView = goalMoves > -1 ? <CountView countTitleText={t('~COUNTER.MOVES_LABEL')} className={'moves-count'} currCount={currMoves} maxCount={goalMoves} /> : null,
+        scoreView = maxScore ?
+          <CountView
+            countTitleText={t('~COUNTER.SCORE_LABEL')}
+            className={'score-count'}
+            currCount={currScore}
+            maxCount={maxScore} /> : null,
+        movesRemaining = (goalMoves + 2) - currMoves,
+        movesRemainingShown = Math.max(0, movesRemaining),
+        possibleGem = Math.max(-1, Math.min(2, movesRemaining)),
+        color = gemColors[possibleGem],
+        movesView = goalMoves > -1 ?
+          <CountView
+            countTitleText={t('~COUNTER.MOVES_LABEL')}
+            className={`moves-count ${color}`}
+            currCount={movesRemainingShown} /> : null,
         showRouteWidgets = routeSpec !== null,
         routeWidgets, challengeWidgets, tutorialWidgets;
 

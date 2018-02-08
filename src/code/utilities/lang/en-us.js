@@ -61,7 +61,7 @@ export default {
 
   "~COUNTER.TRIAL_LABEL": "TRIAL",
   "~COUNTER.SCORE_LABEL": "SCORE",
-  "~COUNTER.MOVES_LABEL": "TARGET MOVES",
+  "~COUNTER.MOVES_LABEL": "MOVES LEFT",
   "~COUNTER.n_OF_N": "${0}\xA0\xA0of\xA0\xA0${1}",
 
   "~TARGET.TARGET_DRAKE": "Target Drake",

@@ -6,9 +6,10 @@
 
   .hud-text-area
     position: relative
-    left: 30px
+    text-align: center
+    left: 0
     top: 25px
-    width: 108px
+    width: 100%
     display: flex
     flex-direction: column
     justify-content: center
@@ -18,6 +19,18 @@
     font-size: 1.4rem
     line-height: 1.15
     color: #555555
+
+
+  &.blue
+    background-image: url('../resources/fablevision/huds/move-screens/blue_moves.png')
+  &.yellow
+    background-image: url('../resources/fablevision/huds/move-screens/yellow_moves.png')
+  &.red
+    background-image: url('../resources/fablevision/huds/move-screens/red_moves.png')
+  &.black
+    background-image: url('../resources/fablevision/huds/move-screens/null_moves.png')
+    .hud-text-area
+      color: #999
 
 .os-windows
   .geniblocks.counter

@@ -4,7 +4,9 @@ import t from '../utilities/translate';
 
 const CountView = ({countTitleText, className, currCount, maxCount}) => {
 
-  const countText = t(['~COUNTER.n_OF_N', currCount.toString(), maxCount.toString()]);
+  const countText = maxCount !== undefined ?
+    t(['~COUNTER.n_OF_N', currCount.toString(), maxCount.toString()])
+    : currCount;
   return (
     <div className={classNames('geniblocks', 'counter', className)}>
       <div className='hud-text-area'>
@@ -18,7 +20,7 @@ const CountView = ({countTitleText, className, currCount, maxCount}) => {
 CountView.propTypes = {
   countTitleText: PropTypes.string.isRequired,
   currCount: PropTypes.number.isRequired,
-  maxCount: PropTypes.number.isRequired,
+  maxCount: PropTypes.number,
   className: PropTypes.string
 };
 
