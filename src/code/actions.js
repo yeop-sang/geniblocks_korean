@@ -565,11 +565,12 @@ export function showCompleteChallengeDialog() {
 }
 
 export function showNextTrialButton() {
-  const rightButton = rightButton || {
+  const rightButton = {
           action: "advanceTrial"
         };
   return {
     type: actionTypes.MODAL_DIALOG_SHOWN,
+    bigButtonText: "~BUTTON.NEXT_TRIAL",
     rightButton,
     showAward: false
   };
