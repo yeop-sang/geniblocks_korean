@@ -34,7 +34,7 @@ export const initFirebase = new Promise(function (resolve, reject) {
     fetch(jwtUrl, jwtInit)
       .then(function (response) {
         if (!response.ok) {
-          // try local session
+          // token didn't work, try local session
           let token = window.sessionStorage.getItem('jwtToken');
           if (!token) {
             reject(Error("Failed to fetch JWT", response.error, response.body));
@@ -48,6 +48,7 @@ export const initFirebase = new Promise(function (resolve, reject) {
           }
         }
         else {
+          // we have a token that was accepted
           response.json().then(function (jsonData) {
             firebase.auth().signInWithCustomToken(jsonData.token).catch(function (error) {
               reject(Error(error));
