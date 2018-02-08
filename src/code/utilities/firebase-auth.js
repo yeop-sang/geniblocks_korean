@@ -45,7 +45,7 @@ export const initFirebase = new Promise(function (resolve, reject) {
               reject(Error(error));
             });
             sessionStorage.setItem('jwtToken', token);
-            resolve(authToken);
+            resolve(userAuth());
           }
         }
         else {
@@ -56,9 +56,33 @@ export const initFirebase = new Promise(function (resolve, reject) {
               reject(Error(error));
             });
             sessionStorage.setItem('jwtToken', jsonData.token);
-            resolve(authToken);
+            resolve(userAuth());
           });
         }
       });
   }
 });
+
+export const userAuth = () => {
+  let token = sessionStorage.getItem('jwtToken');
+  if (token) {
+    let authToken = (jwt.decode(token));
+    return {
+      user_id: authToken.claims.user_id,
+      class_info_url: authToken.class_info_url,
+      externalId: authToken.externalId,
+      returnUrl: authToken.returnUrl,
+      domain: urlParams.domain,
+      domain_uid: urlParams.domain_uid
+    };
+  } else {
+    return {
+      user_id: urlParams.baseUser || "gv2-user",
+      class_info_url: urlParams.class_info_url,
+      externalId: urlParams.externalId,
+      returnUrl: urlParams.returnUrl,
+      domain: urlParams.domain,
+      domain_uid: urlParams.domain_uid
+    };
+  }
+};

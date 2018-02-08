@@ -14,9 +14,9 @@
   }
  */
 
-import urlParams from '../utilities/url-params';
 import actionTypes from '../action-types';
 import progressUtils from '../utilities/progress-utils';
+import { userAuth } from "../utilities/firebase-auth";
 import { currentStateVersion } from '../migrations';
 
 export const authoringVersionNumber = 1;
@@ -76,11 +76,11 @@ export function getUserQueryString() {
 }
 
 function getClassId() {
-  return convertUrlToFirebaseKey(urlParams.class_info_url);
+  return convertUrlToFirebaseKey(userAuth().class_info_url);
 }
 
 function getUserId() {
-  return convertUrlToFirebaseKey(urlParams.domain) + urlParams.domain_uid;
+  return convertUrlToFirebaseKey(userAuth().domain) + userAuth().domain_uid;
 }
 
 function convertUrlToFirebaseKey(url) {
