@@ -12,7 +12,8 @@ class Notifications extends React.Component {
     closeButton: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     onCloseButton: PropTypes.func,
     onAdvanceNotifications: PropTypes.func.isRequired,
-    onCloseNotifications: PropTypes.func.isRequired
+    onCloseNotifications: PropTypes.func.isRequired,
+    isRaised: PropTypes.boolean
   }
 
   static defaultProps = {
@@ -41,7 +42,8 @@ class Notifications extends React.Component {
           isNarrative = message.type && message.type === "narrative",
           showCloseButton = !!this.props.closeButton && (!isNarrative || !this.props.messages[1]),
           showNextButton = !!this.props.messages[1],
-          className = `notification${isNarrative ? "" : " its-hint"}`,
+          isRaised = this.props.isRaised,
+          className = `notification${isNarrative ? "" : " its-hint"}${isRaised ? " raised" : ""}`,
 
           messageView = <div className={ className }>
                       <div className="message-text"> { t(text) } </div>

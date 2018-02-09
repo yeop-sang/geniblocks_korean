@@ -59,7 +59,11 @@ export default function notifications(state = initialState, action) {
       const translatedMessages = action.messages.map(message => {
         return Object.assign({}, message, {text: t(message.text)});
       });
-      return {messages: state.messages.concat(translatedMessages), closeButton: action.closeButton};
+      return {
+        messages: state.messages.concat(translatedMessages),
+        closeButton: action.closeButton,
+        isRaised: action.isRaised
+      };
     }
     case ADVANCE_NOTIFICATIONS:
       return Object.assign({}, state, {messages: state.messages.length > 1 ? state.messages.slice(1, state.length) : initialState});

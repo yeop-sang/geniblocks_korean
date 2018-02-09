@@ -576,19 +576,21 @@ export function showNextTrialButton() {
   };
 }
 
-export function showNotification({message, closeButton}) {
+export function showNotification({message, closeButton, isRaised}) {
   const messageObj = typeof message === "string" ? {text: message} : message;
   return showNotifications({
     messages: [messageObj],
-    closeButton
+    closeButton,
+    isRaised
   });
 }
 
-export function showNotifications({messages, closeButton}) {
+export function showNotifications({messages, closeButton, isRaised=false}) {
   return {
     type: actionTypes.NOTIFICATIONS_SHOWN,
     messages,
-    closeButton
+    closeButton,
+    isRaised
   };
 }
 
@@ -616,7 +618,7 @@ export function advanceTrial() {
 }
 
 export function showInChallengeCompletionMessage() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
 
     dispatch({
       type: actionTypes.CHALLENGE_COMPLETED,
@@ -630,17 +632,9 @@ export function showInChallengeCompletionMessage() {
       },
       closeButton: {
         action: "completeChallenge"
-      }
-    }));
-
-    dispatch({
-      type: actionTypes.MODAL_DIALOG_SHOWN,
-      bigButtonText: "~BUTTON.CONTINUE",
-      rightButton: {
-        action: "completeChallenge"
       },
-      showAward: false
-    });
+      isRaised: true
+    }));
   };
 }
 
