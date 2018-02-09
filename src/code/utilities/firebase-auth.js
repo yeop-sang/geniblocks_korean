@@ -4,24 +4,31 @@ import jwt from 'jsonwebtoken';
 
 export const initFirebase = new Promise(function (resolve, reject) {
   // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCr8UbzmHqWVuOIQrU2_1_CIIwT-GphnYo",
-    authDomain: "gvstaging.firebaseapp.com",
-    databaseURL: "https://gvstaging.firebaseio.com",
-    projectId: "gvstaging",
+  // const configStaging = {
+  //   apiKey: "AIzaSyCr8UbzmHqWVuOIQrU2_1_CIIwT-GphnYo",
+  //   authDomain: "gvstaging.firebaseapp.com",
+  //   databaseURL: "https://gvstaging.firebaseio.com",
+  //   projectId: "gvstaging",
+  //   storageBucket: "",
+  //   messagingSenderId: "574673678327"
+  // };
+  const config = {
+    apiKey: "AIzaSyCQyZqErr-WsvaZzATcmOgxxv1wcrNQXIo",
+    authDomain: "gvdemo-6f015.firebaseapp.com",
+    databaseURL: "https://gvdemo-6f015.firebaseio.com",
+    projectId: "gvdemo-6f015",
     storageBucket: "",
     messagingSenderId: "574673678327"
   };
+
   firebase.initializeApp(config);
 
   // communicate with portal for JWT
   // if there is no domain parameter, there is no authentication
-  if (!urlParams.domain) {
-    //console.log("Not authenticated via portal");
+  if (!urlParams || !urlParams.domain) {
     reject(Error("Not authenticated via portal"));
   } else {
     // send request to portal via domain url parameter
-    // for example, https://learn.staging.concord.org/api/v1/jwt/firebase?firebase_app=GVStaging
     let jwtUrl = urlParams.domain + "api/v1/jwt/firebase?firebase_app=" + config.projectId;
 
     let jwtInit = {
@@ -63,7 +70,6 @@ export const initFirebase = new Promise(function (resolve, reject) {
 });
 
 let _cachedAuth;
-
 export const userAuth = () => {
   if (_cachedAuth) {
     return _cachedAuth;
@@ -75,7 +81,6 @@ export const userAuth = () => {
 };
 
 const _userAuth = (token) => {
-
   const params = urlParams ? urlParams : {};
   if (token) {
     let authToken = (jwt.decode(token));

@@ -33,7 +33,6 @@ import { initFirebase, userAuth } from "./utilities/firebase-auth";
 if (navigator.userAgent.indexOf('Windows') >= 0)
   document.body.className += ' os-windows';
 
-
 let store, history;
 
 initFirebase.then(function (auth) {
@@ -44,7 +43,6 @@ initFirebase.then(function (auth) {
 });
 
 const postAuthInitialization = function (auth) {
-
   store = configureStore();
   const guideServer = "wss://guide.intellimedia.ncsu.edu",
     guideProtocol = "guide-protocol-v3";
