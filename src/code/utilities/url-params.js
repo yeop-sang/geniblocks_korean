@@ -13,3 +13,14 @@ var urlParams;
 })();
 
 export default urlParams;
+
+export function updateUrlParameter(param, value) {
+  const regExp = new RegExp(param + "(.+?)(&|$)", "g");
+  if (value) {
+    const newUrl = window.location.href.replace(regExp, param + "=" + value + "$2");
+    window.history.pushState("", "", newUrl);
+  } else {
+    const newUrl = window.location.href.replace(regExp, "");
+    window.history.replaceState("", "", newUrl);
+  }
+}

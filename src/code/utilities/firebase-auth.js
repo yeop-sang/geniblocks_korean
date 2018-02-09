@@ -1,5 +1,5 @@
 /* global firebase */
-import urlParams from "./url-params";
+import {urlParams, updateUrlParameter} from "./url-params";
 import jwt from 'jsonwebtoken';
 
 export const initFirebase = new Promise(function (resolve, reject) {
@@ -54,6 +54,7 @@ export const initFirebase = new Promise(function (resolve, reject) {
               reject(Error(error));
             });
             window.sessionStorage.setItem('jwtToken', jsonData.token);
+            updateUrlParameter("token");
             resolve(_userAuth(jsonData.token));
           });
         }
@@ -74,6 +75,8 @@ export const userAuth = () => {
 };
 
 const _userAuth = (token) => {
+
+  const params = urlParams ? urlParams : {};
   if (token) {
     let authToken = (jwt.decode(token));
     _cachedAuth = {
@@ -82,18 +85,18 @@ const _userAuth = (token) => {
       fb_class_info_url: convertUrlToFirebaseKey(authToken.class_info_url),
       externalId: authToken.externalId,
       returnUrl: authToken.returnUrl,
-      domain: urlParams.domain,
-      domain_uid: urlParams.domain_uid,
-      fb_user_id_url: convertUrlToFirebaseKey(urlParams.domain) + urlParams.domain_uid
+      domain: params.domain,
+      domain_uid: params.domain_uid,
+      fb_user_id_url: convertUrlToFirebaseKey(params.domain) + params.domain_uid
     };
   } else {
     _cachedAuth = {
-      user_id: urlParams.baseUser || "gv2-user",
-      class_info_url: urlParams.class_info_url,
-      externalId: urlParams.externalId,
-      returnUrl: urlParams.returnUrl,
-      domain: urlParams.domain,
-      domain_uid: urlParams.domain_uid
+      user_id: params.baseUser || "gv2-user",
+      class_info_url: params.class_info_url,
+      externalId: params.externalId,
+      returnUrl: params.returnUrl,
+      domain: params.domain,
+      domain_uid: params.domain_uid
     };
   }
   return _cachedAuth;

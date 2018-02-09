@@ -75,19 +75,3 @@ export function getUserQueryString() {
 
   return (classId && userId) ? authoringVersionNumber + "/userState/" + classId + "/" + userId : null;
 }
-
-// function getClassId() {
-//   return convertUrlToFirebaseKey(userAuth().class_info_url);
-// }
-
-// function getUserId() {
-//   return convertUrlToFirebaseKey(userAuth().domain) + userAuth().domain_uid;
-// }
-
-// function convertUrlToFirebaseKey(url) {
-//   if (!url) {
-//     return null;
-//   }
-//   // Convert invalid Firebase characters (inluding periods) to their ASCII equivalents
-//   return encodeURIComponent(url).replace(/\./g, "%2E");
-// }
