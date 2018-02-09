@@ -1,31 +1,32 @@
 /* global firebase */
-import {urlParams, updateUrlParameter} from "./url-params";
+import urlParams, {updateUrlParameter} from "./url-params";
 import jwt from 'jsonwebtoken';
 
 export const initFirebase = new Promise(function (resolve, reject) {
   // Initialize Firebase
-  // const configStaging = {
-  //   apiKey: "AIzaSyCr8UbzmHqWVuOIQrU2_1_CIIwT-GphnYo",
-  //   authDomain: "gvstaging.firebaseapp.com",
-  //   databaseURL: "https://gvstaging.firebaseio.com",
-  //   projectId: "gvstaging",
-  //   storageBucket: "",
-  //   messagingSenderId: "574673678327"
-  // };
   const config = {
-    apiKey: "AIzaSyCQyZqErr-WsvaZzATcmOgxxv1wcrNQXIo",
-    authDomain: "gvdemo-6f015.firebaseapp.com",
-    databaseURL: "https://gvdemo-6f015.firebaseio.com",
-    projectId: "gvdemo-6f015",
+    apiKey: "AIzaSyCr8UbzmHqWVuOIQrU2_1_CIIwT-GphnYo",
+    authDomain: "gvstaging.firebaseapp.com",
+    databaseURL: "https://gvstaging.firebaseio.com",
+    projectId: "gvstaging",
     storageBucket: "",
     messagingSenderId: "574673678327"
   };
+  // TODO: live fb app name needs checking
+  // const configLive = {
+  //   apiKey: "AIzaSyCQyZqErr-WsvaZzATcmOgxxv1wcrNQXIo",
+  //   authDomain: "gvdemo-6f015.firebaseapp.com",
+  //   databaseURL: "https://gvdemo-6f015.firebaseio.com",
+  //   projectId: "gvdemo-6f015",
+  //   storageBucket: "",
+  //   messagingSenderId: "574673678327"
+  // };
 
   firebase.initializeApp(config);
 
   // communicate with portal for JWT
   // if there is no domain parameter, there is no authentication
-  if (!urlParams || !urlParams.domain) {
+  if (!urlParams.domain) {
     reject(Error("Not authenticated via portal"));
   } else {
     // send request to portal via domain url parameter
