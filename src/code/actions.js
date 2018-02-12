@@ -576,19 +576,21 @@ export function showNextTrialButton() {
   };
 }
 
-export function showNotification({message, closeButton, isRaised}) {
+export function showNotification({message, closeButton, arrowAsCloseButton, isRaised}) {
   const messageObj = typeof message === "string" ? {text: message} : message;
   return showNotifications({
     messages: [messageObj],
     closeButton,
+    arrowAsCloseButton,
     isRaised
   });
 }
 
-export function showNotifications({messages, closeButton, isRaised=false}) {
+export function showNotifications({messages, closeButton, arrowAsCloseButton=false, isRaised=false}) {
   return {
     type: actionTypes.NOTIFICATIONS_SHOWN,
     messages,
+    arrowAsCloseButton,
     closeButton,
     isRaised
   };
@@ -633,6 +635,7 @@ export function showInChallengeCompletionMessage() {
       closeButton: {
         action: "completeChallenge"
       },
+      arrowAsCloseButton: true,
       isRaised: true
     }));
   };

@@ -62,6 +62,7 @@ export default function notifications(state = initialState, action) {
       return {
         messages: state.messages.concat(translatedMessages),
         closeButton: action.closeButton,
+        arrowAsCloseButton: action.arrowAsCloseButton,
         isRaised: action.isRaised
       };
     }

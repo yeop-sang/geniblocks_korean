@@ -7,6 +7,7 @@ function mapStateToProps (state) {
   return {
     messages: state.notifications.messages,
     closeButton: state.notifications.closeButton,
+    arrowAsCloseButton: state.notifications.arrowAsCloseButton,
     isRaised: state.notifications.isRaised,
     defaultCharacter: state.location.defaultCharacter
   };
