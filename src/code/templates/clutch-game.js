@@ -102,11 +102,11 @@ export default class ClutchGame extends Component {
 
     const handleAlleleChange = function (chrom, side, prevAllele, newAllele, orgName) {
       const isHiddenParent = isTestCross && hiddenParent && ((hiddenParent.sex === BioLogica.FEMALE && orgName === "mother") || (hiddenParent.sex === BioLogica.MALE && orgName === "father")),
-        //incrementMoves = isTestCross ? isHiddenParent : !isSubmitParents,
+        incrementMoves = !isSubmitParents && !isTestCross,
         index = isHiddenParent ? 2 : orgName === "mother" ? 0 : 1,
         updateSelectedAlleles = isHiddenParent;
       if (isTestCross && !isHiddenParent) onClearClutch(3);
-      onChromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, false, updateSelectedAlleles);
+      onChromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, incrementMoves, updateSelectedAlleles);
     };
 
     const handleFertilize = function () {
