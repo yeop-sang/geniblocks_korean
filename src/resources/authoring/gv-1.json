@@ -141,7 +141,7 @@
               "text" : "You make it through these higher levels of training, and you’re starting to play in the big leagues!"
             }, {
               "character" : "YEUNG",
-              "text" : "Is everything a sports analogy with you, de Herrera?"
+              "text" : "Is everything a sports analogy with you, Herrera?"
             }, {
               "character" : "HERRERA",
               "text" : "What can I say, Yeung? I’m a team player. Give it a shot."
@@ -183,10 +183,10 @@
           } ],
           "start" : [ {
             "character" : "HERRERA",
-            "text" : "Attention, Cadet! I’m Colonel de Herrera, commander of the dragon pilots! We’re losing the war against Darkwell, so I will be leading the sneaky mission behind enemy lines!"
+            "text" : "Attention, Cadet! I’m Colonel Herrera, commander of the dragon pilots! We’re losing the war against Darkwell, so I will be leading the sneaky mission behind enemy lines!"
           }, {
             "character" : "YEUNG",
-            "text" : "Over the course of your service here with us, we will need your help understanding how to breed different types of drakes so that we can develop dragons that help Colonel de Herrera and his squad!"
+            "text" : "Over the course of your service here with us, we will need your help understanding how to breed different types of drakes so that we can develop dragons that help Colonel Herrera and his squad!"
           }, {
             "character" : "HERRERA",
             "text" : "I hear you’ve been training in the Sim Room and show lots of promise! So let’s go back there and see if you can knock a few out of the park!"
@@ -432,7 +432,7 @@
                 "text" : "...and a better understanding of how to breed dragons with five armor plates. You’re a natural hatcher, a master drake designer, a..."
               }, {
                 "character" : "YEUNG",
-                "text" : "Just stop. You’re out of your league, here, de Herrera. Despite our progress here, we’re still one step behind the Darkwellians..."
+                "text" : "Just stop. You’re out of your league, here, Herrera. Despite our progress here, we’re still one step behind the Darkwellians..."
               } ]
             },
             "start" : [ {
@@ -1122,7 +1122,7 @@
             "text" : "All that's missing now is the intelligence report from the front at Robinstow. Dr. Netanya's been incognito there and should be back here at the base at any moment."
           }, {
             "character" : "HATCH",
-            "text" : "Aha - here she comes. She'll give you your next assignment based on what she's learned. Colonel de Herrera will be in the loop to make sure we're ready for the surprise attack on Darkwell."
+            "text" : "Aha - here she comes. She'll give you your next assignment based on what she's learned. Colonel Herrera will be in the loop to make sure we're ready for the surprise attack on Darkwell."
           } ],
           "middle" : [ {
             "character" : "RAJPUT",
@@ -1196,7 +1196,7 @@
               } ],
               "success" : [ {
                 "character" : "NETANYA",
-                "text" : "Well, de Herrera, what do you think?"
+                "text" : "Well, Herrera, what do you think?"
               }, {
                 "character" : "HERRERA",
                 "text" : "This offspring pair work is an example of truly awesome thinking by our cadet. And we now know enough to breed the dragons in Robinstow!"
@@ -1229,7 +1229,7 @@
         "dialog" : {
           "end" : [ {
             "character" : "NETANYA",
-            "text" : "Well, de Herrera, what do you think?"
+            "text" : "Well, Herrera, what do you think?"
           }, {
             "character" : "HERRERA",
             "text" : "This offspring pair work is an example of truly awesome thinking by our cadet. And we now know enough to breed the dragons in Robinstow!"
@@ -1255,7 +1255,7 @@
           } ],
           "start" : [ {
             "character" : "NETANYA",
-            "text" : "Good to see you again, Cadet. But bad news from the front-- the Darkwellians are beefing up their defenses bigtime. de Herrera's sneak attack isn't just our best plan... Now it's our only option!"
+            "text" : "Good to see you again, Cadet. But bad news from the front-- the Darkwellians are beefing up their defenses bigtime. Herrera's sneak attack isn't just our best plan... Now it's our only option!"
           }, {
             "character" : "HERRERA",
             "text" : "The key is creating secret trails from Robinstow to the outskirts of Darkwell. We need dragons that can work in pairs and anticipate each other’s movements under attack."
@@ -2512,7 +2512,7 @@
     },
     "gamete-selectSpermEgg-starterTraits-bothParents" : {
       "challengeType" : "match-target",
-      "comment" : "*** Level 4, Mission 1.3: Egg Breeding (select gametes to match drakes) ***",
+      "comment" : "*** Level 4, Mission 1.4: Egg Breeding (select gametes to match drakes) ***",
       "container" : "FVContainer",
       "father" : {
         "alleles" : "a:w,b:W,a:m,b:m,a:T,b:T,a:h,b:H,a:A1,b:a,a:C,b:C,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
@@ -2582,7 +2582,7 @@
           "sex" : 0
         } ]
       } ],
-      "goalMoves" : [ [ 0, 0, 0, 0 ] ],
+      "goalMoves" : [ [ -1, -1, -1, -1, -1 ] ],
       "hiddenAlleles" : "A2",
       "instructions" : "Create 5 different baby drakes!",
       "interactionType" : "select-chromosomes",
@@ -2667,7 +2667,7 @@
           "sex" : 0
         } ]
       } ],
-      "goalMoves" : [ [ 0, 0, 0, 0 ] ],
+      "goalMoves" : [ [ -1, -1, -1, -1 ] ],
       "hiddenAlleles" : "A2",
       "instructions" : "Create 5 different baby drakes!",
       "interactionType" : "select-chromosomes",
@@ -2743,7 +2743,7 @@
           "sex" : 0
         } ]
       } ],
-      "goalMoves" : [ [ 0, 0, 0, 0 ] ],
+      "goalMoves" : [ [ -1, -1, -1, -1 ] ],
       "hiddenAlleles" : "A2",
       "instructions" : "Create 5 different baby drakes!",
       "interactionType" : "select-chromosomes",
