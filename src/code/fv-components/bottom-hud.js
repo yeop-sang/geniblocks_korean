@@ -49,6 +49,7 @@ const BottomHUDView = React.createClass({
             countTitleText={t(label)}
             className={`moves-count ${color}`}
             currCount={movesRemainingShown} /> : null,
+        trialsView = trialCount > 1 ? <CountView countTitleText={t('~COUNTER.TRIAL_LABEL')} className={'trial-count'} currCount={trial} maxCount={trialCount} /> : null,
         showRouteWidgets = routeSpec !== null,
         routeWidgets, challengeWidgets, tutorialWidgets;
 
@@ -72,7 +73,7 @@ const BottomHUDView = React.createClass({
     if (this.props.showChallengeWidgets) {
       challengeWidgets = (
         <div>
-          <CountView countTitleText={t('~COUNTER.TRIAL_LABEL')} className={'trial-count'} currCount={trial} maxCount={trialCount} />
+          {trialsView}
           {scoreView}
           {movesView}
         </div>
