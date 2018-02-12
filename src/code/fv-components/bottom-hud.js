@@ -40,12 +40,13 @@ const BottomHUDView = React.createClass({
             currCount={currScore}
             maxCount={maxScore} /> : null,
         movesRemaining = (goalMoves + 2) - currMoves,
-        movesRemainingShown = Math.max(0, movesRemaining),
+        movesRemainingShown = movesRemaining >= 0 ? movesRemaining : null,
+        label =  movesRemaining >= 0 ? '~COUNTER.MOVES_LABEL' : '~COUNTER.TOO_MANY_MOVES',
         possibleGem = Math.max(-1, Math.min(2, movesRemaining)),
         color = gemColors[possibleGem],
         movesView = (showMoveCounter && goalMoves > -1) ?
           <CountView
-            countTitleText={t('~COUNTER.MOVES_LABEL')}
+            countTitleText={t(label)}
             className={`moves-count ${color}`}
             currCount={movesRemainingShown} /> : null,
         showRouteWidgets = routeSpec !== null,
