@@ -649,10 +649,6 @@ export function showInChallengeCompletionMessage() {
 
 export function completeChallenge() {
   return (dispatch, getState) => {
-    dispatch({
-      type: actionTypes.CHALLENGE_COMPLETED,
-      meta: {sound: 'receiveCoin'}
-    });
     dispatch(showCompleteChallengeDialog());
 
     const { routeSpec, authoring, challengeErrors } = getState(),
