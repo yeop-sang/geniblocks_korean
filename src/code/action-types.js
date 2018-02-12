@@ -8,6 +8,7 @@ const actionTypes = {
   CHALLENGE_RETRIED: "Challenge retried",
   BRED: "Bred",
   ALLELE_CHANGED: "Allele changed",
+  ALLELE_SELECTED: "Allele selected",
   SEX_CHANGED: "Sex changed",
   FERTILIZED: "Fertilized",
   CLUTCH_BRED: "Clutch bred",

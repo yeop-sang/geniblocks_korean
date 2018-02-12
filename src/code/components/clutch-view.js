@@ -30,7 +30,7 @@ const ClutchView = React.createClass({
   },
 
   handlePageForward() {
-    const numPages = this.props.orgs.length / this.props.pageSize;
+    const numPages = Math.round(this.props.orgs.length / this.props.pageSize);
     this.setState({page: Math.min(this.state.page + 1, numPages)});
   },
 
@@ -40,7 +40,7 @@ const ClutchView = React.createClass({
     }
     if (nextProps.orgs.length > this.props.orgs.length) {
       // Move to the end whenever a new clutch is bred
-      const numPages = nextProps .orgs.length / this.props.pageSize;
+      const numPages = Math.round(nextProps.orgs.length / this.props.pageSize);
       this.setState({page: numPages});
     }
   },
@@ -74,7 +74,7 @@ const ClutchView = React.createClass({
           );
         });
     const classes = classNames('geniblocks clutch-view', this.props.className);
-    const maxPages = this.props.orgs.length / this.props.pageSize;
+    const maxPages = Math.round(this.props.orgs.length / this.props.pageSize);
 
     return (
       <div className={classes}>

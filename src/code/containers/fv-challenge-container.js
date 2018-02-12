@@ -13,7 +13,7 @@ import TutorialView from '../components/tutorial-view';
 
 import preloadImageList from '../preload-images.json';
 
-import { changeAllele, changeSex, submitDrake, submitParents,
+import { changeAllele, selectAllele, changeSex, submitDrake, submitParents,
         keepOffspring, fertilize, breedClutch, hatch,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket,
         winZoomChallenge, toggleMap, enterChallengeFromRoom, showEasterEgg, readyToAnswer, clearClutch } from '../actions';
@@ -208,8 +208,10 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onChromosomeAlleleChange: (index, chrom, side, prevAllele, newAllele, incrementMoves=true, updateSelected) =>
-      dispatch(changeAllele(index, chrom, side, prevAllele, newAllele, incrementMoves, updateSelected)),
+    onChromosomeAlleleChange: (index, chrom, side, prevAllele, newAllele, incrementMoves=true) =>
+      dispatch(changeAllele(index, chrom, side, prevAllele, newAllele, incrementMoves)),
+    onChromosomeAlleleSelected: (chrom, side, prevAllele, newAllele, gene, incrementMoves=false) =>
+      dispatch(selectAllele(chrom, side, prevAllele, newAllele, gene, incrementMoves)),
     onSexChange: (index, newSex, incrementMoves=true) =>
       dispatch(changeSex(index, newSex, incrementMoves)),
     onDrakeSubmission: (targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex) =>
