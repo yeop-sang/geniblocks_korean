@@ -221,7 +221,7 @@ function mapDispatchToProps(dispatch) {
     onSelectGameteInPool: (sex, index) => dispatch(selectGameteInPool(sex, index)),
     onFertilize: () => dispatch(fertilize()),
     onBreedClutch: (clutchSize) => dispatch(breedClutch(clutchSize)),
-    onClearClutch: () => dispatch(clearClutch()),
+    onClearClutch: (index) => dispatch(clearClutch(index)),
     onHatch: () => dispatch(hatch()),
     onResetGametes: (incrementMoves) => dispatch(resetGametes(incrementMoves)),
     onResetGametePools: () => dispatch(resetGametePools()),

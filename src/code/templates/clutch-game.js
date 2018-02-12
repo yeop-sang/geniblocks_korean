@@ -99,14 +99,13 @@ export default class ClutchGame extends Component {
       isSubmitParents = challengeType === "submit-parents",
       isTestCross = challengeType === "test-cross",
       child = null;
-      console.log(mother.getImageName(), father.getImageName(), userDrake.getImageName());
 
     const handleAlleleChange = function (chrom, side, prevAllele, newAllele, orgName) {
       const isHiddenParent = isTestCross && hiddenParent && ((hiddenParent.sex === BioLogica.FEMALE && orgName === "mother") || (hiddenParent.sex === BioLogica.MALE && orgName === "father")),
         //incrementMoves = isTestCross ? isHiddenParent : !isSubmitParents,
         index = isHiddenParent ? 2 : orgName === "mother" ? 0 : 1,
         updateSelectedAlleles = isHiddenParent;
-      if (!isHiddenParent) onClearClutch();
+      if (isTestCross && !isHiddenParent) onClearClutch(3);
       onChromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, false, updateSelectedAlleles);
     };
 

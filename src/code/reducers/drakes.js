@@ -45,9 +45,15 @@ function breedClutch(state, clutchSize) {
   return state;
 }
 
-function clearClutch(state) {
-  let nextDrakes = [state[0], state[1], state[2]];
-  return nextDrakes;
+function clearClutch(state, index) {
+  if (index && index > -1) {
+    let nextDrakes = [];
+    for (let i = 0; i < index; i++){
+      nextDrakes.push(state[i]);
+    }
+    return nextDrakes;
+  }
+  return state;
 }
 
 export default function drakes(state = initialState, gametes = {}, action) {
@@ -120,7 +126,7 @@ export default function drakes(state = initialState, gametes = {}, action) {
     case actionTypes.CLUTCH_BRED:
       return breedClutch(state, action.clutchSize);
     case actionTypes.CLUTCH_CLEARED:
-      return clearClutch(state);
+      return clearClutch(state, action.index);
     default:
       return state;
   }
