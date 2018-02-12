@@ -3063,7 +3063,7 @@
           "alleles" : "H-H, w-W, b-b, m-M, A1-A1, Fl-fl, Hl-hl, T-T, C-C, D-D, rh-rh, Bog-Bog",
           "sex" : 1
         }, {
-          "alleles" : "H-H, W-W, b-b, M-m, a1-a1, fl-Fl, hl-hl, T-T, C-C, D-D, rh-rh, Bog-Bog",
+          "alleles" : "H-H, W-W, b-b, M-m, a-a, fl-Fl, hl-hl, T-T, C-C, D-D, rh-rh, Bog-Bog",
           "sex" : 1
         }, {
           "alleles" : "h-h, W-w, b-b, m-m, A1-A1, Fl-Fl, hl-Hl, T-T, C-C, D-D, rh-rh, Bog-Bog",
