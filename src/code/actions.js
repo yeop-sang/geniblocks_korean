@@ -638,6 +638,11 @@ export function showInChallengeCompletionMessage() {
       arrowAsCloseButton: true,
       isRaised: true
     }));
+
+    dispatch({
+      type: actionTypes.MODAL_DIALOG_SHOWN,
+      mouseShieldOnly: true
+    });
   };
 }
 

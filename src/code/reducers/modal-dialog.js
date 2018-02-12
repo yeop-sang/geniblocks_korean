@@ -6,7 +6,8 @@ const initialState = Immutable({
   show: false,
   leftButton: null,
   rightButton: null,
-  bigButtonText: null
+  bigButtonText: null,
+  mouseShieldOnly: false
 });
 
 const defaultRightButton = {
@@ -22,13 +23,15 @@ export default function modalDialog(state = initialState, action) {
         rightButton: action.rightButton || defaultRightButton,
         leftButton: action.leftButton,
         bigButtonText: action.bigButtonText,
-        showAward: action.showAward
+        showAward: !!action.showAward,
+        mouseShieldOnly: !!action.mouseShieldOnly
       });
     case actionTypes.TOGGLE_MAP:
       return state.merge({
         show: action.isVisible,
         showMap: action.isVisible,
-        showAward: false
+        showAward: false,
+        mouseShieldOnly: false
       });
     case actionTypes.MODAL_DIALOG_DISMISSED:
       return initialState;
