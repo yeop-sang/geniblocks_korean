@@ -34,14 +34,9 @@
               ]
             }
           ]
-        }
-      ]
-    },
-    {
-      "level": 1,
-      "missions": [
+        },
         {
-          "mission": 0,
+          "mission": 1,
           "challenges":[
             {
               "challenge": 0,
@@ -54,9 +49,14 @@
               ]
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "level": 1,
+      "missions": [
         {
-          "mission": 1,
+          "mission": 0,
           "challenges":[
             {
               "challenge": 0,
