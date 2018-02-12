@@ -137,8 +137,10 @@ describe('submitEggForBasket action', () => {
         type: types.NOTIFICATIONS_SHOWN,
         messages: [{text: "~ALERT.TITLE.EGG_MISMATCH"}],
         closeButton: {
-          action: "completeChallenge"
-        }
+          action: "showInChallengeCompletionMessage"
+        },
+        isRaised: false,
+        arrowAsCloseButton: false
       });
     });
   });

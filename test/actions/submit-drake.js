@@ -97,14 +97,18 @@ describe('submitDrake action', () => {
 
       // thunk function dispatches the MODAL_DIALOG_SHOWN action
       expect(dispatch).toHaveBeenCalledWith({
-        type: types.MODAL_DIALOG_SHOWN,
-        leftButton: {
-          action: "retryCurrentChallenge"
+        arrowAsCloseButton: true,
+        closeButton: {
+          action: "completeChallenge"
         },
-        rightButton: {
-          action: "continueFromVictory"
-        },
-        showAward: true
+        isRaised: true,
+        messages: [
+          {
+            text: "~ALERT.COMPLETED_CHALLENGE",
+            type: "narrative"
+          }
+        ],
+        type: "Notifications shown"
       });
     });
 
@@ -153,6 +157,8 @@ describe('submitDrake action', () => {
           label: "~BUTTON.TRY_AGAIN",
           action: "dismissModalDialog"
         },
+        arrowAsCloseButton: false,
+        isRaised: false
       });
     });
 
@@ -331,7 +337,9 @@ describe('submitDrake action', () => {
                   "text": "Good work!",
                   "type": "narrative"
                 }
-              ]
+              ],
+              arrowAsCloseButton: false,
+              isRaised: false
             },
             trialSuccess: true,
             userDrakeHidden: false
@@ -350,8 +358,10 @@ describe('submitDrake action', () => {
               rightButton: {
                 action: "advanceTrial"
               },
+              bigButtonText: "~BUTTON.NEXT_TRIAL",
               show: true,
-              showAward: false
+              showAward: false,
+              mouseShieldOnly: false
             }
           }));
         });
@@ -413,21 +423,24 @@ describe('submitDrake action', () => {
           expect(state2.gems[0][0][0]).toEqual([0]);
         });
 
-        it('should then trigger a modal_dialog_shown action with retry and continue buttons', () => {
+        it('should then trigger an in-challenge notification about victory', () => {
           let nextAction = nextDispatch.calls[1].arguments[0];
 
           state3 = reducer(state2, nextAction);
 
           expect(state3).toEqual(state2.merge({
-            modalDialog: {
-              leftButton: {
-                action: "retryCurrentChallenge"
+            notifications: {
+              messages: [
+                {
+                  "text": "Challenge completed!",
+                  "type": "narrative"
+                }
+              ],
+              closeButton: {
+                action: "completeChallenge"
               },
-              rightButton: {
-                action: "continueFromVictory"
-              },
-              show: true,
-              showAward: true
+              arrowAsCloseButton: true,
+              isRaised: true
             },
             userDrakeHidden: false
           }));
