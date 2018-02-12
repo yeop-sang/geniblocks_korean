@@ -146,28 +146,26 @@ export function continueFromVictory() {
     if (currentMission !== nextMission) {
       dispatch(navigateToHome(true));
     } else {
-      dispatch(toggleMap(true));
+      dispatch(navigateToNextChallenge(true));
     }
   };
 }
 
 export function navigateToNextChallenge() {
   return (dispatch, getState) => {
-    const { routeSpec, authoring, endMissionUrl } = getState();
-    let { level: currentLevel, mission: currentMission, challenge: currentChallenge } = routeSpec,
-        nextLevel = routeSpec.level,
-        nextMission = routeSpec.mission,
-        nextChallenge = currentChallenge+1,
-        challengeCountInMission = AuthoringUtils.getChallengeCount(authoring, currentLevel, currentMission);
-    if (challengeCountInMission <= nextChallenge) {
+    const { routeSpec, authoring, endMissionUrl, gems } = getState();
+    let { level: currentLevel, mission: currentMission } = routeSpec,
+        { level: nextLevel, mission: nextMission, challenge: nextChallenge } = ProgressUtils.getCurrentChallengeFromGems(authoring, gems);
+    if (currentLevel !== nextLevel || currentMission !== nextMission) {
       dispatch(navigateToHome(true));
 
       if (endMissionUrl) {
         dispatch(navigateToStartPage(endMissionUrl));
       }
       return;
+    } else {
+      dispatch(navigateToChallenge({level: nextLevel, mission: nextMission, challenge: nextChallenge}));
     }
-    dispatch(navigateToChallenge({level: nextLevel, mission: nextMission, challenge: nextChallenge}));
   };
 }
 
