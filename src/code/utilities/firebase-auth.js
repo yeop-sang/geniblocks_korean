@@ -22,7 +22,7 @@ export const initFirebase = new Promise(function (resolve, reject) {
     messagingSenderId: "574673678327"
   };
 
-  const config = configLive;//window.location.href.indexOf('/branch/staging') > -1 ? configStaging : configLive;
+  const config = window.location.href.indexOf('/branch/staging') > -1 ? configStaging : configLive;
 
   firebase.initializeApp(config);
 
