@@ -58,14 +58,26 @@ const ChromosomeView = ({chromosome, chromosomeDescriptor, ChromosomeImageClass=
             }}/>
           );
         } else {
-          let alleleSelected = selectedAlleles && selectedAlleles[chromosome.chromosome] && selectedAlleles[chromosome.chromosome][chromosome.side];
-          let showUnknown = defaultUnknown && !alleleSelected;
-
+          let alleleDef = a;
+          let showUnknown = false;
+          if (defaultUnknown) {
+            const geneName = BioLogica.Genetics.getGeneOfAllele(chromosome.species, a.allele).name;
+            const alleleSelected = selectedAlleles && selectedAlleles[chromosome.chromosome] && selectedAlleles[chromosome.chromosome][chromosome.side]
+                                    && selectedAlleles[chromosome.chromosome][chromosome.side][geneName];
+            if (alleleSelected) {
+              alleleDef = {
+                allele: alleleSelected,
+                editable: true
+              };
+            } else {
+              showUnknown = true;
+            }
+          }
           return (
-            <FVGeneLabelView key={a.allele} editable={editable && a.editable} chromosomeDescriptor={chromosomeDescriptor}
-                             chromosomeHeight={height} allele={a.allele} species={chromosome.species} hiddenAlleles={ hiddenAlleles } defaultUnknown={showUnknown}
+            <FVGeneLabelView key={alleleDef.allele} editable={editable && alleleDef.editable} chromosomeDescriptor={chromosomeDescriptor}
+                             chromosomeHeight={height} allele={alleleDef.allele} species={chromosome.species} hiddenAlleles={ hiddenAlleles } defaultUnknown={showUnknown}
               onAlleleChange={function (event) {
-                                onAlleleChange(a.allele, event.value);
+                                onAlleleChange(alleleDef.allele, event.value);
                              }
             }/>
           );
