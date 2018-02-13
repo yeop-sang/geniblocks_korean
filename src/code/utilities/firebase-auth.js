@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 export const initFirebase = new Promise(function (resolve, reject) {
   // Initialize Firebase
-  const config = {
+  const configStaging = {
     apiKey: "AIzaSyCr8UbzmHqWVuOIQrU2_1_CIIwT-GphnYo",
     authDomain: "gvstaging.firebaseapp.com",
     databaseURL: "https://gvstaging.firebaseio.com",
@@ -12,15 +12,17 @@ export const initFirebase = new Promise(function (resolve, reject) {
     storageBucket: "",
     messagingSenderId: "574673678327"
   };
-  // TODO: live fb app name needs checking
-  // const configLive = {
-  //   apiKey: "AIzaSyCQyZqErr-WsvaZzATcmOgxxv1wcrNQXIo",
-  //   authDomain: "gvdemo-6f015.firebaseapp.com",
-  //   databaseURL: "https://gvdemo-6f015.firebaseio.com",
-  //   projectId: "gvdemo-6f015",
-  //   storageBucket: "",
-  //   messagingSenderId: "574673678327"
-  // };
+
+  const configLive = {
+    apiKey: "AIzaSyCQyZqErr-WsvaZzATcmOgxxv1wcrNQXIo",
+    authDomain: "gvdemo-6f015.firebaseapp.com",
+    databaseURL: "https://gvdemo-6f015.firebaseio.com",
+    projectId: "gvdemo",
+    storageBucket: "",
+    messagingSenderId: "574673678327"
+  };
+
+  const config = configLive;//window.location.href.indexOf('/branch/staging') > -1 ? configStaging : configLive;
 
   firebase.initializeApp(config);
 
