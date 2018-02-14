@@ -1,5 +1,5 @@
 #!/bin/sh
- 
+
 # this will deploy the current public folder to a subfolder in the s3 bucket
 # the subfolder is the name of the TRAVIS_BRANCH
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
@@ -7,7 +7,7 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
   exit 0
 fi
 
-if [ "$TRAVIS_BRANCH" = "master" ]; then
+if [ "$TRAVIS_BRANCH" = "production" ]; then
   mv public/gv2 _site
 else
   # the 2> is to prevent error messages when no match is found
