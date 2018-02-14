@@ -17,7 +17,7 @@ import {getChromosomeDescriptor} from '../fv-components/fv-chromosome-image';
  * @param {boolean} small - determines whether a gamete chromosome is represented, or a full-sized chromosome in a genome
  * @param {boolean} editable - true if genes in the chromosome can be changed by a drop-down
  * @param {boolean} selected - true if the chromosome has been selected by the user
- * @param {function} onAlleleChange - this callback is invoked if the user changes an allele using a dropdown 
+ * @param {function} onAlleleChange - this callback is invoked if the user changes an allele using a dropdown
  * @param {function} onChromosomeSelected - this callback is invoked if the user selects this chromosome
  * @param {boolean} showLabels - false if the labels on a non-empty chromosome should be hidden
  * @param {boolean} labelsOnRight - true if the labels should be on the right of the chromosome; otherwise, they are placed on the left
@@ -25,7 +25,8 @@ import {getChromosomeDescriptor} from '../fv-components/fv-chromosome-image';
  * @param {number} height - the height in pixels of the rendered chromosome
  * @param {object} displayStyle - this style will be applied to the actual chromosome, as opposed to its labels
  */
-const ChromosomeView = ({chromosome, chromosomeDescriptor, ChromosomeImageClass=ChromosomeImageView, userChangeableGenes = [], visibleGenes = [], hiddenAlleles = [], small = false, editable = true, selected = false, onAlleleChange, onChromosomeSelected, showLabels = true, labelsOnRight = true, empty = false, orgName, height, displayStyle = {}}) => {
+
+const ChromosomeView = ({chromosome, chromosomeDescriptor, ChromosomeImageClass=ChromosomeImageView, userChangeableGenes = [], visibleGenes = [], hiddenAlleles = [], small = false, editable = true, selected = false, onAlleleChange, onChromosomeSelected, showLabels = true, labelsOnRight = true, empty = false, orgName, height, defaultUnknown, selectedAlleles, displayStyle = {}}) => {
   chromosomeDescriptor = chromosomeDescriptor || getChromosomeDescriptor(chromosome);
 
   var containerClass = "items",
@@ -57,11 +58,26 @@ const ChromosomeView = ({chromosome, chromosomeDescriptor, ChromosomeImageClass=
             }}/>
           );
         } else {
+          let alleleDef = a;
+          let showUnknown = false;
+          if (defaultUnknown) {
+            const geneName = BioLogica.Genetics.getGeneOfAllele(chromosome.species, a.allele).name;
+            const alleleSelected = selectedAlleles && selectedAlleles[chromosome.chromosome] && selectedAlleles[chromosome.chromosome][chromosome.side]
+                                    && selectedAlleles[chromosome.chromosome][chromosome.side][geneName];
+            if (alleleSelected) {
+              alleleDef = {
+                allele: alleleSelected,
+                editable: true
+              };
+            } else {
+              showUnknown = true;
+            }
+          }
           return (
-            <FVGeneLabelView key={a.allele} editable={editable && a.editable} chromosomeDescriptor={chromosomeDescriptor} 
-                             chromosomeHeight={height} allele={a.allele} species={chromosome.species} hiddenAlleles={ hiddenAlleles }
-                             onAlleleChange={function(event) {
-                               onAlleleChange(a.allele, event.value);
+            <FVGeneLabelView key={alleleDef.allele} editable={editable && alleleDef.editable} chromosomeDescriptor={chromosomeDescriptor}
+                             chromosomeHeight={height} allele={alleleDef.allele} species={chromosome.species} hiddenAlleles={ hiddenAlleles } defaultUnknown={showUnknown}
+              onAlleleChange={function (event) {
+                                onAlleleChange(alleleDef.allele, event.value);
                              }
             }/>
           );
@@ -111,7 +127,9 @@ ChromosomeView.propTypes = {
   onChromosomeSelected: PropTypes.func,
   orgName: PropTypes.string,
   height: PropTypes.number,
-  empty: PropTypes.bool
+  empty: PropTypes.bool,
+  defaultUnknown: PropTypes.bool,
+  selectedAlleles: PropTypes.object
 };
 
 export default ChromosomeView;

@@ -116,6 +116,11 @@ function getNumTargets(authoredChallenge, authoredTrialNumber, template) {
   return template.getNumTargets ? template.getNumTargets(authoredChallenge, authoredTrialNumber) : 1;
 }
 
+function getHiddenParent(authoredChallenge, authoredTrialNumber, template) {
+  return template.getHiddenParent ? template.getHiddenParent(authoredChallenge, authoredTrialNumber) : undefined;
+
+}
+
 // Returns an array [0...len], optionally shuffled
 function createTrialOrder(trial, trials, currentTrialOrder, doShuffle) {
   if (trial > 0)
@@ -168,6 +173,7 @@ export function loadStateFromAuthoring(state, authoring) {
         drakes = processAuthoredDrakes(authoredChallenge, trialOrder[trial], template, trial),
         gametes = processAuthoredGametes(authoredChallenge, drakes, state),
         numTargets = getNumTargets(authoredChallenge, trialOrder[trial], template),
+        hiddenParent = getHiddenParent(authoredChallenge, trialOrder[trial], template),
         zoomUrl = authoredChallenge.zoomUrl,
         room = authoredChallengeMetadata.room || "simroom",
         roomInfo = (authoring && authoring.rooms) ? authoring.rooms[room] : {},
@@ -208,6 +214,7 @@ export function loadStateFromAuthoring(state, authoring) {
     gametes,
     drakes,
     numTargets,
+    hiddenParent,
     trial,
     trials,
     numTrials,
@@ -231,7 +238,6 @@ export function loadStateFromAuthoring(state, authoring) {
 
   // remove all undefined or null keys
   Object.keys(authoredState).forEach((key) => (authoredState[key] == null) && delete authoredState[key]);
-
   return state.merge(authoredState);
 }
 
