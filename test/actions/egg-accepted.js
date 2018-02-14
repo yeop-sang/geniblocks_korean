@@ -26,16 +26,24 @@ describe('acceptEggInBasket action', () => {
                                       type: types.CHALLENGE_COMPLETED,
                                       meta: {sound: 'receiveCoin'}
                                     },
-          showCompleteChallengeAction = {
-                                          type: types.MODAL_DIALOG_SHOWN,
-                                          leftButton: {
-                                            action: "retryCurrentChallenge"
-                                          },
-                                          rightButton: {
-                                            action: "continueFromVictory"
-                                          },
-                                          showAward: true
-                                        };
+          showInChallengeCompletionMessage = {
+            type: types.NOTIFICATIONS_SHOWN,
+            messages: [
+              {
+                text: "~ALERT.COMPLETED_CHALLENGE",
+                type: "narrative"
+              }
+            ],
+            closeButton: {
+              action: "completeChallenge"
+            },
+            arrowAsCloseButton: true,
+            isRaised: true
+          },
+          showMouseShield = {
+            type: types.MODAL_DIALOG_SHOWN,
+            mouseShieldOnly: true
+          };
 
     const dispatch = expect.createSpy();
     const getState = () => ({routeSpec: {level: 0, mission: 0, challenge: 0}, trial: 0, trials: [{}], authoring: {
@@ -49,8 +57,9 @@ describe('acceptEggInBasket action', () => {
     dispatch.calls[1].arguments[0](dispatch, getState);
     // // thunk function dispatches the showCompleteChallengeAction
     expect(dispatch.calls[2].arguments).toEqual([completeChallengeAction]);
-    expect(dispatch.calls[3].arguments).toEqual([showCompleteChallengeAction]);
-    expect(dispatch.calls.length).toBe(4);
+    expect(dispatch.calls[3].arguments).toEqual([showInChallengeCompletionMessage]);
+    expect(dispatch.calls[4].arguments).toEqual([showMouseShield]);
+    expect(dispatch.calls.length).toBe(5);
   });
 
   describe('the reducer', () => {

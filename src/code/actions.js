@@ -382,7 +382,7 @@ export function submitDrake(targetDrakeIndex, userDrakeIndex, correct, incorrect
 
     if (correct) {
       if (challengeComplete) {
-        dispatch(completeChallenge());
+        dispatch(showInChallengeCompletionMessage());
       } else {
         dispatch(showNotification({
           message: {
@@ -451,7 +451,7 @@ export function submitParents(motherIndex, fatherIndex, targetDrakeIndices, corr
 
     if (correct) {
       if (challengeComplete) {
-        dispatch(completeChallenge());
+        dispatch(showInChallengeCompletionMessage());
       } else {
         dispatch(showNotification({
           message: {
@@ -504,7 +504,7 @@ export function acceptEggInBasket(args) {
     dispatch(_acceptEggInBasket(args.eggDrakeIndex, args.basketIndex));
 
     if (args.isChallengeComplete) {
-      dispatch(completeChallenge());
+      dispatch(showInChallengeCompletionMessage());
     }
   };
 }
@@ -556,7 +556,7 @@ export function submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, isChal
       };
       if (isChallengeComplete) {
         dialog.closeButton = {
-          action: "completeChallenge"
+          action: "showInChallengeCompletionMessage"
         };
       } else {
         dialog.closeButton = {
@@ -584,29 +584,34 @@ export function showCompleteChallengeDialog() {
 }
 
 export function showNextTrialButton() {
-  const rightButton = rightButton || {
+  const rightButton = {
           action: "advanceTrial"
         };
   return {
     type: actionTypes.MODAL_DIALOG_SHOWN,
+    bigButtonText: "~BUTTON.NEXT_TRIAL",
     rightButton,
     showAward: false
   };
 }
 
-export function showNotification({message, closeButton}) {
+export function showNotification({message, closeButton, arrowAsCloseButton, isRaised}) {
   const messageObj = typeof message === "string" ? {text: message} : message;
   return showNotifications({
     messages: [messageObj],
-    closeButton
+    closeButton,
+    arrowAsCloseButton,
+    isRaised
   });
 }
 
-export function showNotifications({messages, closeButton}) {
+export function showNotifications({messages, closeButton, arrowAsCloseButton=false, isRaised=false}) {
   return {
     type: actionTypes.NOTIFICATIONS_SHOWN,
     messages,
-    closeButton
+    arrowAsCloseButton,
+    closeButton,
+    isRaised
   };
 }
 
@@ -633,13 +638,36 @@ export function advanceTrial() {
   };
 }
 
+export function showInChallengeCompletionMessage() {
+  return (dispatch) => {
 
-export function completeChallenge() {
-  return (dispatch, getState) => {
     dispatch({
       type: actionTypes.CHALLENGE_COMPLETED,
       meta: {sound: 'receiveCoin'}
     });
+
+    dispatch(showNotification({
+      message: {
+        text: "~ALERT.COMPLETED_CHALLENGE",
+        type: notificationType.NARRATIVE
+      },
+      closeButton: {
+        action: "completeChallenge"
+      },
+      arrowAsCloseButton: true,
+      isRaised: true
+    }));
+
+    dispatch({
+      type: actionTypes.MODAL_DIALOG_SHOWN,
+      mouseShieldOnly: true
+    });
+  };
+}
+
+
+export function completeChallenge() {
+  return (dispatch, getState) => {
     dispatch(showCompleteChallengeDialog());
 
     const { routeSpec, authoring, challengeErrors } = getState(),
@@ -727,7 +755,7 @@ export function keepOffspring(index, keptDrakesIndices, maxDrakes, shouldKeepSou
       // The size of the drakes array has changed since dispatching _keepOffspring
       const { drakes: updatedDrakes } = getState();
       if (updatedDrakes.length === maxDrakes) {
-        dispatch(completeChallenge());
+        dispatch(showInChallengeCompletionMessage());
       }
     } else {
       dispatch(showNotification({
@@ -758,7 +786,7 @@ export function winZoomChallenge() {
   return (dispatch) => {
     dispatch(_winZoomChallenge());
 
-    dispatch(completeChallenge());
+    dispatch(showInChallengeCompletionMessage());
   };
 }
 

@@ -9,6 +9,7 @@ describe('showModalDialog action', () => {
   it('should create the correct action', () => {
     expect(actions.showNextTrialButton()).toEqual({
       type: types.MODAL_DIALOG_SHOWN,
+      bigButtonText: "~BUTTON.NEXT_TRIAL",
       rightButton: {action: "advanceTrial"},
       showAward: false
     });
@@ -21,17 +22,21 @@ describe('showModalDialog action', () => {
       let nextState = reducer(defaultState, {
         type: types.MODAL_DIALOG_SHOWN,
         showAward: false,
-        rightButton: {action: "advanceTrial"}
+        bigButtonText: "Next",
+        rightButton: {action: "advanceTrial"},
+        mouseShieldOnly: false
       });
 
       expect(nextState).toEqual(defaultState.merge({
         modalDialog: {
           show: true,
+          bigButtonText: "Next",
           rightButton: {
             "action": "advanceTrial"
           },
           leftButton: undefined,
-          showAward: false
+          showAward: false,
+          mouseShieldOnly: false
         },
         userDrakeHidden: false
       }));
@@ -50,12 +55,14 @@ describe('showModalDialog action', () => {
           "action": "action2",
           "label": "Left"
         },
-        showAward: true
+        showAward: true,
+        mouseShieldOnly: false
       });
 
       expect(nextState).toEqual(defaultState.merge({
         modalDialog: {
           show: true,
+          bigButtonText: undefined,
           rightButton: {
             "action": "action1",
             "label": "Right"
@@ -64,7 +71,8 @@ describe('showModalDialog action', () => {
             "action": "action2",
             "label": "Left"
           },
-          showAward: true
+          showAward: true,
+          mouseShieldOnly: false
         },
         userDrakeHidden: false
       }));
@@ -102,7 +110,8 @@ describe('showModalDialog action', () => {
                 "action": "action2",
                 "label": "Left"
               },
-              showAward: true
+              showAward: true,
+              mouseShieldOnly: false
             }
           });
 
@@ -114,7 +123,9 @@ describe('showModalDialog action', () => {
         modalDialog: {
           show: false,
           rightButton: null,
-          leftButton: null
+          leftButton: null,
+          bigButtonText: null,
+          mouseShieldOnly: false
         }
       }));
     });

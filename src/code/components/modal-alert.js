@@ -3,6 +3,7 @@
  */
 import EndLevelDialogView from '../fv-components/end-level-dialog';
 import NavigationDialogView from '../fv-components/navigation-dialog';
+import t from '../utilities/translate';
 import React, { PropTypes } from 'react';
 
 class ModalAlert extends React.Component {
@@ -17,6 +18,8 @@ class ModalAlert extends React.Component {
     }),
     onLeftButtonClick: PropTypes.func,        // optional click handlers if not defined
     onRightButtonClick: PropTypes.func,       // in button props. (Better for `mapDispatchToProps`)
+    bigButtonText: PropTypes.string,
+    mouseShieldOnly: PropTypes.bool,
     gems: PropTypes.array,
     routeSpec: PropTypes.object,
     challengeCount: PropTypes.number,
@@ -51,9 +54,14 @@ class ModalAlert extends React.Component {
                                      gems={this.props.gems}
                                      onNavigateToChallenge={this.props.onNavigateToChallenge}
                                      onHideMap={this.props.onHideMap}/>;
+      } else if (this.props.mouseShieldOnly) {
+        return <div className="venture-pad-container">
+                <div className="venture-pad-backdrop light">
+                </div>
+              </div>;
       } else {
         return <div className="next-trial-button" onClick={rightProps.onClick || this.props.onRightButtonClick}>
-                <div className="next-trial-text">Next Trial</div>
+                <div className="next-trial-text">{t(this.props.bigButtonText)}</div>
                </div>;
       }
     }

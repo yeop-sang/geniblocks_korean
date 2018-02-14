@@ -5,7 +5,9 @@ import { GUIDE_ALERT_RECEIVED, GUIDE_MESSAGE_RECEIVED, ADVANCE_NOTIFICATIONS, CL
 const initialState = Immutable({
   show: false,
   leftButton: null,
-  rightButton: null
+  rightButton: null,
+  bigButtonText: null,
+  mouseShieldOnly: false
 });
 
 const defaultRightButton = {
@@ -20,13 +22,16 @@ export default function modalDialog(state = initialState, action) {
         show: true,
         rightButton: action.rightButton || defaultRightButton,
         leftButton: action.leftButton,
-        showAward: action.showAward
+        bigButtonText: action.bigButtonText,
+        showAward: !!action.showAward,
+        mouseShieldOnly: !!action.mouseShieldOnly
       });
     case actionTypes.TOGGLE_MAP:
       return state.merge({
         show: action.isVisible,
         showMap: action.isVisible,
-        showAward: false
+        showAward: false,
+        mouseShieldOnly: false
       });
     case actionTypes.MODAL_DIALOG_DISMISSED:
       return initialState;

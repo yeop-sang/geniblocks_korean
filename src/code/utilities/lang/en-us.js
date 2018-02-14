@@ -13,6 +13,7 @@ export default {
 
   // Challenge popup alerts
   "~ALERT.TITLE.GOOD_WORK": "Good work!",
+  "~ALERT.COMPLETED_CHALLENGE": "Challenge completed!",
   "~ALERT.TITLE.MISSION_ACCOMPLISHED": "Level Accomplished!",
   "~ALERT.TITLE.INCORRECT_DRAKE": "That's not the drake!",
   "~ALERT.TITLE.INCORRECT_PARENT": "Those parents won't work!",
