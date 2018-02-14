@@ -5,6 +5,13 @@ import CountView from './counter';
 import GemSetView from './gem-set';
 import t from '../utilities/translate';
 
+const gemColors = {
+  2: "blue",
+  1: "yellow",
+  0: "red",
+  [-1]: "black"
+};
+
 const BottomHUDView = React.createClass({
 
   propTypes: {
@@ -15,6 +22,7 @@ const BottomHUDView = React.createClass({
     maxScore: PropTypes.number,
     currMoves: PropTypes.number,
     goalMoves: PropTypes.number,
+    showMoveCounter: PropTypes.boolean,
     gems: PropTypes.array,
     numChallenges: PropTypes.number,
     showAward: PropTypes.bool,
@@ -24,9 +32,23 @@ const BottomHUDView = React.createClass({
   },
 
   render() {
-    let {routeSpec, trial, trialCount, currScore, maxScore, currMoves, goalMoves, numChallenges, gems, showTutorialButton, onRestartTutorial} = this.props,
-        scoreView = maxScore ? <CountView countTitleText={t('~COUNTER.SCORE_LABEL')} className={'score-count'} currCount={currScore} maxCount={maxScore} /> : null,
-        movesView = goalMoves > -1 ? <CountView countTitleText={t('~COUNTER.MOVES_LABEL')} className={'moves-count'} currCount={currMoves} maxCount={goalMoves} /> : null,
+    let {routeSpec, trial, trialCount, currScore, maxScore, currMoves, goalMoves, showMoveCounter, numChallenges, gems, showTutorialButton, onRestartTutorial} = this.props,
+        scoreView = maxScore ?
+          <CountView
+            countTitleText={t('~COUNTER.SCORE_LABEL')}
+            className={'score-count'}
+            currCount={currScore}
+            maxCount={maxScore} /> : null,
+        movesRemaining = (goalMoves + 2) - currMoves,
+        movesRemainingShown = movesRemaining >= 0 ? movesRemaining : null,
+        label =  movesRemaining >= 0 ? '~COUNTER.MOVES_LABEL' : '~COUNTER.TOO_MANY_MOVES',
+        possibleGem = Math.max(-1, Math.min(2, movesRemaining)),
+        color = gemColors[possibleGem],
+        movesView = (showMoveCounter && goalMoves > -1) ?
+          <CountView
+            countTitleText={t(label)}
+            className={`moves-count ${color}`}
+            currCount={movesRemainingShown} /> : null,
         showRouteWidgets = routeSpec !== null,
         routeWidgets, challengeWidgets, tutorialWidgets;
 

@@ -12,7 +12,11 @@
 		"resources/fablevision/huds/HUD_top.png",
 		"resources/fablevision/huds/scroll.png",
 		"resources/fablevision/huds/HUD_bottom.png",
-		"resources/fablevision/huds/characters/Hatch_active.png"
+		"resources/fablevision/huds/characters/Hatch_active.png",
+		"resources/fablevision/huds/move-screens/blue_moves.png",
+		"resources/fablevision/huds/move-screens/yellow_moves.png",
+		"resources/fablevision/huds/move-screens/red_moves.png",
+		"resources/fablevision/huds/move-screens/null_moves.png"
 	],
 	"simroom": [
 		"resources/fablevision/rooms/simroom.jpg",

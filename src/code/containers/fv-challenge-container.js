@@ -82,6 +82,7 @@ class FVChallengeContainer extends Component {
         maxScore,
         goalMoves,
         showChallengeWidgets = false,
+        showMoveCounter = true,
         MainView;
 
     if (showingRoom) {
@@ -110,6 +111,10 @@ class FVChallengeContainer extends Component {
       goalMoves = this.props.goalMoves;
       showChallengeWidgets = true;
 
+      if (Template.shouldShowMovesCounter) {
+        showMoveCounter = Template.shouldShowMovesCounter(challengeType, interactionType);
+      }
+
       const { steps, currentStep, moreVisible, visible } = tutorials;
       const { onTutorialNext, onTutorialPrevious, onTutorialMore, onTutorialClosed } = this.props;
 
@@ -130,7 +135,7 @@ class FVChallengeContainer extends Component {
         { MainView }
         <BottomHUDView routeSpec={routeSpec} numChallenges={challenges} trial={trial + 1} trialCount={numTrials}
           currScore={correct} maxScore={maxScore} currMoves={this.props.moves} showAward={showAward}
-          goalMoves={goalMoves} gems={this.props.gems} showChallengeWidgets={showChallengeWidgets} showTutorialButton={showTutorialButton} onRestartTutorial={this.props.onRestartTutorial} />
+          goalMoves={goalMoves} showMoveCounter={showMoveCounter} gems={this.props.gems} showChallengeWidgets={showChallengeWidgets} showTutorialButton={showTutorialButton} onRestartTutorial={this.props.onRestartTutorial} />
         <NotificationContainer />
         <ModalMessageContainer />
       </div>
