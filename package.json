@@ -25,7 +25,9 @@
     "classnames": "^2.2.5",
     "iframe-phone": "^1.2.0",
     "image-promise": "^5.0.1",
+    "jsonwebtoken": "^8.1.0",
     "lodash": "^4.17.3",
+    "mock-local-storage": "^1.0.5",
     "mustache": "^2.3.0",
     "react": "^15.4.1",
     "react-addons-css-transition-group": "^15.5.2",
@@ -98,7 +100,7 @@
     "gv2": "live-server public --open=gv2",
     "pretest": "npm run lint",
     "start": "gulp",
-    "test": "mocha --compilers js:babel-core/register --recursive --require ./test/setup.js",
+    "test": "mocha --compilers js:babel-core/register --recursive --require ./test/setup.js --require mock-local-storage",
     "test:watch": "npm run test -- --watch"
   }
 }

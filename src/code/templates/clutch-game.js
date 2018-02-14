@@ -10,7 +10,11 @@ import FVChromosomeImageView from '../fv-components/fv-chromosome-image';
 import ButtonView from '../fv-components/button';
 import t from '../utilities/translate';
 
+import GeneticsUtils from '../utilities/genetics-utils';
+
 const durationHatchAnimation = 1333;  // msec
+
+const smallClutchSize = 8, largeClutchSize = 12;
 
 var timers = [];
 function clearTimeouts() {
@@ -86,24 +90,80 @@ export default class ClutchGame extends Component {
   }
 
   render() {
-    const { scale, challengeType, drakes, hiddenAlleles, trial, numTargets,
-            userChangeableGenes, visibleGenes, onChromosomeAlleleChange,
-            onBreedClutch, onHatch, onDrakeSubmission, onParentSubmission } = this.props,
-          // 0: mother, 1: father, 2...n: target, n+1...: children
-          mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
-          father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex),
-          targetDrakes = drakes.slice(2, 2+numTargets),
-          isSubmitParents = challengeType === "submit-parents";
-    let child = null;
+    const { scale, challengeType, drakes, hiddenAlleles, hiddenParent, trial, numTargets,
+      userChangeableGenes, visibleGenes, onChromosomeAlleleChange, onChromosomeAlleleSelected,
+      onBreedClutch, onClearClutch, onHatch, onDrakeSubmission, onParentSubmission, onReadyToAnswer } = this.props,
+      // 0: mother, 1: father, 2...n: target, n+1...: children
+      mother = new BioLogica.Organism(BioLogica.Species.Drake, drakes[0].alleleString, drakes[0].sex),
+      father = new BioLogica.Organism(BioLogica.Species.Drake, drakes[1].alleleString, drakes[1].sex),
+      targetDrakes = drakes.slice(2, 2 + numTargets),
+      isSubmitParents = challengeType === "submit-parents",
+      isTestCross = challengeType === "test-cross",
+      child = null;
 
-    const handleAlleleChange = function(chrom, side, prevAllele, newAllele, orgName) {
+    const handleAlleleChange = function (chrom, side, prevAllele, newAllele, orgName) {
       const index = orgName === "mother" ? 0 : 1,
-            incrementMoves = !isSubmitParents;
-      onChromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, incrementMoves);
+        incrementMoves = !isSubmitParents;
+
+      if (isTestCross) {
+        const isHiddenParent = hiddenParent && ((hiddenParent.sex === BioLogica.FEMALE && orgName === "mother") || (hiddenParent.sex === BioLogica.MALE && orgName === "father"));
+        if (!isHiddenParent) {
+          onClearClutch(2);
+          onChromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, incrementMoves);
+        } else {
+          let gene = BioLogica.Genetics.getGeneOfAllele(BioLogica.Species.Drake, newAllele).name;
+          onChromosomeAlleleSelected(chrom, side, prevAllele, newAllele, gene, false);
+        }
+      }
+      else {
+        onChromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, incrementMoves);
+      }
     };
-    const handleFertilize = function() {
-      animatedComponents = [];
-      onBreedClutch(8);
+
+    const handleFertilize = function () {
+        animatedComponents = [];
+        if (isTestCross) {
+          if (hiddenParent && hiddenParent.hiddenGenotype) onBreedClutch(largeClutchSize);
+        } else {
+          onBreedClutch(smallClutchSize);
+        }
+    };
+    const handleReadyToAnswer = function () {
+      onReadyToAnswer(true);
+    };
+
+    const handleSubmitParentGenotype = function () {
+      if (hiddenParent.selectedAlleles) {
+        const parent = hiddenParent.sex === BioLogica.FEMALE ? mother : father,
+          filteredParentAlleles = GeneticsUtils.filterVisibleAlleles(parent.getGenotype().allAlleles, userChangeableGenes, visibleGenes, parent.species);
+        let userAlleles = [];
+        for (let chromosome of ["1", "2", "XY"]) {
+          for (let side of ["a", "b", "x", "y", "x1", "x2"]) {
+            if (hiddenParent.selectedAlleles[chromosome] && hiddenParent.selectedAlleles[chromosome][side]) {
+              userAlleles = userAlleles.concat(Object.values(hiddenParent.selectedAlleles[chromosome][side]));
+            }
+          }
+        }
+        let parentDrakeAlleleArray = filteredParentAlleles.map(t => t.allele);
+        let matched = [], unmatched = [];
+
+        // check through all changeable alleles, see if all the parent alleles are matched with the user submission
+        for (let i = 0; i < parentDrakeAlleleArray.length; i++) {
+          let matchIndex = userAlleles.indexOf(parentDrakeAlleleArray[i]);
+          if (matchIndex > -1) {
+            // found a match
+            matched.push(parentDrakeAlleleArray[i]);
+            userAlleles.splice(matchIndex, 1);
+          } else {
+            unmatched.push(parentDrakeAlleleArray[i]);
+          }
+        }
+        let success = unmatched.length === 0;
+        onDrakeSubmission(2, 2, success, null, 0, 1);
+      }
+    };
+    const handleSaveAndClose = function () {
+      onReadyToAnswer(false);
     };
 
     const handleHatch = function () {
@@ -115,19 +175,19 @@ export default class ClutchGame extends Component {
 
     const handleSubmit = function (index, id, child) {
       const childImage = child.getImageName(),
-            selectedDrakeIndex = index + 3,
-            targetDrakeOrg = new BioLogica.Organism(BioLogica.Species.Drake,
-                                                    targetDrakes[0].alleleString,
-                                                    targetDrakes[0].sex),
-            success = (childImage === targetDrakeOrg.getImageName());
+        selectedDrakeIndex = index + 3,
+        targetDrakeOrg = new BioLogica.Organism(BioLogica.Species.Drake,
+          targetDrakes[0].alleleString,
+          targetDrakes[0].sex),
+        success = (childImage === targetDrakeOrg.getImageName());
 
       onDrakeSubmission(2, selectedDrakeIndex, success, null, 0, 1);
     };
 
-    const handleSubmitParents = function() {
+    const handleSubmitParents = function () {
       const movesToMakeAllOffspring = targetDrakes.reduce((sum, t) => {
         const targetDrake = new BioLogica.Organism(BioLogica.Species.Drake,
-                                              t.alleleString, t.sex);
+          t.alleleString, t.sex);
         return sum + BioLogica.Organism.numberOfBreedingMovesToReachOrganism(
           mother,
           father,
@@ -137,7 +197,7 @@ export default class ClutchGame extends Component {
         );
       }, 0);
       const success = movesToMakeAllOffspring === 0;
-      const targetDrakeArray = Array(numTargets).fill().map((e,i)=>i+2);  // [2, ... n]
+      const targetDrakeArray = Array(numTargets).fill().map((e, i) => i + 2);  // [2, ... n]
       onParentSubmission(0, 1, targetDrakeArray, success);
     };
 
@@ -145,24 +205,27 @@ export default class ClutchGame extends Component {
     const targetText = isSubmitParents ? t("~TARGET.OFFSPRING") : t("~TARGET.TARGET_DRAKE");
     const targetDrakeViews = targetDrakes.map(d => {
       const org = new BioLogica.Organism(BioLogica.Species.Drake,
-                              d.alleleString,
-                              d.sex);
-      return <OrganismView org={org} width={targetSize}/>;
+        d.alleleString,
+        d.sex);
+      return <OrganismView org={org} width={targetSize} />;
     });
-    const targetDrakeSection = <div className='geniblocks target-drake-container'>
-                                  <div className='drakes'>
-                                    {targetDrakeViews}
-                                  </div>
-                                 <div className="target-drake-text">{targetText}</div>
-                               </div>;
+
+    const targetDrakeSection = (!isTestCross && <div className='geniblocks target-drake-container'>
+      <div className='drakes'>
+        {targetDrakeViews}
+      </div>
+      <div className="target-drake-text">{targetText}</div>
+    </div>
+    );
+
     if (child && animationEvents.hatch.complete) {
       handleHatch();
     }
-
-    let clutchDrakes = drakes.slice(2+numTargets);
+    let startIndex = isTestCross ? 1 : 2;
+    let clutchDrakes = drakes.slice(startIndex + numTargets);
     clutchDrakes = clutchDrakes.asMutable().map((org) => new BioLogica.Organism(BioLogica.Species.Drake, org.alleleString, org.sex));
     const clickDrake = !isSubmitParents ? handleSubmit : null;
-    let penView = <ClutchView orgs={ clutchDrakes } width={250} onClick={clickDrake}/>;
+    let penView = (isTestCross ? <ClutchView orgs={clutchDrakes} pageSize={isTestCross ? largeClutchSize : smallClutchSize} /> : <ClutchView orgs={clutchDrakes} width={250} onClick={clickDrake} />);
 
     const motherClassNames = classNames('parent', 'mother'),
           fatherClassNames = classNames('parent', 'father');
@@ -176,16 +239,47 @@ export default class ClutchGame extends Component {
         parentChangeableGenes = userChangeableGenes;
       }
 
+      const isHiddenParent = isTestCross && hiddenParent && (hiddenParent.sex === sex);
       const org = sex === BioLogica.FEMALE ? mother : father,
             uniqueProps = sex === BioLogica.FEMALE
-                              ? { orgName: 'mother', className: motherClassNames }
-                              : { orgName: 'father', className: fatherClassNames };
-      return <GenomeView species={org.species} org={org} {...uniqueProps} editable={parentChangeableGenes.length > 0}
+                              ? { orgName: 'mother', className: motherClassNames, isHiddenParent }
+          : { orgName: 'father', className: fatherClassNames, isHiddenParent };
+
+      let submitButtonStyle = isHiddenParent && hiddenParent.selectedAlleles ? classNames('test-cross-submit-button', 'geniblocks', 'fv-button') : classNames('test-cross-submit-button', 'geniblocks', 'fv-button', 'disabled');
+      let view = isHiddenParent && hiddenParent.hiddenGenotype ?
+        <div id="test-cross-guess">
+          {testCross}
+        </div> :
+        <div id="genome-container">
+          <GenomeView species={org.species} org={org} {...uniqueProps} editable={parentChangeableGenes.length > 0}
                          ChromosomeImageClass={FVChromosomeImageView} small={ true } hiddenAlleles={hiddenAlleles}
                          userChangeableGenes={ parentChangeableGenes } visibleGenes={ visibleGenes } onAlleleChange={ handleAlleleChange }
-                         chromosomeHeight={122} />;
+            chromosomeHeight={122} defaultUnknown={isHiddenParent} selectedAlleles={isHiddenParent ? hiddenParent.selectedAlleles : null}
+          />
+          {isHiddenParent &&
+            <div>
+              <div className='geniblocks test-cross-submit-button-surround'>
+                <div className={submitButtonStyle} onClick={handleSubmitParentGenotype}>
+                  <div className="button-label unselectable">{t("~BUTTON.SUBMIT")}</div>
+                </div>
+            </div>
+            <div className='geniblocks test-cross-save-button-surround'>
+                <div className={classNames('test-cross-save-button', 'geniblocks', 'fv-button')} onClick={handleSaveAndClose}>
+                  <div className="button-label unselectable">{t("~BUTTON.SAVE_AND_CLOSE")}</div>
+                </div>
+              </div>
+            </div>}
+        </div>;
+      return view;
     }
 
+    function parentImageView(sex) {
+      const org = sex === BioLogica.FEMALE ? mother : father,
+        parentName = sex === BioLogica.FEMALE ? "mother" : "father",
+        isHiddenParent = isTestCross && hiddenParent && hiddenParent.sex === sex,
+        hiddenImage = isHiddenParent ? hiddenParent.hiddenImage : false;
+      return <ParentDrakeView className={parentName} org={org} width={parentSize} hidden={hiddenImage} />;
+    }
     const bottomButtons = isSubmitParents ?
       (
         <div id="bottom-buttons">
@@ -198,17 +292,42 @@ export default class ClutchGame extends Component {
 
     const parentSize = isSubmitParents ? 280 : 250;
 
+    const testCross = isTestCross ?
+      (
+        <div id="test-cross-buttons">
+          <div className="geniblocks ready-to-answer-button-area">
+            <div className='geniblocks ready-to-answer-button-surround'>
+              {drakes.length > 3 &&
+                <div className={classNames('ready-to-answer-button', 'geniblocks', 'fv-button')} onClick={handleReadyToAnswer}>
+                  <div className="button-label unselectable">{t("~BUTTON.READY_TO_ANSWER")}</div>
+                </div>
+              }
+              {drakes.length <= 3 &&
+                <div className={classNames('ready-to-answer-button', 'geniblocks', 'fv-button', 'disabled')}>
+                  <div className="button-label unselectable">{t("~BUTTON.READY_TO_ANSWER")}</div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+      ) : null;
+    let breedEnabled = true;
+    if (isTestCross && hiddenParent) {
+      breedEnabled = hiddenParent.hiddenGenotype;
+    }
+
     return (
       <div id="breeding-game">
         <div className="columns centered">
           <div className='column'>
-            <ParentDrakeView className="mother" org={ mother } width={parentSize} />
-            { parentGenomeView(BioLogica.FEMALE) }
+            {parentImageView(BioLogica.FEMALE)}
+            {parentGenomeView(BioLogica.FEMALE)}
           </div>
           <div className='column center-column'>
             {targetDrakeSection}
             {penView}
-            <BreedButtonAreaView  scale={scale} isBreedButtonEnabled={true}
+            <BreedButtonAreaView  scale={scale} isBreedButtonEnabled={breedEnabled}
                                   isHatchingInProgress={false}
                                   hatchAnimationDuration={durationHatchAnimation}
                                   handleHatchingComplete={animationEvents.hatch.onFinish}
@@ -216,10 +335,11 @@ export default class ClutchGame extends Component {
                                   onBreed={handleFertilize} />
           </div>
           <div className='column'>
-            <ParentDrakeView className="father" org={ father } width={parentSize} />
-            { parentGenomeView(BioLogica.MALE) }
+            {parentImageView(BioLogica.MALE)}
+            {parentGenomeView(BioLogica.MALE)}
           </div>
         </div>
+
         {bottomButtons}
         {animatedComponents}
       </div>
@@ -241,24 +361,38 @@ export default class ClutchGame extends Component {
     userChangeableGenes: PropTypes.array.isRequired,
     visibleGenes: PropTypes.array.isRequired,
     hiddenAlleles: PropTypes.array,
+    hiddenParent: PropTypes.object,
     onChromosomeAlleleChange: PropTypes.func.isRequired,
+    onChromosomeAlleleSelected: PropTypes.func,
     onBreedClutch: PropTypes.func.isRequired,
+    onClearClutch: PropTypes.func,
     onHatch: PropTypes.func,
     onDrakeSubmission: PropTypes.func,
-    onParentSubmission: PropTypes.func
+    onParentSubmission: PropTypes.func,
+    onReadyToAnswer: PropTypes.func
   }
 
-  static authoredDrakesToDrakeArray = function(authoredChallenge, authoredTrialNumber) {
+  static authoredDrakesToDrakeArray = function (authoredChallenge, authoredTrialNumber) {
     // allow for multiple targets
     if (authoredChallenge.challengeType === "submit-parents" &&
-          Array.isArray(authoredChallenge.targetDrakes[authoredTrialNumber])) {
+      Array.isArray(authoredChallenge.targetDrakes[authoredTrialNumber])) {
       return [authoredChallenge.mother[authoredTrialNumber],
-              authoredChallenge.father[authoredTrialNumber]]
-            .concat(authoredChallenge.targetDrakes[authoredTrialNumber]);
+      authoredChallenge.father[authoredTrialNumber]]
+        .concat(authoredChallenge.targetDrakes[authoredTrialNumber]);
+    } else if (authoredChallenge.challengeType === "test-cross") {
+      const motherIdx = Math.floor(Math.random() * authoredChallenge.mother.length),
+        fatherIdx = Math.floor(Math.random() * authoredChallenge.father.length);
+
+      let authoredDrakes = [
+        authoredChallenge.mother[motherIdx],
+        authoredChallenge.father[fatherIdx]
+      ];
+      return authoredDrakes;
     }
+
     return [authoredChallenge.mother[authoredTrialNumber],
-            authoredChallenge.father[authoredTrialNumber],
-            authoredChallenge.targetDrakes[authoredTrialNumber]];
+      authoredChallenge.father[authoredTrialNumber]]
+        .concat(authoredChallenge.targetDrakes[authoredTrialNumber]);
   }
 
   static getNumTargets = function(authoredChallenge, authoredTrialNumber) {
@@ -270,12 +404,19 @@ export default class ClutchGame extends Component {
     }
     return 1;
   }
-
   static shouldShowMovesCounter = function(challengeType) {
     if (challengeType === "submit-parents") {
       return false;
     }
     return true;
+  }
+  static getHiddenParent = function(authoredChallenge) {
+    if (authoredChallenge.challengeType === "test-cross") {
+      if (authoredChallenge.hiddenParent) {
+        return authoredChallenge.hiddenParent;
+      }
+    }
+    return undefined;
   }
 
 }

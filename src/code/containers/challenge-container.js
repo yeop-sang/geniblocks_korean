@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import templates from '../templates';
-import { changeAllele, changeSex, submitDrake,
+import { changeAllele, selectAllele, changeSex, submitDrake,
         keepOffspring, fertilize, hatch,
         changeBasketSelection, changeDrakeSelection, submitEggForBasket, showTutorial } from '../actions';
 import { addGameteChromosome, resetGametes,
@@ -40,6 +40,7 @@ function mapStateToProps (state) {
       userChangeableGenes: state.userChangeableGenes,
       visibleGenes: state.visibleGenes,
       hiddenAlleles: state.hiddenAlleles,
+      hiddenParent: state.hiddenParent,
       baskets: state.baskets,
       trial: state.trial,
       trials: state.trials,
@@ -57,6 +58,8 @@ function mapDispatchToProps(dispatch) {
   return {
     onChromosomeAlleleChange: (index, chrom, side, prevAllele, newAllele, incrementMoves=true) =>
       dispatch(changeAllele(index, chrom, side, prevAllele, newAllele, incrementMoves)),
+    onChromosomeAlleleSelected: (index, chrom, side, prevAllele, newAllele, gene, incrementMoves=true) =>
+      dispatch(selectAllele(index, chrom, side, prevAllele, newAllele, gene, incrementMoves)),
     onSexChange: (index, newSex, incrementMoves=true) =>
       dispatch(changeSex(index, newSex, incrementMoves)),
     onDrakeSubmission: (targetDrakeIndex, userDrakeIndex, correct, incorrectAction, motherIndex, fatherIndex) =>

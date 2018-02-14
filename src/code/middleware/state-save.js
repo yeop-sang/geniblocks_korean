@@ -14,19 +14,20 @@
   }
  */
 
-import urlParams from '../utilities/url-params';
 import actionTypes from '../action-types';
 import progressUtils from '../utilities/progress-utils';
+import { getFBClassId, getFBUserId } from "../utilities/firebase-auth";
 import { currentStateVersion } from '../migrations';
 
 export const authoringVersionNumber = 1;
-const userQueryString = getUserQueryString();
+let userQueryString = getUserQueryString();
 
 export default () => store => next => action => {
   let prevState = store.getState(),
       result = next(action),
-      nextState = store.getState();
-
+    nextState = store.getState();
+  // try to update user state path if it's missing
+  if (!userQueryString) userQueryString = getUserQueryString();
   // If we have a FB query string, update timestamp on every action,
   // and update savable state (gems) if they have changed
   if (userQueryString) {
@@ -69,24 +70,8 @@ const getCurrentChallenge = function(nextState) {
 };
 
 export function getUserQueryString() {
-  const classId = getClassId(),
-        userId = getUserId();
+  const classId = getFBClassId(),
+        userId = getFBUserId();
 
   return (classId && userId) ? authoringVersionNumber + "/userState/" + classId + "/" + userId : null;
-}
-
-function getClassId() {
-  return convertUrlToFirebaseKey(urlParams.class_info_url);
-}
-
-function getUserId() {
-  return convertUrlToFirebaseKey(urlParams.domain) + urlParams.domain_uid;
-}
-
-function convertUrlToFirebaseKey(url) {
-  if (!url) {
-    return null;
-  }
-  // Convert invalid Firebase characters (inluding periods) to their ASCII equivalents
-  return encodeURIComponent(url).replace(/\./g, "%2E");
 }

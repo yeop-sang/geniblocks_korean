@@ -27,10 +27,41 @@ import thunk from 'redux-thunk';
 import GeneticsUtils from './utilities/genetics-utils';
 import urlParams from './utilities/url-params';
 import uuid from 'uuid';
+import { initFirebase, userAuth } from "./utilities/firebase-auth";
 
 // trivial check for Windows as part of user agent string
 if (navigator.userAgent.indexOf('Windows') >= 0)
   document.body.className += ' os-windows';
+
+let store, history;
+
+initFirebase.then(function (auth) {
+  postAuthInitialization(auth);
+}, function(err){
+  console.log(err);
+  postAuthInitialization(userAuth());
+});
+
+const postAuthInitialization = function (auth) {
+  store = configureStore();
+  const guideServer = "wss://guide.intellimedia.ncsu.edu",
+    guideProtocol = "guide-protocol-v3";
+
+  initializeITSSocket(guideServer, guideProtocol, store);
+  // generate pseudo-random sessionID and username
+  const sessionID = uuid.v4(),
+        userNameBase = auth.user_id;
+  loggingMetadata.userName = `${userNameBase}-${sessionID.split("-")[0]}`;
+  loggingMetadata.classInfo = auth.class_info_url;
+  loggingMetadata.studentId = auth.domain_uid;
+  loggingMetadata.externalId = auth.externalId;
+  loggingMetadata.returnUrl = auth.returnUrl;
+  // start the session before syncing history, which triggers navigation
+  store.dispatch(startSession(sessionID));
+  history = syncHistoryWithStore(hashHistory, store);
+
+  loadAuthoring();
+};
 
 function convertAuthoring(authoring) {
   return GeneticsUtils.convertDashAllelesObjectToABAlleles(authoring,
@@ -65,25 +96,6 @@ const createStoreWithMiddleware =
 export default function configureStore(initialState) {
   return createStoreWithMiddleware(reducer, initialState, window.devToolsExtension && window.devToolsExtension());
 }
-
-const store = configureStore();
-
-const guideServer = "wss://guide.intellimedia.ncsu.edu",
-      guideProtocol  = "guide-protocol-v3";
-initializeITSSocket(guideServer, guideProtocol, store);
-
-// generate pseudo-random sessionID and username
-const sessionID = uuid.v4(),
-      userNameBase = urlParams.baseUser || "gv2-user";
-loggingMetadata.userName = `${userNameBase}-${sessionID.split("-")[0]}`;
-loggingMetadata.classInfo = urlParams.class_info_url;
-loggingMetadata.studentId = urlParams.domain_uid;
-loggingMetadata.externalId = urlParams.externalId;
-loggingMetadata.returnUrl = urlParams.returnUrl;
-// start the session before syncing history, which triggers navigation
-store.dispatch(startSession(sessionID));
-
-const history = syncHistoryWithStore(hashHistory, store);
 
 const isAuthorUploadRequested = (urlParams.author === "upload");
 let isAuthorUploadEnabled = isAuthorUploadRequested;  // e.g. check PRODUCTION flag
@@ -135,5 +147,3 @@ function renderApp() {
     </Provider>
   , document.getElementById("gv"));
 }
-
-loadAuthoring();
