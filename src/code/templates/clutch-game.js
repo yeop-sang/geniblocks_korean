@@ -405,7 +405,7 @@ export default class ClutchGame extends Component {
     return 1;
   }
   static shouldShowMovesCounter = function(challengeType) {
-    if (challengeType === "submit-parents") {
+    if (challengeType === "submit-parents" || challengeType === "test-cross") {
       return false;
     }
     return true;
