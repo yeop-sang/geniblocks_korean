@@ -1843,6 +1843,147 @@
         "drakes" : [ 0, 1 ],
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
       },
+      "numTrials" : 1,
+      "randomizeTrials" : true,
+      "showUserDrake" : false,
+      "targetDrakes" : [ {
+        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "sex" : 0
+      }, {
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "sex" : 1
+      }, {
+        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b,a:rh,b:rh",
+        "sex" : 0
+      }, {
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "sex" : 1
+      }, {
+        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B,a:rh,b:rh",
+        "sex" : 0
+      } ],
+      "template" : "FVGenomeChallenge",
+      "userChangeableGenes" : "metallic, color, black",
+      "visibleGenes" : "forelimbs, hindlimbs, wings, armor, horns"
+    },
+    "allele-targetMatch-hidden-simpleColors2" : {
+      "challengeType" : "match-target",
+      "container" : "FVContainer",
+      "initialDrake" : [ {
+        "alleles" : "a:M,b:M,a:A1,b:A1,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 0
+      }, {
+        "alleles" : "a:c,b:c,a:m,b:m,a:A1,b:a,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 0
+      }, {
+        "alleles" : "a:B,b:b,a:M,b:m,a:a,b:A1,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 1
+      }, {
+        "alleles" : "a:m,b:m,a:b,b:b,a:a,b:a,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 0
+      }, {
+        "alleles" : "a:C,b:C,a:A1,b:A1,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 0
+      } ],
+      "instructions" : "Match the target drake!",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1 ],
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+      },
+      "numTrials" : 1,
+      "randomizeTrials" : true,
+      "showUserDrake" : false,
+      "targetDrakes" : [ {
+        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "sex" : 0
+      }, {
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "sex" : 1
+      }, {
+        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b,a:rh,b:rh",
+        "sex" : 0
+      }, {
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "sex" : 1
+      }, {
+        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B,a:rh,b:rh",
+        "sex" : 0
+      } ],
+      "template" : "FVGenomeChallenge",
+      "userChangeableGenes" : "metallic, color, black",
+      "visibleGenes" : "forelimbs, hindlimbs, wings, armor, horns"
+    },
+    "allele-targetMatch-hidden-simpleColors3" : {
+      "challengeType" : "match-target",
+      "container" : "FVContainer",
+      "initialDrake" : [ {
+        "alleles" : "a:M,b:M,a:A1,b:A1,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 0
+      }, {
+        "alleles" : "a:c,b:c,a:m,b:m,a:A1,b:a,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 0
+      }, {
+        "alleles" : "a:B,b:b,a:M,b:m,a:a,b:A1,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 1
+      }, {
+        "alleles" : "a:m,b:m,a:b,b:b,a:a,b:a,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 0
+      }, {
+        "alleles" : "a:C,b:C,a:A1,b:A1,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 0
+      } ],
+      "instructions" : "Match the target drake!",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1 ],
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+      },
+      "numTrials" : 1,
+      "randomizeTrials" : true,
+      "showUserDrake" : false,
+      "targetDrakes" : [ {
+        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "sex" : 0
+      }, {
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "sex" : 1
+      }, {
+        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b,a:rh,b:rh",
+        "sex" : 0
+      }, {
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "sex" : 1
+      }, {
+        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B,a:rh,b:rh",
+        "sex" : 0
+      } ],
+      "template" : "FVGenomeChallenge",
+      "userChangeableGenes" : "metallic, color, black",
+      "visibleGenes" : "forelimbs, hindlimbs, wings, armor, horns"
+    },
+    "allele-targetMatch-hidden-simpleColors-original" : {
+      "challengeType" : "match-target",
+      "container" : "FVContainer",
+      "initialDrake" : [ {
+        "alleles" : "a:M,b:M,a:A1,b:A1,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 0
+      }, {
+        "alleles" : "a:c,b:c,a:m,b:m,a:A1,b:a,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 0
+      }, {
+        "alleles" : "a:B,b:b,a:M,b:m,a:a,b:A1,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 1
+      }, {
+        "alleles" : "a:m,b:m,a:b,b:b,a:a,b:a,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 0
+      }, {
+        "alleles" : "a:C,b:C,a:A1,b:A1,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 0
+      } ],
+      "instructions" : "Match the target drake!",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1 ],
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+      },
       "numTrials" : 3,
       "randomizeTrials" : true,
       "showUserDrake" : false,
@@ -2015,6 +2156,111 @@
       "visibleGenes" : "forelimbs, hindlimbs, wings"
     },
     "allele-targetMatch-visible-simpleColors" : {
+      "challengeType" : "match-target",
+      "container" : "FVContainer",
+      "initialDrake" : [ {
+        "alleles" : "a:M,b:M,a:A1,b:A1,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 0
+      } ],
+      "instructions" : "Match the target drake!",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1 ],
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+      },
+      "randomizeTrials" : true,
+      "showUserDrake" : true,
+      "targetDrakes" : [ {
+        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "sex" : 0
+      } ],
+      "template" : "FVGenomeChallenge",
+      "userChangeableGenes" : "metallic, color, black"
+    },
+    "allele-targetMatch-visible-simpleColors2" : {
+      "challengeType" : "match-target",
+      "container" : "FVContainer",
+      "initialDrake" : [ {
+        "alleles" : "a:c,b:c,a:m,b:m,a:A1,b:a,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 1
+      } ],
+      "instructions" : "Match the target drake!",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1 ],
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+      },
+      "randomizeTrials" : true,
+      "showUserDrake" : true,
+      "targetDrakes" : [ {
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "sex" : 0
+      } ],
+      "template" : "FVGenomeChallenge",
+      "userChangeableGenes" : "metallic, color, black"
+    },
+    "allele-targetMatch-visible-simpleColors3" : {
+      "challengeType" : "match-target",
+      "container" : "FVContainer",
+      "initialDrake" : [ {
+        "alleles" : "a:B,b:b,a:M,b:m,a:a,b:A1,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 0
+      } ],
+      "instructions" : "Match the target drake!",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1 ],
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+      },
+      "randomizeTrials" : true,
+      "showUserDrake" : true,
+      "targetDrakes" : [ {
+        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b,a:rh,b:rh",
+        "sex" : 1
+      } ],
+      "template" : "FVGenomeChallenge",
+      "userChangeableGenes" : "metallic, color, black"
+    },
+    "allele-targetMatch-visible-simpleColors4" : {
+      "challengeType" : "match-target",
+      "container" : "FVContainer",
+      "initialDrake" : [ {
+        "alleles" : "a:m,b:m,a:b,b:b,a:a,b:a,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 1
+      } ],
+      "instructions" : "Match the target drake!",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1 ],
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+      },
+      "randomizeTrials" : true,
+      "showUserDrake" : true,
+      "targetDrakes" : [ {
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "sex" : 0
+      } ],
+      "template" : "FVGenomeChallenge",
+      "userChangeableGenes" : "metallic, color, black"
+    },
+    "allele-targetMatch-visible-simpleColors5" : {
+      "challengeType" : "match-target",
+      "container" : "FVContainer",
+      "initialDrake" : [ {
+        "alleles" : "a:C,b:C,a:A1,b:A1,a:Bog,a:D,a:rh,b:rh",
+        "sex" : 0
+      } ],
+      "instructions" : "Match the target drake!",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1 ],
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+      },
+      "randomizeTrials" : true,
+      "showUserDrake" : true,
+      "targetDrakes" : [ {
+        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B,a:rh,b:rh",
+        "sex" : 0
+      } ],
+      "template" : "FVGenomeChallenge",
+      "userChangeableGenes" : "metallic, color, black"
+    },
+    "allele-targetMatch-visible-simpleColors-original" : {
       "challengeType" : "match-target",
       "container" : "FVContainer",
       "initialDrake" : [ {
