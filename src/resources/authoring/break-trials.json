@@ -48,7 +48,7 @@
             "text" : "Cadet, you're getting the hang of changing alleles to change the drake's traits."
           }, {
             "character" : "WEAVER",
-            "text" : "Time to move on to the next Mission."
+            "text" : "Time to move on to the next Mission– helping out our dragon pilots."
           } ],
           "middle" : [ {
             "character" : "YEUNG",
@@ -87,7 +87,7 @@
               } ],
               "success" : [ {
                 "character" : "YEUNG",
-                "text" : "Great job, Cadet! Remember the value of those crystals: red are weakest, yellow are in the middle, and blue crystals are the most powerful."
+                "text" : "Okay, Cadet! Remember the value of those crystals: red are weakest, yellow are in the middle, and blue crystals are the most powerful."
               } ]
             },
             "start" : [ {
@@ -123,7 +123,7 @@
             },
             "start" : [ {
               "character" : "HERRERA",
-              "text" : "Let's be sure you got that, try this one."
+              "text" : "Let's be sure you're getting this, Cadet! Try this one. Click the screen to start."
             } ]
           },
           "id" : "allele-targetMatch-visible-simpleDom2",
@@ -143,8 +143,11 @@
               } ],
               "success" : [ {
                 "character" : "YEUNG",
-                "text" : "Okay, Cadet— One more time!"
-              } ]
+                "text" : "Okay, Cadet— One more time. Click that screen and... cross the finish line!"
+              }, {
+              "character" : "HERRERA",
+              "text" : "Go Professor Yeung, you are positively on fire!"
+            } ]
             },
             "start" : [ {
               "character" : "HERRERA",
@@ -163,7 +166,7 @@
               "text" : "What can I say, Yeung? I’m a team player. Give it a shot."
             }, {
               "character" : "YEUNG",
-              "text" : "*Sigh* Okay, Cadet. The ball is in your, umm, court. See if you can, uh, hit any home runs?"
+              "text" : "*Sigh* Okay, Cadet. The ball is in your... court. See if you can, uh, hit any home runs...?"
             }, {
               "character" : "HERRERA",
               "text" : "Yeung shoots! She scores!"
@@ -189,12 +192,12 @@
                 "text" : "Okay, Cadet. Now let’s take a time out!"
               }, {
                 "character" : "HERRERA",
-                "text" : "Another touchdown for Yeung! Ha ha! Okay, if you feel ready, activate your VentureMap and move along!"
+                "text" : "Another touchdown for Yeung! Ha ha! Except one tiny little thing— we're kind of in a hurry. Just saying."
               } ]
             },
             "start" : [ {
               "character" : "HERRERA",
-              "text" : "Mission almost complete. I know you can do this."
+              "text" : "Mission almost complete... I know you can do this. CLick the screen to start."
             } ]
           },
           "id" : "allele-targetMatch-hidden-simpleDom2",
@@ -207,13 +210,10 @@
             "text" : "You have been learning the key skill of manipulating alleles efficiently."
           }, {
             "character" : "HERRERA",
-            "text" : "By changing the versions of genes, you can now help us select the genes we need to breed dragons."
-          }, {
-            "character" : "YEUNG",
-            "text" : "Well, let’s not celebrate yet. I’m getting word that Darkwellian spies know there’s a new member of our team... You!"
+            "text" : "By changing the versions of genes, you can now help us select the alleles we need when breeding dragons."
           }, {
             "character" : "HATCH",
-            "text" : "Time to act! By completing this level, you’ve earned access to: the Chromoscope."
+            "text" : "By completing this level, you’ve earned access to: the Chromoscope."
           }, {
             "character" : "WEAVER",
             "text" : "The Chromoscope checks and displays chromosome alleles for each drake. It will be invaluable in your next missions!"
@@ -269,16 +269,16 @@
               "text" : "We’re short on cash and need to sell a few thousand wingless drakes as pets for toddlers."
             }, {
               "character" : "NETANYA",
-              "text" : "Parents prefer wingless drakes because, well, flying drakes sometimes give the toddlers unexpected rides that go up about a quarter mile in the sky."
+              "text" : "Yeah, winged drakes sometimes give toddlers unexpected rides that go up about a quarter mile in the sky."
             }, {
               "character" : "HERRERA",
-              "text" : "Yeah, and it’s bad enough that the flying drakes, um, expel their waste from way up there, but, uh, let’s just say a freaked out toddler can drop one heck of a load from a thousand feet."
+              "text" : "They love it! But the parents, not so much. And it’s bad enough that the flying drakes, um, expel their waste from way up there, but, uh, let’s just say a freaked out toddler can drop one heck of a load from a thousand feet."
             }, {
               "character" : "HERRERA",
               "text" : "So, we have to sort out four kinds of drake eggs – fast! Females with wings, females without wings, males with wings, and males without wings."
             }, {
               "character" : "NETANYA",
-              "text" : "See the baskets and the big pile of eggs? Click over there and get sorting!"
+              "text" : "See the baskets and the big lineup of eggs? Click over there and get sorting!"
             } ]
           },
           "id" : "eggDrop-wings",
@@ -298,10 +298,10 @@
               } ],
               "success" : [ {
                 "character" : "NETANYA",
-                "text" : "Great job. Those legs-only drakes are useful, too. They develop really strong, fast legs, and we need to study them so we can breed cavalry mount dragons."
+                "text" : "You know, Herrera, those legs-only drakes are useful, too. They develop really strong, fast legs, and we need to study them so we can breed cavalry mount dragons."
               }, {
                 "character" : "HERRERA",
-                "text" : "By the way, those arms-only, burrowing drakes can also do a great job at wrecking a golf course! Remind me to tell you about the prank we played on Darkwell when they hosted last year’s Evil Empires Golf Open."
+                "text" : "Sure. By the way, those arms-only, burrowing drakes can also do a great job at wrecking a golf course! Remind me to tell you about the prank we played on Darkwell when they hosted last year’s Evil Empires Golf Open."
               }, {
                 "character" : "NETANYA",
                 "text" : "Maybe later, Colonel. Cadet, let’s get going!"
@@ -321,7 +321,7 @@
               "text" : "We need to quickly sort out three kinds of eggs – those with arms only, those with legs only, and those with both."
             }, {
               "character" : "NETANYA",
-              "text" : "So check out the baskets and the giant egg pile, then tap over there and start sorting!"
+              "text" : "Eggs-actly! Okay, yeah, sorry, I couldn't help myslef. So, go to it—tap the baskets and start sorting!"
             } ]
           },
           "id" : "eggDrop-limbs",
@@ -351,10 +351,10 @@
           } ],
           "start" : [ {
             "character" : "HERRERA",
-            "text" : "Listen up, Cadet! This is for your ears only! Aboveground, there’s a tunnel to this underground base, hidden in a cute, innocent-looking little cottage."
+            "text" : "Listen up, Cadet! This is for your ears only! Aboveground, there’s a tunnel to this underground base, hidden in an innocent-looking little cottage."
           }, {
             "character" : "NETANYA",
-            "text" : "That cottage is home to the Drake Breeders’ Guild. It houses a veterinary clinic and store, which I run. The money made by the store helps pay for the secret work we do down here."
+            "text" : "That cottage is home to the Drake Breeders’ Guild. I run our veterinary clinic and pet store there! The money made by the store helps pay for the secret work we do down here."
           }, {
             "character" : "HERRERA",
             "text" : "The Darkwellians have no idea that the Guild is just a front. The thing is, we suddenly need a lot more drakes than usual…"
@@ -379,7 +379,7 @@
               } ],
               "success" : [ {
                 "character" : "YEUNG",
-                "text" : "You are getting there. Twice more and you're there."
+                "text" : "Make sure you're getting it. Twice more should do the trick."
               } ]
             },
             "start" : [ {
@@ -387,7 +387,7 @@
               "text" : "For my undercover operation against the Darkwellians, I need the toughest dragons we can create. I want dragons with horns and five armor plates."
             }, {
               "character" : "YEUNG",
-              "text" : "And for the Guild store, super charging the cuddle factor will maximize profit! Drakes without horns or armor will sell the best."
+              "text" : "And for the Guild store, super-charging the cuddle factor will maximize profit! Drakes without horns or armor will sell the best."
             }, {
               "character" : "HERRERA",
               "text" : "Start by breeding drakes on the simulator. You’ll be changing the alleles to create a drake that matches the target in as few moves as possible. Click the screen to begin."
@@ -440,13 +440,39 @@
             },
             "start" : [ {
               "character" : "HERRERA",
-              "text" : "Keep on keepin'on, Cadet."
+              "text" : "Here we go again! Keep on keepin' on, Cadet."
             } ]
           },
           "id" : "allele-targetMatch-visible-armorHorns3",
           "name" : "Challenge 2.2.3",
           "room" : "simroom"
-        }, {
+        } ],
+        "dialog" : {
+          "end" : [ {
+            "character" : "HATCH",
+            "text" : "The Guild store is turning a great profit selling the cute new drakes we’ve been breeding!"
+          }, {
+            "character" : "WEAVER",
+            "text" : "That's enough practice on the new genes. It's time to see whether you've really got this down!"
+          } ],
+          "middle" : [ {
+            "character" : "HERRERA",
+            "text" : "Open your VentureMap!"
+          } ],
+          "start" : [ {
+            "character" : "HERRERA",
+            "text" : "My elite team of pilots needs powerful dragons that can hold their own in battle if we are to have any chance of defeating Darkwell."
+          }, {
+            "character" : "YEUNG",
+            "text" : "And I just heard from Dr. Netanya that customers at the Guild store are complaining that our drakes with armor don’t make great pets. She’s asking whether we can make “cuddlier” drakes to raise more money."
+          }, {
+            "character" : "HERRERA",
+            "text" : "Let’s tackle both of these needs at once. Cadet, open your VentureMap and start cuddling! The drakes, I mean; making them cuddlier. "
+          } ]
+        },
+        "name" : "Mission 2.2"
+      }, {
+        "challenges" : [ {
           "about" : {
             "description" : "Students will match a series of target drakes by selecting alleles from a pulldown menu. The drake that the student is creating will be invisible to the student while they are manipulating the alleles. The manipulable alleles will be limited to horns (recessive trait) and armor (incomplete dominance).",
             "tip" : "Students will only receive a blue crystal if they create the drake in the fewest moves possible. Students may be confused by horns being a recessive trait. Students may not immediately see the difference between 3-plate and 5-plate armor.",
@@ -464,18 +490,15 @@
               } ]
             },
             "start" : [ {
-              "character" : "HERRERA",
-              "text" : "My pilots need dragons with horns to steer and steady ourselves while flying."
-            }, {
               "character" : "YEUNG",
-              "text" : "And customers love drakes with three plates— they roll themselves into a ball. The drakes, not the customers."
+              "text" : "Get ready to step it up again — time to show us you know your genes and alleles!"
             }, {
               "character" : "HERRERA",
-              "text" : "It's time to step it up again, too — show us you know your genes and alleles. Click the screen to begin."
+              "text" : "Don't forget about my pilots! We need dragons with horns to steer and steady ourselves while flying."
             } ]
           },
           "id" : "allele-targetMatch-hidden-armorHorns",
-          "name" : "Challenge 2.2.4",
+          "name" : "Challenge 2.3.1",
           "room" : "simroom"
         }, {
           "about" : {
@@ -491,7 +514,7 @@
               } ],
               "success" : [ {
                 "character" : "YEUNG",
-                "text" : "Not bad. And yet, not done! One mo'time."
+                "text" : "Not bad. And yet, not done! One mo' time."
               } ]
             },
             "start" : [ {
@@ -500,7 +523,7 @@
             } ]
           },
           "id" : "allele-targetMatch-hidden-armorHorns2",
-          "name" : "Challenge 2.2.5",
+          "name" : "Challenge 2.3.2",
           "room" : "simroom"
         }, {
           "about" : {
@@ -516,10 +539,10 @@
               } ],
               "success" : [ {
                 "character" : "HERRERA",
-                "text" : "Excellent work, Cadet. Did you know that dragons with five armor plates and no horns are more docile than those with horns? The Guild could use some of these dragons for armored transport."
+                "text" : "Cadet, we've just learned of a need for hornless fivers— I mean, hornless dragons with five armor plates! They are way more docile than those with horns. The Guild could use some of these dragons for armored transport."
               }, {
                 "character" : "YEUNG",
-                "text" : "Great idea, Colonel! And it won’t be long before our new cadet here can turn that into reality by transferring the knowledge from the simulators to real drakes and dragons."
+                "text" : "And it won’t be long before our new cadet here can turn that into reality by transferring the knowledge from the simulators to real drakes and dragons."
               } ]
             },
             "start" : [ {
@@ -528,7 +551,7 @@
             } ]
           },
           "id" : "allele-targetMatch-hidden-armorHorns3",
-          "name" : "Challenge 2.2.6",
+          "name" : "Challenge 2.3.3",
           "room" : "simroom"
         }, {
           "about" : {
@@ -543,10 +566,7 @@
               } ],
               "success" : [ {
                 "character" : "YEUNG",
-                "text" : "Impressive work, Cadet. Selling those adorable drakes without horns or armor as pets will boost our cash reserves. Underground bases and dragon armies are not cheap to run, you know!"
-              }, {
-                "character" : "HERRERA",
-                "text" : "And now that we know how to breed drakes with horns, we’re a step closer to breeding dragons with “handle horns” for my pilots."
+                "text" : "You're on the way. Keep trying your best!"
               } ]
             },
             "start" : [ {
@@ -558,7 +578,7 @@
             } ]
           },
           "id" : "eggDrop-horns",
-          "name" : "Challenge 2.2.7",
+          "name" : "Challenge 2.3.4",
           "room" : "hatchery"
         }, {
           "about" : {
@@ -584,26 +604,26 @@
             },
             "start" : [ {
               "character" : "YEUNG",
-              "text" : "Get ready for more! You’ll need to sort softies, which are drakes with no armor, and those three-plated roller drakes. We’ll sell these as pets in the store."
+              "text" : "Get ready for more! You’ll need to sort softies, the drakes with no armor, and those three-plated roller drakes. Netanya's pet store is running low."
             }, {
               "character" : "HERRERA",
-              "text" : "And watch out for fivers— those drakes with five armor plates. This will help us breed the toughest dragons for the pilots."
+              "text" : "And watch out for fivers. Whether transport dragon or flyer, that's the way to go."
             } ]
           },
           "id" : "eggDrop-armor",
-          "name" : "Challenge 2.2.8",
+          "name" : "Challenge 2.3.5",
           "room" : "hatchery"
         } ],
         "dialog" : {
           "end" : [ {
             "character" : "HATCH",
-            "text" : "Cadet, I’m impressed at how quickly you jumped from the simulations to working with real drake eggs. You are showing all the signs of a master breeder!"
+            "text" : "Cadet, I’m impressed at how quickly you jumped from the simulations to working with real drake eggs."
           }, {
             "character" : "WEAVER",
-            "text" : "All these new crystals are powering our dragon-breeding and healing machines for longer than ever. Our dragon force is on its way to being unstoppable! "
+            "text" : "All these new crystals are powering our dragon-breeding and healing machines for longer than ever."
           }, {
             "character" : "HATCH",
-            "text" : "And the Guild store is turning a great profit selling the cute new drakes we’ve been breeding!"
+            "text" : "Our dragon force is on its way to being unstoppable!"
           }, {
             "character" : "WEAVER",
             "text" : "By completing this level, Cadet, you’ve unlocked access to the Zoom Room projector, a vital tool that simulates the inner workings of drakes and dragons."
@@ -613,17 +633,14 @@
             "text" : "Open your VentureMap!"
           } ],
           "start" : [ {
-            "character" : "HERRERA",
-            "text" : "My elite team of pilots needs powerful dragons that can hold their own in battle if we are to have any chance of defeating Darkwell."
-          }, {
             "character" : "YEUNG",
-            "text" : "And I just heard from Dr. Netanya that customers at the Guild store are complaining that our drakes with armor don’t make great pets. She’s asking whether we can make “cuddlier” drakes to raise more money."
-          }, {
-            "character" : "HERRERA",
-            "text" : "Let’s tackle both of these needs at once. Cadet, open your VentureMap and start cuddling! The drakes, I mean; making them cuddlier. "
+            "text" : "Customers at the pet store are loving the roller drakes with three plates— they roll themselves into a ball and scoot across the room! "
+            }, {
+            "character" : "HERERRA",
+            "text" : "That's the drakes, not the customers, right Professor?! Good— while we test our Cadet's mettle, we can meet that demand."
           } ]
         },
-        "name" : "Mission 2.2"
+        "name" : "Mission 2.3"
       } ],
       "name" : "Level 2"
     }, {
@@ -637,24 +654,15 @@
               } ],
               "success" : [ {
                 "character" : "HERRERA",
-                "text" : "Great work! Our allies in the nation of Admar will be truly grateful once we are able to breed albino drakes and dragons."
-              }, {
-                "character" : "YEUNG",
-                "text" : "The people of Admar consider albino dragons sacred, and our lucrative a trade deal with them depends on us sharing that secret."
+                "text" : "Practice makes perfect. Keep it up!"
               } ]
             },
             "start" : [ {
               "character" : "YEUNG",
-              "text" : "Listen up, Cadet! You need to get up to speed on breeding drakes and dragons with a variety of scale colors. Each color is an invaluable tool for the Guild."
+              "text" : "Listen up, Cadet! You need to get up to speed on breeding drakes and dragons with five different scale colors. Each color is an invaluable tool for the Guild."
             }, {
               "character" : "HERRERA",
-              "text" : "Case in point: dark, charcoal-colored dragons can blend in with the sky when my pilots fly night missions."
-            }, {
-              "character" : "YEUNG",
-              "text" : "And shiny, steel-colored drakes (and dragons) tend to have infrared vision -- meaning they can see in the dark. "
-            }, {
-              "character" : "HERRERA",
-              "text" : "These dragons can help us find hidden and camouflaged Darkwell troops and installations. Let’s get started!"
+              "text" : "We'll give you pointers about the colors along the way. Are you ready?"
             } ]
           },
           "id" : "allele-targetMatch-visible-simpleColors",
@@ -668,8 +676,143 @@
                 "text" : "You got there, but you'll need to do better to earn a crystal!."
               } ],
               "success" : [ {
+                "character" : "HERRERA",
+                "text" : "Not bad. But you've still got a ways to go."
+              } ]
+            },
+            "start" : [ {
+              "character" : "YEUNG",
+              "text" : "All five colors have similarities and differences. Pay attention and you'll benefit in advanced Missions."
+            }, {
+              "character" : "HERRERA",
+              "text" : "Case in point: whether a dragon is charcoal gray or lava orange, its lack of shine is important for flying undetected at night."
+            } ]
+          },
+          "id" : "allele-targetMatch-visible-simpleColors2",
+          "name" : "Challenge 3.1.2",
+          "room" : "simroom"
+        }, {
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
                 "character" : "YEUNG",
-                "text" : "You’re a natural at this. It won’t be long before we’re able to breed lava-colored drakes and dragons."
+                "text" : "You got there, but you'll need to do better to earn a crystal!."
+              } ],
+              "success" : [ {
+                "character" : "YEUNG",
+                "text" : "Two down, three to go, Cadet."
+              } ]
+            },
+            "start" : [ {
+              "character" : "HERRERA",
+              "text" : "Copper and steel drake and dragon scales reflect light. What makes their scales do that?"
+            } ]
+          },
+          "id" : "allele-targetMatch-visible-simpleColors3",
+          "name" : "Challenge 3.1.3",
+          "room" : "simroom"
+        }, {
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "YEUNG",
+                "text" : "You got there, but you'll need to do better to earn a crystal!."
+              } ],
+              "success" : [ {
+                "character" : "HERRERA",
+                "text" : "You're getting close, hang in there for one more."
+              } ]
+            },
+            "start" : [ {
+              "character" : "HERRERA",
+              "text" : "Frost drakes and dragons are albino. No color at all in those scales, and boy do they shine."
+            } ]
+          },
+          "id" : "allele-targetMatch-visible-simpleColors4",
+          "name" : "Challenge 3.1.4",
+          "room" : "simroom"
+        }, {
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "YEUNG",
+                "text" : "You got there, but you'll need to do better to earn a crystal!."
+              } ],
+              "success" : [ {
+                "character" : "HERRERA",
+                "text" : "That about does it for five easy colors, Cadet! And our allies in Admar will be truly grateful once we are able to breed albino drakes and dragons."
+              }, {
+                "character" : "YEUNG",
+                "text" : "In Admar, albino dragons are sacred, and our lucrative trade deal with them depends on us sharing that secret."
+              } ]
+            },
+            "start" : [ {
+              "character" : "YEUNG",
+              "text" : "But this is the last easy one we'll give you. After this one you'll have to up your game. Hey, did you see what I did there? Where's Herrera when you need him??"
+            }, {
+              "character" : "HERRERA",
+              "text" : "No worries, Professor, I heard you. You get extra credit for your sports analogy!"
+            }  ]
+          },
+          "id" : "allele-targetMatch-visible-simpleColors5",
+          "name" : "Challenge 3.1.5",
+          "room" : "simroom"
+        }, {
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "YEUNG",
+                "text" : "You got there, but you'll need to do better to earn a crystal!."
+              } ],
+              "success" : [ {
+                "character" : "YEUNG",
+                "text" : "Here we go, let's keep working."
+              } ]
+            },
+            "start" : [ {
+              "character" : "HERRERA",
+              "text" : "True story about upping your game, Cadet. In this simulation, we’re going to gauge your accuracy at creating different colored drakes just by viewing the target."
+            }, {
+              "character" : "YEUNG",
+              "text" : "Our allies in the volcanic islands of Sawaki need lava dragons that can blend in with the landscape and serve as a defense force."
+            }, {
+              "character" : "HERRERA",
+              "text" : "In exchange for several tons of papayas, which the Guild turns into biofuel, we'll provide Sawaki with lava dragons… once we figure out how to breed them! Let’s go!"
+            } ]
+          },
+          "id" : "allele-targetMatch-hidden-simpleColors",
+          "name" : "Challenge 3.1.6",
+          "room" : "simroom"
+        }, {
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "YEUNG",
+                "text" : "You got there, but you'll need to do better to earn a crystal!."
+              } ],
+              "success" : [ {
+                "character" : "YEUNG",
+                "text" : "Keep practicing, we always need blue crystals!"
+              } ]
+            },
+            "start" : [ {
+              "character" : "HERRERA",
+              "text" : "Let's go, you know the drill - luck isn't good enough."
+            } ]
+          },
+          "id" : "allele-targetMatch-hidden-simpleColors2",
+          "name" : "Challenge 3.1.7",
+          "room" : "simroom"
+        } , {
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "YEUNG",
+                "text" : "You got there, but you'll need to do better to earn a crystal!."
+              } ],
+              "success" : [ {
+                "character" : "YEUNG",
+                "text" : "You’re coming along. And it won’t be long before we’re able to breed lava-colored drakes and dragons."
               }, {
                 "character" : "HERRERA",
                 "text" : "They have a natural immunity to a parasitic worm the Darkwellians have unleashed on dragons, so the Guild plans to isolate that immunity and create a cure."
@@ -677,17 +820,11 @@
             },
             "start" : [ {
               "character" : "HERRERA",
-              "text" : "Our allies in the volcanic islands of Sawaki need lava-colored dragons that can blend in with the landscape and serve as a defense force."
-            }, {
-              "character" : "YEUNG",
-              "text" : "In exchange for several tons of papayas, which the Guild turns into biofuel, the Guild will provide Sawaki with lava dragons… once we figure out how to breed them!"
-            }, {
-              "character" : "HERRERA",
-              "text" : "In this simulation, we’re going to gauge your accuracy at creating different colored drakes just by viewing the target. Let’s go! "
+              "text" : "You're close. Show us one more time."
             } ]
           },
-          "id" : "allele-targetMatch-hidden-simpleColors",
-          "name" : "Challenge 3.1.2",
+          "id" : "allele-targetMatch-hidden-simpleColors3",
+          "name" : "Challenge 3.1.8",
           "room" : "simroom"
         } ],
         "dialog" : {
@@ -1125,7 +1262,7 @@
               "text" : "Grey drakes have been identified as a target because they spit a venom that can cause temporary unconsciousness and paralysis. The venom can be used to knock out the enemy, or as an anesthetic."
             }, {
               "character" : "NETANYA",
-              "text" : "If that means they'll stop talking, I have one or two people I’d like to use that on! Click the screen to start."
+              "text" : "If I means they'll stop talking, I have one or two people I’d like to use that on! Click the screen to start."
             } ]
           },
           "id" : "gamete-targetMatch-starterTraits2",
@@ -1555,6 +1692,7 @@
       } ],
       "name" : "Level 4"
     } ]
+
   },
   "challenges" : {
     "allele-5drakes-tutorial" : {
