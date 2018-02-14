@@ -35,8 +35,8 @@ class Navigation extends Component {
     };
 
     const navigateButton = function(challengeName, level, mission, challenge) {
-      return <NavigateButton label={challengeName} 
-                             routeSpec={{level: level - 1, mission: mission - 1, challenge: challenge - 1}} 
+      return <NavigateButton label={challengeName}
+                             routeSpec={{level: level - 1, mission: mission - 1, challenge: challenge - 1}}
                              onClick={handleNavigateButton} />;
     };
 
@@ -60,6 +60,7 @@ class Navigation extends Component {
           {navigateButton("Mission 3.1.2", 3, 1, 2)}
           {navigateButton("Mission 4.2.1", 4, 2, 1)}
           {navigateButton("Mission 4.2.2", 4, 2, 2)}
+          {navigateButton("Mission 5.1.1", 5, 1, 1)}
         </div>
       </div>
     );

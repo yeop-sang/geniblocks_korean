@@ -8,6 +8,7 @@ import routing from './routing';
 import moves from './moves';
 import modalDialog from './modal-dialog';
 import userDrakeHidden from './user-drake-hidden';
+import parentDrakeHidden from './parent-drake-hidden';
 import gametes from '../modules/gametes';
 import drakes from './drakes';
 import baskets from './baskets';
@@ -43,6 +44,7 @@ export default function reducer(state, action) {
     moves: moves(state.moves, action),
     modalDialog: modalDialog(state.modalDialog, action),
     userDrakeHidden: userDrakeHidden(state.userDrakeHidden, action),
+    hiddenParent: parentDrakeHidden(state.hiddenParent, action),
     gametes: gametes(state.gametes, action),
     drakes: drakes(state.drakes, state.gametes, action),
     baskets: baskets(state.baskets, action),
@@ -102,7 +104,6 @@ export default function reducer(state, action) {
         routeSpec: {level, mission, challenge},
         trial: 0
       });
-      console.log("navigated", state);
       return loadStateFromAuthoring(state, state.authoring);
     }
     case actionTypes.NAVIGATED_PAGE:

@@ -30,6 +30,12 @@
       .organism
         position: absolute
         top: -22px
+      .parent-drake-hidden
+        width: 100%
+        margin-left: 200px
+        margin-top: 30px
+        font-size: 2em
+        color: #f9ec9a
 
     &.mother
       background-image: none
@@ -118,13 +124,14 @@
       z-index: 10       // there's a slight overlap with lower drakes
 
       .stable-count
-        margin-left: 90px
+        margin-left: 70px
 
     .clutch-slider
       margin-top: 0
 
     .clutch-page-count
         margin-left: 0px
+        white-space: nowrap;
 
     .drake-pages
       height: 80%
@@ -182,3 +189,90 @@
         font-size: 2rem
       &:active
         background-image: url('../resources/fablevision/layout-h/submitparent_button_clicked.png')
+
+#challenges.mission-backdrop.test-cross
+  .geniblocks.clutch-view
+    margin-top: 40px
+    margin-bottom: -100px
+    height: 650px
+    width: 540px
+
+  .geniblocks.genome.parent
+    margin-left: 25px
+
+  .geniblocks.ready-to-answer-button-area
+    background-image: none
+    height: auto
+    width: auto
+    margin-top: 200px
+
+  .geniblocks.ready-to-answer-button-surround
+    background: none
+    height: auto
+    width: auto
+    margin-top: 0
+
+    .ready-to-answer-button
+      width: 384px
+      height: 131px
+      background: url('../resources/fablevision/layout-i/ReadytoAnswer_button_unclicked.png')
+      color: #95471f
+      font-size: 3rem
+
+      &:active
+        background: url('../resources/fablevision/layout-i/ReadytoAnswer_clicked.png')
+
+      &.disabled
+        background: url('../resources/fablevision/layout-i/ReadytoAnswer_button_unclicked.png')
+        opacity: 0.5
+
+.geniblocks.test-cross-submit-button-surround
+  background: none
+  height: auto
+  width: 45%;
+  display: inline-block
+  margin-top: 0
+
+  .test-cross-submit-button
+    width: 200px
+    height: 80px
+    background: url('../resources/fablevision/layout-i/resubmit_button.png')
+    color: #95471f
+    font-size: 2rem
+    margin-left:auto;
+    margin-right:auto;
+
+    &:active
+      background: url('../resources/fablevision/layout-i/resubmit_button_clicked.png')
+
+    &.disabled
+      background: url('../resources/fablevision/layout-i/resubmit_button.png')
+      opacity: 0.5
+
+    .button-label
+      font-size: 1.8rem
+
+.geniblocks.test-cross-save-button-surround
+  background: none
+  height: auto
+  width: auto
+  margin-top: 0
+  width: 45%;
+  display: inline-block
+
+  .test-cross-save-button
+    width: 230px
+    height: 80px
+    background: url('../resources/fablevision/layout-i/saveandclose_button.png')
+    color: #95471f
+    font-size: 2rem
+
+    &:active
+      background: url('../resources/fablevision/layout-i/saveandclose_button_clicked.png')
+
+    &.disabled
+      background: url('../resources/fablevision/layout-i/saveandclose_button.png')
+      opacity: 0.5
+
+    .button-label
+      font-size: 1.8rem

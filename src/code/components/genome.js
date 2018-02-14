@@ -8,7 +8,7 @@ import {getChromosomeDescriptor} from '../fv-components/fv-chromosome-image';
  * Usually defined by passing in a Biologica Organism, but may also be defined by
  * passing in a map of Biologica Chromosomes and a Biologica Species.
  */
-const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, species, userChangeableGenes=[], visibleGenes=[], hiddenAlleles=[], editable=true, showLabels=true, labelEmptyChromosomes=false, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected, chromosomeHeight}) => {
+const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, species, userChangeableGenes=[], visibleGenes=[], hiddenAlleles=[], editable=true, showLabels=true, labelEmptyChromosomes=false, selectedChromosomes={}, small=false, orgName, displayStyle, onAlleleChange, onChromosomeSelected, chromosomeHeight, defaultUnknown, selectedAlleles}) => {
   // Prefer explicitly passed variables to those extracted from the passed organism
   chromosomes = chromosomes || org.genetics.genotype.chromosomes;
 
@@ -33,7 +33,9 @@ const GenomeView = ({org, className="", ChromosomeImageClass, chromosomes, speci
         <ChromosomeView
           ChromosomeImageClass={ChromosomeImageClass}
           chromosome={chromosome}
-          chromosomeDescriptor={getChromosomeDescriptor(chromosome) || {name: chromosomeName, side: side}}
+          chromosomeDescriptor={getChromosomeDescriptor(chromosome) || { name: chromosomeName, side: side }}
+          defaultUnknown={defaultUnknown}
+          selectedAlleles={selectedAlleles}
           chromosomeName={chromosomeName}
           key={pairs.length + 1}
           userChangeableGenes={userChangeableGenes}
@@ -89,7 +91,9 @@ GenomeView.propTypes = {
   chromosomeHeight: PropTypes.number,
   displayStyle: PropTypes.object,
   onChromosomeSelected: PropTypes.func,
-  orgName: PropTypes.string
+  orgName: PropTypes.string,
+  defaultUnknown: PropTypes.bool,
+  selectedAlleles: PropTypes.object
 };
 
 export default GenomeView;
