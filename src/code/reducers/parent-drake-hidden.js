@@ -15,7 +15,7 @@ export default function parentDrakeHidden(state = initialState, action) {
       state = state.setIn(["hiddenGenotype"], !action.ready);
       return state;
     case actionTypes.DRAKE_SUBMITTED:
-      state = state.setIn(["hiddenImage"], !action.correct);
+      if (state && state.hiddenImage) state = state.setIn(["hiddenImage"], !action.correct);
       return state;
     default:
       return state;
