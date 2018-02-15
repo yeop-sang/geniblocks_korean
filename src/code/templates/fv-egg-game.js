@@ -971,6 +971,9 @@ export default class FVEggGame extends Component {
       if (!hatchSoundPlayed) {
         onHatch();
         hatchSoundPlayed = true;
+        if (!isCreationChallenge) {
+          _setTimeout(handleSubmit, 500);
+        }
       }
     };
 
@@ -1052,18 +1055,17 @@ export default class FVEggGame extends Component {
     if (child && animationEvents.hatch.complete) {
       if (showUserDrake)
         handleHatch();
-      offspringButtonsVisible = true;
+      if (isCreationChallenge)
+        offspringButtonsVisible = true;
     }
-    const saveOrSubmitTitle = isCreationChallenge ? t("~BUTTON.SAVE_DRAKE") : t("~BUTTON.SUBMIT"),
-          tryAgainOrResetTitle = isCreationChallenge ? t("~BUTTON.TRY_AGAIN") : t("~BUTTON.RESET");
     function disableDrag() { return false; }
     offspringButtons = (
       <div className={classNames('offspring-buttons', {hidden: !offspringButtonsVisible})} key={2}>
         <a className='submit-button gb-img-button' onDragStart={disableDrag} onClick={ handleSubmit } key={3}>
-          <div>{ saveOrSubmitTitle }</div>
+          <div>{ t("~BUTTON.SAVE_DRAKE") }</div>
         </a>
         <a className='reset-button gb-img-button' onDragStart={disableDrag} onClick={ handleReset } key={4}>
-          <div>{ tryAgainOrResetTitle }</div>
+          <div>{ t("~BUTTON.TRY_AGAIN") }</div>
         </a>
       </div>
     );
