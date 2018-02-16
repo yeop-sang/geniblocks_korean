@@ -33,12 +33,12 @@ export const initFirebase = new Promise(function (resolve, reject) {
   } else if (!urlParams.token) {
     let token = window.sessionStorage.getItem('jwToken');
     if (!token) {
-      reject(Error("No token for database access - attempting current socket connection"));
+      reject(Error("No token for database access"));
     }
     else {
-      firebase.auth().signInWithCustomToken(token).catch(function (error) {
-        reject(Error(error));
-      });
+      // firebase.auth().signInWithCustomToken(token).catch(function (error) {
+      //   reject(Error(error));
+      // });
       resolve(_userAuth(token));
     }
   } else {
@@ -61,11 +61,11 @@ export const initFirebase = new Promise(function (resolve, reject) {
             reject(Error("Failed to fetch JWT", response.error, response.body));
           }
           else {
-            //firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
+            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
               firebase.auth().signInWithCustomToken(token).catch(function (error) {
                 reject(Error(error));
               });
-            //});
+            });
             window.sessionStorage.setItem('jwToken', token);
             resolve(_userAuth(token));
           }
@@ -94,11 +94,12 @@ export const userAuth = () => {
   }
   else {
     let token = window.sessionStorage.getItem('jwToken');
+    console.log("session auth");
     return _userAuth(token);
   }
 };
 
-const _userAuth = (token) => {
+function _userAuth(token){
   const params = urlParams ? urlParams : {};
   if (token) {
     let authToken = (jwt.decode(token));
@@ -123,8 +124,7 @@ const _userAuth = (token) => {
     };
   }
   return _cachedAuth;
-};
-
+}
 
 export function getFBClassId() {
   if (!_cachedAuth) {
