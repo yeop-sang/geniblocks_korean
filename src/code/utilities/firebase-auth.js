@@ -31,7 +31,7 @@ export const initFirebase = new Promise(function (resolve, reject) {
   if (!urlParams.domain) {
     reject(Error("Not authenticated via portal"));
   } else if (!urlParams.token) {
-    let token = window.sessionStorage.getItem('jwtToken');
+    let token = window.sessionStorage.getItem('jwToken');
     if (!token) {
       reject(Error("No token for database access - attempting current socket connection"));
     }
@@ -39,6 +39,7 @@ export const initFirebase = new Promise(function (resolve, reject) {
       firebase.auth().signInWithCustomToken(token).catch(function (error) {
         reject(Error(error));
       });
+      resolve(_userAuth(token));
     }
   } else {
     // send request to portal via domain url parameter
@@ -55,7 +56,7 @@ export const initFirebase = new Promise(function (resolve, reject) {
       .then(function (response) {
         if (!response.ok) {
           // token didn't work, try local session
-          let token = window.sessionStorage.getItem('jwtToken');
+          let token = window.sessionStorage.getItem('jwToken');
           if (!token) {
             reject(Error("Failed to fetch JWT", response.error, response.body));
           }
@@ -65,7 +66,7 @@ export const initFirebase = new Promise(function (resolve, reject) {
                 reject(Error(error));
               });
             //});
-            window.sessionStorage.setItem('jwtToken', token);
+            window.sessionStorage.setItem('jwToken', token);
             resolve(_userAuth(token));
           }
         }
@@ -75,7 +76,8 @@ export const initFirebase = new Promise(function (resolve, reject) {
             firebase.auth().signInWithCustomToken(jsonData.token).catch(function (error) {
               reject(Error(error));
             });
-            window.sessionStorage.setItem('jwtToken', jsonData.token);
+            window.sessionStorage.setItem('jwToken', jsonData.token);
+            console.log(urlParams.token);
             updateUrlParameter("token");
             resolve(_userAuth(jsonData.token));
           });
@@ -87,10 +89,11 @@ export const initFirebase = new Promise(function (resolve, reject) {
 let _cachedAuth;
 export const userAuth = () => {
   if (_cachedAuth) {
+    console.log("auth cached");
     return _cachedAuth;
   }
   else {
-    let token = window.sessionStorage.getItem('jwtToken');
+    let token = window.sessionStorage.getItem('jwToken');
     return _userAuth(token);
   }
 };
@@ -136,7 +139,7 @@ export function getFBUserId() {
     _cachedAuth = userAuth();
   }
   if (_cachedAuth && _cachedAuth.fb_user_id_url) return _cachedAuth.fb_user_id_url;
-  return convertUrlToFirebaseKey(userAuth().domain) + userAuth().domain_uid;
+  return convertUrlToFirebaseKey(_cachedAuth.domain) + _cachedAuth.domain_uid;
 }
 
 function convertUrlToFirebaseKey(url) {
