@@ -60,12 +60,11 @@ export const initFirebase = new Promise(function (resolve, reject) {
             reject(Error("Failed to fetch JWT", response.error, response.body));
           }
           else {
-            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
+            //firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
               firebase.auth().signInWithCustomToken(token).catch(function (error) {
                 reject(Error(error));
               });
-            }
-          );
+            //});
             window.sessionStorage.setItem('jwtToken', token);
             resolve(_userAuth(token));
           }
