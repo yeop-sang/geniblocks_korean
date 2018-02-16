@@ -850,7 +850,7 @@ export default class FVEggGame extends Component {
   }
 
   handleGameteSelected = (poolID, sex, gameteIndex, /*gameteID, gamete*/) => {
-    if (!this.state.isIntroComplete) {
+    //if (!this.state.isIntroComplete) {
       // user selection of a gamete terminates intro animation
       resetAnimationEvents({ showStaticGametes: true,
                             clearAnimatedComponents: true,
@@ -858,11 +858,12 @@ export default class FVEggGame extends Component {
                                           createdGametes: null,
                                           isIntroComplete: true } });
       chromosomeDisplayStyle = {};
-    }
+    //}
     this.autoSelectSingletonGametes();
     if (gametePoolSelector(sex)(this.props.gametes).length === 1)
       gameteIndex = 0;
     this.props.onSelectGameteInPool(sex, gameteIndex);
+    hatchSoundPlayed = false;
   }
 
   activeSelectionAnimations = 0;
@@ -992,7 +993,7 @@ export default class FVEggGame extends Component {
         onDrakeSubmission(firstTargetDrakeIndex + trial, 2, success, "resetGametes");
       }
     };
-    const handleReset = function() {
+    const handleReset = function () {
       if (moves >= 1) {
         // Treat reset and submit the same after a mistake has been made
         handleSubmit();
