@@ -30,6 +30,16 @@ export const initFirebase = new Promise(function (resolve, reject) {
   // if there is no domain parameter, there is no authentication
   if (!urlParams.domain) {
     reject(Error("Not authenticated via portal"));
+  } else if (!urlParams.token) {
+    let token = window.sessionStorage.getItem('jwtToken');
+    if (!token) {
+      reject(Error("No token for database access - attempting current socket connection"));
+    }
+    else {
+      firebase.auth().signInWithCustomToken(token).catch(function (error) {
+        reject(Error(error));
+      });
+    }
   } else {
     // send request to portal via domain url parameter
     let jwtUrl = urlParams.domain + "api/v1/jwt/firebase?firebase_app=" + config.projectId;
