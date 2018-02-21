@@ -22,7 +22,7 @@ const BottomHUDView = React.createClass({
     maxScore: PropTypes.number,
     currMoves: PropTypes.number,
     goalMoves: PropTypes.number,
-    showMoveCounter: PropTypes.boolean,
+    showMoveCounter: PropTypes.bool,
     gems: PropTypes.array,
     numChallenges: PropTypes.number,
     showAward: PropTypes.bool,

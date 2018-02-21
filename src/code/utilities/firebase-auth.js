@@ -77,7 +77,6 @@ export const initFirebase = new Promise(function (resolve, reject) {
               reject(Error(error));
             });
             window.sessionStorage.setItem('jwToken', jsonData.token);
-            console.log(urlParams.token);
             updateUrlParameter("token");
             resolve(_userAuth(jsonData.token));
           });
@@ -89,12 +88,10 @@ export const initFirebase = new Promise(function (resolve, reject) {
 let _cachedAuth;
 export const userAuth = () => {
   if (_cachedAuth) {
-    console.log("auth cached");
     return _cachedAuth;
   }
   else {
     let token = window.sessionStorage.getItem('jwToken');
-    console.log("session auth");
     return _userAuth(token);
   }
 };

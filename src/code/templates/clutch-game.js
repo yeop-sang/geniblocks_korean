@@ -203,11 +203,11 @@ export default class ClutchGame extends Component {
 
     const targetSize = isSubmitParents ? 210 : 170;
     const targetText = isSubmitParents ? t("~TARGET.OFFSPRING") : t("~TARGET.TARGET_DRAKE");
-    const targetDrakeViews = targetDrakes.map(d => {
+    const targetDrakeViews = targetDrakes.map((d,idx) => {
       const org = new BioLogica.Organism(BioLogica.Species.Drake,
         d.alleleString,
         d.sex);
-      return <OrganismView org={org} width={targetSize} />;
+      return <OrganismView org={org} width={targetSize} key={idx} />;
     });
 
     const targetDrakeSection = (!isTestCross && <div className='geniblocks target-drake-container'>

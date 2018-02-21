@@ -24,6 +24,7 @@ function initialState() {
             userChangeableGenes: [],
             visibleGenes: [],
             hiddenAlleles: [],
+            hiddenParent: null,
             trial: 0,
             routeSpec: null,
             challenges: 1,
