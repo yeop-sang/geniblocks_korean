@@ -109,7 +109,7 @@ export default class ClutchGame extends Component {
         const isHiddenParent = hiddenParent && ((hiddenParent.sex === BioLogica.FEMALE && orgName === "mother") || (hiddenParent.sex === BioLogica.MALE && orgName === "father"));
         if (!isHiddenParent) {
           onClearClutch(2);
-          onChromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, incrementMoves);
+          onChromosomeAlleleChange(index, chrom, side, prevAllele, newAllele, false);
         } else {
           let gene = BioLogica.Genetics.getGeneOfAllele(BioLogica.Species.Drake, newAllele).name;
           onChromosomeAlleleSelected(chrom, side, prevAllele, newAllele, gene, false);
