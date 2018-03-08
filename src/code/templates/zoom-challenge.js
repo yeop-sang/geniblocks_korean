@@ -17,9 +17,12 @@ export default class ZoomChallenge extends Component {
   }
 
   render() {
+    let url = this.props.zoomUrl;
+    if (window.location.href.indexOf('/branch/staging') > -1 ) url = this.props.zoomUrl + "&staging=true";
+
     return (
       <div id="zoom-challenge-container">
-        <iframe id="iframe" src={ this.props.zoomUrl } />
+        <iframe id="iframe" src={ url } />
       </div>
     );
   }
