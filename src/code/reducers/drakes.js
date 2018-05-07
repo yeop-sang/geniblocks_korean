@@ -104,8 +104,6 @@ export default function drakes(state = initialState, gametes = {}, action) {
         }
         return newDrake;
       });
-    case GAMETES_RESET:
-      return state.set(2, null);
     case actionTypes.OFFSPRING_KEPT:
       if (action.success) {
         state = state.concat({
