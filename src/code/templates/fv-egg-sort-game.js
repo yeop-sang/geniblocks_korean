@@ -234,6 +234,7 @@ export default class FVEggSortGame extends Component {
     _this = this;
     this.createEggsFromDrakes(this.props);
     FVEggSortGame.maxScore = this.props.drakes.length;
+    resetAnimationEvents(true);
   }
 
   componentWillReceiveProps(nextProps) {
