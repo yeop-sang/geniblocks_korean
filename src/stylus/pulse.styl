@@ -1,24 +1,33 @@
 @-webkit-keyframes pulse {
   from {
     -webkit-transform: scale(1.0);
+    box-shadow: 0 0 15px 4px #C2C793;
   }
-  5% {
-    -webkit-transform: scale(1.2);
+  7% {
+    -webkit-transform: scale(1.4);
+    box-shadow: 0 0 15px 8px #C2C793;
   }
-  10% {
+  14% {
     -webkit-transform: scale(1.0);
+    box-shadow: 0 0 15px 4px #C2C793;
   }
-  15% {
-    -webkit-transform: scale(1.2);
+  21% {
+    -webkit-transform: scale(1.4);
+    box-shadow: 0 0 15px 8px #C2C793;
   }
-  20% {
+  28% {
     -webkit-transform: scale(1.0);
+    box-shadow: 0 0 15px 4px #C2C793;
+  }
+  to {
+    -webkit-transform: scale(1.0);
+    box-shadow: 0 0 15px 4px #C2C793;
   }
 }
 
 .pulse
   -webkit-animation-name: pulse
-  -webkit-animation-duration: 5s
+  -webkit-animation-duration: 3s
   -webkit-animation-iteration-count: infinite
 
 @-webkit-keyframes mini-pulse {
