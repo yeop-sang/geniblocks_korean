@@ -29,11 +29,11 @@ export const initFirebase = new Promise(function (resolve, reject) {
   // communicate with portal for JWT
   // if there is no domain parameter, there is no authentication
   if (!urlParams.domain) {
-    reject(Error("Not authenticated via portal"));
+    reject("Not authenticated via portal");
   } else if (!urlParams.token) {
     let token = window.sessionStorage.getItem('jwToken');
     if (!token) {
-      reject(Error("No token for database access"));
+      reject("No token for database access");
     }
     else {
       // firebase.auth().signInWithCustomToken(token).catch(function (error) {
@@ -58,12 +58,12 @@ export const initFirebase = new Promise(function (resolve, reject) {
           // token didn't work, try local session
           let token = window.sessionStorage.getItem('jwToken');
           if (!token) {
-            reject(Error("Failed to fetch JWT", response.error, response.body));
+            reject("Failed to fetch JWT", response.error, response.body);
           }
           else {
             firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
               firebase.auth().signInWithCustomToken(token).catch(function (error) {
-                reject(Error(error));
+                reject(error);
               });
             });
             window.sessionStorage.setItem('jwToken', token);
@@ -74,7 +74,7 @@ export const initFirebase = new Promise(function (resolve, reject) {
           // we have a token that was accepted
           response.json().then(function (jsonData) {
             firebase.auth().signInWithCustomToken(jsonData.token).catch(function (error) {
-              reject(Error(error));
+              reject(error);
             });
             window.sessionStorage.setItem('jwToken', jsonData.token);
             updateUrlParameter("token");
