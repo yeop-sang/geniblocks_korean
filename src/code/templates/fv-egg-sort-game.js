@@ -51,7 +51,8 @@ const FastEggHatch = compose(
                         updateOnResizeScroll,
                         initialElementId(),
                         targetElementId(),
-                        animateSpring(),
+                        // set slightly faster stiffness / damping ratio than default, and limit the animation to 500ms
+                        animateSpring(115, 18, 600),
                         // animateSpring() generates 'style', but EggHatchView expects 'displayStyle'
                         renameProp('style', 'displayStyle'))(EggHatchView),
       NewEggHatch = compose(
@@ -117,7 +118,7 @@ let animationEvents = {
         }
 
         appendAnimation('fadeDrakeAway',
-          <EggFade 
+          <EggFade
               org={animatingDrake} scale={scale}
               initial={{ id: `basket-${targetBasketIndex}`, leftOffset, topOffset }}
               initialStyle={{ position: "fixed", marginLeft: 0, size: EGG_IMAGE_WIDTH_MEDIUM }}

@@ -16,11 +16,20 @@ import {Motion, spring} from 'react-motion';
     in its target state without further animation. This allows animations at rest to
     respond immediately to window resize events, for instance.
  */
-export default function animateSpring(stiffness=120, damping=25) {
+export default function animateSpring(stiffness=120, damping=25, timeout=0) {
 
   return function(WrappedComponent) {
     return class extends React.Component {
-      
+      componentDidMount() {
+        if (timeout > 0) {
+          window.setTimeout(() => {
+            if (!this.isComplete) {
+              this.handleRest();
+            }
+          }, timeout);
+        }
+      }
+
       static propTypes = {
         key: PropTypes.string,
         initialStyle: PropTypes.object.isRequired,
