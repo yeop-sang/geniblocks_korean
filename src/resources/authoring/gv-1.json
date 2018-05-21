@@ -4,7 +4,7 @@
       "missions" : [ {
         "challenges" : [ {
           "about" : {
-            "description" : "Students create drakes with different traits (arms, legs, wings) by selecting alleles from pulldown menus and by changing the sex of the drake. The purpose is to familiarize students with the interface, alleles and corresponding traits, and differences between males and females (sex chromosomes and the males' neck flap). To complete the challenge, students must create five different looking drakes and save them to the stable.",
+            "description" : "Students create drakes with different traits (arms, legs, wings) by selecting alleles from pulldown menus and changing the sex of the drakes. To complete the challenge, students must create five different looking drakes and save them to their stable.",
             "type" : "Drake Builder"
           },
           "dialog" : {
@@ -75,7 +75,7 @@
       }, {
         "challenges" : [ {
           "about" : {
-            "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is visible to the student while manipulating the alleles. The purpose is to explore dominance and learn how each each trait is influenced by the alleles. The manipulable alleles are limited to wings, arms and legs (all simple dominance).",
+            "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is visible to the student while they are manipulating the alleles. The manipulable alleles are limited to wings, arms and legs (all simple dominance).",
             "tip" : "Students may not notice that the neck flap only appears on male drakes. Students will only receive a blue crystal if they create the drake in the fewest moves possible.",
             "type" : "Visible Drake Match"
           },
@@ -106,7 +106,7 @@
           "room" : "simroom"
         }, {
           "about" : {
-            "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is visible to the student while manipulating the alleles. The purpose is to explore dominance and learn how each each trait is influenced by the alleles. The manipulable alleles are limited to wings, arms and legs (all simple dominance).",
+            "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is visible to the student while they are manipulating the alleles. The manipulable alleles are limited to wings, arms and legs (all simple dominance).",
             "tip" : "Students may not notice that the neck flap only appears on male drakes. Students will only receive a blue crystal if they create the drake in the fewest moves possible.",
             "type" : "Visible Drake Match"
           },
@@ -131,9 +131,9 @@
           "room" : "simroom"
         }, {
           "about" : {
-            "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is visible to the student while manipulating the alleles. The purpose is to explore dominance and learn how each each trait is influenced by the alleles. The manipulable alleles are limited to wings, arms and legs (all simple dominance).",
+            "description" : "Students will match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating will be invisible to the student while they are manipulating the alleles. The manipulable alleles are limited to wings, arms and legs (all simple dominance).",
             "tip" : "Students may not notice that the neck flap only appears on male drakes. Students will only receive a blue crystal if they create the drake in the fewest moves possible.",
-            "type" : "Invisible Drake Match"
+            "type" : "Visible Drake Match"
           },
           "dialog" : {
             "end" : {
@@ -177,7 +177,7 @@
           "room" : "simroom"
         }, {
           "about" : {
-            "description" : "Students again match a target drake, but the drake that the student is creating is unseen. The purpose is to test the students' knowledge of dominance and recall of the dominant and recessive traits. The manipulable alleles are limited to wings, arms and legs (all simple dominance).",
+            "description" : "Students will match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating will be invisible to the student while they are manipulating the alleles. The manipulable alleles are limited to wings, arms and legs (all simple dominance).",
             "tip" : "Students may not notice that the neck flap only appears on male drakes. Students will only receive a blue crystal if they create the drake in the fewest moves possible.",
             "type" : "Invisible Drake Match"
           },
@@ -246,7 +246,7 @@
       "missions" : [ {
         "challenges" : [ {
           "about" : {
-            "description" : "Students examine the genotypes of eggs, deduce the trait(s) and sex of the drake, and sort them into the appropriate baskets by traits. The purpose is to test the students' knowledge of dominance and recall of traits with no visual cues. Students receive one point for each correctly sorted egg, and a hint for incorrectly sorted eggs. Students sort eggs based only on wings (dominant trait).",
+            "description" : "Students examine the genotypes of eggs, deduce the trait(s) and sex of the drake, and sort them into the appropriate baskets by traits. Students receive a point for each correctly sorted egg, and a hint for incorrectly sorted eggs. Students sort eggs based only on wings (dominant trait).",
             "tip" : "Students may not notice that the X and Y chromosomes are different lengths. The Y, only appearing in males, is the shorter chromosome.",
             "type" : "Egg Drop"
           },
@@ -475,7 +475,7 @@
         "challenges" : [ {
           "about" : {
             "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is unseen. The manipulable alleles are limited to horns (recessive trait) and armor (incomplete dominance).",
-            "tip" : "Students may find it difficult to work with horns as a recessive trait. By now the difference between 3-plate and 5-plate armor should be clear to the student.",
+            "tip" : "Students may find it difficult to work with horns as a recessive trait.",
             "type" : "Invisible Drake Match"
           },
           "dialog" : {
@@ -503,7 +503,7 @@
         }, {
           "about" : {
             "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is unseen. The manipulable alleles are limited to horns (recessive trait) and armor (incomplete dominance).",
-            "tip" : "Students may find it difficult to work with horns as a recessive trait. By now the difference between 3-plate and 5-plate armor should be clear to the student.",
+            "tip" : "Students may find it difficult to work with horns as a recessive trait.",
             "type" : "Invisible Drake Match"
           },
           "dialog" : {
@@ -528,7 +528,7 @@
         }, {
           "about" : {
             "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is unseen. The manipulable alleles are limited to horns (recessive trait) and armor (incomplete dominance).",
-            "tip" : "Students may find it difficult to work with horns as a recessive trait. By now the difference between 3-plate and 5-plate armor should be clear to the student.",
+            "tip" : "Students may find it difficult to work with horns as a recessive trait.",
             "type" : "Invisible Drake Match"
           },
           "dialog" : {
@@ -643,6 +643,11 @@
     }, {
       "missions" : [ {
         "challenges" : [ {
+          "about" : {
+            "description" : "Students will match a series of target drakes by selecting alleles from a pulldown menu. The drake that the student is creating will be visible to the student while they are manipulating the alleles. Colors shown in the series of target drakes will include charcoal, steel, lava, copper, and albino. Shiny is dominant to dull (copper and steel). Gray is dominant to orange (charcoal and steel vs. lava and copper). Albino is a recessive, epistatic trait.",
+            "tip" : "Students may not be familiar with epistatic traits. If a drake is albino/albino, no other color alleles will affect the color of the drake.",
+            "type" : "Visible Drake Match"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -666,6 +671,11 @@
           "name" : "Challenge 3.1.1",
           "room" : "simroom"
         }, {
+          "about" : {
+            "description" : "Students will match a series of target drakes by selecting alleles from a pulldown menu. The drake that the student is creating will be visible to the student while they are manipulating the alleles. Colors shown in the series of target drakes will include charcoal, steel, lava, copper, and albino. Shiny is dominant to dull (copper and steel). Gray is dominant to orange (charcoal and steel vs. lava and copper). Albino is a recessive, epistatic trait.",
+            "tip" : "Students may not be familiar with epistatic traits. If a drake is albino/albino, no other color alleles will affect the color of the drake.",
+            "type" : "Visible Drake Match"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -689,6 +699,11 @@
           "name" : "Challenge 3.1.2",
           "room" : "simroom"
         }, {
+          "about" : {
+            "description" : "Students will match a series of target drakes by selecting alleles from a pulldown menu. The drake that the student is creating will be visible to the student while they are manipulating the alleles. Colors shown in the series of target drakes will include charcoal, steel, lava, copper, and albino. Shiny is dominant to dull (copper and steel). Gray is dominant to orange (charcoal and steel vs. lava and copper). Albino is a recessive, epistatic trait.",
+            "tip" : "Students may not be familiar with epistatic traits. If a drake is albino/albino, no other color alleles will affect the color of the drake.",
+            "type" : "Visible Drake Match"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -697,7 +712,7 @@
               } ],
               "success" : [ {
                 "character" : "YEUNG",
-                "text" : "When the top layer of scale cells is empty of color, it refelcts light."
+                "text" : "When the top layer of scale cells is empty of color, it reflects light."
               } ]
             },
             "start" : [ {
@@ -709,6 +724,11 @@
           "name" : "Challenge 3.1.3",
           "room" : "simroom"
         }, {
+          "about" : {
+            "description" : "Students will match a series of target drakes by selecting alleles from a pulldown menu. The drake that the student is creating will be visible to the student while they are manipulating the alleles. Colors shown in the series of target drakes will include charcoal, steel, lava, copper, and albino. Shiny is dominant to dull (copper and steel). Gray is dominant to orange (charcoal and steel vs. lava and copper). Albino is a recessive, epistatic trait.",
+            "tip" : "Students may not be familiar with epistatic traits. If a drake is albino/albino, no other color alleles will affect the color of the drake.",
+            "type" : "Visible Drake Match"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -729,6 +749,11 @@
           "name" : "Challenge 3.1.4",
           "room" : "simroom"
         }, {
+          "about" : {
+            "description" : "Students will match a series of target drakes by selecting alleles from a pulldown menu. The drake that the student is creating will be visible to the student while they are manipulating the alleles. Colors shown in the series of target drakes will include charcoal, steel, lava, copper, and albino. Shiny is dominant to dull (copper and steel). Gray is dominant to orange (charcoal and steel vs. lava and copper). Albino is a recessive, epistatic trait.",
+            "tip" : "Students may not be familiar with epistatic traits. If a drake is albino/albino, no other color alleles will affect the color of the drake.",
+            "type" : "Visible Drake Match"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -755,6 +780,11 @@
           "name" : "Challenge 3.1.5",
           "room" : "simroom"
         }, {
+          "about" : {
+            "description" : "Students will match a series of target drakes by selecting alleles from a pulldown menu. The drake that the student is creating will be invisible to the student while they are manipulating the alleles. Students will match 3 drakes with randomly selected from these five colors charcoal, steel, lava, copper, and albino. Shiny is dominant to dull (copper and steel). Gray is dominant to orange (charcoal and steel vs. lava and copper). Albino is a recessive, epistatic trait. If a drake is albino/albino, no other color will be present.",
+            "tip" : "Students may not be familiar with epistatic traits. If a drake is albino/albino, no other color alleles will affect the color of the drake.",
+            "type" : "Invisible Drake Match"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -781,6 +811,11 @@
           "name" : "Challenge 3.1.6",
           "room" : "simroom"
         }, {
+          "about" : {
+            "description" : "Students will match a series of target drakes by selecting alleles from a pulldown menu. The drake that the student is creating will be invisible to the student while they are manipulating the alleles. Students will match 3 drakes with randomly selected from these five colors charcoal, steel, lava, copper, and albino. Shiny is dominant to dull (copper and steel). Gray is dominant to orange (charcoal and steel vs. lava and copper). Albino is a recessive, epistatic trait. If a drake is albino/albino, no other color will be present.",
+            "tip" : "Students may not be familiar with epistatic traits. If a drake is albino/albino, no other color alleles will affect the color of the drake.",
+            "type" : "Invisible Drake Match"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -801,6 +836,11 @@
           "name" : "Challenge 3.1.7",
           "room" : "simroom"
         }, {
+          "about" : {
+            "description" : "Students will match a series of target drakes by selecting alleles from a pulldown menu. The drake that the student is creating will be invisible to the student while they are manipulating the alleles. Students will match 3 drakes with randomly selected from these five colors charcoal, steel, lava, copper, and albino. Shiny is dominant to dull (copper and steel). Gray is dominant to orange (charcoal and steel vs. lava and copper). Albino is a recessive, epistatic trait. If a drake is albino/albino, no other color will be present.",
+            "tip" : "Students may not be familiar with epistatic traits. If a drake is albino/albino, no other color alleles will affect the color of the drake.",
+            "type" : "Invisible Drake Match"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -856,6 +896,11 @@
         "name" : "Mission 3.1"
       }, {
         "challenges" : [ {
+          "about" : {
+            "description" : "Students simply observe a drake’s changing skin color from albino to lava to charcoal by watching a single mela-pod grow. The process of making stars with protein enzymes is key, and this gives students the opportunity to observe the process with fully functioning proteins. Optionally, students can speed up the process by feeding triangles into the mela-maker enzymes, which make stars out of the triangles. As the mela-pod fills with stars (melanin), it grows in size and changes from white (no melanin) to orange (some melanin) to  gray to reach the target color (charcoal).",
+            "tip" : "Students do not need to make any actions on the screen in this tutorial challenge. The mela-pod will grow without any student action in order to show the process of making melanin stars.",
+            "type" : "Melanosome Size Game"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -869,7 +914,7 @@
             },
             "start" : [ {
               "character" : "HERRERA",
-              "text" : "Welcome to the Zoom Room, Cadet! This room does exactly what what it sounds like: our simulator can zoom into drake cells to see how the genetic instructions create proteins that change the drake."
+              "text" : "Welcome to the Zoom Room, Cadet! This room does exactly what it sounds like: our simulator can zoom into drake cells to see how the genetic instructions create proteins that change the drake."
             }, {
               "character" : "ELLIS",
               "text" : "Cadet, we’ll start with a simple walkthrough of the equipment, and the basics of how drake scale color can be modified. Click the projection wall to begin."
@@ -879,6 +924,11 @@
           "name" : "Challenge 3.2.1",
           "room" : "zoomroom"
         }, {
+          "about" : {
+            "description" : "Students change a drake’s scale color from lava-orange to charcoal-gray by interacting with the proteins in a mela-pod. As they play, students will notice that the mela-helper protein is broken and quickly falls off the mela-maker, which results in fewer stars and a half-size, lava color mela-pod. To get the drake from lava to charcoal, students will need to help the broken protein to function better,  increasing the size of the mela-pod. Dragging broken mela-helper proteins back onto the mela-maker enzyme to hold it together will allow the rate of star synthesis to increase.",
+            "tip" : "This can be a tricky challenge! The broken mela-helper proteins will only hold the mela-maker enzyme together for a short time. Students should try to keep as many mela-maker enzymes together as they can by dragging the mela-helpers to them.",
+            "type" : "Mela-pod Builder"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -905,6 +955,11 @@
           "name" : "Challenge 3.2.2",
           "room" : "zoomroom"
         }, {
+          "about" : {
+            "description" : "Students change a drake’s scale color from charcoal to lava by interacting with the broken proteins in a mela-pod. To get the drake from charcoal to lava, students will need to reduce the size of the mela-pod. Students can speed up the shrinking process by clicking on the mela-helper proteins to remove them and by rapidly clicking on stars to break them apart.",
+            "tip" : "This is a tricky challenge! Note that only some of the mela-helper proteins are broken and will hold the mela-maker enzyme together only for a short time. Students should remove the fully functional mela-helper proteins preferentially, to speed up the shrinking process.",
+            "type" : "Mela-pod Builder"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -916,7 +971,7 @@
                 "text" : "Congratulations, Cadet! You mastered how the proteins work to create both the lava and charcoal scale colors."
               }, {
                 "character" : "HERRERA",
-                "text" : "You’ve earned a shortcut for your hard work: you now have access to the orange/gray allele that controls the mela-maker directly in the nucleus."
+                "text" : "You’ve earned a shortcut for your hard work: you now have access to the orange/gray alleles that control the mela-helper directly in the nucleus."
               } ]
             },
             "start" : [ {
@@ -934,6 +989,11 @@
           "name" : "Challenge 3.2.3",
           "room" : "zoomroom"
         }, {
+          "about" : {
+            "description" : "Students are unable to interact with the proteins in a lava mela-pod. Students enter the nucleus to make a permanent change to the drake’s genome. Students should change the orange/gray alleles (associated with the mela-helper protein) such that the functional mela-helper is made in order to create a charcoal drake. Students then click BUILD to view the proteins being made and click CLOSE to zoom back out to the mela-pod and see the proteins at work. If the correct alleles are selected, the mela-helpers will keep the mela-makers together and create the correct size/color mela-pod. Once the goal state is reached, the challenge is complete.",
+            "tip" : "Students only need to make one allele change from orange to gray in order for enough functional protein to be produced and reach the target color.",
+            "type" : "Nucleus (Gene Editor)"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -950,7 +1010,7 @@
               "text" : "In this challenge, you’ll need to turn the drake’s scales from lava to charcoal again, but there's a twist this time."
             }, {
               "character" : "HERRERA",
-              "text" : "You’ve unlocked the orange/gray allele that controls the mela-maker protein, so you can swap between the orange and gray traits directly in the cell nucleus."
+              "text" : "You’ve unlocked the orange/gray alleles that control the mela-helper protein, so you can swap between the orange and gray alleles directly in the cell nucleus."
             }, {
               "character" : "ELLIS",
               "text" : "Best of all, changing the allele in the nucleus affects the proteins permanently, so it should be super-quick! Click the projection to start."
@@ -989,6 +1049,11 @@
         "name" : "Mission 3.2"
       }, {
         "challenges" : [ {
+          "about" : {
+            "description" : "Students change a drake’s scale color from charcoal to frost by interacting with the proteins in a mela-pod. To get the drake from charcoal to frost, students will need to reduce the size of the mela-pod. Students can speed up the shrinking process by clicking on the mela-maker and mela-helper proteins to break them apart and by rapidly clicking on stars to break them apart.",
+            "tip" : "This is a tricky challenge! Students should remove mela-helper proteins as well as break apart stars as quickly as possible to complete the challenge. ",
+            "type" : "Mela-pod Builder"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1009,6 +1074,11 @@
           "name" : "Challenge 3.3.1",
           "room" : "zoomroom"
         }, {
+          "about" : {
+            "description" : "Students manipulate proteins in a frost mela-pod where the mela-maker enzymes are broken (mela-maker can import triangles, but cannot assemble them into stars). Students need to assist the mela-maker enzymes in making stars by ‘feeding’ triangles into the piece of the mela-maker that assembles stars in order to increase the size of the mela-pod to the charcoal state.",
+            "tip" : "All of the mela-helper proteins are functional, but clicking too closely to them when feeding triangles into the mela-maker will cause the mela-helper to break off (causing the mela-maker to break apart). Note that the broken version of the mela-maker enzyme has a wider mouth which imports the triangle into the mela-pod without being fed into the other half of the mela-maker.",
+            "type" : "Mela-pod Builder"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1029,6 +1099,11 @@
           "name" : "Challenge 3.3.2",
           "room" : "zoomroom"
         }, {
+          "about" : {
+            "description" : "Students are unable to interact with the proteins in a frost mela-pod. Students enter the nucleus to make a permanent change to the drake’s genome. Students should change the albino/color alleles (associated with the mela-maker protein) such that the functional mela-maker is made in order to create a charcoal drake. Students then click BUILD to view the proteins being made and click CLOSE to zoom back out to the mela-pod and see the proteins at work. If the correct alleles are selected, the mela-makers will be able to assemble triangles into stars and create the target color mela-pod. Once the target color is reached, the challenge is complete.",
+            "tip" : "Students only need to make one allele change from albino to color in order for enough functional protein to be produced and reach the target color.",
+            "type" : "Nucleus (Gene Editor)"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1078,6 +1153,11 @@
         "name" : "Mission 3.3"
       }, {
         "challenges" : [ {
+          "about" : {
+            "description" : "Students click on the glowing tunnels to zoom in to the cell. To make the drake shiny, they must prevent the orange melanosomes from traveling across to the outer scale cells by closing the gates to the cell. To do this they must first click to remove the pod-releasing proteins, then click again to close the gates. The progress bar at the top of the screen indicates how full the scale cells are with mela-pods. Once the progress bar is empty, the drake will reach the copper state.",
+            "tip" : "This is a tricky challenge! This lava drake is homozygous dominant (dull/dull). Therefore, there aren’t any broken proteins present to prevent mela-pods from entering scale cells. Students will need to manually close all of the gates and try to maintain that state until the progress bar is empty.",
+            "type" : "Pod-release Gates"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1107,9 +1187,14 @@
             } ]
           },
           "id" : "cell-game-lava-copper-gate",
-          "name" : "Challenge 3.4.2",
+          "name" : "Challenge 3.4.1",
           "room" : "zoomroom"
         }, {
+          "about" : {
+            "description" : "Students click on the glowing tunnels to zoom in to the cell. To make the drake dull, they must help the orange melanosomes to travel across to the outer scale cells by opening the gates to the cell. To do this they must first click to remove the broken pod-releasing proteins. The progress bar at the top of the screen indicates how full the scale cells are with mela-pods. Once the progress bar is full, the drake will reach the lava state.",
+            "tip" : "Since this copper drake is heterozygous (shiny/dull), there are some functional  pod-releasing proteins present. Students should avoid removing the functional proteins since they will let mela-pods through and focus on removing the broken  pod-releasing proteins as quickly as possible. This is an example of a dominant negative (a dominant loss-of-function allele).",
+            "type" : "Pod-release Gates"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1118,7 +1203,7 @@
               } ],
               "success" : [ {
                 "character" : "ELLIS",
-                "text" : "Now that we understand what’s going on with the proteins, I’ve programmed the simulator to unlock the shiny/dull allele so we can control the mela-port protein directly from the nucleus. "
+                "text" : "Now that we understand what’s going on with the proteins, I’ve programmed the simulator to unlock the shiny/dull allele so we can control the pod-releasing protein directly from the nucleus."
               } ]
             },
             "start" : [ {
@@ -1127,9 +1212,14 @@
             } ]
           },
           "id" : "cell-game-copper-lava-gate",
-          "name" : "Challenge 3.4.3",
+          "name" : "Challenge 3.4.2",
           "room" : "zoomroom"
         }, {
+          "about" : {
+            "description" : "Students click on the glowing tunnels to find that they are unable to interact with the proteins in the tunnels. Students enter the nucleus to make a permanent change to the drake’s genome, changing the shiny/dull alleles so that the broken pod-releasing protein is made. Students then click BUILD to view the proteins being made and click CLOSE to zoom back out to the tunnels and see the proteins at work. If the correct alleles are selected, the mela-pods will not be able to trigger the pod-releasing proteins to open the gates. Once the target color is reached, the challenge is complete.",
+            "tip" : "This copper drake is heterozygous (shiny/dull). Students need to change the shiny allele to dull in order to make all broken  pod-releasing proteins to reach the target color.",
+            "type" : "Pod-release Gates"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1147,7 +1237,7 @@
             } ]
           },
           "id" : "cell-game-copper-lava-nucleus",
-          "name" : "Challenge 3.4.4",
+          "name" : "Challenge 3.4.3",
           "room" : "zoomroom"
         } ],
         "dialog" : {
@@ -1188,6 +1278,11 @@
     }, {
       "missions" : [ {
         "challenges" : [ {
+          "about" : {
+            "description" : "Students will create drakes with different traits (arms, legs, wings, horns, armor) by selecting chromosomes from parents to form an egg and sperm. They will fertilize and hatch an offspring. To complete the challenge, students must create five different looking drakes and save them to their stable.",
+            "tip" : "Students may not notice that the X and Y chromosomes are different lengths. To produce a male drake, they must select the shorter chromosome for the sperm.",
+            "type" : "Gamete Builder"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1214,6 +1309,10 @@
           "name" : "Challenge 4.1.1",
           "room" : "hatchery"
         }, {
+          "about" : {
+            "description" : "Students assemble an egg and a sperm by selecting one chromosome from each pair. The offspring drake must match the target drake.",
+            "type" : "Gamete Builder"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1227,13 +1326,17 @@
             },
             "start" : [ {
               "character" : "NETANYA",
-              "text" : "I'm guesssing you said 'Yes' to being ready? OK, time for DIY drakes— you will assign chromosomes in the egg and sperm cells to match targets."
+              "text" : "I'm guessing you said 'Yes' to being ready? OK, time for DIY drakes— you will assign chromosomes in the egg and sperm cells to match targets."
             } ]
           },
           "id" : "gamete-targetMatch-starterTraits",
           "name" : "Challenge 4.1.2",
           "room" : "hatchery"
         }, {
+          "about" : {
+            "description" : "Students assemble an egg and a sperm by selecting one chromosome from each pair. The offspring drake must match the target drake.",
+            "type" : "Gamete Builder"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1250,13 +1353,17 @@
               "text" : "Grey drakes have been identified as a target because they spit a venom that can cause temporary unconsciousness and paralysis. The venom can be used to knock out the enemy, or as an anesthetic."
             }, {
               "character" : "NETANYA",
-              "text" : "If I means they'll stop talking, I have one or two people I’d like to use that on! Click the screen to start."
+              "text" : "If it means they'll stop talking, I have one or two people I’d like to use that on! Click the screen to start."
             } ]
           },
           "id" : "gamete-targetMatch-starterTraits2",
           "name" : "Challenge 4.1.3",
           "room" : "hatchery"
         }, {
+          "about" : {
+            "description" : "Students assemble an egg and a sperm by selecting one chromosome from each pair. The offspring drake must match the target drake.",
+            "type" : "Gamete Builder"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1277,6 +1384,10 @@
           "name" : "Challenge 4.1.4",
           "room" : "hatchery"
         }, {
+          "about" : {
+            "description" : "Students click the Generate Gametes button to see how gametes are randomly assembled. The game creates one egg and three sperm in Challenge 5 and three eggs and one sperm in Challenge 6. In both cases, the student must select the sperm or egg that, when combined with the other gamete, will create the target drake.",
+            "type" : "Gamete Selector"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1303,6 +1414,10 @@
           "name" : "Challenge 4.1.5",
           "room" : "hatchery"
         }, {
+          "about" : {
+            "description" : "Students click the Generate Gametes button to see how gametes are randomly assembled. The game creates one egg and three sperm in Challenge 5 and three eggs and one sperm in Challenge 6. In both cases, the student must select the sperm or egg that, when combined with the other gamete, will create the target drake.",
+            "type" : "Gamete Selector"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1329,6 +1444,10 @@
           "name" : "Challenge 4.1.6",
           "room" : "hatchery"
         }, {
+          "about" : {
+            "description" : "Students click the Generate Gametes button to see how gametes are randomly assembled. The game creates multiple eggs and sperm. The student must select a sperm and egg that will create the target drake.",
+            "type" : "Gamete Selector"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1355,6 +1474,10 @@
           "name" : "Challenge 4.1.7",
           "room" : "hatchery"
         }, {
+          "about" : {
+            "description" : "Students click the Generate Gametes button to see how gametes are randomly assembled. The game creates multiple eggs and sperm. The student must select a sperm and egg that will create the target drake.",
+            "type" : "Gamete Selector"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1404,6 +1527,11 @@
         "name" : "Mission 4.1"
       }, {
         "challenges" : [ {
+          "about" : {
+            "description" : "Students will breed two parents to match a target drakes. In the first two challenges, one parent’s alleles will be fixed and students will select the other parent’s  alleles such that when they breed, they will produce the target offspring. In the final challenge, students will adjust both parents’ alleles. All traits used in these challenges follow the simple dominance inheritance pattern.",
+            "tip" : "The offspring drakes are randomly generated. Students may need to click “Breed” several times. To receive a blue crystal, students must change the minimum number of alleles necessary.",
+            "type" : "Breeding Barn - 1 adjustable parent"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1430,6 +1558,11 @@
           "name" : "Challenge 4.2.1",
           "room" : "breedingbarn"
         }, {
+          "about" : {
+            "description" : "Students will breed two parents to match a target drakes. In the first two challenges, one parent’s alleles will be fixed and students will select the other parent’s  alleles such that when they breed, they will produce the target offspring. In the final challenge, students will adjust both parents’ alleles. All traits used in these challenges follow the simple dominance inheritance pattern.",
+            "tip" : "The offspring drakes are randomly generated. Students may need to click “Breed” several times. To receive a blue crystal, students must change the minimum number of alleles necessary.",
+            "type" : "Breeding Barn - 1 adjustable parent"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1450,6 +1583,11 @@
           "name" : "Challenge 4.2.2",
           "room" : "breedingbarn"
         }, {
+          "about" : {
+            "description" : "Students will breed two parents to match a target drakes. In the first two challenges, one parent’s alleles will be fixed and students will select the other parent’s  alleles such that when they breed, they will produce the target offspring. In the final challenge, students will adjust both parents’ alleles. All traits used in these challenges follow the simple dominance inheritance pattern.",
+            "tip" : "The offspring drakes are randomly generated. Students may need to click “Breed” several times. To receive a blue crystal, students must change the minimum number of alleles necessary.",
+            "type" : "Breeding Barn - 1 adjustable parent"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1473,6 +1611,11 @@
           "name" : "Challenge 4.2.3",
           "room" : "breedingbarn"
         }, {
+          "about" : {
+            "description" : "Students select both the male and female drake’s alleles such that when they breed, they will produce the target offspring. In the first challenge, students will work with the horns trait (recessive). In the second challenge, students will work with both albino (epistatic trait) and armor (incomplete dominant).",
+            "tip" : "The offspring drakes are randomly generated. Students may need to click “Breed” several times. To receive a blue crystal, students must change the minimum number of alleles necessary.",
+            "type" : "Breeding Barn - 2 adjustable parents"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1491,6 +1634,34 @@
           },
           "id" : "clutch-5drakes-intermediateTraits",
           "name" : "Challenge 4.2.4",
+          "room" : "breedingbarn"
+        }, {
+          "about" : {
+            "description" : "Students select both the male and female drake’s alleles such that when they breed, they will produce the target offspring. In the first challenge, students will work with the horns trait (recessive). In the second challenge, students will work with both albino (epistatic trait) and armor (incomplete dominant).",
+            "tip" : "The offspring drakes are randomly generated. Students may need to click “Breed” several times. To receive a blue crystal, students must change the minimum number of alleles necessary.",
+            "type" : "Breeding Barn - 2 adjustable parents"
+          },
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "RAJPUT",
+                "text" : "You got there, but you'll need to do better to earn a crystal!."
+              } ],
+              "success" : [ {
+                "character" : "WEAVER",
+                "text" : "Excellent job, Cadet!"
+              }, {
+                "character" : "RAJPUT",
+                "text" : "Now we’ll be able to breed enough shiny drakes to develop stores of the antidote for the virus unleashed by Darkwell."
+              } ]
+            },
+            "start" : [ {
+              "character" : "RAJPUT",
+              "text" : "Steady on, Cadet, you can do it."
+            } ]
+          },
+          "id" : "clutch-5drakes-intermediateTraits2",
+          "name" : "Challenge 4.2.5",
           "room" : "breedingbarn"
         } ],
         "dialog" : {
@@ -1525,6 +1696,11 @@
         "name" : "Mission 4.2"
       }, {
         "challenges" : [ {
+          "about" : {
+            "description" : "Students will set parental alleles such that it is possible to create the two siblings shown. One parent’s alleles will be fixed and students will have the ability to manipulate the alleles of the other parent using allele pulldowns. Alleles used will be wings, arms, and shiny.",
+            "tip" : "The student does not need to match the targets in this challenge, only set the parents so that it is possible to create the two targets.",
+            "type" : "Sibling Pairs - 1 adjustable parent"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1551,6 +1727,11 @@
           "name" : "Challenge 4.3.1",
           "room" : "breedingbarn"
         }, {
+          "about" : {
+            "description" : "Students will set parental alleles such that it is possible to create the two siblings shown. Students will have the ability to manipulate the alleles of both parents. Horns and armor are used in this challenge.",
+            "tip" : "The student does not need to match the targets in this challenge, only set the parents so that it is possible to create the two targets.",
+            "type" : "Sibling Pairs - 2 adjustable parent"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1574,6 +1755,11 @@
           "name" : "Challenge 4.3.2",
           "room" : "breedingbarn"
         }, {
+          "about" : {
+            "description" : "Students will set parental alleles such that it is possible to create the two siblings shown. This final challenge in the series includes five traits. Students will have the ability to manipulate the alleles of both parents.",
+            "tip" : "The student does not need to match the targets in this challenge, only set the parents so that it is possible to create the two targets.",
+            "type" : "Sibling Pairs - 2 adjustable parent"
+          },
           "dialog" : {
             "end" : {
               "failure" : [ {
@@ -1630,7 +1816,7 @@
       "missions" : [ {
         "challenges" : [ {
           "about" : {
-            "description" : "Test cross to determine the father's genotype. The mother's genotype is visible, and she is entirely recessive for the traits in play. This sets the student up to breed the father against the recessive mother to determine his genotype. A correct answer on the first try receives a blue crystal; each incorrect submission downgrades the crystal on level.",
+            "description" : "Students must determine the genotype of the female drake by breeding it with an all recessive male. To determine the genotype of the mother, the students should breed multiple times. When they know the genotype, they click the Ready to Answer button. A correct answer on the first try receives a blue crystal; each incorrect submission downgrades the crystal one level.",
             "tip" : "The mother's alleles are not manipulable; she is already in the ideal configuration for a test cross. Students should start to recognize the advantages of breeding against a recessive organism.",
             "type" : "Test Cross"
           },
@@ -1651,10 +1837,10 @@
             } ],
             "start" : [ {
               "character" : "RAJPUT",
-              "text" : "These drakes had to be smuggled out quickly and secretly, so  there isn't any paperwork for them."
+              "text" : "These drakes had to be smuggled out quickly and secretly, so  we have no information on them."
             }, {
-              "character" : "HERRERA",
-              "text" : "Whoa, so we don't even know their genotypes?"
+              "character" : "NETANYA",
+              "text" : "So we don't even know their genotypes?"
             }, {
               "character" : "RAJPUT",
               "text" : "That's right. And we need the genotype if we are going to make progress understanding drake and dragon traits."
@@ -1668,7 +1854,7 @@
           "room" : "breedingbarn"
         }, {
           "about" : {
-            "description" : "Test cross to determine the mother's genotype. The mother's phenotype and genotype are hidden, increasing the difficulty compared to the previsus challenge. The father is entirely recessive for the traits in play. This sets the student up to breed the father against the recessive mother to determine his genotype. A correct answer on the first try receives a blue crystal; each incorrect submission downgrades the crystal on level.",
+            "description" : "Students must determine the genotype of an 'invisible' female drake by breeding it with an all recessive male. To determine the genotype of the mother, the students should breed multiple times. When they know the genotype, they click the Ready to Answer button. A correct answer on the first try receives a blue crystal; each incorrect submission downgrades the crystal one level.",
             "tip" : "It may be hard for students to deduce the genotype for horns, since it is a recessive trait.",
             "type" : "Test Cross"
           },
@@ -1703,7 +1889,7 @@
           "room" : "breedingbarn"
         }, {
           "about" : {
-            "description" : "Test cross to determine the father's genotype (phenotype also hidden). The mother's genotype can be manipulated by the student. The understanding that a recessive organism allows the recessive alleles of the other parent to be revealed should lead to students setting the mother to all recessive. A correct answer on the first try receives a blue crystal; each incorrect submission downgrades the crystal on lelvel.",
+            "description" : "Students must determine the genotype of an 'invisible' male drake by breeding it with a female drake, but this time they must adjust the alleles of the female. Students should learn to make the female recessive and breed multiple times to deduce the unknown genotype. Students click Ready to Answer, and if they are correct on the first try, receive a blue crystal; each incorrect submission downgrades the crystal one level.",
             "tip" : "Breeding with a fully recessive organism is not the only way to determine an unknown genotype, but it is the most efficient way.",
             "type" : "Test Cross"
           },
@@ -1716,6 +1902,18 @@
               "success" : [ {
                 "character" : "RAJPUT",
                 "text" : "This has been a real test of your abilities, Cadet! Our knowledge of these new drakes is important!"
+              }, {
+                "character" : "WEAVER",
+                "text" : "Cadet, Herrera's dragon pilots were successful in the sneak attack!"
+              }, {
+                "character" : "HATCH",
+                "text" : "Yes, and you played a big part in this victory for drakes and dragons!"
+              }, {
+                "character" : "YEUNG",
+                "text" : "Cadet, it's been a pleasure. Take care out there. "
+              }, {
+                "character" : "HERRERA",
+                "text" : "Seriously, Cadet, It's been great having you. We have to bid you farewell for now. Just remember, when you come across genetics, think of Geniventure! "
               } ]
             },
             "middle" : [ {
@@ -1736,23 +1934,8 @@
         } ],
         "dialog" : {
           "end" : [ {
-            "character" : "RAJPUT",
-            "text" : "Well done! You have learned a lot."
-          }, {
-            "character" : "WEAVER",
-            "text" : "Cadet, you've graduated! Your talents will be useful out in the field to help preserve the dragon species."
-          }, {
-            "character" : "HATCH",
-            "text" : "Yes, and make sure to come back and tell us about your adventures! We'll have new cadets who'll need your advice."
-          }, {
             "character" : "HERRERA",
             "text" : "K. Thanks. Bye!"
-          }, {
-            "character" : "HATCH",
-            "text" : "Colonel - what, no sports analogy? You really dropped the ball, haha! Cadet, it's been great. Take care out there. "
-          }, {
-            "character" : "HERRERA",
-            "text" : "Seriously, Cadet, It's been great having you. We have to bid you farewell for now. Just remember, when you come across genetics, think of us here at Geniventure! "
           } ],
           "middle" : [ {
             "character" : "RAJPUT",
@@ -1760,16 +1943,16 @@
           } ],
           "start" : [ {
             "character" : "RAJPUT",
-            "text" : "Cadet, we've just received some drakes from Darkwell! This is an opportunity for you."
+            "text" : "Cadet, we've just received some drakes smuggled in from Darkwell! While the sneak attack is afoot, we need to examine them closely."
           }, {
-            "character" : "HERRERA",
-            "text" : "Time out, Dr. Rajput, aren't drakes an endangered species in Darkwell?"
+            "character" : "NETANYA",
+            "text" : "Wait, Dr. Rajput, aren't drakes an endangered species in Darkwell?"
           }, {
             "character" : "RAJPUT",
-            "text" : "Yes, Colonel, Darkwell has hunted the drakes close to extinction, so this is a rare find."
+            "text" : "Yes! Darkwell has hunted the drakes close to extinction, so this is a rare find."
           }, {
-            "character" : "HERRERA",
-            "text" : "Score one for the drakes! Let's head over to the Breeding Barn to check them out."
+            "character" : "NETANYA",
+            "text" : "Let's head over to the Breeding Barn to check them out."
           } ]
         },
         "name" : "Mission 5.1"
@@ -2447,55 +2630,55 @@
       "comment" : "*** Level 3, Mission 3.1: Charcoal -> Frost (Albino), Size - Working Everything ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=charcoal-frost&alleles=11111111&game=size"
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=charcoal-frost&alleles=11111111&game=size&missionId=3.3.1&video=charcoal&skip=true"
     },
     "cell-game-charcoal-lava-size" : {
-      "comment" : "*** Level 3, Mission 2.2: Charcoal -> Lava, Size - Heterozygous TRP ***",
+      "comment" : "*** Level 3, Mission 2.3: Charcoal -> Lava, Size - Heterozygous TRP ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=charcoal-lava&alleles=10111111&game=size"
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=charcoal-lava&alleles=10111111&game=size&missionId=3.2.3&video=charcoal"
     },
     "cell-game-copper-lava-gate" : {
-      "comment" : "*** Level 3, Mission 4.3: Copper -> Lava, Gates - Broken TRP, Heterozygous ASIP ***",
+      "comment" : "*** Level 3, Mission 4.2: Copper -> Lava, Gates - Broken TRP, Heterozygous ASIP ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=gate"
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=gate&missionId=3.4.2&video=copper"
     },
     "cell-game-copper-lava-nucleus" : {
-      "comment" : "*** Level 3, Mission 4.4: Copper -> Lava, Nucleus ***",
+      "comment" : "*** Level 3, Mission 4.3: Copper -> Lava, Nucleus ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=gate&nucleusGenes=00000011"
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=gate&nucleusGenes=00000011&missionId=3.4.3"
     },
     "cell-game-frost-charcoal-nucleus" : {
       "comment" : "*** Level 3, Mission 3.3: Frost (Albino) -> Charcoal, Nucleus ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=size&nucleusGenes=00110000"
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=size&nucleusGenes=00110000&missionId=3.3.3"
     },
     "cell-game-frost-charcoal-size" : {
       "comment" : "*** Level 3, Mission 3.2: Frost (Albino) -> Charcoal, Size - Homozygous Broken TYR ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=size"
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=size&missionId=3.3.2&video=frost&skip=true"
     },
     "cell-game-lava-charcoal-nucleus" : {
       "comment" : "*** Level 3, Mission 2.4: Lava -> Charcoal, Nucleus ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=size&nucleusGenes=11000000"
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=size&nucleusGenes=11000000&missionId=3.2.4"
     },
     "cell-game-lava-charcoal-size" : {
-      "comment" : "*** Level 3, Mission 2.3: Lava -> Charcoal, Size - Homozygous Broken TRP ***",
+      "comment" : "*** Level 3, Mission 2.2: Lava -> Charcoal, Size - Homozygous Broken TRP ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=size"
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=size&missionId=3.2.2&video=lava"
     },
     "cell-game-lava-copper-gate" : {
-      "comment" : "*** Level 3, Mission 4.2: Lava -> Copper, Gates - Broken TRP ***",
+      "comment" : "*** Level 3, Mission 4.1: Lava -> Copper, Gates - Broken TRP ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-copper&alleles=00111111&game=gate"
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-copper&alleles=00111111&game=gate&missionId=3.4.1&video=lava&skip=true"
     },
     "cell-game-lava-steel-nucleus" : {
       "comment" : "*** Level 3, Mission 4.5: Lava -> Steel, Nucleus ***",
@@ -2507,7 +2690,7 @@
       "comment" : "*** Level 3, Mission 2.1: Empty -> Charcoal, Size Tutorial ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11111111&numStars=0&game=size"
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11111111&numStars=0&game=size&missionId=3.2.1&video=frost"
     },
     "clutch-5drakes-intermediateTraits" : {
       "challengeType" : "create-unique",
@@ -2705,19 +2888,19 @@
       "container" : "FVContainer",
       "father" : [ {
         "randomMatched" : [ {
-          "alleles" : "c-c, Hl-hl, a-a, w-W, M-M, h-H, b-b",
+          "alleles" : "c-c, Hl-hl, a-a",
           "sex" : 0
         }, {
-          "alleles" : "C-C, Hl-hl, A1-a, w-W, M-M, h-H, b-b",
+          "alleles" : "C-C, Hl-hl, A1-a",
           "sex" : 0
         }, {
-          "alleles" : "c-c, Hl-hl, A1-A1, w-W, M-M, h-H, b-b",
+          "alleles" : "c-c, Hl-hl, A1-A1",
           "sex" : 0
         }, {
-          "alleles" : "c-c, Hl-hl, A1-A1, w-W, M-M, h-H, b-b",
+          "alleles" : "c-c, Hl-hl, A1-A1",
           "sex" : 0
         }, {
-          "alleles" : "C-C, Hl-hl, A1-A1, w-W, M-M, h-H, b-b",
+          "alleles" : "C-C, Hl-hl, A1-A1",
           "sex" : 0
         } ]
       } ],
@@ -2727,26 +2910,23 @@
       "interactionType" : "select-chromosomes",
       "linkedGenes" : [ {
         "drakes" : [ 0, 1, 2 ],
-        "genes" : "armor, forelimbs, hindlimbs, tail, metallic, color, dilute, nose, bogbreath"
-      }, {
-        "drakes" : [ 0, 1, 2 ],
-        "genes" : "black, wings, horns, forelimbs, tail, metallic, dilute, nose, bogbreath"
+        "genes" : "forelimbs, wings, hindlimbs, tail, metallic, dilute, nose, bogbreath, horns, black"
       } ],
       "mother" : [ {
         "randomMatched" : [ {
-          "alleles" : "C-C, Hl-hl, a-a, M-M, b-b, T-T, Fl-Fl, D-D, rh-rh, h-H, w-W, Bog-Bog",
+          "alleles" : "C-C, Hl-hl, a-a, M-M, b-b, T-T, Fl-Fl, D-D, rh-rh, H-H, W-W, Bog-Bog",
           "sex" : 1
         }, {
-          "alleles" : "C-C, H-hl, A1-A1, M-M, b-b, Tk-Tk, fl-fl, D-D, rh-rh, h-H, w-W, Bog-Bog",
+          "alleles" : "C-C, Hl-hl, A1-A1, M-M, B-B, Tk-Tk, fl-fl, D-D, rh-rh, h-h, w-w, Bog-Bog",
           "sex" : 1
         }, {
-          "alleles" : "c-c, Hl-hl, A1-A1, M-M, b-b, t-t, fl-fl, D-D, rh-rh, h-H, w-W, Bog-Bog",
+          "alleles" : "c-c, Hl-hl, A1-A1, m-m, b-b, t-t, fl-fl, D-D, rh-rh, H-H, W-W, Bog-Bog",
           "sex" : 1
         }, {
-          "alleles" : "c-c, Hl-hl, A1-A1, M-M, b-b, T-T, fl-fl, D-D, rh-rh, h-H, w-W, Bog-Bog",
+          "alleles" : "c-c, Hl-hl, A1-A1, m-m, B-B, T-T, fl-fl, D-D, rh-rh, h-h, w-w, Bog-Bog",
           "sex" : 1
         }, {
-          "alleles" : "c-C, H-hl, A1-a, M-M, b-b, Fl-Fl, t-t, D-D, rh-rh, h-H, w-W, Bog-Bog",
+          "alleles" : "c-C, H-hl, A1-a, M-M, b-b, Fl-Fl, t-t, D-D, rh-rh, H-H, W-W, Bog-Bog",
           "sex" : 1
         } ]
       } ],
@@ -2754,15 +2934,15 @@
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "randomMatched" : [ {
-          "alleles" : "c-c, hl-hl, a-a, M-M, b-b"
+          "alleles" : "c-c, hl-hl, A1-A1"
         }, {
-          "alleles" : "c-c, hl-hl, a-a, M-M, b-b"
+          "alleles" : "c-c, hl-hl, a-a"
         }, {
-          "alleles" : "c-c, hl-hl, a-a, M-M, b-b"
+          "alleles" : "C-c, hl-hl, A1-a"
         }, {
-          "alleles" : "c-c, hl-hl, a-a, M-M, b-b"
+          "alleles" : "C-c, hl-hl, a-a"
         }, {
-          "alleles" : "c-c, hl-hl, a-a, M-M, b-b"
+          "alleles" : "c-c, hl-hl, a-a"
         } ]
       } ],
       "template" : "ClutchGame",
@@ -3713,14 +3893,14 @@
       "comment" : "*** Level 4, Mission 1.7: Egg Breeding (select gametes to match drakes) ***",
       "container" : "FVContainer",
       "father" : {
-        "alleles" : "a:w,b:W,a:M,b:M,a:T,b:T,a:h,b:H,a:A1,b:a,a:c,b:c,a:B,b:B,a:D,b:D,a:Rh,b:Rh,a:Bog,b:Bog",
+        "alleles" : "a:w,b:W,a:M,b:M,a:T,b:T,a:h,b:H,a:A1,b:a,a:c,b:c,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
         "sex" : 0
       },
       "gameteCounts" : [ [ 3, 3 ] ],
       "instructions" : "Match the target drakes!",
       "interactionType" : "select-gametes",
       "mother" : {
-        "alleles" : "a:w,b:W,a:m,b:m,a:fl,a:hl,a:T,b:T,a:H,b:h,a:c,b:c,a:a,b:A1,a:B,b:B,a:D,b:D,a:Rh,b:Rh,a:Bog,b:Bog",
+        "alleles" : "a:w,b:W,a:m,b:m,a:fl,a:hl,a:T,b:T,a:H,b:h,a:c,b:c,a:a,b:A1,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
         "sex" : 1
       },
       "numTrials" : 1,
@@ -3927,19 +4107,19 @@
       },
       "mother" : [ {
         "randomMatched" : [ {
-          "alleles" : "M-M, W-W, Fl-fl, Bog-Bog, D-D",
+          "alleles" : "M-M, W-W, Fl-fl, Bog-Bog, rh-rh, D-D",
           "sex" : 1
         }, {
-          "alleles" : "W-W, m-m, Fl-Fl, Bog-Bog, D-D",
+          "alleles" : "W-W, m-m, Fl-Fl, Bog-Bog, rh-rh, D-D",
           "sex" : 1
         }, {
-          "alleles" : "W-W, M-m, Fl-Fl, Bog-Bog, D-D",
+          "alleles" : "W-W, M-m, Fl-Fl, Bog-Bog, rh-rh, D-D",
           "sex" : 1
         }, {
-          "alleles" : "W-W, M-M, fl-fl, Bog-Bog, D-D",
+          "alleles" : "W-W, M-M, fl-fl, Bog-Bog, rh-rh, D-D",
           "sex" : 1
         }, {
-          "alleles" : "W-W, Fl-fl, M-M, Bog-Bog, D-D",
+          "alleles" : "W-W, Fl-fl, M-M, Bog-Bog, rh-rh, D-D",
           "sex" : 1
         } ]
       } ],
@@ -4244,28 +4424,28 @@
       "challengeType" : "test-cross",
       "container" : "FVContainer",
       "father" : [ {
-        "alleles" : "A1-A1, l-l, W-w, B-B, H-h, m-m, fl-fl, D-D, Hl-hl, C-C",
+        "alleles" : "A1-A1, W-w, B-B, H-h, m-m, fl-fl, D-D, Hl-hl, rh-rh, C-C",
         "sex" : 0
       }, {
-        "alleles" : "A1-a, l-l, W-w, B-b, H-h, M-m, Fl-fl, D-D, Hl-hl, C-C",
+        "alleles" : "A1-a, W-w, B-b, H-h, M-m, Fl-fl, D-D, Hl-hl, rh-rh, C-C",
         "sex" : 0
       }, {
-        "alleles" : "A1-a, L-l, W-w, b-b, H-h, M-M, Fl-Fl, D-D, hl-hl, C-C",
+        "alleles" : "A1-a, W-w, b-b, H-h, M-M, Fl-Fl, D-D, hl-hl, rh-rh, C-C",
         "sex" : 0
       }, {
-        "alleles" : "A1-a, L-L, W-w, B-b, H-H, m-M, fl-FL, D-D, Hl-Hl, C-C",
+        "alleles" : "A1-a, W-w, B-b, H-H, m-M, fl-FL, D-D, Hl-Hl, rh-rh, C-C",
         "sex" : 0
       }, {
-        "alleles" : "A1-a, L-L, W-w, B-B, H-H, M-m, fl-fl, D-D, Hl-hl, C-C",
+        "alleles" : "A1-a, W-w, B-B, H-H, M-m, fl-fl, D-D, Hl-hl, rh-rh, C-C",
         "sex" : 0
       }, {
-        "alleles" : "a-a, l-l, W-w, B-B, H-h, m-m, fl-fl, D-D, Hl-hl, C-C",
+        "alleles" : "a-a, W-w, B-B, H-h, m-m, fl-fl, D-D, Hl-hl, rh-rh, C-C",
         "sex" : 0
       }, {
-        "alleles" : "a-a, l-l, W-w, B-b, H-h, M-m, Fl-fl, D-D, Hl-hl, C-C",
+        "alleles" : "a-a, W-w, B-b, H-h, M-m, Fl-fl, D-D, Hl-hl, rh-rh, C-C",
         "sex" : 0
       }, {
-        "alleles" : "a-a, L-l, W-w, b-b, h-h, M-M, Fl-Fl, D-D, hl-hl, C-C",
+        "alleles" : "a-a, W-w, b-b, h-h, M-M, Fl-Fl, D-D, hl-hl, rh-rh, C-C",
         "sex" : 0
       } ],
       "goalMoves" : [ 0 ],
