@@ -37,11 +37,11 @@ const debugSkipIntroGameteAnimation = true,  // set to true to skip intro gamete
       // slot machine animation. Acceleration (delta) is then applied to this base interval.
 const slotMachineBaseInterval = 30, // msec
       // The delta applied to the interval on each iteration
-      slotMachineIntervalAcceleration = 15, // msec
+      slotMachineIntervalAcceleration = 25, // msec
       // # of high-speed iterations before deceleration begins
-      slotMachineInitialIterations = 8,
+      slotMachineInitialIterations = 6,
       // total duration of slot machine animation
-      slotMachineAnimationDuration = 2500,  // msec
+      slotMachineAnimationDuration = 2000,  // msec
       // time from beginning of challenge to initial animation
       delayStartShowGametesAnimation = 1000,  // msec
       // pause after slot machine selection of chromosome before showing selection in half-genome
@@ -253,11 +253,12 @@ var animationEvents = {
     }
   },
   randomizeChromosomes: { id: 2, stages: [], count: 0, complete: false, ready: false,
-    animate: function() {
+    animate: function () {
+      let skipIntro = !_this.props.showIntroductionAnimations;
       let stages = animationEvents.randomizeChromosomes.stages,
           stageIndex = animationEvents.randomizeChromosomes.count,
           // # of high-speed iterations before deceleration begins
-          initialIterations = slotMachineInitialIterations,
+          initialIterations = !skipIntro ? slotMachineInitialIterations : slotMachineInitialIterations / 2,
           gametesCompleted = 0,
           BOTH_SEXES = -1;
 
@@ -290,7 +291,7 @@ var animationEvents = {
       }
 
       if (!stages.length) {
-        if (!debugSkipFirstGameteStage) {
+        if (_this.props.showIntroductionAnimations && !debugSkipFirstGameteStage) {
           if (gametesCompleted < authoredGameteCounts[BioLogica.FEMALE]) {
             // randomize mother's chromosomes one at a time
             addChromAnimStage(BioLogica.FEMALE, defaultAnimationSpeed, '1', ['a', 'b']);
@@ -637,7 +638,7 @@ var animationEvents = {
   @param {boolean}  options.clearAnimatedComponents - whether to clear the animatedComponents array (default: false)
   @param {Object}   options.reactState - React state to set (default: { animation: 'complete', animatingGametes: null })
  */
-function resetAnimationEvents(options = {}){
+function resetAnimationEvents(options = {}) {
   if (timerSet) timerSet.reset();
   clearTimeouts();
   animationEvents.showGametes.count = 0;
@@ -994,6 +995,7 @@ export default class FVEggGame extends Component {
       }
     };
     const handleReset = function () {
+      // this is not used in the select-gamete challenges
       if (moves >= 1) {
         // Treat reset and submit the same after a mistake has been made
         handleSubmit();
@@ -1265,7 +1267,7 @@ export default class FVEggGame extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onResetGametes();
+    this.props.onResetGametePools();
     _this = null;
     resetAnimationEvents();
   }
@@ -1290,6 +1292,7 @@ export default class FVEggGame extends Component {
     onFertilize: PropTypes.func.isRequired,
     onHatch: PropTypes.func,
     onResetGametes: PropTypes.func,
+    onResetGametePools: PropTypes.func,
     onKeepOffspring: PropTypes.func,
     onDrakeSubmission: PropTypes.func,
     moves: PropTypes.number
