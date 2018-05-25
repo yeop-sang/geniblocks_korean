@@ -310,7 +310,7 @@ var animationEvents = {
           ++ gametesCompleted;
         }
 
-        if (!debugTotalGameteCount || (debugTotalGameteCount > gametesCompleted)) {
+        if (_this.props.showIntroductionAnimations && !debugTotalGameteCount || (debugTotalGameteCount > gametesCompleted)) {
           if (gametesCompleted < authoredGameteCounts[BioLogica.FEMALE]) {
             // randomize mother's chromosomes simultaneously
             addGenomeAnimStage(BioLogica.FEMALE, enhancedAnimationSpeed);
