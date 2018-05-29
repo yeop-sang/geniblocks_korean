@@ -25,7 +25,7 @@ export function initializeITSSocket(guideServer, socketPath, store) {
     store.dispatch({type: GUIDE_CONNECTED, data})
   );
 
-  socket.on(GuideProtocol.Event.Channel, data => {
+  const receiveITSEvent = (data) => {
     var event = GuideProtocol.Event.fromJson(data);
     console.info(`%c Received from ITS: ${event.action} ${event.target}`, 'color: #f99a00', event);
 
@@ -41,7 +41,12 @@ export function initializeITSSocket(guideServer, socketPath, store) {
     } else {
       console.log("%c Unhandled ITS message:", 'color: #f99a00', event.toString());
     }
-  });
+  };
+
+  socket.on(GuideProtocol.Event.Channel, receiveITSEvent);
+
+  // for testing
+  window.GV_TEST_receiveITSEvent = receiveITSEvent;
 
   socket.on('error', data =>
     store.dispatch({type: GUIDE_ERRORED, data})
