@@ -48,8 +48,11 @@ export default function notifications(state = initialState, action) {
       const translatedMessages = action.messages.map(message => {
         return Object.assign({}, message, {text: t(message.text)});
       });
+      const allMessages = action.isInterrupt ?
+        translatedMessages :
+        state.messages.concat(translatedMessages);
       return {
-        messages: state.messages.concat(translatedMessages),
+        messages: allMessages,
         closeButton: action.closeButton,
         arrowAsCloseButton: action.arrowAsCloseButton,
         isRaised: action.isRaised

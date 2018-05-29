@@ -140,6 +140,7 @@ describe('submitEggForBasket action', () => {
           action: "showInChallengeCompletionMessage"
         },
         isRaised: false,
+        isInterrupt: false,
         arrowAsCloseButton: false
       });
     });

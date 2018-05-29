@@ -590,23 +590,35 @@ export function showNextTrialButton() {
   };
 }
 
-export function showNotification({message, closeButton, arrowAsCloseButton, isRaised}) {
+/**
+ *
+ * @param {Object} data
+ * @param {string} data.message - String of a single message
+ * @param {Object | bool} data.closeButton - Object with a {string} label and a {string} action property, naming
+ *    an action function, or `true` just to show button to close dialog
+ * @param {bool} data.arrowAsCloseButton - `true` to show an arrow that acts as the above close button
+ * @param {bool} data.isRaised - `true` to raise button above gems on screen
+ * @param {bool} data.isInterrupt - `false` to append to end of existing messages, `true` to clear existing messages
+ */
+export function showNotification({message, closeButton, arrowAsCloseButton, isRaised, isInterrupt}) {
   const messageObj = typeof message === "string" ? {text: message} : message;
   return showNotifications({
     messages: [messageObj],
     closeButton,
     arrowAsCloseButton,
-    isRaised
+    isRaised,
+    isInterrupt
   });
 }
 
-export function showNotifications({messages, closeButton, arrowAsCloseButton=false, isRaised=false}) {
+export function showNotifications({messages, closeButton, arrowAsCloseButton=false, isRaised=false, isInterrupt=false}) {
   return {
     type: actionTypes.NOTIFICATIONS_SHOWN,
     messages,
     arrowAsCloseButton,
     closeButton,
-    isRaised
+    isRaised,
+    isInterrupt
   };
 }
 

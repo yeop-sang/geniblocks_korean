@@ -102,6 +102,7 @@ describe('submitDrake action', () => {
           action: "completeChallenge"
         },
         isRaised: true,
+        isInterrupt: false,
         messages: [
           {
             text: "~ALERT.COMPLETED_CHALLENGE",
@@ -158,7 +159,8 @@ describe('submitDrake action', () => {
           action: "dismissModalDialog"
         },
         arrowAsCloseButton: false,
-        isRaised: false
+        isRaised: false,
+        isInterrupt: false
       });
     });
 

@@ -1,7 +1,7 @@
 import expect from 'expect';
 import reducer from '../../src/code/reducers/';
 import { startSession } from '../../src/code/actions';
-import { GUIDE_HINT_RECEIVED } from '../../src/code/modules/notifications';
+import { ADVANCE_NOTIFICATIONS, GUIDE_HINT_RECEIVED } from '../../src/code/modules/notifications';
 import urlParams from '../../src/code/utilities/url-params';
 import actionTypes from '../../src/code/action-types';
 
@@ -103,6 +103,84 @@ describe('Notification actions', () => {
 
         expect(nextState.notifications.messages).toEqual([{text: "Sample message"}]);
         expect(nextState.notifications.closeButton).toEqual("sampleAction");
+      });
+
+      it('should be correctly translated', () => {
+
+        nextState = reducer(defaultState, {
+          type: actionTypes.NOTIFICATIONS_SHOWN,
+          messages: [{text: "~ALERT.COMPLETED_CHALLENGE"}]
+        });
+
+        expect(nextState.notifications.messages).toEqual([{text: "Challenge completed!"}]);
+      });
+
+      it('should be correctly concatenate multiple messages', () => {
+
+        nextState = reducer(defaultState, {
+          type: actionTypes.NOTIFICATIONS_SHOWN,
+          messages: [{text: "Message 1"}],
+          showAward: false,
+          closeButton: "sampleAction"
+        });
+
+        nextState = reducer(nextState, {
+          type: actionTypes.NOTIFICATIONS_SHOWN,
+          messages: [{text: "Message 2"}]
+        });
+
+        expect(nextState.notifications.messages).toEqual([
+          {text: "Message 1"},
+          {text: "Message 2"}
+        ]);
+      });
+
+      it('should swap messages if interrupted', () => {
+
+        nextState = reducer(defaultState, {
+          type: actionTypes.NOTIFICATIONS_SHOWN,
+          messages: [{text: "Message 1"}]
+        });
+
+        nextState = reducer(nextState, {
+          type: actionTypes.NOTIFICATIONS_SHOWN,
+          messages: [{text: "Message 2"}],
+          isInterrupt: true
+        });
+
+        expect(nextState.notifications.messages).toEqual([
+          {text: "Message 2"}
+        ]);
+      });
+
+      it('should advance through messages', () => {
+
+        nextState = reducer(defaultState, {
+          type: actionTypes.NOTIFICATIONS_SHOWN,
+          messages: [{text: "Message 1"}],
+          showAward: false,
+          closeButton: "sampleAction"
+        });
+
+        nextState = reducer(nextState, {
+          type: actionTypes.NOTIFICATIONS_SHOWN,
+          messages: [{text: "Message 2"}],
+          showAward: false,
+          closeButton: "sampleAction"
+        });
+
+        expect(nextState.notifications.messages).toEqual([
+          {text: "Message 1"},
+          {text: "Message 2"}
+        ]);
+
+        nextState = reducer(nextState, {
+          type: ADVANCE_NOTIFICATIONS
+        });
+
+        expect(nextState.notifications.messages).toEqual([
+          {text: "Message 2"}
+        ]);
       });
     });
 

@@ -38,7 +38,8 @@ describe('acceptEggInBasket action', () => {
               action: "completeChallenge"
             },
             arrowAsCloseButton: true,
-            isRaised: true
+            isRaised: true,
+            isInterrupt: false
           },
           showMouseShield = {
             type: types.MODAL_DIALOG_SHOWN,
