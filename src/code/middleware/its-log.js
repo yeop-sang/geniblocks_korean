@@ -3,6 +3,7 @@ import templates from '../templates';
 import GuideProtocol from '../utilities/guide-protocol';
 import { GUIDE_CONNECTED, GUIDE_ERRORED,
   GUIDE_HINT_RECEIVED, GUIDE_ALERT_RECEIVED } from '../modules/notifications';
+import { requestRemediation } from '../modules/remediation';
 import GeneticsUtils from '../utilities/genetics-utils';
 import io from 'socket.io-client';
 import AuthoringUtils from '../utilities/authoring-utils';
@@ -31,7 +32,7 @@ export function initializeITSSocket(guideServer, socketPath, store) {
     if (event.isMatch("ITS", "HINT", "USER")) {
       store.dispatch({type: GUIDE_HINT_RECEIVED, data: event});
     } else if (event.isMatch("ITS", "REMEDIATE", "USER")) {
-      // do nothing yet
+      store.dispatch(requestRemediation(event));
     } else if (event.isMatch("ITS", "SPOKETO", "USER")) {
       // do nothing with this
       console.log("ITS spoke to user:", event.context.dialog);
@@ -273,6 +274,11 @@ function createLogEntry(loggingMetadata, action, prevState, nextState){
   let changeSexToString = sex => sex === 0 ? "male" : sex === 1 ? "female" : sex;
   changePropertyValues(context, "sex", changeSexToString);
   changePropertyValues(context, "newSex", changeSexToString);
+
+  if (prevState.remediation) {
+    context.remediation = true;
+    context.challengeId = `${context.challengeId}-REMEDIATION`;
+  }
 
   const message =
     {

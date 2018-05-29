@@ -50,6 +50,7 @@ export default function reducer(state, action) {
     drakes: drakes(state.drakes, state.gametes, action),
     baskets: baskets(state.baskets, action),
     notifications: notifications(state.notifications, action),
+    remediation: remediation(state.remediation, action),
     trialSuccess: trialSuccess(state.trialSuccess, action),
     tutorials: tutorials(state.tutorials, action)
   });

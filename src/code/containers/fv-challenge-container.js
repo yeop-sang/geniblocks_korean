@@ -68,7 +68,7 @@ class FVChallengeContainer extends Component {
       return( <LoadingView /> );
     }
 
-    const { template, style, location, showingRoom, tutorials, ...otherProps } = this.props,
+    const { template, style, location, showingRoom, tutorials, isRemediation, ...otherProps } = this.props,
           { challengeType, interactionType, routeSpec, trial, numTrials, correct, challenges, showAward } = this.props;
 
     const _showEasterEgg = () => {
@@ -106,7 +106,7 @@ class FVChallengeContainer extends Component {
       const Template = templates[template];
 
       bgClasses = classNames('mission-backdrop', Template.backgroundClasses,
-                              challengeType, interactionType);
+                              challengeType, interactionType, isRemediation ? "remediation" : null);
       maxScore = Template.maxScore;
       goalMoves = this.props.goalMoves;
       showChallengeWidgets = true;
@@ -135,7 +135,8 @@ class FVChallengeContainer extends Component {
         { MainView }
         <BottomHUDView routeSpec={routeSpec} numChallenges={challenges} trial={trial + 1} trialCount={numTrials}
           currScore={correct} maxScore={maxScore} currMoves={this.props.moves} showAward={showAward}
-          goalMoves={goalMoves} showMoveCounter={showMoveCounter} gems={this.props.gems} showChallengeWidgets={showChallengeWidgets} showTutorialButton={showTutorialButton} onRestartTutorial={this.props.onRestartTutorial} />
+          goalMoves={goalMoves} showMoveCounter={showMoveCounter} gems={this.props.gems} showChallengeWidgets={showChallengeWidgets}
+          showTutorialButton={showTutorialButton} onRestartTutorial={this.props.onRestartTutorial} isRemediation={isRemediation} />
         <NotificationContainer />
         <ModalMessageContainer />
       </div>
@@ -169,7 +170,8 @@ class FVChallengeContainer extends Component {
     onTutorialNext: PropTypes.func,
     onTutorialPrevious: PropTypes.func,
     onTutorialMore: PropTypes.func,
-    onTutorialClosed: PropTypes.func
+    onTutorialClosed: PropTypes.func,
+    isRemediation: PropTypes.bool
   }
 }
 
@@ -207,7 +209,8 @@ function mapStateToProps (state) {
       // drag/drop experiment option for enabling custom drag layer rather
       // than HTML5 drag/drop dragImage
       useCustomDragLayer: true,
-      tutorials: state.tutorials
+      tutorials: state.tutorials,
+      isRemediation: state.isRemediation
     };
   }
 
