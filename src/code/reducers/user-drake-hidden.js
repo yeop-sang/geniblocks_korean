@@ -1,6 +1,6 @@
 import actionTypes from '../action-types';
 import { GUIDE_CONNECTED, GUIDE_ERRORED,
-          GUIDE_MESSAGE_RECEIVED, GUIDE_ALERT_RECEIVED, ADVANCE_NOTIFICATIONS } from '../modules/notifications';
+  GUIDE_HINT_RECEIVED, GUIDE_ALERT_RECEIVED, ADVANCE_NOTIFICATIONS } from '../modules/notifications';
 
 const initialState = true;
 
@@ -13,7 +13,7 @@ export default function userDrakeHidden(state = initialState, action) {
     // The following actions don't change the state:
     case GUIDE_CONNECTED:
     case GUIDE_ERRORED:
-    case GUIDE_MESSAGE_RECEIVED:
+    case GUIDE_HINT_RECEIVED:
     case GUIDE_ALERT_RECEIVED:
     case ADVANCE_NOTIFICATIONS:
       return state;

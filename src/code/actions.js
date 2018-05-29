@@ -251,9 +251,6 @@ export function changeAllele(index, chromosome, side, previousAllele, newAllele,
     newAllele,
     incrementMoves,
     meta: {
-      logNextState: {
-        newAlleles: ["drakes", index, "alleleString"]
-      },
       itsLog: {
         actor: ITS_ACTORS.USER,
         action: ITS_ACTIONS.CHANGED,
@@ -332,19 +329,19 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIn
         userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]),
         isBredDrake = !isNaN(motherIndex),
         itsTarget = isBredDrake ? ITS_TARGETS.OFFSPRING : ITS_TARGETS.ORGANISM;
-  var userSelections;
+  var selected;
 
   if (isBredDrake) {
     const motherDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[motherIndex]),
           fatherDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[fatherIndex]);
-    userSelections = {
+    selected = {
       motherAlleles: motherDrakeOrg.alleles,
       fatherAlleles: fatherDrakeOrg.alleles,
       offspringAlleles: userDrakeOrg.alleles,
       offspringSex: userDrakeOrg.sex
     };
   } else {
-    userSelections = {
+    selected = {
       alleles: userDrakeOrg.alleles,
       sex: userDrakeOrg.sex
     };
@@ -353,11 +350,11 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIn
   return {
     type: actionTypes.DRAKE_SUBMITTED,
     species: BioLogica.Species.Drake.name,
-    challengeCriteria: {
+    target: {
       sex: targetDrakeOrg.sex,
       phenotype: targetDrakeOrg.phenotype.characteristics
     },
-    userSelections,
+    selected,
     correct,
     incrementMoves,
     meta: {
@@ -411,11 +408,11 @@ function _submitParents(motherIndex, fatherIndex, targetDrakeIndices, correct, s
         fatherDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[fatherIndex]),
         targetDrakeOrgs = targetDrakeIndices.map(i =>
           GeneticsUtils.convertDrakeToOrg(state.drakes[i])),
-        userSelections = {
+        selected = {
           motherAlleles: motherDrakeOrg.alleles,
           fatherAlleles: fatherDrakeOrg.alleles
         },
-        challengeCriteria = targetDrakeOrgs.map(o =>
+        target = targetDrakeOrgs.map(o =>
           ({
             sex: o.sex,
             phenotype: o.phenotype.characteristics
@@ -425,8 +422,8 @@ function _submitParents(motherIndex, fatherIndex, targetDrakeIndices, correct, s
   return {
     type: actionTypes.DRAKE_SUBMITTED,
     species: BioLogica.Species.Drake.name,
-    challengeCriteria,
-    userSelections,
+    target,
+    selected,
     correct,
     incrementMoves,
     meta: {
@@ -527,8 +524,8 @@ function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, state) {
   return {
     type: actionTypes.EGG_SUBMITTED,
     species: BioLogica.Species.Drake.name,
-    challengeCriteria: drakeCriteria,
-    userSelections: basketCriteria,
+    target: drakeCriteria,
+    selected: basketCriteria,
     correct: isCorrect,
     incrementMoves,
     meta: {

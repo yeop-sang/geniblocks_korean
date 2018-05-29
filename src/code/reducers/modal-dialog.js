@@ -1,6 +1,6 @@
 import Immutable from 'seamless-immutable';
 import actionTypes from '../action-types';
-import { GUIDE_ALERT_RECEIVED, GUIDE_MESSAGE_RECEIVED, ADVANCE_NOTIFICATIONS, CLOSE_NOTIFICATIONS } from '../modules/notifications';
+import { GUIDE_ALERT_RECEIVED, GUIDE_HINT_RECEIVED, ADVANCE_NOTIFICATIONS, CLOSE_NOTIFICATIONS } from '../modules/notifications';
 
 const initialState = Immutable({
   show: false,
@@ -42,7 +42,7 @@ export default function modalDialog(state = initialState, action) {
     case actionTypes.NOTIFICATIONS_SHOWN:
     case actionTypes.ADVANCE_NOTIFICATIONS:
     case GUIDE_ALERT_RECEIVED:
-    case GUIDE_MESSAGE_RECEIVED:
+    case GUIDE_HINT_RECEIVED:
     case ADVANCE_NOTIFICATIONS:
     case CLOSE_NOTIFICATIONS:
       return state;

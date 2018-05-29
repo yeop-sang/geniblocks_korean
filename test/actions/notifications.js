@@ -1,7 +1,7 @@
 import expect from 'expect';
 import reducer from '../../src/code/reducers/';
 import { startSession } from '../../src/code/actions';
-import { GUIDE_MESSAGE_RECEIVED } from '../../src/code/modules/notifications';
+import { GUIDE_HINT_RECEIVED } from '../../src/code/modules/notifications';
 import urlParams from '../../src/code/utilities/url-params';
 import actionTypes from '../../src/code/action-types';
 
@@ -16,28 +16,19 @@ describe('Notification actions', () => {
     let defaultState = reducer(undefined, {});
     let nextState;
 
-      let messageData = JSON.stringify(
-        {
-          message: {
-            id: 'ITS.CHALLENGE.INTRO.2',
-            text: 'Ok! Let\'s get to work on Mission {{mission}} Challenge {{challenge}}.',
-            args: {
-              level: 0,
-              mission: 0,
-              challenge: 2
-            }
-          },
-          time: 1484069330265
-        }
-      );
+    let itsData = {
+      context: {
+        hintDialog: "Ok! Let's get to work on Mission 0 Challenge 2."
+      }
+    };
 
     describe('on receiving GUIDE message', () => {
 
       it('should add to the notifications', () => {
 
         nextState = reducer(defaultState, {
-          type: GUIDE_MESSAGE_RECEIVED,
-          data: messageData
+          type: GUIDE_HINT_RECEIVED,
+          data: itsData
         });
 
         expect(nextState).toEqual(defaultState.merge({
@@ -52,19 +43,14 @@ describe('Notification actions', () => {
 
       it('should concatenate the notifications', () => {
 
-        let secondMessageData = JSON.stringify(
-          {
-            message: {
-              id: 'ITS.CHALLENGE.INTRO.3',
-              text: 'Second message.',
-              args: {}
-            },
-            time: 1484069330265
+        let secondMessageData = {
+          context: {
+            hintDialog: "Second message."
           }
-        );
+        };
 
         let lastState = reducer(nextState, {
-          type: GUIDE_MESSAGE_RECEIVED,
+          type: GUIDE_HINT_RECEIVED,
           data: secondMessageData
         });
 
@@ -80,21 +66,15 @@ describe('Notification actions', () => {
 
       it('should append a trait to the message if there is one', () => {
 
-        const traitMessage = JSON.stringify(
-          {
-            message: {
-              id: 'ITS.CHALLENGE.INTRO.2',
-              text: 'This is a message about legs.',
-              args: {
-                trait: "hindlimbs"
-              }
-            },
-            time: 1484069330265
+        const traitMessage = {
+          context: {
+            hintDialog: "This is a message about legs.",
+            attribute: "hindlimbs"
           }
-        );
+        };
 
         nextState = reducer(defaultState, {
-          type: GUIDE_MESSAGE_RECEIVED,
+          type: GUIDE_HINT_RECEIVED,
           data: traitMessage
         });
 
@@ -129,8 +109,8 @@ describe('Notification actions', () => {
     describe('on receiving other actions', () => {
 
       nextState = reducer(defaultState, {
-        type: GUIDE_MESSAGE_RECEIVED,
-        data: messageData
+        type: GUIDE_HINT_RECEIVED,
+        data: itsData
       });
 
       it('should clear the notifications', () => {

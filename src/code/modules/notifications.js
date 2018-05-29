@@ -3,10 +3,9 @@ import { GAMETES_RESET } from '../modules/gametes';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import actionTypes from '../action-types';
 import t from '../utilities/translate';
-import GuideProtocol from '../utilities/guide-protocol';
 
 export const GUIDE_CONNECTED = "Guide connected";
-export const GUIDE_MESSAGE_RECEIVED = "Guide message received";
+export const GUIDE_HINT_RECEIVED = "Guide hint received";
 export const GUIDE_ALERT_RECEIVED = "Guide alert received";
 export const GUIDE_ERRORED = "Guide errored";
 export const ADVANCE_NOTIFICATIONS = "Advance notifications";
@@ -23,32 +22,22 @@ const initialState = {
 
 export default function notifications(state = initialState, action) {
   switch (action.type) {
-    case GUIDE_MESSAGE_RECEIVED:
-      if (action.data) {
-        let data = GuideProtocol.TutorDialog.fromJson(action.data);
-        if (data.reason) {
-          console.log(`%c ITS Message Reason: ${data.reason.why || ""}`, `color: #f99a00`, data.reason);
-        }
+    case GUIDE_HINT_RECEIVED:
 
-        if (state.messages[0] && state.messages[0].type === notificationType.NARRATIVE) {
-          console.log(`%c Not showing ITS Message due to narrative`, `color: #f99a00`);
-          return state;
-        }
+      if (state.messages[0] && state.messages[0].type === notificationType.NARRATIVE) {
+        console.log(`%c Not showing ITS Message due to narrative`, `color: #f99a00`);
+        return state;
+      }
 
-        let currentText = state.messages.length > 0 ? state.messages[0].text + " " : "";
-        let newMessage = {
-          text: currentText + data.message.asString()
+      if (action.data && action.data.context) {
+        const currentText = state.messages.length > 0 ? state.messages[0].text + " " : "";
+
+        const newMessage = {
+          text: currentText + action.data.context.hintDialog
         };
 
-        let trait;
-        // check reason.trait first, then message.args.trait
-        if (data.reason && data.reason.trait) {
-          trait = data.reason.trait;
-        } else if (data.message.args) {
-          trait = data.message.args.trait;
-        }
-        if (trait) {
-          newMessage.trait = trait;
+        if (action.data.context.attribute) {
+          newMessage.trait = action.data.context.attribute;
         }
 
         return Object.assign({}, state, {messages: [newMessage]});
