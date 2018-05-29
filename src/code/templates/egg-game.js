@@ -518,7 +518,7 @@ var animationEvents = {
       }
       const gameteComponent = sex === BioLogica.MALE ? animatedSpermView : animatedOvumView,
             srcGameteBounds = sex === BioLogica.MALE ? spermTarget : ovumTarget,
-            gametePoolId = sex === BioLogica.MALE ? 'father-gamete-pen' : 'mother-gamete-pen',
+            gametePoolId = sex === BioLogica.MALE ? 'father-gamete-pool' : 'mother-gamete-pool',
             gametePoolElt = document.getElementById(gametePoolId),
             gametePoolBounds = gametePoolElt.getBoundingClientRect(),
             animatingGametesInPools = _this.state.animatingGametesInPools,
@@ -1152,10 +1152,10 @@ export default class EggGame extends Component {
     function parentGametePen(sex) {
       if (!isSelectingGametes) return null;
       const uniqueProps = sex === BioLogica.FEMALE
-                              ? { id: 'mother-gamete-pen', idPrefix: 'mother-gamete-',
+                              ? { id: 'mother-gamete-pool', idPrefix: 'mother-gamete-',
                                   gametes: motherGametes,
                                   selectedIndex: motherSelectedGameteIndex(gametes) }
-                              : { id: 'father-gamete-pen', idPrefix: 'father-gamete-',
+                              : { id: 'father-gamete-pool', idPrefix: 'father-gamete-',
                                   gametes: fatherGametes,
                                   selectedIndex: fatherSelectedGameteIndex(gametes) };
       return <GametePenView {...uniqueProps} gameteSize={0.6} rows={1} sex={sex}

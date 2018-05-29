@@ -326,6 +326,7 @@ var animationEvents = {
         }
 
         // randomize the remaining gametes for both parents simultaneously
+        // This should be the default behavior for all subsequent gamete challenges after introduction
         const totalGameteCount = debugTotalGameteCount || Math.max.apply(Math, authoredGameteCounts);
         for (gametesCompleted; gametesCompleted < totalGameteCount; ++gametesCompleted) {
           let sexes = BOTH_SEXES;
@@ -422,7 +423,7 @@ var animationEvents = {
           animateStage(stage);
         }
         else if (stage.type === 'gamete') {
-          _setTimeout(function() {
+          _setTimeout(function () {
             if (stage.sex === BOTH_SEXES) {
               animationEvents.moveChromosomesToGamete.
                 animate(BioLogica.MALE, stage.speed, animationEvents.randomizeChromosomes.onFinish);
@@ -498,7 +499,7 @@ var animationEvents = {
 
       _this.setState({ animation: 'moveChromosomesToGamete', animatingGametes, createdGametes });
     },
-    onFinish: function() {
+    onFinish: function () {
       if (animationEvents.moveChromosomesToGamete.activeCount &&
           (--animationEvents.moveChromosomesToGamete.activeCount === 0)) {
         animatedComponents = [];
@@ -512,16 +513,16 @@ var animationEvents = {
     }
   },
   moveGameteToPool: { id: 4, sexes: [], complete: false, ready: false,
-    animate: function(sex, speed, onFinish) {
+    animate: function (sex, speed, onFinish) {
       function getGameteLocationInPen(sex, index) {
         let loc = gameteLayoutConstants[sex]
                     ? getGameteLocation(gameteLayoutConstants[sex], index)
-                    : { top: BioLogica.MALE ? 14 : 2, left: 3 + 31.125 * index };
+          : { top: BioLogica.MALE ? 14 : 2, left: 3 + 31.125 * index };
         return loc;
       }
       const gameteComponent = sex === BioLogica.MALE ? animatedSpermView : animatedOvumView,
             srcGameteBounds = sex === BioLogica.MALE ? spermTarget : ovumTarget,
-            gametePoolId = sex === BioLogica.MALE ? 'father-gamete-pen' : 'mother-gamete-pen',
+            gametePoolId = sex === BioLogica.MALE ? 'father-gamete-pool' : 'mother-gamete-pool',
             gametePoolElt = document.getElementById(gametePoolId),
             gametePoolBounds = unscaleProperties(gametePoolElt.getBoundingClientRect(), _this.props.scale),
             animatingGametesInPools = _this.state.animatingGametesInPools,
@@ -550,7 +551,7 @@ var animationEvents = {
       }
       _this.setState({ animation: 'moveGameteToPool' });
     },
-    onFinish: function() {
+    onFinish: function () {
       animatedComponents = [];
       if (animationEvents.moveGameteToPool.sexes) {
         let createdGametes = _this.state.createdGametes || [0, 0],
@@ -684,7 +685,7 @@ function runAnimation(animationEvent, positions, opacity, speed, onFinish){
   lastAnimatedComponentId++;
 }
 
-function animateMultipleComponents(componentsToAnimate, positions, opacity, speed, animationEvent, onFinish){
+function animateMultipleComponents(componentsToAnimate, positions, opacity, speed, animationEvent, onFinish) {
   for (let i = 0; i < componentsToAnimate.length; i++){
     animatedComponentToRender = componentsToAnimate[i];
     runAnimation(animationEvent, positions[i], opacity, speed, onFinish);
@@ -1137,10 +1138,10 @@ export default class FVEggGame extends Component {
     function parentGametePen(sex) {
       if (!isSelectingGametes) return null;
       const uniqueProps = sex === BioLogica.FEMALE
-                              ? { id: 'mother-gamete-pen', idPrefix: 'mother-gamete-',
+                              ? { id: 'mother-gamete-pool', idPrefix: 'mother-gamete-',
                                   gametes: motherGametes,
                                   selectedIndex: motherSelectedGameteIndex(gametes) }
-                              : { id: 'father-gamete-pen', idPrefix: 'father-gamete-',
+                              : { id: 'father-gamete-pool', idPrefix: 'father-gamete-',
                                   gametes: fatherGametes,
                                   selectedIndex: fatherSelectedGameteIndex(gametes) };
       return <GametePenView {...uniqueProps} columns={1} sex={sex}
