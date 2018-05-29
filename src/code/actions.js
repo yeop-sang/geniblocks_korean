@@ -116,6 +116,14 @@ export function retryCurrentChallenge() {
   };
 }
 
+export function retryCurrentChallengeWithoutRoomDialog() {
+  return (dispatch) => {
+    dispatch(endRemediation());
+    dispatch(retryCurrentChallenge());
+    dispatch(enterChallengeFromRoom());
+  };
+}
+
 export function retryCurrentMission() {
   return (dispatch, getState) => {
     const { level, mission } = getState().routeSpec;
@@ -243,7 +251,7 @@ export function breed(mother, father, offspringBin, quantity=1, incrementMoves=f
 }
 
 export function changeAllele(index, chromosome, side, previousAllele, newAllele, incrementMoves=false) {
- return {
+  return {
     type: actionTypes.ALLELE_CHANGED,
     index,
     chromosome,
@@ -647,29 +655,43 @@ export function advanceTrial() {
 }
 
 export function showInChallengeCompletionMessage() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
 
-    dispatch({
-      type: actionTypes.CHALLENGE_COMPLETED,
-      meta: {sound: 'receiveCoin'}
-    });
+    const { isRemediation } = getState();
 
-    dispatch(showNotification({
-      message: {
-        text: "~ALERT.COMPLETED_CHALLENGE",
-        type: notificationType.NARRATIVE
-      },
-      closeButton: {
-        action: "completeChallenge"
-      },
-      arrowAsCloseButton: true,
-      isRaised: true
-    }));
+    if (!isRemediation) {
+      dispatch({
+        type: actionTypes.CHALLENGE_COMPLETED,
+        meta: {sound: 'receiveCoin'}
+      });
 
-    dispatch({
-      type: actionTypes.MODAL_DIALOG_SHOWN,
-      mouseShieldOnly: true
-    });
+      dispatch(showNotification({
+        message: {
+          text: "~ALERT.COMPLETED_CHALLENGE",
+          type: notificationType.NARRATIVE
+        },
+        closeButton: {
+          action: "completeChallenge"
+        },
+        arrowAsCloseButton: true,
+        isRaised: true
+      }));
+
+      dispatch({
+        type: actionTypes.MODAL_DIALOG_SHOWN,
+        mouseShieldOnly: true
+      });
+    } else {
+      dispatch(showNotification({
+        message: {
+          text: "~REMEDIATION.COMPLETED_CHALLENGE"
+        },
+        closeButton: {
+          action: "retryCurrentChallengeWithoutRoomDialog"
+        },
+        arrowAsCloseButton: true
+      }));
+    }
   };
 }
 
