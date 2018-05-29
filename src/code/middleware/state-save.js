@@ -35,7 +35,8 @@ export default () => store => next => action => {
         currentChallenge = getCurrentChallenge(nextState),
         stateMeta = {
           lastActionTime: time,
-          currentChallenge
+          currentChallenge,
+          inRemediation: !!nextState.isRemediation
         },
         userDataUpdate = {stateMeta: stateMeta};
 
