@@ -6,6 +6,7 @@ import AuthoringUtils from './utilities/authoring-utils';
 import ProgressUtils from './utilities/progress-utils';
 import { getUserQueryString } from './middleware/state-save';
 import { notificationType } from './modules/notifications';
+import { endRemediation } from './modules/remediation';
 import { getGemFromChallengeErrors } from './reducers/helpers/gems-helper';
 import migrate from './migrations';
 //import { tutorialActionTypes } from './modules/tutorials';
@@ -817,3 +818,5 @@ export function showEasterEgg() {
   };
 }
 
+// re-export any actions needed by the notification-dialog close button
+export { startRemediation } from './modules/remediation';

@@ -129,7 +129,8 @@ describe('loading authored state into template', () => {
           "goalMoves": nextState.goalMoves,
           "trials": [ {}, {}, {} ],
           "numTrials": 3,
-          "trialOrder": [0,1,2]
+          "trialOrder": [0,1,2],
+          isRemediation: false
         }));
     });
 

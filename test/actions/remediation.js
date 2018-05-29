@@ -1,7 +1,7 @@
 import expect from 'expect';
 import reducer from '../../src/code/reducers/';
-import { requestRemediation, GUIDE_REMEDIATION_REQUESTED, ENDED_REMEDIATION } from '../../src/code/modules/remediation';
-describe.only('Remediation', () => {
+import { requestRemediation, GUIDE_REMEDIATION_REQUESTED, STARTED_REMEDIATION, ENDED_REMEDIATION } from '../../src/code/modules/remediation';
+describe('Remediation', () => {
 
   describe('the action creator', () => {
 
@@ -113,6 +113,220 @@ describe.only('Remediation', () => {
           }));
         });
 
+      });
+    });
+  });
+
+  describe('loading the remediation challenges', () => {
+
+    const basicRemediationState = {
+      isRemediation: true,
+      showingRoom: false,
+      numTrials: 1,
+      goalMoves: -1
+    };
+
+    describe('with the Sim challengeType', () => {
+      describe('and the wings attribute requested', () => {
+        describe('and the SimpleDominant practiceCriteria', () => {
+          const defaultState = reducer(undefined, {});
+          const remediationRequestedState = reducer(defaultState, {
+            type: GUIDE_REMEDIATION_REQUESTED,
+            challengeType: "Sim",
+            attribute: "wings",
+            practiceCriteria: "SimpleDominant"
+          });
+
+          it ('should load the right challenge', () => {
+            const nextState = reducer(remediationRequestedState, {
+              type: STARTED_REMEDIATION
+            });
+
+            expect(nextState).toEqual(remediationRequestedState
+              .merge(basicRemediationState)
+              .merge({
+                template: "FVGenomeChallenge",
+                room: "simroom",
+                location: {
+                  id: "simroom",
+                  name: "Bonus Challenge"
+                },
+                drakes: nextState.drakes,     // will test drakes below
+                hiddenAlleles: [
+                  "Tk",
+                  "A2"
+                ],
+                userChangeableGenes: [
+                  "wings"
+                ],
+                numTargets: 1,
+                showUserDrake: true,
+                notifications: {
+                  closeButton: true,
+                  messages: [
+                    {
+                      text: [
+                        "~REMEDIATION.START_SIM",
+                        "wings"
+                      ]
+                    }
+                  ]
+                }
+              })
+            );
+
+            expect(nextState.drakes.length).toBe(2);
+            expect(nextState.drakes[0].alleleString.indexOf('a:w,b:w')).toBeGreaterThan(-1);
+            expect(nextState.drakes[1].alleleString.indexOf('a:W,b:W')).toBeGreaterThan(-1);
+          });
+        });
+        describe('and the SimpleRecessive practiceCriteria', () => {
+          const defaultState = reducer(undefined, {});
+          const remediationRequestedState = reducer(defaultState, {
+            type: GUIDE_REMEDIATION_REQUESTED,
+            challengeType: "Sim",
+            attribute: "wings",
+            practiceCriteria: "SimpleRecessive"
+          });
+
+          it ('should load the right challenge', () => {
+            const nextState = reducer(remediationRequestedState, {
+              type: STARTED_REMEDIATION
+            });
+
+            expect(nextState.drakes.length).toBe(2);
+            expect(nextState.drakes[0].alleleString.indexOf('a:W,b:W')).toBeGreaterThan(-1);
+            expect(nextState.drakes[1].alleleString.indexOf('a:w,b:w')).toBeGreaterThan(-1);
+          });
+        });
+      });
+      describe('and the hindlimbs attribute requested', () => {
+        describe('and the SimpleDominant practiceCriteria', () => {
+          const defaultState = reducer(undefined, {});
+          const remediationRequestedState = reducer(defaultState, {
+            type: GUIDE_REMEDIATION_REQUESTED,
+            challengeType: "Sim",
+            attribute: "hindlimbs",
+            practiceCriteria: "SimpleDominant"
+          });
+
+          it ('should load the right challenge', () => {
+            const nextState = reducer(remediationRequestedState, {
+              type: STARTED_REMEDIATION
+            });
+
+            expect(nextState).toEqual(remediationRequestedState
+              .merge(basicRemediationState)
+              .merge({
+                template: "FVGenomeChallenge",
+                room: "simroom",
+                location: {
+                  id: "simroom",
+                  name: "Bonus Challenge"
+                },
+                drakes: nextState.drakes,     // will test drakes below
+                hiddenAlleles: [
+                  "Tk",
+                  "A2"
+                ],
+                userChangeableGenes: [
+                  "hindlimbs"
+                ],
+                numTargets: 1,
+                showUserDrake: true,
+                notifications: {
+                  closeButton: true,
+                  messages: [
+                    {
+                      text: [
+                        "~REMEDIATION.START_SIM",
+                        "legs"
+                      ]
+                    }
+                  ]
+                }
+              })
+            );
+
+            expect(nextState.drakes.length).toBe(2);
+            expect(nextState.drakes[0].alleleString.indexOf('a:hl,b:hl')).toBeGreaterThan(-1);
+            expect(nextState.drakes[1].alleleString.indexOf('a:Hl,b:Hl')).toBeGreaterThan(-1);
+          });
+        });
+      });
+    });
+
+    describe('with the Hatchery challengeType', () => {
+      describe('and the forelimbs attribute requested', () => {
+        const defaultState = reducer(undefined, {});
+        const remediationRequestedState = reducer(defaultState, {
+          type: GUIDE_REMEDIATION_REQUESTED,
+          challengeType: "Hatchery",
+          attribute: "forelimbs"
+        });
+
+        it ('should load the right challenge', () => {
+          const nextState = reducer(remediationRequestedState, {
+            type: STARTED_REMEDIATION
+          });
+
+          expect(nextState).toEqual(remediationRequestedState
+            .merge(basicRemediationState)
+            .merge({
+              template: "FVEggSortGame",
+              room: "hatchery",
+              location: {
+                id: "hatchery",
+                name: "Bonus Challenge"
+              },
+              drakes: nextState.drakes,     // will test drakes below
+              baskets: [
+                {
+                  alleles: [
+                    "a:Fl",
+                    "b:Fl"
+                  ],
+                  label: "Drakes with arms",
+                  sex: 1
+                },
+                {
+                  alleles: [
+                    "a:fl,b:fl"
+                  ],
+                  label: "Drakes without arms",
+                  sex: 1
+                }
+              ],
+              hiddenAlleles: [],
+              userChangeableGenes: [
+                "forelimbs"
+              ],
+              notifications: {
+                closeButton: true,
+                messages: [
+                  {
+                    text: [
+                      "~REMEDIATION.START_SIM",
+                      "arms"
+                    ]
+                  }
+                ]
+              }
+            })
+          );
+
+          expect(nextState.drakes.length).toBe(4);
+
+          const homoDomDrakes = nextState.drakes.filter(d => d.alleleString.indexOf('a:Fl,b:Fl') > -1);
+          const homoRecDrakes = nextState.drakes.filter(d => d.alleleString.indexOf('a:fl,b:fl') > -1);
+          const heteroDrakes = nextState.drakes.filter(d =>
+            d.alleleString.indexOf('a:Fl,b:fl') > -1 || d.alleleString.indexOf('a:fl,b:Fl') > -1
+          );
+
+          expect(homoDomDrakes.length).toBe(1);
+          expect(homoRecDrakes.length).toBe(1);
+          expect(heteroDrakes.length).toBe(2);
+        });
       });
     });
   });

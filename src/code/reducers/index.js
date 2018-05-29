@@ -1,6 +1,6 @@
 import Immutable from 'seamless-immutable';
 import actionTypes from '../action-types';
-import { loadStateFromAuthoring, loadNextTrial, loadHome } from './helpers/load-state-from-authoring';
+import { loadStateFromAuthoring, loadNextTrial, loadHome, loadStateFromRemediation } from './helpers/load-state-from-authoring';
 import urlParams from '../utilities/url-params';
 
 // reducers
@@ -13,6 +13,7 @@ import gametes from '../modules/gametes';
 import drakes from './drakes';
 import baskets from './baskets';
 import notifications from '../modules/notifications';
+import remediation, { STARTED_REMEDIATION } from '../modules/remediation';
 import trialSuccess from './trial-success';
 import challengeErrors from './challenge-errors';
 import gems from './gems';
@@ -111,7 +112,8 @@ export default function reducer(state, action) {
     case actionTypes.NAVIGATED_PAGE:
       window.location = action.url;
       return state;
-
+    case STARTED_REMEDIATION:
+      return loadStateFromRemediation(state, state.remediation, state.authoring);
     default:
       return state;
   }

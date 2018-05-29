@@ -26,6 +26,8 @@ export default class EggHatchDrakeView extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.state.hatchStarted !== nextProps.hatchStarted)
       this.setState({ hatchStarted: nextProps.hatchStarted, hatchComplete: false });
+    if (nextProps.skipHatchAnimation)
+    this.setState({ hatchComplete: true });
   }
 
   handleHatchComplete = () => {

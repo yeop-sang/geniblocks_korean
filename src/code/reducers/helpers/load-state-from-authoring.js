@@ -4,6 +4,7 @@ import { range, shuffle, assign } from 'lodash';
 import AuthoringUtils from '../../utilities/authoring-utils';
 import ProgressUtils from '../../utilities/progress-utils';
 import { notificationType } from '../../modules/notifications';
+import { getRemediationChallengeProps } from '../../modules/remediation';
 
 let randomSelection;
 
@@ -226,6 +227,7 @@ export function loadStateFromAuthoring(state, authoring) {
     goalMoves,
     userDrakeHidden: true,
     trialSuccess: false,
+    isRemediation: false,
     initialDrakes: [...drakes],
     zoomUrl,
     location,
@@ -239,6 +241,36 @@ export function loadStateFromAuthoring(state, authoring) {
   // remove all undefined or null keys
   Object.keys(authoredState).forEach((key) => (authoredState[key] == null) && delete authoredState[key]);
   return state.merge(authoredState);
+}
+
+export function loadStateFromRemediation(state, remediation, authoring) {
+  // get authoring props specific to challengeType
+  const {challengeType, attribute, practiceCriteria} = remediation;
+  const remediationChallengeProps = getRemediationChallengeProps(challengeType, attribute, practiceCriteria);
+
+  if (!remediationChallengeProps) {
+    // bail
+    return loadStateFromAuthoring(state, state.authoring);
+  }
+
+  const template = templates[remediationChallengeProps.templateName];
+  const drakes = processAuthoredDrakes(remediationChallengeProps.authoring, 0, template, 0);
+  const baskets = processAuthoredBaskets(remediationChallengeProps.authoring, state);
+
+  const roomInfo = (authoring && authoring.rooms) ? authoring.rooms[remediationChallengeProps.stateProps.room] : {};
+  const location = {id: remediationChallengeProps.stateProps.room, ...roomInfo, name: "Bonus Challenge"};
+
+  let remediationState = {
+    template: remediationChallengeProps.templateName,
+    drakes,
+    baskets,
+    location,
+    ...remediationChallengeProps.stateProps
+  };
+
+  // remove all undefined or null keys
+  Object.keys(remediationState).forEach((key) => (remediationState[key] == null) && delete remediationState[key]);
+  return state.merge(remediationState);
 }
 
 export function loadHome(state, authoring, showMissionEndDialog) {
