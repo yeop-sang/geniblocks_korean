@@ -522,7 +522,7 @@ var animationEvents = {
       }
       const gameteComponent = sex === BioLogica.MALE ? animatedSpermView : animatedOvumView,
             srcGameteBounds = sex === BioLogica.MALE ? spermTarget : ovumTarget,
-            gametePoolId = sex === BioLogica.MALE ? 'father-gamete-pool' : 'mother-gamete-pool',
+            gametePoolId = sex === BioLogica.MALE ? 'father-gamete-pen' : 'mother-gamete-pen',
             gametePoolElt = document.getElementById(gametePoolId),
             gametePoolBounds = unscaleProperties(gametePoolElt.getBoundingClientRect(), _this.props.scale),
             animatingGametesInPools = _this.state.animatingGametesInPools,
@@ -685,7 +685,7 @@ function runAnimation(animationEvent, positions, opacity, speed, onFinish){
   lastAnimatedComponentId++;
 }
 
-function animateMultipleComponents(componentsToAnimate, positions, opacity, speed, animationEvent, onFinish) {
+function animateMultipleComponents(componentsToAnimate, positions, opacity, speed, animationEvent, onFinish){
   for (let i = 0; i < componentsToAnimate.length; i++){
     animatedComponentToRender = componentsToAnimate[i];
     runAnimation(animationEvent, positions[i], opacity, speed, onFinish);
@@ -1138,10 +1138,10 @@ export default class FVEggGame extends Component {
     function parentGametePen(sex) {
       if (!isSelectingGametes) return null;
       const uniqueProps = sex === BioLogica.FEMALE
-                              ? { id: 'mother-gamete-pool', idPrefix: 'mother-gamete-',
+                              ? { id: 'mother-gamete-pen', idPrefix: 'mother-gamete-',
                                   gametes: motherGametes,
                                   selectedIndex: motherSelectedGameteIndex(gametes) }
-                              : { id: 'father-gamete-pool', idPrefix: 'father-gamete-',
+                              : { id: 'father-gamete-pen', idPrefix: 'father-gamete-',
                                   gametes: fatherGametes,
                                   selectedIndex: fatherSelectedGameteIndex(gametes) };
       return <GametePenView {...uniqueProps} columns={1} sex={sex}
