@@ -29,7 +29,8 @@ import t from '../utilities/translate';
 // debugging options to shorten animation/randomization for debugging purposes
 // IMPORTANT: remember to set these back to their defaults (e.g. false, false, 0) before committing
 const debugSkipIntroGameteAnimation = true,  // set to true to skip intro gamete animation
-      debugSkipRandomGameteAnimation = false, // set to true to skip randomized gamete animation
+      skipChromosomeToGameteAnimation = true, // set to true to skip chromosome to gamete animation
+      skipGameteToPoolAnimation = false,      // set to true to skip gamete to gamete pool animation
       debugSkipFirstGameteStage = false,      // set to true to skip the one-by-one animation stage
       debugTotalGameteCount = 0;              // non-zero value stops randomization after # gametes
 
@@ -477,7 +478,8 @@ var animationEvents = {
                   width: 8, height: 20 };
       }
       let components = [],
-          positions = [];
+          positions = [],
+          opacity = { start: 1.0, end: 0.5 };
       for (let i = 0; i < parentGameteChromEls.length; ++i) {
         const parentGameteChromEl = parentGameteChromEls[i],
               srcChromBounds = unscaleProperties(parentGameteChromEl.getBoundingClientRect(), _this.props.scale),
@@ -489,8 +491,15 @@ var animationEvents = {
                         targetPositionRect: getDstChromBounds(i), endSize: 0.2 });
         ++animationEvents.moveChromosomesToGamete.activeCount;
       }
-      for (let i = animationEvents.moveChromosomesToGamete.activeCount; i >= 0; --i) {
-        animationEvents.moveChromosomesToGamete.onFinish(animationEvents.moveChromosomesToGamete.id);
+      if (!skipChromosomeToGameteAnimation) {
+        animateMultipleComponents(components, positions, opacity, speed,
+                                  animationEvents.moveChromosomesToGamete.id,
+                                  animationEvents.moveChromosomesToGamete.onFinish);
+      }
+      else {
+        for (let i = animationEvents.moveChromosomesToGamete.activeCount; i >= 0; --i) {
+          animationEvents.moveChromosomesToGamete.onFinish(animationEvents.moveChromosomesToGamete.id);
+        }
       }
       let animatingGametes = _this.state.animatingGametes || initialAnimGametes(),
           createdGametes = _this.state.createdGametes || [0, 0];
@@ -505,6 +514,9 @@ var animationEvents = {
     onFinish: function () {
       if (animationEvents.moveChromosomesToGamete.activeCount &&
           (--animationEvents.moveChromosomesToGamete.activeCount === 0)) {
+        if (!skipChromosomeToGameteAnimation) {
+          animatedComponents = [];
+        }
         animationEvents.moveChromosomesToGamete.sexes.forEach((sex) => {
           animationEvents.moveGameteToPool.
             animate(sex, animationEvents.moveChromosomesToGamete.speed,
@@ -542,7 +554,7 @@ var animationEvents = {
       animationEvents.moveGameteToPool.sexes.push(sex);
       animationEvents.moveGameteToPool.onFinishCaller = onFinish;
 
-      if (!debugSkipRandomGameteAnimation) {
+      if (!skipGameteToPoolAnimation) {
         animateMultipleComponents([gameteComponent],
                                   [positions],
                                   opacity, speed,
@@ -567,11 +579,11 @@ var animationEvents = {
           // all gametes have been animated to their respective pools
           // this only fires once we've animated all gametes for both parents.
           animatingGametesInPools = null;
-          animatedComponents = [];
+          if (!skipGameteToPoolAnimation) {
+            animatedComponents = [];
+          }
         }
         _this.setState({ createdGametes, animatingGametesInPools });
-      } else {
-        animatedComponents = [];
       }
       animationEvents.moveGameteToPool.sexes = [];
       animationEvents.moveGameteToPool.onFinishCaller(animationEvents.moveGameteToPool.id);
