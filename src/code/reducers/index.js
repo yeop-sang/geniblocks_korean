@@ -13,7 +13,7 @@ import gametes from '../modules/gametes';
 import drakes from './drakes';
 import baskets from './baskets';
 import notifications from '../modules/notifications';
-import remediation, { STARTED_REMEDIATION } from '../modules/remediation';
+import { remediation, remediationHistory, STARTED_REMEDIATION } from '../modules/remediation';
 import trialSuccess from './trial-success';
 import challengeErrors from './challenge-errors';
 import gems from './gems';
@@ -52,6 +52,7 @@ export default function reducer(state, action) {
     baskets: baskets(state.baskets, action),
     notifications: notifications(state.notifications, action),
     remediation: remediation(state.remediation, action),
+    remediationHistory: remediationHistory(state.remediationHistory, state.routeSpec, action),
     trialSuccess: trialSuccess(state.trialSuccess, action),
     tutorials: tutorials(state.tutorials, action)
   });

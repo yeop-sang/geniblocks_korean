@@ -75,7 +75,7 @@ describe('Remediation', () => {
     });
   });
 
-  describe('the reducer', () => {
+  describe('the remediation reducer', () => {
 
     let defaultState = reducer(undefined, {});
     let nextState;
@@ -328,6 +328,69 @@ describe('Remediation', () => {
           expect(heteroDrakes.length).toBe(2);
         });
       });
+    });
+  });
+
+  describe('the remediationHistory reducer', () => {
+
+    const defaultState = reducer(undefined, {});
+    const routeState = defaultState.set('routeSpec', {level: 1, mission: 1, challenge: 2});
+    const remediationRequestedState = reducer(routeState, {
+      type: GUIDE_REMEDIATION_REQUESTED,
+      challengeType: "Sim",
+      attribute: "wings",
+      practiceCriteria: "SimpleDominant"
+    });
+
+    it ('should increment remediation in the history when remediation started', () => {
+      const firstRemediationState = reducer(remediationRequestedState, {
+        type: STARTED_REMEDIATION
+      });
+
+      expect(firstRemediationState.remediationHistory).toEqual([
+        [],
+        [                 // level 1
+          [],
+          [               // mission 1
+            0, 0, 1       // challenge 3
+          ]
+        ]
+      ]);
+
+      const secondRemediationState = reducer(firstRemediationState, {
+        type: STARTED_REMEDIATION
+      });
+
+      expect(secondRemediationState.remediationHistory).toEqual([
+        [],
+        [                 // level 1
+          [],
+          [               // mission 1
+            0, 0, 2       // challenge 3
+          ]
+        ]
+      ]);
+
+
+      const nextRouteState = secondRemediationState.set('routeSpec', {level: 0, mission: 0, challenge: 1});
+
+      const thirdRemediationState = reducer(nextRouteState, {
+        type: STARTED_REMEDIATION
+      });
+
+      expect(thirdRemediationState.remediationHistory).toEqual([
+        [                 // level 0
+          [               // mission 0
+            0, 1          // challenge 1
+          ]
+        ],
+        [
+          [],
+          [
+            0, 0, 2
+          ]
+        ]
+      ]);
     });
   });
 });

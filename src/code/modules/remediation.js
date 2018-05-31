@@ -2,14 +2,18 @@ export const GUIDE_REMEDIATION_REQUESTED = "Guide remediation requested";
 export const STARTED_REMEDIATION = "Started remediation";
 export const ENDED_REMEDIATION = "Ended remediation";
 
-import { GUIDE_MESSAGE_RECEIVED, GUIDE_ALERT_RECEIVED } from './notifications';
 import { showNotification } from '../actions';
 import actionTypes from '../action-types';
 import GeneticsUtils from '../utilities/genetics-utils';
 
-const initialState = false;
+/**
+ *  reducers
+ */
 
-export default function notifications(state = initialState, action) {
+ // *** remediation reducer ***
+const initialRemediationState = false;
+
+export function remediation(state = initialRemediationState, action) {
   switch (action.type) {
     case GUIDE_REMEDIATION_REQUESTED:
       if (action.attribute && action.challengeType) {
@@ -20,14 +24,60 @@ export default function notifications(state = initialState, action) {
         };
       }
       else
-        return initialState;
+        return initialRemediationState;
     case ENDED_REMEDIATION:
-      return initialState;
+      return initialRemediationState;
     // otherwise keep the remediation challenge
     default:
       return state;
   }
 }
+
+//  *** remediationHistory reducer ***
+const initialHistoryState = [];
+
+export function remediationHistory(state = initialHistoryState, routeSpec, action) {
+  switch(action.type) {
+    case STARTED_REMEDIATION: {
+        if (!routeSpec) return state;
+
+        let { level: currLevel, mission: currMission, challenge: currChallenge } = routeSpec;
+
+        // ensure all challenges leading up to this are a real value or 0
+        for (let level = 0; level <= currLevel; level++) {
+          if (!state[level]) {
+            state = state.setIn([level], []);
+          }
+        }
+        for (let mission = 0; mission <= currMission; mission++) {
+          if (!state[currLevel][mission]) {
+            state = state.setIn([currLevel, mission], []);
+          }
+        }
+        for (let challenge = 0; challenge <= currChallenge; challenge++) {
+          if (!(state[currLevel][currMission][challenge])) {
+            state = state.setIn([currLevel, currMission, challenge], 0);
+          }
+        }
+
+        let previous = state[currLevel][currMission][currChallenge];
+
+        state = state.setIn([currLevel, currMission, currChallenge], previous + 1);
+
+        return state;
+      }
+    case actionTypes.LOAD_SAVED_STATE: {
+      if (action.state && action.state.remediationHistory) {
+        return action.state.remediationHistory;
+      } else {
+        return state;
+      }
+    }
+    default:
+      return state;
+  }
+}
+
 
 /**
  * action creators

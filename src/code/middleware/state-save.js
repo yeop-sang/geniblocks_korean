@@ -35,17 +35,18 @@ export default () => store => next => action => {
         currentChallenge = getCurrentChallenge(nextState),
         stateMeta = {
           lastActionTime: time,
-          currentChallenge,
-          inRemediation: !!nextState.isRemediation
+          currentChallenge
         },
         userDataUpdate = {stateMeta: stateMeta};
 
     // Store updated gems if they have changed
     if (action.type !== actionTypes.LOAD_SAVED_STATE &&
-          JSON.stringify(prevState.gems) !== JSON.stringify(nextState.gems)) {
-      let gems = nextState.gems;
+          (JSON.stringify(prevState.gems) !== JSON.stringify(nextState.gems) ||
+           JSON.stringify(prevState.remediationHistory) !== JSON.stringify(nextState.remediationHistory))) {
+      let {gems, remediationHistory} = nextState;
       userDataUpdate.state = {
         gems,
+        remediationHistory,
         stateVersion: currentStateVersion
       };
     }
