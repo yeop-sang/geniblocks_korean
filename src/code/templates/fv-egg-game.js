@@ -116,7 +116,6 @@ var _this,
   animatedComponentToRender,
   startDisplay, targetDisplay,
   lastAnimatedComponentId = 0,
-  animationTimeline = {},
   mother, father,
   authoredGameteCounts = [0, 0],
   gameteLayoutConstants = [{}, {}],
@@ -148,6 +147,7 @@ function initialAnimGametes() {
 }
 
 var animationEvents = {
+  // Showing the gametes appear under each parent
   showGametes: { id: 0, count: 0, complete: false,
     animate: function() {
       let motherPositions = {
@@ -199,6 +199,7 @@ var animationEvents = {
       }
     }
   },
+  // Moving the gametes from the parents to the center
   moveGametes: { id: 1, count: 0, complete: false,
     animate: function() {
       let motherPositions = {
@@ -252,6 +253,7 @@ var animationEvents = {
       }
     }
   },
+  // Slot machine-style animations
   randomizeChromosomes: { id: 2, stages: [], count: 0, complete: false, ready: false,
     animate: function () {
       let skipIntro = !_this.props.showIntroductionAnimations;
@@ -451,6 +453,7 @@ var animationEvents = {
         _this.setState({ animation: 'complete' });
     }
   },
+  // Move tiny chromosomes into the gametes
   moveChromosomesToGamete: { id: 3, sexes: [], activeCount: 0, complete: false, ready: false,
     animate: function(sex, speed, onFinish) {
       const parentGameteGenomeId = sex === BioLogica.MALE ? 'father-gamete-genome' : 'mother-gamete-genome',
@@ -502,7 +505,6 @@ var animationEvents = {
     onFinish: function () {
       if (animationEvents.moveChromosomesToGamete.activeCount &&
           (--animationEvents.moveChromosomesToGamete.activeCount === 0)) {
-        animatedComponents = [];
         animationEvents.moveChromosomesToGamete.sexes.forEach((sex) => {
           animationEvents.moveGameteToPool.
             animate(sex, animationEvents.moveChromosomesToGamete.speed,
@@ -512,6 +514,7 @@ var animationEvents = {
       }
     }
   },
+  // Move gametes down from the top to their final positions in the pool
   moveGameteToPool: { id: 4, sexes: [], complete: false, ready: false,
     animate: function (sex, speed, onFinish) {
       function getGameteLocationInPen(sex, index) {
@@ -534,7 +537,7 @@ var animationEvents = {
                                 height: srcGameteBounds.height / 2 },
             positions = { startPositionRect: srcGameteBounds, startSize: 1.0,
                           targetPositionRect: dstGameteBounds, endSize: 0.6 },
-            opacity = { start: 1.0, end: 1.0 };
+        opacity = { start: 1.0, end: 1.0 };
 
       animationEvents.moveGameteToPool.sexes.push(sex);
       animationEvents.moveGameteToPool.onFinishCaller = onFinish;
@@ -552,25 +555,30 @@ var animationEvents = {
       _this.setState({ animation: 'moveGameteToPool' });
     },
     onFinish: function () {
-      animatedComponents = [];
       if (animationEvents.moveGameteToPool.sexes) {
         let createdGametes = _this.state.createdGametes || [0, 0],
-            animatingGametesInPools = _this.state.animatingGametesInPools || [0, 0];
+          animatingGametesInPools = _this.state.animatingGametesInPools || [0, 0];
         animationEvents.moveGameteToPool.sexes.forEach((sex) => {
           animatingGametesInPools[sex] += createdGametes[sex];
           createdGametes[sex] = [];
         });
         if ((animatingGametesInPools[0] >= fatherGametePool(_this.props.gametes).length) &&
-            (animatingGametesInPools[1] >= motherGametePool(_this.props.gametes).length)) {
+          (animatingGametesInPools[1] >= motherGametePool(_this.props.gametes).length)) {
           // all gametes have been animated to their respective pools
+          // this only fires once we've animated all gametes for both parents.
           animatingGametesInPools = null;
+          animatedComponents = [];
         }
         _this.setState({ createdGametes, animatingGametesInPools });
+      } else {
+        animatedComponents = [];
       }
       animationEvents.moveGameteToPool.sexes = [];
       animationEvents.moveGameteToPool.onFinishCaller(animationEvents.moveGameteToPool.id);
     }
   },
+  // The animation for selecting a chromosome and seeing it move into the center
+  // This plays after the slot machine animations.
   selectChromosome: { id: 5, activeCount: 0, complete: false, ready: false,
     animate: function(positions, chromosomeId, speed, onFinish) {
       if (++animationEvents.selectChromosome.activeCount === 1)
@@ -672,7 +680,6 @@ function runAnimation(animationEvent, positions, opacity, speed, onFinish){
   };
 
   let animationSpeed = speed;
-  animationTimeline[lastAnimatedComponentId] = animationEvent;
   animatedComponents.push(
     <AnimatedComponentView key={lastAnimatedComponentId}
       animEvent={animationEvent}
@@ -685,7 +692,7 @@ function runAnimation(animationEvent, positions, opacity, speed, onFinish){
   lastAnimatedComponentId++;
 }
 
-function animateMultipleComponents(componentsToAnimate, positions, opacity, speed, animationEvent, onFinish){
+function animateMultipleComponents(componentsToAnimate, positions, opacity, speed, animationEvent, onFinish) {
   for (let i = 0; i < componentsToAnimate.length; i++){
     animatedComponentToRender = componentsToAnimate[i];
     runAnimation(animationEvent, positions[i], opacity, speed, onFinish);
