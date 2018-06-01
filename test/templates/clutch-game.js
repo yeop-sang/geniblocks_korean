@@ -1,7 +1,5 @@
 import ClutchGame from '../../src/code/templates/clutch-game';
 import GeneticsUtils from '../../src/code/utilities/genetics-utils';
-// import reducer from '../../src/code/reducers/';
-// import { navigateToChallenge } from '../../src/code/actions';
 import expect from 'expect';
 
 
