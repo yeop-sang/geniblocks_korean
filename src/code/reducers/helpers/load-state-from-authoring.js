@@ -94,18 +94,21 @@ function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template,
         }
       }
     }
-    let fixedDrake = new BioLogica.Organism(BioLogica.Species.Drake, alleleString, drakeDef.sex);
+    const actualDrakeSex = drakeDef.sex != null
+                            ? drakeDef.sex
+                            : Math.round(Math.random()),
+          actualDrake = new BioLogica.Organism(BioLogica.Species.Drake, alleleString, actualDrakeSex);
 
     let secondXAlleles = null;
-    if (drakeDef.sex === BioLogica.MALE) {
+    if (actualDrake.sex === BioLogica.MALE) {
       // Store any sex-linked alleles from the authoring document which would be lost because the drake is male
       let fixedFemaleDrake = new BioLogica.Organism(BioLogica.Species.Drake, alleleString, BioLogica.FEMALE);
-      secondXAlleles = GeneticsUtils.computeExtraAlleles(fixedFemaleDrake, fixedDrake);
+      secondXAlleles = GeneticsUtils.computeExtraAlleles(fixedFemaleDrake, actualDrake);
     }
 
     drakes.push(assign({}, secondXAlleles ? {secondXAlleles: secondXAlleles} : null, {
-      alleleString: fixedDrake.getAlleleString(),
-      sex: fixedDrake.sex,
+      alleleString: actualDrake.getAlleleString(),
+      sex: actualDrake.sex,
     }));
 
   }
