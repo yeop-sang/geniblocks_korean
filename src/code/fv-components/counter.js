@@ -19,7 +19,9 @@ const CountView = ({countTitleText, className, currCount, maxCount}) => {
 
 CountView.propTypes = {
   countTitleText: PropTypes.string.isRequired,
-  currCount: PropTypes.number.isRequired,
+  // should be required but allow null, but PropTypes doesn't support it
+  // cf. https://github.com/facebook/react/issues/3163
+  currCount: PropTypes.number,
   maxCount: PropTypes.number,
   className: PropTypes.string
 };
