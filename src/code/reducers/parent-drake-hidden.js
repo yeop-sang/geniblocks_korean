@@ -1,6 +1,4 @@
 import actionTypes from '../action-types';
-import { GUIDE_CONNECTED, GUIDE_ERRORED,
-          GUIDE_MESSAGE_RECEIVED, GUIDE_ALERT_RECEIVED, ADVANCE_NOTIFICATIONS } from '../modules/notifications';
 
 const initialState = true;
 

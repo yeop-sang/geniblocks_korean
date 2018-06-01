@@ -170,7 +170,10 @@ class FVChallengeContainer extends Component {
     onTutorialNext: PropTypes.func,
     onTutorialPrevious: PropTypes.func,
     onTutorialMore: PropTypes.func,
-    onTutorialClosed: PropTypes.func
+    onTutorialClosed: PropTypes.func,
+    onRestartTutorial: PropTypes.func,
+    onShowEasterEgg: PropTypes.func,
+    onReadyToAnswer: PropTypes.func
   }
 }
 

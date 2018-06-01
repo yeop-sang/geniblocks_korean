@@ -89,7 +89,7 @@ export default class AuthoringUtils {
    * control. The smallest temporary way to do this, and make it easy to revert, is to simply
    * return `false` here.
    */
-  static isMissionLocked(gems, authoring, level, mission) {
+  static isMissionLocked(/* gems, authoring, level, mission */) {
     // let currChallengeRoute = this.getCurrentChallengeFromGems(authoring, gems);
 
     // return level > currChallengeRoute.level

@@ -108,12 +108,13 @@ class TutorialView extends React.Component {
 
 TutorialView.propTypes = {
   visible: PropTypes.bool,
-  tutorials: PropTypes.array,
+  steps: PropTypes.array,
   currentStep: PropTypes.number,
   moreVisible: PropTypes.bool,
   onTutorialMore: PropTypes.func,
   onTutorialNext: PropTypes.func,
   onTutorialPrevious: PropTypes.func,
+  onTutorialClosed: PropTypes.func
 };
 
 export default TutorialView;
