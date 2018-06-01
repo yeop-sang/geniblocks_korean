@@ -166,6 +166,7 @@ class FVChallengeContainer extends Component {
     showingRoom: PropTypes.bool,
     messages: PropTypes.array,
     tutorials: PropTypes.object,
+    showIntroductionAnimations: PropTypes.bool,
     onTutorialNext: PropTypes.func,
     onTutorialPrevious: PropTypes.func,
     onTutorialMore: PropTypes.func,
@@ -207,7 +208,8 @@ function mapStateToProps (state) {
       // drag/drop experiment option for enabling custom drag layer rather
       // than HTML5 drag/drop dragImage
       useCustomDragLayer: true,
-      tutorials: state.tutorials
+      tutorials: state.tutorials,
+      showIntroductionAnimations: state.showIntroductionAnimations
     };
   }
 
