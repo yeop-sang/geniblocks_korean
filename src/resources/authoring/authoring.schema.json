@@ -115,6 +115,7 @@
           "type": "object",
           "oneOf": [
             { "$ref": "#/definitions/challenge" },
+            { "$ref": "#/definitions/FVEggSortGame" },
             { "$ref": "#/definitions/FVGenomeChallenge" }
           ]
         }
@@ -146,9 +147,15 @@
   "required": ["application", "challenges", "rooms"],
   "additionalProperties": false,
   "definitions": {
-    "biologicaAlleleString": {
+    "biologicaAlleles": {
       "description": "A set of alleles that can be used to specify an organism in the 'a:b:' format used by BioLogica",
-      "type": "string"
+      "type": "string",
+      "pattern": "^(((a|b):(T|Tk|t|M|m|W|w|H|h|C|c|Fl|fl|Hl|hl|A1|A2|a|B|b|D|d|Rh|rh|Bog|bog))|,)*$"
+    },
+    "biologicaSex": {
+      "description": "Numeric value to indicate sex -- 0: male, 1: female",
+      "type": "number",
+      "enum": [0, 1]
     },
     "challenge": {
       "description": "Configuration of an individual challenge",
@@ -189,12 +196,8 @@
       "description": "Specification for a drake",
       "type": "object",
       "properties": {
-        "alleles": { "$ref": "#/definitions/biologicaAlleleString" },
-        "sex": {
-          "description": "Specifies the sex of the drake -- 0: male, 1: female",
-          "type": "number",
-          "enum": [0, 1]
-        }
+        "alleles": { "$ref": "#/definitions/biologicaAlleles" },
+        "sex": { "$ref": "#/definitions/biologicaSex" }
       },
       "required": ["alleles"],
       "additionalProperties": false
@@ -254,14 +257,11 @@
                 "type": "number"
               }
             },
-            "genes": {
-              "description": "String which specifies the genes to be linked",
-              "type": "string"
-            }
+            "genes": { "$ref": "#/definitions/genes" }
           }
         },
         "numTrials": {
-          "description": "DEPRECATED: The number of trials. Deprecated because trials have been deprecated",
+          "description": "The number of trials",
           "type": "number"
         },
         "randomizeTrials": {
@@ -285,17 +285,14 @@
           "description": "Specifies the randomization of the trials",
           "type": "object",
           "properties": {
-            "baseDrake": {
-              "description": "The alleles shared by all generated drakes",
-              "type": "string"
-            },
+            "baseDrake": { "$ref": "#/definitions/biologicaAlleles" },
             "initialDrakeCombos": {
               "description": "Specifies the combinations of alleles used to generated the initial drakes",
               "type": "array",
               "items": {
                 "description": "Specifies a set of alleles, one of which is to be randomly selected",
                 "type": "array",
-                "items": { "$ref": "#/definitions/biologicaAlleleString" }
+                "items": { "$ref": "#/definitions/biologicaAlleles" }
               }
             },
             "targetDrakeCombos": {
@@ -304,7 +301,7 @@
               "items": {
                 "description": "Specifies a set of alleles, one of which is to be randomly selected",
                 "type": "array",
-                "items": { "$ref": "#/definitions/biologicaAlleleString" }
+                "items": { "$ref": "#/definitions/biologicaAlleles" }
               }
             },
             "type": {
@@ -316,17 +313,71 @@
           "required": ["baseDrake", "initialDrakeCombos", "targetDrakeCombos", "type"],
           "additionalProperties": false
         },
-        "userChangeableGenes": {
-          "description": "List of genes that can be modified by the user",
+        "userChangeableGenes": { "$ref": "#/definitions/genes" },
+        "visibleGenes": { "$ref": "#/definitions/genes" }
+      },
+      "required": ["challengeType", "container", "showUserDrake", "template", "userChangeableGenes"],
+      "additionalProperties": false
+    },
+    "FVEggSortGame": {
+      "description": "A challenge that uses the FVEggSortGame template",
+      "type": "object",
+      "properties": {
+        "baskets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "alleles": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/biologicaAlleles" }
+              },
+              "label": {
+                "type": "string"
+              },
+              "sex": { "$ref": "#/definitions/biologicaSex" }
+            },
+            "required": ["alleles", "label"],
+            "additionalProperties": false
+          }
+        },
+        "comment": {
           "type": "string"
         },
-        "visibleGenes": {
-          "description": "List of genes shown to the user",
-          "type": "string"
-        }
+        "container": {
+          "type": "string",
+          "enum": ["FVContainer"]
+        },
+        "template": {
+          "description": "The template identifies the React component that implements the challenge",
+          "type": "string",
+          "enum": ["FVEggSortGame"]
+        },
+        "trialGenerator": {
+          "type": "object",
+          "properties": {
+            "baseDrake": { "$ref": "#/definitions/biologicaAlleles" },
+            "drakes": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/drake" }
+            },
+            "type": {
+              "type": "string",
+              "enum": ["randomize-order"]
+            }
+          },
+          "required": ["baseDrake", "drakes", "type"],
+          "additionalProperties": false
+        },
+        "visibleGenes": { "$ref": "#/definitions/genes" }
       },
-      "required": ["template"],
+      "required": ["baskets", "container", "template", "trialGenerator"],
       "additionalProperties": false
+    },
+    "genes": {
+      "description": "A string containing comma-separated list of genes",
+      "type": "string",
+      "pattern": "^(tail|metallic|wings|horns|color|black|forelimbs|hindlimbs|armor|dilute|bogbreath|nose|(, ))*$"
     },
     "room": {
       "description": "The room/location of the challenge",
@@ -336,7 +387,7 @@
     "template": {
       "description": "The template identifies the React component that implements the challenge",
       "type": "string",
-      "enum": ["ClutchGame", "EggGame", "EggSortGame", "FVEggGame", "FVEggSortGame", "GenomeChallenge", "GenomePlayground", "ZoomChallenge"]
+      "enum": ["ClutchGame", "EggGame", "EggSortGame", "FVEggGame", "GenomeChallenge", "GenomePlayground", "ZoomChallenge"]
     }
   }
 }
