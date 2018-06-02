@@ -92,7 +92,7 @@ let animationEvents = {
       }},
       hatchDrakeInBasket: { id: 1, complete: false, animate: function() {
         const { scale } = _this.props,
-              leftOffset = -313,
+              leftOffset = -300,
               topOffset = -28;
         appendAnimation('hatchDrakeInBasket',
           <NewEggHatch
@@ -106,7 +106,7 @@ let animationEvents = {
         const { baskets, scale } = _this.props,
               targetBasket = targetBasketIndex >= 0 ? baskets[targetBasketIndex] : null,
               leftOffset = 100,
-              topOffset = 100;
+              topOffset = 97;
         _this.clearSelection();
         resetAnimationEvents(false);
 
