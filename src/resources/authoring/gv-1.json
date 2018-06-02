@@ -2076,6 +2076,73 @@
           }]
         },
         "name": "Mission 6.1"
+      }, {
+        "challenges": [{
+          "about": {
+            "description" : "Students must sort eggs into appropriate baskets based on their tails.",
+            "tip" : "",
+            "type" : "Egg Drop"
+          },
+          "dialog": {
+            "end": {
+              "failure": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.2.1 not completed successfully"
+              }],
+              "success": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.2.1 completed successfully"
+              }]
+            },
+            "start": [{
+              "character": "YEUNG",
+              "text": "Welcome to Challenge 6.2.1!"
+            }]
+          },
+          "id": "eggDrop-tail",
+          "name": "Challenge 6.2.1",
+          "room": "hatchery"
+        }, {
+          "about": {
+            "description" : "Students must sort eggs into appropriate baskets based on their nose spikes.",
+            "tip" : "",
+            "type" : "Egg Drop"
+          },
+          "dialog": {
+            "end": {
+              "failure": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.2.2 not completed successfully"
+              }],
+              "success": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.2.2 completed successfully"
+              }]
+            },
+            "start": [{
+              "character": "YEUNG",
+              "text": "Welcome to Challenge 6.2.2!"
+            }]
+          },
+          "id": "eggDrop-noseSpike",
+          "name": "Challenge 6.2.2",
+          "room": "hatchery"
+        }],
+        "dialog": {
+          "end": [{
+            "character": "NETANYA",
+            "text": "End of mission 6.2"
+          }],
+          "middle": [{
+            "character": "WEAVER",
+            "text": "Middle of mission 6.2"
+          }],
+          "start": [{
+            "character": "YEUNG",
+            "text": "Start of mission 6.2"
+          }]
+        },
+        "name": "Mission 6.2"
       } ],
       "name": "Level 6"
     } ]
@@ -2441,6 +2508,7 @@
       "container" : "FVContainer",
       "instructions" : "Match 2 drakes!",
       "numTrials" : 1,
+      "showUserDrake": false,
       "template" : "FVGenomeChallenge",
       "trialGenerator" : {
         "baseDrake" : "a:M,b:M,a:t,b:t,a:h,b:h,a:A1,b:A1,a:C,b:C,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
@@ -2468,6 +2536,7 @@
       "container" : "FVContainer",
       "instructions" : "Match 2 drakes!",
       "numTrials" : 1,
+      "showUserDrake": false,
       "template" : "FVGenomeChallenge",
       "trialGenerator" : {
         "baseDrake" : "a:M,b:M,a:T,b:T,a:H,b:H,a:A1,b:A1,a:C,b:C,a:b,b:b,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
@@ -3950,6 +4019,95 @@
         "type" : "randomize-order"
       },
       "visibleGenes" : "forelimbs, hindlimbs"
+    },
+    "eggDrop-noseSpike" : {
+      "baskets" : [ {
+        "alleles" : [ "a:Rh" ],
+        "label" : "Males with a nose spike",
+        "sex" : 0
+      }, {
+        "alleles" : [ "a:rh" ],
+        "label" : "Males without a nose spike",
+        "sex" : 0
+      }, {
+        "alleles" : [ "a:Rh", "b:Rh" ],
+        "label" : "Females with a nose spike",
+        "sex" : 1
+      }, {
+        "alleles" : [ "a:rh,b:rh" ],
+        "label" : "Females without a nose spike",
+        "sex" : 1
+      } ],
+      "comment" : "*** Egg Sorting Game Test ***",
+      "container" : "FVContainer",
+      "template" : "FVEggSortGame",
+      "trialGenerator" : {
+        "baseDrake" : "a:Bog,b:Bog",
+        "drakes" : [ {
+          "alleles" : "a:Rh",
+          "sex" : 0
+        }, {
+          "alleles" : "a:Rh",
+          "sex" : 0
+        }, {
+          "alleles" : "a:rh",
+          "sex" : 0
+        }, {
+          "alleles" : "a:rh",
+          "sex" : 0
+        }, {
+          "alleles" : "a:Rh,b:rh",
+          "sex" : 1
+        }, {
+          "alleles" : "a:rh,b:Rh",
+          "sex" : 1
+        }, {
+          "alleles" : "a:rh,b:rh",
+          "sex" : 1
+        }, {
+          "alleles" : "a:rh,b:rh",
+          "sex" : 1
+        } ],
+        "type" : "randomize-order"
+      },
+      "visibleGenes" : "tail, dilute, nose"
+    },
+    "eggDrop-tail" : {
+      "baskets" : [ {
+        "alleles" : [ "a:T", "b:T" ],
+        "label" : "Drakes with a long tail"
+      }, {
+        "alleles" : [ "a:Tk,b:Tk", "a:Tk,b:t", "a:t,b:Tk" ],
+        "label" : "Drakes with a kinked tail"
+      }, {
+        "alleles" : [ "a:t,b:t" ],
+        "label" : "Drakes with a short tail"
+      } ],
+      "comment" : "*** Egg Sorting Game Test ***",
+      "container" : "FVContainer",
+      "template" : "FVEggSortGame",
+      "trialGenerator" : {
+        "baseDrake" : "a:Bog,b:Bog",
+        "drakes" : [ {
+          "alleles" : "a:t,b:t"
+        }, {
+          "alleles" : "a:t,b:t"
+        }, {
+          "alleles" : "a:t,b:T"
+        }, {
+          "alleles" : "a:T,b:t"
+        }, {
+          "alleles" : "a:t,b:Tk"
+        }, {
+          "alleles" : "a:Tk,b:t"
+        }, {
+          "alleles" : "a:Tk,b:T"
+        }, {
+          "alleles" : "a:T,b:Tk"
+        } ],
+        "type" : "randomize-order"
+      },
+      "visibleGenes" : "tail, dilute, nose"
     },
     "eggDrop-wings" : {
       "baskets" : [ {
