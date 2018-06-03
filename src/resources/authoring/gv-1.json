@@ -1831,10 +1831,6 @@
                 "text" : "Focus on doing your best work, Cadet."
               } ]
             },
-            "middle" : [ {
-              "character" : "RAJPUT",
-              "text" : "Open your VentureMap and head on over to the Breeding Barn. Quickly! We don’t have much time!"
-            } ],
             "start" : [ {
               "character" : "RAJPUT",
               "text" : "These drakes had to be smuggled out quickly and secretly, so  we have no information on them."
@@ -1850,7 +1846,7 @@
             } ]
           },
           "id" : "test-cross-1",
-          "name" : "Challenge 5.1",
+          "name" : "Challenge 5.1.1",
           "room" : "breedingbarn"
         }, {
           "about" : {
@@ -1869,10 +1865,6 @@
                 "text" : "Did you show us your best effort here Cadet? If so, move on to the next mystery drake."
               } ]
             },
-            "middle" : [ {
-              "character" : "RAJPUT",
-              "text" : "Open your VentureMap and head on over to the Breeding Barn. Quickly! We don’t have much time!"
-            } ],
             "start" : [ {
               "character" : "RAJPUT",
               "text" : "Colonel Herrera, I have a feeling our Cadet needs a tougher challenge."
@@ -1885,7 +1877,7 @@
             } ]
           },
           "id" : "test-cross-2",
-          "name" : "Challenge 5.2",
+          "name" : "Challenge 5.1.2",
           "room" : "breedingbarn"
         }, {
           "about" : {
@@ -1916,10 +1908,6 @@
                 "text" : "Seriously, Cadet, It's been great having you. We have to bid you farewell for now. Just remember, when you come across genetics, think of Geniventure! "
               } ]
             },
-            "middle" : [ {
-              "character" : "RAJPUT",
-              "text" : "Open your VentureMap and head on over to the Breeding Barn. Quickly! We don’t have much time!"
-            } ],
             "start" : [ {
               "character" : "RAJPUT",
               "text" : "Now we are going to see if you've really got what it takes, Cadet."
@@ -1929,7 +1917,7 @@
             } ]
           },
           "id" : "test-cross-3",
-          "name" : "Challenge 5.3",
+          "name" : "Challenge 5.1.3",
           "room" : "breedingbarn"
         } ],
         "dialog" : {
