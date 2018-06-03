@@ -342,16 +342,17 @@ export default class FVEggSortGame extends Component {
   }
 
   handleBasketClick = (basketIndex, basket) => {
-    const { correct, errors, onSubmitEggForBasket } = this.props,
-          { eggs } = this.state,
-          { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),
-          eggDrakeIndex = selectedEggIndex,
-          isChallengeComplete = correct + errors + 1 >= eggs.length;
+    const { onSubmitEggForBasket } = this.props,
+          { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg();
     isSubmittedEggCorrect = selectedEgg && isEggCompatibleWithBasket(selectedEgg, basket);
     if (selectedEgg) {
       animationEvents.moveEggToBasket.animate(selectedEgg, selectedEggIndex, basketIndex);
-      setTimeout(function() {
-        // Delay the submit until the egg is finished hatching
+      // Delay the submit until the egg is finished hatching
+      setTimeout(() => {
+        const { correct, errors } = this.props,
+        { eggs } = this.state,
+        eggDrakeIndex = selectedEggIndex,
+        isChallengeComplete = correct + errors + 1 >= eggs.length;
         onSubmitEggForBasket(eggDrakeIndex, basketIndex, isSubmittedEggCorrect, isChallengeComplete);
       }, 3000);
     }
