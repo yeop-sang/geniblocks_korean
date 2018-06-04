@@ -99,6 +99,7 @@
     "lint": "eslint examples gv2 src test",
     "examples": "live-server public --open=examples",
     "gv2": "live-server public --open=gv2",
+    "narrative": "node ./script/narrative.js",
     "pretest": "npm run lint",
     "start": "gulp",
     "test": "mocha --compilers js:babel-core/register --recursive --require ./test/setup.js --require mock-local-storage",

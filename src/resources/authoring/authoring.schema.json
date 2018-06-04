@@ -54,7 +54,6 @@
                             "type": "object",
                             "properties": {
                               "end": { "$ref": "#/definitions/endDialogSequence" },
-                              "middle": { "$ref": "#/definitions/dialogSequence" },
                               "start": { "$ref": "#/definitions/dialogSequence" }
                             },
                             "required": ["end", "start"],
