@@ -38,6 +38,13 @@ const EGG_IMAGE_WIDTH_MEDIUM = EGG_IMAGE_WIDTH,
       SMALL_EGG_ON_BASKET_X_OFFSET = 52,
       SMALL_EGG_ON_BASKET_Y_OFFSET = 10,
 
+      EGG_IN_CLUTCH = 0,
+      EGG_IS_ANIMATING = 1,
+      EGG_IN_BASKET = 2,
+      EGG_IS_HATCHED = 3,
+      EGG_IS_FADING = 4,
+      EGG_IS_COMPLETE = 5,
+
       modeCollectInBasket = urlParams.collectInBasket > 0;
 
 let _this,
@@ -45,6 +52,7 @@ let _this,
 
     isSubmittedEggCorrect,
     animatingEgg, animatingEggIndex,
+    eggStates = [],
     animatingDrake, targetBasketIndex;
 
 const FastEggHatch = compose(
@@ -73,6 +81,7 @@ let animationEvents = {
         if (eggIndex >= 0) {
           animatingEgg = egg;
           animatingEggIndex = eggIndex;
+          eggStates[animatingEggIndex] = EGG_IS_ANIMATING;
           animatingDrake = new BioLogica.Organism(BioLogica.Species.Drake, egg.alleles, egg.sex);
           targetBasketIndex = basketIndex;
 
@@ -92,7 +101,7 @@ let animationEvents = {
       }},
       hatchDrakeInBasket: { id: 1, complete: false, animate: function() {
         const { scale } = _this.props,
-              leftOffset = -313,
+              leftOffset = -300,
               topOffset = -28;
         appendAnimation('hatchDrakeInBasket',
           <NewEggHatch
@@ -106,7 +115,7 @@ let animationEvents = {
         const { baskets, scale } = _this.props,
               targetBasket = targetBasketIndex >= 0 ? baskets[targetBasketIndex] : null,
               leftOffset = 100,
-              topOffset = 100;
+              topOffset = 97;
         _this.clearSelection();
         resetAnimationEvents(false);
 
@@ -117,6 +126,7 @@ let animationEvents = {
           evt.stopPropagation();
         }
 
+        eggStates[animatingEggIndex] = EGG_IS_FADING;
         appendAnimation('fadeDrakeAway',
           <EggFade
               org={animatingDrake} scale={scale}
@@ -171,26 +181,32 @@ function animationFinish(evt) {
   switch(evt) {
     case animationEvents.moveEggToBasket.id:
       animationEvents.moveEggToBasket.complete = true;
+      eggStates[animatingEggIndex] = EGG_IN_BASKET;
       resetAnimationEvents(false);
       animationEvents.hatchDrakeInBasket.animate(animatingEgg);
       break;
     case animationEvents.hatchDrakeInBasket.id:
       animationEvents.hatchDrakeInBasket.complete = true;
+      eggStates[animatingEggIndex] = EGG_IS_HATCHED;
       break;
     case animationEvents.fadeDrakeAway.id:
       animationEvents.fadeDrakeAway.complete = true;
+      eggStates[animatingEggIndex] = EGG_IS_COMPLETE;
       resetAnimationEvents(true);
       break;
     case animationEvents.settleEggInBasket.id:
       animationEvents.settleEggInBasket.complete = true;
+      eggStates[animatingEggIndex] = EGG_IN_BASKET;
       resetAnimationEvents(true);
       break;
     case animationEvents.returnEggFromBasket.id:
       animationEvents.returnEggFromBasket.complete = true;
+      eggStates[animatingEggIndex] = EGG_IN_CLUTCH;
       resetAnimationEvents(true);
       break;
     case animationEvents.hatchDrakeInEgg.id:
       animationEvents.hatchDrakeInEgg.complete = true;
+      eggStates[animatingEggIndex] = EGG_IS_HATCHED;
       break;
   }
   _this.setState({animation:"complete"});
@@ -252,15 +268,11 @@ export default class FVEggSortGame extends Component {
   }
 
   createEggsFromDrakes(props) {
+    eggStates = [];
     const { drakes } = props,
           eggs = drakes.map((child) => {
-                    let drake = new BioLogica.Organism(BioLogica.Species.Drake, child.alleleString, child.sex);
-                    if (drake.getCharacteristic('liveliness') === "Dead") {
-                      drake.species.makeAlive(drake);
-                      // regenerate the drake with the new "alive" alleles as makeAlive() doesn't update everything
-                      drake = new BioLogica.Organism(BioLogica.Species.Drake, drake.getAlleleString(), drake.sex);
-                    }
-                    return drake;
+                    eggStates.push(EGG_IN_CLUTCH);
+                    return new BioLogica.Organism(BioLogica.Species.Drake, child.alleleString, child.sex);
                   });
     this.setState({ eggs });
   }
@@ -330,18 +342,19 @@ export default class FVEggSortGame extends Component {
   }
 
   handleBasketClick = (basketIndex, basket) => {
-    const { correct, errors, onSubmitEggForBasket } = this.props,
-          { eggs } = this.state,
-          { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),
-          eggDrakeIndex = selectedEggIndex,
-          isChallengeComplete = correct + errors + 1 >= eggs.length;
+    const { onSubmitEggForBasket } = this.props,
+          { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg();
     isSubmittedEggCorrect = selectedEgg && isEggCompatibleWithBasket(selectedEgg, basket);
     if (selectedEgg) {
       animationEvents.moveEggToBasket.animate(selectedEgg, selectedEggIndex, basketIndex);
-      setTimeout(function() {
-        // Delay the submit until the egg is finished hatching
+      // Delay the submit until the egg is finished hatching
+      setTimeout(() => {
+        const { correct, errors } = this.props,
+        { eggs } = this.state,
+        eggDrakeIndex = selectedEggIndex,
+        isChallengeComplete = correct + errors + 1 >= eggs.length;
         onSubmitEggForBasket(eggDrakeIndex, basketIndex, isSubmittedEggCorrect, isChallengeComplete);
-      }, 3000);
+      }, 1000);
     }
     this.setBasketSelection([basketIndex]);
   }
@@ -355,7 +368,7 @@ export default class FVEggSortGame extends Component {
   }
 
   render() {
-    const { userChangeableGenes, visibleGenes, drakes, baskets, correct, errors } = this.props,
+    const { userChangeableGenes, visibleGenes, baskets, correct, errors } = this.props,
           { animation, animatedComponents, eggs } = this.state,
           selectedBaskets = this.selectedBaskets(),
           { index: selectedEggIndex, egg: selectedEgg } = this.selectedEgg(),
@@ -365,10 +378,7 @@ export default class FVEggSortGame extends Component {
           showSelectedEggIndex = isHatchingDrakeInEgg ? -1 : selectedEggIndex,
           basketEggs = modeCollectInBasket ? eggs : null,
           displayEggs = eggs.map((egg, index) => {
-            const isAnimatingEgg = (animatingEggIndex === index),
-                  drake = drakes[index],
-                  isEggInBasket = drake && (drake.basket != null);
-            return isAnimatingEgg || isEggInBasket ? null : egg;
+            return eggStates[index] === EGG_IN_CLUTCH ? egg : null;
           }),
           showInstructions = !selectedEgg && !correct && !errors,
           sectionTitle = showInstructions
