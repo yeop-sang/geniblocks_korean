@@ -1958,6 +1958,126 @@
         "name" : "Mission 5.1"
       } ],
       "name" : "Level 5"
+    }, {
+      "missions": [ {
+        "challenges": [{
+          "about": {
+            "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is visible to the student while they are manipulating the alleles. The manipulable alleles are limited to tail, nose spike, and deep/faded color.",
+            "tip" : "Students may not notice that the neck flap only appears on male drakes. Students will only receive a blue crystal if they create the drake in the fewest moves possible.",
+            "type" : "Visible Drake Match"
+          },
+          "dialog": {
+            "end": {
+              "failure": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.1.1 not completed successfully"
+              }],
+              "success": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.1.1 completed successfully"
+              }]
+            },
+            "start": [{
+              "character": "YEUNG",
+              "text": "Welcome to Challenge 6.1.1!"
+            }]
+          },
+          "id": "allele-targetMatch-visible-harderTraits",
+          "name": "Challenge 6.1.1",
+          "room": "simroom"
+        }, {
+          "about": {
+            "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is visible to the student while they are manipulating the alleles. The manipulable alleles are limited to tail, nose spike, and deep/faded color.",
+            "tip" : "Students may not notice that the neck flap only appears on male drakes. Students will only receive a blue crystal if they create the drake in the fewest moves possible.",
+            "type" : "Visible Drake Match"
+          },
+          "dialog": {
+            "end": {
+              "failure": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.1.2 not completed successfully"
+              }],
+              "success": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.1.2 completed successfully"
+              }]
+            },
+            "start": [{
+              "character": "YEUNG",
+              "text": "Welcome to Challenge 6.1.2!"
+            }]
+          },
+          "id": "allele-targetMatch-visible-harderTraits2",
+          "name": "Challenge 6.1.2",
+          "room": "simroom"
+        }, {
+          "about": {
+            "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is visible to the student while they are manipulating the alleles. The manipulable alleles are limited to tail, nose spike, and deep/faded color.",
+            "tip" : "Students may not notice that the neck flap only appears on male drakes. Students will only receive a blue crystal if they create the drake in the fewest moves possible.",
+            "type" : "Hidden Drake Match"
+          },
+          "dialog": {
+            "end": {
+              "failure": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.1.3 not completed successfully"
+              }],
+              "success": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.1.3 completed successfully"
+              }]
+            },
+            "start": [{
+              "character": "YEUNG",
+              "text": "Welcome to Challenge 6.1.3!"
+            }]
+          },
+          "id": "allele-targetMatch-hidden-harderTraits",
+          "name": "Challenge 6.1.3",
+          "room": "simroom"
+        }, {
+          "about": {
+            "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is visible to the student while they are manipulating the alleles. The manipulable alleles are limited to tail, nose spike, and deep/faded color.",
+            "tip" : "Students may not notice that the neck flap only appears on male drakes. Students will only receive a blue crystal if they create the drake in the fewest moves possible.",
+            "type" : "Hidden Drake Match"
+          },
+          "dialog": {
+            "end": {
+              "failure": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.1.4 not completed successfully"
+              }],
+              "success": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.1.4 completed successfully"
+              }]
+            },
+            "start": [{
+              "character": "YEUNG",
+              "text": "Welcome to Challenge 6.1.4!"
+            }]
+          },
+          "id": "allele-targetMatch-hidden-harderTraits2",
+          "name": "Challenge 6.1.4",
+          "room": "simroom"
+        }],
+        "dialog": {
+          "end": [{
+            "character": "NETANYA",
+            "text": "End of mission 6.1"
+          }],
+          "middle": [{
+            "character": "WEAVER",
+            "text": "Middle of mission 6.1"
+          }],
+          "start": [{
+            "character": "YEUNG",
+            "text": "Start of mission 6.1"
+          }]
+        },
+        "name": "Mission 6.1"
+      } ],
+      "name": "Level 6"
     } ]
   },
   "challenges" : {
@@ -2084,6 +2204,48 @@
       } ],
       "template" : "FVGenomeChallenge",
       "userChangeableGenes" : "forelimbs, hindlimbs, wings, armor, horns"
+    },
+    "allele-targetMatch-hidden-harderTraits" : {
+      "challengeType" : "match-target",
+      "comment" : "*** Level 6, Mission 1.3: Genome Challenge (Polyallelic traits (tails) and sex-linked (nose spike) and deep/faded color) ***",
+      "container" : "FVContainer",
+      "initialDrake" : [ {
+        "alleles" : "a:Bog"
+      } ],
+      "instructions" : "Match the target drake!",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1 ],
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, metallic, color, black, bogbreath"
+      },
+      "randomizeTrials" : true,
+      "showUserDrake" : false,
+      "targetDrakes" : [ {
+        "alleles" : "a:Bog",
+        "sex" : 0
+      } ],
+      "template" : "FVGenomeChallenge",
+      "userChangeableGenes" : "tail, nose, dilute"
+    },
+    "allele-targetMatch-hidden-harderTraits2" : {
+      "challengeType" : "match-target",
+      "comment" : "*** Level 6, Mission 1.3: Genome Challenge (Polyallelic traits (tails) and sex-linked (nose spike) and deep/faded color) ***",
+      "container" : "FVContainer",
+      "initialDrake" : [ {
+        "alleles" : "a:Bog"
+      } ],
+      "instructions" : "Match the target drake!",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1 ],
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, metallic, color, black, bogbreath"
+      },
+      "randomizeTrials" : true,
+      "showUserDrake" : false,
+      "targetDrakes" : [ {
+        "alleles" : "a:Bog",
+        "sex" : 1
+      } ],
+      "template" : "FVGenomeChallenge",
+      "userChangeableGenes" : "tail, nose, dilute"
     },
     "allele-targetMatch-hidden-simpleColors" : {
       "challengeType" : "match-target",
@@ -2420,6 +2582,48 @@
       "template" : "FVGenomeChallenge",
       "userChangeableGenes" : "armor, horns",
       "visibleGenes" : "forelimbs, hindlimbs, wings"
+    },
+    "allele-targetMatch-visible-harderTraits" : {
+      "challengeType" : "match-target",
+      "comment" : "*** Level 6, Mission 1.1: Genome Challenge (Polyallelic traits (tails) and sex-linked (nose spike) and deep/faded color) ***",
+      "container" : "FVContainer",
+      "initialDrake" : [ {
+        "alleles" : "a:Bog"
+      } ],
+      "instructions" : "Match the target drake!",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1 ],
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, metallic, color, black, bogbreath"
+      },
+      "randomizeTrials" : true,
+      "showUserDrake" : true,
+      "targetDrakes" : [ {
+        "alleles" : "a:Bog",
+        "sex" : 1
+      } ],
+      "template" : "FVGenomeChallenge",
+      "userChangeableGenes" : "tail, nose, dilute"
+    },
+    "allele-targetMatch-visible-harderTraits2" : {
+      "challengeType" : "match-target",
+      "comment" : "*** Level 6, Mission 1.1: Genome Challenge (Polyallelic traits (tails) and sex-linked (nose spike) and deep/faded color) ***",
+      "container" : "FVContainer",
+      "initialDrake" : [ {
+        "alleles" : "a:Bog"
+      } ],
+      "instructions" : "Match the target drake!",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1 ],
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, metallic, color, black, bogbreath"
+      },
+      "randomizeTrials" : true,
+      "showUserDrake" : true,
+      "targetDrakes" : [ {
+        "alleles" : "a:Bog",
+        "sex" : 0
+      } ],
+      "template" : "FVGenomeChallenge",
+      "userChangeableGenes" : "tail, nose, dilute"
     },
     "allele-targetMatch-visible-simpleColors" : {
       "challengeType" : "match-target",

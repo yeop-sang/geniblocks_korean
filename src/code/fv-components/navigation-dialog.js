@@ -40,7 +40,8 @@ export default class NavigationDialogView extends React.Component {
       gemSets.push(<div id={"gem-label-" + mission} className="gem-set-label" key={"label-" + mission} style={isLocked ? {opacity: .5} : null}>
                      {"Mission " + (this.state.level + 1) + "." + (mission + 1) + ":"}
                    </div>);
-      gemSets.push(<div className="mission-lock" style={isLocked ? null : {visibility: "hidden"}}></div>);
+      gemSets.push(<div className="mission-lock" key={"mission-lock-" + mission}
+                        style={isLocked ? null : {visibility: "hidden"}}></div>);
       gemSets.push(<GemSetView level={this.state.level} mission={mission} challenge={isCurrMission ? currChallengeRoute.challenge : null}
                                challengeCount={AuthoringUtils.getChallengeCount(authoring, this.state.level, mission)}
                                gems={gems} key={"gem-set-" + mission} isLocked={isLocked}

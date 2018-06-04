@@ -56,7 +56,7 @@ const BottomHUDView = React.createClass({
     if (showRouteWidgets) {
       let missionScreen = (
         <div className="mission-screen">
-          <div className="mission-label mission-label-text">Mission</div>
+          <div className="mission-label mission-label-text">MISSION</div>
           <div className="mission-label mission-label-value">{routeSpec.mission + 1}</div>
         </div>
       );

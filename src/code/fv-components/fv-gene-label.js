@@ -38,16 +38,22 @@ const Form = React.createClass({
     }
 });
 
+const normalizeAllele = (allele) => {
+  // alleles that differ by more than case require special mapping
+  const nameMap = { "a1": "a", "a2": "a", "tk": "t"},
+        normalized = allele.toLowerCase();
+  return nameMap[normalized] || normalized;
+};
+
 const FVGeneLabelView = ({species, editable, allele, hiddenAlleles=[], onAlleleChange, chromosomeDescriptor, chromosomeHeight=122, stripe, defaultUnknown}) => {
     const geneStripeInfo = GeneticsUtils.getGeneStripeInfoForAllele(species, chromosomeDescriptor.name, allele);
     let stripeHeight = chromosomeHeight * .03,
         percentHeight = geneStripeInfo.geneStart / geneStripeInfo.chromosomeHeight;
 
+    // The normalized allele is added as a class and used for css layout.
+    // Using gene name instead of allele would avoid the need for normalization.
+    const normalizedAllele = normalizeAllele(allele);
     // Manually adjust certain labels and stripes up for the time being
-    let normalizedAllele = allele.toLowerCase();
-    if (normalizedAllele === "a1" || normalizedAllele === "a2") {
-      normalizedAllele = "a";
-    }
     if (normalizedAllele === "fl" || normalizedAllele === "hl" || normalizedAllele=== "a") {
       percentHeight -= .1;
     } else if (normalizedAllele=== "d") {
