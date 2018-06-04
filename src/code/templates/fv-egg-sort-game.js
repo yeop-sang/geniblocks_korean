@@ -354,7 +354,7 @@ export default class FVEggSortGame extends Component {
         eggDrakeIndex = selectedEggIndex,
         isChallengeComplete = correct + errors + 1 >= eggs.length;
         onSubmitEggForBasket(eggDrakeIndex, basketIndex, isSubmittedEggCorrect, isChallengeComplete);
-      }, 3000);
+      }, 1000);
     }
     this.setBasketSelection([basketIndex]);
   }
