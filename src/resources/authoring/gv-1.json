@@ -4036,28 +4036,28 @@
       "trialGenerator" : {
         "baseDrake" : "a:Bog,b:Bog",
         "drakes" : [ {
-          "alleles" : "a:Rh",
+          "alleles" : "a:a,b:a,a:Rh",
           "sex" : 0
         }, {
-          "alleles" : "a:Rh",
+          "alleles" : "a:A1,b:a,a:Rh",
           "sex" : 0
         }, {
-          "alleles" : "a:rh",
+          "alleles" : "a:a,b:A1,a:rh",
           "sex" : 0
         }, {
-          "alleles" : "a:rh",
+          "alleles" : "a:A1,b:A1,a:rh",
           "sex" : 0
         }, {
-          "alleles" : "a:Rh,b:rh",
+          "alleles" : "a:a,b:a,a:Rh,b:rh",
           "sex" : 1
         }, {
-          "alleles" : "a:rh,b:Rh",
+          "alleles" : "a:A1,b:a,a:rh,b:Rh",
           "sex" : 1
         }, {
-          "alleles" : "a:rh,b:rh",
+          "alleles" : "a:a,b:A1,a:rh,b:rh",
           "sex" : 1
         }, {
-          "alleles" : "a:rh,b:rh",
+          "alleles" : "a:A1,b:A1,a:rh,b:rh",
           "sex" : 1
         } ],
         "type" : "randomize-order"
@@ -4081,21 +4081,21 @@
       "trialGenerator" : {
         "baseDrake" : "a:Bog,b:Bog",
         "drakes" : [ {
-          "alleles" : "a:t,b:t"
+          "alleles" : "a:t,b:t,a:A1,b:a"
         }, {
-          "alleles" : "a:t,b:t"
+          "alleles" : "a:t,b:t,a:A1,b:A1"
         }, {
-          "alleles" : "a:t,b:T"
+          "alleles" : "a:t,b:T,a:a,b:A1"
         }, {
-          "alleles" : "a:T,b:t"
+          "alleles" : "a:T,b:t,a:a,b:a"
         }, {
-          "alleles" : "a:t,b:Tk"
+          "alleles" : "a:t,b:Tk,a:A1,b:a"
         }, {
-          "alleles" : "a:Tk,b:t"
+          "alleles" : "a:Tk,b:t,a:a,b:a"
         }, {
-          "alleles" : "a:Tk,b:T"
+          "alleles" : "a:Tk,b:T,a:a,b:A1"
         }, {
-          "alleles" : "a:T,b:Tk"
+          "alleles" : "a:T,b:Tk,a:A1,b:A1"
         } ],
         "type" : "randomize-order"
       },
