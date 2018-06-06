@@ -256,8 +256,15 @@
                 "type": "number"
               }
             },
-            "genes": { "$ref": "#/definitions/genes" }
-          }
+            "genes": { "$ref": "#/definitions/genes" },
+            "minChanges": {
+              "description": "The minimum number of allele changes required to match the drakes after linking genes",
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": ["drakes", "genes"],
+          "additionalProperties": false
         },
         "numTrials": {
           "description": "The number of trials",
