@@ -5,7 +5,7 @@ export function getDrakeImageUrl(org) {
   return org ? baseUrl + org.getImageName() : null;
 }
 
-const OrganismView = ({org, id, className="", width=200, flipped=false, style={}, onClick, wrapper, separateClickableArea=false, showColorText=true }) => {
+const OrganismView = ({org, id, className="", width=200, flipped=false, style={}, onClick, wrapper, separateClickableArea=false, showColorText=false }) => {
   const url = getDrakeImageUrl(org),
         // The goal here was to have the onMouseDown handler select the organism,
         // so that mousedown-drag will both select the organism and begin the
