@@ -6,8 +6,9 @@ describe("<OrganismView />", function(){
 
   it("should create a <div> tag with appropriate classes", function() {
     const wrapper = shallow(<OrganismView org={drake} id={orgID} />);
-    assert(wrapper.find('div').hasClass('geniblocks'), "Should create a <div> with 'geniblocks' class");
-    assert(wrapper.find('div').hasClass('organism'), "Should create a <div> with 'organism' class");
+
+    assert(wrapper.find('div').at(0).hasClass('geniblocks'), "First <div> has 'geniblocks' class");
+    assert(wrapper.find('div').at(0).hasClass('organism'), "Should create a <div> with 'organism' class");
   });
 
   it("should create an <img> tag", function() {

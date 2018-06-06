@@ -207,11 +207,12 @@ export default class FVGenomeChallenge extends React.Component {
             <YourDrakeView org={ userDrake }
                             hatchStarted={this.state.hatchStarted || showUserDrake}
                             skipHatchAnimation={showUserDrake}
+                            showDrakeColorHint={true}
                             onHatchComplete={handleSubmit} />
             <HatchDrakeButton label={checkHatchButtonLabel} onClick={ handleCheckHatchButton } />
           </div>
           <div id='right-column' className='column'>
-            <TargetDrakeView decorativeGizmo={isCreationChallenge} showIntro={true} org={ targetDrake } />
+            <TargetDrakeView decorativeGizmo={isCreationChallenge} showIntro={true} showDrakeColorHint={true} org={ targetDrake } />
           </div>
         </div>
         <div className="columns bottom">
