@@ -259,7 +259,8 @@
             "genes": { "$ref": "#/definitions/genes" },
             "minChanges": {
               "description": "The minimum number of allele changes required to match the drakes after linking genes",
-              "type": "number"
+              "type": "integer",
+              "minimum": 0
             }
           },
           "required": ["drakes", "genes"],
