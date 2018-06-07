@@ -222,7 +222,8 @@ export function loadStateFromAuthoring(state, authoring) {
         location = {id: room, ...roomInfo},
         showingRoom = trial === 0,
         dialog = authoredChallengeMetadata.dialog && authoredChallengeMetadata.dialog.start,
-        showIntroductionAnimations = authoredChallenge.showIntroductionAnimations;
+        showIntroductionAnimations = authoredChallenge.showIntroductionAnimations,
+        showDrakeColorHint = authoredChallenge.showDrakeColorHint;
 
   let goalMoves = null;
   if (template.calculateGoalMoves) {
@@ -277,7 +278,8 @@ export function loadStateFromAuthoring(state, authoring) {
       messages,
       closeButton
     },
-    showIntroductionAnimations
+    showIntroductionAnimations,
+    showDrakeColorHint
   };
   // remove all undefined or null keys
   Object.keys(authoredState).forEach((key) => (authoredState[key] == null) && delete authoredState[key]);

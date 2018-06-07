@@ -212,7 +212,8 @@ function mapStateToProps (state) {
       // than HTML5 drag/drop dragImage
       useCustomDragLayer: true,
       tutorials: state.tutorials,
-      showIntroductionAnimations: state.showIntroductionAnimations
+      showIntroductionAnimations: state.showIntroductionAnimations,
+      showDrakeColorHint: state.showDrakeColorHint
     };
   }
 

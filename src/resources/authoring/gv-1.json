@@ -2699,6 +2699,7 @@
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
       },
       "randomizeTrials" : true,
+      "showDrakeColorHint": true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
@@ -2765,6 +2766,7 @@
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
       },
       "randomizeTrials" : true,
+      "showDrakeColorHint": true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
@@ -2786,6 +2788,7 @@
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
       },
       "randomizeTrials" : true,
+      "showDrakeColorHint": true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b,a:rh,b:rh",
@@ -2807,6 +2810,7 @@
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
       },
       "randomizeTrials" : true,
+      "showDrakeColorHint": true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
@@ -2828,6 +2832,7 @@
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
       },
       "randomizeTrials" : true,
+      "showDrakeColorHint": true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B,a:rh,b:rh",
