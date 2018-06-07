@@ -39,8 +39,8 @@ const OrganismView = ({org, id, className="", width=200, flipped=false, style={}
     }
     return descriptions.join(", ");
   }
-  let organismColorName = org.phenotype.characteristics.color;
-  let organismDescription = getOrganismDescription();
+  const organismColorName = org.phenotype.characteristics.color;
+  const organismDescription = getOrganismDescription();
 
   function handleClick() {
     if (onClick) onClick(id, org);

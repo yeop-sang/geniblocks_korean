@@ -2684,7 +2684,6 @@
     },
     "allele-targetMatch-visible-simpleColors" : {
       "challengeType" : "match-target",
-      "showDrakeColorHint": true,
       "container" : "FVContainer",
       "initialDrake" : [ {
         "alleles" : "a:M,b:M,a:A1,b:A1,a:Bog,a:D,a:rh,b:rh",
@@ -2696,6 +2695,7 @@
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
       },
       "randomizeTrials" : true,
+      "showDrakeColorHint": true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
@@ -2751,7 +2751,6 @@
     },
     "allele-targetMatch-visible-simpleColors2" : {
       "challengeType" : "match-target",
-      "showDrakeColorHint": true,
       "container" : "FVContainer",
       "initialDrake" : [ {
         "alleles" : "a:c,b:c,a:m,b:m,a:A1,b:a,a:Bog,a:D,a:rh,b:rh",
@@ -2763,6 +2762,7 @@
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
       },
       "randomizeTrials" : true,
+      "showDrakeColorHint": true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
@@ -2773,7 +2773,6 @@
     },
     "allele-targetMatch-visible-simpleColors3" : {
       "challengeType" : "match-target",
-      "showDrakeColorHint": true,
       "container" : "FVContainer",
       "initialDrake" : [ {
         "alleles" : "a:B,b:b,a:M,b:m,a:a,b:A1,a:Bog,a:D,a:rh,b:rh",
@@ -2785,6 +2784,7 @@
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
       },
       "randomizeTrials" : true,
+      "showDrakeColorHint": true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b,a:rh,b:rh",
@@ -2795,7 +2795,6 @@
     },
     "allele-targetMatch-visible-simpleColors4" : {
       "challengeType" : "match-target",
-      "showDrakeColorHint": true,
       "container" : "FVContainer",
       "initialDrake" : [ {
         "alleles" : "a:m,b:m,a:b,b:b,a:a,b:a,a:Bog,a:D,a:rh,b:rh",
@@ -2807,6 +2806,7 @@
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
       },
       "randomizeTrials" : true,
+      "showDrakeColorHint": true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
@@ -2817,7 +2817,6 @@
     },
     "allele-targetMatch-visible-simpleColors5" : {
       "challengeType" : "match-target",
-      "showDrakeColorHint": true,
       "container" : "FVContainer",
       "initialDrake" : [ {
         "alleles" : "a:C,b:C,a:A1,b:A1,a:Bog,a:D,a:rh,b:rh",
@@ -2829,6 +2828,7 @@
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
       },
       "randomizeTrials" : true,
+      "showDrakeColorHint": true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B,a:rh,b:rh",
