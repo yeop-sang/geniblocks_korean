@@ -148,8 +148,9 @@
   "definitions": {
     "biologicaAlleles": {
       "description": "A set of alleles that can be used to specify an organism in the 'a:b:' format used by BioLogica",
+      "comment": "Note that this excludes the A2 allele which is not used by Geniventure.",
       "type": "string",
-      "pattern": "^(((a|b):(T|Tk|t|M|m|W|w|H|h|C|c|Fl|fl|Hl|hl|A1|A2|a|B|b|D|d|Rh|rh|Bog|bog))|,)*$"
+      "pattern": "^(((a|b):(T|Tk|t|M|m|W|w|H|h|C|c|Fl|fl|Hl|hl|A1|a|B|b|D|d|Rh|rh|Bog|bog))|,)*$"
     },
     "biologicaSex": {
       "description": "Numeric value to indicate sex -- 0: male, 1: female",
@@ -226,10 +227,7 @@
           "type": "string",
           "enum": ["FVContainer"]
         },
-        "hiddenAlleles": {
-          "description": "The alleles that should not be selectable by the user",
-          "type": "string"
-        },
+        "hiddenAlleles": { "$ref": "#/definitions/hiddenAlleles" },
         "initialDrake": {
           "description": "Specifies a single drake or an array of drakes",
           "oneOf": [
@@ -256,8 +254,15 @@
                 "type": "number"
               }
             },
-            "genes": { "$ref": "#/definitions/genes" }
-          }
+            "genes": { "$ref": "#/definitions/genes" },
+            "minChanges": {
+              "description": "The minimum number of allele changes required to match the drakes after linking genes",
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": ["drakes", "genes"],
+          "additionalProperties": false
         },
         "numTrials": {
           "description": "The number of trials",
@@ -381,6 +386,11 @@
       "description": "A string containing comma-separated list of genes",
       "type": "string",
       "pattern": "^(tail|metallic|wings|horns|color|black|forelimbs|hindlimbs|armor|dilute|bogbreath|nose|(, ))*$"
+    },
+    "hiddenAlleles": {
+      "description": "A list of alleles that should not be selectable by the user",
+      "type": "string",
+      "pattern": "^((T|Tk|t|M|m|W|w|H|h|C|c|Fl|fl|Hl|hl|A1|A2|a|B|b|D|d|Rh|rh|Bog|bog)|,)*$"
     },
     "room": {
       "description": "The room/location of the challenge",

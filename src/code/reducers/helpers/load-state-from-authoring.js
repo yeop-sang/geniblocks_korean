@@ -43,6 +43,28 @@ function processAuthoredGametes(authoredChallenge, drakes, state) {
             : state.gametes;
 }
 
+function numberOfMoves(testDrake, targetAlleles, targetSex) {
+  const testSex = testDrake.sex,
+        testAlleles = testDrake.getAlleleString(),
+        targetDrake = new BioLogica.Organism(BioLogica.Species.Drake, targetAlleles, targetSex);
+  let secondXAlleles = null;
+  if ((testSex === BioLogica.MALE) && (targetSex === BioLogica.FEMALE)) {
+    const testFemale = new BioLogica.Organism(BioLogica.Species.Drake, testAlleles, BioLogica.FEMALE);
+    secondXAlleles = GeneticsUtils.computeExtraAlleles(testFemale, testDrake);
+  }
+  return BioLogica.Phenotype.numberOfChangesToReachPhenotype(
+                              testDrake, targetDrake, BioLogica.Species.Drake, secondXAlleles);
+}
+
+function randomizeAllelesForOneGene(alleles, gene) {
+  const allelesOfGene = BioLogica.Species.Drake.geneList[gene].alleles,
+        randomAllele = () => {
+          return allelesOfGene[Math.floor(Math.random() * allelesOfGene.length)];
+        },
+        regex = new RegExp(`(a|b):(${allelesOfGene.join('|')})(,|$)`, 'g');
+  return alleles.replace(regex, `$1:${randomAllele()}$3`);
+}
+
 function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template, trialNumber) {
   // takes authored list of named drakes ("mother", etc) and returns an
   // array specific for this template
@@ -76,28 +98,45 @@ function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template,
     }
     // Keep the drake as female until the end, so no sex-linked information is lost for linked drakes
     let femaleDrake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleles, BioLogica.FEMALE);
+    const actualDrakeSex = drakeDef.sex != null
+                            ? drakeDef.sex
+                            : Math.round(Math.random());
 
+    /*
+     * Synchronize the linkedGenes
+     */
     alleleString = femaleDrake.getAlleleString();
-    if (authoredChallenge.linkedGenes) {
-      let linkedGenesDef = authoredChallenge.linkedGenes;
-      if (Array.isArray(authoredChallenge.linkedGenes)) {
-        linkedGenesDef = authoredChallenge.linkedGenes[authoredTrialNumber];
+    const { linkedGenes } = authoredChallenge;
+    if (linkedGenes) {
+      let linkedGenesDef = linkedGenes;
+      if (Array.isArray(linkedGenes)) {
+        linkedGenesDef = linkedGenes[authoredTrialNumber];
       }
       if (i === linkedGenesDef.drakes[0]) {
-        linkedGeneDrake = femaleDrake;
+        linkedGeneDrake = new BioLogica.Organism(BioLogica.Species.Drake, femaleDrake.getAlleleString(), actualDrakeSex);
       } else if (linkedGenesDef.drakes.indexOf(i)) {
-        let linkedGenes = split(linkedGenesDef.genes);
-        for (let gene of linkedGenes) {
+        let genes = split(linkedGenesDef.genes);
+        for (let gene of genes) {
           let copyIntoGenes = femaleDrake.genetics.genotype.getAlleleString([gene], femaleDrake.genetics);
           let masterGenes = linkedGeneDrake.genetics.genotype.getAlleleString([gene], femaleDrake.genetics);
           alleleString = alleleString.replace(copyIntoGenes, masterGenes);
         }
       }
+    
+      /*
+       * Guarantee minimum number of moves
+       */
+      const { linkedGenes: { minChanges }, userChangeableGenes } = authoredChallenge;
+      if ((i > 0) && minChanges && userChangeableGenes) {
+        const userGenes = split(userChangeableGenes);
+        while (numberOfMoves(linkedGeneDrake, alleleString, actualDrakeSex) < minChanges) {
+          // randomize the alleles of one gene at a time until the criterion is met
+          const randomGene = userGenes[Math.floor(Math.random() * userGenes.length)];
+          alleleString = randomizeAllelesForOneGene(alleleString, randomGene);
+        }
+      }
     }
-    const actualDrakeSex = drakeDef.sex != null
-                            ? drakeDef.sex
-                            : Math.round(Math.random()),
-          actualDrake = new BioLogica.Organism(BioLogica.Species.Drake, alleleString, actualDrakeSex);
+    const actualDrake = new BioLogica.Organism(BioLogica.Species.Drake, alleleString, actualDrakeSex);
 
     let secondXAlleles = null;
     if (actualDrake.sex === BioLogica.MALE) {
