@@ -162,6 +162,7 @@
       "description": "Configuration of an individual challenge",
       "type": "object",
       "properties": {
+        "linkedGenes": { "$ref": "#/definitions/linkedGenes" },
         "template": { "$ref": "#/definitions/template" },
         "patternProperties": {
           "^.+$": {
@@ -252,7 +253,8 @@
         "mother": { "$ref": "#/definitions/drake" },
         "numTrials": {
           "description": "The number of trials in this challenge",
-          "type": "number"
+          "type": "integer",
+          "minimum": 1
         },
         "showIntroductionAnimations": {
           "description": "Whether to show/hide the introductory animations",
@@ -346,41 +348,18 @@
           "description": "Specifies a single drake or an array of drakes",
           "oneOf": [
             { "$ref": "#/definitions/drake" },
-            {
-              "type": "array",
-              "items": { "$ref": "#/definitions/drake" }
-            }
+            { "type": "array", "items": { "$ref": "#/definitions/drake" } }
           ]
         },
         "instructions": {
           "description": "Instructions displayed to the user",
           "type": "string"
         },
-        "linkedGenes": {
-          "description": "Specifies genes that should be synchronized between multiple drakes",
-          "type": "object",
-          "properties": {
-            "drakes": {
-              "description": "Specifies the drakes that should be linked by their indices",
-              "type": "array",
-              "items": {
-                "description": "Indices of the drakes to be linked",
-                "type": "number"
-              }
-            },
-            "genes": { "$ref": "#/definitions/genes" },
-            "minChanges": {
-              "description": "The minimum number of allele changes required to match the drakes after linking genes",
-              "type": "integer",
-              "minimum": 0
-            }
-          },
-          "required": ["drakes", "genes"],
-          "additionalProperties": false
-        },
+        "linkedGenes": { "$ref": "#/definitions/linkedGenes" },
         "numTrials": {
           "description": "The number of trials",
-          "type": "number"
+          "type": "integer",
+          "minimum": 1
         },
         "randomizeTrials": {
           "description": "Whether the order of the trials should be randomized",
@@ -450,6 +429,33 @@
       "description": "A list of alleles that should not be selectable by the user",
       "type": "string",
       "pattern": "^((T|Tk|t|M|m|W|w|H|h|C|c|Fl|fl|Hl|hl|A1|A2|a|B|b|D|d|Rh|rh|Bog|bog)|,)*$"
+    },
+    "linkedGenes": {
+      "description": "Specifies genes that should be synchronized between multiple drakes for one or more trials",
+      "oneOf": [
+        { "$ref": "#/definitions/linkedGenesTrial" },
+        { "type": "array", "items": { "$ref": "#/definitions/linkedGenesTrial" } }
+      ]
+    },
+    "linkedGenesTrial": {
+      "description": "Specifies genes that should be synchronized between multiple drakes",
+      "type": "object",
+      "properties": {
+        "drakes": {
+          "description": "Specifies the drakes that should be linked by their indices",
+          "type": "array",
+          "items": {
+            "description": "Indices of the drakes to be linked",
+            "type": "number"
+          }
+        },
+        "genes": { "$ref": "#/definitions/genes" },
+        "minChanges": {
+          "description": "The minimum number of allele changes required to match the drakes after linking genes",
+          "type": "integer",
+          "minimum": 0
+        }
+      }
     },
     "room": {
       "description": "The room/location of the challenge",
