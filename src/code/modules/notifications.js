@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-import { GAMETES_RESET } from '../modules/gametes';
+import { GAMETES_RESET, GAMETE_POOLS_RESET } from '../modules/gametes';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import actionTypes from '../action-types';
 import t from '../utilities/translate';
@@ -64,6 +64,7 @@ export default function notifications(state = initialState, action) {
       return initialState;
     // actions which don't clear the guide message
     case GAMETES_RESET:
+    case GAMETE_POOLS_RESET:
     case GUIDE_CONNECTED:
     case GUIDE_ALERT_RECEIVED:
     case actionTypes.MODAL_DIALOG_SHOWN:

@@ -63,16 +63,18 @@ class YourDrakeView extends React.Component {
     className: PropTypes.string,
     hatchStarted: PropTypes.bool,
     skipHatchAnimation: PropTypes.bool,
-    onHatchComplete: PropTypes.func
+    onHatchComplete: PropTypes.func,
+    showDrakeColorHint: PropTypes.bool
   }
 
   render() {
-    const { org, className, hatchStarted, skipHatchAnimation, onHatchComplete } = this.props;
+    const { org, className, hatchStarted, skipHatchAnimation, onHatchComplete, showDrakeColorHint } = this.props;
     return (
       <div className='your-drake-surround'>
         <EggHatchDrakeView drake={org} id="your-drake" className={className}
                             hatchStarted={hatchStarted} skipHatchAnimation={skipHatchAnimation}
                             onHatchComplete={onHatchComplete}
+                            showDrakeColorHint={showDrakeColorHint}
                             width={300} />
       </div>
     );
@@ -87,7 +89,8 @@ class TargetDrakeView extends React.Component {
   static propTypes = {
     showIntro: PropTypes.bool,
     org: PropTypes.object,
-    decorativeGizmo: PropTypes.bool
+    decorativeGizmo: PropTypes.bool,
+    showDrakeColorHint: PropTypes.bool
   }
 
   state = {
@@ -99,7 +102,7 @@ class TargetDrakeView extends React.Component {
   }
 
   render() {
-    const { showIntro, org } = this.props,
+    const { showIntro, org, showDrakeColorHint } = this.props,
           { introComplete } = this.state,
           completeDisplayStyle = { display: showIntro && !introComplete ? 'none' : 'flex' },
           introAnimation = <AnimatedSprite
@@ -113,7 +116,7 @@ class TargetDrakeView extends React.Component {
                               <div id="target-drake-label">
                                 {t('~LABEL.TARGET_DRAKE')}
                               </div>
-                              <OrganismView id="target-drake" org={org} width={300} />
+              <OrganismView id="target-drake" org={org} width={300} showColorText={showDrakeColorHint}  />
                             </div>;
     return (
       <div className='target-drake-view'>
@@ -142,7 +145,7 @@ export default class FVGenomeChallenge extends React.Component {
 
   render() {
     const { drakes, onChromosomeAlleleChange, onSexChange, onDrakeSubmission, onKeepOffspring, challengeType,
-            userChangeableGenes, visibleGenes, hiddenAlleles, showUserDrake } = this.props,
+            userChangeableGenes, visibleGenes, hiddenAlleles, showUserDrake, showDrakeColorHint } = this.props,
           userDrakeDef = drakes[userDrakeIndex],
           isCreationChallenge = challengeType === 'create-unique',
           isMatchingChallenge = challengeType === 'match-target',
@@ -207,11 +210,13 @@ export default class FVGenomeChallenge extends React.Component {
             <YourDrakeView org={ userDrake }
                             hatchStarted={this.state.hatchStarted || showUserDrake}
                             skipHatchAnimation={showUserDrake}
-                            onHatchComplete={handleSubmit} />
+                            showDrakeColorHint={showDrakeColorHint}
+                            onHatchComplete={handleSubmit}
+                             />
             <HatchDrakeButton label={checkHatchButtonLabel} onClick={ handleCheckHatchButton } />
           </div>
           <div id='right-column' className='column'>
-            <TargetDrakeView decorativeGizmo={isCreationChallenge} showIntro={true} org={ targetDrake } />
+            <TargetDrakeView decorativeGizmo={isCreationChallenge} showIntro={true} showDrakeColorHint={showDrakeColorHint} org={ targetDrake } />
           </div>
         </div>
         <div className="columns bottom">
@@ -237,7 +242,8 @@ export default class FVGenomeChallenge extends React.Component {
     onSexChange: PropTypes.func.isRequired,
     onDrakeSubmission: PropTypes.func.isRequired,
     onKeepOffspring: PropTypes.func.isRequired,
-    challengeType: PropTypes.string.isRequired
+    challengeType: PropTypes.string.isRequired,
+    showDrakeColorHint: PropTypes.bool
   }
 
   static authoredDrakesToDrakeArray = function(authoredChallenge, authoredTrialNumber) {
@@ -255,7 +261,8 @@ export default class FVGenomeChallenge extends React.Component {
   static calculateGoalMoves = function(drakesArray) {
     if (drakesArray.length > 1) {
       let [initial, target] = drakesArray;
-      return BioLogica.Phenotype.numberOfChangesToReachPhenotype(initial, target, BioLogica.Species.Drake);
+      return BioLogica.Phenotype.numberOfChangesToReachPhenotype(
+                                  initial, target, BioLogica.Species.Drake, initial.secondXAlleles);
     } else {
       // Skip goal moves calculation for 'create-unique' challenges
       return -1;

@@ -54,6 +54,45 @@ You can add the url parameter `localAuthoring=x` to the url to load a JSON file 
 
 The authored activities in the authoring folder should be named `gv-x` for reasonably-up-to-date copies of the official authoring, where x is the version at the root of the Firebase document. Experimental activities can be given other names.
 
+The authoring document can be validated against the schema specified in the [authoring.schema.json](src/resources/authoring/authoring.schema.json) file. Validation can be triggered from the command line with the command
+
+    npm run validate
+
+Visual Studio Code can be configured to [show schema validation errors](https://code.visualstudio.com/docs/languages/json#_mapping-to-a-schema-in-the-workspace) in the editor by configuring a user setting for the project:
+```
+  // Associate schemas to JSON files in the current project
+  "json.schemas": [{
+      "fileMatch": ["gv-1.json"],
+      "url": "./src/resources/authoring/authoring.schema.json"
+  }],
+```
+
+### Narrative
+
+The narrative dialog alone can be exported from the authoring document using
+
+    npm run narrative > narrative.txt
+
+which generates output like the following:
+```
+Authoring File: src/resources/authoring/gv-1.json
+Git Branch: 157825652-export-dialog-text
+Export Date: 2018-06-04 14:56:36
+
+*
+* Level 1 - "Level 1"
+*
+
+*
+* Mission 1.1 - "Mission 1.1"
+*
+  HATCH: "Welcome, Cadet, to our underground hideout! I'm Professor Hatch, director of the Drake Breeder's Guild."
+  WEAVER: "And I'm Dr. Weaver, head of Mission Control here in the heart of our subterranean base."
+  HATCH: "Here in the Wyvern Republic, our dragons are under attack from the evil Kingdom of Darkwell, and in danger of going extinct! "
+  WEAVER: "You are training to be part of an elite team of scientists who will help us bring dragons back from the brink!"
+  HATCH: "Time is running out and we need to train you fast! Come with me to the Sim Room. Click your VenturePad to navigate around the base."
+```
+
 ## Structure
 
 The code is written in ES2015+ and JSX, which is transformed using Babel. We use

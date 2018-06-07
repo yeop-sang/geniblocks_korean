@@ -50,7 +50,8 @@ function mapStateToProps (state) {
       moves: state.moves,
       goalMoves: state.goalMoves,
       userDrakeHidden: state.userDrakeHidden,
-      tutorials: state.tutorials
+      tutorials: state.tutorials,
+      showDrakeColorHint: state.showDrakeColorHint
     };
   }
 

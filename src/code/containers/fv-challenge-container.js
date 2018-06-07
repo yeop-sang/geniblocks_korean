@@ -167,10 +167,14 @@ class FVChallengeContainer extends Component {
     showingRoom: PropTypes.bool,
     messages: PropTypes.array,
     tutorials: PropTypes.object,
+    showIntroductionAnimations: PropTypes.bool,
     onTutorialNext: PropTypes.func,
     onTutorialPrevious: PropTypes.func,
     onTutorialMore: PropTypes.func,
     onTutorialClosed: PropTypes.func,
+    onRestartTutorial: PropTypes.func,
+    onShowEasterEgg: PropTypes.func,
+    onReadyToAnswer: PropTypes.func,
     isRemediation: PropTypes.bool
   }
 }
@@ -210,6 +214,8 @@ function mapStateToProps (state) {
       // than HTML5 drag/drop dragImage
       useCustomDragLayer: true,
       tutorials: state.tutorials,
+      showIntroductionAnimations: state.showIntroductionAnimations,
+      showDrakeColorHint: state.showDrakeColorHint,
       isRemediation: state.isRemediation
     };
   }
