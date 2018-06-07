@@ -189,7 +189,7 @@ function getMatchDrakeRemediation(trait, practiceCriteria) {
   };
 }
 
-function getEggSortRemediation(trait, practiceCriteria) {
+function getEggSortRemediation(trait, /* practiceCriteria */) {
   const templateName = "FVEggSortGame";
 
   let baskets;
