@@ -139,7 +139,8 @@
                 {
                   "element": "father",
                   "text": "Parent Drake",
-                  "more": "This drake’s alleles are invisible!"
+                  "more": "This drake’s alleles are invisible!",
+                  "location": "top-center"
                 },
                 {
                   "element": "breed-button",
@@ -149,7 +150,8 @@
                 {
                   "element": "ready-to-answer-button",
                   "text": "Ready To Answer Button",
-                  "more": "Click Ready to Answer when you think you know what alleles the male has."
+                  "more": "Click Ready to Answer when you think you know what alleles the male has.",
+                  "location": "middle-right"
                 }
               ]
             }
