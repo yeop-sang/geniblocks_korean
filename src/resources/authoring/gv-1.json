@@ -2131,6 +2131,47 @@
           }]
         },
         "name": "Mission 6.2"
+      }, {
+        "challenges": [{
+          "about": {
+            "description" : "Students click the Generate Gametes button to see how gametes are randomly assembled. The game creates one egg and three sperm in Challenge 5 and three eggs and one sperm in Challenge 6. In both cases, the student must select the sperm or egg that, when combined with the other gamete, will create the target drake.",
+            "type" : "Gamete Selector"
+          },
+          "dialog": {
+            "end": {
+              "failure": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.3.1 not completed successfully"
+              }],
+              "success": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.3.1 completed successfully!"
+              }]
+            },
+            "start": [{
+              "character": "YEUNG",
+              "text": "Welcome to Challenge 6.3.1!"
+            }]
+          },
+          "id": "gamete-selectSpermEgg-harderTraits",
+          "name": "Challenge 6.3.1",
+          "room": "hatchery"
+        }],
+        "dialog": {
+          "end": [{
+            "character": "NETANYA",
+            "text": "End of mission 6.3"
+          }],
+          "middle": [{
+            "character": "WEAVER",
+            "text": "Middle of mission 6.3"
+          }],
+          "start": [{
+            "character": "YEUNG",
+            "text": "Start of mission 6.3"
+          }]
+        },
+        "name": "Mission 6.3"
       } ],
       "name": "Level 6"
     } ]
@@ -4227,6 +4268,27 @@
       "showUserDrake" : true,
       "template" : "FVEggGame",
       "visibleGenes" : "wings, forelimbs, hindlimbs, armor, horns"
+    },
+    "gamete-selectSpermEgg-harderTraits" : {
+      "challengeType" : "match-target",
+      "comment" : "*** Level 6, Challenge 3.1: Egg Breeding (select gametes to match drakes) ***",
+      "container" : "FVContainer",
+      "father" : {
+        "alleles" : "a:T,b:t,a:m,b:m,a:W,b:W,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:Hl,b:Hl,a:a,b:a,a:Bog",
+        "sex" : 0
+      },
+      "gameteCounts" : [ [ 3, 1 ] ],
+      "instructions" : "Match the target drakes!",
+      "interactionType" : "select-gametes",
+      "showIntroductionAnimations" : false,
+      "mother" : {
+        "alleles" : "a:Tk,b:t,a:M,b:M,a:W,b:W,a:h,b:h,a:C,b:C,a:b,b:b,a:fl,b:fl,a:Hl,b:Hl,a:A1,b:A1,a:D,b:d,a:Bog,b:Bog,a:Rh,b:rh",
+        "sex" : 1
+      },
+      "numTrials" : 1,
+      "showUserDrake" : true,
+      "template" : "FVEggGame",
+      "visibleGenes" : "tail, dilute, nose"
     },
     "gamete-selectSpermEgg-starterTraits" : {
       "challengeType" : "match-target",
