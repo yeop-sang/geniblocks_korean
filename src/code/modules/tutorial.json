@@ -71,6 +71,91 @@
           ]
         }
       ]
+    },
+    {
+      "level": 3,
+      "missions": [
+        {
+          "mission": 1,
+          "challenges":[
+            {
+              "challenge": 0,
+              "steps":[
+                {
+                  "element": "mother",
+                  "text": "Select Alleles",
+                  "more": "Set the parent’s alleles so their baby drake will match the Target Drake."
+                },
+                {
+                  "element": "breed-button",
+                  "text": "Breed Button",
+                  "more": "Click Breed to produce offspring. Then click a baby drake that matches the target!"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "missions": [
+        {
+          "mission": 2,
+          "challenges":[
+            {
+              "challenge": 0,
+              "steps":[
+                {
+                  "element": "mother",
+                  "text": "Select Alleles",
+                  "more": "Set the parent’s alleles so that they can produce both Target Offspring."
+                },
+                {
+                  "element": "breed-button",
+                  "text": "Breed Button",
+                  "more": "Click Breed to test if these parents can make both offspring."
+                },
+                {
+                  "element": "submit-parents-button",
+                  "text": "Submit Parents Button",
+                  "more": "Click Submit Parents when you think you have the parents that can produce BOTH drake offspring!"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "missions": [
+        {
+          "mission": 0,
+          "challenges":[
+            {
+              "challenge": 0,
+              "steps":[
+                {
+                  "element": "father",
+                  "text": "Parent Drake",
+                  "more": "This drake’s alleles are invisible!"
+                },
+                {
+                  "element": "breed-button",
+                  "text": "Breed Button",
+                  "more": "Click Breed. The offspring of these drakes will give you clues about the male’s alleles."
+                },
+                {
+                  "element": "ready-to-answer-button",
+                  "text": "Ready To Answer Button",
+                  "more": "Click Ready to Answer when you think you know what alleles the male has."
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }
