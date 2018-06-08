@@ -834,7 +834,8 @@ export default class FVEggGame extends Component {
                         animation: "complete", isIntroComplete: false });
       }
       if (this.props.interactionType === "select-gametes") {
-        if (nextTrial === 0) {
+        // challengeDidChange controls whether button is displayed
+        if ((nextTrial === 0) && challengeDidChange) {
           // hide center chromosomes while "generate gametes" button is displayed on first trial
           chromosomeDisplayStyle = {display: "none"};
         } else {
