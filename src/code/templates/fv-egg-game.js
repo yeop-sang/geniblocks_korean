@@ -394,7 +394,7 @@ var animationEvents = {
               totalDuration = slotMachineAnimationDuration;
         stage.chroms.forEach(function({ sex, name, sides }) {
           const halfBaseInterval = baseInterval / 2,
-                // initial interval is randomizes so timers aren't synchronized
+                // initial interval is randomized so timers aren't synchronized
                 initialInterval = Math.round(halfBaseInterval + halfBaseInterval * Math.random());
           timerSet.add(function(iteration, options) {
             if ((iteration < initialIterations) || (this.totalInterval < options.totalDuration)) {
@@ -452,7 +452,7 @@ var animationEvents = {
         animationEvents.randomizeChromosomes.animate();
       else
         _this.setState({ animation: 'complete' });
-    }
+      }
   },
   // Move tiny chromosomes into the gametes
   moveChromosomesToGamete: { id: 3, sexes: [], activeCount: 0, complete: false, ready: false,
@@ -1287,7 +1287,6 @@ export default class FVEggGame extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onResetGametePools();
     _this = null;
     resetAnimationEvents();
   }
@@ -1312,7 +1311,6 @@ export default class FVEggGame extends Component {
     onFertilize: PropTypes.func.isRequired,
     onHatch: PropTypes.func,
     onResetGametes: PropTypes.func,
-    onResetGametePools: PropTypes.func,
     onKeepOffspring: PropTypes.func,
     onDrakeSubmission: PropTypes.func,
     moves: PropTypes.number
