@@ -73,6 +73,26 @@
       ]
     },
     {
+      "level": 2,
+      "missions": [
+        {
+          "mission": 0,
+          "challenges":[
+            {
+              "challenge": 0,
+              "steps":[
+                {
+                  "element": "organism-color-text",
+                  "text": "Drake Color",
+                  "more": "This is the breeder's name for the drake color."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "level": 3,
       "missions": [
         {
