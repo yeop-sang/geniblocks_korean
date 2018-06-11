@@ -3051,8 +3051,6 @@
       } ],
       "goalMoves" : [ [ 2, 3, 2, 2, 2 ] ],
       "hiddenAlleles" : "A2",
-      "instructions" : "Create 5 different baby drakes!",
-      "interactionType" : "select-chromosomes",
       "linkedGenes" : [ {
         "drakes" : [ 0, 1, 2 ],
         "genes" : "armor, forelimbs, hindlimbs, tail, metallic, color, dilute, nose, bogbreath"
@@ -3071,12 +3069,10 @@
           "alleles" : "h-h, b-b, W-W, m-m, a-a, fl-fl, hl-hl, t-t, C-C, D-D, rh-rh, Bog-Bog",
           "sex" : 1
         }, {
-          "alleles" : "W-W, h-h, B-B, M-M a-a, Fl-Fl, hl-hl, T-T, C-C, D-D, rh-rh, Bog-Bog",
+          "alleles" : "W-W, h-h, B-B, M-M, a-a, Fl-Fl, hl-hl, T-T, C-C, D-D, rh-rh, Bog-Bog",
           "sex" : 1
         } ]
       } ],
-      "randomizeTrials" : false,
-      "showUserDrake" : true,
       "targetDrakes" : [ {
         "randomMatched" : [ {
           "alleles" : "h-h, W-W, b-b"
@@ -3137,8 +3133,6 @@
       } ],
       "goalMoves" : [ [ 2, 3, 2, 2, 2 ], [ 3, 3, 2, 3, 2 ] ],
       "hiddenAlleles" : "A2",
-      "instructions" : "Create 5 different baby drakes!",
-      "interactionType" : "select-chromosomes",
       "linkedGenes" : [ {
         "drakes" : [ 0, 1, 2 ],
         "genes" : "armor, forelimbs, hindlimbs, tail, metallic, color, dilute, nose, bogbreath"
@@ -3160,7 +3154,7 @@
           "alleles" : "h-h, b-b, W-W, m-m, a-a, fl-fl, hl-hl, t-t, C-C, D-D, rh-rh, Bog-Bog",
           "sex" : 1
         }, {
-          "alleles" : "W-W, h-h, B-B, M-M a-a, Fl-Fl, hl-hl, T-T, C-C, D-D, rh-rh, Bog-Bog",
+          "alleles" : "W-W, h-h, B-B, M-M, a-a, Fl-Fl, hl-hl, T-T, C-C, D-D, rh-rh, Bog-Bog",
           "sex" : 1
         } ]
       }, {
@@ -3168,7 +3162,7 @@
           "alleles" : "C-C, Hl-hl, a-a, B-B, T-T, Fl-Fl, D-D, rh-rh, Bog-Bog",
           "sex" : 1
         }, {
-          "alleles" : "C-C, H-hl, A1-A1, b-b, Tk-Tk, fl-fl, D-D, rh-rh, Bog-Bog",
+          "alleles" : "C-C, Hl-hl, A1-A1, b-b, Tk-Tk, fl-fl, D-D, rh-rh, Bog-Bog",
           "sex" : 1
         }, {
           "alleles" : "c-c, Hl-hl, A1-A1, B-B, t-t, fl-fl, D-D, rh-rh, Bog-Bog",
@@ -3177,12 +3171,10 @@
           "alleles" : "c-c, Hl-hl, A1-A1, b-b, T-T, fl-fl, D-D, rh-rh, Bog-Bog",
           "sex" : 1
         }, {
-          "alleles" : "c-C, H-hl, A1-a, B-B, Fl-Fl, t-t, D-D, rh-rh, Bog-Bog",
+          "alleles" : "c-C, Hl-hl, A1-a, B-B, Fl-Fl, t-t, D-D, rh-rh, Bog-Bog",
           "sex" : 1
         } ]
       } ],
-      "randomizeTrials" : false,
-      "showUserDrake" : true,
       "targetDrakes" : [ {
         "randomMatched" : [ {
           "alleles" : "h-h, W-W, b-b"
@@ -3241,8 +3233,6 @@
       } ],
       "goalMoves" : [ [ 3, 3, 2, 3, 2 ] ],
       "hiddenAlleles" : "A2",
-      "instructions" : "Create 5 different baby drakes!",
-      "interactionType" : "select-chromosomes",
       "linkedGenes" : [ {
         "drakes" : [ 0, 1, 2 ],
         "genes" : "forelimbs, wings, hindlimbs, tail, metallic, dilute, nose, bogbreath, horns, black"
@@ -3261,12 +3251,10 @@
           "alleles" : "c-c, Hl-hl, A1-A1, m-m, B-B, T-T, fl-fl, D-D, rh-rh, h-h, w-w, Bog-Bog",
           "sex" : 1
         }, {
-          "alleles" : "c-C, H-hl, A1-a, M-M, b-b, Fl-Fl, t-t, D-D, rh-rh, H-H, W-W, Bog-Bog",
+          "alleles" : "c-C, Hl-hl, A1-a, M-M, b-b, Fl-Fl, t-t, D-D, rh-rh, H-H, W-W, Bog-Bog",
           "sex" : 1
         } ]
       } ],
-      "randomizeTrials" : false,
-      "showUserDrake" : true,
       "targetDrakes" : [ {
         "randomMatched" : [ {
           "alleles" : "c-c, hl-hl, A1-A1"
@@ -3310,8 +3298,6 @@
       } ],
       "goalMoves" : [ 2 ],
       "hiddenAlleles" : "A2",
-      "instructions" : "Create 5 different baby drakes",
-      "interactionType" : "select-chromosomes",
       "linkedGenes" : {
         "drakes" : [ 0, 1, 2 ],
         "genes" : "armor, forelimbs, hindlimbs, horns, tail, color, dilute, nose, bogbreath"
@@ -3334,7 +3320,6 @@
           "sex" : 1
         } ]
       } ],
-      "showUserDrake" : true,
       "targetDrakes" : [ {
         "randomMatched" : [ {
           "alleles" : "m-m, W-W, b-b"
@@ -3412,8 +3397,6 @@
       } ],
       "goalMoves" : [ 2, 2, [ 2, 2, 3, 3, 3 ] ],
       "hiddenAlleles" : "A2",
-      "instructions" : "Create 5 different baby drakes",
-      "interactionType" : "select-chromosomes",
       "linkedGenes" : {
         "drakes" : [ 0, 1, 2 ],
         "genes" : "armor, forelimbs, hindlimbs, horns, tail, color, dilute, nose, bogbreath"
@@ -3470,7 +3453,6 @@
           "sex" : 1
         } ]
       } ],
-      "showUserDrake" : true,
       "targetDrakes" : [ {
         "randomMatched" : [ {
           "alleles" : "m-m, W-W, b-b"
@@ -3545,8 +3527,6 @@
       } ],
       "goalMoves" : [ 2 ],
       "hiddenAlleles" : "A2",
-      "instructions" : "Create 5 different baby drakes",
-      "interactionType" : "select-chromosomes",
       "linkedGenes" : {
         "drakes" : [ 0, 1, 2 ],
         "genes" : "armor, forelimbs, hindlimbs, horns, tail, color, dilute, nose, bogbreath"
@@ -3569,7 +3549,6 @@
           "sex" : 1
         } ]
       } ],
-      "showUserDrake" : true,
       "targetDrakes" : [ {
         "randomMatched" : [ {
           "alleles" : "M-M, w-w, b-b"
@@ -3614,8 +3593,6 @@
       } ],
       "goalMoves" : [ [ 2, 2, 3, 3, 3 ] ],
       "hiddenAlleles" : "A2",
-      "instructions" : "Create 5 different baby drakes",
-      "interactionType" : "select-chromosomes",
       "linkedGenes" : {
         "drakes" : [ 0, 1, 2 ],
         "genes" : "armor, forelimbs, hindlimbs, horns, tail, color, dilute, nose, bogbreath"
@@ -3638,7 +3615,6 @@
           "sex" : 1
         } ]
       } ],
-      "showUserDrake" : true,
       "targetDrakes" : [ {
         "randomMatched" : [ {
           "alleles" : "m-m, w-w, b-b"
@@ -4629,8 +4605,6 @@
       } ],
       "goalMoves" : [ [ 0, 0, 0, 0, 0 ] ],
       "hiddenAlleles" : "A2",
-      "instructions" : "Create 5 different baby drakes!",
-      "interactionType" : "select-chromosomes",
       "linkedGenes" : {
         "drakes" : [ 0, 1, 2 ],
         "genes" : "color, hindlimbs, black, horns, armor, tail, dilute, nose, bogbreath"
@@ -4653,7 +4627,6 @@
           "sex" : 1
         } ]
       } ],
-      "showUserDrake" : true,
       "targetDrakes" : [ {
         "randomMatched" : [ [ {
           "alleles" : "M-, w-w, fl-fl",
@@ -4714,8 +4687,6 @@
       } ],
       "goalMoves" : [ [ 0, 0, 0, 0 ] ],
       "hiddenAlleles" : "A2",
-      "instructions" : "Create 5 different baby drakes!",
-      "interactionType" : "select-chromosomes",
       "linkedGenes" : {
         "drakes" : [ 0, 1, 2 ],
         "genes" : "forelimbs, hindlimbs, wings, color, metallic, tail, dilute, nose, bogbreath"
@@ -4735,7 +4706,6 @@
           "sex" : 1
         } ]
       } ],
-      "showUserDrake" : true,
       "targetDrakes" : [ {
         "randomMatched" : [ [ {
           "alleles" : "b-b, h-h, A1-A1",
@@ -4790,8 +4760,6 @@
       } ],
       "goalMoves" : [ [ 0, 0, 0, 0 ] ],
       "hiddenAlleles" : "A2",
-      "instructions" : "Create 5 different baby drakes!",
-      "interactionType" : "select-chromosomes",
       "linkedGenes" : {
         "drakes" : [ 0, 1, 2 ],
         "genes" : "forelimbs, color, metallic, tail, dilute, nose, bogbreath"
@@ -4811,7 +4779,6 @@
           "sex" : 1
         } ]
       } ],
-      "showUserDrake" : true,
       "targetDrakes" : [ {
         "randomMatched" : [ [ {
           "alleles" : "Hl-, W-, h-h, A1-A1, B-",
@@ -4859,7 +4826,7 @@
         "alleles" : "Hl-hl, W-W, b-b, h-h, M-M, Fl-Fl, A1-A1, rh-rh, Bog-Bog, C-C",
         "sex" : 0
       }, {
-        "alleles" : "Hl-Hl, w-w, b-b, h-h, m-M, fl-FL, A1-A1, rh-rh, Bog-Bog, C-C",
+        "alleles" : "Hl-Hl, w-w, b-b, h-h, m-M, fl-Fl, A1-A1, rh-rh, Bog-Bog, C-C",
         "sex" : 0
       }, {
         "alleles" : "Hl-Hl, w-w, B-b, H-h, M-m, fl-fl, A1-A1, rh-rh, Bog-Bog, C-C",
@@ -4875,8 +4842,6 @@
         "hiddenImage" : false,
         "sex" : 0
       },
-      "instructions" : "Test!",
-      "interactionType" : "select-chromosomes",
       "linkedGenes" : {
         "drakes" : [ 0, 1, 2 ],
         "genes" : "armor, tail, dilute, nose, bogbreath"
@@ -4885,8 +4850,6 @@
         "alleles" : "h-H, w-w, b-b, m-m, A1-A1, fl-fl, hl-hl, T-T, C-C, D-D, rh-rh, Bog-Bog",
         "sex" : 1
       } ],
-      "randomizeTrials" : false,
-      "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "Hl-Hl, W-W, B-B",
         "sex" : 0
@@ -4902,7 +4865,7 @@
       "challengeType" : "test-cross",
       "container" : "FVContainer",
       "father" : [ {
-        "alleles" : "h-h, w-w, hl-hl, b-b, m-m, a1-a1, fl-fl, D-D, Bog-Bog, rh-rh, C-C",
+        "alleles" : "h-h, w-w, hl-hl, b-b, m-m, a-a, fl-fl, D-D, Bog-Bog, rh-rh, C-C",
         "sex" : 0
       } ],
       "goalMoves" : [ 0 ],
@@ -4912,8 +4875,6 @@
         "hiddenImage" : true,
         "sex" : 1
       },
-      "instructions" : "Test2!",
-      "interactionType" : "select-chromosomes",
       "linkedGenes" : {
         "drakes" : [ 0, 1, 2 ],
         "genes" : "tail, dilute, nose, bogbreath"
@@ -4922,23 +4883,21 @@
         "alleles" : "H-h, w-w, Hl-Hl, b-b, M-m, A1-A1, Fl-Fl, rh-rh, D-D, Bog-Bog, C-C",
         "sex" : 1
       }, {
-        "alleles" : "H-H, w-w, Hl-hl, b-B, m-M, a1-A1, fl-Fl, rh-rh, D-D, Bog-Bog, C-C",
+        "alleles" : "H-H, w-w, Hl-hl, b-B, m-M, a-A1, fl-Fl, rh-rh, D-D, Bog-Bog, C-C",
         "sex" : 1
       }, {
-        "alleles" : "H-H, W-w, hl-hl, b-b, M-m, A1-a1, fl-fl, rh-rh, D-D, Bog-Bog, C-C",
+        "alleles" : "H-H, W-w, hl-hl, b-b, M-m, A1-a, fl-fl, rh-rh, D-D, Bog-Bog, C-C",
         "sex" : 1
       }, {
-        "alleles" : "H-h, W-W, hl-hl, B-B, M-M, a1-a1, Fl-fl, rh-rh, D-D, Bog-Bog, C-C",
+        "alleles" : "H-h, W-W, hl-hl, B-B, M-M, a-a, Fl-fl, rh-rh, D-D, Bog-Bog, C-C",
         "sex" : 1
       }, {
-        "alleles" : "h-h, W-W, Hl-hl, b-B, m-m, a1-A1, Fl-Fl, rh-rh, D-D, Bog-Bog, C-C",
+        "alleles" : "h-h, W-W, Hl-hl, b-B, m-m, a-A1, Fl-Fl, rh-rh, D-D, Bog-Bog, C-C",
         "sex" : 1
       }, {
-        "alleles" : "h-h, W-w, Hl-hl, b-b, m-M, A1-a1, fl-fl, rh-rh, D-D, Bog-Bog, C-C",
+        "alleles" : "h-h, W-w, Hl-hl, b-b, m-M, A1-a, fl-fl, rh-rh, D-D, Bog-Bog, C-C",
         "sex" : 1
       } ],
-      "randomizeTrials" : false,
-      "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "H-H, W-W, Hl-Hl",
         "sex" : 1
@@ -4963,7 +4922,7 @@
         "alleles" : "A1-a, W-w, b-b, H-h, M-M, Fl-Fl, D-D, hl-hl, rh-rh, C-C",
         "sex" : 0
       }, {
-        "alleles" : "A1-a, W-w, B-b, H-H, m-M, fl-FL, D-D, Hl-Hl, rh-rh, C-C",
+        "alleles" : "A1-a, W-w, B-b, H-H, m-M, fl-Fl, D-D, Hl-Hl, rh-rh, C-C",
         "sex" : 0
       }, {
         "alleles" : "A1-a, W-w, B-B, H-H, M-m, fl-fl, D-D, Hl-hl, rh-rh, C-C",
@@ -4985,8 +4944,6 @@
         "hiddenImage" : true,
         "sex" : 0
       },
-      "instructions" : "Test!",
-      "interactionType" : "select-chromosomes",
       "linkedGenes" : {
         "drakes" : [ 0, 1, 2 ],
         "genes" : "color, hindlimbs, black, horns, armor, tail, dilute, nose, bogbreath"
@@ -5016,8 +4973,6 @@
         "alleles" : "H-h, W-W, b-b, m-M, A1-a, fl-fl, Hl-hl, T-T, C-C, D-D, rh-rh, Bog-Bog",
         "sex" : 1
       } ],
-      "randomizeTrials" : false,
-      "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "M-M, A1-A1, Fl-Fl, Hl-Hl",
         "sex" : 0
