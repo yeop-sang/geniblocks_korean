@@ -205,6 +205,33 @@
       "required": ["alleles"],
       "additionalProperties": false
     },
+    "drakeOrArray": {
+      "description": "Specification for a single drake or an array of drakes",
+      "oneOf": [
+        { "$ref": "#/definitions/drake" },
+        { "type": "array", "items": { "$ref": "#/definitions/drake" } }
+      ]
+    },
+    "drakeOrRandomMatched": {
+      "description": "A drake or a set of drakes from which one is to be randomly selected.",
+      "oneOf": [
+        { "$ref": "#/definitions/drake" },
+        { "$ref": "#/definitions/drakeRandomMatched" }
+      ]
+    },
+    "drakeRandomMatched": {
+      "description": "Specification for a set of drakes from which one is to be randomly selected.",
+      "type": "object",
+      "properties": {
+        "randomMatched": {
+          "description": "The set of drakes from which one is to be randomly selected.",
+          "type": "array",
+          "items": { "$ref": "#/definitions/drake" }
+        }
+      },
+      "required": ["randomMatched"],
+      "additionalProperties": false
+    },
     "endDialogSequence": {
       "description": "Alternative dialog sequences spoken at the end of a challenge or mission",
       "type": "object",
@@ -232,8 +259,9 @@
           "type": "string",
           "enum": ["FVContainer"]
         },
-        "father": { "$ref": "#/definitions/drake" },
+        "father": { "$ref": "#/definitions/drakeOrRandomMatched" },
         "gameteCounts": {
+          "description": "Array of gamete counts for each trial. Each entry is number of parent gametes in form [father, mother].",
           "type": "array",
           "items": {
             "type": "array",
@@ -247,10 +275,11 @@
           "type": "string"
         },
         "interactionType": {
+          "description": "Whether the user is to select chromosomes or gametes.",
           "type": "string",
           "enum": ["select-chromosomes", "select-gametes"]
         },
-        "mother": { "$ref": "#/definitions/drake" },
+        "mother": { "$ref": "#/definitions/drakeOrRandomMatched" },
         "numTrials": {
           "description": "The number of trials in this challenge",
           "type": "integer",

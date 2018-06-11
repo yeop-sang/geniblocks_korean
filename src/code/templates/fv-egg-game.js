@@ -8,7 +8,7 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import { assign, clone, cloneDeep, shuffle, range } from 'lodash';
+import { assign, clone, cloneDeep, find, shuffle, range } from 'lodash';
 import classNames from 'classnames';
 import { motherGametePool, fatherGametePool, gametePoolSelector,
         motherSelectedGameteIndex, fatherSelectedGameteIndex } from '../modules/gametes';
@@ -1351,17 +1351,19 @@ export default class FVEggGame extends Component {
   }
 
   static authoredDrakesToDrakeArray = function(authoredChallenge, authoredTrialNumber) {
-    const mother = new BioLogica.Organism(BioLogica.Species.Drake,
-                                          authoredChallenge.mother.alleles,
-                                          authoredChallenge.mother.sex),
-          father = new BioLogica.Organism(BioLogica.Species.Drake,
-                                          authoredChallenge.father.alleles,
-                                          authoredChallenge.father.sex),
-          // authored specs may be incomplete; these are complete specs
-          motherSpec = { alleles: mother.getAlleleString(), sex: mother.sex },
-          fatherSpec = { alleles: father.getAlleleString(), sex: father.sex };
+    function generateDrakes(parentSpec) {
+      return parentSpec.randomMatched
+              ? parentSpec.randomMatched.asMutable().map(spec =>
+                  new BioLogica.Organism(BioLogica.Species.Drake, spec.alleles, spec.sex))
+              : [new BioLogica.Organism(BioLogica.Species.Drake, parentSpec.alleles, parentSpec.sex)];
+    }
+
+    const mothers = generateDrakes(authoredChallenge.mother),
+          fathers = generateDrakes(authoredChallenge.father),
+          motherSpecs = mothers.map(drake => ({ alleles: drake.getAlleleString(), sex: drake.sex })),
+          fatherSpecs = fathers.map(drake => ({ alleles: drake.getAlleleString(), sex: drake.sex }));
     if (authoredChallenge.challengeType === 'create-unique')
-      return [motherSpec, fatherSpec];
+      return [motherSpecs[0], fatherSpecs[0]];
 
     // already generated drakes
     if (authoredTrialNumber > 0)
@@ -1372,22 +1374,52 @@ export default class FVEggGame extends Component {
 
     function childDrakesContain(alleles) {
       for (let i = 3; i < authoredDrakes.length; ++i) {
-        if (authoredDrakes[i].alleles === alleles)
-          return true;
+        const trialDrakeSpec = authoredDrakes[i];
+        if (trialDrakeSpec.randomMatched) {
+          if (find(trialDrakeSpec.randomMatched, (drake) => drake.alleles === alleles))
+            return true;
+        }
+        else {
+          if (authoredDrakes[i].alleles === alleles)
+            return true;
+        }
       }
       return false;
     }
 
-    authoredDrakes = [motherSpec, fatherSpec, null];
-    for (let i = 0; i < targetDrakeCount; ++i) {
-      let child, childAlleles;
-      do {
-        child = BioLogica.breed(mother, father, false);
-        childAlleles = child.getAlleleString();
-        // don't generate the same set of alleles twice
-      } while (childDrakesContain(childAlleles));
+    function generateChildDrakes(mother, father) {
+      const children = [];
+      for (let t = 0; t < targetDrakeCount; ++t) {
+        let child, childAlleles;
+        do {
+          child = BioLogica.breed(mother, father, false);
+          childAlleles = child.getAlleleString();
+          // don't generate the same set of alleles twice
+        } while (childDrakesContain(childAlleles));
+  
+        children.push({ alleles: childAlleles, sex: child.sex });
+      }
+      return children;
+    }
 
-      authoredDrakes.push({ alleles: childAlleles, sex: child.sex });
+    authoredDrakes = [
+      motherSpecs.length > 1 ? { randomMatched: motherSpecs } : motherSpecs[0],
+      fatherSpecs.length > 1 ? { randomMatched: fatherSpecs } : fatherSpecs[0], 
+      null
+    ];
+    for (let i = 0; i < mothers.length; ++i) {
+      const children = generateChildDrakes(mothers[i], fathers[i]);
+      if (mothers.length === 1) {
+        authoredDrakes.push(...children);
+      }
+      else {
+        children.forEach((child, trial) => {
+          if (i === 0) {
+            authoredDrakes.push({ randomMatched: [] });
+          }
+          authoredDrakes[3 + trial].randomMatched.push(child);
+        });
+      }
     }
     return authoredDrakes;
   }

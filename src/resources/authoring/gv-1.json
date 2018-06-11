@@ -4274,16 +4274,26 @@
       "comment" : "*** Level 6, Challenge 3.1: Egg Breeding (select gametes to match drakes) ***",
       "container" : "FVContainer",
       "father" : {
-        "alleles" : "a:T,b:t,a:m,b:m,a:W,b:W,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:Hl,b:Hl,a:a,b:a,a:Bog",
-        "sex" : 0
+        "randomMatched": [{
+          "alleles" : "a:T,b:t,a:M,b:M,a:W,b:W,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:Hl,b:Hl,a:a,b:a,a:Bog",
+          "sex" : 0
+        }, {
+          "alleles" : "a:T,b:t,a:m,b:m,a:W,b:W,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:Hl,b:Hl,a:a,b:a,a:Bog",
+          "sex" : 0
+        }]
       },
       "gameteCounts" : [ [ 3, 1 ] ],
       "instructions" : "Match the target drakes!",
       "interactionType" : "select-gametes",
       "showIntroductionAnimations" : false,
       "mother" : {
-        "alleles" : "a:Tk,b:t,a:M,b:M,a:W,b:W,a:h,b:h,a:C,b:C,a:b,b:b,a:fl,b:fl,a:Hl,b:Hl,a:A1,b:A1,a:D,b:d,a:Bog,b:Bog,a:Rh,b:rh",
-        "sex" : 1
+        "randomMatched": [{
+          "alleles" : "a:Tk,b:t,a:M,b:M,a:W,b:W,a:h,b:h,a:C,b:C,a:b,b:b,a:fl,b:fl,a:Hl,b:Hl,a:A1,b:A1,a:D,b:d,a:Bog,b:Bog,a:Rh,b:rh",
+          "sex" : 1
+        }, {
+          "alleles" : "a:Tk,b:t,a:m,b:m,a:W,b:W,a:h,b:h,a:C,b:C,a:b,b:b,a:fl,b:fl,a:Hl,b:Hl,a:A1,b:A1,a:D,b:d,a:Bog,b:Bog,a:Rh,b:rh",
+          "sex" : 1
+        }]
       },
       "numTrials" : 1,
       "showUserDrake" : true,
