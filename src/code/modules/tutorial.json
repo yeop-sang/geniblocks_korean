@@ -104,12 +104,17 @@
                 {
                   "element": "mother",
                   "text": "Select Alleles",
-                  "more": "Set the parent’s alleles so their baby drake will match the Target Drake."
+                  "more": "Set the parent’s alleles so an offspring will match the Target Drake."
                 },
                 {
                   "element": "breed-button",
                   "text": "Breed Button",
-                  "more": "Click Breed to produce offspring. Then click a baby drake that matches the target!"
+                  "more": "Click Breed to produce offspring. Breeding does not count as a Move!"
+                },
+                {
+                  "element": "clutch-counter",
+                  "text": "Offspring",
+                  "more": "Click an offspring that matches the Target Drake"
                 }
               ]
             }
@@ -129,7 +134,7 @@
                 {
                   "element": "breed-button",
                   "text": "Breed Button",
-                  "more": "Click Breed to test if these parents can make both offspring."
+                  "more": "You may click Breed to test if these parents can make both offspring."
                 },
                 {
                   "element": "submit-parents-button",
@@ -154,18 +159,18 @@
                 {
                   "element": "father",
                   "text": "Parent Drake",
-                  "more": "This drake’s alleles are invisible!",
+                  "more": "We don't know the alleles for this drake! Use breeding to figure them out.",
                   "location": "top-center"
                 },
                 {
                   "element": "breed-button",
                   "text": "Breed Button",
-                  "more": "Click Breed. The offspring of these drakes will give you clues about the male’s alleles."
+                  "more": "Click Breed. The offspring will give you clues about the unknown alleles."
                 },
                 {
                   "element": "ready-to-answer-button",
                   "text": "Ready To Answer Button",
-                  "more": "Click Ready to Answer when you think you know what alleles the male has.",
+                  "more": "Click Ready to Answer when you think you know what alleles this drake has.",
                   "location": "middle-right"
                 }
               ]
