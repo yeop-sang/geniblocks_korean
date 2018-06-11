@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "Geniventure Tutorial Authoring",
+  "description": "Geniventure's tutorial authoring document",
+  "type": "object",
+  "properties": {
+    "levels": {
+      "description": "Configuration for the levels that comprise the application",
+      "type": "array",
+      "items": {
+        "description": "Each entry corresponds to a level",
+        "type": "object",
+        "properties": {
+          "missions": {
+            "description": "Configuration for the missions that comprise the level",
+            "type": "array",
+            "items": {
+              "description": "Each entry corresponds to a mission",
+              "type": "object",
+              "properties": {
+                "challenges": {
+                  "description": "The list of challenges provided by this mission",
+                  "type": "array",
+                  "items": {
+                    "description": "Each entry corresponds to a challenge",
+                    "type": "object",
+                    "properties": {
+                      "steps": {
+                        "description": "The list of tutorial steps for this challenge",
+                        "type": "array",
+                        "items":{
+                          "element": "The css class of the element being highlighted",
+                          "text": "The main header text to show on the popup",
+                          "more": "The full text of the tutorial displayed on clicking More",
+                          "pulseElement": "The element to highlight with a css pulse (if different from the main element",
+                          "location": "A specific location on screen for the popup"
+                        },
+                        "required": ["element", "text", "more"],
+                        "additionalProperties": false
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
