@@ -29,14 +29,33 @@
                         "description": "The list of tutorial steps for this challenge",
                         "type": "array",
                         "items":{
-                          "element": "The css class of the element being highlighted",
-                          "text": "The main header text to show on the popup",
-                          "more": "The full text of the tutorial displayed on clicking More",
-                          "pulseElement": "The element to highlight with a css pulse (if different from the main element",
-                          "location": "A specific location on screen for the popup"
-                        },
-                        "required": ["element", "text", "more"],
-                        "additionalProperties": false
+                          "description": "A tutorial step",
+                          "type": "object",
+                          "properties": {
+                            "element": {
+                              "description" : "The css class of the element being highlighted",
+                              "type": "string"
+                            },
+                            "text": {
+                              "description": "The main header text to show on the popup",
+                              "type": "string"
+                            },
+                            "more": {
+                              "description": "The full text of the tutorial displayed on clicking More",
+                              "type": "string"
+                            },
+                            "pulseElement": {
+                              "description": "The element to highlight with a css pulse (if different from the main element",
+                              "type": "string"
+                            },
+                            "location": {
+                              "description": "A specific location on screen for the popup",
+                              "type": "string"
+                            }
+                          },
+                          "required": ["element", "text", "more"],
+                          "additionalProperties": false
+                        }
                       }
                     }
                   }
