@@ -27,9 +27,6 @@ describe('changeAllele action', () => {
           "actor": "USER",
           "action": "CHANGED",
           "target": "ALLELE"
-        },
-        logNextState: {
-          newAlleles: ["drakes", 1, "alleleString"]
         }
       }
     });

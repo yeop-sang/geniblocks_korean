@@ -98,7 +98,8 @@ describe('loading authored state into template', () => {
             }
           ],
           "numTrials": 1,
-          "trialOrder": [0,1]
+          "trialOrder": [0,1],
+          isRemediation: false
         }));
     });
 

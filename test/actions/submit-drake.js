@@ -70,11 +70,11 @@ describe('submitDrake action', () => {
       expect(submitDrakeAction).toEqual({
         type: types.DRAKE_SUBMITTED,
         species: "Drake",
-        challengeCriteria: {
-          phenotype: submitDrakeAction.challengeCriteria.phenotype,  // we check valid phenotype below
+        target: {
+          phenotype: submitDrakeAction.target.phenotype,  // we check valid phenotype below
           sex: 0
         },
-        userSelections: {
+        selected: {
           alleles: userAlleles,
           sex: 0
         },
@@ -88,7 +88,7 @@ describe('submitDrake action', () => {
           }
         }
       });
-      assertMatchingPhenotype(submitDrakeAction.challengeCriteria.phenotype, correctCharacteristics);
+      assertMatchingPhenotype(submitDrakeAction.target.phenotype, correctCharacteristics);
     });
 
     it('should call dispatch with the correct message action', () => {
@@ -102,6 +102,7 @@ describe('submitDrake action', () => {
           action: "completeChallenge"
         },
         isRaised: true,
+        isInterrupt: false,
         messages: [
           {
             text: "~ALERT.COMPLETED_CHALLENGE",
@@ -125,11 +126,11 @@ describe('submitDrake action', () => {
       expect(submitDrakeAction).toEqual({
         type: types.DRAKE_SUBMITTED,
         species: "Drake",
-        challengeCriteria: {
-          phenotype: submitDrakeAction.challengeCriteria.phenotype,  // we check valid phenotype below
+        target: {
+          phenotype: submitDrakeAction.target.phenotype,  // we check valid phenotype below
           sex: 0
         },
-        userSelections: {
+        selected: {
           alleles: userAlleles,
           sex: 0
         },
@@ -143,7 +144,7 @@ describe('submitDrake action', () => {
           }
         }
       });
-      assertMatchingPhenotype(submitDrakeAction.challengeCriteria.phenotype, correctCharacteristics);
+      assertMatchingPhenotype(submitDrakeAction.target.phenotype, correctCharacteristics);
     });
 
     it('should call dispatch with the correct message action', () => {
@@ -158,7 +159,8 @@ describe('submitDrake action', () => {
           action: "dismissModalDialog"
         },
         arrowAsCloseButton: false,
-        isRaised: false
+        isRaised: false,
+        isInterrupt: false
       });
     });
 
@@ -175,11 +177,11 @@ describe('submitDrake action', () => {
       expect(submitDrakeAction).toEqual({
         type: types.DRAKE_SUBMITTED,
         species: "Drake",
-        challengeCriteria: {
-          phenotype: submitDrakeAction.challengeCriteria.phenotype,
+        target: {
+          phenotype: submitDrakeAction.target.phenotype,
           sex: 0
         },
-        userSelections: {
+        selected: {
           motherAlleles: motherAlleles,
           fatherAlleles: fatherAlleles,
           offspringAlleles: userAlleles,

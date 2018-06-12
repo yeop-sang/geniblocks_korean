@@ -56,11 +56,11 @@ describe('submitEggForBasket action', () => {
       expect(submitEggAction).toEqual({
         type: types.EGG_SUBMITTED,
         species: BioLogica.Species.Drake.name,
-        challengeCriteria: {
+        target: {
           alleles: submittedAlleles,
           sex: 0
         },
-        userSelections: {
+        selected: {
           phenotype: acceptedPhenotypeCorrect
         },
         correct: isCorrect,
@@ -111,11 +111,11 @@ describe('submitEggForBasket action', () => {
       expect(submitEggAction).toEqual({
         type: types.EGG_SUBMITTED,
         species: BioLogica.Species.Drake.name,
-        challengeCriteria: {
+        target: {
           alleles: submittedAlleles,
           sex: 0
         },
-        userSelections: {
+        selected: {
           phenotype: acceptedPhenotypeIncorrect,
           sex: 0
         },
@@ -140,6 +140,7 @@ describe('submitEggForBasket action', () => {
           action: "showInChallengeCompletionMessage"
         },
         isRaised: false,
+        isInterrupt: false,
         arrowAsCloseButton: false
       });
     });

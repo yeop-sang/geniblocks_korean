@@ -2,7 +2,9 @@ import actionTypes from '../action-types';
 import templates from '../templates';
 import GuideProtocol from '../utilities/guide-protocol';
 import { GUIDE_CONNECTED, GUIDE_ERRORED,
-         GUIDE_MESSAGE_RECEIVED, GUIDE_ALERT_RECEIVED } from '../modules/notifications';
+  GUIDE_HINT_RECEIVED, GUIDE_ALERT_RECEIVED } from '../modules/notifications';
+import { requestRemediation } from '../modules/remediation';
+import GeneticsUtils from '../utilities/genetics-utils';
 import io from 'socket.io-client';
 import AuthoringUtils from '../utilities/authoring-utils';
 import { cloneDeep } from 'lodash';
@@ -13,18 +15,46 @@ var socket = null,
     isConnectonEstablished = false,
     msgQueue = [];
 
-export function initializeITSSocket(guideServer, guideProtocol, store) {
-  socket = io(`${guideServer}/${guideProtocol}`, {reconnection: false});
+export function initializeITSSocket(guideServer, socketPath, store) {
+  socket = io(guideServer, {
+    path: socketPath,
+    reconnection: false
+  });
+
   socket.on('connect', data =>
     store.dispatch({type: GUIDE_CONNECTED, data})
   );
-  socket.on(GuideProtocol.TutorDialog.Channel, data =>
-    store.dispatch({type: GUIDE_MESSAGE_RECEIVED, data: data})
-  );
-  socket.on(GuideProtocol.Alert.Channel, (data) =>
-    store.dispatch({type: GUIDE_ALERT_RECEIVED, data: data})
+
+  const receiveITSEvent = (data) => {
+    var event = GuideProtocol.Event.fromJson(data);
+    console.info(`%c Received from ITS: ${event.action} ${event.target}`, 'color: #f99a00', event);
+
+    if (event.isMatch("ITS", "HINT", "USER")) {
+      store.dispatch({type: GUIDE_HINT_RECEIVED, data: event});
+    } else if (event.isMatch("ITS", "REMEDIATE", "USER")) {
+      store.dispatch(requestRemediation(event));
+    } else if (event.isMatch("ITS", "SPOKETO", "USER")) {
+      // do nothing with this
+      console.log("ITS spoke to user:", event.context.dialog);
+    } else if (event.isMatch("ITS", "ISSUED", "ALERT")) {
+      store.dispatch({type: GUIDE_ALERT_RECEIVED, data: event});
+    } else {
+      console.log("%c Unhandled ITS message:", 'color: #f99a00', event.toString());
+    }
+  };
+
+  socket.on(GuideProtocol.Event.Channel, receiveITSEvent);
+
+  // for testing
+  window.GV_TEST_receiveITSEvent = receiveITSEvent;
+
+  socket.on('error', data =>
+    store.dispatch({type: GUIDE_ERRORED, data})
   );
   socket.on('connect_error', data =>
+    store.dispatch({type: GUIDE_ERRORED, data})
+  );
+  socket.on('reconnect_error', data =>
     store.dispatch({type: GUIDE_ERRORED, data})
   );
 
@@ -33,7 +63,8 @@ export function initializeITSSocket(guideServer, guideProtocol, store) {
 
 export default loggingMetadata => store => next => action => {
 
-  let result = next(action),
+  let prevState = store.getState(),
+      result = next(action),
       nextState = store.getState();
 
   if (action.type === actionTypes.SESSION_STARTED) {
@@ -42,17 +73,17 @@ export default loggingMetadata => store => next => action => {
 
   switch(action.type) {
     case GUIDE_ERRORED: {
-      console.log("Error connecting to ITS!");
+      console.log("%c Error connecting to ITS!", 'color: #f99a00');
       socket.close();
       break;
     }
     case GUIDE_CONNECTED: {
-      console.log("Connection Success!");
+      console.log("%c ITS Connection Success!", 'color: #f99a00');
       if (msgQueue.length) {
         msgQueue.forEach((msg, index) => {
           // use setTimeout to stagger messages sent to ITS
           setTimeout(() => {
-            console.log("Sending queued message to ITS:", msg);
+            console.log("%c Sending queued message to ITS:", 'color: #f99a00', msg);
             sendMessage(msg, socket);
           }, 10 * index);
         });
@@ -61,21 +92,20 @@ export default loggingMetadata => store => next => action => {
       isConnectonEstablished = true;
       break;
     }
-    case GUIDE_MESSAGE_RECEIVED:
+    case GUIDE_HINT_RECEIVED:
     case GUIDE_ALERT_RECEIVED: {
-      console.log("Message received from ITS:", action.data);
       break;
     }
     default: {
       // other action types - send to ITS
       if (action.meta && action.meta.itsLog){
-        let message = createLogEntry(loggingMetadata, action, nextState);
+        let message = createLogEntry(loggingMetadata, action, prevState, nextState);
         if (!isConnectonEstablished) {
-          console.log("Queuing message for ITS:", message);
+          console.log("%c Queuing message for ITS:", 'color: #f99a00', message);
           msgQueue.push(message);
         }
         else {
-          console.log("Sending message to ITS:", message);
+          console.log("%c Sending message to ITS:", 'color: #f99a00', message, JSON.stringify(message));
           sendMessage(message, socket);
         }
       }
@@ -129,15 +159,96 @@ export function changePropertyValues(obj, key, func) {
     }
 }
 
-function createLogEntry(loggingMetadata, action, nextState){
+function getChallengeType(state) {
+  if (state.location && state.location.id === "hatchery") {
+    return "Hatchery";
+  }
+  if (state.challengeType && state.challengeType === "match-target") {
+    if (state.template === "FVEggGame") {
+      return "Breeding";
+    }
+    return "Sim";
+  }
+  if (state.challengeType && state.challengeType === "submit-parents") {
+    return "Siblings";
+  }
+}
+
+function getSelectableAttributes(nextState) {
+  if ((nextState.template && nextState.template === "FVGenomeChallenge") ||
+      (nextState.challengeType && nextState.challengeType === "submit-parents")) {
+    return ["sex", ...nextState.userChangeableGenes];
+  }
+  if (nextState.template && nextState.template === "FVEggSortGame") {
+    return ["sex", ...nextState.visibleGenes];
+  }
+}
+
+function getTarget(nextState) {
+  let targetIndex;
+  if ((nextState.template && nextState.template === "FVGenomeChallenge") &&
+      (nextState.challengeType && nextState.challengeType === "match-target")) {
+    targetIndex = 1;
+  } else {
+    return;
+  }
+  let targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[targetIndex]);
+  return {
+    sex: targetDrakeOrg.sex,
+    phenotype: targetDrakeOrg.phenotype.characteristics
+  };
+}
+
+function getSelected(action, nextState) {
+  let userIndex;
+  if (action.type === actionTypes.ALLELE_CHANGED &&
+      (nextState.template && nextState.template === "FVGenomeChallenge") &&
+      (nextState.challengeType && nextState.challengeType === "match-target")) {
+    userIndex = 0;
+  } else {
+    return;
+  }
+  let userDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[userIndex]);
+  return {
+    sex: userDrakeOrg.sex,
+    alleles: userDrakeOrg.getAlleleString()
+  };
+}
+
+function createLogEntry(loggingMetadata, action, prevState, nextState){
   let event = { ...action.meta.itsLog },
       context = { ...action },
       routeSpec = nextState.routeSpec;
 
-  context["routeSpec"] = routeSpec;
-  context["groupId"] = "Slice2-June26";
-  context["challengeId"] = AuthoringUtils.getChallengeId(nextState.authoring, routeSpec);
-  context["classId"] = loggingMetadata.classInfo;
+  context.routeSpec = routeSpec;
+  context.groupId = "Test-v3";
+  context.challengeId = AuthoringUtils.getChallengeId(nextState.authoring, routeSpec);
+  context.classId = loggingMetadata.classInfo;
+
+  let challengeType = getChallengeType(prevState);
+  if (challengeType) {
+    context.challengeType = challengeType;
+  }
+
+  let selectableAttributes = getSelectableAttributes(nextState);
+  if (selectableAttributes) {
+    context.selectableAttributes = selectableAttributes;
+  }
+
+  let target = context.target || getTarget(prevState);
+  if (target) {
+    context.target = target;
+  }
+
+  let previous = context.selected || getSelected(action, prevState);
+  if (previous) {
+    context.previous = previous;
+  }
+
+  let selected = context.selected || getSelected(action, nextState);
+  if (selected) {
+    context.selected = selected;
+  }
 
   if (action.meta.logNextState) {
     for (let prop in action.meta.logNextState) {
@@ -165,13 +276,17 @@ function createLogEntry(loggingMetadata, action, nextState){
 
   context = makeMutable(cloneDeep(context));
 
-  let changeSexToString = sex => sex === 0 ? "male" : "female";
+  let changeSexToString = sex => sex === 0 ? "male" : sex === 1 ? "female" : sex;
   changePropertyValues(context, "sex", changeSexToString);
   changePropertyValues(context, "newSex", changeSexToString);
 
+  if (prevState.remediation) {
+    context.remediation = true;
+    context.challengeId = `${context.challengeId}-REMEDIATION`;
+  }
+
   const message =
     {
-      username: loggingMetadata.userName,
       classInfo: loggingMetadata.classInfo,
       studentId: loggingMetadata.studentId,
       externalId: loggingMetadata.externalId,

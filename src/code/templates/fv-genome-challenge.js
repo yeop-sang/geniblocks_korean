@@ -176,7 +176,7 @@ export default class FVGenomeChallenge extends React.Component {
     const handleCheckHatchButton = function() {
       if (isMatchingChallenge) {
         if (showUserDrake)
-        handleSubmit();
+          handleSubmit();
         else
           this_.setState({ hatchStarted: true });
       } else {

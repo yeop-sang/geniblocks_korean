@@ -6,6 +6,7 @@ import AuthoringUtils from './utilities/authoring-utils';
 import ProgressUtils from './utilities/progress-utils';
 import { getUserQueryString } from './middleware/state-save';
 import { notificationType } from './modules/notifications';
+import { endRemediation } from './modules/remediation';
 import { getGemFromChallengeErrors } from './reducers/helpers/gems-helper';
 import migrate from './migrations';
 //import { tutorialActionTypes } from './modules/tutorials';
@@ -112,6 +113,14 @@ export function retryCurrentChallenge() {
   return (dispatch, getState) => {
     dispatch(_retryCurrentChallenge());
     dispatch(navigateToChallenge(getState().routeSpec));
+  };
+}
+
+export function retryCurrentChallengeWithoutRoomDialog() {
+  return (dispatch) => {
+    dispatch(endRemediation());
+    dispatch(retryCurrentChallenge());
+    dispatch(enterChallengeFromRoom());
   };
 }
 
@@ -242,7 +251,7 @@ export function breed(mother, father, offspringBin, quantity=1, incrementMoves=f
 }
 
 export function changeAllele(index, chromosome, side, previousAllele, newAllele, incrementMoves=false) {
- return {
+  return {
     type: actionTypes.ALLELE_CHANGED,
     index,
     chromosome,
@@ -251,9 +260,6 @@ export function changeAllele(index, chromosome, side, previousAllele, newAllele,
     newAllele,
     incrementMoves,
     meta: {
-      logNextState: {
-        newAlleles: ["drakes", index, "alleleString"]
-      },
       itsLog: {
         actor: ITS_ACTORS.USER,
         action: ITS_ACTIONS.CHANGED,
@@ -332,19 +338,19 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIn
         userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]),
         isBredDrake = !isNaN(motherIndex),
         itsTarget = isBredDrake ? ITS_TARGETS.OFFSPRING : ITS_TARGETS.ORGANISM;
-  var userSelections;
+  var selected;
 
   if (isBredDrake) {
     const motherDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[motherIndex]),
           fatherDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[fatherIndex]);
-    userSelections = {
+    selected = {
       motherAlleles: motherDrakeOrg.alleles,
       fatherAlleles: fatherDrakeOrg.alleles,
       offspringAlleles: userDrakeOrg.alleles,
       offspringSex: userDrakeOrg.sex
     };
   } else {
-    userSelections = {
+    selected = {
       alleles: userDrakeOrg.alleles,
       sex: userDrakeOrg.sex
     };
@@ -353,11 +359,11 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIn
   return {
     type: actionTypes.DRAKE_SUBMITTED,
     species: BioLogica.Species.Drake.name,
-    challengeCriteria: {
+    target: {
       sex: targetDrakeOrg.sex,
       phenotype: targetDrakeOrg.phenotype.characteristics
     },
-    userSelections,
+    selected,
     correct,
     incrementMoves,
     meta: {
@@ -411,11 +417,11 @@ function _submitParents(motherIndex, fatherIndex, targetDrakeIndices, correct, s
         fatherDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[fatherIndex]),
         targetDrakeOrgs = targetDrakeIndices.map(i =>
           GeneticsUtils.convertDrakeToOrg(state.drakes[i])),
-        userSelections = {
+        selected = {
           motherAlleles: motherDrakeOrg.alleles,
           fatherAlleles: fatherDrakeOrg.alleles
         },
-        challengeCriteria = targetDrakeOrgs.map(o =>
+        target = targetDrakeOrgs.map(o =>
           ({
             sex: o.sex,
             phenotype: o.phenotype.characteristics
@@ -425,8 +431,8 @@ function _submitParents(motherIndex, fatherIndex, targetDrakeIndices, correct, s
   return {
     type: actionTypes.DRAKE_SUBMITTED,
     species: BioLogica.Species.Drake.name,
-    challengeCriteria,
-    userSelections,
+    target,
+    selected,
     correct,
     incrementMoves,
     meta: {
@@ -527,8 +533,8 @@ function _submitEggForBasket(eggDrakeIndex, basketIndex, isCorrect, state) {
   return {
     type: actionTypes.EGG_SUBMITTED,
     species: BioLogica.Species.Drake.name,
-    challengeCriteria: drakeCriteria,
-    userSelections: basketCriteria,
+    target: drakeCriteria,
+    selected: basketCriteria,
     correct: isCorrect,
     incrementMoves,
     meta: {
@@ -593,23 +599,35 @@ export function showNextTrialButton() {
   };
 }
 
-export function showNotification({message, closeButton, arrowAsCloseButton, isRaised}) {
+/**
+ *
+ * @param {Object} data
+ * @param {string} data.message - String of a single message
+ * @param {Object | bool} data.closeButton - Object with a {string} label and a {string} action property, naming
+ *    an action function, or `true` just to show button to close dialog
+ * @param {bool} data.arrowAsCloseButton - `true` to show an arrow that acts as the above close button
+ * @param {bool} data.isRaised - `true` to raise button above gems on screen
+ * @param {bool} data.isInterrupt - `false` to append to end of existing messages, `true` to clear existing messages
+ */
+export function showNotification({message, closeButton, arrowAsCloseButton, isRaised, isInterrupt}) {
   const messageObj = typeof message === "string" ? {text: message} : message;
   return showNotifications({
     messages: [messageObj],
     closeButton,
     arrowAsCloseButton,
-    isRaised
+    isRaised,
+    isInterrupt
   });
 }
 
-export function showNotifications({messages, closeButton, arrowAsCloseButton=false, isRaised=false}) {
+export function showNotifications({messages, closeButton, arrowAsCloseButton=false, isRaised=false, isInterrupt=false}) {
   return {
     type: actionTypes.NOTIFICATIONS_SHOWN,
     messages,
     arrowAsCloseButton,
     closeButton,
-    isRaised
+    isRaised,
+    isInterrupt
   };
 }
 
@@ -637,29 +655,43 @@ export function advanceTrial() {
 }
 
 export function showInChallengeCompletionMessage() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
 
-    dispatch({
-      type: actionTypes.CHALLENGE_COMPLETED,
-      meta: {sound: 'receiveCoin'}
-    });
+    const { isRemediation } = getState();
 
-    dispatch(showNotification({
-      message: {
-        text: "~ALERT.COMPLETED_CHALLENGE",
-        type: notificationType.NARRATIVE
-      },
-      closeButton: {
-        action: "completeChallenge"
-      },
-      arrowAsCloseButton: true,
-      isRaised: true
-    }));
+    if (!isRemediation) {
+      dispatch({
+        type: actionTypes.CHALLENGE_COMPLETED,
+        meta: {sound: 'receiveCoin'}
+      });
 
-    dispatch({
-      type: actionTypes.MODAL_DIALOG_SHOWN,
-      mouseShieldOnly: true
-    });
+      dispatch(showNotification({
+        message: {
+          text: "~ALERT.COMPLETED_CHALLENGE",
+          type: notificationType.NARRATIVE
+        },
+        closeButton: {
+          action: "completeChallenge"
+        },
+        arrowAsCloseButton: true,
+        isRaised: true
+      }));
+
+      dispatch({
+        type: actionTypes.MODAL_DIALOG_SHOWN,
+        mouseShieldOnly: true
+      });
+    } else {
+      dispatch(showNotification({
+        message: {
+          text: "~REMEDIATION.COMPLETED_CHALLENGE"
+        },
+        closeButton: {
+          action: "retryCurrentChallengeWithoutRoomDialog"
+        },
+        arrowAsCloseButton: true
+      }));
+    }
   };
 }
 
@@ -808,3 +840,5 @@ export function showEasterEgg() {
   };
 }
 
+// re-export any actions needed by the notification-dialog close button
+export { startRemediation } from './modules/remediation';
