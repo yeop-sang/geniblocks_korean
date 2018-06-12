@@ -15,21 +15,28 @@ export default class BreedButtonView extends React.Component {
     };
   }
 
-  render() {
-    let _this = this;
-    const handleClick = () => {
-      if (!_this.state.tempDisabled) {
-        _this.props.onClick();
-        _this.setState({tempDisabled: true});
-        // Disable the button for a bit to avoid mass breeding
-        setTimeout(function() {
-          _this.setState({tempDisabled: false});
-        }, 500);
-      }
-    };
+  handleClick = () => {
+    if (!this.state.tempDisabled) {
+      this.props.onClick();
+      this.setState({tempDisabled: true});
+      // Disable the button for a bit to avoid mass breeding
+      this.timer = setTimeout(() => {
+        this.setState({tempDisabled: false});
+        this.timer = null;
+      }, 500);
+    }
+  }
 
+  componentWillUnmount() {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+  }
+
+  render() {
+    const disabled = this.props.disabled || this.state.tempDisabled;
     return (
-      <div className={classNames('breed-button', { 'disabled': this.props.disabled})} onClick={handleClick}>
+      <div className={classNames('breed-button', { disabled })} onClick={this.handleClick}>
         <div className="button-label breed-button-label unselectable">{ t("~FV_EGG_GAME.BREED_BUTTON") }</div>
       </div>
     );

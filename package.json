@@ -102,8 +102,10 @@
     "narrative": "node ./script/narrative.js",
     "pretest": "npm run lint",
     "start": "gulp",
+    "templates": "node ./script/templates.js",
     "test": "mocha --compilers js:babel-core/register --recursive --require ./test/setup.js --require mock-local-storage",
     "test:watch": "npm run test -- --watch",
+    "unused": "node ./script/unused.js",
     "validate": "ajv validate -s ./src/resources/authoring/authoring.schema.json -d ./src/resources/authoring/gv-1.json"
   }
 }
