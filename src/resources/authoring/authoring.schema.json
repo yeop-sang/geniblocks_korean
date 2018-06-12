@@ -114,6 +114,7 @@
           "type": "object",
           "oneOf": [
             { "$ref": "#/definitions/challenge" },
+            { "$ref": "#/definitions/FVEggGame" },
             { "$ref": "#/definitions/FVEggSortGame" },
             { "$ref": "#/definitions/FVGenomeChallenge" }
           ]
@@ -161,6 +162,7 @@
       "description": "Configuration of an individual challenge",
       "type": "object",
       "properties": {
+        "linkedGenes": { "$ref": "#/definitions/linkedGenes" },
         "template": { "$ref": "#/definitions/template" },
         "patternProperties": {
           "^.+$": {
@@ -168,7 +170,8 @@
           }
         }
       },
-      "required": ["template"]
+      "required": ["template"],
+      "additionalProperties": true
     },
     "character": {
       "description": "The name of the character",
@@ -202,6 +205,33 @@
       "required": ["alleles"],
       "additionalProperties": false
     },
+    "drakeOrArray": {
+      "description": "Specification for a single drake or an array of drakes",
+      "oneOf": [
+        { "$ref": "#/definitions/drake" },
+        { "type": "array", "items": { "$ref": "#/definitions/drake" } }
+      ]
+    },
+    "drakeOrRandomMatched": {
+      "description": "A drake or a set of drakes from which one is to be randomly selected.",
+      "oneOf": [
+        { "$ref": "#/definitions/drake" },
+        { "$ref": "#/definitions/drakeRandomMatched" }
+      ]
+    },
+    "drakeRandomMatched": {
+      "description": "Specification for a set of drakes from which one is to be randomly selected.",
+      "type": "object",
+      "properties": {
+        "randomMatched": {
+          "description": "The set of drakes from which one is to be randomly selected.",
+          "type": "array",
+          "items": { "$ref": "#/definitions/drake" }
+        }
+      },
+      "required": ["randomMatched"],
+      "additionalProperties": false
+    },
     "endDialogSequence": {
       "description": "Alternative dialog sequences spoken at the end of a challenge or mission",
       "type": "object",
@@ -210,6 +240,121 @@
         "success": { "$ref": "#/definitions/dialogSequence" }
       },
       "required": ["failure", "success"],
+      "additionalProperties": false
+    },
+    "FVEggGame": {
+      "description": "A challenge that uses the FVEggGame template",
+      "type": "object",
+      "properties": {
+        "challengeType": {
+          "type": "string",
+          "enum": ["create-unique", "match-target"]
+        },
+        "comment": {
+          "description": "A descriptive comment for the challenge",
+          "type": "string"
+        },
+        "container": {
+          "description": "The container for the challenge",
+          "type": "string",
+          "enum": ["FVContainer"]
+        },
+        "father": { "$ref": "#/definitions/drakeOrRandomMatched" },
+        "gameteCounts": {
+          "description": "Array of gamete counts for each trial. Each entry is number of parent gametes in form [father, mother].",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "instructions": {
+          "description": "Instructions presented to the user",
+          "type": "string"
+        },
+        "interactionType": {
+          "description": "Whether the user is to select chromosomes or gametes.",
+          "type": "string",
+          "enum": ["select-chromosomes", "select-gametes"]
+        },
+        "mother": { "$ref": "#/definitions/drakeOrRandomMatched" },
+        "numTrials": {
+          "description": "The number of trials in this challenge",
+          "type": "integer",
+          "minimum": 1
+        },
+        "showIntroductionAnimations": {
+          "description": "Whether to show/hide the introductory animations",
+          "type": "boolean"
+        },
+        "showUserDrake": {
+          "description": "Whether the user drake is shown or hidden",
+          "type": "boolean"
+        },
+        "template": {
+          "type": "string",
+          "enum": ["FVEggGame"]
+        },
+        "visibleGenes": { "$ref": "#/definitions/genes" }
+      },
+      "required": ["challengeType", "container", "father", "interactionType", "mother", "numTrials", "showUserDrake", "template", "visibleGenes"],
+      "additionalProperties": false
+    },
+    "FVEggSortGame": {
+      "description": "A challenge that uses the FVEggSortGame template",
+      "type": "object",
+      "properties": {
+        "baskets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "alleles": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/biologicaAlleles" }
+              },
+              "label": {
+                "type": "string"
+              },
+              "sex": { "$ref": "#/definitions/biologicaSex" }
+            },
+            "required": ["alleles", "label"],
+            "additionalProperties": false
+          }
+        },
+        "comment": {
+          "type": "string"
+        },
+        "container": {
+          "type": "string",
+          "enum": ["FVContainer"]
+        },
+        "template": {
+          "description": "The template identifies the React component that implements the challenge",
+          "type": "string",
+          "enum": ["FVEggSortGame"]
+        },
+        "trialGenerator": {
+          "type": "object",
+          "properties": {
+            "baseDrake": { "$ref": "#/definitions/biologicaAlleles" },
+            "drakes": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/drake" }
+            },
+            "type": {
+              "type": "string",
+              "enum": ["randomize-order"]
+            }
+          },
+          "required": ["baseDrake", "drakes", "type"],
+          "additionalProperties": false
+        },
+        "visibleGenes": { "$ref": "#/definitions/genes" }
+      },
+      "required": ["baskets", "container", "template", "trialGenerator"],
       "additionalProperties": false
     },
     "FVGenomeChallenge": {
@@ -232,41 +377,18 @@
           "description": "Specifies a single drake or an array of drakes",
           "oneOf": [
             { "$ref": "#/definitions/drake" },
-            {
-              "type": "array",
-              "items": { "$ref": "#/definitions/drake" }
-            }
+            { "type": "array", "items": { "$ref": "#/definitions/drake" } }
           ]
         },
         "instructions": {
           "description": "Instructions displayed to the user",
           "type": "string"
         },
-        "linkedGenes": {
-          "description": "Specifies genes that should be synchronized between multiple drakes",
-          "type": "object",
-          "properties": {
-            "drakes": {
-              "description": "Specifies the drakes that should be linked by their indices",
-              "type": "array",
-              "items": {
-                "description": "Indices of the drakes to be linked",
-                "type": "number"
-              }
-            },
-            "genes": { "$ref": "#/definitions/genes" },
-            "minChanges": {
-              "description": "The minimum number of allele changes required to match the drakes after linking genes",
-              "type": "integer",
-              "minimum": 0
-            }
-          },
-          "required": ["drakes", "genes"],
-          "additionalProperties": false
-        },
+        "linkedGenes": { "$ref": "#/definitions/linkedGenes" },
         "numTrials": {
           "description": "The number of trials",
-          "type": "number"
+          "type": "integer",
+          "minimum": 1
         },
         "randomizeTrials": {
           "description": "Whether the order of the trials should be randomized",
@@ -327,61 +449,6 @@
       "required": ["challengeType", "container", "showUserDrake", "template", "userChangeableGenes"],
       "additionalProperties": false
     },
-    "FVEggSortGame": {
-      "description": "A challenge that uses the FVEggSortGame template",
-      "type": "object",
-      "properties": {
-        "baskets": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "alleles": {
-                "type": "array",
-                "items": { "$ref": "#/definitions/biologicaAlleles" }
-              },
-              "label": {
-                "type": "string"
-              },
-              "sex": { "$ref": "#/definitions/biologicaSex" }
-            },
-            "required": ["alleles", "label"],
-            "additionalProperties": false
-          }
-        },
-        "comment": {
-          "type": "string"
-        },
-        "container": {
-          "type": "string",
-          "enum": ["FVContainer"]
-        },
-        "template": {
-          "description": "The template identifies the React component that implements the challenge",
-          "type": "string",
-          "enum": ["FVEggSortGame"]
-        },
-        "trialGenerator": {
-          "type": "object",
-          "properties": {
-            "baseDrake": { "$ref": "#/definitions/biologicaAlleles" },
-            "drakes": {
-              "type": "array",
-              "items": { "$ref": "#/definitions/drake" }
-            },
-            "type": {
-              "type": "string",
-              "enum": ["randomize-order"]
-            }
-          },
-          "required": ["baseDrake", "drakes", "type"],
-          "additionalProperties": false
-        },
-        "visibleGenes": { "$ref": "#/definitions/genes" }
-      },
-      "required": ["baskets", "container", "template", "trialGenerator"],
-      "additionalProperties": false
-    },
     "genes": {
       "description": "A string containing comma-separated list of genes",
       "type": "string",
@@ -392,6 +459,33 @@
       "type": "string",
       "pattern": "^((T|Tk|t|M|m|W|w|H|h|C|c|Fl|fl|Hl|hl|A1|A2|a|B|b|D|d|Rh|rh|Bog|bog)|,)*$"
     },
+    "linkedGenes": {
+      "description": "Specifies genes that should be synchronized between multiple drakes for one or more trials",
+      "oneOf": [
+        { "$ref": "#/definitions/linkedGenesTrial" },
+        { "type": "array", "items": { "$ref": "#/definitions/linkedGenesTrial" } }
+      ]
+    },
+    "linkedGenesTrial": {
+      "description": "Specifies genes that should be synchronized between multiple drakes",
+      "type": "object",
+      "properties": {
+        "drakes": {
+          "description": "Specifies the drakes that should be linked by their indices",
+          "type": "array",
+          "items": {
+            "description": "Indices of the drakes to be linked",
+            "type": "number"
+          }
+        },
+        "genes": { "$ref": "#/definitions/genes" },
+        "minChanges": {
+          "description": "The minimum number of allele changes required to match the drakes after linking genes",
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
     "room": {
       "description": "The room/location of the challenge",
       "type": "string",
@@ -400,7 +494,7 @@
     "template": {
       "description": "The template identifies the React component that implements the challenge",
       "type": "string",
-      "enum": ["ClutchGame", "EggGame", "EggSortGame", "FVEggGame", "GenomeChallenge", "GenomePlayground", "ZoomChallenge"]
+      "enum": ["ClutchGame", "EggGame", "EggSortGame", "GenomeChallenge", "GenomePlayground", "ZoomChallenge"]
     }
   }
 }
