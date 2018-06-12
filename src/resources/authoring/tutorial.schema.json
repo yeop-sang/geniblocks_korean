@@ -40,8 +40,12 @@
                               "description": "The main header text to show on the popup",
                               "type": "string"
                             },
+                            "longText": {
+                              "description": "Descriptive text to always show on the popup",
+                              "type": "string"
+                            },
                             "more": {
-                              "description": "The full text of the tutorial displayed on clicking More",
+                              "description": "The additional supportive text of the tutorial displayed on clicking More",
                               "type": "string"
                             },
                             "pulseElement": {
@@ -53,7 +57,7 @@
                               "type": "string"
                             }
                           },
-                          "required": ["element", "text", "more"],
+                          "required": ["element", "text"],
                           "additionalProperties": false
                         }
                       }

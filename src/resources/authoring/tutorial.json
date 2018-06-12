@@ -104,17 +104,18 @@
                 {
                   "element": "mother",
                   "text": "Select Alleles",
-                  "more": "Set the parent’s alleles so an offspring will match the Target Drake."
+                  "longText": "Set the parent’s alleles so an offspring will match the Target Drake."
                 },
                 {
                   "element": "breed-button",
                   "text": "Breed Button",
-                  "more": "Click Breed to produce offspring. Breeding does not count as a Move!"
+                  "longText": "Click Breed to produce offspring. Breeding does not count as a Move!"
                 },
                 {
                   "element": "clutch-counter",
                   "text": "Offspring",
-                  "more": "Click an offspring that matches the Target Drake"
+                  "longText": "Click an offspring that matches the Target Drake",
+                  "location": "middle-center"
                 }
               ]
             }
