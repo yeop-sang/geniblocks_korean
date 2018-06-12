@@ -1,6 +1,6 @@
 import Immutable from 'seamless-immutable';
 import actionTypes from '../action-types';
-import tutorialSteps from './tutorial.json';
+import tutorialSteps from '../../resources/authoring/tutorial.json';
 
 const tutorialActionTypes = {
   TUTORIAL_NEXT: "Tutorial next",
