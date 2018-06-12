@@ -114,7 +114,7 @@
                 {
                   "element": "clutch-counter",
                   "text": "Offspring",
-                  "longText": "Click an offspring that matches the Target Drake",
+                  "longText": "Click an offspring that matches the Target Drake.",
                   "location": "middle-center"
                 }
               ]
