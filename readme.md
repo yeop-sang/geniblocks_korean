@@ -69,7 +69,7 @@ Visual Studio Code can be configured to [show schema validation errors](https://
 
 ### Narrative
 
-The narrative dialog alone can be exported from the authoring document using
+The narrative text alone can be exported from the authoring document using
 
     npm run narrative > narrative.txt
 
