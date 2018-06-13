@@ -4295,7 +4295,7 @@
     },
     "gamete-selectSpermEgg-harderTraits" : {
       "challengeType" : "match-target",
-      "comment" : "*** Level 6, Challenge 3.1: Egg Breeding (select gametes to match drakes) ***",
+      "comment" : "*** Level 6, Challenge 6.3.1: Egg Breeding (select gametes to match drakes) ***",
       "container" : "FVContainer",
       "father" : {
         "randomMatched": [{
@@ -4321,6 +4321,15 @@
       },
       "numTrials" : 1,
       "showUserDrake" : true,
+      "targetDrakes": [{
+        "randomMatched": [{
+          "alleles": "",
+          "sex": 0
+        }, {
+          "alleles": "",
+          "sex": 0
+        }]
+      }],
       "template" : "FVEggGame",
       "visibleGenes" : "tail, dilute, nose"
     },
