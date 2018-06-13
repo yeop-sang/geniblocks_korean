@@ -3028,7 +3028,7 @@
       "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11111111&numStars=0&game=size&missionId=3.2.1&video=frost"
     },
     "clutch-5drakes-intermediateTraits" : {
-      "challengeType" : "create-unique",
+      "challengeType" : "match-target",
       "comment" : "*** Level 4, Mission 2.4 ***",
       "container" : "FVContainer",
       "father" : [ {
@@ -3093,7 +3093,7 @@
       } ]
     },
     "clutch-5drakes-intermediateTraits-original" : {
-      "challengeType" : "create-unique",
+      "challengeType" : "match-target",
       "comment" : "*** Level 4, Mission 2.4 ***",
       "container" : "FVContainer",
       "father" : [ {
@@ -3210,7 +3210,7 @@
       } ]
     },
     "clutch-5drakes-intermediateTraits2" : {
-      "challengeType" : "create-unique",
+      "challengeType" : "match-target",
       "comment" : "*** Level 4, Mission 2.5 ***",
       "container" : "FVContainer",
       "father" : [ {
@@ -3275,7 +3275,7 @@
       } ]
     },
     "clutch-5drakes-starterTraits" : {
-      "challengeType" : "create-unique",
+      "challengeType" : "match-target",
       "comment" : "*** Level 4, Mission 2.1 ***",
       "container" : "FVContainer",
       "father" : [ {
@@ -3341,7 +3341,7 @@
       "visibleGenes" : [ "wings", "metallic", "black" ]
     },
     "clutch-5drakes-starterTraits-original" : {
-      "challengeType" : "create-unique",
+      "challengeType" : "match-target",
       "container" : "FVContainer",
       "father" : [ {
         "randomMatched" : [ {
@@ -3504,7 +3504,7 @@
       "visibleGenes" : [ "wings", "metallic", "black" ]
     },
     "clutch-5drakes-starterTraits2" : {
-      "challengeType" : "create-unique",
+      "challengeType" : "match-target",
       "comment" : "*** Level 4, Mission 2.2 ***",
       "container" : "FVContainer",
       "father" : [ {
@@ -3570,7 +3570,7 @@
       "visibleGenes" : [ "wings", "metallic", "black" ]
     },
     "clutch-5drakes-starterTraits3" : {
-      "challengeType" : "create-unique",
+      "challengeType" : "match-target",
       "comment" : "*** Level 4, Mission 2.3 ***",
       "container" : "FVContainer",
       "father" : [ {

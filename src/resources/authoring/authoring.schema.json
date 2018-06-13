@@ -192,7 +192,7 @@
         "challengeType": {
           "description": "The type of challenge",
           "type": "string",
-          "enum": ["create-unique", "submit-parents", "test-cross"]
+          "enum": ["match-target", "submit-parents", "test-cross"]
         },
         "comment": {
           "description": "A description of the challenge",
