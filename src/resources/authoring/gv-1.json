@@ -2242,7 +2242,7 @@
               "text": "Welcome to Challenge 6.4.2!"
             }]
           },
-          "id": "clutch-5drakes-harderTraits-bothParents",
+          "id": "clutch-5drakes-harderTraits-bothParents2",
           "name": "Challenge 6.4.2",
           "room": "breedingbarn"
         }],
@@ -3171,6 +3171,86 @@
         "mother" : "tail, dilute, nose"
       } ],
       "visibleGenes" : "tail, dilute, nose"
+    },
+    "clutch-5drakes-harderTraits-bothParents2" : {
+      "challengeType" : "match-target",
+      "comment" : "*** Level 6, Mission 4, Challenge 6.4.2 ***",
+      "container" : "FVContainer",
+      "father" : [ {
+        "randomMatched" : [ {
+          "alleles" : "T-Tk, H-H, Hl-Hl, D-, Rh-",
+          "sex" : 0
+        }, {
+          "alleles" : "Tk-t, h-h, hl-hl, D-, rh-",
+          "sex" : 0
+        }, {
+          "alleles" : "t-t, H-H, hl-hl, d-, rh-",
+          "sex" : 0
+        }, {
+          "alleles" : "T-t, h-h, Hl-Hl, d-, Rh-",
+          "sex" : 0
+        }, {
+          "alleles" : "t-Tk, h-h, Hl-Hl, d-, Rh-",
+          "sex" : 0
+        }, {
+          "alleles" : "Tk-t, h-h, Hl-Hl, D-, rh-",
+          "sex" : 0
+        } ]
+      } ],
+      "goalMoves" : [ [ 3, 3, 2, 3, 3, 3 ] ],
+      "hiddenAlleles" : "A2",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1, 2 ],
+        "genes" : "metallic, wings, color, black, forelimbs, armor, bogbreath"
+      },
+      "mother" : [ {
+        "randomMatched" : [ {
+          "alleles" : "T-T, M-M, w-w, B-B, Fl-Fl, hl-hl, H-H, A1-A1, C-C, d-d, Rh-Rh, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "t-t, m-m, w-w, B-B, fl-fl, Hl-Hl, H-H, A1-A1, C-C, d-d, rh-rh, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "t-t, M-M, W-W, B-b, Fl-Fl, Hl-Hl, H-H, a-a, C-C, d-d, Rh-Rh, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "T-T, m-m, W-W, B-b, fl-fl, hl-hl, h-h, a-a, C-C, D-D, rh-rh, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "Tk-Tk, m-m, w-w, b-b, fl-fl, Hl-Hl, h-h, A1-A1, D-D, C-C, Rh-Rh, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "t-t, M-M, W-W, b-b, Fl-Fl, Hl-Hl, H-H, a-a, C-C, D-D, rh-rh, Bog-Bog",
+          "sex" : 1
+        } ]
+      } ],
+      "targetDrakes" : [ {
+        "randomMatched" : [ {
+          "alleles" : "Tk-Tk, H-H, hl-hl, D-, Rh-",
+          "sex": 0
+        }, {
+          "alleles" : "Tk-Tk, h-h, hl-hl, d-d, rh-rh",
+          "sex": 1
+        }, {
+          "alleles" : "T-T, H-H, Hl-Hl, d-, rh-",
+          "sex": 0
+        }, {
+          "alleles" : "t-t, h-h, Hl-Hl, d-d, Rh-Rh",
+          "sex": 1
+        }, {
+          "alleles": "T-T, H-H, Hl-Hl, d-, Rh-",
+          "sex": 0
+        }, {
+          "alleles": "T-T, h-h, Hl-Hl, D-D, Rh-Rh",
+          "sex": 1
+        } ]
+      } ],
+      "template" : "ClutchGame",
+      "userChangeableGenes" : [ {
+        "father" : "tail, horns, hindlimbs, dilute, nose",
+        "mother" : "tail, horns, hindlimbs, dilute, nose"
+      } ],
+      "visibleGenes" : "tail, horns, hindlimbs, dilute, nose"
     },
     "clutch-5drakes-intermediateTraits" : {
       "challengeType" : "match-target",
