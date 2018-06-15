@@ -2195,7 +2195,72 @@
             "text": "Start of mission 6.3"
           }]
         },
-        "name": "Mission 6.3"
+        "name": "Mission 6.4"
+      }, {
+        "challenges": [{
+          "about": {
+            "description" : "Students click the Generate Gametes button to see how gametes are randomly assembled. The game creates one egg and three sperm in Challenge 5 and three eggs and one sperm in Challenge 6. In both cases, the student must select the sperm or egg that, when combined with the other gamete, will create the target drake.",
+            "type" : "Gamete Selector"
+          },
+          "dialog": {
+            "end": {
+              "failure": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.4.1 not completed successfully"
+              }],
+              "success": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.4.1 completed successfully!"
+              }]
+            },
+            "start": [{
+              "character": "YEUNG",
+              "text": "Welcome to Challenge 6.4.1!"
+            }]
+          },
+          "id": "clutch-5drakes-harderTraits-bothParents",
+          "name": "Challenge 6.4.1",
+          "room": "breedingbarn"
+        }, {
+          "about": {
+            "description" : "Students click the Generate Gametes button to see how gametes are randomly assembled. The game creates one egg and three sperm in Challenge 5 and three eggs and one sperm in Challenge 6. In both cases, the student must select the sperm or egg that, when combined with the other gamete, will create the target drake.",
+            "type" : "Gamete Selector"
+          },
+          "dialog": {
+            "end": {
+              "failure": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.4.2 not completed successfully"
+              }],
+              "success": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.4.2 completed successfully!"
+              }]
+            },
+            "start": [{
+              "character": "YEUNG",
+              "text": "Welcome to Challenge 6.4.2!"
+            }]
+          },
+          "id": "clutch-5drakes-harderTraits-bothParents",
+          "name": "Challenge 6.4.2",
+          "room": "breedingbarn"
+        }],
+        "dialog": {
+          "end": [{
+            "character": "NETANYA",
+            "text": "End of mission 6.4"
+          }],
+          "middle": [{
+            "character": "WEAVER",
+            "text": "Middle of mission 6.4"
+          }],
+          "start": [{
+            "character": "YEUNG",
+            "text": "Start of mission 6.4"
+          }]
+        },
+        "name": "Mission 6.4"
       } ],
       "name": "Level 6"
     } ]
@@ -3026,6 +3091,86 @@
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
       "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11111111&numStars=0&game=size&missionId=3.2.1&video=frost"
+    },
+    "clutch-5drakes-harderTraits-bothParents" : {
+      "challengeType" : "match-target",
+      "comment" : "*** Level 6, Mission 4, Challenge 6.4.1 ***",
+      "container" : "FVContainer",
+      "father" : [ {
+        "randomMatched" : [ {
+          "alleles" : "T-Tk, D-, Rh-",
+          "sex" : 0
+        }, {
+          "alleles" : "Tk-T, D-, rh-",
+          "sex" : 0
+        }, {
+          "alleles" : "t-t, d-, rh-",
+          "sex" : 0
+        }, {
+          "alleles" : "T-T, d-, Rh-",
+          "sex" : 0
+        }, {
+          "alleles" : "t-Tk, d-, Rh-",
+          "sex" : 0
+        }, {
+          "alleles" : "Tk-t, D-, rh-",
+          "sex" : 0
+        } ]
+      } ],
+      "goalMoves" : [ [ 2, 3, 2, 3, 3, 2 ] ],
+      "hiddenAlleles" : "A2",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1, 2 ],
+        "genes" : "metallic, wings, horns, color, black, forelimbs, hindlimbs, armor, bogbreath"
+      },
+      "mother" : [ {
+        "randomMatched" : [ {
+          "alleles" : "T-T, M-M, w-w, B-B, Fl-Fl, hl-hl, H-H, A1-A1, C-C, d-d, Rh-Rh, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "T-Tk, m-m, w-w, B-B, fl-fl, Hl-Hl, h-h, A1-A1, C-C, d-d, rh-rh, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "t-t, M-M, W-W, B-b, Fl-Fl, hl-hl, H-H, a-a, C-C, d-d, Rh-Rh, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "T-T, m-m, W-W, B-b, fl-fl, hl-hl, h-h, a-a, C-C, D-D, rh-rh, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "Tk-Tk, m-m, w-w, b-b, fl-fl, Hl-Hl, h-h, A1-A1, D-D, C-C, Rh-Rh, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "t-t, M-M, W-W, b-b, Fl-Fl, Hl-Hl, H-H, a-a, C-C, D-D, rh-rh, Bog-Bog",
+          "sex" : 1
+        } ]
+      } ],
+      "targetDrakes" : [ {
+        "randomMatched" : [ {
+          "alleles" : "Tk-Tk, D-, Rh-",
+          "sex": 0
+        }, {
+          "alleles" : "t-t, d-d, rh-rh",
+          "sex": 1
+        }, {
+          "alleles" : "T-T, d-, rh-",
+          "sex": 0
+        }, {
+          "alleles" : "t-t, d-d, Rh-Rh",
+          "sex": 1
+        }, {
+          "alleles": "T-T, d-, Rh-",
+          "sex": 0
+        }, {
+          "alleles": "T-T, D-D, Rh-Rh",
+          "sex": 1
+        } ]
+      } ],
+      "template" : "ClutchGame",
+      "userChangeableGenes" : [ {
+        "father" : "tail, dilute, nose",
+        "mother" : "tail, dilute, nose"
+      } ],
+      "visibleGenes" : "tail, dilute, nose"
     },
     "clutch-5drakes-intermediateTraits" : {
       "challengeType" : "match-target",
