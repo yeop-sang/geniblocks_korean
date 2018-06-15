@@ -3591,7 +3591,7 @@
           "sex" : 0
         } ]
       } ],
-      "goalMoves" : [ [ 2, 2, 3, 3, 3 ] ],
+      "goalMoves" : [ [ 3, 3, 3, 3, 3 ] ],
       "hiddenAlleles" : "A2",
       "linkedGenes" : {
         "drakes" : [ 0, 1, 2 ],
