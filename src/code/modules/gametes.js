@@ -9,6 +9,7 @@ import Immutable from 'seamless-immutable';
 import { createSelector } from 'reselect';
 import { clone, cloneDeep } from 'lodash';
 import actionTypes from '../action-types';
+const { NAVIGATED, OFFSPRING_KEPT } = actionTypes;
 import { ITS_ACTORS, ITS_ACTIONS, ITS_TARGETS } from '../its-constants';
 
 /*
@@ -43,8 +44,6 @@ export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GAMETE_CHROMOSOME_ADDED:
       return state.setIn(['currentGametes', action.index, action.name], action.side);
-    case GAMETE_POOLS_RESET:
-      return initialState;
     case GAMETES_ADDED_TO_POOL:
       parentPools = state.parentPools.map((pool, index) => {
                   return index === action.sex
@@ -55,7 +54,7 @@ export default function reducer(state = initialState, action) {
     case GAMETE_SELECTED:
       return state.setIn(['currentGametes', action.sex], action.gamete ? clone(action.gamete) : {})
                   .setIn(['selectedIndices', action.sex], action.index);
-    case actionTypes.OFFSPRING_KEPT:
+    case OFFSPRING_KEPT:
       if (action.success) {
         newState.currentGametes = initialState.currentGametes;
         // remove selected gamete from pool after offspring drake is kept
@@ -73,6 +72,9 @@ export default function reducer(state = initialState, action) {
     case GAMETES_RESET:
       return state.merge({ currentGametes: initialState.currentGametes,
                           selectedIndices: initialState.selectedIndices});
+    case GAMETE_POOLS_RESET:
+    case NAVIGATED:
+      return initialState;
     default:
       return state;
   }

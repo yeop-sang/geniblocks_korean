@@ -1372,6 +1372,30 @@ export default class FVEggGame extends Component {
     // challengeType === 'match-target'
     const targetDrakeCount = authoredChallenge.numTrials || authoredChallenge.targetDrakes.length;
 
+    function replaceAllele(alleleString, singleAlleleString) {
+      const [side, allele] = singleAlleleString.split(':'),
+            gene = BioLogica.getGeneOfAllele(BioLogica.Species.Drake, allele),
+            allelesOfGene = BioLogica.Species.Drake.geneList[gene].alleles,
+            regex = new RegExp(`${side}:(${allelesOfGene.join('|')})`, 'g');
+      return alleleString.replace(regex, `${side}:${allele}`);
+    }
+
+    function enforceTargetConstraints(child, target) {
+      if (!target) return child;
+
+      let   childAlleles = child.getAlleleString();
+      const childSex = target.sex != null ? target.sex : child.sex,
+            targetAlleles = target.alleles && target.alleles.split(',');
+      if (targetAlleles && targetAlleles.length) {
+        targetAlleles.forEach((targetAllele) => {
+          childAlleles = replaceAllele(childAlleles, targetAllele);
+        });
+      }
+      // create new organism with appropriate constraints in place
+      return new BioLogica.Organism(BioLogica.Species.Drake, childAlleles, childSex);
+    }
+
+    // prevent duplicate target drakes
     function childDrakesContain(alleles) {
       for (let i = 3; i < authoredDrakes.length; ++i) {
         const trialDrakeSpec = authoredDrakes[i];
@@ -1387,12 +1411,21 @@ export default class FVEggGame extends Component {
       return false;
     }
 
-    function generateChildDrakes(mother, father) {
+    function generateChildDrakes(mother, father, randomMatchIndex) {
       const children = [];
       for (let t = 0; t < targetDrakeCount; ++t) {
         let child, childAlleles;
+        const { targetDrakes } = authoredChallenge,
+              trialTarget = targetDrakes && targetDrakes[t],
+              targets = trialTarget
+                          ? (trialTarget.randomMatched
+                              ? trialTarget.randomMatched.asMutable()
+                              : [trialTarget])
+                          : null,
+              target = targets && targets[randomMatchIndex];
         do {
           child = BioLogica.breed(mother, father, false);
+          child = enforceTargetConstraints(child, target);
           childAlleles = child.getAlleleString();
           // don't generate the same set of alleles twice
         } while (childDrakesContain(childAlleles));
@@ -1408,7 +1441,7 @@ export default class FVEggGame extends Component {
       null
     ];
     for (let i = 0; i < mothers.length; ++i) {
-      const children = generateChildDrakes(mothers[i], fathers[i]);
+      const children = generateChildDrakes(mothers[i], fathers[i], i);
       if (mothers.length === 1) {
         authoredDrakes.push(...children);
       }
