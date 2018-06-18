@@ -84,7 +84,8 @@
                 {
                   "element": "organism-color-text",
                   "text": "Drake Color",
-                  "more": "This is the breeder's name for the drake color."
+                  "more": "This is the breeder's name for the drake color.",
+                  "location": "bottom-center"
                 }
               ]
             }
