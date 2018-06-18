@@ -20,7 +20,11 @@ const correctCharacteristics = {
         liveliness: "Alive",
         "nose spike": "No nose spike",
         tail: "Long tail",
-        wings: "No wings"
+        wings: "No wings",
+        metallic: "Shiny",
+        colored: "Colored",
+        black: "Gray",
+        dilute: "Deep"
       },
       correctAlleles = "a:T,b:T,a:M,b:M,a:w,b:w,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:hl,b:hl,a:A1,b:A1,a:D,a:Bog,a:rh",
       userAlleles = "a:T,b:T,a:M,b:M,a:W,b:W,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:hl,b:hl,a:A1,b:A1,a:D,a:Bog,a:rh",
