@@ -2245,6 +2245,30 @@
           "id": "clutch-5drakes-harderTraits-bothParents2",
           "name": "Challenge 6.4.2",
           "room": "breedingbarn"
+        }, {
+          "about": {
+            "description" : "Students click the Generate Gametes button to see how gametes are randomly assembled. The game creates one egg and three sperm in Challenge 5 and three eggs and one sperm in Challenge 6. In both cases, the student must select the sperm or egg that, when combined with the other gamete, will create the target drake.",
+            "type" : "Gamete Selector"
+          },
+          "dialog": {
+            "end": {
+              "failure": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.4.3 not completed successfully"
+              }],
+              "success": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.4.3 completed successfully!"
+              }]
+            },
+            "start": [{
+              "character": "YEUNG",
+              "text": "Welcome to Challenge 6.4.3!"
+            }]
+          },
+          "id": "breeding-harderTraits-siblings",
+          "name": "Challenge 6.4.3",
+          "room": "breedingbarn"
         }],
         "dialog": {
           "end": [{
@@ -4806,6 +4830,128 @@
         "type" : "all-combinations"
       },
       "userChangeableGenes" : "metallic"
+    },
+    "breeding-harderTraits-siblings" : {
+      "challengeType" : "submit-parents",
+      "comment": "Level 6, Mission 4, Challenge 6.4.3",
+      "container" : "FVContainer",
+      "father" : [ {
+        "randomMatched" : [ {
+          "alleles" : "T-T, Rh-, d-, w-w, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "T-t, Rh-, d-, w-w, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "t-t, rh-, D-, W-W, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "t-t, Rh-, d-, W-W, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "Tk-Tk, Rh-, D-, w-w, fl-fl",
+          "sex" : 0
+        }, {
+          "alleles" : "T-T, Rh-, d-, w-w, fl-fl",
+          "sex" : 0
+        }, {
+          "alleles" : "T-Tk, Rh-, d-, W-W, fl-fl",
+          "sex" : 0
+        }, {
+          "alleles" : "T-T, rh-, d-, W-W, fl-fl",
+          "sex" : 0
+        } ]
+      } ],
+      "goalMoves" : [ [ 0, 0, 0, 0, 0, 0, 0, 0 ] ],
+      "hiddenAlleles" : "A2",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1, 2, 3 ],
+        "genes" : "metallic, horns, color, black, hindlimbs, armor, bogbreath"
+      },
+      "mother" : [ {
+        "randomMatched" : [ {
+          "alleles" : "t-t, rh-rh, D-D, w-w, Fl-Fl, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "T-Tk, rh-rh, d-d, w-w, Fl-Fl, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "t-t, rh-rh, D-d, W-W, Fl-Fl, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "Tk-Tk, rh-rh, d-d, W-W, Fl-Fl, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "T-t, Rh-Rh, D-D, w-w, fl-fl, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "T-Tk, rh-rh, d-d, w-w, fl-fl, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "T-Tk, rh-rh, d-d, W-W, fl-fl, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "T-Tk, rh-Rh, d-d, W-W, fl-fl, Bog-Bog",
+          "sex" : 1
+        } ]
+      } ],
+      "targetDrakes" : [ {
+        "randomMatched" : [ [ {
+          "alleles" : "Rh-, Tk-Tk, d-, W-W, fl-fl",
+          "sex" : 0
+        }, {
+          "alleles" : "rh-rh, t-t, d-d, w-w, Fl-Fl",
+          "sex" : 1
+        } ], [ {
+          "alleles" : "rh-, t-t, D-, w-w, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "Rh-Rh, t-t, d-d, W-W, fl-fl",
+          "sex" : 1
+        } ], [ {
+          "alleles" : "rh-, T-T, D-, w-w, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "Rh-Rh, Tk-Tk, d-d, W-W, fl-fl",
+          "sex" : 1
+        } ], [ {
+          "alleles" : "Rh-, Tk-Tk, d-, w-w, fl-fl",
+          "sex" : 0
+        }, {
+          "alleles" : "rh-rh, T-T, D-D, w-w, fl-fl",
+          "sex" : 1
+        } ], [ {
+          "alleles" : "Rh-, T-T, D-, W-W, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "rh-rh, t-t, d-d, W-W, Fl-Fl",
+          "sex" : 1
+        } ], [ {
+          "alleles" : "Rh-, Tk-Tk, D-, w-w, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "rh-rh, t-t, D-D, W-W, fl-fl",
+          "sex" : 1
+        } ], [ {
+          "alleles" : "rh-, t-t, D-, w-w, fl-fl",
+          "sex" : 0
+        }, {
+          "alleles" : "Rh-Rh, t-t, d-d, w-w, Fl-Fl",
+          "sex" : 1
+        } ], [ {
+          "alleles" : "Rh-, t-t, d-, w-w, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "rh-rh, Tk-Tk, D-D, w-w, fl-fl",
+          "sex" : 1
+        } ] ]
+      } ],
+      "template" : "ClutchGame",
+      "userChangeableGenes" : [ {
+        "father" : "nose, tail, dilute, forelimbs, wings",
+        "mother" : "nose, tail, dilute, forelimbs, wings"
+      } ],
+      "visibleGenes" : ""
     },
     "siblings-1" : {
       "challengeType" : "submit-parents",
