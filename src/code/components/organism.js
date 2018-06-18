@@ -50,7 +50,7 @@ const OrganismView = ({org, id, className="", width=200, flipped=false, style={}
     return divWrapper(
       <div className={classes} id={id} style={style}>
         {url ? <img src={url} width={width} alt={organismDescription} title={organismColorName} /> : null}
-        {showColorText && <div className="organism-color-text">{organismColorName}</div> }
+        {showColorText && <div className="organism-color-text"><div className="color-text-display">{organismColorName}</div></div> }
         <div className="clickable-area"
               onMouseDown={onClick ? handleMouseDown : null}
               onClick={onClick ? handleClick : null} />
@@ -63,7 +63,7 @@ const OrganismView = ({org, id, className="", width=200, flipped=false, style={}
           onMouseDown={onClick ? handleMouseDown : null}
           onClick={onClick ? handleClick : null}>
       {url ? <img src={url} width={width} alt={organismDescription} title={organismColorName} /> : null}
-      {showColorText && <div className="organism-color-text">{organismColorName}</div> }
+      {showColorText && <div className="organism-color-text"><div className="color-text-display">{organismColorName}</div></div> }
     </div>
   );
 };
