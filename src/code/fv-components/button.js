@@ -16,8 +16,8 @@ const ButtonView = ({text, styleName, onClick, disabled=false}) => {
 };
 
 ButtonView.propTypes = {
-  text: PropTypes.text,
-  styleName: PropTypes.text,
+  text: PropTypes.string,
+  styleName: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool
 };
