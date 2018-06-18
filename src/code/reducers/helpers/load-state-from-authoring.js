@@ -93,8 +93,7 @@ function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template,
     }
     if (Array.isArray(drakeDef)) {
       // unroll in place
-      authoredDrakesArray.splice(i, 0, drakeDef[0]);
-      authoredDrakesArray.splice.apply(authoredDrakesArray, [i+1, 1].concat(drakeDef.asMutable().splice(1)));
+      authoredDrakesArray.splice(i, 1, ...drakeDef);
       drakeDef = drakeDef[0];
     }
     // Keep the drake as female until the end, so no sex-linked information is lost for linked drakes
