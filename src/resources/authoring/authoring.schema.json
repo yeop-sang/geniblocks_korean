@@ -238,18 +238,16 @@
         "template": { "type": "string", "enum": ["ClutchGame"] },
         "userChangeableGenes": {
           "description": "The genes the user can manipulate for each parent in the trial",
-          "array": {
-            "description": "Each item corresponds to a trial",
-            "items": {
-              "description": "The genes the user can manipulate within a single trial",
-              "type": "object",
-              "properties": {
-                "father": { "$ref": "#/definitions/genesString" },
-                "mother": { "$ref": "#/definitions/genesString" }
-              },
-              "required": ["father", "mother"],
-              "additionalProperties": false
-            }
+          "type": "array",
+          "items": {
+            "description": "The genes the user can manipulate within a single trial",
+            "type": "object",
+            "properties": {
+              "father": { "$ref": "#/definitions/genesString" },
+              "mother": { "$ref": "#/definitions/genesString" }
+            },
+            "required": ["father", "mother"],
+            "additionalProperties": false
           }
         },
         "visibleGenes": { "$ref": "#/definitions/genes" }
