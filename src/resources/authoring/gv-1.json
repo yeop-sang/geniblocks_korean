@@ -4831,7 +4831,7 @@
       "goalMoves" : [ [ 0, 0, 0, 0, 0 ] ],
       "hiddenAlleles" : "A2",
       "linkedGenes" : {
-        "drakes" : [ 0, 1, 2 ],
+        "drakes" : [ 0, 1, 2, 3 ],
         "genes" : "color, hindlimbs, black, horns, armor, tail, dilute, nose, bogbreath"
       },
       "mother" : [ {
@@ -4913,7 +4913,7 @@
       "goalMoves" : [ [ 0, 0, 0, 0 ] ],
       "hiddenAlleles" : "A2",
       "linkedGenes" : {
-        "drakes" : [ 0, 1, 2 ],
+        "drakes" : [ 0, 1, 2, 3 ],
         "genes" : "forelimbs, hindlimbs, wings, color, metallic, tail, dilute, nose, bogbreath"
       },
       "mother" : [ {
@@ -4986,7 +4986,7 @@
       "goalMoves" : [ [ 0, 0, 0, 0 ] ],
       "hiddenAlleles" : "A2",
       "linkedGenes" : {
-        "drakes" : [ 0, 1, 2 ],
+        "drakes" : [ 0, 1, 2, 3 ],
         "genes" : "forelimbs, color, metallic, tail, dilute, nose, bogbreath"
       },
       "mother" : [ {

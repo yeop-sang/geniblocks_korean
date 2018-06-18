@@ -115,7 +115,7 @@ function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template,
       }
       if (i === linkedGenesDef.drakes[0]) {
         linkedGeneDrake = new BioLogica.Organism(BioLogica.Species.Drake, femaleDrake.getAlleleString(), actualDrakeSex);
-      } else if (linkedGenesDef.drakes.indexOf(i)) {
+      } else if (linkedGenesDef.drakes.indexOf(i) >= 0) {
         let genes = split(linkedGenesDef.genes);
         for (let gene of genes) {
           let copyIntoGenes = femaleDrake.genetics.genotype.getAlleleString([gene], femaleDrake.genetics);
