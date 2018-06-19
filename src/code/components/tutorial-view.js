@@ -82,14 +82,17 @@ class TutorialView extends React.Component {
 
     const dialogClass = "tutorial-content " + (tutorialStep.location ? tutorialStep.location : "");
 
-    const more = moreVisible ? 
-      <div className="tutorial-long">{tutorialStep.more}</div> : 
-      <div className="tutorial-show-more" onClick={this.handleShowMore}>(Click to show more)</div>;
+    // Only show the More link if there is text defined in the authoring, then toggle visibility if More text is present.
+    const more = tutorialStep.more ?
+        (moreVisible ? <div className="tutorial-long">{tutorialStep.more}</div> :
+          <div className="tutorial-show-more" onClick={this.handleShowMore}>(Click to show more)</div>)
+      : null;
 
     return (
       <div id='tutorial'>
         <div className={dialogClass}>
           <div className="tutorial-short">{tutorialStep.text}</div>
+          {tutorialStep.longText && <div className="tutorial-long">{tutorialStep.longText}</div>}
           {more}
           <div className="forward-back-buttons">
             {currentStep > 0 &&
@@ -108,12 +111,13 @@ class TutorialView extends React.Component {
 
 TutorialView.propTypes = {
   visible: PropTypes.bool,
-  tutorials: PropTypes.array,
+  steps: PropTypes.array,
   currentStep: PropTypes.number,
   moreVisible: PropTypes.bool,
   onTutorialMore: PropTypes.func,
   onTutorialNext: PropTypes.func,
   onTutorialPrevious: PropTypes.func,
+  onTutorialClosed: PropTypes.func
 };
 
 export default TutorialView;

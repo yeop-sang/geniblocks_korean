@@ -44,14 +44,13 @@ initFirebase.then(function (auth) {
 
 const postAuthInitialization = function (auth) {
   store = configureStore();
-  const guideServer = "wss://guide.intellimedia.ncsu.edu",
-    guideProtocol = "guide-protocol-v3";
+  const guideServer = "wss://guide.intellimedia.ncsu.edu:/guide-protocol";
+  const socketPath = "/v3/socket.io";
 
-  initializeITSSocket(guideServer, guideProtocol, store);
-  // generate pseudo-random sessionID and username
-  const sessionID = uuid.v4(),
-        userNameBase = auth.user_id;
-  loggingMetadata.userName = `${userNameBase}-${sessionID.split("-")[0]}`;
+  initializeITSSocket(guideServer, socketPath, store);
+  // generate pseudo-random sessionID
+  const sessionID = uuid.v4();
+  loggingMetadata.userName = auth.domain_uid;
   loggingMetadata.classInfo = auth.class_info_url;
   loggingMetadata.studentId = auth.domain_uid;
   loggingMetadata.externalId = auth.externalId;

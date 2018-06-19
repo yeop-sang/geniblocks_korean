@@ -28,11 +28,13 @@ const BottomHUDView = React.createClass({
     showAward: PropTypes.bool,
     showChallengeWidgets: PropTypes.bool,
     showTutorialButton: PropTypes.bool,
-    onRestartTutorial: PropTypes.func
+    onRestartTutorial: PropTypes.func,
+    isRemediation: PropTypes.bool
   },
 
   render() {
-    let {routeSpec, trial, trialCount, currScore, maxScore, currMoves, goalMoves, showMoveCounter, numChallenges, gems, showTutorialButton, onRestartTutorial} = this.props,
+    let {routeSpec, trial, trialCount, currScore, maxScore, currMoves, goalMoves, showMoveCounter, numChallenges,
+      gems, showTutorialButton, onRestartTutorial, isRemediation} = this.props,
         scoreView = maxScore ?
           <CountView
             countTitleText={t('~COUNTER.SCORE_LABEL')}
@@ -50,13 +52,13 @@ const BottomHUDView = React.createClass({
             className={`moves-count ${color}`}
             currCount={movesRemainingShown} /> : null,
         trialsView = trialCount > 1 ? <CountView countTitleText={t('~COUNTER.TRIAL_LABEL')} className={'trial-count'} currCount={trial} maxCount={trialCount} /> : null,
-        showRouteWidgets = routeSpec !== null,
+        showRouteWidgets = routeSpec !== null && !isRemediation,
         routeWidgets, challengeWidgets, tutorialWidgets;
 
     if (showRouteWidgets) {
       let missionScreen = (
         <div className="mission-screen">
-          <div className="mission-label mission-label-text">Mission</div>
+          <div className="mission-label mission-label-text">MISSION</div>
           <div className="mission-label mission-label-value">{routeSpec.mission + 1}</div>
         </div>
       );

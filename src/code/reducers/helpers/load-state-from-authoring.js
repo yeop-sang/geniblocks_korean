@@ -4,6 +4,7 @@ import { range, shuffle, assign } from 'lodash';
 import AuthoringUtils from '../../utilities/authoring-utils';
 import ProgressUtils from '../../utilities/progress-utils';
 import { notificationType } from '../../modules/notifications';
+import { getRemediationChallengeProps } from '../../modules/remediation';
 
 let randomSelection;
 
@@ -43,6 +44,28 @@ function processAuthoredGametes(authoredChallenge, drakes, state) {
             : state.gametes;
 }
 
+function numberOfMoves(testDrake, targetAlleles, targetSex) {
+  const testSex = testDrake.sex,
+        testAlleles = testDrake.getAlleleString(),
+        targetDrake = new BioLogica.Organism(BioLogica.Species.Drake, targetAlleles, targetSex);
+  let secondXAlleles = null;
+  if ((testSex === BioLogica.MALE) && (targetSex === BioLogica.FEMALE)) {
+    const testFemale = new BioLogica.Organism(BioLogica.Species.Drake, testAlleles, BioLogica.FEMALE);
+    secondXAlleles = GeneticsUtils.computeExtraAlleles(testFemale, testDrake);
+  }
+  return BioLogica.Phenotype.numberOfChangesToReachPhenotype(
+                              testDrake, targetDrake, BioLogica.Species.Drake, secondXAlleles);
+}
+
+function randomizeAllelesForOneGene(alleles, gene) {
+  const allelesOfGene = BioLogica.Species.Drake.geneList[gene].alleles,
+        randomAllele = () => {
+          return allelesOfGene[Math.floor(Math.random() * allelesOfGene.length)];
+        },
+        regex = new RegExp(`(a|b):(${allelesOfGene.join('|')})(,|$)`, 'g');
+  return alleles.replace(regex, `$1:${randomAllele()}$3`);
+}
+
 function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template, trialNumber) {
   // takes authored list of named drakes ("mother", etc) and returns an
   // array specific for this template
@@ -76,36 +99,56 @@ function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template,
     }
     // Keep the drake as female until the end, so no sex-linked information is lost for linked drakes
     let femaleDrake = new BioLogica.Organism(BioLogica.Species.Drake, drakeDef.alleles, BioLogica.FEMALE);
+    const actualDrakeSex = drakeDef.sex != null
+                            ? drakeDef.sex
+                            : Math.round(Math.random());
 
+    /*
+     * Synchronize the linkedGenes
+     */
     alleleString = femaleDrake.getAlleleString();
-    if (authoredChallenge.linkedGenes) {
-      let linkedGenesDef = authoredChallenge.linkedGenes;
-      if (Array.isArray(authoredChallenge.linkedGenes)) {
-        linkedGenesDef = authoredChallenge.linkedGenes[authoredTrialNumber];
+    const { linkedGenes } = authoredChallenge;
+    if (linkedGenes) {
+      let linkedGenesDef = linkedGenes;
+      if (Array.isArray(linkedGenes)) {
+        linkedGenesDef = linkedGenes[authoredTrialNumber];
       }
       if (i === linkedGenesDef.drakes[0]) {
-        linkedGeneDrake = femaleDrake;
+        linkedGeneDrake = new BioLogica.Organism(BioLogica.Species.Drake, femaleDrake.getAlleleString(), actualDrakeSex);
       } else if (linkedGenesDef.drakes.indexOf(i)) {
-        let linkedGenes = split(linkedGenesDef.genes);
-        for (let gene of linkedGenes) {
+        let genes = split(linkedGenesDef.genes);
+        for (let gene of genes) {
           let copyIntoGenes = femaleDrake.genetics.genotype.getAlleleString([gene], femaleDrake.genetics);
           let masterGenes = linkedGeneDrake.genetics.genotype.getAlleleString([gene], femaleDrake.genetics);
           alleleString = alleleString.replace(copyIntoGenes, masterGenes);
         }
       }
+    
+      /*
+       * Guarantee minimum number of moves
+       */
+      const { linkedGenes: { minChanges }, userChangeableGenes } = authoredChallenge;
+      if ((i > 0) && minChanges && userChangeableGenes) {
+        const userGenes = split(userChangeableGenes);
+        while (numberOfMoves(linkedGeneDrake, alleleString, actualDrakeSex) < minChanges) {
+          // randomize the alleles of one gene at a time until the criterion is met
+          const randomGene = userGenes[Math.floor(Math.random() * userGenes.length)];
+          alleleString = randomizeAllelesForOneGene(alleleString, randomGene);
+        }
+      }
     }
-    let fixedDrake = new BioLogica.Organism(BioLogica.Species.Drake, alleleString, drakeDef.sex);
+    const actualDrake = new BioLogica.Organism(BioLogica.Species.Drake, alleleString, actualDrakeSex);
 
     let secondXAlleles = null;
-    if (drakeDef.sex === BioLogica.MALE) {
+    if (actualDrake.sex === BioLogica.MALE) {
       // Store any sex-linked alleles from the authoring document which would be lost because the drake is male
       let fixedFemaleDrake = new BioLogica.Organism(BioLogica.Species.Drake, alleleString, BioLogica.FEMALE);
-      secondXAlleles = GeneticsUtils.computeExtraAlleles(fixedFemaleDrake, fixedDrake);
+      secondXAlleles = GeneticsUtils.computeExtraAlleles(fixedFemaleDrake, actualDrake);
     }
 
     drakes.push(assign({}, secondXAlleles ? {secondXAlleles: secondXAlleles} : null, {
-      alleleString: fixedDrake.getAlleleString(),
-      sex: fixedDrake.sex,
+      alleleString: actualDrake.getAlleleString(),
+      sex: actualDrake.sex,
     }));
 
   }
@@ -180,7 +223,8 @@ export function loadStateFromAuthoring(state, authoring) {
         location = {id: room, ...roomInfo},
         showingRoom = trial === 0,
         dialog = authoredChallengeMetadata.dialog && authoredChallengeMetadata.dialog.start,
-        showIntroductionAnimations = authoredChallenge.showIntroductionAnimations;
+        showIntroductionAnimations = authoredChallenge.showIntroductionAnimations,
+        showDrakeColorHint = authoredChallenge.showDrakeColorHint;
 
   let goalMoves = null;
   if (template.calculateGoalMoves) {
@@ -227,6 +271,7 @@ export function loadStateFromAuthoring(state, authoring) {
     goalMoves,
     userDrakeHidden: true,
     trialSuccess: false,
+    isRemediation: false,
     initialDrakes: [...drakes],
     zoomUrl,
     location,
@@ -235,11 +280,42 @@ export function loadStateFromAuthoring(state, authoring) {
       messages,
       closeButton
     },
-    showIntroductionAnimations
+    showIntroductionAnimations,
+    showDrakeColorHint
   };
   // remove all undefined or null keys
   Object.keys(authoredState).forEach((key) => (authoredState[key] == null) && delete authoredState[key]);
   return state.merge(authoredState);
+}
+
+export function loadStateFromRemediation(state, remediation, authoring) {
+  // get authoring props specific to challengeType
+  const {challengeType, attribute, practiceCriteria} = remediation;
+  const remediationChallengeProps = getRemediationChallengeProps(challengeType, attribute, practiceCriteria);
+
+  if (!remediationChallengeProps) {
+    // bail
+    return loadStateFromAuthoring(state, state.authoring);
+  }
+
+  const template = templates[remediationChallengeProps.templateName];
+  const drakes = processAuthoredDrakes(remediationChallengeProps.authoring, 0, template, 0);
+  const baskets = processAuthoredBaskets(remediationChallengeProps.authoring, state);
+
+  const roomInfo = (authoring && authoring.rooms) ? authoring.rooms[remediationChallengeProps.stateProps.room] : {};
+  const location = {id: remediationChallengeProps.stateProps.room, ...roomInfo, name: "Bonus Challenge"};
+
+  let remediationState = {
+    template: remediationChallengeProps.templateName,
+    drakes,
+    baskets,
+    location,
+    ...remediationChallengeProps.stateProps
+  };
+
+  // remove all undefined or null keys
+  Object.keys(remediationState).forEach((key) => (remediationState[key] == null) && delete remediationState[key]);
+  return state.merge(remediationState);
 }
 
 export function loadHome(state, authoring, showMissionEndDialog) {

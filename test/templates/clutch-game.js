@@ -1,22 +1,20 @@
 import ClutchGame from '../../src/code/templates/clutch-game';
 import GeneticsUtils from '../../src/code/utilities/genetics-utils';
-import reducer from '../../src/code/reducers/';
-import { navigateToChallenge } from '../../src/code/actions';
 import expect from 'expect';
 
 
-const basicUnderdefinedInitialState = (template, routeSpec, challenges) => ({
-  template,
-  routeSpec,
-  challenges,
-  showUserDrake: false,
-  trialSuccess: false,
-  numTargets: 1,
-  location: {
-    "id": "simroom"
-  },
-  showingRoom: true
-});
+// const basicUnderdefinedInitialState = (template, routeSpec, challenges) => ({
+//   template,
+//   routeSpec,
+//   challenges,
+//   showUserDrake: false,
+//   trialSuccess: false,
+//   numTargets: 1,
+//   location: {
+//     "id": "simroom"
+//   },
+//   showingRoom: true
+// });
 
 const testCrossChallenge = {
   "challengeType": "test-cross",

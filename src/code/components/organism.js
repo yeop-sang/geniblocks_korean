@@ -5,7 +5,7 @@ export function getDrakeImageUrl(org) {
   return org ? baseUrl + org.getImageName() : null;
 }
 
-const OrganismView = ({org, id, className="", width=200, flipped=false, style={}, onClick, wrapper, separateClickableArea=false }) => {
+const OrganismView = ({org, id, className="", width=200, flipped=false, style={}, onClick, wrapper, separateClickableArea=false, showColorText=false }) => {
   const url = getDrakeImageUrl(org),
         // The goal here was to have the onMouseDown handler select the organism,
         // so that mousedown-drag will both select the organism and begin the
@@ -27,6 +27,20 @@ const OrganismView = ({org, id, className="", width=200, flipped=false, style={}
   if (onClick) {
     classes += " clickable";
   }
+  function getOrganismDescription() {
+    let descriptions = [];
+    descriptions.push(org.species.name);
+    if (org && org.phenotype && org.phenotype.characteristics) {
+      for (const ch of Object.keys(org.phenotype.characteristics)) {
+        if (ch !== 'liveliness' && ch !== 'health') {
+          descriptions.push(ch + ": " + org.phenotype.characteristics[ch]);
+        }
+      }
+    }
+    return descriptions.join(", ");
+  }
+  const organismColorName = org.phenotype.characteristics.color;
+  const organismDescription = getOrganismDescription();
 
   function handleClick() {
     if (onClick) onClick(id, org);
@@ -35,7 +49,8 @@ const OrganismView = ({org, id, className="", width=200, flipped=false, style={}
   if (separateClickableArea) {
     return divWrapper(
       <div className={classes} id={id} style={style}>
-        {url ? <img src={url} width={width} /> : null}
+        {url ? <img src={url} width={width} alt={organismDescription} title={organismColorName} /> : null}
+        {showColorText && <div className="organism-color-text"><div className="color-text-display">{organismColorName}</div></div> }
         <div className="clickable-area"
               onMouseDown={onClick ? handleMouseDown : null}
               onClick={onClick ? handleClick : null} />
@@ -47,7 +62,8 @@ const OrganismView = ({org, id, className="", width=200, flipped=false, style={}
     <div className={classes} id={id} style={style}
           onMouseDown={onClick ? handleMouseDown : null}
           onClick={onClick ? handleClick : null}>
-      {url ? <img src={url} width={width} /> : null}
+      {url ? <img src={url} width={width} alt={organismDescription} title={organismColorName} /> : null}
+      {showColorText && <div className="organism-color-text"><div className="color-text-display">{organismColorName}</div></div> }
     </div>
   );
 };
@@ -61,7 +77,8 @@ OrganismView.propTypes = {
   style: PropTypes.object,
   onClick: PropTypes.func,
   wrapper: PropTypes.func,
-  separateClickableArea: PropTypes.bool
+  separateClickableArea: PropTypes.bool,
+  showColorText: PropTypes.bool
 };
 
 export default OrganismView;

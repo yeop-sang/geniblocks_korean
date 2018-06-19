@@ -1,7 +1,7 @@
 import expect from 'expect';
 import Immutable from 'seamless-immutable';
 import GeneticsUtils from '../../src/code/utilities/genetics-utils';
-import { loadStateFromAuthoring, loadNextTrial } from '../../src/code/reducers/helpers/load-state-from-authoring';
+import { loadStateFromAuthoring } from '../../src/code/reducers/helpers/load-state-from-authoring';
 
 describe("Loading an authored challenge", function() {
   let initialState = Immutable({

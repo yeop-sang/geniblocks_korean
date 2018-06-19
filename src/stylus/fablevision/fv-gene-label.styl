@@ -1,3 +1,10 @@
+/* establish a stacking context, so all interior z-index values are local */
+.geniblocks.genome
+  transform: scale(1)
+
+.geniblocks.genome #mountNode .react-selectize.open
+  z-index: 20
+
 .geniblocks.genome #mountNode .react-selectize-control
   display: flex
   flex-direction: row
@@ -163,21 +170,29 @@ layout-c-e-highlight = #0bebff
 
 .labels
   .geniblocks.fv-gene-label.allele.noneditable
+    &.t
+      z-index: 12
     &.m
-      z-index: 8
+      z-index: 11
     &.w
-      z-index: 7
+      z-index: 10
     &.h
-      z-index: 6
+      z-index: 9
     &.c
-      z-index: 5
+      z-index: 8
     &.b
-      z-index: 4
+      z-index: 7
     &.fl
-      z-index: 3
+      z-index: 6
     &.hl
-      z-index: 2
+      z-index: 5
     &.a
+      z-index: 4
+    &.d
+      z-index: 3
+    &.bog
+      z-index: 2
+    &.rh
       z-index: 1
 
 
@@ -201,7 +216,7 @@ layout-c-e-highlight = #0bebff
     padding-right: 30px
 
   &.fv-layout-a .geniblocks.chromosome-container .items.rtl .labels .fv-gene-label
-    right: 1490px
+    right: 236px
 
   &.fv-layout-d .geniblocks.chromosome-container .items.rtl .labels .fv-gene-label
     right: 235px

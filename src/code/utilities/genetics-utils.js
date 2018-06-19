@@ -359,4 +359,78 @@ export default class GeneticsUtils {
     return relevantPhenotypeFromGenes;
   }
 
+  /**
+   *  Returns dominant version of allele for this trait, e.g. "W"
+   */
+  static dominant(trait) {
+    switch (trait) {
+      // special-case any genes that aren't just two alleles differentiated by case
+      case "armor":
+        return "A1";
+      case "dilute":
+        return "D";
+      case "tail":
+        return "T";
+      default: {
+        const baseAllele = BioLogica.Species.Drake.geneList[trait].alleles[0];
+        return baseAllele.charAt(0).toUpperCase() + baseAllele.slice(1);
+      }
+    }
+  }
+
+  /**
+   *  Returns recessive version of allele for this trait, e.g. "w"
+   */
+  static recessive(trait) {
+    switch (trait) {
+      // special-case any genes that aren't just two alleles differentiated by case
+      case "armor":
+        return "a";
+      case "dilute":
+        return "d";
+      case "tail":
+        return "t";
+      default: {
+        const baseAllele = BioLogica.Species.Drake.geneList[trait].alleles[0];
+        return baseAllele.charAt(0).toLowerCase() + baseAllele.slice(1);
+      }
+    }
+  }
+
+  /**
+   * Returns allele string for this trait, based on type
+   * @prop {string} trait - Name of trait, e.g. "wings"
+   * @prop {string} type - Name of type, any of "dominant", "recessive" or "heterozygous"
+   * @returns {string} allele string for both sides, e.g. "a:W,b:w"
+   */
+  static getAllelesForTrait(trait, type) {
+    if (trait === "sex") {
+      return "";
+    }
+
+    const dom = GeneticsUtils.dominant(trait);
+    const rec = GeneticsUtils.recessive(trait);
+
+    switch (type) {
+      case "dominant":
+        return `a:${dom},b:${dom}`;
+      case "recessive":
+        return `a:${rec},b:${rec}`;
+      default:
+        return Math.random() < 0.5 ? `a:${dom},b:${rec}` : `a:${rec},b:${dom}`;
+    }
+  }
+
+  static commonName(trait) {
+    switch (trait) {
+      case "forelimbs":
+        return "arms";
+      case "hindlimbs":
+        return "legs";
+      case "black":
+        return "gray";
+    }
+    return trait;
+  }
+
 }

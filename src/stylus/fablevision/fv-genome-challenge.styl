@@ -11,6 +11,14 @@
     background-size: auto, auto, auto, auto, 250px auto, auto, auto
     overflow: hidden
 
+    &.remediation
+      background-image: url('../resources/fablevision/layout-a/screen_border_remedial.png'),
+                        url('../resources/fablevision/layout-a/screen_center_box.png'),
+                        url('../resources/fablevision/layout-a/screen_R_chromosome_box.png'),
+                        url('../resources/fablevision/layout-a/screen_L_chromosome_box.png'),
+                        url('../resources/fablevision/layout-a/screen_target_yourdrake.png'),
+                        url('../resources/fablevision/layout-a/screen_top_lines.png'),
+                        url('../resources/fablevision/layout-a/screen.png')
   #mission-wrapper
     margin: 150px auto
     height: 750px
@@ -29,6 +37,9 @@
   &#challenges
     #left-column
       width: 450px
+      .genome
+        margin-top: 70px
+        margin-right: 40px
     #center-column
       width: 500px
     #right-column
@@ -121,7 +132,7 @@
       display: inline-block
       margin-left: -20px
       top: 140px
-      font-family: 'Yanone Kaffeesatz';
+      font-family: 'Yanone Kaffeesatz'
       font-size: 2.5rem
       font-weight: bold
       color: white
@@ -130,3 +141,25 @@
     #target-drake
       margin-left: -80px
 
+.organism-color-text
+    position: relative
+    width: 100px
+    text-align: center
+    bottom: 40px
+    margin-left: auto
+    margin-right: auto
+
+    .color-text-display
+      margin-left: 15px
+      background-color: rgba(30,30,30,0.2)
+      border: 3px solid rgba(30,30,30,0.1)
+      padding: 3px
+      border-radius: 32px
+      width: 100px
+      color: #fff
+      text-shadow: 0px 0px 2px #000000
+      font-family: 'Yanone Kaffeesatz'
+      font-size: 1.7rem
+      line-height: 1.2em
+      border-radius: 24px
+      height: 34px

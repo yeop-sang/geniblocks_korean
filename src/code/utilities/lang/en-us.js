@@ -32,6 +32,11 @@ export default {
   "~ALERT.EGG_BASKET_MISMATCH": "The egg you have selected doesn't belong in that basket.",
   "~ALERT.DUPLICATE_DRAKE": "You already have a drake that looks just like that!",
 
+  // Remediation
+  "~ALERT.START_REMEDIATION": "Let's do a bonus challenge now, and come back to this one later.",
+  "~REMEDIATION.START_SIM": "We're going to simplify things by just looking at ${0}.",
+  "~REMEDIATION.COMPLETED_CHALLENGE": "Excellent! Let's go back to that other challenge now.",
+
   // Challenge buttons
   "~BUTTON.OK": "OK",
   "~BUTTON.TRY_AGAIN": "Try again",

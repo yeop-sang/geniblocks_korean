@@ -12,7 +12,8 @@ export default class EggHatchDrakeView extends React.Component {
     drake: PropTypes.object,
     hatchStarted: PropTypes.bool,
     skipHatchAnimation: PropTypes.bool,
-    onHatchComplete: PropTypes.func
+    onHatchComplete: PropTypes.func,
+    showDrakeColorHint: PropTypes.bool
   }
 
   constructor(props) {
@@ -26,6 +27,8 @@ export default class EggHatchDrakeView extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.state.hatchStarted !== nextProps.hatchStarted)
       this.setState({ hatchStarted: nextProps.hatchStarted, hatchComplete: false });
+    if (nextProps.skipHatchAnimation)
+    this.setState({ hatchComplete: true });
   }
 
   handleHatchComplete = () => {
@@ -35,14 +38,14 @@ export default class EggHatchDrakeView extends React.Component {
   }
 
   render() {
-    const { id, eggClasses, drakeClasses, drake } = this.props,
+    const { id, eggClasses, drakeClasses, drake, showDrakeColorHint } = this.props,
           { hatchStarted, hatchComplete } = this.state,
           eggHatchAnimation = <AnimatedSprite
                                   classNames={classNames('egg-image', eggClasses)}
                                   waitForTrigger={!hatchStarted}
                                   frames={16} frameWidth={1052} duration={1333}
                                   onEnd={this.handleHatchComplete} />,
-          hatchedDrake = <OrganismView org={drake} className={drakeClasses} width={300} />,
+      hatchedDrake = <OrganismView org={drake} className={drakeClasses} width={300} showColorText={showDrakeColorHint} />,
           eggOrDrakeView = hatchComplete ? hatchedDrake : eggHatchAnimation;
     return (
       <div id={id} className={'geniblocks egg-hatch-drake'}>

@@ -99,10 +99,14 @@
     "lint": "eslint examples gv2 src test",
     "examples": "live-server public --open=examples",
     "gv2": "live-server public --open=gv2",
+    "narrative": "node ./script/narrative.js",
     "pretest": "npm run lint",
     "start": "gulp",
+    "templates": "node ./script/templates.js",
     "test": "mocha --compilers js:babel-core/register --recursive --require ./test/setup.js --require mock-local-storage",
     "test:watch": "npm run test -- --watch",
-    "validate": "ajv validate -s ./src/resources/authoring/authoring.schema.json -d ./src/resources/authoring/gv-1.json"
+    "unused": "node ./script/unused.js",
+    "validate": "ajv validate -s ./src/resources/authoring/authoring.schema.json -d ./src/resources/authoring/gv-1.json",
+    "validateTutorials": "ajv validate -s ./src/resources/authoring/tutorial.schema.json -d ./src/resources/authoring/tutorial.json"
   }
 }
