@@ -54,7 +54,8 @@
                             },
                             "location": {
                               "description": "A specific location on screen for the popup",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "(top-left|top-center|top-right|middle-left|middle-center|middle-right|bottom-left|bottom-center|bottom-right)"
                             }
                           },
                           "required": ["element", "text"],

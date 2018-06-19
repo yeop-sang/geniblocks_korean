@@ -293,6 +293,11 @@
           "description": "Whether the user drake is shown or hidden",
           "type": "boolean"
         },
+        "targetDrakes": {
+          "description": "Constraints on the generated target drakes",
+          "type": "array",
+          "items": { "$ref": "#/definitions/drakeOrRandomMatched" }
+        },
         "template": {
           "type": "string",
           "enum": ["FVEggGame"]
