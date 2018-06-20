@@ -3007,7 +3007,7 @@
       "comment" : "*** Level 3, Mission 2.2: Lava -> Charcoal, Size - Homozygous Broken TRP ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "http://127.0.0.1:8080/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=size&missionId=3.2.2&video=lava"
+      "zoomUrl" : "http://127.0.0.1:56541/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=size&missionId=3.2.2&video=lava"
     },
     "cell-game-lava-copper-gate" : {
       "comment" : "*** Level 3, Mission 4.1: Lava -> Copper, Gates - Broken TRP ***",
