@@ -19,21 +19,7 @@ export default class ZoomChallenge extends Component {
 
   render() {
     let url = this.props.zoomUrl;
-    let tempStyle = {
-      width: '30px',
-      height: '30px',
-      position: 'fixed',
-      bottom: '30px',
-      backgroundColor: 'gold',
-      borderRadius: '18px',
-      textAlign: 'center',
-      lineHeight: '1.5em',
-      color: 'black',
-      fontWeight: 'bold',
-      border: '1px solid orange',
-      zIndex: 20,
-      cursor: 'pointer'
-    };
+
     if (window.location.href.indexOf('/branch/staging') > -1 ) url = this.props.zoomUrl + "&staging=true";
     function togglePopups() {
       console.log('toggle');
@@ -42,7 +28,7 @@ export default class ZoomChallenge extends Component {
     return (
       <div id="zoom-challenge-container">
         <iframe id="iframe" src={url} />
-        <div id="toggle-popups" style={tempStyle} onClick={togglePopups}>?</div>
+        <div id="toggle-popups" onClick={togglePopups}>?</div>
       </div>
     );
   }
