@@ -6,11 +6,22 @@ export default class ZoomChallenge extends Component {
 
   static backgroundClasses = 'fv-layout fv-layout-zoom'
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasTutorial: false
+    };
+  }
+
   componentDidMount() {
     var iframeElement = document.getElementById("iframe");
     phone = new iframePhone.ParentEndpoint(iframeElement);
     phone.addListener('challengeWin', this.props.onWinZoomChallenge);
-    phone.addListener('activityLoaded', () => { console.log("loaded!");});
+    phone.addListener('activityLoaded', (activityData) => {
+      if (activityData && activityData.hasTutorial) {
+        this.setState({ hasTutorial: activityData.hasTutorial });
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -28,7 +39,12 @@ export default class ZoomChallenge extends Component {
     return (
       <div id="zoom-challenge-container">
         <iframe id="iframe" src={url} />
-        <div id="toggle-popups" onClick={togglePopups}>?</div>
+        {
+          this.state.hasTutorial &&
+          <div className="toggle-popups" onClick={togglePopups}>
+            <div className="toggle-popups-icon" />
+          </div>
+        }
       </div>
     );
   }
