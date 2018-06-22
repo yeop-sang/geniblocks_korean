@@ -16,7 +16,13 @@ export default class ZoomChallenge extends Component {
   componentDidMount() {
     var iframeElement = document.getElementById("iframe");
     phone = new iframePhone.ParentEndpoint(iframeElement);
-    phone.addListener('challengeWin', this.props.onWinZoomChallenge);
+    phone.addListener('challengeWin', (activityData) => {
+      let stats;
+      if (activityData && activityData.actionStats) {
+        stats = activityData.actionStats;
+      }
+      this.props.onWinZoomChallenge(stats);
+    });
     phone.addListener('activityLoaded', (activityData) => {
       if (activityData && activityData.hasTutorial) {
         this.setState({ hasTutorial: activityData.hasTutorial });
