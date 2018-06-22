@@ -123,7 +123,7 @@ function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template,
           alleleString = alleleString.replace(copyIntoGenes, masterGenes);
         }
       }
-    
+
       /*
        * Guarantee minimum number of moves
        */
@@ -218,6 +218,7 @@ export function loadStateFromAuthoring(state, authoring) {
         numTargets = getNumTargets(authoredChallenge, trialOrder[trial], template),
         hiddenParent = getHiddenParent(authoredChallenge, trialOrder[trial], template),
         zoomUrl = authoredChallenge.zoomUrl,
+        zoomScoringMetrics = authoredChallenge.scoreMetrics,
         room = authoredChallengeMetadata.room || "simroom",
         roomInfo = (authoring && authoring.rooms) ? authoring.rooms[room] : {},
         location = {id: room, ...roomInfo},
@@ -274,6 +275,7 @@ export function loadStateFromAuthoring(state, authoring) {
     isRemediation: false,
     initialDrakes: [...drakes],
     zoomUrl,
+    zoomScoringMetrics,
     location,
     showingRoom,
     notifications: {

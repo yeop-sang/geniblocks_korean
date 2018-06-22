@@ -18,8 +18,27 @@ export default class ZoomChallenge extends Component {
     phone = new iframePhone.ParentEndpoint(iframeElement);
     phone.addListener('challengeWin', (activityData) => {
       let stats;
-      if (activityData && activityData.actionStats) {
+      const positiveMetrics = this.props.zoomScoringMetrics;
+
+      // check we have a list of positive metrics and score to calculate
+      if (activityData && activityData.actionStats && positiveMetrics) {
         stats = activityData.actionStats;
+
+        if (positiveMetrics && stats) {
+          let total = 0, positiveTotal = 0;
+          for (let m in stats) {
+            if (positiveMetrics.indexOf(m) > -1) {
+              positiveTotal += stats[m];
+            }
+            total += stats[m];
+          }
+          // TODO: Calculate actual tolerance for success metric - currently works as:
+          // 90% or higher = blue, 80-90% = yellow, 70-80% = red, etc.
+          const score = positiveTotal / total * 10;
+          const gemScore = 10 - Math.ceil(score);
+          stats.score = gemScore;
+          console.log(stats, score);
+        }
       }
       this.props.onWinZoomChallenge(stats);
     });
@@ -39,7 +58,6 @@ export default class ZoomChallenge extends Component {
 
     if (window.location.href.indexOf('/branch/staging') > -1 ) url = this.props.zoomUrl + "&staging=true";
     function togglePopups() {
-      console.log('toggle');
       phone.post('togglePopups');
     }
     return (
@@ -61,6 +79,7 @@ export default class ZoomChallenge extends Component {
 
   static propTypes = {
     onWinZoomChallenge: PropTypes.func.isRequired,
+    zoomScoringMetrics: PropTypes.array,
     zoomUrl: PropTypes.string.isRequired
   }
 
