@@ -17,7 +17,9 @@ export default class ZoomChallenge extends Component {
     var iframeElement = document.getElementById("iframe");
     phone = new iframePhone.ParentEndpoint(iframeElement);
     phone.addListener('challengeWin', (activityData) => {
-      let stats;
+      let stats = {
+        score: 0
+      };
       const positiveMetrics = this.props.zoomScoringMetrics;
 
       // check we have a list of positive metrics and score to calculate
