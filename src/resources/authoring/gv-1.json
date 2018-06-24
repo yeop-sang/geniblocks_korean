@@ -2391,7 +2391,7 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath"
       },
       "numTrials" : 1,
       "randomizeTrials" : true,
@@ -2438,7 +2438,7 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath"
       },
       "numTrials" : 3,
       "randomizeTrials" : true,
@@ -2485,7 +2485,7 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath"
       },
       "numTrials" : 1,
       "randomizeTrials" : true,
@@ -2532,7 +2532,7 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath"
       },
       "numTrials" : 1,
       "randomizeTrials" : true,
@@ -2761,7 +2761,7 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath"
       },
       "randomizeTrials" : true,
       "showDrakeColorHint": true,
@@ -2795,7 +2795,7 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath"
       },
       "randomizeTrials" : true,
       "showUserDrake" : true,
@@ -2828,7 +2828,7 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath"
       },
       "randomizeTrials" : true,
       "showDrakeColorHint": true,
@@ -2872,7 +2872,7 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath"
       },
       "randomizeTrials" : true,
       "showDrakeColorHint": true,
@@ -2894,7 +2894,7 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath"
       },
       "randomizeTrials" : true,
       "showDrakeColorHint": true,
