@@ -803,7 +803,7 @@ function _winZoomChallenge(stats) {
   return {
     type: actionTypes.ZOOM_CHALLENGE_WON,
     // score currently calculated in zoom template
-    challengeErrors: stats.score,
+    challengeErrors: stats.score ? stats.score : 0,
     stats,
     meta: {
       itsLog: {
