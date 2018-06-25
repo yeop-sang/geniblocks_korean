@@ -114,7 +114,8 @@ function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template,
         linkedGenesDef = linkedGenes[authoredTrialNumber];
       }
       if (i === linkedGenesDef.drakes[0]) {
-        linkedGeneDrake = new BioLogica.Organism(BioLogica.Species.Drake, femaleDrake.getAlleleString(), actualDrakeSex);
+        // the source of the linkedGenes should have all alleles, including sex-linked ones
+        linkedGeneDrake = femaleDrake;
       } else if (linkedGenesDef.drakes.indexOf(i)) {
         let genes = split(linkedGenesDef.genes);
         for (let gene of genes) {
