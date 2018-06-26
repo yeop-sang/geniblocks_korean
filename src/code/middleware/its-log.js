@@ -35,7 +35,7 @@ export function initializeITSSocket(guideServer, socketPath, store) {
       //store.dispatch({type: GUIDE_HINT_RECEIVED, data: event});
     } else if (event.isMatch("ITS", "REMEDIATE", "USER")) {
       // TODO: Re-enable dispatch once ITS is fixed
-      console.log("ITS spoke to user:", event.context.dialog);
+      console.log("ITS offered user remediation:", event.context.dialog);
       // store.dispatch(requestRemediation(event));
     } else if (event.isMatch("ITS", "SPOKETO", "USER")) {
       // do nothing with this
