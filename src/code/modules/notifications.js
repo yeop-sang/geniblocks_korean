@@ -23,27 +23,32 @@ const initialState = {
 export default function notifications(state = initialState, action) {
   switch (action.type) {
     case GUIDE_HINT_RECEIVED:
-
-      if (state.messages[0] && state.messages[0].type === notificationType.NARRATIVE) {
-        console.log(`%c Not showing ITS Message due to narrative`, `color: #f99a00`);
-        return state;
-      }
-
-      if (action.data && action.data.context) {
-        const currentText = state.messages.length > 0 ? state.messages[0].text + " " : "";
-
-        const newMessage = {
-          text: currentText + action.data.context.hintDialog
-        };
-
-        if (action.data.context.attribute) {
-          newMessage.trait = action.data.context.attribute;
+      // TODO: Remove when ITS is fixed
+      if (window.location.href.indexOf('enableITS') > -1) {
+        if (state.messages[0] && state.messages[0].type === notificationType.NARRATIVE) {
+          console.log(`%c Not showing ITS Message due to narrative`, `color: #f99a00`);
+          return state;
         }
 
-        return Object.assign({}, state, {messages: [newMessage]});
-      }
-      else
+        if (action.data && action.data.context) {
+          const currentText = state.messages.length > 0 ? state.messages[0].text + " " : "";
+
+          const newMessage = {
+            text: currentText + action.data.context.hintDialog
+          };
+
+          if (action.data.context.attribute) {
+            newMessage.trait = action.data.context.attribute;
+          }
+
+          return Object.assign({}, state, { messages: [newMessage] });
+        }
+        else
+          return state;
+      } else {
+        console.log(`%c Not showing ITS Message - add enableITS in url to display hints`, `color: #f99a00`);
         return state;
+      }
     case actionTypes.NOTIFICATIONS_SHOWN: {
       const translatedMessages = action.messages.map(message => {
         return Object.assign({}, message, {text: t(message.text)});
