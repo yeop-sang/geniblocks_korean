@@ -30,14 +30,20 @@ export function initializeITSSocket(guideServer, socketPath, store) {
     console.info(`%c Received from ITS: ${event.action} ${event.target}`, 'color: #f99a00', event);
 
     if (event.isMatch("ITS", "HINT", "USER")) {
-      store.dispatch({type: GUIDE_HINT_RECEIVED, data: event});
+      // TODO: Re-enable dispatch once ITS is fixed
+      console.log("ITS provided hint to user:", event.context.dialog);
+      //store.dispatch({type: GUIDE_HINT_RECEIVED, data: event});
     } else if (event.isMatch("ITS", "REMEDIATE", "USER")) {
-      store.dispatch(requestRemediation(event));
+      // TODO: Re-enable dispatch once ITS is fixed
+      console.log("ITS offered user remediation:", event.context.dialog);
+      // store.dispatch(requestRemediation(event));
     } else if (event.isMatch("ITS", "SPOKETO", "USER")) {
       // do nothing with this
       console.log("ITS spoke to user:", event.context.dialog);
     } else if (event.isMatch("ITS", "ISSUED", "ALERT")) {
-      store.dispatch({type: GUIDE_ALERT_RECEIVED, data: event});
+      // TODO: Re-enable dispatch once ITS is fixed
+      console.log("ITS alerted user:", event.context.dialog);
+      //store.dispatch({type: GUIDE_ALERT_RECEIVED, data: event});
     } else {
       console.log("%c Unhandled ITS message:", 'color: #f99a00', event.toString());
     }
