@@ -122,6 +122,15 @@ function _userAuth(token){
   }
   return _cachedAuth;
 }
+var connectedRef = firebase.database().ref(".info/connected");
+  connectedRef.on("value", function(snap) {
+    if (snap.val() === true) {
+      console.log("Firebase connected");
+    } else {
+      console.log("Firebase not connected");
+    }
+  });
+
 
 export function getFBClassId() {
   if (!_cachedAuth) {
