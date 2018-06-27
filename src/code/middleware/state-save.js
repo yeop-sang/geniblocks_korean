@@ -41,20 +41,42 @@ export default () => store => next => action => {
 
     // Store updated gems if they have changed
     if (action.type !== actionTypes.LOAD_SAVED_STATE &&
-          (JSON.stringify(prevState.gems) !== JSON.stringify(nextState.gems) ||
-           JSON.stringify(prevState.remediationHistory) !== JSON.stringify(nextState.remediationHistory))) {
-      let {gems, remediationHistory} = nextState;
+      (JSON.stringify(prevState.gems) !== JSON.stringify(nextState.gems)
+      // TODO: Uncomment once remediation is fixed!
+        // ||
+        // nextState.remediationHistory && JSON.stringify(prevState.remediationHistory) !== JSON.stringify(nextState.remediationHistory)
+      )) {
+      let {
+        gems
+        // , remediationHistory
+      } = nextState;
       userDataUpdate.state = {
         gems,
-        remediationHistory,
+        // remediationHistory,
         stateVersion: currentStateVersion
       };
     }
-    firebase.database().ref(userQueryString).update(userDataUpdate);
+    firebase.database().ref(userQueryString).update(userDataUpdate, (error, userDataUpdate) => {
+      if (error) {
+        console.logError("Error updating user state!", userDataUpdate, error);
+        return error;
+      } else {
+        return;
+      }
+    });
   }
 
   return result;
 };
+
+// const onComplete = function(error) {
+//   if (error) {
+//     console.logError("Error updating user state!", error);
+//     return error;
+//   } else {
+//     return;
+//   }
+// };
 
 const getCurrentChallenge = function(nextState) {
   const {routeSpec, authoring, gems} = nextState;
