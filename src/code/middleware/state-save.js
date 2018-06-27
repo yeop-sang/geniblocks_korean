@@ -41,13 +41,18 @@ export default () => store => next => action => {
 
     // Store updated gems if they have changed
     if (action.type !== actionTypes.LOAD_SAVED_STATE &&
-          (JSON.stringify(prevState.gems) !== JSON.stringify(nextState.gems) ||
-        nextState.remediationHistory && JSON.stringify(prevState.remediationHistory) !== JSON.stringify(nextState.remediationHistory)
+      (JSON.stringify(prevState.gems) !== JSON.stringify(nextState.gems)
+      // TODO: Uncomment once remediation is fixed!
+        // ||
+        // nextState.remediationHistory && JSON.stringify(prevState.remediationHistory) !== JSON.stringify(nextState.remediationHistory)
       )) {
-      let {gems, remediationHistory} = nextState;
+      let {
+        gems
+        // , remediationHistory
+      } = nextState;
       userDataUpdate.state = {
         gems,
-        remediationHistory,
+        // remediationHistory,
         stateVersion: currentStateVersion
       };
     }
