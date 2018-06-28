@@ -29,7 +29,8 @@ class TutorialView extends React.Component {
 
   componentWillUpdate(nextProps, nextState) {
     if (this.props.currentStep !== nextProps.currentStep ||
-        this.state.isShowing !== nextState.isShowing) {
+      this.state.isShowing !== nextState.isShowing ||
+      (this.props.visible !== nextProps.visible && nextProps.visible)) {
       let tutorialStep = this.props.steps[nextProps.currentStep];
       if (tutorialStep) {
         this.showTutorialHighlights(tutorialStep);
