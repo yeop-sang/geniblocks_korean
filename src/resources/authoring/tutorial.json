@@ -44,7 +44,8 @@
                 {
                   "element": "change-sex-toggle-group",
                   "text": "Male/Female button",
-                  "more": "The third chromosome pair determines whether a dragon is male or female. Change the position of the button to change this chromosome pair."
+                  "more": "The third chromosome pair determines whether a dragon is male or female. Change the position of the button to change this chromosome pair.",
+                  "location": "bottom-left"
                 }
               ]
             }
@@ -97,6 +98,23 @@
       "level": 3,
       "missions": [
         {
+          "mission": 0,
+          "challenges":[
+            {
+              "challenge": 0,
+              "steps":[
+                {
+                  "element": "genome parent",
+                  "text": "Select Chromosomes",
+                  "longText": "Selet one chromosome from each pair to make a gamete.",
+                  "location": "bottom-left",
+                  "pulseElement": "chromosome-allele-container"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "mission": 1,
           "challenges":[
             {
@@ -105,7 +123,8 @@
                 {
                   "element": "mother",
                   "text": "Select Alleles",
-                  "longText": "Set the parent’s alleles so an offspring will match the Target Drake."
+                  "longText": "Set the parent’s alleles so an offspring will match the Target Drake.",
+                  "location": "bottom-left"
                 },
                 {
                   "element": "breed-button",
