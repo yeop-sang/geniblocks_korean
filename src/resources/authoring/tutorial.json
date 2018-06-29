@@ -10,14 +10,16 @@
               "challenge": 0,
               "steps": [
                 {
-                  "element": "fv-chromosome-image",
+                  "element": "geniblocks genome",
                   "text": "Chromosomes",
-                  "more": "Chromosomes are made of DNA and contain genes. For each pair of chromosomes, an individual gets one from its mother and one from its father."
+                  "more": "Chromosomes are made of DNA and contain genes. For each pair of chromosomes, an individual gets one from its mother and one from its father.",
+                  "pulseElement": "fv-chromosome-image"
                 },
                 {
-                  "element": "stripe",
+                  "element": "geniblocks genome",
                   "text": "Genes",
-                  "more": "These white lines show where certain genes are on the chromosomes. Each gene affects a particular trait."
+                  "more": "These white lines show where certain genes are on the chromosomes. Each gene affects a particular trait.",
+                  "pulseElement": "stripe"
                 },
                 {
                   "element": "labels",
