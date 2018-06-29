@@ -87,7 +87,7 @@
                 {
                   "element": "organism-color-text",
                   "text": "Drake Color",
-                  "more": "Each drake color is a combination of alleles from multiple genes. Breeders have named the colors for metals and other substances.",
+                  "more": "Each drake color is a combination of alleles from multiple genes.",
                   "location": "bottom-center"
                 }
               ]
