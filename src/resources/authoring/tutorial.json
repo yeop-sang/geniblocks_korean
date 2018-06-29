@@ -22,7 +22,7 @@
                   "pulseElement": "stripe"
                 },
                 {
-                  "element": "labels",
+                  "element": "geniblocks genome",
                   "text": "Alleles",
                   "more": "Genes have different versions called “alleles” (ah-leelz). Change the versions of each gene to make different drakes.",
                   "pulseElement": "simple-select"
