@@ -66,14 +66,14 @@ export function startSession(uuid) {
 export function changeAuthoring(authoring) {
   return {
     type: actionTypes.AUTHORING_CHANGED,
-    authoring,
-    meta: {
-      itsLog: {
-        actor: ITS_ACTORS.USER,
-        action: ITS_ACTIONS.CHANGED,
-        target: ITS_TARGETS.AUTHORING
-      }
-    }
+    authoring
+    // meta: {
+    //   itsLog: {
+    //     actor: ITS_ACTORS.USER,
+    //     action: ITS_ACTIONS.CHANGED,
+    //     target: ITS_TARGETS.AUTHORING
+    //   }
+    // }
   };
 }
 
