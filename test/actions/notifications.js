@@ -24,73 +24,73 @@ describe('Notification actions', () => {
 
     // TODO: Re-enable these tests once ITS is working!
 
-    // describe('on receiving GUIDE message', () => {
+    describe('on receiving GUIDE message', () => {
 
-    //   it('should add to the notifications', () => {
+      it('should add to the notifications', () => {
 
-    //     nextState = reducer(defaultState, {
-    //       type: GUIDE_HINT_RECEIVED,
-    //       data: itsData
-    //     });
+        nextState = reducer(defaultState, {
+          type: GUIDE_HINT_RECEIVED,
+          data: itsData
+        });
 
-    //     expect(nextState).toEqual(defaultState.merge({
-    //       notifications: {
-    //         messages: [{
-    //           text: "Ok! Let's get to work on Mission 0 Challenge 2."
-    //         }],
-    //         closeButton: null
-    //       }
-    //     }));
-    //   });
+        expect(nextState).toEqual(defaultState.merge({
+          notifications: {
+            messages: [{
+              text: "Ok! Let's get to work on Mission 0 Challenge 2."
+            }],
+            closeButton: null
+          }
+        }));
+      });
 
-    //   it('should concatenate the notifications', () => {
+      it('should concatenate the notifications', () => {
 
-    //     let secondMessageData = {
-    //       context: {
-    //         hintDialog: "Second message."
-    //       }
-    //     };
+        let secondMessageData = {
+          context: {
+            hintDialog: "Second message."
+          }
+        };
 
-    //     let lastState = reducer(nextState, {
-    //       type: GUIDE_HINT_RECEIVED,
-    //       data: secondMessageData
-    //     });
+        let lastState = reducer(nextState, {
+          type: GUIDE_HINT_RECEIVED,
+          data: secondMessageData
+        });
 
-    //     expect(lastState).toEqual(defaultState.merge({
-    //       notifications: {
-    //         messages: [{
-    //           text: "Ok! Let's get to work on Mission 0 Challenge 2. Second message."
-    //         }],
-    //         closeButton: null
-    //       }
-    //     }));
-    //   });
+        expect(lastState).toEqual(defaultState.merge({
+          notifications: {
+            messages: [{
+              text: "Ok! Let's get to work on Mission 0 Challenge 2. Second message."
+            }],
+            closeButton: null
+          }
+        }));
+      });
 
-    //   it('should append a trait to the message if there is one', () => {
+      it('should append a trait to the message if there is one', () => {
 
-    //     const traitMessage = {
-    //       context: {
-    //         hintDialog: "This is a message about legs.",
-    //         attribute: "hindlimbs"
-    //       }
-    //     };
+        const traitMessage = {
+          context: {
+            hintDialog: "This is a message about legs.",
+            attribute: "hindlimbs"
+          }
+        };
 
-    //     nextState = reducer(defaultState, {
-    //       type: GUIDE_HINT_RECEIVED,
-    //       data: traitMessage
-    //     });
+        nextState = reducer(defaultState, {
+          type: GUIDE_HINT_RECEIVED,
+          data: traitMessage
+        });
 
-    //     expect(nextState).toEqual(defaultState.merge({
-    //       notifications: {
-    //         messages: [{
-    //           text: "This is a message about legs.",
-    //           "trait": "hindlimbs"
-    //         }],
-    //         closeButton: null
-    //       }
-    //     }));
-    //   });
-    // });
+        expect(nextState).toEqual(defaultState.merge({
+          notifications: {
+            messages: [{
+              text: "This is a message about legs.",
+              "trait": "hindlimbs"
+            }],
+            closeButton: null
+          }
+        }));
+      });
+    });
 
     describe('on receiving modal dialog messages', () => {
 
