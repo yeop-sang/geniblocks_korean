@@ -2245,30 +2245,6 @@
           "id": "clutch-5drakes-harderTraits-bothParents2",
           "name": "Challenge 6.4.2",
           "room": "breedingbarn"
-        }, {
-          "about": {
-            "description" : "Students click the Generate Gametes button to see how gametes are randomly assembled. The game creates one egg and three sperm in Challenge 5 and three eggs and one sperm in Challenge 6. In both cases, the student must select the sperm or egg that, when combined with the other gamete, will create the target drake.",
-            "type" : "Gamete Selector"
-          },
-          "dialog": {
-            "end": {
-              "failure": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.4.3 not completed successfully"
-              }],
-              "success": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.4.3 completed successfully!"
-              }]
-            },
-            "start": [{
-              "character": "YEUNG",
-              "text": "Welcome to Challenge 6.4.3!"
-            }]
-          },
-          "id": "breeding-harderTraits-siblings",
-          "name": "Challenge 6.4.3",
-          "room": "breedingbarn"
         }],
         "dialog": {
           "end": [{
@@ -2285,6 +2261,95 @@
           }]
         },
         "name": "Mission 6.4"
+      },{
+        "challenges": [{
+          "about": {
+            "description" : "Students use Test Cross to determine parents genotype",
+            "type" : "Test Cross"
+          },
+          "dialog": {
+            "end": {
+              "failure": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.5.1 not completed successfully"
+              }],
+              "success": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.5.1 completed successfully!"
+              }]
+            },
+            "start": [{
+              "character": "YEUNG",
+              "text": "Welcome to Challenge 6.5.1!"
+            }]
+          },
+          "id": "test-cross-nosespike-dilute-tail-1",
+          "name": "Challenge 6.5.1",
+          "room": "breedingbarn"
+        }, {
+          "about": {
+            "description" : "Students use Test Cross to determine parents genotype",
+            "type" : "Test Cross"
+          },
+          "dialog": {
+            "end": {
+              "failure": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.5.2 not completed successfully"
+              }],
+              "success": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.5.2 completed successfully!"
+              }]
+            },
+            "start": [{
+              "character": "YEUNG",
+              "text": "Welcome to Challenge 6.5.2!"
+            }]
+          },
+          "id": "test-cross-nosespike-dilute-tail-2",
+          "name": "Challenge 6.5.2",
+          "room": "breedingbarn"
+        },{
+          "about": {
+            "description" : "Students use Test Cross to determine parents genotype",
+            "type" : "Test Cross"
+          },
+          "dialog": {
+            "end": {
+              "failure": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.5.3 not completed successfully"
+              }],
+              "success": [{
+                "character": "NETANYA",
+                "text": "Challenge 6.5.3 completed successfully!"
+              }]
+            },
+            "start": [{
+              "character": "YEUNG",
+              "text": "Welcome to Challenge 6.5.3!"
+            }]
+          },
+          "id": "test-cross-nosespike-dilute-tail-3",
+          "name": "Challenge 6.5.3",
+          "room": "breedingbarn"
+        }],
+        "dialog": {
+          "end": [{
+            "character": "NETANYA",
+            "text": "End of mission 6.5"
+          }],
+          "middle": [{
+            "character": "WEAVER",
+            "text": "Middle of mission 6.5"
+          }],
+          "start": [{
+            "character": "YEUNG",
+            "text": "Start of mission 6.5"
+          }]
+        },
+        "name": "Mission 6.5"
       } ],
       "name": "Level 6"
     } ]
@@ -5388,6 +5453,183 @@
         "mother" : "forelimbs, hindlimbs, metallic, armor"
       } ],
       "visibleGenes" : "forelimbs, hindlimbs, metallic, armor"
+    },
+    "test-cross-nosespike-dilute-tail-1" : {
+      "challengeType" : "test-cross",
+      "container" : "FVContainer",
+      "father" : [ {
+        "alleles" : "A1-A1, W-w, B-B, H-h, m-m, fl-fl, D-D, Hl-hl, Rh-, C-C, T-Tk",
+        "sex" : 0
+      }, {
+        "alleles" : "A1-a, W-w, B-b, H-h, M-m, Fl-fl, D-D, Hl-hl, rh-, C-C, t-Tk",
+        "sex" : 0
+      }, {
+        "alleles" : "A1-a, W-w, b-b, H-h, M-M, Fl-Fl, d-d, hl-hl, Rh-, C-C, T-T",
+        "sex" : 0
+      }, {
+        "alleles" : "A1-a, W-w, B-b, H-H, M-m, Fl-fl, d-d, Hl-Hl, rh-, C-C, T-Tk",
+        "sex" : 0
+      }, {
+        "alleles" : "A1-a, W-w, B-B, H-H, M-m, fl-fl, D-D, Hl-hl, Rh-, C-C, T-t",
+        "sex" : 0
+      }, {
+        "alleles" : "A1-a, W-w, B-B, H-H, M-m, fl-fl, D-D, Hl-hl, rh-, C-C, t-T",
+        "sex" : 0
+      }],
+      "goalMoves" : [ 0 ],
+      "hiddenAlleles" : "A2",
+      "hiddenParent" : {
+        "hiddenGenotype" : true,
+        "hiddenImage" : false,
+        "sex" : 0
+      },
+      "linkedGenes" : {
+        "drakes" : [ 0, 1, 2 ],
+        "genes" : "color, hindlimbs, black, horns, armor, tail, dilute, nose, bogbreath"
+      },
+      "mother" : [ {
+        "alleles" : "H-H, w-w, b-b, M-M, A1-A1, fl-fl, hl-Hl, t-t, C-C, d-d, rh-rh, Bog-Bog",
+        "sex" : 1
+      } ],
+      "targetDrakes" : [ {
+        "alleles" : "M-M, A1-A1, Fl-Fl, Hl-Hl",
+        "sex" : 0
+      } ],
+      "template" : "ClutchGame",
+      "userChangeableGenes" : [ {
+        "father" : "nose, dilute, tail",
+        "mother" : ""
+      } ],
+      "visibleGenes" : "nose, dilute, tail"
+    },
+    "test-cross-nosespike-dilute-tail-2" : {
+      "challengeType" : "test-cross",
+      "container" : "FVContainer",
+      "father" : [ {
+        "alleles" : "A1-A1, w-w, B-B, H-h, m-m, fl-fl, d-d, Hl-hl, rh-rh, C-C, t-t",
+        "sex" : 0
+      } ],
+      "goalMoves" : [ 0 ],
+      "hiddenAlleles" : "A2",
+      "hiddenParent" : {
+        "hiddenGenotype" : true,
+        "hiddenImage" : true,
+        "sex" : 1
+      },
+      "linkedGenes" : {
+        "drakes" : [ 0, 1, 2 ],
+        "genes" : "color, hindlimbs, black, horns, armor, tail, dilute, nose, bogbreath"
+      },
+      "mother" : [ {
+        "alleles" : "H-H, W-w, b-b, M-M, A1-A1, fl-fl, hl-Hl, T-T, C-C, D-, Rh-, Bog-Bog, T-Tk",
+        "sex" : 1
+      }, {
+        "alleles" : "H-h, W-W, b-b, M-m, A1-A1, fl-Fl, hl-Hl, T-T, C-C, D-, rh-, Bog-Bog, t-Tk",
+        "sex" : 1
+      }, {
+        "alleles" : "H-h, w-w, b-b, m-M, a-A1, Fl-Fl, hl-hl, T-T, C-C, d-, Rh-, Bog-Bog, T-T",
+        "sex" : 1
+      }, {
+        "alleles" : "H-h, w-W, b-b, m-m, A1-A1, fl-fl, Hl-Hl, T-T, C-C, d-, rh-, Bog-Bog, T-Tk",
+        "sex" : 1
+      }, {
+        "alleles" : "H-H, W-W, b-b, m-M, A1-A1, Fl-fl, Hl-hl, T-T, C-C, D-, Rh-, Bog-Bog, T-t",
+        "sex" : 1
+      }, {
+        "alleles" : "H-H, w-w, b-b, M-m, a-a, fl-Fl, hl-hl, T-T, C-C, D-, rh-, Bog-Bog, t-T",
+        "sex" : 1
+      } ],
+      "targetDrakes" : [ {
+        "alleles" : "M-M, A1-A1, Fl-Fl, Hl-Hl",
+        "sex" : 0
+      } ],
+      "template" : "ClutchGame",
+      "userChangeableGenes" : [ {
+        "father" : "",
+        "mother" : "nose, dilute, tail, wings"
+      } ],
+      "visibleGenes" : "nose, dilute, tail, wings"
+    },
+    "test-cross-nosespike-dilute-tail-3" : {
+      "challengeType" : "test-cross",
+      "container" : "FVContainer",
+      "father" : [ {
+        "alleles" : "A1-a, W-w, B-B, H-H, m-m, fl-fl, D-, Hl-hl, Rh-, C-C, T-Tk",
+        "sex" : 0
+      }, {
+        "alleles" : "a-a, W-W, B-b, H-h, M-m, Fl-fl, D-, Hl-hl, rh-, C-C, t-Tk",
+        "sex" : 0
+      }, {
+        "alleles" : "A1-a, w-w, b-b, H-H, M-M, Fl-Fl, d-, hl-hl, Rh-, C-C, T-T",
+        "sex" : 0
+      }, {
+        "alleles" : "A1-A1, w-W, b-b, H-h, M-M, Fl-Fl, D-, hl-hl, Rh-, C-C, T-Tk",
+        "sex" : 0
+      }, {
+        "alleles" : "A1-A1, w-w, B-B, h-h, M-m, fl-fl, D-, Hl-hl, Rh-, C-C, T-t",
+        "sex" : 0
+      }, {
+        "alleles" : "a-a, w-w, B-B, h-H, m-m, fl-fl, D-, Hl-hl, rh-, C-C, t-T",
+        "sex" : 0
+      }, {
+        "alleles" : "A1-a, w-W, B-b, H-H, M-m, Fl-fl, d-, Hl-hl, rh-, C-C, T-Tk",
+        "sex" : 0
+      }, {
+        "alleles" : "a-a, W-W, b-b, H-h, M-M, Fl-Fl, D-, hl-hl, Rh-, C-C, T-t",
+        "sex" : 0
+      }, {
+        "alleles" : "A1-A1, w-w, B-b, H-H, M-m, Fl-fl, D-, Hl-hl, rh-, C-C, t-T",
+        "sex" : 0
+      } ],
+      "goalMoves" : [ 0 ],
+      "hiddenAlleles" : "A2",
+      "hiddenParent" : {
+        "hiddenGenotype" : true,
+        "hiddenImage" : true,
+        "sex" : 0
+      },
+      "linkedGenes" : {
+        "drakes" : [ 0, 1, 2 ],
+        "genes" : "color, hindlimbs, black, horns, armor, tail, dilute, nose, bogbreath"
+      },
+      "mother" : [ {
+        "alleles" : "H-H, w-w, b-b, M-M, A1-a, fl-fl, hl-Hl, T-Tk, C-C, D-d, Rh-rh, Bog-Bog",
+        "sex" : 1
+      }, {
+        "alleles" : "H-h, W-w, b-b, M-m, A1-a, fl-Fl, hl-Hl, t-t, C-C, D-D, Rh-Rh, Bog-Bog",
+        "sex" : 1
+      }, {
+        "alleles" : "H-h, w-W, b-b, m-M, a-A1, Fl-Fl, hl-hl, T-Tk, C-C, d-d, Rh-rh, Bog-Bog",
+        "sex" : 1
+      }, {
+        "alleles" : "H-h, W-w, b-b, m-m, A1-A1, fl-fl, Hl-Hl, T-Tk, C-C, D-D, Rh-Rh, Bog-Bog",
+        "sex" : 1
+      }, {
+        "alleles" : "H-H, W-w, b-b, m-M, A1-A1, Fl-fl, Hl-hl, T-T, C-C, D-D, Rh-rh, Bog-Bog",
+        "sex" : 1
+      }, {
+        "alleles" : "H-H, w-w, b-b, M-m, A1-A1, fl-Fl, hl-hl, t-t, C-C, d-d, Rh-rh, Bog-Bog",
+        "sex" : 1
+      }, {
+        "alleles" : "h-h, w-w, b-b, m-m, A1-a, Fl-Fl, hl-Hl, T-Tk, C-C, D-d, rh-rh, Bog-Bog",
+        "sex" : 1
+      }, {
+        "alleles" : "H-h, W-w, b-b, m-M, a-a, fl-fl, Hl-hl, T-T, C-C, D-d, Rh-rh, Bog-Bog",
+        "sex" : 1
+      }, {
+        "alleles" : "H-h, w-W, b-b, m-M, a-a, fl-fl, Hl-hl, T-t, C-C, d-d, Rh-Rh, Bog-Bog",
+        "sex" : 1
+      } ],
+      "targetDrakes" : [ {
+        "alleles" : "M-M, A1-A1, Fl-Fl, Hl-Hl",
+        "sex" : 0
+      } ],
+      "template" : "ClutchGame",
+      "userChangeableGenes" : [ {
+        "father" : "nose, dilute, tail, armor, horns, wings",
+        "mother" : "nose, dilute, tail, armor, horns, wings"
+      } ],
+      "visibleGenes" : "nose, dilute, tail, armor, horns, wings"
     }
   },
   "rooms" : {
