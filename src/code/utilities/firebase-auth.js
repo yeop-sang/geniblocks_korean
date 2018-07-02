@@ -24,7 +24,8 @@ export const initFirebase = new Promise(function (resolve, reject) {
 
   const config = window.location.href.indexOf('/branch/staging') > -1 ? configStaging : configLive;
 
-  firebase.initializeApp(config);
+  if (window.firebase !== undefined) {
+    firebase.initializeApp(config);
 
   // communicate with portal for JWT
   // if there is no domain parameter, there is no authentication
@@ -82,6 +83,10 @@ export const initFirebase = new Promise(function (resolve, reject) {
           });
         }
       });
+    }
+  } else {
+    console.log("Firebase is OFFLINE");
+    resolve(_userAuth());
   }
 });
 
