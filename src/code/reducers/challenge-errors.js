@@ -16,6 +16,9 @@ export default function challengeErrors(state = initialState, moves, goalMoves, 
       return 0;
     case actionTypes.EGG_REJECTED:
       return state + 1;
+    case actionTypes.ZOOM_CHALLENGE_WON:
+      // zoom challenge win criteria!
+      return action.challengeErrors;
     default: {
       // for any action that increases moves, increase challengeErrors if we're above
       // goal moves. (Remembering that `moves` has already been set by previous reducers)

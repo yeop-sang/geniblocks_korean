@@ -2480,25 +2480,25 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath, nose"
       },
       "numTrials" : 1,
       "randomizeTrials" : true,
       "showUserDrake" : false,
       "targetDrakes" : [ {
-        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B",
         "sex" : 0
       }, {
-        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B",
         "sex" : 1
       }, {
-        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b",
         "sex" : 0
       }, {
-        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B",
         "sex" : 1
       }, {
-        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B",
         "sex" : 0
       } ],
       "template" : "FVGenomeChallenge",
@@ -2527,25 +2527,25 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath, nose"
       },
       "numTrials" : 3,
       "randomizeTrials" : true,
       "showUserDrake" : false,
       "targetDrakes" : [ {
-        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B",
         "sex" : 0
       }, {
-        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B",
         "sex" : 1
       }, {
-        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b",
         "sex" : 0
       }, {
-        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B",
         "sex" : 1
       }, {
-        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B",
         "sex" : 0
       } ],
       "template" : "FVGenomeChallenge",
@@ -2574,25 +2574,25 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath, nose"
       },
       "numTrials" : 1,
       "randomizeTrials" : true,
       "showUserDrake" : false,
       "targetDrakes" : [ {
-        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B",
         "sex" : 0
       }, {
-        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B",
         "sex" : 1
       }, {
-        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b",
         "sex" : 0
       }, {
-        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B",
         "sex" : 1
       }, {
-        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B",
         "sex" : 0
       } ],
       "template" : "FVGenomeChallenge",
@@ -2621,25 +2621,25 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath, nose"
       },
       "numTrials" : 1,
       "randomizeTrials" : true,
       "showUserDrake" : false,
       "targetDrakes" : [ {
-        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B",
         "sex" : 0
       }, {
-        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B",
         "sex" : 1
       }, {
-        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b",
         "sex" : 0
       }, {
-        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B",
         "sex" : 1
       }, {
-        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B",
         "sex" : 0
       } ],
       "template" : "FVGenomeChallenge",
@@ -2850,13 +2850,13 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath, nose"
       },
       "randomizeTrials" : true,
       "showDrakeColorHint": true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
-        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B",
         "sex" : 0
       } ],
       "template" : "FVGenomeChallenge",
@@ -2884,24 +2884,24 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath, nose"
       },
       "randomizeTrials" : true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
-        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B",
         "sex" : 0
       }, {
-        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B",
         "sex" : 0
       }, {
-        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b",
         "sex" : 1
       }, {
-        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B",
         "sex" : 0
       }, {
-        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B",
         "sex" : 0
       } ],
       "template" : "FVGenomeChallenge",
@@ -2917,13 +2917,13 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath, nose"
       },
       "randomizeTrials" : true,
       "showDrakeColorHint": true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
-        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B",
         "sex" : 0
       } ],
       "template" : "FVGenomeChallenge",
@@ -2939,13 +2939,13 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath, nose"
       },
       "randomizeTrials" : true,
       "showDrakeColorHint": true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
-        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b",
         "sex" : 1
       } ],
       "template" : "FVGenomeChallenge",
@@ -2961,13 +2961,13 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath, nose"
       },
       "randomizeTrials" : true,
       "showDrakeColorHint": true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
-        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B",
         "sex" : 0
       } ],
       "template" : "FVGenomeChallenge",
@@ -2983,13 +2983,13 @@
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
-        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, nose, bogbreath"
+        "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath, nose"
       },
       "randomizeTrials" : true,
       "showDrakeColorHint": true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
-        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B,a:rh,b:rh",
+        "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B",
         "sex" : 0
       } ],
       "template" : "FVGenomeChallenge",
@@ -3054,36 +3054,58 @@
       "comment" : "*** Level 3, Mission 3.1: Charcoal -> Frost (Albino), Size - Working Everything ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
+      "scoreMetrics": [
+        "disc_clicked",
+        "disc_destroyed",
+        "protein_broken"
+        ],
       "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=charcoal-frost&alleles=11111111&game=size&missionId=3.3.1&video=charcoal&skip=true"
     },
     "cell-game-charcoal-lava-size" : {
       "comment" : "*** Level 3, Mission 2.3: Charcoal -> Lava, Size - Heterozygous TRP ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=charcoal-lava&alleles=10111111&game=size&missionId=3.2.3&video=charcoal"
+      "scoreMetrics": [
+        "disc_clicked",
+        "disc_destroyed",
+        "protein_broken"
+        ],
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=charcoal-lava&alleles=10111111&game=size&missionId=3.2.3&video=charcoal&skip=true"
     },
     "cell-game-copper-lava-gate" : {
       "comment" : "*** Level 3, Mission 4.2: Copper -> Lava, Gates - Broken TRP, Heterozygous ASIP ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=gate&missionId=3.4.2&video=copper"
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=gate&missionId=3.4.2&video=copper&skip=true"
     },
     "cell-game-copper-lava-nucleus" : {
       "comment" : "*** Level 3, Mission 4.3: Copper -> Lava, Nucleus ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=gate&nucleusGenes=00000011&missionId=3.4.3"
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=gate&nucleusGenes=00000011&missionId=3.4.3&skip=true"
     },
     "cell-game-frost-charcoal-nucleus" : {
       "comment" : "*** Level 3, Mission 3.3: Frost (Albino) -> Charcoal, Nucleus ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=size&nucleusGenes=00110000&missionId=3.3.3"
+      "scoreMetrics": [
+        "barbell_grabbed",
+        "broken_protein_assembled",
+        "tri_pushed_into_small_gear",
+        "working_protein_assembled"
+        ],
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=size&nucleusGenes=00110000&missionId=3.3.3&skip=true"
     },
     "cell-game-frost-charcoal-size" : {
       "comment" : "*** Level 3, Mission 3.2: Frost (Albino) -> Charcoal, Size - Homozygous Broken TYR ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
+      "scoreMetrics": [
+        "barbell_grabbed",
+        "broken_protein_assembled",
+        "tri_pushed_into_small_gear",
+        "working_protein_assembled"
+        ],
       "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=size&missionId=3.3.2&video=frost&skip=true"
     },
     "cell-game-lava-charcoal-nucleus" : {
@@ -3096,7 +3118,13 @@
       "comment" : "*** Level 3, Mission 2.2: Lava -> Charcoal, Size - Homozygous Broken TRP ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=size&missionId=3.2.2&video=lava"
+      "scoreMetrics": [
+        "barbell_grabbed",
+        "broken_protein_assembled",
+        "tri_pushed_into_small_gear",
+        "working_protein_assembled"
+        ],
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=size&missionId=3.2.2&video=lava&skip=true"
     },
     "cell-game-lava-copper-gate" : {
       "comment" : "*** Level 3, Mission 4.1: Lava -> Copper, Gates - Broken TRP ***",
@@ -3114,6 +3142,12 @@
       "comment" : "*** Level 3, Mission 2.1: Empty -> Charcoal, Size Tutorial ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
+      "scoreMetrics": [
+        "barbell_grabbed",
+        "broken_protein_assembled",
+        "tri_pushed_into_small_gear",
+        "working_protein_assembled"
+        ],
       "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11111111&numStars=0&game=size&missionId=3.2.1&video=frost"
     },
     "clutch-5drakes-harderTraits-bothParents" : {
