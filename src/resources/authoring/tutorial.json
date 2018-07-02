@@ -108,7 +108,7 @@
                 {
                   "element": "genome parent",
                   "text": "Select Chromosomes",
-                  "longText": "Selet one chromosome from each pair to make a gamete.",
+                  "longText": "Click or tap one chromosome from each pair to add them to an egg or sperm cell.",
                   "location": "bottom-left",
                   "pulseElement": "chromosome-allele-container"
                 }
