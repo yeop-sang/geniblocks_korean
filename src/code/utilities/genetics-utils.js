@@ -5,6 +5,30 @@
 export default class GeneticsUtils {
 
   /**
+   * Converts an allele string in the new dash form (e.g. "W-w", "T-", "-a") to
+   * an array of allele strings, providing validation at the same time.
+   * Invalid allele strings and alleles that aren't from the same gene are
+   * logged as console warnings.
+   *
+   * @param {string}  dashAlleles - the allele string to be converted
+   * @returns {string}[2]  the validated allele strings
+   */
+  static parseDashAllelePair(dashAlleles) {
+    const alleles = dashAlleles.trim().split('-'),
+          genes = alleles.map((allele) => {
+                    const gene = allele && BioLogica.Genetics.getGeneOfAllele(BioLogica.Species.Drake, allele);
+                    if (allele && !gene)
+                      console.error(`GeneticsUtils.convertDashAllelesToABAlleles encountered invalid allele: '${allele}'`);
+                    return gene;
+                  });
+    // in a dash pair, both alleles should be from the same gene
+    if (genes[0] && genes[1] && (genes[0] !== genes[1]))
+      console.error(`GeneticsUtils.convertDashAllelesToABAlleles encountered invalid allele pair: '${alleles[0]}-${alleles[1]}'`);
+    // replace invalid alleles with the empty string
+    return alleles.map((allele, i) => allele && genes[i] ? allele : '');
+  }
+
+  /**
    * Converts allele strings in the new dash form (e.g. "W-w, T-, -a") to the original
    * BioLogica a:b: form (e.g. "a:W,b:w,a:T,b:a")
    *
@@ -16,7 +40,7 @@ export default class GeneticsUtils {
       return dashAlleleString;
     const dashAlleles = dashAlleleString.split(',');
     return dashAlleles.reduce((prev, pair) => {
-                        const alleles = pair.trim().split('-');
+                        const alleles = GeneticsUtils.parseDashAllelePair(pair);
                         if (alleles[0]) prev += `${prev ? ',' : ''}a:${alleles[0].trim()}`;
                         if (alleles[1]) prev += `${prev ? ',' : ''}b:${alleles[1].trim()}`;
                         return prev;

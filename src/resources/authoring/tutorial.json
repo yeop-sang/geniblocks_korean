@@ -10,17 +10,19 @@
               "challenge": 0,
               "steps": [
                 {
-                  "element": "fv-chromosome-image",
+                  "element": "geniblocks genome",
                   "text": "Chromosomes",
-                  "more": "Chromosomes are made of DNA and contain genes. For each pair of chromosomes, an individual gets one from its mother and one from its father."
+                  "more": "Chromosomes are made of DNA and contain genes. For each pair of chromosomes, an individual gets one from its mother and one from its father.",
+                  "pulseElement": "fv-chromosome-image"
                 },
                 {
-                  "element": "stripe",
+                  "element": "geniblocks genome",
                   "text": "Genes",
-                  "more": "These white lines show where certain genes are on the chromosomes. Each gene affects a particular trait."
+                  "more": "These white lines show where certain genes are on the chromosomes. Each gene affects a particular trait.",
+                  "pulseElement": "stripe"
                 },
                 {
-                  "element": "labels",
+                  "element": "geniblocks genome",
                   "text": "Alleles",
                   "more": "Genes have different versions called “alleles” (ah-leelz). Change the versions of each gene to make different drakes.",
                   "pulseElement": "simple-select"
@@ -44,7 +46,8 @@
                 {
                   "element": "change-sex-toggle-group",
                   "text": "Male/Female button",
-                  "more": "The third chromosome pair determines whether a dragon is male or female. Change the position of the button to change this chromosome pair."
+                  "more": "The third chromosome pair determines whether a dragon is male or female. Change the position of the button to change this chromosome pair.",
+                  "location": "bottom-left"
                 }
               ]
             }
@@ -84,7 +87,7 @@
                 {
                   "element": "organism-color-text",
                   "text": "Drake Color",
-                  "more": "Each drake color is a combination of alleles from multiple genes. Breeders have named the colors for metals and other substances.",
+                  "more": "Each drake color is a combination of alleles from multiple genes.",
                   "location": "bottom-center"
                 }
               ]
@@ -97,6 +100,23 @@
       "level": 3,
       "missions": [
         {
+          "mission": 0,
+          "challenges":[
+            {
+              "challenge": 0,
+              "steps":[
+                {
+                  "element": "genome parent",
+                  "text": "Select Chromosomes",
+                  "longText": "Click or tap one chromosome from each pair to add them to an egg or sperm cell.",
+                  "location": "bottom-left",
+                  "pulseElement": "chromosome-allele-container"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "mission": 1,
           "challenges":[
             {
@@ -105,7 +125,8 @@
                 {
                   "element": "mother",
                   "text": "Select Alleles",
-                  "longText": "Set the parent’s alleles so an offspring will match the Target Drake."
+                  "longText": "Set the parent’s alleles so an offspring will match the Target Drake.",
+                  "location": "bottom-left"
                 },
                 {
                   "element": "breed-button",
