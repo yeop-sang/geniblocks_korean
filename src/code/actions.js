@@ -799,9 +799,12 @@ export function keepOffspring(index, keptDrakesIndices, maxDrakes, shouldKeepSou
   };
 }
 
-function _winZoomChallenge() {
+function _winZoomChallenge(stats) {
   return {
     type: actionTypes.ZOOM_CHALLENGE_WON,
+    // score currently calculated in zoom template
+    challengeErrors: stats.score ? stats.score : 0,
+    stats,
     meta: {
       itsLog: {
         actor: ITS_ACTORS.USER,
@@ -812,9 +815,9 @@ function _winZoomChallenge() {
   };
 }
 
-export function winZoomChallenge() {
+export function winZoomChallenge(stats) {
   return (dispatch) => {
-    dispatch(_winZoomChallenge());
+    dispatch(_winZoomChallenge(stats));
 
     dispatch(showInChallengeCompletionMessage());
   };

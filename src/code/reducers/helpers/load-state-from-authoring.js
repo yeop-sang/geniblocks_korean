@@ -93,8 +93,7 @@ function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template,
     }
     if (Array.isArray(drakeDef)) {
       // unroll in place
-      authoredDrakesArray.splice(i, 0, drakeDef[0]);
-      authoredDrakesArray.splice.apply(authoredDrakesArray, [i+1, 1].concat(drakeDef.asMutable().splice(1)));
+      authoredDrakesArray.splice(i, 1, ...drakeDef);
       drakeDef = drakeDef[0];
     }
     // Keep the drake as female until the end, so no sex-linked information is lost for linked drakes
@@ -114,7 +113,8 @@ function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template,
         linkedGenesDef = linkedGenes[authoredTrialNumber];
       }
       if (i === linkedGenesDef.drakes[0]) {
-        linkedGeneDrake = new BioLogica.Organism(BioLogica.Species.Drake, femaleDrake.getAlleleString(), actualDrakeSex);
+        // the source of the linkedGenes should have all alleles, including sex-linked ones
+        linkedGeneDrake = femaleDrake;
       } else if (linkedGenesDef.drakes.indexOf(i)) {
         let genes = split(linkedGenesDef.genes);
         for (let gene of genes) {
@@ -123,7 +123,7 @@ function processAuthoredDrakes(authoredChallenge, authoredTrialNumber, template,
           alleleString = alleleString.replace(copyIntoGenes, masterGenes);
         }
       }
-    
+
       /*
        * Guarantee minimum number of moves
        */
@@ -218,6 +218,7 @@ export function loadStateFromAuthoring(state, authoring) {
         numTargets = getNumTargets(authoredChallenge, trialOrder[trial], template),
         hiddenParent = getHiddenParent(authoredChallenge, trialOrder[trial], template),
         zoomUrl = authoredChallenge.zoomUrl,
+        zoomScoringMetrics = authoredChallenge.scoreMetrics,
         room = authoredChallengeMetadata.room || "simroom",
         roomInfo = (authoring && authoring.rooms) ? authoring.rooms[room] : {},
         location = {id: room, ...roomInfo},
@@ -274,6 +275,7 @@ export function loadStateFromAuthoring(state, authoring) {
     isRemediation: false,
     initialDrakes: [...drakes],
     zoomUrl,
+    zoomScoringMetrics,
     location,
     showingRoom,
     notifications: {
