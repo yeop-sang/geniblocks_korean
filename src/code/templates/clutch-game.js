@@ -272,7 +272,15 @@ export default class ClutchGame extends Component {
         </div>;
       return view;
     }
-
+    function parentColumnView(sex) {
+      let columnClass = 'column ' + (sex === BioLogica.FEMALE ? 'mother' : 'father');
+      return (
+        <div className={columnClass}>
+          {parentImageView(sex)}
+          {parentGenomeView(sex)}
+        </div>
+      );
+    }
     function parentImageView(sex) {
       const org = sex === BioLogica.FEMALE ? mother : father,
         parentName = sex === BioLogica.FEMALE ? "mother" : "father",
@@ -280,6 +288,7 @@ export default class ClutchGame extends Component {
         hiddenImage = isHiddenParent ? hiddenParent.hiddenImage : false;
       return <ParentDrakeView className={parentName} org={org} width={parentSize} hidden={hiddenImage} />;
     }
+
     const bottomButtons = isSubmitParents ?
       (
         <div id="bottom-buttons">
@@ -320,10 +329,7 @@ export default class ClutchGame extends Component {
     return (
       <div id="breeding-game">
         <div className="columns centered">
-          <div className='column'>
-            {parentImageView(BioLogica.FEMALE)}
-            {parentGenomeView(BioLogica.FEMALE)}
-          </div>
+          {parentColumnView(BioLogica.FEMALE)}
           <div className='column center-column'>
             {targetDrakeSection}
             {penView}
@@ -334,10 +340,7 @@ export default class ClutchGame extends Component {
                                   isHatchingComplete={false}
                                   onBreed={handleFertilize} />
           </div>
-          <div className='column'>
-            {parentImageView(BioLogica.MALE)}
-            {parentGenomeView(BioLogica.MALE)}
-          </div>
+          {parentColumnView(BioLogica.MALE)}
         </div>
 
         {bottomButtons}
