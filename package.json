@@ -51,7 +51,7 @@
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
     "seamless-immutable": "^7.0.1",
-    "socket.io-client": "^1.4.6",
+    "socket.io-client": "^2.1.1",
     "uuid": "^2.0.2"
   },
   "devDependencies": {
