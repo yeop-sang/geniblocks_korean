@@ -186,7 +186,11 @@ function getSelectableAttributes(nextState) {
     return ["sex", ...nextState.userChangeableGenes];
   }
   if (nextState.template && nextState.template === "FVEggSortGame") {
-    return ["sex", ...nextState.visibleGenes];
+    if (nextState.baskets && nextState.baskets[0] && nextState.baskets[0].sex !== undefined) {
+      return ["sex", ...nextState.visibleGenes];
+    } else {
+      return [...nextState.visibleGenes];
+    }
   }
 }
 
