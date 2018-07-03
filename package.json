@@ -23,6 +23,7 @@
     "axios": "^0.15.3",
     "babel-polyfill": "^6.20.0",
     "classnames": "^2.2.5",
+    "growl": "^1.10.5",
     "iframe-phone": "^1.2.0",
     "image-promise": "^5.0.1",
     "jsonwebtoken": "^8.1.0",
@@ -50,7 +51,7 @@
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
     "seamless-immutable": "^7.0.1",
-    "socket.io-client": "^1.4.6",
+    "socket.io-client": "^2.1.1",
     "uuid": "^2.0.2"
   },
   "devDependencies": {
@@ -80,7 +81,7 @@
     "gulp-stylus": "^2.6.0",
     "gulp-uglify": "^2.0.0",
     "jsdom": "^9.9.1",
-    "mocha": "^3.2.0",
+    "mocha": "^4.1.0",
     "react-addons-test-utils": "^15.4.1",
     "redux-devtools": "^3.4.1",
     "require-dir": "^0.3.2",
