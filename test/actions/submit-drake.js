@@ -323,7 +323,8 @@ describe('submitDrake action', () => {
             trialSuccess: true,
             moves: 3,
             challengeErrors: 0,
-            gems: []
+            gems: [],
+            submitted: submitAction.selected
           }));
         });
 
@@ -412,7 +413,8 @@ describe('submitDrake action', () => {
             trialSuccess: true,
             moves: 3,
             challengeErrors: 0,
-            gems: []
+            gems: [],
+            submitted: submitAction.selected
           }));
         });
 

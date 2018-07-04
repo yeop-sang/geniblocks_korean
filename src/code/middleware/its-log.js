@@ -225,6 +225,16 @@ function getSelected(action, nextState) {
   };
 }
 
+function getPrevious(selected, action, prevState) {
+  if (action.type === actionTypes.DRAKE_SUBMITTED &&
+    (prevState.template && prevState.template === "ClutchGame") &&
+    (prevState.challengeType && prevState.challengeType === "match-target")) {
+      return prevState.submitted;
+  } else {
+    return selected || getSelected(action, prevState);
+  }
+}
+
 function createLogEntry(loggingMetadata, action, prevState, nextState){
   let event = { ...action.meta.itsLog },
       context = { ...action },
@@ -250,7 +260,7 @@ function createLogEntry(loggingMetadata, action, prevState, nextState){
     context.target = target;
   }
 
-  let previous = context.selected || getSelected(action, prevState);
+  let previous = getPrevious(context.selected, action, prevState);
   if (previous) {
     context.previous = previous;
   }
