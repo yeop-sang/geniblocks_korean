@@ -152,7 +152,8 @@
                 {
                   "element": "mother",
                   "text": "Select Alleles",
-                  "more": "Set the parent’s alleles so that they can produce both Target Offspring."
+                  "more": "Set the parent’s alleles so that they can produce both Target Offspring.",
+                  "location": "bottom-center"
                 },
                 {
                   "element": "breed-button",
