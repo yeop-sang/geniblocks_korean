@@ -194,7 +194,8 @@ function getSelectableAttributes(nextState) {
   }
   if (nextState.template && nextState.template === "ClutchGame") {
     if (nextState.userChangeableGenes) {
-      return [...nextState.userChangeableGenes];
+      let selectableAttributes = nextState.userChangeableGenes[0].mother.length > 0 ? nextState.userChangeableGenes[0].mother : nextState.userChangeableGenes[0].father;
+      return [...selectableAttributes];
     }
   }
 }
