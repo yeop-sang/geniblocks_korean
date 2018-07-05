@@ -115,6 +115,13 @@ export default function reducer(state, action) {
       return state;
     case STARTED_REMEDIATION:
       return loadStateFromRemediation(state, state.remediation, state.authoring);
+    case actionTypes.DRAKE_SUBMITTED:
+      if (action.selected) {
+        state = state.merge({
+          submitted: action.selected
+        });
+      }
+      return state;
     default:
       return state;
   }

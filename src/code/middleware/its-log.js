@@ -186,7 +186,17 @@ function getSelectableAttributes(nextState) {
     return ["sex", ...nextState.userChangeableGenes];
   }
   if (nextState.template && nextState.template === "FVEggSortGame") {
-    return ["sex", ...nextState.visibleGenes];
+    if (nextState.baskets && nextState.baskets[0] && nextState.baskets[0].sex !== undefined) {
+      return ["sex", ...nextState.visibleGenes];
+    } else {
+      return [...nextState.visibleGenes];
+    }
+  }
+  if (nextState.template && nextState.template === "ClutchGame") {
+    if (nextState.userChangeableGenes) {
+      let selectableAttributes = nextState.userChangeableGenes[0].mother.length > 0 ? nextState.userChangeableGenes[0].mother : nextState.userChangeableGenes[0].father;
+      return [...selectableAttributes];
+    }
   }
 }
 
@@ -221,6 +231,16 @@ function getSelected(action, nextState) {
   };
 }
 
+function getPrevious(selected, action, prevState) {
+  if (action.type === actionTypes.DRAKE_SUBMITTED &&
+    (prevState.template && prevState.template === "ClutchGame") &&
+    (prevState.challengeType && prevState.challengeType === "match-target")) {
+      return prevState.submitted;
+  } else {
+    return selected || getSelected(action, prevState);
+  }
+}
+
 function createLogEntry(loggingMetadata, action, prevState, nextState){
   let event = { ...action.meta.itsLog },
       context = { ...action },
@@ -246,7 +266,7 @@ function createLogEntry(loggingMetadata, action, prevState, nextState){
     context.target = target;
   }
 
-  let previous = context.selected || getSelected(action, prevState);
+  let previous = getPrevious(context.selected, action, prevState);
   if (previous) {
     context.previous = previous;
   }

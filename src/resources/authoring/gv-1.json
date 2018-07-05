@@ -1947,411 +1947,435 @@
       } ],
       "name" : "Level 5"
     }, {
-      "missions": [ {
-        "challenges": [{
-          "about": {
+      "missions" : [ {
+        "challenges" : [ {
+          "about" : {
             "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is visible to the student while they are manipulating the alleles. The manipulable alleles are limited to tail, nose spike, and deep/faded color.",
             "tip" : "Students may not notice that the neck flap only appears on male drakes. Students will only receive a blue crystal if they create the drake in the fewest moves possible.",
             "type" : "Visible Drake Match"
           },
-          "dialog": {
-            "end": {
-              "failure": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.1.1 not completed successfully"
-              }],
-              "success": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.1.1 completed successfully"
-              }]
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "YEUNG",
+                "text" : "You did it, but you took too many tries. Let's try this one again!"
+              } ],
+              "success" : [ {
+                "character" : "YEUNG",
+                "text" : "Make sure you're getting it. One more time, cadet."
+              } ]
             },
-            "start": [{
-              "character": "YEUNG",
-              "text": "Welcome to Challenge 6.1.1!"
-            }]
+            "start" : [ {
+              "character" : "YEUNG",
+              "text" : "By now you know that females have two X chromosomes, and males have only one X and a Y."
+            }, {
+              "character" : "YEUNG",
+              "text" : "It's time to see how genes on the X chromosome work."
+            }, {
+              "character" : "YEUNG",
+              "text" : "The sim will also add a new gene that has 3 alleles. We think you can handle it."
+            } ]
           },
-          "id": "allele-targetMatch-visible-harderTraits",
-          "name": "Challenge 6.1.1",
-          "room": "simroom"
+          "id" : "allele-targetMatch-visible-harderTraits",
+          "name" : "Challenge 6.1.1",
+          "room" : "simroom"
         }, {
-          "about": {
+          "about" : {
             "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is visible to the student while they are manipulating the alleles. The manipulable alleles are limited to tail, nose spike, and deep/faded color.",
             "tip" : "Students may not notice that the neck flap only appears on male drakes. Students will only receive a blue crystal if they create the drake in the fewest moves possible.",
             "type" : "Visible Drake Match"
           },
-          "dialog": {
-            "end": {
-              "failure": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.1.2 not completed successfully"
-              }],
-              "success": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.1.2 completed successfully"
-              }]
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "YEUNG",
+                "text" : "You did it, but made too many moves to earn a crystal. Try this one again."
+              } ],
+              "success" : [ {
+                "character" : "YEUNG",
+                "text" : "OK. Get ready for predicting what the drake will look like."
+              } ]
             },
-            "start": [{
-              "character": "YEUNG",
-              "text": "Welcome to Challenge 6.1.2!"
-            }]
+            "start" : [ {
+              "character" : "YEUNG",
+              "text" : "Think it through before hatching, and you'll fly right through these. "
+            } ]
           },
-          "id": "allele-targetMatch-visible-harderTraits2",
-          "name": "Challenge 6.1.2",
-          "room": "simroom"
+          "id" : "allele-targetMatch-visible-harderTraits2",
+          "name" : "Challenge 6.1.2",
+          "room" : "simroom"
         }, {
-          "about": {
+          "about" : {
             "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is visible to the student while they are manipulating the alleles. The manipulable alleles are limited to tail, nose spike, and deep/faded color.",
             "tip" : "Students may not notice that the neck flap only appears on male drakes. Students will only receive a blue crystal if they create the drake in the fewest moves possible.",
             "type" : "Hidden Drake Match"
           },
-          "dialog": {
-            "end": {
-              "failure": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.1.3 not completed successfully"
-              }],
-              "success": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.1.3 completed successfully"
-              }]
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "YEUNG",
+                "text" : "Use fewer moves to earn a crystal!"
+              } ],
+              "success" : [ {
+                "character" : "YEUNG",
+                "text" : "Let's make sure you aren't just lucky!"
+              } ]
             },
-            "start": [{
-              "character": "YEUNG",
-              "text": "Welcome to Challenge 6.1.3!"
-            }]
+            "start" : [ {
+              "character" : "YEUNG",
+              "text" : "This will show you whether you are really understanding these allele combinations."
+            } ]
           },
-          "id": "allele-targetMatch-hidden-harderTraits",
-          "name": "Challenge 6.1.3",
-          "room": "simroom"
+          "id" : "allele-targetMatch-hidden-harderTraits",
+          "name" : "Challenge 6.1.3",
+          "room" : "simroom"
         }, {
-          "about": {
+          "about" : {
             "description" : "Students match a target drake by selecting alleles from a pulldown menu. The drake that the student is creating is visible to the student while they are manipulating the alleles. The manipulable alleles are limited to tail, nose spike, and deep/faded color.",
             "tip" : "Students may not notice that the neck flap only appears on male drakes. Students will only receive a blue crystal if they create the drake in the fewest moves possible.",
             "type" : "Hidden Drake Match"
           },
-          "dialog": {
-            "end": {
-              "failure": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.1.4 not completed successfully"
-              }],
-              "success": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.1.4 completed successfully"
-              }]
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "YEUNG",
+                "text" : "Sorry Cadet, too many moves to earn a crystal. Try again!"
+              } ],
+              "success" : [ {
+                "character" : "YEUNG",
+                "text" : "Keep working for the blue crystals, we need them!"
+              } ]
             },
-            "start": [{
-              "character": "YEUNG",
-              "text": "Welcome to Challenge 6.1.4!"
-            }]
+            "start" : [ {
+              "character" : "YEUNG",
+              "text" : "Alright. One more time to make sure you are getting this."
+            } ]
           },
-          "id": "allele-targetMatch-hidden-harderTraits2",
-          "name": "Challenge 6.1.4",
-          "room": "simroom"
-        }],
-        "dialog": {
-          "end": [{
-            "character": "NETANYA",
-            "text": "End of mission 6.1"
-          }],
-          "middle": [{
-            "character": "WEAVER",
-            "text": "Middle of mission 6.1"
-          }],
-          "start": [{
-            "character": "YEUNG",
-            "text": "Start of mission 6.1"
-          }]
+          "id" : "allele-targetMatch-hidden-harderTraits2",
+          "name" : "Challenge 6.1.4",
+          "room" : "simroom"
+        } ],
+        "dialog" : {
+          "end" : [ {
+            "character" : "YEUNG",
+            "text" : "You've gained experience in predicting the traits. Time to sort based on the chromoscope readings."
+          } ],
+          "middle" : [ {
+            "character" : "WEAVER",
+            "text" : "Middle of mission 6.1. When does this text appear?"
+          } ],
+          "start" : [ {
+            "character" : "YEUNG",
+            "text" : "And now for something completely different! New traits, and tricky ones at that, are next."
+          } ]
         },
-        "name": "Mission 6.1"
+        "name" : "Mission 6.1"
       }, {
-        "challenges": [{
-          "about": {
+        "challenges" : [ {
+          "about" : {
             "description" : "Students must sort eggs into appropriate baskets based on their tails.",
             "tip" : "",
             "type" : "Egg Drop"
           },
-          "dialog": {
-            "end": {
-              "failure": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.2.1 not completed successfully"
-              }],
-              "success": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.2.1 completed successfully"
-              }]
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "NETANYA",
+                "text" : "You got there, but you need to sort more drakes correctly to earn a crystal."
+              } ],
+              "success" : [ {
+                "character" : "NETANYA",
+                "text" : "Thanks, we'll see which ones fly best."
+              } ]
             },
-            "start": [{
-              "character": "YEUNG",
-              "text": "Welcome to Challenge 6.2.1!"
-            }]
+            "start" : [ {
+              "character" : "NETANYA",
+              "text" : "Look, Herrera, I still say that kinked tails make the best rudder when flying."
+            }, {
+              "character" : "HERRERA",
+              "text" : "OK, we'll test that out. First we need to know which eggs will hatch what kind of tail. You're on, Cadet."
+            } ]
           },
-          "id": "eggDrop-tail",
-          "name": "Challenge 6.2.1",
-          "room": "hatchery"
+          "id" : "eggDrop-tail",
+          "name" : "Challenge 6.2.1",
+          "room" : "hatchery"
         }, {
-          "about": {
+          "about" : {
             "description" : "Students must sort eggs into appropriate baskets based on their nose spikes.",
             "tip" : "",
             "type" : "Egg Drop"
           },
-          "dialog": {
-            "end": {
-              "failure": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.2.2 not completed successfully"
-              }],
-              "success": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.2.2 completed successfully"
-              }]
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "NETANYA",
+                "text" : "You got there, but you need to sort more drakes correctly to earn a crystal."
+              } ],
+              "success" : [ {
+                "character" : "NETANYA",
+                "text" : "With just one X chromosome, males can express a trait with a single recessive allele."
+              } ]
             },
-            "start": [{
-              "character": "YEUNG",
-              "text": "Welcome to Challenge 6.2.2!"
-            }]
+            "start" : [ {
+              "character" : "NETANYA",
+              "text" : "When is just one recessive allele enough to produce a trait?"
+            }, {
+              "character" : "HERRERA",
+              "text" : "Good question! Let's scope some eggs to find out."
+            } ]
           },
-          "id": "eggDrop-noseSpike",
-          "name": "Challenge 6.2.2",
-          "room": "hatchery"
-        }],
-        "dialog": {
-          "end": [{
-            "character": "NETANYA",
-            "text": "End of mission 6.2"
-          }],
-          "middle": [{
-            "character": "WEAVER",
-            "text": "Middle of mission 6.2"
-          }],
-          "start": [{
-            "character": "YEUNG",
-            "text": "Start of mission 6.2"
-          }]
+          "id" : "eggDrop-noseSpike",
+          "name" : "Challenge 6.2.2",
+          "room" : "hatchery"
+        } ],
+        "dialog" : {
+          "end" : [ {
+            "character" : "NETANYA",
+            "text" : "Breeding for different tales will be important since I showed Hererra and the pilots how the kinked tail can guide flight."
+          } ],
+          "middle" : [ {
+            "character" : "WEAVER",
+            "text" : "Middle of mission 6.2"
+          } ],
+          "start" : [ {
+            "character" : "NETANYA",
+            "text" : "Welcome back to the hatchery."
+          } ]
         },
-        "name": "Mission 6.2"
+        "name" : "Mission 6.2"
       }, {
-        "challenges": [{
-          "about": {
+        "challenges" : [ {
+          "about" : {
             "description" : "Students click the Generate Gametes button to see how gametes are randomly assembled. The game creates one egg and three sperm in Challenge 5 and three eggs and one sperm in Challenge 6. In both cases, the student must select the sperm or egg that, when combined with the other gamete, will create the target drake.",
             "type" : "Gamete Selector"
           },
-          "dialog": {
-            "end": {
-              "failure": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.3.1 not completed successfully"
-              }],
-              "success": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.3.1 completed successfully!"
-              }]
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "NETANYA",
+                "text" : "Challenge 6.3.1 not completed successfully"
+              } ],
+              "success" : [ {
+                "character" : "NETANYA",
+                "text" : "Challenge 6.3.1 completed successfully!"
+              } ]
             },
-            "start": [{
-              "character": "YEUNG",
-              "text": "Welcome to Challenge 6.3.1!"
-            }]
+            "start" : [ {
+              "character" : "YEUNG",
+              "text" : "Welcome to Challenge 6.3.1!"
+            } ]
           },
-          "id": "gamete-selectSpermEgg-harderTraits",
-          "name": "Challenge 6.3.1",
-          "room": "hatchery"
+          "id" : "gamete-selectSpermEgg-harderTraits",
+          "name" : "Challenge 6.3.1",
+          "room" : "hatchery"
         }, {
-          "about": {
+          "about" : {
             "description" : "Students click the Generate Gametes button to see how gametes are randomly assembled. The game creates one egg and three sperm in Challenge 5 and three eggs and one sperm in Challenge 6. In both cases, the student must select the sperm or egg that, when combined with the other gamete, will create the target drake.",
             "type" : "Gamete Selector"
           },
-          "dialog": {
-            "end": {
-              "failure": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.3.2 not completed successfully"
-              }],
-              "success": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.3.2 completed successfully!"
-              }]
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "NETANYA",
+                "text" : "Challenge 6.3.2 not completed successfully"
+              } ],
+              "success" : [ {
+                "character" : "NETANYA",
+                "text" : "Challenge 6.3.2 completed successfully!"
+              } ]
             },
-            "start": [{
-              "character": "YEUNG",
-              "text": "Welcome to Challenge 6.3.2!"
-            }]
+            "start" : [ {
+              "character" : "YEUNG",
+              "text" : "Welcome to Challenge 6.3.2!"
+            } ]
           },
-          "id": "gamete-selectSpermEgg-harderTraits-bothParents",
-          "name": "Challenge 6.3.2",
-          "room": "hatchery"
-        }],
-        "dialog": {
-          "end": [{
-            "character": "NETANYA",
-            "text": "End of mission 6.3"
-          }],
-          "middle": [{
-            "character": "WEAVER",
-            "text": "Middle of mission 6.3"
-          }],
-          "start": [{
-            "character": "YEUNG",
-            "text": "Start of mission 6.3"
-          }]
+          "id" : "gamete-selectSpermEgg-harderTraits-bothParents",
+          "name" : "Challenge 6.3.2",
+          "room" : "hatchery"
+        } ],
+        "dialog" : {
+          "end" : [ {
+            "character" : "NETANYA",
+            "text" : "End of mission 6.3"
+          } ],
+          "middle" : [ {
+            "character" : "WEAVER",
+            "text" : "Middle of mission 6.3"
+          } ],
+          "start" : [ {
+            "character" : "YEUNG",
+            "text" : "Start of mission 6.3"
+          } ]
         },
-        "name": "Mission 6.3"
+        "name" : "Mission 6.3"
       }, {
-        "challenges": [{
-          "about": {
+        "challenges" : [ {
+          "about" : {
             "description" : "Students click the Generate Gametes button to see how gametes are randomly assembled. The game creates one egg and three sperm in Challenge 5 and three eggs and one sperm in Challenge 6. In both cases, the student must select the sperm or egg that, when combined with the other gamete, will create the target drake.",
             "type" : "Gamete Selector"
           },
-          "dialog": {
-            "end": {
-              "failure": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.4.1 not completed successfully"
-              }],
-              "success": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.4.1 completed successfully!"
-              }]
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "NETANYA",
+                "text" : "Challenge 6.4.1 not completed successfully"
+              } ],
+              "success" : [ {
+                "character" : "NETANYA",
+                "text" : "Challenge 6.4.1 completed successfully!"
+              } ]
             },
-            "start": [{
-              "character": "YEUNG",
-              "text": "Welcome to Challenge 6.4.1!"
-            }]
+            "start" : [ {
+              "character" : "YEUNG",
+              "text" : "Welcome to Challenge 6.4.1!"
+            } ]
           },
-          "id": "clutch-5drakes-harderTraits-bothParents",
-          "name": "Challenge 6.4.1",
-          "room": "breedingbarn"
+          "id" : "clutch-5drakes-harderTraits-bothParents",
+          "name" : "Challenge 6.4.1",
+          "room" : "breedingbarn"
         }, {
-          "about": {
+          "about" : {
             "description" : "Students click the Generate Gametes button to see how gametes are randomly assembled. The game creates one egg and three sperm in Challenge 5 and three eggs and one sperm in Challenge 6. In both cases, the student must select the sperm or egg that, when combined with the other gamete, will create the target drake.",
             "type" : "Gamete Selector"
           },
-          "dialog": {
-            "end": {
-              "failure": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.4.2 not completed successfully"
-              }],
-              "success": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.4.2 completed successfully!"
-              }]
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "NETANYA",
+                "text" : "Challenge 6.4.2 not completed successfully"
+              } ],
+              "success" : [ {
+                "character" : "NETANYA",
+                "text" : "Challenge 6.4.2 completed successfully!"
+              } ]
             },
-            "start": [{
-              "character": "YEUNG",
-              "text": "Welcome to Challenge 6.4.2!"
-            }]
+            "start" : [ {
+              "character" : "YEUNG",
+              "text" : "Welcome to Challenge 6.4.2!"
+            } ]
           },
-          "id": "clutch-5drakes-harderTraits-bothParents2",
-          "name": "Challenge 6.4.2",
-          "room": "breedingbarn"
-        }],
-        "dialog": {
-          "end": [{
-            "character": "NETANYA",
-            "text": "End of mission 6.4"
-          }],
-          "middle": [{
-            "character": "WEAVER",
-            "text": "Middle of mission 6.4"
-          }],
-          "start": [{
-            "character": "YEUNG",
-            "text": "Start of mission 6.4"
-          }]
+          "id" : "clutch-5drakes-harderTraits-bothParents2",
+          "name" : "Challenge 6.4.2",
+          "room" : "breedingbarn"
+        } ],
+        "dialog" : {
+          "end" : [ {
+            "character" : "NETANYA",
+            "text" : "End of mission 6.4"
+          } ],
+          "middle" : [ {
+            "character" : "WEAVER",
+            "text" : "Middle of mission 6.4"
+          } ],
+          "start" : [ {
+            "character" : "YEUNG",
+            "text" : "Start of mission 6.4"
+          } ]
         },
-        "name": "Mission 6.4"
-      },{
-        "challenges": [{
-          "about": {
+        "name" : "Mission 6.4"
+      }, {
+        "challenges" : [ {
+          "about" : {
             "description" : "Students use Test Cross to determine parents genotype",
             "type" : "Test Cross"
           },
-          "dialog": {
-            "end": {
-              "failure": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.5.1 not completed successfully"
-              }],
-              "success": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.5.1 completed successfully!"
-              }]
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "NETANYA",
+                "text" : "Challenge 6.5.1 not completed successfully"
+              } ],
+              "success" : [ {
+                "character" : "NETANYA",
+                "text" : "Challenge 6.5.1 completed successfully!"
+              } ]
             },
-            "start": [{
-              "character": "YEUNG",
-              "text": "Welcome to Challenge 6.5.1!"
-            }]
+            "start" : [ {
+              "character" : "YEUNG",
+              "text" : "Welcome to Challenge 6.5.1!"
+            } ]
           },
-          "id": "test-cross-nosespike-dilute-tail-1",
-          "name": "Challenge 6.5.1",
-          "room": "breedingbarn"
+          "id" : "test-cross-nosespike-dilute-tail-1",
+          "name" : "Challenge 6.5.1",
+          "room" : "breedingbarn"
         }, {
-          "about": {
+          "about" : {
             "description" : "Students use Test Cross to determine parents genotype",
             "type" : "Test Cross"
           },
-          "dialog": {
-            "end": {
-              "failure": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.5.2 not completed successfully"
-              }],
-              "success": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.5.2 completed successfully!"
-              }]
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "NETANYA",
+                "text" : "Challenge 6.5.2 not completed successfully"
+              } ],
+              "success" : [ {
+                "character" : "NETANYA",
+                "text" : "Challenge 6.5.2 completed successfully!"
+              } ]
             },
-            "start": [{
-              "character": "YEUNG",
-              "text": "Welcome to Challenge 6.5.2!"
-            }]
+            "start" : [ {
+              "character" : "YEUNG",
+              "text" : "Welcome to Challenge 6.5.2!"
+            } ]
           },
-          "id": "test-cross-nosespike-dilute-tail-2",
-          "name": "Challenge 6.5.2",
-          "room": "breedingbarn"
-        },{
-          "about": {
+          "id" : "test-cross-nosespike-dilute-tail-2",
+          "name" : "Challenge 6.5.2",
+          "room" : "breedingbarn"
+        }, {
+          "about" : {
             "description" : "Students use Test Cross to determine parents genotype",
             "type" : "Test Cross"
           },
-          "dialog": {
-            "end": {
-              "failure": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.5.3 not completed successfully"
-              }],
-              "success": [{
-                "character": "NETANYA",
-                "text": "Challenge 6.5.3 completed successfully!"
-              }]
+          "dialog" : {
+            "end" : {
+              "failure" : [ {
+                "character" : "RAJPUT",
+                "text" : "You did it, but you took too many tries. Let's try this one again!"
+              } ],
+              "success" : [ {
+                "character" : "RAJPUT",
+                "text" : "This has been a real test of your abilities, Cadet! Our knowledge of these new drakes is important!"
+              }, {
+                "character" : "WEAVER",
+                "text" : "Cadet, Herrera's dragon pilots were successful in the sneak attack!"
+              }, {
+                "character" : "HATCH",
+                "text" : "Yes, and you played a big part in this victory for drakes and dragons!"
+              }, {
+                "character" : "YEUNG",
+                "text" : "Cadet, it's been a pleasure. Take care out there. "
+              }, {
+                "character" : "HERRERA",
+                "text" : "Seriously, Cadet, It's been great having you. We have to bid you farewell for now. Just remember, when you come across genetics, think of Geniventure! "
+              } ]
             },
-            "start": [{
-              "character": "YEUNG",
-              "text": "Welcome to Challenge 6.5.3!"
-            }]
+            "start" : [ {
+              "character" : "YEUNG",
+              "text" : "Welcome to Challenge 6.5.3!"
+            } ]
           },
-          "id": "test-cross-nosespike-dilute-tail-3",
-          "name": "Challenge 6.5.3",
-          "room": "breedingbarn"
-        }],
-        "dialog": {
-          "end": [{
-            "character": "NETANYA",
-            "text": "End of mission 6.5"
-          }],
-          "middle": [{
-            "character": "WEAVER",
-            "text": "Middle of mission 6.5"
-          }],
-          "start": [{
-            "character": "YEUNG",
-            "text": "Start of mission 6.5"
-          }]
+          "id" : "test-cross-nosespike-dilute-tail-3",
+          "name" : "Challenge 6.5.3",
+          "room" : "breedingbarn"
+        } ],
+        "dialog" : {
+          "end" : [ {
+            "character" : "NETANYA",
+            "text" : "End of mission 6.5, but this text never gets displayed."
+          } ],
+          "middle" : [ {
+            "character" : "WEAVER",
+            "text" : "Middle of mission 6.5, but this text never gets displayed."
+          } ],
+          "start" : [ {
+            "character" : "YEUNG",
+            "text" : "Start of mission 6.5, does this text ever get displayed?"
+          } ]
         },
-        "name": "Mission 6.5"
+        "name" : "Mission 6.5"
       } ],
-      "name": "Level 6"
+      "name" : "Level 6"
     } ]
   },
   "challenges" : {
@@ -2490,7 +2514,7 @@
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, metallic, color, black, bogbreath",
-        "minChanges": 2
+        "minChanges" : 2
       },
       "randomizeTrials" : true,
       "showUserDrake" : false,
@@ -2512,7 +2536,7 @@
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, metallic, color, black, bogbreath",
-        "minChanges": 2
+        "minChanges" : 2
       },
       "randomizeTrials" : true,
       "showUserDrake" : false,
@@ -2717,7 +2741,7 @@
       "container" : "FVContainer",
       "instructions" : "Match 2 drakes!",
       "numTrials" : 1,
-      "showUserDrake": false,
+      "showUserDrake" : false,
       "template" : "FVGenomeChallenge",
       "trialGenerator" : {
         "baseDrake" : "a:M,b:M,a:t,b:t,a:h,b:h,a:A1,b:A1,a:C,b:C,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
@@ -2745,7 +2769,7 @@
       "container" : "FVContainer",
       "instructions" : "Match 2 drakes!",
       "numTrials" : 1,
-      "showUserDrake": false,
+      "showUserDrake" : false,
       "template" : "FVGenomeChallenge",
       "trialGenerator" : {
         "baseDrake" : "a:M,b:M,a:T,b:T,a:H,b:H,a:A1,b:A1,a:C,b:C,a:b,b:b,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
@@ -2872,9 +2896,10 @@
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, metallic, color, black, bogbreath",
-        "minChanges": 2
+        "minChanges" : 2
       },
       "randomizeTrials" : true,
+      "showDrakeColorHint" : true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:Bog",
@@ -2894,9 +2919,10 @@
       "linkedGenes" : {
         "drakes" : [ 0, 1 ],
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, metallic, color, black, bogbreath",
-        "minChanges": 2
+        "minChanges" : 2
       },
       "randomizeTrials" : true,
+      "showDrakeColorHint" : true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:Bog",
@@ -2918,7 +2944,7 @@
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath, nose"
       },
       "randomizeTrials" : true,
-      "showDrakeColorHint": true,
+      "showDrakeColorHint" : true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:m,b:m,a:C,b:C,a:B,b:B",
@@ -2985,7 +3011,7 @@
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath, nose"
       },
       "randomizeTrials" : true,
-      "showDrakeColorHint": true,
+      "showDrakeColorHint" : true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B",
@@ -3007,7 +3033,7 @@
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath, nose"
       },
       "randomizeTrials" : true,
-      "showDrakeColorHint": true,
+      "showDrakeColorHint" : true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:m,b:m,a:C,b:C,a:b,b:b",
@@ -3029,7 +3055,7 @@
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath, nose"
       },
       "randomizeTrials" : true,
-      "showDrakeColorHint": true,
+      "showDrakeColorHint" : true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:M,b:m,a:C,b:C,a:B,b:B",
@@ -3051,7 +3077,7 @@
         "genes" : "wings, forelimbs, armor, horns, hindlimbs, tail, dilute, bogbreath, nose"
       },
       "randomizeTrials" : true,
-      "showDrakeColorHint": true,
+      "showDrakeColorHint" : true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
         "alleles" : "a:m,b:m,a:c,b:c,a:B,b:B",
@@ -3115,26 +3141,140 @@
       },
       "userChangeableGenes" : "wings, forelimbs, hindlimbs"
     },
+    "breeding-harderTraits-siblings" : {
+      "challengeType" : "submit-parents",
+      "comment" : "Level 6, Mission 4, Challenge 6.4.3",
+      "container" : "FVContainer",
+      "father" : [ {
+        "randomMatched" : [ {
+          "alleles" : "T-T, Rh-, d-, w-w, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "T-t, Rh-, d-, w-w, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "t-t, rh-, D-, W-W, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "t-t, Rh-, d-, W-W, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "Tk-Tk, Rh-, D-, w-w, fl-fl",
+          "sex" : 0
+        }, {
+          "alleles" : "T-T, Rh-, d-, w-w, fl-fl",
+          "sex" : 0
+        }, {
+          "alleles" : "T-Tk, Rh-, d-, W-W, fl-fl",
+          "sex" : 0
+        }, {
+          "alleles" : "T-T, rh-, d-, W-W, fl-fl",
+          "sex" : 0
+        } ]
+      } ],
+      "goalMoves" : [ [ 0, 0, 0, 0, 0, 0, 0, 0 ] ],
+      "hiddenAlleles" : "A2",
+      "linkedGenes" : {
+        "drakes" : [ 0, 1, 2, 3 ],
+        "genes" : "metallic, horns, color, black, hindlimbs, armor, bogbreath"
+      },
+      "mother" : [ {
+        "randomMatched" : [ {
+          "alleles" : "t-t, rh-rh, D-D, w-w, Fl-Fl, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "T-Tk, rh-rh, d-d, w-w, Fl-Fl, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "t-t, rh-rh, D-d, W-W, Fl-Fl, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "Tk-Tk, rh-rh, d-d, W-W, Fl-Fl, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "T-t, Rh-Rh, D-D, w-w, fl-fl, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "T-Tk, rh-rh, d-d, w-w, fl-fl, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "T-Tk, rh-rh, d-d, W-W, fl-fl, Bog-Bog",
+          "sex" : 1
+        }, {
+          "alleles" : "T-Tk, rh-Rh, d-d, W-W, fl-fl, Bog-Bog",
+          "sex" : 1
+        } ]
+      } ],
+      "targetDrakes" : [ {
+        "randomMatched" : [ [ {
+          "alleles" : "Rh-, Tk-Tk, d-, W-W, fl-fl",
+          "sex" : 0
+        }, {
+          "alleles" : "rh-rh, t-t, d-d, w-w, Fl-Fl",
+          "sex" : 1
+        } ], [ {
+          "alleles" : "rh-, t-t, D-, w-w, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "Rh-Rh, t-t, d-d, W-W, fl-fl",
+          "sex" : 1
+        } ], [ {
+          "alleles" : "rh-, T-T, D-, w-w, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "Rh-Rh, Tk-Tk, d-d, W-W, fl-fl",
+          "sex" : 1
+        } ], [ {
+          "alleles" : "Rh-, Tk-Tk, d-, w-w, fl-fl",
+          "sex" : 0
+        }, {
+          "alleles" : "rh-rh, T-T, D-D, w-w, fl-fl",
+          "sex" : 1
+        } ], [ {
+          "alleles" : "Rh-, T-T, D-, W-W, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "rh-rh, t-t, d-d, W-W, Fl-Fl",
+          "sex" : 1
+        } ], [ {
+          "alleles" : "Rh-, Tk-Tk, D-, w-w, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "rh-rh, t-t, D-D, W-W, fl-fl",
+          "sex" : 1
+        } ], [ {
+          "alleles" : "rh-, t-t, D-, w-w, fl-fl",
+          "sex" : 0
+        }, {
+          "alleles" : "Rh-Rh, t-t, d-d, w-w, Fl-Fl",
+          "sex" : 1
+        } ], [ {
+          "alleles" : "Rh-, t-t, d-, w-w, Fl-Fl",
+          "sex" : 0
+        }, {
+          "alleles" : "rh-rh, Tk-Tk, D-D, w-w, fl-fl",
+          "sex" : 1
+        } ] ]
+      } ],
+      "template" : "ClutchGame",
+      "userChangeableGenes" : [ {
+        "father" : "nose, tail, dilute, forelimbs, wings",
+        "mother" : "nose, tail, dilute, forelimbs, wings"
+      } ],
+      "visibleGenes" : ""
+    },
     "cell-game-charcoal-frost-size" : {
       "comment" : "*** Level 3, Mission 3.1: Charcoal -> Frost (Albino), Size - Working Everything ***",
       "container" : "FVContainer",
+      "scoreMetrics" : [ "disc_clicked", "disc_destroyed", "protein_broken" ],
       "template" : "ZoomChallenge",
-      "scoreMetrics": [
-        "disc_clicked",
-        "disc_destroyed",
-        "protein_broken"
-        ],
       "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=charcoal-frost&alleles=11111111&game=size&missionId=3.3.1&video=charcoal&skip=true"
     },
     "cell-game-charcoal-lava-size" : {
       "comment" : "*** Level 3, Mission 2.3: Charcoal -> Lava, Size - Heterozygous TRP ***",
       "container" : "FVContainer",
+      "scoreMetrics" : [ "disc_clicked", "disc_destroyed", "protein_broken" ],
       "template" : "ZoomChallenge",
-      "scoreMetrics": [
-        "disc_clicked",
-        "disc_destroyed",
-        "protein_broken"
-        ],
       "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=charcoal-lava&alleles=10111111&game=size&missionId=3.2.3&video=charcoal&skip=true"
     },
     "cell-game-copper-lava-gate" : {
@@ -3152,25 +3292,15 @@
     "cell-game-frost-charcoal-nucleus" : {
       "comment" : "*** Level 3, Mission 3.3: Frost (Albino) -> Charcoal, Nucleus ***",
       "container" : "FVContainer",
+      "scoreMetrics" : [ "barbell_grabbed", "broken_protein_assembled", "tri_pushed_into_small_gear", "working_protein_assembled" ],
       "template" : "ZoomChallenge",
-      "scoreMetrics": [
-        "barbell_grabbed",
-        "broken_protein_assembled",
-        "tri_pushed_into_small_gear",
-        "working_protein_assembled"
-        ],
       "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=size&nucleusGenes=00110000&missionId=3.3.3&skip=true"
     },
     "cell-game-frost-charcoal-size" : {
       "comment" : "*** Level 3, Mission 3.2: Frost (Albino) -> Charcoal, Size - Homozygous Broken TYR ***",
       "container" : "FVContainer",
+      "scoreMetrics" : [ "barbell_grabbed", "broken_protein_assembled", "tri_pushed_into_small_gear", "working_protein_assembled" ],
       "template" : "ZoomChallenge",
-      "scoreMetrics": [
-        "barbell_grabbed",
-        "broken_protein_assembled",
-        "tri_pushed_into_small_gear",
-        "working_protein_assembled"
-        ],
       "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=size&missionId=3.3.2&video=frost&skip=true"
     },
     "cell-game-lava-charcoal-nucleus" : {
@@ -3182,13 +3312,8 @@
     "cell-game-lava-charcoal-size" : {
       "comment" : "*** Level 3, Mission 2.2: Lava -> Charcoal, Size - Homozygous Broken TRP ***",
       "container" : "FVContainer",
+      "scoreMetrics" : [ "barbell_grabbed", "broken_protein_assembled", "tri_pushed_into_small_gear", "working_protein_assembled" ],
       "template" : "ZoomChallenge",
-      "scoreMetrics": [
-        "barbell_grabbed",
-        "broken_protein_assembled",
-        "tri_pushed_into_small_gear",
-        "working_protein_assembled"
-        ],
       "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=size&missionId=3.2.2&video=lava&skip=true"
     },
     "cell-game-lava-copper-gate" : {
@@ -3206,13 +3331,8 @@
     "cell-game-size-intro" : {
       "comment" : "*** Level 3, Mission 2.1: Empty -> Charcoal, Size Tutorial ***",
       "container" : "FVContainer",
+      "scoreMetrics" : [ "barbell_grabbed", "broken_protein_assembled", "tri_pushed_into_small_gear", "working_protein_assembled" ],
       "template" : "ZoomChallenge",
-      "scoreMetrics": [
-        "barbell_grabbed",
-        "broken_protein_assembled",
-        "tri_pushed_into_small_gear",
-        "working_protein_assembled"
-        ],
       "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11111111&numStars=0&game=size&missionId=3.2.1&video=frost"
     },
     "clutch-5drakes-harderTraits-bothParents" : {
@@ -3270,22 +3390,22 @@
       "targetDrakes" : [ {
         "randomMatched" : [ {
           "alleles" : "Tk-Tk, D-, Rh-",
-          "sex": 0
+          "sex" : 0
         }, {
           "alleles" : "t-t, d-d, rh-rh",
-          "sex": 1
+          "sex" : 1
         }, {
           "alleles" : "T-T, d-, rh-",
-          "sex": 0
+          "sex" : 0
         }, {
           "alleles" : "t-t, d-d, Rh-Rh",
-          "sex": 1
+          "sex" : 1
         }, {
-          "alleles": "T-T, d-, Rh-",
-          "sex": 0
+          "alleles" : "T-T, d-, Rh-",
+          "sex" : 0
         }, {
-          "alleles": "T-T, D-D, Rh-Rh",
-          "sex": 1
+          "alleles" : "T-T, D-D, Rh-Rh",
+          "sex" : 1
         } ]
       } ],
       "template" : "ClutchGame",
@@ -3350,22 +3470,22 @@
       "targetDrakes" : [ {
         "randomMatched" : [ {
           "alleles" : "Tk-Tk, H-H, hl-hl, D-, Rh-",
-          "sex": 0
+          "sex" : 0
         }, {
           "alleles" : "Tk-Tk, h-h, hl-hl, d-d, rh-rh",
-          "sex": 1
+          "sex" : 1
         }, {
           "alleles" : "T-T, H-H, Hl-Hl, d-, rh-",
-          "sex": 0
+          "sex" : 0
         }, {
           "alleles" : "t-t, h-h, Hl-Hl, d-d, Rh-Rh",
-          "sex": 1
+          "sex" : 1
         }, {
-          "alleles": "T-T, H-H, Hl-Hl, d-, Rh-",
-          "sex": 0
+          "alleles" : "T-T, H-H, Hl-Hl, d-, Rh-",
+          "sex" : 0
         }, {
-          "alleles": "T-T, h-h, Hl-Hl, D-D, Rh-Rh",
-          "sex": 1
+          "alleles" : "T-T, h-h, Hl-Hl, D-D, Rh-Rh",
+          "sex" : 1
         } ]
       } ],
       "template" : "ClutchGame",
@@ -4612,7 +4732,7 @@
         "alleles" : "a:w,b:W,a:M,b:M,a:fl,a:hl,a:T,b:T,a:h,a:C,b:C,a:A1,b:a,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
         "sex" : 1
       },
-      "numTrials": 1,
+      "numTrials" : 1,
       "showUserDrake" : true,
       "template" : "FVEggGame",
       "visibleGenes" : "wings, forelimbs, hindlimbs, armor, horns"
@@ -4622,7 +4742,7 @@
       "comment" : "*** Level 6, Challenge 6.3.1: Egg Breeding (select gametes to match drakes) ***",
       "container" : "FVContainer",
       "father" : {
-        "randomMatched": [{
+        "randomMatched" : [ {
           "alleles" : "a:Tk,b:t,a:m,b:m,a:W,b:W,a:h,b:h,a:C,b:C,a:b,b:b,a:Fl,b:Fl,a:Hl,b:Hl,a:a,b:a,a:d,a:Bog,a:rh",
           "sex" : 0
         }, {
@@ -4634,14 +4754,13 @@
         }, {
           "alleles" : "a:Tk,b:t,a:M,b:M,a:w,b:w,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:Hl,b:Hl,a:a,b:a,a:d,a:Bog,a:rh",
           "sex" : 0
-        }]
+        } ]
       },
       "gameteCounts" : [ [ 1, 3 ] ],
       "instructions" : "Match the target drakes!",
       "interactionType" : "select-gametes",
-      "showIntroductionAnimations" : false,
       "mother" : {
-        "randomMatched": [{
+        "randomMatched" : [ {
           "alleles" : "a:T,b:t,a:M,b:M,a:W,b:W,a:h,b:h,a:C,b:C,a:B,b:B,a:fl,b:fl,a:Hl,b:Hl,a:A1,b:A1,a:D,b:d,a:Bog,b:Bog,a:rh,b:Rh",
           "sex" : 1
         }, {
@@ -4653,25 +4772,26 @@
         }, {
           "alleles" : "a:T,b:t,a:m,b:m,a:w,b:w,a:h,b:h,a:C,b:C,a:b,b:b,a:fl,b:fl,a:Hl,b:Hl,a:A1,b:A1,a:D,b:d,a:Bog,b:Bog,a:rh,b:Rh",
           "sex" : 1
-        }]
+        } ]
       },
       "numTrials" : 1,
+      "showIntroductionAnimations" : false,
       "showUserDrake" : true,
-      "targetDrakes": [{
-        "randomMatched": [{
-          "alleles": "",
-          "sex": 0
+      "targetDrakes" : [ {
+        "randomMatched" : [ {
+          "alleles" : "",
+          "sex" : 0
         }, {
-          "alleles": "",
-          "sex": 0
+          "alleles" : "",
+          "sex" : 0
         }, {
-          "alleles": "",
-          "sex": 0
+          "alleles" : "",
+          "sex" : 0
         }, {
-          "alleles": "",
-          "sex": 0
-        }]
-      }],
+          "alleles" : "",
+          "sex" : 0
+        } ]
+      } ],
       "template" : "FVEggGame",
       "visibleGenes" : "tail, dilute, nose"
     },
@@ -4680,7 +4800,7 @@
       "comment" : "*** Level 6, Challenge 6.3.2: Egg Breeding (select gametes to match drakes) ***",
       "container" : "FVContainer",
       "father" : {
-        "randomMatched": [{
+        "randomMatched" : [ {
           "alleles" : "a:Tk,b:t,a:m,b:m,a:W,b:W,a:h,b:h,a:C,b:C,a:b,b:b,a:Fl,b:Fl,a:Hl,b:Hl,a:a,b:a,a:d,a:Bog,a:rh",
           "sex" : 0
         }, {
@@ -4692,14 +4812,13 @@
         }, {
           "alleles" : "a:Tk,b:t,a:M,b:M,a:w,b:w,a:h,b:h,a:C,b:C,a:B,b:B,a:Fl,b:Fl,a:Hl,b:Hl,a:a,b:a,a:d,a:Bog,a:rh",
           "sex" : 0
-        }]
+        } ]
       },
       "gameteCounts" : [ [ 5, 5 ] ],
       "instructions" : "Match the target drakes!",
       "interactionType" : "select-gametes",
-      "showIntroductionAnimations" : false,
       "mother" : {
-        "randomMatched": [{
+        "randomMatched" : [ {
           "alleles" : "a:T,b:t,a:M,b:M,a:W,b:W,a:h,b:h,a:C,b:C,a:B,b:B,a:fl,b:fl,a:Hl,b:Hl,a:A1,b:A1,a:D,b:d,a:Bog,b:Bog,a:rh,b:Rh",
           "sex" : 1
         }, {
@@ -4711,9 +4830,10 @@
         }, {
           "alleles" : "a:T,b:t,a:m,b:m,a:w,b:w,a:h,b:h,a:C,b:C,a:b,b:b,a:fl,b:fl,a:Hl,b:Hl,a:A1,b:A1,a:D,b:d,a:Bog,b:Bog,a:rh,b:Rh",
           "sex" : 1
-        }]
+        } ]
       },
       "numTrials" : 1,
+      "showIntroductionAnimations" : false,
       "showUserDrake" : true,
       "template" : "FVEggGame",
       "visibleGenes" : "tail, hindlimbs, armor, dilute, nose"
@@ -4729,12 +4849,12 @@
       "gameteCounts" : [ [ 3, 1 ] ],
       "instructions" : "Match the target drakes!",
       "interactionType" : "select-gametes",
-      "showIntroductionAnimations" : true,
       "mother" : {
         "alleles" : "a:w,b:W,a:M,b:M,a:fl,a:hl,a:T,b:T,a:H,b:h,a:C,b:C,a:a,b:A1,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
         "sex" : 1
       },
       "numTrials" : 1,
+      "showIntroductionAnimations" : true,
       "showUserDrake" : true,
       "template" : "FVEggGame",
       "visibleGenes" : "wings, forelimbs, hindlimbs, armor, horns"
@@ -4750,12 +4870,12 @@
       "gameteCounts" : [ [ 3, 3 ] ],
       "instructions" : "Match the target drakes!",
       "interactionType" : "select-gametes",
-      "showIntroductionAnimations" : false,
       "mother" : {
         "alleles" : "a:w,b:W,a:m,b:m,a:fl,a:hl,a:T,b:T,a:H,b:h,a:c,b:c,a:a,b:A1,a:B,b:B,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
         "sex" : 1
       },
       "numTrials" : 1,
+      "showIntroductionAnimations" : false,
       "showUserDrake" : true,
       "template" : "FVEggGame",
       "visibleGenes" : "wings, forelimbs, hindlimbs, armor, horns"
@@ -4791,12 +4911,12 @@
       "gameteCounts" : [ [ 5, 5 ] ],
       "instructions" : "Match the target drakes!",
       "interactionType" : "select-gametes",
-      "showIntroductionAnimations" : false,
       "mother" : {
         "alleles" : "a:w,b:W,a:M,b:M,a:fl,a:hl,a:Tk,b:Tk,a:H,b:h,a:C,b:C,a:a,b:A1,a:b,b:b,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
         "sex" : 1
       },
       "numTrials" : 1,
+      "showIntroductionAnimations" : false,
       "showUserDrake" : true,
       "template" : "FVEggGame",
       "visibleGenes" : "wings, forelimbs, hindlimbs, armor, horns"
@@ -4832,12 +4952,12 @@
       "gameteCounts" : [ [ 1, 3 ] ],
       "instructions" : "Match the target drakes!",
       "interactionType" : "select-gametes",
-      "showIntroductionAnimations" : false,
       "mother" : {
         "alleles" : "a:w,b:W,a:M,b:M,a:fl,a:hl,a:Tk,b:Tk,a:H,b:h,a:C,b:C,a:a,b:A1,a:b,b:b,a:D,b:D,a:rh,b:rh,a:Bog,b:Bog",
         "sex" : 1
       },
       "numTrials" : 1,
+      "showIntroductionAnimations" : false,
       "showUserDrake" : true,
       "template" : "FVEggGame",
       "visibleGenes" : "wings, forelimbs, hindlimbs, armor, horns"
@@ -4929,128 +5049,6 @@
         "type" : "all-combinations"
       },
       "userChangeableGenes" : "metallic"
-    },
-    "breeding-harderTraits-siblings" : {
-      "challengeType" : "submit-parents",
-      "comment": "Level 6, Mission 4, Challenge 6.4.3",
-      "container" : "FVContainer",
-      "father" : [ {
-        "randomMatched" : [ {
-          "alleles" : "T-T, Rh-, d-, w-w, Fl-Fl",
-          "sex" : 0
-        }, {
-          "alleles" : "T-t, Rh-, d-, w-w, Fl-Fl",
-          "sex" : 0
-        }, {
-          "alleles" : "t-t, rh-, D-, W-W, Fl-Fl",
-          "sex" : 0
-        }, {
-          "alleles" : "t-t, Rh-, d-, W-W, Fl-Fl",
-          "sex" : 0
-        }, {
-          "alleles" : "Tk-Tk, Rh-, D-, w-w, fl-fl",
-          "sex" : 0
-        }, {
-          "alleles" : "T-T, Rh-, d-, w-w, fl-fl",
-          "sex" : 0
-        }, {
-          "alleles" : "T-Tk, Rh-, d-, W-W, fl-fl",
-          "sex" : 0
-        }, {
-          "alleles" : "T-T, rh-, d-, W-W, fl-fl",
-          "sex" : 0
-        } ]
-      } ],
-      "goalMoves" : [ [ 0, 0, 0, 0, 0, 0, 0, 0 ] ],
-      "hiddenAlleles" : "A2",
-      "linkedGenes" : {
-        "drakes" : [ 0, 1, 2, 3 ],
-        "genes" : "metallic, horns, color, black, hindlimbs, armor, bogbreath"
-      },
-      "mother" : [ {
-        "randomMatched" : [ {
-          "alleles" : "t-t, rh-rh, D-D, w-w, Fl-Fl, Bog-Bog",
-          "sex" : 1
-        }, {
-          "alleles" : "T-Tk, rh-rh, d-d, w-w, Fl-Fl, Bog-Bog",
-          "sex" : 1
-        }, {
-          "alleles" : "t-t, rh-rh, D-d, W-W, Fl-Fl, Bog-Bog",
-          "sex" : 1
-        }, {
-          "alleles" : "Tk-Tk, rh-rh, d-d, W-W, Fl-Fl, Bog-Bog",
-          "sex" : 1
-        }, {
-          "alleles" : "T-t, Rh-Rh, D-D, w-w, fl-fl, Bog-Bog",
-          "sex" : 1
-        }, {
-          "alleles" : "T-Tk, rh-rh, d-d, w-w, fl-fl, Bog-Bog",
-          "sex" : 1
-        }, {
-          "alleles" : "T-Tk, rh-rh, d-d, W-W, fl-fl, Bog-Bog",
-          "sex" : 1
-        }, {
-          "alleles" : "T-Tk, rh-Rh, d-d, W-W, fl-fl, Bog-Bog",
-          "sex" : 1
-        } ]
-      } ],
-      "targetDrakes" : [ {
-        "randomMatched" : [ [ {
-          "alleles" : "Rh-, Tk-Tk, d-, W-W, fl-fl",
-          "sex" : 0
-        }, {
-          "alleles" : "rh-rh, t-t, d-d, w-w, Fl-Fl",
-          "sex" : 1
-        } ], [ {
-          "alleles" : "rh-, t-t, D-, w-w, Fl-Fl",
-          "sex" : 0
-        }, {
-          "alleles" : "Rh-Rh, t-t, d-d, W-W, fl-fl",
-          "sex" : 1
-        } ], [ {
-          "alleles" : "rh-, T-T, D-, w-w, Fl-Fl",
-          "sex" : 0
-        }, {
-          "alleles" : "Rh-Rh, Tk-Tk, d-d, W-W, fl-fl",
-          "sex" : 1
-        } ], [ {
-          "alleles" : "Rh-, Tk-Tk, d-, w-w, fl-fl",
-          "sex" : 0
-        }, {
-          "alleles" : "rh-rh, T-T, D-D, w-w, fl-fl",
-          "sex" : 1
-        } ], [ {
-          "alleles" : "Rh-, T-T, D-, W-W, Fl-Fl",
-          "sex" : 0
-        }, {
-          "alleles" : "rh-rh, t-t, d-d, W-W, Fl-Fl",
-          "sex" : 1
-        } ], [ {
-          "alleles" : "Rh-, Tk-Tk, D-, w-w, Fl-Fl",
-          "sex" : 0
-        }, {
-          "alleles" : "rh-rh, t-t, D-D, W-W, fl-fl",
-          "sex" : 1
-        } ], [ {
-          "alleles" : "rh-, t-t, D-, w-w, fl-fl",
-          "sex" : 0
-        }, {
-          "alleles" : "Rh-Rh, t-t, d-d, w-w, Fl-Fl",
-          "sex" : 1
-        } ], [ {
-          "alleles" : "Rh-, t-t, d-, w-w, Fl-Fl",
-          "sex" : 0
-        }, {
-          "alleles" : "rh-rh, Tk-Tk, D-D, w-w, fl-fl",
-          "sex" : 1
-        } ] ]
-      } ],
-      "template" : "ClutchGame",
-      "userChangeableGenes" : [ {
-        "father" : "nose, tail, dilute, forelimbs, wings",
-        "mother" : "nose, tail, dilute, forelimbs, wings"
-      } ],
-      "visibleGenes" : ""
     },
     "siblings-1" : {
       "challengeType" : "submit-parents",
@@ -5475,7 +5473,7 @@
       }, {
         "alleles" : "A1-a, W-w, B-B, H-H, M-m, fl-fl, D-D, Hl-hl, rh-, C-C, t-T",
         "sex" : 0
-      }],
+      } ],
       "goalMoves" : [ 0 ],
       "hiddenAlleles" : "A2",
       "hiddenParent" : {
