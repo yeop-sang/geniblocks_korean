@@ -192,6 +192,11 @@ function getSelectableAttributes(nextState) {
       return [...nextState.visibleGenes];
     }
   }
+  if (nextState.template && nextState.template === "ClutchGame") {
+    if (nextState.userChangeableGenes) {
+      return [...nextState.userChangeableGenes];
+    }
+  }
 }
 
 function getTarget(nextState) {
