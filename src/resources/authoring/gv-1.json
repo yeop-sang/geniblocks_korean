@@ -2517,7 +2517,7 @@
       "comment" : "*** Level 6, Mission 1.3: Genome Challenge (Polyallelic traits (tails) and sex-linked (nose spike) and deep/faded color) ***",
       "container" : "FVContainer",
       "initialDrake" : [ {
-        "alleles" : "a:A1,b:A1,a:Bog"
+        "alleles" : "a:A1,b:A1,a:Bog,a:C"
       } ],
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
@@ -2528,7 +2528,7 @@
       "randomizeTrials" : true,
       "showUserDrake" : false,
       "targetDrakes" : [ {
-        "alleles" : "a:Bog",
+        "alleles" : "a:Bog,a:C",
         "sex" : 0
       } ],
       "template" : "FVGenomeChallenge",
@@ -2539,7 +2539,7 @@
       "comment" : "*** Level 6, Mission 1.3: Genome Challenge (Polyallelic traits (tails) and sex-linked (nose spike) and deep/faded color) ***",
       "container" : "FVContainer",
       "initialDrake" : [ {
-        "alleles" : "a:A1,b:a,a:Bog"
+        "alleles" : "a:A1,b:a,a:Bog,a:C"
       } ],
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
@@ -2550,7 +2550,7 @@
       "randomizeTrials" : true,
       "showUserDrake" : false,
       "targetDrakes" : [ {
-        "alleles" : "a:Bog",
+        "alleles" : "a:Bog,a:C",
         "sex" : 1
       } ],
       "template" : "FVGenomeChallenge",
@@ -2922,7 +2922,7 @@
       "comment" : "*** Level 6, Mission 1.1: Genome Challenge (Polyallelic traits (tails) and sex-linked (nose spike) and deep/faded color) ***",
       "container" : "FVContainer",
       "initialDrake" : [ {
-        "alleles" : "a:a,a:A1,a:Bog"
+        "alleles" : "a:a,a:A1,a:Bog,a:C"
       } ],
       "instructions" : "Match the target drake!",
       "linkedGenes" : {
@@ -2934,7 +2934,7 @@
       "showDrakeColorHint" : true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
-        "alleles" : "a:Bog",
+        "alleles" : "a:Bog,a:C",
         "sex" : 0
       } ],
       "template" : "FVGenomeChallenge",
