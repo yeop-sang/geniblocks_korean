@@ -218,6 +218,10 @@ function isEggCompatibleWithBasket(egg, basket) {
     return false;
   // one of the basket's allele strings...
   return basket.alleles.some((basketAlleleString) => {
+    if (!basketAlleleString) {
+      // any alleles are correct (we only cared about sex)
+      return true;
+    }
     return GeneticsUtils.alleleStringContainsAlleles(egg.alleles, basketAlleleString);
   });
 }
