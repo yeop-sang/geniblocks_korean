@@ -1923,7 +1923,7 @@
         "dialog" : {
           "end" : [ {
             "character" : "HERRERA",
-            "text" : "K. Thanks. Bye!"
+            "text" : "Get ready— for the rest of the smuggled drakes, you need to learn some totally new stuff."
           } ],
           "middle" : [ {
             "character" : "RAJPUT",
@@ -1962,7 +1962,7 @@
               } ],
               "success" : [ {
                 "character" : "YEUNG",
-                "text" : "Make sure you're getting it. One more time, cadet."
+                "text" : "Spikes and faded color depend on whether there is one X or two. Make sure you're getting it."
               } ]
             },
             "start" : [ {
@@ -1993,12 +1993,12 @@
               } ],
               "success" : [ {
                 "character" : "YEUNG",
-                "text" : "OK. Get ready for predicting what the drake will look like."
+                "text" : "Get ready for predicting what the drake will look like."
               } ]
             },
             "start" : [ {
               "character" : "YEUNG",
-              "text" : "Think it through before hatching, and you'll fly right through these. "
+              "text" : "One more time, Cadet."
             } ]
           },
           "id" : "allele-targetMatch-visible-harderTraits2",
@@ -2023,7 +2023,7 @@
             },
             "start" : [ {
               "character" : "YEUNG",
-              "text" : "This will show you whether you are really understanding these allele combinations."
+              "text" : "If predicting doesn't go well, go back with your Venture Pad and practice with a visible drake."
             } ]
           },
           "id" : "allele-targetMatch-hidden-harderTraits",
@@ -2048,7 +2048,7 @@
             },
             "start" : [ {
               "character" : "YEUNG",
-              "text" : "Alright. One more time to make sure you are getting this."
+              "text" : "Think it through before hatching, and you'll fly right through this. "
             } ]
           },
           "id" : "allele-targetMatch-hidden-harderTraits2",
@@ -2058,11 +2058,14 @@
         "dialog" : {
           "end" : [ {
             "character" : "YEUNG",
-            "text" : "You've gained experience in predicting the traits. Time to sort based on the chromoscope readings."
+            "text" : "You've gained experience in predicting the traits."
+          }, {
+            "character" : "YEUNG",
+            "text" : "Time to sort drake eggs based on the chromoscope readings."
           } ],
           "middle" : [ {
             "character" : "WEAVER",
-            "text" : "Middle of mission 6.1. When does this text appear?"
+            "text" : "Open your Venture Pad and head to the Hatchery!"
           } ],
           "start" : [ {
             "character" : "YEUNG",
@@ -2085,15 +2088,18 @@
               } ],
               "success" : [ {
                 "character" : "NETANYA",
-                "text" : "Thanks, we'll see which ones fly best."
+                "text" : "Thanks, now we'll see which ones fly best!"
               } ]
             },
             "start" : [ {
               "character" : "NETANYA",
-              "text" : "Look, Herrera, I still say that kinked tails make the best rudder when flying."
+              "text" : "Cadet! We need which drake tails are best for flying, and I say that kinked tails are best— for evasive maneuvers."
             }, {
               "character" : "HERRERA",
-              "text" : "OK, we'll test that out. First we need to know which eggs will hatch what kind of tail. You're on, Cadet."
+              "text" : "Maybe so, but short tails allow for quick dives, and long tails for the smoothest flights."
+            }, {
+              "character" : "NETANYA",
+              "text" : "We need to know which eggs will hatch what kind of tail. You're on, Cadet. "
             } ]
           },
           "id" : "eggDrop-tail",
@@ -2113,12 +2119,12 @@
               } ],
               "success" : [ {
                 "character" : "NETANYA",
-                "text" : "With just one X chromosome, males can express a trait with a single recessive allele."
+                "text" : "And the answer is... when you only have one chromosome of the pair! Males are special that way!"
               } ]
             },
             "start" : [ {
               "character" : "NETANYA",
-              "text" : "When is just one recessive allele enough to produce a trait?"
+              "text" : "Here's a riddle for you: when is just one recessive allele enough to produce a trait?"
             }, {
               "character" : "HERRERA",
               "text" : "Good question! Let's scope some eggs to find out."
@@ -2130,16 +2136,16 @@
         } ],
         "dialog" : {
           "end" : [ {
-            "character" : "NETANYA",
-            "text" : "Breeding for different tales will be important since I showed Hererra and the pilots how the kinked tail can guide flight."
+            "character" : "HERRERA",
+            "text" : "Thanks... I think...?"
           } ],
           "middle" : [ {
             "character" : "WEAVER",
-            "text" : "Middle of mission 6.2"
+            "text" : "Open your Venture Pad and head to the Hatchery!"
           } ],
           "start" : [ {
             "character" : "NETANYA",
-            "text" : "Welcome back to the hatchery."
+            "text" : "Open your Venture Pad, we need to head to the hatchery! "
           } ]
         },
         "name" : "Mission 6.2"
@@ -2153,16 +2159,16 @@
             "end" : {
               "failure" : [ {
                 "character" : "NETANYA",
-                "text" : "Challenge 6.3.1 not completed successfully"
+                "text" : "You did it, but you took too many tries. Let's try this one again!"
               } ],
               "success" : [ {
                 "character" : "NETANYA",
-                "text" : "Challenge 6.3.1 completed successfully!"
+                "text" : "Are you ready for a more difficult task?"
               } ]
             },
             "start" : [ {
-              "character" : "YEUNG",
-              "text" : "Welcome to Challenge 6.3.1!"
+              "character" : "NETANYA",
+              "text" : "Eggs and sperm are key to understanding these more complicated traits."
             } ]
           },
           "id" : "gamete-selectSpermEgg-harderTraits",
@@ -2177,16 +2183,19 @@
             "end" : {
               "failure" : [ {
                 "character" : "NETANYA",
-                "text" : "Challenge 6.3.2 not completed successfully"
+                "text" : "Sorry, no crystal— try again!"
               } ],
               "success" : [ {
                 "character" : "NETANYA",
-                "text" : "Challenge 6.3.2 completed successfully!"
+                "text" : "You are on track to understand X chromosome inheritance as well as a gene with 3 alleles."
+              }, {
+                "character" : "NETANYA",
+                "text" : "If you need more practice, just use your Venture Pad to do some review!"
               } ]
             },
             "start" : [ {
-              "character" : "YEUNG",
-              "text" : "Welcome to Challenge 6.3.2!"
+              "character" : "NETANYA",
+              "text" : "OK, Cadet, here you'll work on both parents at the same time, and with plenty of alleles!"
             } ]
           },
           "id" : "gamete-selectSpermEgg-harderTraits-bothParents",
@@ -2196,15 +2205,15 @@
         "dialog" : {
           "end" : [ {
             "character" : "NETANYA",
-            "text" : "End of mission 6.3"
+            "text" : "Sure you're up for this?"
           } ],
           "middle" : [ {
             "character" : "WEAVER",
-            "text" : "Middle of mission 6.3"
+            "text" : "Open your Venture Pad and head to the Hatchery!"
           } ],
           "start" : [ {
             "character" : "YEUNG",
-            "text" : "Start of mission 6.3"
+            "text" : "Time to understand how faded color, spikes, and tails are inherited. Open your Venture Pad and head to the Hatchery."
           } ]
         },
         "name" : "Mission 6.3"
@@ -2217,17 +2226,17 @@
           "dialog" : {
             "end" : {
               "failure" : [ {
-                "character" : "NETANYA",
-                "text" : "Challenge 6.4.1 not completed successfully"
+                "character" : "RAJPUT",
+                "text" : "You did it, but you took too many tries. Let's try this one again!"
               } ],
               "success" : [ {
                 "character" : "NETANYA",
-                "text" : "Challenge 6.4.1 completed successfully!"
+                "text" : "Are you keeping your eye on the father's X chromosome?!"
               } ]
             },
             "start" : [ {
-              "character" : "YEUNG",
-              "text" : "Welcome to Challenge 6.4.1!"
+              "character" : "RAJPUT",
+              "text" : "Welcome, Cadet! Look carefully at the alleles in order to succeed."
             } ]
           },
           "id" : "clutch-5drakes-harderTraits-bothParents",
@@ -2241,17 +2250,17 @@
           "dialog" : {
             "end" : {
               "failure" : [ {
-                "character" : "NETANYA",
-                "text" : "Challenge 6.4.2 not completed successfully"
+                "character" : "RAJPUT",
+                "text" : "You did it, but you took too many tries. Let's try this one again!"
               } ],
               "success" : [ {
-                "character" : "NETANYA",
-                "text" : "Challenge 6.4.2 completed successfully!"
+                "character" : "RAJPUT",
+                "text" : "Here comes the hard part. "
               } ]
             },
             "start" : [ {
-              "character" : "YEUNG",
-              "text" : "Welcome to Challenge 6.4.2!"
+              "character" : "RAJPUT",
+              "text" : "Let's try this again— but with some more traits, too."
             } ]
           },
           "id" : "clutch-5drakes-harderTraits-bothParents2",
@@ -2260,8 +2269,8 @@
         } ],
         "dialog" : {
           "end" : [ {
-            "character" : "NETANYA",
-            "text" : "End of mission 6.4"
+            "character" : "RAJPUT",
+            "text" : "We're working with complicated inheritance patterns, Cadet. Keep at it!"
           } ],
           "middle" : [ {
             "character" : "WEAVER",
@@ -2269,7 +2278,7 @@
           } ],
           "start" : [ {
             "character" : "YEUNG",
-            "text" : "Start of mission 6.4"
+            "text" : "Inheritance can be tricky when dealing with the X and Y chromosomes, Cadet. Open your Venture Pad and head to the Breeding Barn."
           } ]
         },
         "name" : "Mission 6.4"
@@ -2282,17 +2291,17 @@
           "dialog" : {
             "end" : {
               "failure" : [ {
-                "character" : "NETANYA",
-                "text" : "Challenge 6.5.1 not completed successfully"
+                "character" : "RAJPUT",
+                "text" : "You did it, but you took too many tries. Let's try this one again!"
               } ],
               "success" : [ {
-                "character" : "NETANYA",
-                "text" : "Challenge 6.5.1 completed successfully!"
+                "character" : "RAJPUT",
+                "text" : "While we are waiting for the outcome of the sneak attack, your work can help guard these drakes from extinction."
               } ]
             },
             "start" : [ {
-              "character" : "YEUNG",
-              "text" : "Welcome to Challenge 6.5.1!"
+              "character" : "RAJPUT",
+              "text" : "With all you have learned, we think you are up to this task."
             } ]
           },
           "id" : "test-cross-nosespike-dilute-tail-1",
@@ -2306,17 +2315,17 @@
           "dialog" : {
             "end" : {
               "failure" : [ {
-                "character" : "NETANYA",
-                "text" : "Challenge 6.5.2 not completed successfully"
+                "character" : "RAJPUT",
+                "text" : "Sorry— too many moves for a crystal. Try again!"
               } ],
               "success" : [ {
-                "character" : "NETANYA",
-                "text" : "Challenge 6.5.2 completed successfully!"
+                "character" : "RAJPUT",
+                "text" : "Are you ready for the most difficult task?"
               } ]
             },
             "start" : [ {
-              "character" : "YEUNG",
-              "text" : "Welcome to Challenge 6.5.2!"
+              "character" : "RAJPUT",
+              "text" : "Make sure you understand how each trait works, or breeding these drakes won't help much."
             } ]
           },
           "id" : "test-cross-nosespike-dilute-tail-2",
@@ -2351,8 +2360,8 @@
               } ]
             },
             "start" : [ {
-              "character" : "YEUNG",
-              "text" : "Welcome to Challenge 6.5.3!"
+              "character" : "RAJPUT",
+              "text" : "This is it, Cadet. It's time to determine the genotypes of the remaining engangered drakes."
             } ]
           },
           "id" : "test-cross-nosespike-dilute-tail-3",
@@ -2361,8 +2370,8 @@
         } ],
         "dialog" : {
           "end" : [ {
-            "character" : "NETANYA",
-            "text" : "End of mission 6.5, but this text never gets displayed."
+            "character" : "HERRERA",
+            "text" : "K, thanks! Bye!."
           } ],
           "middle" : [ {
             "character" : "WEAVER",
@@ -2370,7 +2379,7 @@
           } ],
           "start" : [ {
             "character" : "YEUNG",
-            "text" : "Start of mission 6.5, does this text ever get displayed?"
+            "text" : "This is your toughest challenge yet. It will take all you have learned about drakes to solve it."
           } ]
         },
         "name" : "Mission 6.5"
