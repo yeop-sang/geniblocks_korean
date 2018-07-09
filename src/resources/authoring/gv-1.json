@@ -5492,7 +5492,7 @@
       },
       "linkedGenes" : {
         "drakes" : [ 0, 1, 2 ],
-        "genes" : "color, hindlimbs, black, horns, armor, tail, dilute, nose, bogbreath"
+        "genes" : "color, hindlimbs, black, horns, bogbreath"
       },
       "mother" : [ {
         "alleles" : "H-H, w-w, b-b, M-M, A1-A1, fl-fl, hl-Hl, t-t, C-C, d-d, rh-rh, Bog-Bog",
@@ -5525,7 +5525,7 @@
       },
       "linkedGenes" : {
         "drakes" : [ 0, 1, 2 ],
-        "genes" : "color, hindlimbs, black, horns, armor, tail, dilute, nose, bogbreath"
+        "genes" : "color, bogbreath"
       },
       "mother" : [ {
         "alleles" : "H-H, W-w, b-b, M-M, A1-A1, fl-fl, hl-Hl, T-T, C-C, D-, Rh-, Bog-Bog, T-Tk",
@@ -5597,7 +5597,7 @@
       },
       "linkedGenes" : {
         "drakes" : [ 0, 1, 2 ],
-        "genes" : "color, hindlimbs, black, horns, armor, tail, dilute, nose, bogbreath"
+        "genes" : "color, dilute, bogbreath"
       },
       "mother" : [ {
         "alleles" : "H-H, w-w, b-b, M-M, A1-a, fl-fl, hl-Hl, T-Tk, C-C, D-d, Rh-rh, Bog-Bog",
