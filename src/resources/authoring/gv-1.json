@@ -1894,18 +1894,6 @@
               "success" : [ {
                 "character" : "RAJPUT",
                 "text" : "This has been a real test of your abilities, Cadet! Our knowledge of these new drakes is important!"
-              }, {
-                "character" : "WEAVER",
-                "text" : "Cadet, Herrera's dragon pilots were successful in the sneak attack!"
-              }, {
-                "character" : "HATCH",
-                "text" : "Yes, and you played a big part in this victory for drakes and dragons!"
-              }, {
-                "character" : "YEUNG",
-                "text" : "Cadet, it's been a pleasure. Take care out there. "
-              }, {
-                "character" : "HERRERA",
-                "text" : "Seriously, Cadet, It's been great having you. We have to bid you farewell for now. Just remember, when you come across genetics, think of Geniventure! "
               } ]
             },
             "start" : [ {
@@ -2344,7 +2332,7 @@
               } ],
               "success" : [ {
                 "character" : "RAJPUT",
-                "text" : "This has been a real test of your abilities, Cadet! Our knowledge of these new drakes is important!"
+                "text" : "Good job!"
               }, {
                 "character" : "WEAVER",
                 "text" : "Cadet, Herrera's dragon pilots were successful in the sneak attack!"
