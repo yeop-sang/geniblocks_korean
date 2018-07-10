@@ -45,16 +45,39 @@ export default () => store => next => action => {
         ||
         nextState.remediationHistory && JSON.stringify(prevState.remediationHistory) !== JSON.stringify(nextState.remediationHistory)
       )) {
+
       let {
         gems
         , remediationHistory
       } = nextState;
+
+      // Stop nulls in remediationHistory from being sent to Firebase as this will throw an exception
+      let editedHistory = remediationHistory.asMutable({ deep: true });
+      for (let level in editedHistory) {
+        if (!Array.isArray(editedHistory[level])) {
+          editedHistory[level] = [];
+        } else {
+          for (let mission in editedHistory[level]) {
+            if (!Array.isArray(editedHistory[level][mission])) {
+              editedHistory[level][mission] = [];
+            } else {
+              for (let challenge in editedHistory[level][mission]) {
+                if (!editedHistory[level][mission][challenge]) {
+                  editedHistory[level][mission][challenge] = 0;
+                }
+              }
+            }
+          }
+        }
+      }
+
       userDataUpdate.state = {
         gems,
-        remediationHistory,
+        remediationHistory: editedHistory,
         stateVersion: currentStateVersion
       };
     }
+
     firebase.database().ref(userQueryString).update(userDataUpdate, (error, userDataUpdate) => {
       if (error) {
         console.logError("Error updating user state!", userDataUpdate, error);
