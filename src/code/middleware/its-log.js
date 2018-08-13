@@ -202,6 +202,11 @@ function getSelectableAttributes(nextState) {
       return [...selectableAttributes];
     }
   }
+  if (nextState.template && nextState.template === "FVEggGame") {
+    if (nextState.visibleGenes) {
+      return ["sex", ...nextState.visibleGenes];
+    }
+  }
 }
 
 function getTarget(nextState) {
