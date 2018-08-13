@@ -166,17 +166,21 @@ export function changePropertyValues(obj, key, func) {
 }
 
 function getChallengeType(state) {
-  if (state.location && state.location.id === "hatchery") {
+  if (state.template === "FVEggSortGame") {
     return "Hatchery";
   }
-  if (state.challengeType && state.challengeType === "match-target") {
-    if (state.template === "FVEggGame") {
+  if (state.template === "ClutchGame") {
+    if (state.challengeType && state.challengeType === "match-target") {
       return "Breeding";
+    } else if (state.challengeType && state.challengeType === "submit-parents") {
+      return "Siblings";
+    } else {  // challengeType === "test-cross", nothing for this yet
+      return null;
     }
-    return "Sim";
   }
-  if (state.challengeType && state.challengeType === "submit-parents") {
-    return "Siblings";
+  if (state.template === "FVEggGame" ||
+      state.challengeType && state.challengeType === "match-target") {
+    return "Sim";
   }
 }
 
