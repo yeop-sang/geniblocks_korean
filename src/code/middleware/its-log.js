@@ -240,11 +240,15 @@ function getSelected(action, nextState) {
   };
 }
 
+/**
+ * The old state of the user's drakes before a change. Typically the same as `getSelected` but
+ * applied to prevState instead of nextState
+ */
 function getPrevious(selected, action, prevState) {
   if (action.type === actionTypes.DRAKE_SUBMITTED &&
     (prevState.template && prevState.template === "ClutchGame") &&
     (prevState.challengeType && prevState.challengeType === "match-target")) {
-      return prevState.submitted;
+      return null;
   } else {
     return selected || getSelected(action, prevState);
   }
