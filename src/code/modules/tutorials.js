@@ -15,7 +15,10 @@ const initialState = Immutable({
                               // which tutorial we are showing
                               currentStep: 0,
                               // whether the 'more' text is visible
-                              moreVisible: false,
+                              // This is now set to `true`, and no reducer will currently set it to `false`, which makes
+                              // it such that all tutorials always show fully-expanded. The logic is kept in case the
+                              // functionality is ever desired again.
+                              moreVisible: true,
                               // whether the tutorials are currently showing
                               visible: true
                             });
@@ -30,13 +33,13 @@ export default function tutorials(state = initialState, action) {
       return initialState.set('steps', getTutorialForCurrentStage(action.level, action.mission, action.challenge));
     case tutorialActionTypes.TUTORIAL_NEXT:
       return Object.assign({}, state, {
-        currentStep: Math.min(currentStep + 1, totalSteps - 1),
-        moreVisible: false
+        currentStep: Math.min(currentStep + 1, totalSteps - 1)
+        // moreVisible: false
       });
     case tutorialActionTypes.TUTORIAL_PREVIOUS:
       return Object.assign({}, state, {
-        currentStep: Math.max(currentStep - 1, 0),
-        moreVisible: false
+        currentStep: Math.max(currentStep - 1, 0)
+        // moreVisible: false
       });
     case tutorialActionTypes.TUTORIAL_MORE:
       return state.set('moreVisible', true);
@@ -45,8 +48,8 @@ export default function tutorials(state = initialState, action) {
     case tutorialActionTypes.TUTORIAL_RESTARTED:
       return Object.assign({}, state, {
         visible: true,
-        currentStep: 0,
-        moreVisible: false
+        currentStep: 0
+        // moreVisible: false
       });
 
     default:
