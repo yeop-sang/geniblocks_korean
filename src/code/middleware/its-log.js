@@ -52,6 +52,8 @@ export function initializeITSSocket(guideServer, socketPath, store) {
   socket.on(GuideProtocol.Event.Channel, receiveITSEvent);
 
   // for testing
+  // e.g.
+  // GV_TEST_receiveITSEvent(JSON.stringify({actor: "ITS", action: "REMEDIATE", target: "USER", context: {attribute: "sex", challengeType: "Hatchery"}}))
   window.GV_TEST_receiveITSEvent = receiveITSEvent;
 
   socket.on('error', data =>
@@ -224,20 +226,27 @@ function getTarget(nextState) {
   };
 }
 
+/**
+ * The new state of the user's drakes after a change
+ */
 function getSelected(action, nextState) {
-  let userIndex;
-  if (action.type === actionTypes.ALLELE_CHANGED &&
-      (nextState.template && nextState.template === "FVGenomeChallenge") &&
-      (nextState.challengeType && nextState.challengeType === "match-target")) {
-    userIndex = 0;
-  } else {
-    return;
+  if (action.type === actionTypes.ALLELE_CHANGED && (nextState.challengeType && nextState.challengeType === "match-target")) {
+    if (nextState.template && nextState.template === "FVGenomeChallenge") {
+      let userDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[0]);
+      return {
+        sex: userDrakeOrg.sex,
+        alleles: userDrakeOrg.getAlleleString()
+      };
+    } else if (nextState.template && nextState.template === "ClutchGame") {
+      let motherDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[0]);
+      let fatherDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[1]);
+      return {
+        motherAlleles: motherDrakeOrg.getAlleleString(),
+        fatherAlleles: fatherDrakeOrg.getAlleleString()
+      };
+    }
   }
-  let userDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[userIndex]);
-  return {
-    sex: userDrakeOrg.sex,
-    alleles: userDrakeOrg.getAlleleString()
-  };
+  return null;
 }
 
 /**
