@@ -5076,19 +5076,19 @@
       },
       "mother" : [ {
         "randomMatched" : [ {
-          "alleles" : "M-M, W-W, Fl-fl, Bog-Bog, rh-rh, D-D",
+          "alleles" : "M-M, W-W, Fl-fl, Bog-Bog, rh-rh, D-D, C-C",
           "sex" : 1
         }, {
-          "alleles" : "W-W, m-m, Fl-Fl, Bog-Bog, rh-rh, D-D",
+          "alleles" : "W-W, m-m, Fl-Fl, Bog-Bog, rh-rh, D-D, C-C",
           "sex" : 1
         }, {
-          "alleles" : "W-W, M-m, Fl-Fl, Bog-Bog, rh-rh, D-D",
+          "alleles" : "W-W, M-m, Fl-Fl, Bog-Bog, rh-rh, D-D, C-C",
           "sex" : 1
         }, {
-          "alleles" : "W-W, M-M, fl-fl, Bog-Bog, rh-rh, D-D",
+          "alleles" : "W-W, M-M, fl-fl, Bog-Bog, rh-rh, D-D, C-C",
           "sex" : 1
         }, {
-          "alleles" : "W-W, Fl-fl, M-M, Bog-Bog, rh-rh, D-D",
+          "alleles" : "W-W, Fl-fl, M-M, Bog-Bog, rh-rh, D-D, C-C",
           "sex" : 1
         } ]
       } ],
