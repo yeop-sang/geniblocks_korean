@@ -337,6 +337,7 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIn
         targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[targetDrakeIndex]),
         userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]),
         isBredDrake = !isNaN(motherIndex),
+        itsAction = state.template === "ClutchGame" ? ITS_ACTIONS.SELECTED : ITS_ACTIONS.SUBMITTED,
         itsTarget = isBredDrake ? ITS_TARGETS.OFFSPRING : ITS_TARGETS.ORGANISM;
   var selected;
 
@@ -369,7 +370,7 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIn
     meta: {
       itsLog: {
         actor: ITS_ACTORS.USER,
-        action: ITS_ACTIONS.SUBMITTED,
+        action: itsAction,
         target: itsTarget
       }
     }
