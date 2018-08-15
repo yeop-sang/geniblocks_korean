@@ -254,10 +254,13 @@ function getSelected(action, nextState) {
  * applied to prevState instead of nextState
  */
 function getPrevious(selected, action, prevState) {
-  if (action.type === actionTypes.DRAKE_SUBMITTED &&
-    (prevState.template && prevState.template === "ClutchGame") &&
-    (prevState.challengeType && prevState.challengeType === "match-target")) {
+  if (action.type === actionTypes.DRAKE_SUBMITTED || action.type === actionTypes.EGG_SUBMITTED) {
+    if ((prevState.template && prevState.template === "ClutchGame") ||
+        (prevState.template && prevState.template === "FVEggSortGame")) {
       return null;
+    } else {
+      return prevState.submitted;   // This is set on submission and remains unchanged between submissions
+    }
   } else {
     return selected || getSelected(action, prevState);
   }
