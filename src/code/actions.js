@@ -348,7 +348,7 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIn
       motherAlleles: motherDrakeOrg.alleles,
       fatherAlleles: fatherDrakeOrg.alleles,
       offspringAlleles: userDrakeOrg.alleles,
-      offspringSex: userDrakeOrg.sex
+      offspringSex: userDrakeOrg.sex === 0 ? "male" : "female"
     };
   } else {
     selected = {
