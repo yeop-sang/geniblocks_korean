@@ -230,7 +230,7 @@ function getTarget(nextState) {
  * The new state of the user's drakes after a change
  */
 function getSelected(action, nextState) {
-  if (action.type === actionTypes.ALLELE_CHANGED && (nextState.challengeType && nextState.challengeType === "match-target")) {
+  if (action.type === actionTypes.ALLELE_CHANGED) {
     if (nextState.template && nextState.template === "FVGenomeChallenge") {
       let userDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[0]);
       return {
