@@ -216,7 +216,21 @@ function getTarget(nextState) {
   if ((nextState.template && nextState.template === "FVGenomeChallenge") &&
       (nextState.challengeType && nextState.challengeType === "match-target")) {
     targetIndex = 1;
-  } else {
+  } else if (nextState.template && nextState.template === "ClutchGame") {
+    if (nextState.challengeType && nextState.challengeType === "match-target") {
+      targetIndex = 2;
+    } else if (nextState.challengeType && nextState.challengeType === "submit-parents") {
+      const targetDrakeArray = Array(nextState.numTargets).fill().map((e, i) => i + 2);  // [2, ... n]
+      const targetDrakeOrgs = targetDrakeArray.map(i => GeneticsUtils.convertDrakeToOrg(nextState.drakes[i]));
+      return targetDrakeOrgs.map(o =>
+        ({
+          sex: o.sex,
+          phenotype: o.phenotype.characteristics
+        })
+      );
+    }
+  }
+  if (!targetIndex) {
     return;
   }
   let targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[targetIndex]);
