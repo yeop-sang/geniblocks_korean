@@ -8,7 +8,14 @@ describe('breedClutch action', () => {
   it('should create an action for breeding a clutch', () => {
     expect(actions.breedClutch(20)).toEqual({
       type: types.CLUTCH_BRED,
-      clutchSize: 20
+      clutchSize: 20,
+      meta: {
+        itsLog: {
+          actor: "USER",
+          action: "BRED",
+          target: "CLUTCH"
+        }
+      }
     });
   });
 

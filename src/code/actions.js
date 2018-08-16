@@ -728,7 +728,14 @@ export function fertilize() {
 export function breedClutch(clutchSize) {
   return {
     type: actionTypes.CLUTCH_BRED,
-    clutchSize
+    clutchSize,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.BRED,
+        target: ITS_TARGETS.CLUTCH
+      }
+    }
   };
 }
 
