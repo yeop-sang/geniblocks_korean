@@ -264,19 +264,12 @@ function getSelected(action, nextState) {
 }
 
 /**
- * The old state of the user's drakes before a change. Typically the same as `getSelected` but
- * applied to prevState instead of nextState
+ * The old state of the user's drakes before a change. The ITS is now keeping track of most of the old
+ * states, so this is now *only* used for allele-change events.
  */
 function getPrevious(selected, action, prevState) {
-  if (action.type === actionTypes.DRAKE_SUBMITTED || action.type === actionTypes.EGG_SUBMITTED) {
-    if ((prevState.template && prevState.template === "ClutchGame") ||
-        (prevState.template && prevState.template === "FVEggSortGame")) {
-      return null;
-    } else {
-      return prevState.submitted;   // This is set on submission and remains unchanged between submissions
-    }
-  } else {
-    return selected || getSelected(action, prevState);
+  if (action.type === actionTypes.ALLELE_CHANGED) {
+    return getSelected(action, prevState);
   }
 }
 
