@@ -42,12 +42,24 @@ initFirebase.then(function (auth) {
   postAuthInitialization(userAuth());
 });
 
+const ITSServers = {
+  production: {
+    url: "wss://guide.intellimedia.ncsu.edu:/guide-protocol",
+    path: "/v3/socket.io"
+  },
+  staging: {
+    url: "wss://imediadev.csc.ncsu.edu:/guide-protocol",
+    path: "/guide/v3/socket.io"
+  }
+};
+
 const postAuthInitialization = function (auth) {
   store = configureStore();
-  const guideServer = "wss://guide.intellimedia.ncsu.edu:/guide-protocol";
-  const socketPath = "/v3/socket.io";
+  const instance = window.location.href.indexOf('/branch/staging') < 0 ? "production" : "staging";
+  const ITSServer = ITSServers[instance];
 
-  initializeITSSocket(guideServer, socketPath, store);
+  initializeITSSocket(ITSServer.url, ITSServer.path, store);
+
   // generate pseudo-random sessionID
   const sessionID = uuid.v4();
   loggingMetadata.userName = auth.domain_uid;
