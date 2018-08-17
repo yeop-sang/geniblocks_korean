@@ -311,28 +311,14 @@ export function changeSex(index, newSex, incrementMoves=false) {
 export function changeBasketSelection(selectedIndices) {
   return{
     type: actionTypes.BASKET_SELECTION_CHANGED,
-    selectedIndices,
-    meta: {
-      itsLog: {
-        actor: ITS_ACTORS.USER,
-        action: ITS_ACTIONS.CHANGED_SELECTION,
-        target: ITS_TARGETS.BASKET
-      }
-    }
+    selectedIndices
   };
 }
 
 export function changeDrakeSelection(selectedIndices) {
   return{
     type: actionTypes.DRAKE_SELECTION_CHANGED,
-    selectedIndices,
-    meta: {
-      itsLog: {
-        actor: ITS_ACTORS.USER,
-        action: ITS_ACTIONS.CHANGED_SELECTION,
-        target: ITS_TARGETS.DRAKE
-      }
-    }
+    selectedIndices
   };
 }
 

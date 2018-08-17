@@ -9,14 +9,7 @@ describe('changeDrakeSelection action', () => {
     const selectedIndices = [];
     expect(actions.changeDrakeSelection(selectedIndices)).toEqual({
       type: types.DRAKE_SELECTION_CHANGED,
-      selectedIndices,
-      meta: {
-        itsLog: {
-          actor: "USER",
-          action: "CHANGED_SELECTION",
-          target: "DRAKE"
-        }
-      }
+      selectedIndices
     });
   });
 

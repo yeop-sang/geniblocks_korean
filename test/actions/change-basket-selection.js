@@ -9,14 +9,7 @@ describe('changeBasketSelection action', () => {
     const selectedIndices = [];
     expect(actions.changeBasketSelection(selectedIndices)).toEqual({
       type: types.BASKET_SELECTION_CHANGED,
-      selectedIndices,
-      meta: {
-        itsLog: {
-          actor: "USER",
-          action: "CHANGED_SELECTION",
-          target: "BASKET"
-        }
-      }
+      selectedIndices
     });
   });
 
