@@ -167,6 +167,12 @@ export function changePropertyValues(obj, key, func) {
     }
 }
 
+function matchITSAction(action, itsActionName, itsTargetName) {
+  if (action.meta.itsLog) {
+    return (action.meta.itsLog.action === itsActionName && action.meta.itsLog.target === itsTargetName);
+  }
+}
+
 function getChallengeType(state) {
   if (state.template === "FVEggSortGame") {
     return "Hatchery";
@@ -211,6 +217,16 @@ function getSelectableAttributes(nextState) {
   }
 }
 
+// curried, to make it easier for mapping
+function getDrake(state) {
+  return (i) => {
+    let targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[i]);
+    return {
+      sex: targetDrakeOrg.sex,
+      phenotype: targetDrakeOrg.phenotype.characteristics
+    };
+  };
+}
 function getTarget(nextState) {
   let targetIndex, targetIndices;
   if ((nextState.template && nextState.template === "FVGenomeChallenge") &&
@@ -228,18 +244,10 @@ function getTarget(nextState) {
     return;
   }
 
-  const getDrake = (i) => {
-    let targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[i]);
-    return {
-      sex: targetDrakeOrg.sex,
-      phenotype: targetDrakeOrg.phenotype.characteristics
-    };
-  };
-
   if (targetIndex) {
-    return getDrake(targetIndex);
+    return getDrake(nextState)(targetIndex);
   } else {
-    return targetIndices.map(getDrake);
+    return targetIndices.map(getDrake(nextState));
   }
 }
 
@@ -276,6 +284,14 @@ function getPrevious(selected, action, prevState) {
   }
 }
 
+function getClutch(action, state) {
+  if (matchITSAction(action, "SELECTED", "OFFSPRING")) {
+    // last eight indices of drake array
+    const targetIndices = Array(8).fill().map((e, i) => i + (state.drakes.length - 8));
+    return targetIndices.map(getDrake(state));
+  }
+}
+
 function createLogEntry(loggingMetadata, action, prevState, nextState){
   let event = { ...action.meta.itsLog },
       context = { ...action },
@@ -309,6 +325,11 @@ function createLogEntry(loggingMetadata, action, prevState, nextState){
   let selected = context.selected || getSelected(action, nextState);
   if (selected) {
     context.selected = selected;
+  }
+
+  let clutch = getClutch(action, nextState);
+  if (clutch) {
+    context.clutch = clutch;
   }
 
   if (action.meta.logNextState) {
