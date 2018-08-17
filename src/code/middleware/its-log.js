@@ -212,32 +212,35 @@ function getSelectableAttributes(nextState) {
 }
 
 function getTarget(nextState) {
-  let targetIndex;
+  let targetIndex, targetIndices;
   if ((nextState.template && nextState.template === "FVGenomeChallenge") &&
       (nextState.challengeType && nextState.challengeType === "match-target")) {
     targetIndex = 1;
   } else if (nextState.template && nextState.template === "ClutchGame") {
     if (nextState.challengeType && nextState.challengeType === "match-target") {
-      targetIndex = 2;
+      targetIndices = [2];
     } else if (nextState.challengeType && nextState.challengeType === "submit-parents") {
-      const targetDrakeArray = Array(nextState.numTargets).fill().map((e, i) => i + 2);  // [2, ... n]
-      const targetDrakeOrgs = targetDrakeArray.map(i => GeneticsUtils.convertDrakeToOrg(nextState.drakes[i]));
-      return targetDrakeOrgs.map(o =>
-        ({
-          sex: o.sex,
-          phenotype: o.phenotype.characteristics
-        })
-      );
+      targetIndices = Array(nextState.numTargets).fill().map((e, i) => i + 2);  // [2, ... n]
     }
   }
-  if (!targetIndex) {
+
+  if (!targetIndex && !targetIndices) {
     return;
   }
-  let targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[targetIndex]);
-  return {
-    sex: targetDrakeOrg.sex,
-    phenotype: targetDrakeOrg.phenotype.characteristics
+
+  const getDrake = (i) => {
+    let targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[i]);
+    return {
+      sex: targetDrakeOrg.sex,
+      phenotype: targetDrakeOrg.phenotype.characteristics
+    };
   };
+
+  if (targetIndex) {
+    return getDrake(targetIndex);
+  } else {
+    return targetIndices.map(getDrake);
+  }
 }
 
 /**
