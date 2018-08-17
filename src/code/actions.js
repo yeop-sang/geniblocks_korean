@@ -251,21 +251,25 @@ export function breed(mother, father, offspringBin, quantity=1, incrementMoves=f
 }
 
 export function changeAllele(index, chromosome, side, previousAllele, newAllele, incrementMoves=false) {
-  return {
-    type: actionTypes.ALLELE_CHANGED,
-    index,
-    chromosome,
-    side,
-    previousAllele,
-    newAllele,
-    incrementMoves,
-    meta: {
-      itsLog: {
-        actor: ITS_ACTORS.USER,
-        action: ITS_ACTIONS.CHANGED,
-        target: ITS_TARGETS.ALLELE
+  return (dispatch, getState) => {
+    const state = getState();
+    const itsTarget = state.template === "ClutchGame" ? ITS_TARGETS.PARENTS : ITS_TARGETS.ALLELE;
+    dispatch({
+      type: actionTypes.ALLELE_CHANGED,
+      index,
+      chromosome,
+      side,
+      previousAllele,
+      newAllele,
+      incrementMoves,
+      meta: {
+        itsLog: {
+          actor: ITS_ACTORS.USER,
+          action: ITS_ACTIONS.CHANGED,
+          target: itsTarget
+        }
       }
-    }
+    });
   };
 }
 
