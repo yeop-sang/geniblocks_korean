@@ -13,7 +13,8 @@ var socket = null,
     session = "",
     sequence = 0,
     isConnectonEstablished = false,
-    msgQueue = [];
+    msgQueue = [],
+    ITS_groupId = "GUIDE-3.10";
 
 export function initializeITSSocket(guideServer, socketPath, store) {
   socket = io(guideServer, {
@@ -298,7 +299,7 @@ function createLogEntry(loggingMetadata, action, prevState, nextState){
       routeSpec = nextState.routeSpec;
 
   context.routeSpec = routeSpec;
-  context.groupId = "Test-v3";
+  context.groupId = ITS_groupId;
   context.challengeId = AuthoringUtils.getChallengeId(nextState.authoring, routeSpec);
   context.classId = loggingMetadata.classInfo;
 
