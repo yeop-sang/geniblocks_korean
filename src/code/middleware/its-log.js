@@ -11,7 +11,7 @@ import { cloneDeep } from 'lodash';
 
 var socket = null,
     session = "",
-    sequence = 0,
+    lastActionSequenceId = 0,
     isConnectonEstablished = false,
     msgQueue = [],
     ITS_groupId = "GUIDE-3.10";
@@ -29,6 +29,11 @@ export function initializeITSSocket(guideServer, socketPath, store) {
   const receiveITSEvent = (data) => {
     var event = GuideProtocol.Event.fromJson(data);
     console.info(`%c Received from ITS: ${event.action} ${event.target}`, 'color: #f99a00', event);
+
+    if (event.sequence > -1 && event.sequence !== lastActionSequenceId) {
+      console.info(`%c Dropping ${event.action} event as stale`, 'color: #f99a00', event);
+      return;
+    }
 
     if (event.isMatch("ITS", "HINT", "USER")) {
       // TODO: Remove console log once ITS debugging is complete
@@ -375,11 +380,11 @@ function createLogEntry(loggingMetadata, action, prevState, nextState){
       externalId: loggingMetadata.externalId,
       session: session,
       time: Date.now(),
-      sequence: sequence,
+      sequence: lastActionSequenceId,
       ...event,
       context: context
     };
 
-  sequence++;
+  lastActionSequenceId++;
   return message;
 }
