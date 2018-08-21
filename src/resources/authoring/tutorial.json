@@ -198,6 +198,17 @@
                   "location": "middle-right"
                 }
               ]
+            },
+            {
+              "challenge": 1,
+              "steps":[
+                {
+                  "element": "father",
+                  "text": "Parent Drake",
+                  "more": "Notice this father has all recessive alleles. This will help you figure out the mother's hidden alleles!",
+                  "location": "bottom-right"
+                }
+              ]
             }
           ]
         }
