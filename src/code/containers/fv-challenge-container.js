@@ -105,8 +105,13 @@ class FVChallengeContainer extends Component {
     } else {
       const Template = templates[template];
 
+      let additionalClassName;
+      if (Template.getAdditionalClassNameFromProps) {
+        additionalClassName = Template.getAdditionalClassNameFromProps(otherProps);
+      }
+
       bgClasses = classNames('mission-backdrop', Template.backgroundClasses,
-                              challengeType, interactionType, isRemediation ? "remediation" : null);
+                              challengeType, interactionType, isRemediation ? "remediation" : null, additionalClassName);
       maxScore = Template.maxScore;
       goalMoves = this.props.goalMoves;
       showChallengeWidgets = true;

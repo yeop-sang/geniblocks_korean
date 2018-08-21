@@ -421,5 +421,16 @@ export default class ClutchGame extends Component {
     }
     return undefined;
   }
+  static getAdditionalClassNameFromProps = function(props) {
+    if (props.userChangeableGenes) {
+      const trial = props.trial || 0;
+      if (props.userChangeableGenes[trial].mother && props.userChangeableGenes[0].mother.length === 0) {
+        return "fixed-mother";
+      }
+      if (props.userChangeableGenes[trial].father && props.userChangeableGenes[0].father.length === 0) {
+        return "fixed-father";
+      }
+    }
+  }
 
 }

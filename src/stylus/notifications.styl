@@ -125,16 +125,17 @@
     left: -152px
     top: 6px
 
-.fv-layout-a
   .hint-arrow
     position: absolute
-    left: 243px
-    top: 1000px
-    width: 435px
-    height: 51px
     border: 3px solid #15e617
     border-radius: 10px;
     box-shadow: white 0 0 30px, #15e617 0 0 70px
+
+.fv-layout-a
+  .hint-arrow
+    left: 243px
+    width: 435px
+    height: 51px
 
     &.metallic
       top: -473px;
@@ -154,3 +155,57 @@
       top: -236px;
     &.sex
       top: -60px;
+
+.fv-layout-h
+  .hint-arrow
+    left: -1000px;
+    width: 435px;
+    height: 51px;
+
+  &.fixed-father
+    .hint-arrow
+      left: 165px;
+  &.fixed-mother
+    .hint-arrow
+      left: 1314px;
+
+  .hint-arrow
+    &.metallic
+      top: -384px;
+    &.wings
+      top: -345px;
+    &.horns
+      top: -310px;
+    &.color
+      top: -276px;
+    &.black
+      top: -240px;
+    &.forelimbs
+      top: -221px;
+    &.hindlimbs
+      top: -185px;
+    &.armor
+      top: -147px;
+
+.fv-layout-h.submit-parents
+  .hint-arrow
+    &.metallic
+      top: -324px;
+    &.wings
+      top: -285px;
+    &.horns
+      top: -250px;
+    &.color
+      top: -216px;
+    &.black
+      top: -180px;
+    &.forelimbs
+      top: -161px;
+    &.hindlimbs
+      top: -125px;
+    &.armor
+      top: -87px;
+
+.fv-layout-h.test-cross
+  .hint-arrow
+    display: none;
