@@ -56,7 +56,7 @@ GuideProtocol.Event.prototype.toJson = function() {
 
 GuideProtocol.Event.fromJson = function(json) {
     var obj = JSON.parse(json);
-    return new GuideProtocol.Event(
+    var event = new GuideProtocol.Event(
         obj.studentId,
         obj.session,
         obj.actor,
@@ -64,6 +64,13 @@ GuideProtocol.Event.fromJson = function(json) {
         obj.target,
         obj.context,
         obj.time);
+
+    // Copy over sequence number from original, if it exists
+    if (obj.hasOwnProperty("sequence")) {
+        event.sequence = parseInt(obj.sequence);
+    }
+
+    return event;
 };
 
 GuideProtocol.Event.fromJsonAsync = function(json) {
