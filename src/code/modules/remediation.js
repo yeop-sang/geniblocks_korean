@@ -192,6 +192,16 @@ function getMatchDrakeRemediation(trait, practiceCriteria) {
 function getEggSortRemediation(trait, /* practiceCriteria */) {
   const templateName = "FVEggSortGame";
 
+  let dominantLabel, recessiveLabel;
+
+  if (trait === "horns") {
+    dominantLabel = "Drakes without horns";
+    recessiveLabel = "Drakes with horns";
+  } else {
+    dominantLabel = `Drakes with ${GeneticsUtils.commonName(trait)}`;
+    recessiveLabel = `Drakes without ${GeneticsUtils.commonName(trait)}`;
+  }
+
   let baskets;
   switch(trait) {
     case 'sex':
@@ -208,11 +218,11 @@ function getEggSortRemediation(trait, /* practiceCriteria */) {
     default:
       baskets = [{
         "alleles" : [ `a:${GeneticsUtils.dominant(trait)}`, `b:${GeneticsUtils.dominant(trait)}` ],
-        "label" : `Drakes with ${GeneticsUtils.commonName(trait)}`,
+        "label" : dominantLabel,
         "sex" : 1
       }, {
         "alleles" : [ GeneticsUtils.getAllelesForTrait(trait, "recessive") ],
-        "label" : `Drakes without ${GeneticsUtils.commonName(trait)}`,
+        "label" : recessiveLabel,
         "sex" : 1
       }];
   }
