@@ -872,6 +872,17 @@ export default class FVEggGame extends Component {
   }
 
   handleGameteSelected = (poolID, sex, gameteIndex, /*gameteID, gamete*/) => {
+    // do nothing while fertilize animation is happening
+    if (animationEvents.fertilize.started && !animationEvents.fertilize.complete) {
+      return;
+    }
+
+    // after the egg has hatched, reset gametes if the user selects another gamete
+    if (hatchSoundPlayed) {
+      resetAnimationEvents({ showStaticGametes: true, showHatchAnimation: false });
+      this.props.onResetGametes(true);
+    }
+
     //if (!this.state.isIntroComplete) {
       // user selection of a gamete terminates intro animation
       resetAnimationEvents({ showStaticGametes: true,
@@ -1429,7 +1440,7 @@ export default class FVEggGame extends Component {
           childAlleles = child.getAlleleString();
           // don't generate the same set of alleles twice
         } while (childDrakesContain(childAlleles));
-  
+
         children.push({ alleles: childAlleles, sex: child.sex });
       }
       return children;
@@ -1437,7 +1448,7 @@ export default class FVEggGame extends Component {
 
     authoredDrakes = [
       motherSpecs.length > 1 ? { randomMatched: motherSpecs } : motherSpecs[0],
-      fatherSpecs.length > 1 ? { randomMatched: fatherSpecs } : fatherSpecs[0], 
+      fatherSpecs.length > 1 ? { randomMatched: fatherSpecs } : fatherSpecs[0],
       null
     ];
     for (let i = 0; i < mothers.length; ++i) {
