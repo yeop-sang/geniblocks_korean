@@ -11,7 +11,7 @@ import { cloneDeep } from 'lodash';
 
 var socket = null,
     session = "",
-    lastActionSequenceId = 0,
+    lastActionSequenceId = -1,
     isConnectonEstablished = false,
     msgQueue = [],
     ITS_groupId = "GUIDE-3.10";
@@ -373,6 +373,8 @@ function createLogEntry(loggingMetadata, action, prevState, nextState){
     context.challengeId = `${context.challengeId}-REMEDIATION`;
   }
 
+  lastActionSequenceId++;
+
   const message =
     {
       classInfo: loggingMetadata.classInfo,
@@ -385,6 +387,5 @@ function createLogEntry(loggingMetadata, action, prevState, nextState){
       context: context
     };
 
-  lastActionSequenceId++;
   return message;
 }
