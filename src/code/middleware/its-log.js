@@ -257,26 +257,46 @@ function getTarget(nextState) {
 }
 
 /**
- * The new state of the user's drakes after a change
+ * The new state of the user's drakes after a change, or the changeable parents' alleles in any clutch-game event
  */
 function getSelected(action, nextState) {
-  if (action.type === actionTypes.ALLELE_CHANGED) {
-    if (nextState.template && nextState.template === "FVGenomeChallenge") {
-      let userDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[0]);
-      return {
-        sex: userDrakeOrg.sex,
-        alleles: userDrakeOrg.getAlleleString()
-      };
-    } else if (nextState.template && nextState.template === "ClutchGame") {
-      let motherDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[0]);
-      let fatherDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[1]);
-      return {
-        motherAlleles: motherDrakeOrg.getAlleleString(),
-        fatherAlleles: fatherDrakeOrg.getAlleleString()
-      };
+  if ((action.type === actionTypes.ALLELE_CHANGED) && (nextState.template && nextState.template === "FVGenomeChallenge")) {
+    let userDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[0]);
+    return {
+      sex: userDrakeOrg.sex,
+      alleles: userDrakeOrg.getAlleleString()
+    };
+  } else if (nextState.template && nextState.template === "ClutchGame") {
+    let motherDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[0]);
+    let fatherDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[1]);
+    const selected = {};
+    if (nextState.userChangeableGenes && nextState.userChangeableGenes[0].mother && nextState.userChangeableGenes[0].mother.length > 0) {
+      selected.motherAlleles = motherDrakeOrg.getAlleleString();
     }
+    if (nextState.userChangeableGenes && nextState.userChangeableGenes[0].father && nextState.userChangeableGenes[0].father.length > 0) {
+      selected.fatherAlleles = fatherDrakeOrg.getAlleleString();
+    }
+    return selected;
   }
   return null;
+}
+
+/**
+ * The fixed parent's alleles in any clutch-game event
+ */
+function getConstant(action, nextState) {
+  if (nextState.template && nextState.template === "ClutchGame") {
+    let motherDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[0]);
+    let fatherDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[1]);
+    const constant = {};
+    if (!nextState.userChangeableGenes || !nextState.userChangeableGenes[0].mother || nextState.userChangeableGenes[0].mother.length === 0) {
+      constant.motherAlleles = motherDrakeOrg.getAlleleString();
+    }
+    if (!nextState.userChangeableGenes || !nextState.userChangeableGenes[0].father || nextState.userChangeableGenes[0].father.length === 0) {
+      constant.fatherAlleles = fatherDrakeOrg.getAlleleString();
+    }
+    return constant;
+  }
 }
 
 /**
@@ -329,7 +349,19 @@ function createLogEntry(loggingMetadata, action, prevState, nextState){
 
   let selected = context.selected || getSelected(action, nextState);
   if (selected) {
+    // manually remove fixed mother or father if it was passed in via the context
+    if (selected.motherAlleles && (!nextState.userChangeableGenes || !nextState.userChangeableGenes[0].mother || nextState.userChangeableGenes[0].mother.length === 0)) {
+      delete selected.motherAlleles;
+    }
+    if (selected.fatherAlleles && (!nextState.userChangeableGenes || !nextState.userChangeableGenes[0].father || nextState.userChangeableGenes[0].father.length === 0)) {
+      delete selected.fatherAlleles;
+    }
     context.selected = selected;
+  }
+
+  let constant = getConstant(action, nextState);
+  if (constant) {
+    context.constant = constant;
   }
 
   let clutch = getClutch(action, nextState);
