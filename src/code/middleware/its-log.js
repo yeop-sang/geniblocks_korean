@@ -199,8 +199,7 @@ function getChallengeType(state) {
 }
 
 function getSelectableAttributes(nextState) {
-  if ((nextState.template && nextState.template === "FVGenomeChallenge") ||
-      (nextState.challengeType && nextState.challengeType === "submit-parents")) {
+  if (nextState.template && nextState.template === "FVGenomeChallenge") {
     return ["sex", ...nextState.userChangeableGenes];
   }
   if (nextState.template && nextState.template === "FVEggSortGame") {
