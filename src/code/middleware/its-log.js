@@ -11,9 +11,10 @@ import { cloneDeep } from 'lodash';
 
 var socket = null,
     session = "",
-    sequence = 0,
+    lastActionSequenceId = -1,
     isConnectonEstablished = false,
-    msgQueue = [];
+    msgQueue = [],
+    ITS_groupId = "GUIDE-3.10";
 
 export function initializeITSSocket(guideServer, socketPath, store) {
   socket = io(guideServer, {
@@ -28,6 +29,11 @@ export function initializeITSSocket(guideServer, socketPath, store) {
   const receiveITSEvent = (data) => {
     var event = GuideProtocol.Event.fromJson(data);
     console.info(`%c Received from ITS: ${event.action} ${event.target}`, 'color: #f99a00', event);
+
+    if (event.sequence > -1 && event.sequence !== lastActionSequenceId) {
+      console.info(`%c Dropping ${event.action} event as stale`, 'color: #f99a00', event);
+      return;
+    }
 
     if (event.isMatch("ITS", "HINT", "USER")) {
       // TODO: Remove console log once ITS debugging is complete
@@ -52,6 +58,8 @@ export function initializeITSSocket(guideServer, socketPath, store) {
   socket.on(GuideProtocol.Event.Channel, receiveITSEvent);
 
   // for testing
+  // e.g.
+  // GV_TEST_receiveITSEvent(JSON.stringify({actor: "ITS", action: "REMEDIATE", target: "USER", context: {attribute: "sex", challengeType: "Hatchery"}}))
   window.GV_TEST_receiveITSEvent = receiveITSEvent;
 
   socket.on('error', data =>
@@ -165,24 +173,33 @@ export function changePropertyValues(obj, key, func) {
     }
 }
 
+function matchITSAction(action, itsActionName, itsTargetName) {
+  if (action.meta.itsLog) {
+    return (action.meta.itsLog.action === itsActionName && action.meta.itsLog.target === itsTargetName);
+  }
+}
+
 function getChallengeType(state) {
-  if (state.location && state.location.id === "hatchery") {
+  if (state.template === "FVEggSortGame") {
     return "Hatchery";
   }
-  if (state.challengeType && state.challengeType === "match-target") {
-    if (state.template === "FVEggGame") {
+  if (state.template === "ClutchGame") {
+    if (state.challengeType && state.challengeType === "match-target") {
       return "Breeding";
+    } else if (state.challengeType && state.challengeType === "submit-parents") {
+      return "Siblings";
+    } else {  // challengeType === "test-cross", nothing for this yet
+      return null;
     }
-    return "Sim";
   }
-  if (state.challengeType && state.challengeType === "submit-parents") {
-    return "Siblings";
+  if (state.template === "FVEggGame" ||
+      state.challengeType && state.challengeType === "match-target") {
+    return "Sim";
   }
 }
 
 function getSelectableAttributes(nextState) {
-  if ((nextState.template && nextState.template === "FVGenomeChallenge") ||
-      (nextState.challengeType && nextState.challengeType === "submit-parents")) {
+  if (nextState.template && nextState.template === "FVGenomeChallenge") {
     return ["sex", ...nextState.userChangeableGenes];
   }
   if (nextState.template && nextState.template === "FVEggSortGame") {
@@ -198,46 +215,105 @@ function getSelectableAttributes(nextState) {
       return [...selectableAttributes];
     }
   }
+  if (nextState.template && nextState.template === "FVEggGame") {
+    if (nextState.visibleGenes) {
+      return ["sex", ...nextState.visibleGenes];
+    }
+  }
 }
 
+// curried, to make it easier for mapping
+function getDrake(state) {
+  return (i) => {
+    let targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[i]);
+    return {
+      sex: targetDrakeOrg.sex,
+      phenotype: targetDrakeOrg.phenotype.characteristics
+    };
+  };
+}
 function getTarget(nextState) {
-  let targetIndex;
+  let targetIndex, targetIndices;
   if ((nextState.template && nextState.template === "FVGenomeChallenge") &&
       (nextState.challengeType && nextState.challengeType === "match-target")) {
     targetIndex = 1;
-  } else {
+  } else if (nextState.template && nextState.template === "ClutchGame") {
+    if (nextState.challengeType && nextState.challengeType === "match-target") {
+      targetIndices = [2];
+    } else if (nextState.challengeType && nextState.challengeType === "submit-parents") {
+      targetIndices = Array(nextState.numTargets).fill().map((e, i) => i + 2);  // [2, ... n]
+    }
+  }
+
+  if (!targetIndex && !targetIndices) {
     return;
   }
-  let targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[targetIndex]);
-  return {
-    sex: targetDrakeOrg.sex,
-    phenotype: targetDrakeOrg.phenotype.characteristics
-  };
+
+  if (targetIndex) {
+    return getDrake(nextState)(targetIndex);
+  } else {
+    return targetIndices.map(getDrake(nextState));
+  }
 }
 
+/**
+ * The new state of the user's drakes after a change, or the changeable parents' alleles in any clutch-game event
+ */
 function getSelected(action, nextState) {
-  let userIndex;
-  if (action.type === actionTypes.ALLELE_CHANGED &&
-      (nextState.template && nextState.template === "FVGenomeChallenge") &&
-      (nextState.challengeType && nextState.challengeType === "match-target")) {
-    userIndex = 0;
-  } else {
-    return;
+  if ((action.type === actionTypes.ALLELE_CHANGED) && (nextState.template && nextState.template === "FVGenomeChallenge")) {
+    let userDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[0]);
+    return {
+      sex: userDrakeOrg.sex,
+      alleles: userDrakeOrg.getAlleleString()
+    };
+  } else if (nextState.template && nextState.template === "ClutchGame") {
+    let motherDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[0]);
+    let fatherDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[1]);
+    const selected = {};
+    if (nextState.userChangeableGenes && nextState.userChangeableGenes[0].mother && nextState.userChangeableGenes[0].mother.length > 0) {
+      selected.motherAlleles = motherDrakeOrg.getAlleleString();
+    }
+    if (nextState.userChangeableGenes && nextState.userChangeableGenes[0].father && nextState.userChangeableGenes[0].father.length > 0) {
+      selected.fatherAlleles = fatherDrakeOrg.getAlleleString();
+    }
+    return selected;
   }
-  let userDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[userIndex]);
-  return {
-    sex: userDrakeOrg.sex,
-    alleles: userDrakeOrg.getAlleleString()
-  };
+  return null;
 }
 
+/**
+ * The fixed parent's alleles in any clutch-game event
+ */
+function getConstant(action, nextState) {
+  if (nextState.template && nextState.template === "ClutchGame") {
+    let motherDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[0]);
+    let fatherDrakeOrg = GeneticsUtils.convertDrakeToOrg(nextState.drakes[1]);
+    const constant = {};
+    if (!nextState.userChangeableGenes || !nextState.userChangeableGenes[0].mother || nextState.userChangeableGenes[0].mother.length === 0) {
+      constant.motherAlleles = motherDrakeOrg.getAlleleString();
+    }
+    if (!nextState.userChangeableGenes || !nextState.userChangeableGenes[0].father || nextState.userChangeableGenes[0].father.length === 0) {
+      constant.fatherAlleles = fatherDrakeOrg.getAlleleString();
+    }
+    return constant;
+  }
+}
+
+/**
+ * The old state of the user's drakes before a change. The ITS is now keeping track of most of the old
+ * states, so this is now *only* used for allele-change events.
+ */
 function getPrevious(selected, action, prevState) {
-  if (action.type === actionTypes.DRAKE_SUBMITTED &&
-    (prevState.template && prevState.template === "ClutchGame") &&
-    (prevState.challengeType && prevState.challengeType === "match-target")) {
-      return prevState.submitted;
-  } else {
-    return selected || getSelected(action, prevState);
+  if (action.type === actionTypes.ALLELE_CHANGED) {
+    return getSelected(action, prevState);
+  }
+}
+
+function getClutch(action, state) {
+  if (matchITSAction(action, "SELECTED", "OFFSPRING")) {
+    // last eight indices of drake array
+    const targetIndices = Array(8).fill().map((e, i) => i + (state.drakes.length - 8));
+    return targetIndices.map(getDrake(state));
   }
 }
 
@@ -247,7 +323,7 @@ function createLogEntry(loggingMetadata, action, prevState, nextState){
       routeSpec = nextState.routeSpec;
 
   context.routeSpec = routeSpec;
-  context.groupId = "Test-v3";
+  context.groupId = ITS_groupId;
   context.challengeId = AuthoringUtils.getChallengeId(nextState.authoring, routeSpec);
   context.classId = loggingMetadata.classInfo;
 
@@ -273,7 +349,24 @@ function createLogEntry(loggingMetadata, action, prevState, nextState){
 
   let selected = context.selected || getSelected(action, nextState);
   if (selected) {
+    // manually remove fixed mother or father if it was passed in via the context
+    if (selected.motherAlleles && (!nextState.userChangeableGenes || !nextState.userChangeableGenes[0].mother || nextState.userChangeableGenes[0].mother.length === 0)) {
+      delete selected.motherAlleles;
+    }
+    if (selected.fatherAlleles && (!nextState.userChangeableGenes || !nextState.userChangeableGenes[0].father || nextState.userChangeableGenes[0].father.length === 0)) {
+      delete selected.fatherAlleles;
+    }
     context.selected = selected;
+  }
+
+  let constant = getConstant(action, nextState);
+  if (constant) {
+    context.constant = constant;
+  }
+
+  let clutch = getClutch(action, nextState);
+  if (clutch) {
+    context.clutch = clutch;
   }
 
   if (action.meta.logNextState) {
@@ -311,6 +404,8 @@ function createLogEntry(loggingMetadata, action, prevState, nextState){
     context.challengeId = `${context.challengeId}-REMEDIATION`;
   }
 
+  lastActionSequenceId++;
+
   const message =
     {
       classInfo: loggingMetadata.classInfo,
@@ -318,11 +413,10 @@ function createLogEntry(loggingMetadata, action, prevState, nextState){
       externalId: loggingMetadata.externalId,
       session: session,
       time: Date.now(),
-      sequence: sequence,
+      sequence: lastActionSequenceId,
       ...event,
       context: context
     };
 
-  sequence++;
   return message;
 }

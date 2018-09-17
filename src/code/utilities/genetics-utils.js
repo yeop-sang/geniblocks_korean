@@ -343,7 +343,7 @@ export default class GeneticsUtils {
     // To get the phenotype, we first go through all possible alleles, and pull out the ones used in the genome string
     let relevantAlleles = [];
     Object.keys(species.alleleLabelMap).forEach((alleleName) => {
-      if (alleleName !== "" && (genes.indexOf("a:" + alleleName) > -1 || genes.indexOf("b:" + alleleName) > -1)) {
+      if (alleleName !== "" && RegExp(`:${alleleName}(,|$)`).test(genes)) {
         relevantAlleles.push(alleleName);
       }
     });

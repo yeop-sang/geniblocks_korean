@@ -189,7 +189,7 @@ describe('submitDrake action', () => {
           motherAlleles: motherAlleles,
           fatherAlleles: fatherAlleles,
           offspringAlleles: userAlleles,
-          offspringSex: 0
+          offspringSex: "male"
         },
         correct: true,
         incrementMoves: false,

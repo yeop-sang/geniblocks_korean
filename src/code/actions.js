@@ -251,21 +251,25 @@ export function breed(mother, father, offspringBin, quantity=1, incrementMoves=f
 }
 
 export function changeAllele(index, chromosome, side, previousAllele, newAllele, incrementMoves=false) {
-  return {
-    type: actionTypes.ALLELE_CHANGED,
-    index,
-    chromosome,
-    side,
-    previousAllele,
-    newAllele,
-    incrementMoves,
-    meta: {
-      itsLog: {
-        actor: ITS_ACTORS.USER,
-        action: ITS_ACTIONS.CHANGED,
-        target: ITS_TARGETS.ALLELE
+  return (dispatch, getState) => {
+    const state = getState();
+    const itsTarget = state.template === "ClutchGame" ? ITS_TARGETS.PARENTS : ITS_TARGETS.ALLELE;
+    dispatch({
+      type: actionTypes.ALLELE_CHANGED,
+      index,
+      chromosome,
+      side,
+      previousAllele,
+      newAllele,
+      incrementMoves,
+      meta: {
+        itsLog: {
+          actor: ITS_ACTORS.USER,
+          action: ITS_ACTIONS.CHANGED,
+          target: itsTarget
+        }
       }
-    }
+    });
   };
 }
 
@@ -307,28 +311,14 @@ export function changeSex(index, newSex, incrementMoves=false) {
 export function changeBasketSelection(selectedIndices) {
   return{
     type: actionTypes.BASKET_SELECTION_CHANGED,
-    selectedIndices,
-    meta: {
-      itsLog: {
-        actor: ITS_ACTORS.USER,
-        action: ITS_ACTIONS.CHANGED_SELECTION,
-        target: ITS_TARGETS.BASKET
-      }
-    }
+    selectedIndices
   };
 }
 
 export function changeDrakeSelection(selectedIndices) {
   return{
     type: actionTypes.DRAKE_SELECTION_CHANGED,
-    selectedIndices,
-    meta: {
-      itsLog: {
-        actor: ITS_ACTORS.USER,
-        action: ITS_ACTIONS.CHANGED_SELECTION,
-        target: ITS_TARGETS.DRAKE
-      }
-    }
+    selectedIndices
   };
 }
 
@@ -337,6 +327,7 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIn
         targetDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[targetDrakeIndex]),
         userDrakeOrg = GeneticsUtils.convertDrakeToOrg(state.drakes[userDrakeIndex]),
         isBredDrake = !isNaN(motherIndex),
+        itsAction = state.template === "ClutchGame" ? ITS_ACTIONS.SELECTED : ITS_ACTIONS.SUBMITTED,
         itsTarget = isBredDrake ? ITS_TARGETS.OFFSPRING : ITS_TARGETS.ORGANISM;
   var selected;
 
@@ -347,7 +338,7 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIn
       motherAlleles: motherDrakeOrg.alleles,
       fatherAlleles: fatherDrakeOrg.alleles,
       offspringAlleles: userDrakeOrg.alleles,
-      offspringSex: userDrakeOrg.sex
+      offspringSex: userDrakeOrg.sex === 0 ? "male" : "female"
     };
   } else {
     selected = {
@@ -369,7 +360,7 @@ function _submitDrake(targetDrakeIndex, userDrakeIndex, correct, state, motherIn
     meta: {
       itsLog: {
         actor: ITS_ACTORS.USER,
-        action: ITS_ACTIONS.SUBMITTED,
+        action: itsAction,
         target: itsTarget
       }
     }
@@ -727,7 +718,14 @@ export function fertilize() {
 export function breedClutch(clutchSize) {
   return {
     type: actionTypes.CLUTCH_BRED,
-    clutchSize
+    clutchSize,
+    meta: {
+      itsLog: {
+        actor: ITS_ACTORS.USER,
+        action: ITS_ACTIONS.BRED,
+        target: ITS_TARGETS.CLUTCH
+      }
+    }
   };
 }
 

@@ -12,9 +12,12 @@ describe('changeAllele action', () => {
           previousAllele = "m",
           newAllele = "M";
 
-    let actionObject = actions.changeAllele(index, chromosome, side, previousAllele, newAllele);
+    const dispatch = expect.createSpy();
+    let state = {template: "GenomeChallenge"};
 
-    expect(actionObject).toEqual({
+    actions.changeAllele(index, chromosome, side, previousAllele, newAllele)(dispatch, () => state);
+
+    expect(dispatch).toHaveBeenCalledWith({
       type: types.ALLELE_CHANGED,
       index,
       chromosome,
@@ -27,6 +30,27 @@ describe('changeAllele action', () => {
           "actor": "USER",
           "action": "CHANGED",
           "target": "ALLELE"
+        }
+      }
+    });
+
+    state = {template: "ClutchGame"};
+
+    actions.changeAllele(index, chromosome, side, previousAllele, newAllele)(dispatch, () => state);
+
+    expect(dispatch).toHaveBeenCalledWith({
+      type: types.ALLELE_CHANGED,
+      index,
+      chromosome,
+      side,
+      previousAllele,
+      newAllele,
+      incrementMoves: false,
+      meta: {
+        "itsLog": {
+          "actor": "USER",
+          "action": "CHANGED",
+          "target": "PARENTS"
         }
       }
     });
