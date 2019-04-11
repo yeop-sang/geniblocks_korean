@@ -36,10 +36,12 @@ if (navigator.userAgent.indexOf('Windows') >= 0)
 let store, history;
 
 initFirebase.then(function (auth) {
+  window.sessionStorage.setItem('portalAuth', true);
   postAuthInitialization(auth);
 }, function(err){
-  console.log(err);
-  postAuthInitialization(userAuth());
+    console.log(err);
+    window.sessionStorage.setItem('portalAuth', false);
+    postAuthInitialization(userAuth());
 });
 
 const ITSServers = {
