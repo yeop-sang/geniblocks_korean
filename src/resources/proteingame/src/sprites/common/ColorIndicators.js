@@ -127,7 +127,7 @@ export default class extends Phaser.Group {
       this.add(this.geneticColorChromoscope);
 
       //label
-      var geneticLabelText = game.add.text(0, 530, "Start", labelStyle);
+      var geneticLabelText = game.add.text(0, 530, "Start: " + geneticColorName, labelStyle);
       geneticLabelText.setShadow(1, 1, 'rgba(0,0,0,0.8)', 1);
       geneticLabelText.anchor.set(.5, 0)
       this.add(geneticLabelText);
@@ -147,13 +147,13 @@ export default class extends Phaser.Group {
 
 
       //label
-      var targetLabelText = game.add.text(0, 760, "Target", labelStyle);
+      var targetColorName = game.finalTarget;//game.cellModel.get("target_color");
+      var targetLabelText = game.add.text(0, 760, "Target: " + targetColorName, labelStyle);
       targetLabelText.setShadow(1, 1, 'rgba(0,0,0,0.8)', 1);
       targetLabelText.anchor.set(.5, 0)
 
 
       //chromoscope
-      var targetColorName = game.finalTarget;//game.cellModel.get("target_color");
       this.targetColorChromoscope = game.add.sprite(0, 630, "chromoscope_" + targetColorName);
       this.targetColorChromoscope.scale.set(.8);
       this.targetColorChromoscope.anchor.set(.5, 0)
