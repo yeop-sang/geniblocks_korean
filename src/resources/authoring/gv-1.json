@@ -1098,7 +1098,7 @@
             },
             "start" : [ {
               "character" : "ELLIS",
-              "text" : "You know what’s coming next! Now that we’ve modified the drake’s scale color from charcoal to albino , let’s try going the other way. Click the projection. "
+              "text" : "Going from frost to lava takes enough melanin to make a half-size pod. Figure out how to get there."
             } ]
           },
           "id" : "cell-game-frost-charcoal-size",
@@ -3300,11 +3300,11 @@
       "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=size&nucleusGenes=00110000&missionId=3.3.3&skip=true"
     },
     "cell-game-frost-charcoal-size" : {
-      "comment" : "*** Level 3, Mission 3.2: Frost (Albino) -> Charcoal, Size - Homozygous Broken TYR ***",
+      "comment" : "*** Level 3, Mission 3.2: Frost (Albino) -> Lava, Size - Homozygous Broken TYR ***",
       "container" : "FVContainer",
       "scoreMetrics" : [ "barbell_grabbed", "broken_protein_assembled", "tri_pushed_into_small_gear", "working_protein_assembled" ],
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=size&missionId=3.3.2&video=frost&skip=true"
+      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-lava&alleles=11001111&game=size&missionId=3.3.2&video=frost&skip=true"
     },
     "cell-game-lava-charcoal-nucleus" : {
       "comment" : "*** Level 3, Mission 2.4: Lava -> Charcoal, Nucleus ***",
