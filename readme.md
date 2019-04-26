@@ -21,7 +21,7 @@ use the GeniBlocks library this way.
 
 ## Development Setup
 
-    npm install           # or 'yarn'
+    npm install
     bower install
     npm start             # or 'gulp'
 
@@ -42,9 +42,6 @@ which will launch a browser tab pointing to the examples page.
 ### Deploy Examples to gh-pages
 
     gulp deploy           # or its alias 'npm run deploy'
-
-For deployment, `yarn` may be preferable to `npm install` for dependency installation
-due to its greater predictability.
 
 ### Running Geniventure locally
 
