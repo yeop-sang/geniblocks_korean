@@ -3271,72 +3271,72 @@
       "container" : "FVContainer",
       "scoreMetrics" : [ "disc_clicked", "disc_destroyed", "protein_broken" ],
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=charcoal-frost&alleles=11111111&game=size&missionId=3.3.1&video=charcoal&skip=true"
+      "zoomUrl" : "https://organelle.concord.org/branch/auto-deploy/models/geniventure-cell/?chal=charcoal-frost&alleles=11111111&game=size&missionId=3.3.1&video=charcoal&skip=true&pgUrl=//geniventure.concord.org/branch/protein-game-fixes/resources/proteingame/index.html"
     },
     "cell-game-charcoal-lava-size" : {
       "comment" : "*** Level 3, Mission 2.3: Charcoal -> Lava, Size - Heterozygous TRP ***",
       "container" : "FVContainer",
       "scoreMetrics" : [ "disc_clicked", "disc_destroyed", "protein_broken" ],
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=charcoal-lava&alleles=10111111&game=size&missionId=3.2.3&video=charcoal&skip=true"
+      "zoomUrl" : "https://organelle.concord.org/branch/auto-deploy/models/geniventure-cell/?chal=charcoal-lava&alleles=10111111&game=size&missionId=3.2.3&video=charcoal&skip=true&pgUrl=//geniventure.concord.org/branch/protein-game-fixes/resources/proteingame/index.html"
     },
     "cell-game-copper-lava-gate" : {
       "comment" : "*** Level 3, Mission 4.2: Copper -> Lava, Gates - Broken TRP, Heterozygous ASIP ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=gate&missionId=3.4.2&video=copper&skip=true"
+      "zoomUrl" : "https://organelle.concord.org/branch/auto-deploy/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=gate&missionId=3.4.2&video=copper&skip=true&pgUrl=//geniventure.concord.org/branch/protein-game-fixes/resources/proteingame/index.html"
     },
     "cell-game-copper-lava-nucleus" : {
       "comment" : "*** Level 3, Mission 4.3: Copper -> Lava, Nucleus ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=gate&nucleusGenes=00000011&missionId=3.4.3&skip=true"
+      "zoomUrl" : "https://organelle.concord.org/branch/auto-deploy/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=gate&nucleusGenes=00000011&missionId=3.4.3&skip=true&pgUrl=//geniventure.concord.org/branch/protein-game-fixes/resources/proteingame/index.html"
     },
     "cell-game-frost-charcoal-nucleus" : {
       "comment" : "*** Level 3, Mission 3.3: Frost (Albino) -> Charcoal, Nucleus ***",
       "container" : "FVContainer",
       "scoreMetrics" : [ "barbell_grabbed", "broken_protein_assembled", "tri_pushed_into_small_gear", "working_protein_assembled" ],
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=size&nucleusGenes=00110000&missionId=3.3.3&skip=true"
+      "zoomUrl" : "https://organelle.concord.org/branch/auto-deploy/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=size&nucleusGenes=00110000&missionId=3.3.3&skip=true&pgUrl=//geniventure.concord.org/branch/protein-game-fixes/resources/proteingame/index.html"
     },
     "cell-game-frost-charcoal-size" : {
       "comment" : "*** Level 3, Mission 3.2: Frost (Albino) -> Lava, Size - Homozygous Broken TYR ***",
       "container" : "FVContainer",
       "scoreMetrics" : [ "barbell_grabbed", "broken_protein_assembled", "tri_pushed_into_small_gear", "working_protein_assembled" ],
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-lava&alleles=11001111&game=size&missionId=3.3.2&video=frost&skip=true"
+      "zoomUrl" : "https://organelle.concord.org/branch/auto-deploy/models/geniventure-cell/?chal=frost-lava&alleles=11001111&game=size&missionId=3.3.2&video=frost&skip=true&pgUrl=//geniventure.concord.org/branch/protein-game-fixes/resources/proteingame/index.html"
     },
     "cell-game-lava-charcoal-nucleus" : {
       "comment" : "*** Level 3, Mission 2.4: Lava -> Charcoal, Nucleus ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=size&nucleusGenes=11000000&missionId=3.2.4"
+      "zoomUrl" : "https://organelle.concord.org/branch/auto-deploy/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=size&nucleusGenes=11000000&missionId=3.2.4&pgUrl=//geniventure.concord.org/branch/protein-game-fixes/resources/proteingame/index.html"
     },
     "cell-game-lava-charcoal-size" : {
       "comment" : "*** Level 3, Mission 2.2: Lava -> Charcoal, Size - Homozygous Broken TRP ***",
       "container" : "FVContainer",
       "scoreMetrics" : [ "barbell_grabbed", "broken_protein_assembled", "tri_pushed_into_small_gear", "working_protein_assembled" ],
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=size&missionId=3.2.2&video=lava&skip=true"
+      "zoomUrl" : "https://organelle.concord.org/branch/auto-deploy/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=size&missionId=3.2.2&video=lava&skip=true&pgUrl=//geniventure.concord.org/branch/protein-game-fixes/resources/proteingame/index.html"
     },
     "cell-game-lava-copper-gate" : {
       "comment" : "*** Level 3, Mission 4.1: Lava -> Copper, Gates - Broken TRP ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-copper&alleles=00111111&game=gate&missionId=3.4.1&video=lava&skip=true"
+      "zoomUrl" : "https://organelle.concord.org/branch/auto-deploy/models/geniventure-cell/?chal=lava-copper&alleles=00111111&game=gate&missionId=3.4.1&video=lava&skip=true&pgUrl=//geniventure.concord.org/branch/protein-game-fixes/resources/proteingame/index.html"
     },
     "cell-game-lava-steel-nucleus" : {
       "comment" : "*** Level 3, Mission 4.5: Lava -> Steel, Nucleus ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=lava-steel&alleles=00111111&game=nucleus"
+      "zoomUrl" : "https://organelle.concord.org/branch/auto-deploy/models/geniventure-cell/?chal=lava-steel&alleles=00111111&game=nucleus&pgUrl=//geniventure.concord.org/branch/protein-game-fixes/resources/proteingame/index.html"
     },
     "cell-game-size-intro" : {
       "comment" : "*** Level 3, Mission 2.1: Empty -> Charcoal, Size Tutorial ***",
       "container" : "FVContainer",
       "scoreMetrics" : [ "barbell_grabbed", "broken_protein_assembled", "tri_pushed_into_small_gear", "working_protein_assembled" ],
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://concord-consortium.github.io/organelle/models/geniventure-cell/?chal=frost-charcoal&alleles=11111111&numStars=0&game=size&missionId=3.2.1&video=frost"
+      "zoomUrl" : "https://organelle.concord.org/branch/auto-deploy/models/geniventure-cell/?chal=frost-charcoal&alleles=11111111&numStars=0&game=size&missionId=3.2.1&video=frost&pgUrl=//geniventure.concord.org/branch/protein-game-fixes/resources/proteingame/index.html"
     },
     "clutch-5drakes-harderTraits-bothParents" : {
       "challengeType" : "match-target",
