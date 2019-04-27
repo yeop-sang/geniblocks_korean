@@ -117,7 +117,11 @@ export default class extends Phaser.Group {
 
     //this color will be set dynamically by the activity
 
-
+    function addColorLabel(x, y, label, color) {
+      // capitalize the first letter of color names
+      const upColor = color ? color[0].toUpperCase() + color.substr(1) : "";
+      return game.add.text(x, y, label + upColor, labelStyle);
+    }
 
     if(showStart) {
       //start color
@@ -127,7 +131,7 @@ export default class extends Phaser.Group {
       this.add(this.geneticColorChromoscope);
 
       //label
-      var geneticLabelText = game.add.text(0, 530, "Start: " + geneticColorName, labelStyle);
+      var geneticLabelText = addColorLabel(0, 530, "Start: ", geneticColorName);
       geneticLabelText.setShadow(1, 1, 'rgba(0,0,0,0.8)', 1);
       geneticLabelText.anchor.set(.5, 0)
       this.add(geneticLabelText);
@@ -148,7 +152,7 @@ export default class extends Phaser.Group {
 
       //label
       var targetColorName = game.finalTarget;//game.cellModel.get("target_color");
-      var targetLabelText = game.add.text(0, 760, "Target: " + targetColorName, labelStyle);
+      var targetLabelText = addColorLabel(0, 760, "Target: ", targetColorName);
       targetLabelText.setShadow(1, 1, 'rgba(0,0,0,0.8)', 1);
       targetLabelText.anchor.set(.5, 0)
 
