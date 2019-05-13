@@ -85,7 +85,7 @@
                 "text": "Knock the discs and the proteins out to shrink the pods to half-size.",
                 "symbols": [
                     {
-                        "image": "disc.png",
+                        "image": "disc-orange.png",
                         "label": "Melanin disc"
                     },
                     {
