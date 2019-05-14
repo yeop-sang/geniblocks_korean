@@ -3290,14 +3290,14 @@
       "comment" : "*** Level 3, Mission 4.3: Copper -> Lava, Nucleus ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=gate&nucleusGenes=00000011&missionId=3.4.3&skip=true"
+      "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=nucleus&nucleusGenes=00000011&missionId=3.4.3&skip=true"
     },
     "cell-game-frost-charcoal-nucleus" : {
       "comment" : "*** Level 3, Mission 3.3: Frost (Albino) -> Charcoal, Nucleus ***",
       "container" : "FVContainer",
       "scoreMetrics" : [ "barbell_grabbed", "broken_protein_assembled", "tri_pushed_into_small_gear", "working_protein_assembled" ],
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=size&nucleusGenes=00110000&missionId=3.3.3&skip=true"
+      "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=nucleus&nucleusGenes=00110000&missionId=3.3.3&skip=true"
     },
     "cell-game-frost-charcoal-size" : {
       "comment" : "*** Level 3, Mission 3.2: Frost (Albino) -> Lava, Size - Homozygous Broken TYR ***",
@@ -3310,7 +3310,7 @@
       "comment" : "*** Level 3, Mission 2.4: Lava -> Charcoal, Nucleus ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=size&nucleusGenes=11000000&missionId=3.2.4"
+      "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=nucleus&nucleusGenes=11000000&missionId=3.2.4"
     },
     "cell-game-lava-charcoal-size" : {
       "comment" : "*** Level 3, Mission 2.2: Lava -> Charcoal, Size - Homozygous Broken TRP ***",
