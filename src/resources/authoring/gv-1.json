@@ -3293,7 +3293,7 @@
       "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=gate&missionId=3.4.2&video=copper&skip=true"
     },
     "cell-game-copper-lava-nucleus" : {
-      "comment" : "*** Level 3, Mission 4.3: Copper -> Lava, Nucleus ***",
+      "comment" : "*** Level 3, Mission 4.3: Lava -> Steel, Nucleus ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
       "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=lava-steel&alleles=00111111&game=nucleus&fvInitialState=gate&missionId=3.4.3&nucleusGenes=11000011&boss=true&preAlleles=11111111&preTargetColor=charcoal&numStars=13"
