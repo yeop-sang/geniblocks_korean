@@ -1123,7 +1123,7 @@
             },
             "start" : [ {
               "character" : "ELLIS",
-              "text" : "Let’s use our newly unlocked albino/color allele to modify the drake scale color from charcoal to albino, directly in the nucleus. Click the projection."
+              "text" : "Let’s use our newly unlocked albino/color allele to modify the drake scale color from frost to charcoal, directly in the nucleus. Click the projection."
             } ]
           },
           "id" : "cell-game-frost-charcoal-nucleus",
@@ -1230,16 +1230,22 @@
             "end" : {
               "failure" : [ {
                 "character" : "ELLIS",
-                "text" : "You got there, but you'll need to do better to earn a crystal!."
+                "text" : "You got there, but you’ll need to do better to earn a crystal!"
               } ],
               "success" : [ {
                 "character" : "ELLIS",
-                "text" : "You did it! Congratulations!"
+                "text" : "You did it! You’ve mastered three drake color genes. Congratulations!"
               } ]
             },
             "start" : [ {
               "character" : "ELLIS",
-              "text" : "Let’s use our newly unlocked shiny/dull allele to modify the drake scale color permanently from copper to lava, directly in the nucleus. Click the projection."
+              "text" : "Important heads up, Cadet! Change this drake from Lava to Steel by going to the nucleus. HINT: Make SURE to look at more than one chromosome pair!"
+            }, {
+              "character" : "HERRERA",
+              "text" : "Ellis, this is a tricky one. How about another hint?"
+            }, {
+              "character" : "ELLIS",
+              "text" : "OK, listen up Cadet, if you find yourself back at the cell and stuck, dive back into the nucleus and look for another change to make. Click the projection to start!"
             } ]
           },
           "id" : "cell-game-copper-lava-nucleus",
@@ -3290,14 +3296,14 @@
       "comment" : "*** Level 3, Mission 4.3: Copper -> Lava, Nucleus ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=copper-lava&alleles=00111110&game=nucleus&nucleusGenes=00000011&missionId=3.4.3&skip=true"
+      "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=lava-steel&alleles=00111111&game=nucleus&fvInitialState=gate&missionId=3.4.3&nucleusGenes=11000011&boss=true&preAlleles=11111111&preTargetColor=charcoal&numStars=13"
     },
     "cell-game-frost-charcoal-nucleus" : {
       "comment" : "*** Level 3, Mission 3.3: Frost (Albino) -> Charcoal, Nucleus ***",
       "container" : "FVContainer",
       "scoreMetrics" : [ "barbell_grabbed", "broken_protein_assembled", "tri_pushed_into_small_gear", "working_protein_assembled" ],
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=nucleus&nucleusGenes=00110000&missionId=3.3.3&skip=true"
+      "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=frost-charcoal&alleles=11001111&game=nucleus&fvInitialState=size&missionId=3.3.3&nucleusGenes=11110000&boss=true"
     },
     "cell-game-frost-charcoal-size" : {
       "comment" : "*** Level 3, Mission 3.2: Frost (Albino) -> Lava, Size - Homozygous Broken TYR ***",
@@ -3310,7 +3316,7 @@
       "comment" : "*** Level 3, Mission 2.4: Lava -> Charcoal, Nucleus ***",
       "container" : "FVContainer",
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=nucleus&nucleusGenes=11000000&missionId=3.2.4"
+      "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=lava-charcoal&alleles=00111111&game=nucleus&fvInitialState=size&missionId=3.2.4&nucleusGenes=11000000&boss=true"
     },
     "cell-game-lava-charcoal-size" : {
       "comment" : "*** Level 3, Mission 2.2: Lava -> Charcoal, Size - Homozygous Broken TRP ***",
@@ -3336,7 +3342,7 @@
       "container" : "FVContainer",
       "scoreMetrics" : [ "barbell_grabbed", "broken_protein_assembled", "tri_pushed_into_small_gear", "working_protein_assembled" ],
       "template" : "ZoomChallenge",
-      "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=frost-charcoal&alleles=11111111&numStars=0&game=size&missionId=3.2.1&video=frost"
+      "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=frost-frost&alleles=11111111&numStars=0&game=size&missionId=3.2.1&video=frost"
     },
     "clutch-5drakes-harderTraits-bothParents" : {
       "challengeType" : "match-target",
