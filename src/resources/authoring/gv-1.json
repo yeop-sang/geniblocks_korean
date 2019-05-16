@@ -1927,7 +1927,7 @@
           } ],
           "middle" : [ {
             "character" : "RAJPUT",
-            "text" : "Open your VentureMap and head on over to the Breeding Barn. Quickly! We don’t have much time!"
+            "text" : "Welcome back! Open your VenturePad to get started."
           } ],
           "start" : [ {
             "character" : "RAJPUT",
@@ -2065,7 +2065,7 @@
           } ],
           "middle" : [ {
             "character" : "WEAVER",
-            "text" : "Open your Venture Pad and head to the Hatchery!"
+            "text" : "Welcome back! Open your VenturePad to get started."
           } ],
           "start" : [ {
             "character" : "YEUNG",
@@ -2141,7 +2141,7 @@
           } ],
           "middle" : [ {
             "character" : "WEAVER",
-            "text" : "Open your Venture Pad and head to the Hatchery!"
+            "text" : "Welcome back! Open your VenturePad to get started."
           } ],
           "start" : [ {
             "character" : "NETANYA",
@@ -2209,7 +2209,7 @@
           } ],
           "middle" : [ {
             "character" : "WEAVER",
-            "text" : "Open your Venture Pad and head to the Hatchery!"
+            "text" : "Welcome back! Open your VenturePad to get started."
           } ],
           "start" : [ {
             "character" : "YEUNG",
@@ -2274,7 +2274,7 @@
           } ],
           "middle" : [ {
             "character" : "WEAVER",
-            "text" : "Middle of mission 6.4"
+            "text" : "Welcome back! Open your VenturePad to get started."
           } ],
           "start" : [ {
             "character" : "YEUNG",
@@ -2375,7 +2375,7 @@
           } ],
           "middle" : [ {
             "character" : "WEAVER",
-            "text" : "Middle of mission 6.5, but this text never gets displayed."
+            "text" : "Welcome back! Open your VenturePad to get started."
           } ],
           "start" : [ {
             "character" : "YEUNG",
