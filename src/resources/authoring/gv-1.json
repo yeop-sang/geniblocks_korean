@@ -3338,7 +3338,7 @@
       "zoomUrl" : "https://organelle.concord.org/branch/geniventure/models/geniventure-cell/?chal=lava-steel&alleles=00111111&game=nucleus"
     },
     "cell-game-size-intro" : {
-      "comment" : "*** Level 3, Mission 2.1: Empty -> Charcoal, Size Tutorial ***",
+      "comment" : "*** Level 3, Mission 2.1: Frost, Size Tutorial ***",
       "container" : "FVContainer",
       "scoreMetrics" : [ "barbell_grabbed", "broken_protein_assembled", "tri_pushed_into_small_gear", "working_protein_assembled" ],
       "template" : "ZoomChallenge",
