@@ -446,15 +446,14 @@ export default class GeneticsUtils {
   }
 
   static commonName(trait) {
-    switch (trait) {
-      case "forelimbs":
-        return "arms";
-      case "hindlimbs":
-        return "legs";
-      case "black":
-        return "gray";
-    }
-    return trait;
+    const traitMap = {
+      forelimbs: "arms",
+      hindlimbs: "legs",
+      black: "gray",
+      dilute: "deep color",
+      nose: "nose spike"
+    };
+    return traitMap[trait] || trait;
   }
 
 }
