@@ -168,7 +168,7 @@ Now you can see a list of actions and state changes, a history slider, have the 
 
 ## Organelle Model
 
-The Organelle model is used to show the zoom room animation, the cell model animation, and to launch the protein game.
+The Organelle model is used to show the zoom room video animation, the cell model animation, and to launch the protein game. It is hosted at https://github.com/concord-consortium/organelle and deploys to https://organelle.concord.org. The Geniventure-specific version of the Organelle model is deployed to https://organelle.concord.org/branch/geniventure/. Geniventure supports a `zoomBase` URL parameter which can be used to direct Geniventure to an alternate URL during development, e.g. `zoomBase=https://organelle.concord.org/branch/dev-branch-name`.
 
 ## Protein Game
 
