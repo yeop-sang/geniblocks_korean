@@ -224,13 +224,25 @@ function getEggSortRemediation(trait, /* practiceCriteria */) {
   const templateName = "FVEggSortGame";
 
   let dominantLabel, recessiveLabel;
+  const domAllele = trait !== "sex" ? GeneticsUtils.dominant(trait) : "";
+  const recAllele = trait !== "sex" ? GeneticsUtils.recessive(trait) : "";
 
-  if (trait === "horns") {
-    dominantLabel = "Drakes without horns";
-    recessiveLabel = "Drakes with horns";
-  } else {
-    dominantLabel = `Drakes with ${GeneticsUtils.commonName(trait)}`;
-    recessiveLabel = `Drakes without ${GeneticsUtils.commonName(trait)}`;
+  switch (trait) {
+    case "horns":
+      dominantLabel = "Drakes without horns";
+      recessiveLabel = "Drakes with horns";
+      break;
+    case "dilute":
+      dominantLabel = "Drakes with deep color";
+      recessiveLabel = "Drakes with faded color";
+      break;
+    case "nose":
+      dominantLabel = "Drakes with a nose spike";
+      recessiveLabel = "Drakes without a nose spike";
+      break;
+    default:
+      dominantLabel = `Drakes with ${GeneticsUtils.commonName(trait)}`;
+      recessiveLabel = `Drakes without ${GeneticsUtils.commonName(trait)}`;
   }
 
   let baskets;
@@ -246,15 +258,38 @@ function getEggSortRemediation(trait, /* practiceCriteria */) {
         "sex" : 1
       }];
       break;
+    case 'dilute':
+    case 'nose':
+      // Basket-matching doesn't handle sex-linked traits for ungendered baskets properly,
+      // so we cheat by always keying on the first allele and making sure that the first
+      // allele is always determinative for the drakes used in remediation.
+      baskets = [{
+        "alleles": [`a:${domAllele}`],
+        "label": dominantLabel
+      }, {
+        "alleles": [`a:${recAllele}`],
+        "label": recessiveLabel
+      }];
+      break;
+    case 'tail':
+      baskets = [{
+        "alleles": ["a:T", "b:T"],
+        "label": "Drakes with a long tail"
+      }, {
+        "alleles": ["a:Tk,b:Tk", "a:Tk,b:t", "a:t,b:Tk"],
+        "label": "Drakes with a kinked tail"
+      }, {
+        "alleles": ["a:t,b:t"],
+        "label": "Drakes with a short tail"
+      }];
+      break;
     default:
       baskets = [{
         "alleles" : [ `a:${GeneticsUtils.dominant(trait)}`, `b:${GeneticsUtils.dominant(trait)}` ],
-        "label" : dominantLabel,
-        "sex" : 1
+        "label" : dominantLabel
       }, {
         "alleles" : [ GeneticsUtils.getAllelesForTrait(trait, "recessive") ],
-        "label" : recessiveLabel,
-        "sex" : 1
+        "label" : recessiveLabel
       }];
   }
 
@@ -282,6 +317,47 @@ function getEggSortRemediation(trait, /* practiceCriteria */) {
         },
         {
           "alleles" : "",
+          "sex" : 1
+        }
+      ];
+      break;
+    case 'tail':
+      trialGenerator.drakes = [
+        {
+          "alleles" : "a:T,b:t",
+          "sex" : 0
+        },
+        {
+          "alleles" : "a:t,b:Tk",
+          "sex" : 0
+        },
+        {
+          "alleles" : "a:Tk,b:T",
+          "sex" : 1
+        },
+        {
+          "alleles" : "a:t,b:t",
+          "sex" : 1
+        }
+      ];
+      break;
+    case 'dilute':
+    case 'nose':
+      trialGenerator.drakes = [
+        {
+          "alleles" : `a:${domAllele}`,
+          "sex" : 0
+        },
+        {
+          "alleles" : `a:${recAllele}`,
+          "sex" : 0
+        },
+        {
+          "alleles" : `a:${domAllele},b:${recAllele}`,
+          "sex" : 1
+        },
+        {
+          "alleles" : `a:${recAllele},b:${recAllele}`,
           "sex" : 1
         }
       ];
@@ -317,6 +393,7 @@ function getEggSortRemediation(trait, /* practiceCriteria */) {
     templateName,
     stateProps: {
       userChangeableGenes: [trait],
+      visibleGenes: [],
       numTrials: 1,
       trial: 0,
       goalMoves: -1,
