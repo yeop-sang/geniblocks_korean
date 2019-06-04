@@ -132,10 +132,12 @@ export function endRemediation() {
 function getMatchDrakeRemediation(trait, practiceCriteria) {
   const templateName = "FVGenomeChallenge";
 
-  let baseAlleles = "a:W,b:W,a:M,b:M,a:T,b:T,a:H,b:H,a:Hl,b:Hl,a:Fl,b:Fl,a:A1,b:A1,a:C,b:C,a:b,b:b,a:Bog,b:Bog";
+  let baseAlleles = "a:W,b:W,a:M,b:M,a:T,b:T,a:H,b:H,a:Hl,b:Hl,a:Fl,b:Fl,a:A1,b:A1,a:C,b:C,a:Bog,b:Bog";
   baseAlleles = baseAlleles.replace(GeneticsUtils.getAllelesForTrait(trait, "dominant"), "");
   let userAlleles = "", targetAlleles = "";
+  let userBlackAlleles = "a:b,b:b";
   let userDiluteAlleles = "a:d,b:d";
+  let targetBlackAlleles = userBlackAlleles;
   let targetDiluteAlleles = userDiluteAlleles;
   let userNoseAlleles = "a:rh,b:rh";
   let targetNoseAlleles = userNoseAlleles;
@@ -145,6 +147,15 @@ function getMatchDrakeRemediation(trait, practiceCriteria) {
       userAlleles = "a:T,b:t";
       targetAlleles = "a:Tk,b:t";
       hiddenAlleles = ['A2'];
+      break;
+    case 'black':
+      userDiluteAlleles = targetDiluteAlleles = "a:D,b:D";
+      if (practiceCriteria === "SimpleDominant") {
+        targetBlackAlleles = "a:B,b:B";
+      }
+      else {
+        userBlackAlleles = "a:B,b:B";
+      }
       break;
     case 'dilute':
       // for X-linked traits, randomize homozygous dominant <=> homozygous recessive
@@ -189,8 +200,8 @@ function getMatchDrakeRemediation(trait, practiceCriteria) {
 
   // Allele overwriting seems not to work correctly for X-linked alleles,
   // so we have to be careful not to duplicate alleles.
-  const allUserAlleles = `${userAlleles ? userAlleles + "," : ""}${userDiluteAlleles},${userNoseAlleles}`;
-  const allTargetAlleles = `${targetAlleles ? targetAlleles + "," : ""}${targetDiluteAlleles},${targetNoseAlleles}`;
+  const allUserAlleles = `${userAlleles ? userAlleles + "," : ""}${userBlackAlleles},${userDiluteAlleles},${userNoseAlleles}`;
+  const allTargetAlleles = `${targetAlleles ? targetAlleles + "," : ""}${targetBlackAlleles},${targetDiluteAlleles},${targetNoseAlleles}`;
   const authoring = {
     "challengeType" : "match-target",
     "initialDrake" : [ {
@@ -231,6 +242,10 @@ function getEggSortRemediation(trait, /* practiceCriteria */) {
     case "horns":
       dominantLabel = "Drakes without horns";
       recessiveLabel = "Drakes with horns";
+      break;
+    case "black":
+      dominantLabel = "Drakes with gray color";
+      recessiveLabel = "Drakes with orange color";
       break;
     case "dilute":
       dominantLabel = "Drakes with deep color";

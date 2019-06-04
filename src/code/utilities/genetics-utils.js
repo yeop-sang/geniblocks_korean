@@ -449,7 +449,7 @@ export default class GeneticsUtils {
     const traitMap = {
       forelimbs: "arms",
       hindlimbs: "legs",
-      black: "gray",
+      black: "gray and orange",
       dilute: "deep color",
       nose: "nose spike"
     };
