@@ -333,11 +333,11 @@ export default class GeneticsUtils {
    *
    * TODO: baskets should be defined by phenotype instead, to simplify their description and avoid this step entirely
    */
-  static convertGeneStringToPhenotype(genes) {
+  static convertGeneStringToPhenotype(genes, sex) {
     // First, create a drake from the given gene string. This drake has the correct phenotype, but we only want the
-    // part of the phenotype specifically referenced in the gene string
+    // part of the phenotype specifically referenced in the gene string.
     const species = BioLogica.Species.Drake,
-          geneDrake = new BioLogica.Organism(species, genes, BioLogica.FEMALE),
+          geneDrake = new BioLogica.Organism(species, genes, sex),
           phenotype = geneDrake.phenotype.allCharacteristics;
 
     // To get the phenotype, we first go through all possible alleles, and pull out the ones used in the genome string
