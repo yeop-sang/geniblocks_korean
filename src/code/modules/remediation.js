@@ -26,6 +26,7 @@ export function remediation(state = initialRemediationState, action) {
       else
         return initialRemediationState;
     case ENDED_REMEDIATION:
+    case actionTypes.NAVIGATED:
       return initialRemediationState;
     // otherwise keep the remediation challenge
     default:
