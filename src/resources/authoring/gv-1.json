@@ -2852,7 +2852,7 @@
       "container" : "FVContainer",
       "hiddenAlleles" : "A2",
       "initialDrake" : [ {
-        "alleles" : "a:A1,b:A1,a:H,b:h,a:Bog,a:D,a:rh,b:rh",
+        "alleles" : "a:a,b:A1,a:H,b:h,a:Bog,a:D,a:rh,b:rh",
         "sex" : 0
       } ],
       "instructions" : "Match the target drake!",
@@ -2863,7 +2863,7 @@
       "randomizeTrials" : true,
       "showUserDrake" : true,
       "targetDrakes" : [ {
-        "alleles" : "a:A1,b:a,a:h,b:h",
+        "alleles" : "a:A1,b:A1,a:h,b:h",
         "sex" : 1
       } ],
       "template" : "FVGenomeChallenge",
