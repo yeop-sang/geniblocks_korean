@@ -87,7 +87,6 @@
     "react-addons-test-utils": "^15.4.1",
     "redux-devtools": "^3.5.0",
     "require-dir": "^0.3.2",
-    "run-sequence": "^1.1.5",
     "uglify-js": "^2.7.5",
     "vinyl-source-stream": "^2.0.0"
   },
@@ -95,7 +94,7 @@
     "deploy:authoring:production": "cat ./src/resources/authoring/gv-1.json | ./script/deploy-authoring.js --production",
     "deploy:authoring:staging": "cat ./src/resources/authoring/gv-1.json | ./script/deploy-authoring.js",
     "prebuild": "npm run lint",
-    "build": "gulp clean-and-build",
+    "build": "gulp cleanAndBuild",
     "build:watch": "gulp",
     "clean": "gulp clean",
     "predeploy": "npm run test",
