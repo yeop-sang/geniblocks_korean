@@ -417,12 +417,74 @@ function getEggSortRemediation(trait, /* practiceCriteria */) {
   };
 }
 
-export function getRemediationChallengeProps(challengeType, trait, practiceCriteria) {
+function getBreedingRemediation(trait, previousState) {
+  const templateName = "ClutchGame";
+
+  let singleParent = true;
+  if (previousState.userChangeableGenes[0] && previousState.userChangeableGenes[0].mother.length > 0 &&
+      previousState.userChangeableGenes[0].father.length > 0) {
+    singleParent = false;
+  }
+  let baseAlleles = "a:W,b:W,a:M,b:M,a:T,b:T,a:H,b:H,a:Hl,b:Hl,a:Fl,b:Fl,a:A1,b:A1,a:C,b:C,a:Bog,b:Bog,a:rh,b:rh";
+  if (trait === "black") {
+    baseAlleles = baseAlleles + ",a:B,b:B,a:D,b:D";
+  } else {
+    baseAlleles = baseAlleles + ",a:b,b:b,a:d,b:d";
+  }
+  baseAlleles = baseAlleles.replace(GeneticsUtils.getAllelesForTrait(trait, "dominant") + ",", "");
+
+  const motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+  const fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, singleParent ? "heterozygous" : "dominant");
+  const childAlleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+
+  let hiddenAlleles = ['Tk', 'A2'];
+
+  // Allele overwriting seems not to work correctly for X-linked alleles,
+  // so we have to be careful not to duplicate alleles.
+  const authoring = {
+    "challengeType" : "match-target",
+    "father" : [ {
+      "alleles" : `${fatherAlleles},${baseAlleles}`,
+      "sex" : 0
+    } ],
+    "mother" : [ {
+      "alleles" : `${motherAlleles},${baseAlleles}`,
+      "sex" : 1
+    } ],
+    "targetDrakes" : [ {
+      "alleles" : `${childAlleles},${baseAlleles}`,
+      "sex" : Math.round(Math.random())
+    } ]
+  };
+
+  return {
+    authoring,
+    templateName,
+    stateProps: {
+      // userChangeableGenes: [trait],
+      userChangeableGenes: [ {
+        "father" : singleParent ? [] : [trait],
+        "mother" : [trait]
+      } ],
+      visibleGenes: [trait],
+      hiddenAlleles: hiddenAlleles,
+      numTargets: 1,
+      numTrials: 1,
+      trial: 0,
+      goalMoves: -1,
+      room: "breedingbarn"
+    }
+  };
+}
+
+export function getRemediationChallengeProps(challengeType, trait, practiceCriteria, previousState) {
   let challengeProps;
   if (challengeType === "Sim") {
     challengeProps = getMatchDrakeRemediation(trait, practiceCriteria);
   } else if (challengeType === "Hatchery") {
     challengeProps = getEggSortRemediation(trait, practiceCriteria);
+  } else if (challengeType === "Breeding") {
+    challengeProps = getBreedingRemediation(trait, previousState);
   }
 
   if (!challengeProps) {
