@@ -417,7 +417,7 @@ function getEggSortRemediation(trait, /* practiceCriteria */) {
   };
 }
 
-function getBreedingRemediation(trait, challengeType, previousState) {
+function getBreedingRemediation(trait, challengeType, practiceCriteria, previousState) {
   const templateName = "ClutchGame";
 
   const isSiblings = challengeType === "Siblings";
@@ -438,14 +438,27 @@ function getBreedingRemediation(trait, challengeType, previousState) {
 
   let motherAlleles, fatherAlleles, child1Alleles, child2Alleles;
   if (!isSiblings) {
-    motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
-    fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, singleParent ? "heterozygous" : "dominant");
-    child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+    if (trait === "armor" && practiceCriteria === "Incomplete Dominance") {
+      motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+      fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+      child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "heterozygous");
+    } else {
+      motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+      fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, singleParent ? "heterozygous" : "dominant");
+      child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+    }
   } else {
-    motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
-    fatherAlleles = motherAlleles;
-    child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
-    child2Alleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+    if (trait === "armor" && practiceCriteria === "Incomplete Dominance") {
+      motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+      fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+      child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "heterozygous");
+      child2Alleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+    } else {
+      motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+      fatherAlleles = motherAlleles;
+      child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+      child2Alleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+    }
   }
 
   let hiddenAlleles = ['Tk', 'A2'];
@@ -505,7 +518,7 @@ export function getRemediationChallengeProps(challengeType, trait, practiceCrite
   } else if (challengeType === "Hatchery") {
     challengeProps = getEggSortRemediation(trait, practiceCriteria);
   } else if (challengeType === "Breeding" || challengeType === "Siblings") {
-    challengeProps = getBreedingRemediation(trait, challengeType, previousState);
+    challengeProps = getBreedingRemediation(trait, challengeType, practiceCriteria, previousState);
   }
 
   if (!challengeProps) {
