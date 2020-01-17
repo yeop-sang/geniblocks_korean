@@ -417,11 +417,14 @@ function getEggSortRemediation(trait, /* practiceCriteria */) {
   };
 }
 
-function getBreedingRemediation(trait, previousState) {
+function getBreedingRemediation(trait, challengeType, previousState) {
   const templateName = "ClutchGame";
 
+  const isSiblings = challengeType === "Siblings";
   let singleParent = true;
-  if (previousState.userChangeableGenes[0] && previousState.userChangeableGenes[0].mother.length > 0 &&
+  if (!isSiblings && previousState.userChangeableGenes[0] &&
+      previousState.userChangeableGenes[0].mother &&
+      previousState.userChangeableGenes[0].mother.length > 0 &&
       previousState.userChangeableGenes[0].father.length > 0) {
     singleParent = false;
   }
@@ -433,16 +436,36 @@ function getBreedingRemediation(trait, previousState) {
   }
   baseAlleles = baseAlleles.replace(GeneticsUtils.getAllelesForTrait(trait, "dominant") + ",", "");
 
-  const motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
-  const fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, singleParent ? "heterozygous" : "dominant");
-  const childAlleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+  let motherAlleles, fatherAlleles, child1Alleles, child2Alleles;
+  if (!isSiblings) {
+    motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+    fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, singleParent ? "heterozygous" : "dominant");
+    child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+  } else {
+    motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+    fatherAlleles = motherAlleles;
+    child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+    child2Alleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+  }
 
   let hiddenAlleles = ['Tk', 'A2'];
 
-  // Allele overwriting seems not to work correctly for X-linked alleles,
-  // so we have to be careful not to duplicate alleles.
+  const targetDrakes = [[{
+    "alleles" : `${child1Alleles},${baseAlleles}`,
+    "sex" : Math.round(Math.random())
+  }]];
+  if (isSiblings) {
+    const sex = targetDrakes[0][0].sex === 0 ? 1 : 0;
+    targetDrakes[0].push({
+      "alleles" : `${child2Alleles},${baseAlleles}`,
+      "sex" : sex
+    });
+  }
+
+  const authoringChallengeType = isSiblings ? "submit-parents" : "match-target";
+
   const authoring = {
-    "challengeType" : "match-target",
+    "challengeType" : authoringChallengeType,
     "father" : [ {
       "alleles" : `${fatherAlleles},${baseAlleles}`,
       "sex" : 0
@@ -451,10 +474,7 @@ function getBreedingRemediation(trait, previousState) {
       "alleles" : `${motherAlleles},${baseAlleles}`,
       "sex" : 1
     } ],
-    "targetDrakes" : [ {
-      "alleles" : `${childAlleles},${baseAlleles}`,
-      "sex" : Math.round(Math.random())
-    } ]
+    "targetDrakes" : targetDrakes
   };
 
   return {
@@ -468,11 +488,12 @@ function getBreedingRemediation(trait, previousState) {
       } ],
       visibleGenes: [trait],
       hiddenAlleles: hiddenAlleles,
-      numTargets: 1,
+      numTargets: isSiblings ? 2 : 1,
       numTrials: 1,
       trial: 0,
       goalMoves: -1,
-      room: "breedingbarn"
+      room: "breedingbarn",
+      challengeType: authoringChallengeType
     }
   };
 }
@@ -483,8 +504,8 @@ export function getRemediationChallengeProps(challengeType, trait, practiceCrite
     challengeProps = getMatchDrakeRemediation(trait, practiceCriteria);
   } else if (challengeType === "Hatchery") {
     challengeProps = getEggSortRemediation(trait, practiceCriteria);
-  } else if (challengeType === "Breeding") {
-    challengeProps = getBreedingRemediation(trait, previousState);
+  } else if (challengeType === "Breeding" || challengeType === "Siblings") {
+    challengeProps = getBreedingRemediation(trait, challengeType, previousState);
   }
 
   if (!challengeProps) {
