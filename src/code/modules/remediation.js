@@ -428,7 +428,7 @@ function getBreedingRemediation(trait, challengeType, practiceCriteria, previous
       previousState.userChangeableGenes[0].father.length > 0) {
     singleParent = false;
   }
-  let baseAlleles = "a:W,b:W,a:M,b:M,a:T,b:T,a:H,b:H,a:Hl,b:Hl,a:Fl,b:Fl,a:A1,b:A1,a:C,b:C,a:Bog,b:Bog,a:rh,b:rh";
+  let baseAlleles = "a:W,b:W,a:M,b:M,a:T,b:T,a:H,b:H,a:Hl,b:Hl,a:Fl,b:Fl,a:A1,b:A1,a:C,b:C,a:Bog,b:Bog,a:Rh,b:Rh";
   if (trait === "black") {
     baseAlleles = baseAlleles + ",a:B,b:B,a:D,b:D";
   } else {
@@ -442,6 +442,10 @@ function getBreedingRemediation(trait, challengeType, practiceCriteria, previous
       motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
       fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
       child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "heterozygous");
+    } else if (practiceCriteria === "X Linked") {
+      motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+      fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+      child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
     } else {
       motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
       fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, singleParent ? "heterozygous" : "dominant");
@@ -453,6 +457,11 @@ function getBreedingRemediation(trait, challengeType, practiceCriteria, previous
       fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
       child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "heterozygous");
       child2Alleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+    } else if (practiceCriteria === "X Linked") {
+      motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+      fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+      child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+      child2Alleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
     } else {
       motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
       fatherAlleles = motherAlleles;
@@ -465,7 +474,7 @@ function getBreedingRemediation(trait, challengeType, practiceCriteria, previous
 
   const targetDrakes = [[{
     "alleles" : `${child1Alleles},${baseAlleles}`,
-    "sex" : Math.round(Math.random())
+    "sex" : practiceCriteria === "X Linked" ? 0 : Math.round(Math.random())
   }]];
   if (isSiblings) {
     const sex = targetDrakes[0][0].sex === 0 ? 1 : 0;
