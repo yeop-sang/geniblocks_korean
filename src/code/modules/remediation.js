@@ -446,6 +446,10 @@ function getBreedingRemediation(trait, challengeType, practiceCriteria, previous
       motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
       fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
       child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+    } else if (trait === "tail") {
+      motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+      fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+      child1Alleles = "a:Tk,b:t";
     } else {
       motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
       fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, singleParent ? "heterozygous" : "dominant");
@@ -462,6 +466,11 @@ function getBreedingRemediation(trait, challengeType, practiceCriteria, previous
       fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
       child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
       child2Alleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+    } else if (trait === "tail") {
+      motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+      fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "heterozygous");
+      child1Alleles = "a:Tk,b:t";
+      child2Alleles = "a:t,b:t";
     } else {
       motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
       fatherAlleles = motherAlleles;
@@ -470,7 +479,7 @@ function getBreedingRemediation(trait, challengeType, practiceCriteria, previous
     }
   }
 
-  let hiddenAlleles = ['Tk', 'A2'];
+  let hiddenAlleles = ['A2'];
 
   const targetDrakes = [[{
     "alleles" : `${child1Alleles},${baseAlleles}`,
