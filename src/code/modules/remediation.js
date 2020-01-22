@@ -439,16 +439,16 @@ function getBreedingRemediation(trait, challengeType, practiceCriteria, previous
   let motherAlleles, fatherAlleles, child1Alleles, child2Alleles;
   if (!isSiblings) {
     if (trait === "armor" && practiceCriteria === "Incomplete Dominance") {
-      motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
-      fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
-      child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "heterozygous");
+      motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+      fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+      child1Alleles = GeneticsUtils.getAllelesForTrait(trait, singleParent ? "heterozygous" : "dominant");
     } else if (practiceCriteria === "X Linked") {
       motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
       fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
       child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
     } else if (trait === "tail") {
       motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
-      fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+      fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, singleParent ? "dominant" : "recessive");
       child1Alleles = "a:Tk,b:t";
     } else {
       motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
@@ -457,10 +457,10 @@ function getBreedingRemediation(trait, challengeType, practiceCriteria, previous
     }
   } else {
     if (trait === "armor" && practiceCriteria === "Incomplete Dominance") {
-      motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
+      motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
       fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
       child1Alleles = GeneticsUtils.getAllelesForTrait(trait, "heterozygous");
-      child2Alleles = GeneticsUtils.getAllelesForTrait(trait, "recessive");
+      child2Alleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
     } else if (practiceCriteria === "X Linked") {
       motherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
       fatherAlleles = GeneticsUtils.getAllelesForTrait(trait, "dominant");
