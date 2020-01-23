@@ -422,18 +422,16 @@ function getBreedingRemediation(trait, challengeType, practiceCriteria, previous
 
   const isSiblings = challengeType === "Siblings";
   let singleParent = true;
-  if (!isSiblings && previousState.userChangeableGenes[0] &&
+  if (!isSiblings && previousState.userChangeableGenes &&
+      previousState.userChangeableGenes[0] &&
       previousState.userChangeableGenes[0].mother &&
       previousState.userChangeableGenes[0].mother.length > 0 &&
       previousState.userChangeableGenes[0].father.length > 0) {
     singleParent = false;
   }
+
   let baseAlleles = "a:W,b:W,a:M,b:M,a:T,b:T,a:H,b:H,a:Hl,b:Hl,a:Fl,b:Fl,a:A1,b:A1,a:C,b:C,a:Bog,b:Bog,a:Rh,b:Rh";
-  if (trait === "black") {
-    baseAlleles = baseAlleles + ",a:B,b:B,a:D,b:D";
-  } else {
-    baseAlleles = baseAlleles + ",a:b,b:b,a:d,b:d";
-  }
+  baseAlleles += trait === "black" ? ",a:B,b:B,a:D,b:D" : ",a:b,b:b,a:d,b:d";
   baseAlleles = baseAlleles.replace(GeneticsUtils.getAllelesForTrait(trait, "dominant") + ",", "");
 
   let motherAlleles, fatherAlleles, child1Alleles, child2Alleles;
