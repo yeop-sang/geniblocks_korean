@@ -24,9 +24,10 @@ export function initializeITSSocket(guideServer, socketPath, store) {
     reconnection: false
   });
 
-  socket.on('connect', data =>
-    store.dispatch({type: GUIDE_CONNECTED, data})
-  );
+  socket.on('connect', data => {
+    console.log("ITS CONNECTED", data);
+    store.dispatch({type: GUIDE_CONNECTED, data});
+  });
 
   const receiveITSEvent = (data) => {
     var event = GuideProtocol.Event.fromJson(data);
