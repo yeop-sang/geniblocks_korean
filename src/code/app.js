@@ -58,10 +58,11 @@ const ITSServers = {
     path: "/socket.io"
   },
   ccStaging: {
-    // url: "wss://geniventure-its-staging.herokuapp.com:/guide-protocol",
-    // url: "ws://localhost:3000/guide-protocol", //
-    url: "ws://ec2-54-210-237-130.compute-1.amazonaws.com:3000/guide-protocol",
-    path: "/socket.io"
+    // when using local guide-server:
+    // url: "ws://localhost:3000/guide-protocol",
+    // path: "/socket.io"
+    url: "wss://apps.concord.org/guide-protocol",
+    path: "/guide-server/socket.io"
   }
 };
 // default to CC's staging ITS server and NCSU's production ITS server for now

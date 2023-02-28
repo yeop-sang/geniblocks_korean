@@ -19,13 +19,13 @@ var socket = null,
     ITS_groupId = urlParams.itsGroup || "GUIDE-3.10";
 
 export function initializeITSSocket(guideServer, socketPath, store) {
+  console.info(`Connecting to ITS: ${guideServer}, path: ${socketPath}`);
   socket = io(guideServer, {
     path: socketPath,
     reconnection: false
   });
 
   socket.on('connect', data => {
-    console.log("ITS CONNECTED", data);
     store.dispatch({type: GUIDE_CONNECTED, data});
   });
 
@@ -65,15 +65,18 @@ export function initializeITSSocket(guideServer, socketPath, store) {
   // GV_TEST_receiveITSEvent(JSON.stringify({actor: "ITS", action: "REMEDIATE", target: "USER", context: {attribute: "sex", challengeType: "Hatchery"}}))
   window.GV_TEST_receiveITSEvent = receiveITSEvent;
 
-  socket.on('error', data =>
-    store.dispatch({type: GUIDE_ERRORED, data})
-  );
-  socket.on('connect_error', data =>
-    store.dispatch({type: GUIDE_ERRORED, data})
-  );
-  socket.on('reconnect_error', data =>
-    store.dispatch({type: GUIDE_ERRORED, data})
-  );
+  socket.on('error', data => {
+    console.error("WS ERROR", data);
+    store.dispatch({type: GUIDE_ERRORED, data});
+  });
+  socket.on('connect_error', data => {
+    console.error("WS ERROR", data);
+    store.dispatch({type: GUIDE_ERRORED, data});
+  });
+  socket.on('reconnect_error', data => {
+    console.error("WS ERROR", data);
+    store.dispatch({type: GUIDE_ERRORED, data});
+  });
 
   return socket;
 }
