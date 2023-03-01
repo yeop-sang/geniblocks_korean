@@ -31,7 +31,7 @@ function logITSData(loggingMetadata) {
   };
 }
 
-const logManagerUrl  = '//cc-log-manager.herokuapp.com/api/logs',
+const logManagerUrl  = 'https://logger.concord.org/logs',
       // disable logging during development unless explicitly enabled
       isLoggingEnabled = !isLocalHostUrl() || (urlParams.log === "true");
 
