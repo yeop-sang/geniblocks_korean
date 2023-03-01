@@ -53,9 +53,11 @@ const ITSServers = {
     url: "wss://imediadev.csc.ncsu.edu:/guide-protocol",
     path: "/guide/v3/socket.io"
   },
+  // Production and staging servers are the same as of 2023, as this project is not actively maintained and there's
+  // no point in keeping two separate servers. But staging URL can be used to setup local ITS server easier.
   ccProduction: {
-    url: "wss://geniventure-its.herokuapp.com:/guide-protocol",
-    path: "/socket.io"
+    url: "wss://apps.concord.org/guide-protocol",
+    path: "/guide-server/socket.io"
   },
   ccStaging: {
     // when using local guide-server:
