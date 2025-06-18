@@ -23,6 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
+          npm install -g bower # bower를 전역으로 설치합니다.
           bower install
 
       - name: Deploy Authoring to Firebase
