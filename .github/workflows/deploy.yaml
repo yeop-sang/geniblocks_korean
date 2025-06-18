@@ -31,7 +31,7 @@ jobs:
           FIREBASE_KEY_JSON: ${{ secrets.FIREBASE_KEY_JSON }}
         run: |
           # 🚨 중요: 'authoring/production.json'을 실제 저자 데이터 파일 경로로 수정해주세요.
-          node script/deploy-authoring.js --production
+          npm run deploy:authoring:production
 
       - name: Inject Firebase config from secrets
         run: |
