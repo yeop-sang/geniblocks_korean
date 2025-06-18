@@ -11,26 +11,26 @@
               "steps": [
                 {
                   "element": "geniblocks genome",
-                  "text": "Chromosomes",
-                  "more": "Chromosomes are made of DNA and contain genes. For each pair of chromosomes, an individual gets one from its mother and one from its father.",
+                  "text": "염색체",
+                  "more": "염색체는 DNA로 이루어져 있으며, 유전자를 가지고 있습니다. 개체가 갖는 각 염색체 쌍에 대해, 하나는 어머니로부터, 다른 하나는 아버지로부터 받습니다.",
                   "pulseElement": "fv-chromosome-image"
                 },
                 {
                   "element": "geniblocks genome",
-                  "text": "Genes",
-                  "more": "These white lines show where certain genes are on the chromosomes. Each gene affects a particular trait.",
+                  "text": "유전자",
+                  "more": "이 흰색 선들은 특정 유전자가 염색체 상의 어디에 있는지 보여줍니다. 각 유전자는 특정 형질에 영향을 미칩니다.",
                   "pulseElement": "stripe"
                 },
                 {
                   "element": "geniblocks genome",
-                  "text": "Alleles",
-                  "more": "Genes have different versions called “alleles” (ah-leelz). Change the versions of each gene to make different drakes.",
+                  "text": "대립유전자",
+                  "more": "유전자에는 '대립유전자'라고 불리는 다른 버전들이 있습니다. 각 유전자의 종류를 변경하여 다른 드레이크를 만드세요.",
                   "pulseElement": "simple-select"
                 },
                 {
                   "element": "tutorial-activate",
-                  "text": "Tutorial button",
-                  "more": "Click the question mark button to see the tutorial again.",
+                  "text": "다시보기",
+                  "more": "물음표 버튼을 클릭하면 튜토리얼을 다시 볼 수 있습니다.",
                   "location": "bottom-right"
                 }
               ]
@@ -45,8 +45,8 @@
               "steps":[
                 {
                   "element": "change-sex-toggle-group",
-                  "text": "Male/Female button",
-                  "more": "The third chromosome pair determines whether a dragon is male or female. Change the position of the button to change this chromosome pair.",
+                  "text": "Male/Female(남/여) 버튼",
+                  "more": "세 번째 염색체 쌍은 드래곤이 수컷인지 암컷인지를 결정합니다. 버튼의 위치를 변경하여 이 염색체 쌍을 바꾸세요.",
                   "location": "bottom-left"
                 }
               ]
@@ -66,8 +66,8 @@
               "steps":[
                 {
                   "element": "basket",
-                  "text": "Sorting baskets",
-                  "more": "To sort the eggs, study the genotype in the Chromoscope and click on the basket that matches."
+                  "text": "분류 바구니",
+                  "more": "알을 분류하려면, 크로모스코프에서 유전자형을 확인하고 일치하는 바구니를 클릭하세요."
                 }
               ]
             }
@@ -86,8 +86,8 @@
               "steps":[
                 {
                   "element": "organism-color-text",
-                  "text": "Drake Color",
-                  "more": "Each drake color is a combination of alleles from multiple genes.",
+                  "text": "드레이크 피부색",
+                  "more": "각 드레이크의 색깔은 여러 유전자에서 온 대립유전자들의 조합입니다.",
                   "location": "bottom-center"
                 }
               ]
@@ -107,8 +107,8 @@
               "steps":[
                 {
                   "element": "genome parent",
-                  "text": "Select Chromosomes",
-                  "longText": "Click or tap one chromosome from each pair to add them to an egg or sperm cell.",
+                  "text": "염색체 선택",
+                  "longText": "각 쌍에서 염색체 하나를 클릭하거나 탭하여 난자 또는 정자 세포에 추가하세요.",
                   "location": "bottom-left",
                   "pulseElement": "chromosome-allele-container"
                 }
@@ -124,19 +124,19 @@
               "steps":[
                 {
                   "element": "mother",
-                  "text": "Select Alleles",
-                  "longText": "Set the parent’s alleles so an offspring will match the Target Drake.",
+                  "text": "대립유전자 선택",
+                  "longText": "자손이 목표 드레이크와 일치하도록 부모의 대립유전자를 설정하세요.",
                   "location": "bottom-left"
                 },
                 {
                   "element": "breed-button",
-                  "text": "Breed Button",
-                  "longText": "Click Breed to produce offspring. Breeding does not count as a Move!"
+                  "text": "번식(Breed) 버튼",
+                  "longText": "번식(Breed) 버튼을 클릭하여 자손을 생산하세요. 번식은 이동 횟수에 포함되지 않습니다!"
                 },
                 {
                   "element": "clutch-counter",
-                  "text": "Offspring",
-                  "longText": "Click an offspring that matches the Target Drake.",
+                  "text": "자",
+                  "longText": "목표 드레이크와 일치하는 자손을 클릭하세요.",
                   "location": "middle-center"
                 }
               ]
@@ -151,19 +151,19 @@
               "steps":[
                 {
                   "element": "mother",
-                  "text": "Select Alleles",
-                  "more": "Set the parent’s alleles so that they can produce both Target Offspring.",
+                  "text": "대립유전자 선택",
+                  "longText": "자손이 목표 드레이크와 일치하도록 부모의 대립유전자를 설정하세요.",
                   "location": "bottom-center"
                 },
                 {
                   "element": "breed-button",
-                  "text": "Breed Button",
-                  "more": "You may click Breed to test if these parents can make both offspring."
+                  "text": "번식(Breed) 버튼",
+                  "more": "번식(Breed) 버튼을 클릭하여 이 부모가 두 자손을 모두 만들 수 있는지 테스트할 수 있습니다."
                 },
                 {
                   "element": "submit-parents-button",
-                  "text": "Submit Parents Button",
-                  "more": "Click Submit Parents when you think you have the parents that can produce BOTH drake offspring!"
+                  "text": "부모 예상 완료(Submit Parents) 버튼",
+                  "more": "두 드레이크 자손을 모두 생산할 수 있는 부모를 찾았다고 생각되면 부모 예상 완료(Submit Parents) 버튼을 누르세요!"
                 }
               ]
             }
@@ -182,19 +182,19 @@
               "steps":[
                 {
                   "element": "father",
-                  "text": "Parent Drake",
-                  "more": "We don't know the alleles for this drake! Use breeding to figure them out.",
+                  "text": "부모 드레이크",
+                  "more": "이 드레이크의 대립유전자를 모릅니다! 번식을 통해 알아내세요.",
                   "location": "top-center"
                 },
                 {
                   "element": "breed-button",
-                  "text": "Breed Button",
-                  "more": "Click Breed. The offspring will give you clues about the unknown alleles."
+                  "text": "번식(Breed) 버튼",
+                  "more": "번식(Breed) 버튼을 클릭하세요. 자손이 알 수 없는 대립유전자에 대한 단서를 줄 것입니다."
                 },
                 {
                   "element": "ready-to-answer-button",
-                  "text": "Ready To Answer Button",
-                  "more": "Click Ready to Answer when you think you know what alleles this drake has.",
+                  "text": "응답하기(Ready to Answer) 버튼",
+                  "more": "이 드레이크가 어떤 대립유전자를 가지고 있는지 알았다고 생각되면 응답하기(Ready to Answer) 버튼을 클릭하세요.",
                   "location": "middle-right"
                 }
               ]
@@ -204,8 +204,8 @@
               "steps":[
                 {
                   "element": "father",
-                  "text": "Parent Drake",
-                  "more": "Notice this father has all recessive alleles. This will help you figure out the mother's hidden alleles!",
+                  "text": "부모 드레이크",
+                  "more": "이 아버지는 모든 열성 대립유전자를 가지고 있다는 점에 주목하세요. 이것은 어머니의 숨겨진 대립유전자를 알아내는 데 도움이 될 것입니다!",
                   "location": "bottom-right"
                 }
               ]

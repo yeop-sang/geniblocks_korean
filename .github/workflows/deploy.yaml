@@ -1,0 +1,60 @@
+# .github/workflows/deploy.yml (예시)
+name: Deploy to Firebase and GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # main 브랜치에 푸시될 때 실행
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # 1단계에서 생성한 환경 이름을 지정합니다.
+    environment: production
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # 프로젝트의 Node.js 버전에 맞게 수정하세요.
+
+      - name: Install dependencies
+        run: |
+          npm install
+          bower install
+
+      - name: Deploy Authoring to Firebase
+        env:
+          FIREBASE_KEY_JSON: ${{ secrets.FIREBASE_KEY_JSON }}
+        run: |
+          # 🚨 중요: 'authoring/production.json'을 실제 저자 데이터 파일 경로로 수정해주세요.
+          node script/deploy-authoring.js --production
+
+      - name: Inject Firebase config from secrets
+        run: |
+          sed -i "s|FIREBASE_API_KEY_PLACEHOLDER|${{ secrets.FIREBASE_API_KEY }}|g" src/code/utilities/firebase-auth.js
+          sed -i "s|FIREBASE_AUTH_DOMAIN_PLACEHOLDER|${{ secrets.FIREBASE_AUTH_DOMAIN }}|g" src/code/utilities/firebase-auth.js
+          sed -i "s|FIREBASE_DATABASE_URL_PLACEHOLDER|${{ secrets.FIREBASE_DATABASE_URL }}|g" src/code/utilities/firebase-auth.js
+          sed -i "s|FIREBASE_PROJECT_ID_PLACEHOLDER|${{ secrets.FIREBASE_PROJECT_ID }}|g" src/code/utilities/firebase-auth.js
+          sed -i "s|FIREBASE_STORAGE_BUCKET_PLACEHOLDER|${{ secrets.FIREBASE_STORAGE_BUCKET }}|g" src/code/utilities/firebase-auth.js
+          sed -i "s|FIREBASE_MESSAGING_SENDER_ID_PLACEHOLDER|${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}|g" src/code/utilities/firebase-auth.js
+          sed -i "s|FIREBASE_APP_ID_PLACEHOLDER|${{ secrets.FIREBASE_APP_ID }}|g" src/code/utilities/firebase-auth.js
+          sed -i "s|FIREBASE_MEASUREMENT_ID_PLACEHOLDER|${{ secrets.FIREBASE_MEASUREMENT_ID }}|g" src/code/utilities/firebase-auth.js
+
+      - name: Build project
+        run: npm run build
+        
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          external_repository: cc-korea/cc-korea.github.io
+          personal_token: ${{ secrets.GH_PAT }}
+          publish_dir: ./public/gv2
+          publish_branch: main
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'deploy: update from geniventure'

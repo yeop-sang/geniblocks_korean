@@ -26,13 +26,30 @@ const fbAdmin = require("firebase-admin");
  */
 const isDryRun = argv.d || argv["dry-run"];
 const isProduction = argv.p || argv.production;
-const keyPath = isProduction
-                  ? "./gvproduction-firebase-key.json"
-                  : "./gvstaging-firebase-key.json";
-const fbKey = require(keyPath);
-const fbDatabaseUrl = isProduction
-                        ? "https://gvdemo-6f015.firebaseio.com"
-                        : "https://gvstaging.firebaseio.com";
+
+let fbKey;
+// GitHub Actions 등 CI 환경에서는 환경 변수에서 키를 읽어옵니다.
+if (process.env.FIREBASE_KEY_JSON) {
+  try {
+    fbKey = JSON.parse(process.env.FIREBASE_KEY_JSON);
+  } catch (e) {
+    console.error("Failed to parse FIREBASE_KEY_JSON environment variable.");
+    process.exit(1);
+  }
+} else {
+  // 로컬 환경에서는 파일에서 키를 읽어옵니다.
+  const keyPath = "./cc-korea-snu-firebase-key.json";
+  try {
+    fbKey = require(keyPath);
+  } catch (e) {
+    console.error(`Failed to load Firebase key from ${keyPath}.`);
+    console.error("For CI/CD, set the FIREBASE_KEY_JSON environment variable.");
+    console.error("For local development, make sure the key file exists.");
+    process.exit(1);
+  }
+}
+
+const fbDatabaseUrl = "https://cc-korea-snu-default-rtdb.firebaseio.com";
 const dbVersion = "1";
 const authoringKey = "authoring";
 
